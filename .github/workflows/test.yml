@@ -40,9 +40,11 @@ jobs:
       run: |
         set -eux -o pipefail
         brew install bash coreutils
-        brew tap-new lima/qemu
-        brew extract --version=8.2.1 qemu lima/qemu
-        brew install lima/qemu/qemu@8.2.1
+        # brew tap-new lima/qemu
+        # brew extract --version=8.2.1 qemu lima/qemu
+        # brew install lima/qemu/qemu@8.2.1
+        curl -L -o qemu-8.2.1.monterey.bottle.tar.gz https://ghcr.io/v2/homebrew/core/qemu/blobs/sha256:41c77f6bac3e8c1664c665fbe2b19b19ee9da57f8e1ad6697348286710cc3575
+        brew install ./qemu-8.2.1.monterey.bottle.tar.gz
     - name: Uninstall lima
       run: |
         set -eux -o pipefail
