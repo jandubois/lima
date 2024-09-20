@@ -21,6 +21,8 @@ jobs:
   upgrade:
     name: "Upgrade test"
     runs-on: macos-12
+    permissions:
+      packages: read
     timeout-minutes: 120
     strategy:
       matrix:
@@ -46,6 +48,7 @@ jobs:
         curl -L -o qemu-8.2.1.monterey.bottle.tar.gz \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://ghcr.io/v2/homebrew/core/qemu/blobs/sha256:41c77f6bac3e8c1664c665fbe2b19b19ee9da57f8e1ad6697348286710cc3575
+        head -c 200 qemu-8.2.1.monterey.bottle.tar.gz | hexdump -C
         tar tvfz ./qemu-8.2.1.monterey.bottle.tar.gz
         brew install --ignore-dependencies ./qemu-8.2.1.monterey.bottle.tar.gz
     - name: Uninstall lima
