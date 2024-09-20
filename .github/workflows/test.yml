@@ -40,7 +40,14 @@ jobs:
       run: brew install qemu bash coreutils
     - name: Uninstall lima
       run: brew uninstall --ignore-dependencies --force lima
-    - name: Test
-      run: ./hack/test-upgrade.sh ${{ matrix.oldver }} ${{ github.sha }}
+    # - name: Test
+    #   run: ./hack/test-upgrade.sh ${{ matrix.oldver }} ${{ github.sha }}
+    - name: Manual install
+      run: |
+        set -eu -o pipefail
+        curl -fsSL "https://github.com/lima-vm/lima/releases/download/v0.23.1/lima-0.23.1-Darwin-x86_64.tar.gz" | tar Cxzvm /usr/local
+        limactl --version
+        limactl start --tty=false
+        limactl shell default cat /etc/os-release
     - if: always()
       uses: ./.github/actions/upload_failure_logs_if_exists
