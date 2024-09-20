@@ -32,10 +32,10 @@ jobs:
     - uses: actions/setup-go@v5
       with:
         go-version: 1.23.x
-    - name: Cache image used by ${{ matrix.oldver }}/examples/ubuntu-lts.yaml
-      uses: ./.github/actions/setup_cache_for_template
-      with:
-        template: https://raw.githubusercontent.com/lima-vm/lima/${{ matrix.oldver }}/examples/ubuntu-lts.yaml
+    # - name: Cache image used by ${{ matrix.oldver }}/examples/ubuntu-lts.yaml
+    #   uses: ./.github/actions/setup_cache_for_template
+    #   with:
+    #    template: https://raw.githubusercontent.com/lima-vm/lima/${{ matrix.oldver }}/examples/ubuntu-lts.yaml
     - name: Install test dependencies
       run: brew install qemu bash coreutils
     - name: Uninstall lima
