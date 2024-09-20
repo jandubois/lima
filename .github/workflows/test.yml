@@ -40,6 +40,7 @@ jobs:
       run: brew install qemu bash coreutils
     - name: Uninstall lima
       run: |
+        set -eux -o pipefail
         brew uninstall --ignore-dependencies --force lima
         rm -rf ~/.lima
         rm -rf ~/Library/Caches/lima
@@ -47,8 +48,11 @@ jobs:
     #   run: ./hack/test-upgrade.sh ${{ matrix.oldver }} ${{ github.sha }}
     - name: Manual install
       run: |
-        set -eu -o pipefail
+        set -eux -o pipefail
         curl -fsSL "https://github.com/lima-vm/lima/releases/download/v0.23.1/lima-0.23.1-Darwin-x86_64.tar.gz" | tar Cxzvm /usr/local
+        unset LIMA_HOME
+        env
+        ls -la
         limactl --version
         limactl start --tty=false
         limactl shell default cat /etc/os-release
