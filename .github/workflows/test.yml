@@ -20,7 +20,7 @@ env:
 jobs:
   upgrade:
     name: "Upgrade test"
-    runs-on: macos-13
+    runs-on: macos-12
     timeout-minutes: 120
     strategy:
       matrix:
