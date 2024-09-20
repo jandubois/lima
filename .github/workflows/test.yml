@@ -38,8 +38,11 @@ jobs:
     #    template: https://raw.githubusercontent.com/lima-vm/lima/${{ matrix.oldver }}/examples/ubuntu-lts.yaml
     - name: Install test dependencies
       run: |
+        set -eux -o pipefail
         brew install bash coreutils
-        brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/13950206061360b5207eaffaa49cd3fd3c7dcab0/Formula/q/qemu.rb
+        brew tap-new lima/qemu
+        brew extract --version=8.2.2 qemu lima/qemu
+        brew install lima/qemu/qemu@8.2.2
     - name: Uninstall lima
       run: |
         set -eux -o pipefail
