@@ -39,7 +39,10 @@ jobs:
     - name: Install test dependencies
       run: brew install qemu bash coreutils
     - name: Uninstall lima
-      run: brew uninstall --ignore-dependencies --force lima
+      run: |
+        brew uninstall --ignore-dependencies --force lima
+        rm -rf ~/.lima
+        rm -rf ~/Library/Caches/lima
     # - name: Test
     #   run: ./hack/test-upgrade.sh ${{ matrix.oldver }} ${{ github.sha }}
     - name: Manual install
