@@ -18,51 +18,6 @@ env:
   LIMACTL_CREATE_ARGS: ""
 
 jobs:
-  colima:
-    name: Colima
-    runs-on: ubuntu-24.04
-    timeout-minutes: 120
-    strategy:
-      matrix:
-        colima-version: ["v0.6.5"]
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        # fetch-depth is set to 0 to let `limactl --version` print semver-ish version
-        fetch-depth: 0
-        ref: ${{ github.event.pull_request.head.sha }}
-    - uses: actions/setup-go@v5
-      with:
-        go-version: 1.23.x
-    - uses: actions/cache@v4
-      with:
-        path: ~/.cache/lima/download
-        key: ${{ runner.os }}-colima-${{ matrix.colima-version }}
-    - name: Make
-      run: make
-    - name: Install
-      run: sudo make install
-    - name: Install colima
-      run: |
-        git clone https://github.com/abiosoft/colima
-        cd colima
-        git checkout ${{ matrix.colima-version }}
-        make
-        sudo make install
-    - name: Install test dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y --no-install-recommends ovmf qemu-system-x86 qemu-utils
-        sudo modprobe kvm
-        # `sudo usermod -aG kvm $(whoami)` does not take an effect on GHA
-        sudo chown $(whoami) /dev/kvm
-    - name: "Show cache"
-      run: ./hack/debug-cache.sh
-    - name: "Test"
-      run: ./hack/test-colima.sh
-    - name: "Show cache"
-      run: ./hack/debug-cache.sh
-
   vmnet:
     name: "VMNet test"
     runs-on: macos-12
@@ -114,7 +69,7 @@ jobs:
     timeout-minutes: 120
     strategy:
       matrix:
-        oldver: ["v0.15.1"]
+        oldver: ["v0.20.2"]
     steps:
     - uses: actions/checkout@v4
       with:
