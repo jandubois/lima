@@ -6,7 +6,7 @@ on:
 jobs:
   upgrade:
     name: "Upgrade test"
-    runs-on: macos-13
+    runs-on: macos-12
     timeout-minutes: 120
     strategy:
       matrix:
@@ -26,29 +26,10 @@ jobs:
       run: |
         set -eux -o pipefail
         brew install bash coreutils
-        brew tap-new lima/qemu
-        brew_install_version() {
-            FORMULA=$1
-            VERSION=$2
-            TAP=lima/qemu
-            # Extract formula to local tap (this will strip the bottle info)
-            EXTRACT=$(brew extract --verbose --force --version "$VERSION" "$FORMULA" "$TAP")
-            # Get the commit id for this version
-            SHA=$(perl -ne 'print $1 if /from revision ([0-9a-f]+) to/' <<<"$EXTRACT")
-            # File path of the extracted formula
-            OUTPUT="$(brew --repo "$TAP")/Formula/${FORMULA}@${VERSION}.rb"
-            # Get versioned class name of extracted formula
-            AT=$(perl -ne 'print $1 if /^class (\w+AT\w+) < Formula/' "$(brew formula "$OUTPUT")")
-            # Find the location of the formula inside the homebrew-core, 'Formula/?/$FORMULA'
-            FILE=$(brew formula "$FORMULA" | sed 's#^.*/homebrew-core/##')
-            REPO=$(brew --repo homebrew/homebrew-core)
-            # Overwrite the formula with the original one including bottle info
-            git -C "$REPO" show "$SHA:$FILE" >"$OUTPUT"
-            # Replace class name with versioned class name
-            perl -p -i -e "s/class \w+ < Formula/class $AT < Formula/" "$OUTPUT"
-            brew install "${TAP}/qemu@${VERSION}"
-        }
-        brew_install_version qemu 8.2.1
+        curl -L -o qemu-8.2.1.monterey.bottle.tar.gz -H "Authorization: Bearer QQ==" \
+            https://ghcr.io/v2/homebrew/core/qemu/blobs/sha256:41c77f6bac3e8c1664c665fbe2b19b19ee9da57f8e1ad6697348286710cc3575
+        tar tvfz ./qemu-8.2.1.monterey.bottle.tar.gz
+        brew install --ignore-dependencies ./qemu-8.2.1.monterey.bottle.tar.gz
     - name: Manual install
       run: |
         set -eux -o pipefail
