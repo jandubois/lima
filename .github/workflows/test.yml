@@ -55,7 +55,7 @@ jobs:
         env
         ls -la
         limactl --version
-        limactl start --tty=false
+        limactl start --tty=false --log-level=debug
         limactl shell default cat /etc/os-release
     - if: always()
       uses: ./.github/actions/upload_failure_logs_if_exists
