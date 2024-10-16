@@ -175,7 +175,7 @@ func (a *HostAgent) optionalRequirements() []requirement {
 				script: `#!/bin/bash
 set -eux -o pipefail
 if ! command -v systemctl 2>&1 >/dev/null; then
-    echo >&2 "systemd is not available on this OS"
+    echo >&2 "systemd is not available on this OSType"
     exit 1
 fi
 `,

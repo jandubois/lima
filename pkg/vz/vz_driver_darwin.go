@@ -21,7 +21,7 @@ import (
 
 var knownYamlProperties = []string{
 	"AdditionalDisks",
-	"Arch",
+	"ArchType",
 	"Audio",
 	"CACertificates",
 	"Containerd",
@@ -43,7 +43,7 @@ var knownYamlProperties = []string{
 	"MountInotify",
 	"NestedVirtualization",
 	"Networks",
-	"OS",
+	"OSType",
 	"Param",
 	"Plain",
 	"PortForwards",

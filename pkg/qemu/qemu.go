@@ -415,8 +415,8 @@ func showDarwinARM64HVFQEMU620Warning(exe, accel string, features *features) {
 
 // adjustMemBytesDarwinARM64HVF adjusts the memory to be <= 3 GiB, only when the following conditions are met:
 //
-// - Host OS   <  macOS 12.4
-// - Host Arch == arm64
+// - Host OSType   <  macOS 12.4
+// - Host ArchType == arm64
 // - Accel     == hvf
 // - QEMU      >= 7.0
 //
@@ -456,7 +456,7 @@ func adjustMemBytesDarwinARM64HVF(memBytes int64, accel string, features *featur
 }
 
 // qemuMachine returns string to use for -machine.
-func qemuMachine(arch limayaml.Arch) string {
+func qemuMachine(arch limayaml.ArchType) string {
 	if arch == limayaml.X8664 {
 		return "q35"
 	}
@@ -772,7 +772,7 @@ func Cmdline(ctx context.Context, cfg Config) (exe string, args []string, err er
 		args = append(args, "-device", fmt.Sprintf("virtio-net-pci,netdev=net%d,mac=%s", i+1, nw.MACAddress))
 	}
 
-	// virtio-rng-pci accelerates starting up the OS, according to https://wiki.gentoo.org/wiki/QEMU/Options
+	// virtio-rng-pci accelerates starting up the OSType, according to https://wiki.gentoo.org/wiki/QEMU/Options
 	args = append(args, "-device", "virtio-rng-pci")
 
 	// Input
@@ -1029,7 +1029,7 @@ func VirtiofsdCmdline(cfg Config, mountIndex int) ([]string, error) {
 }
 
 // qemuArch returns the arch string used by qemu.
-func qemuArch(arch limayaml.Arch) string {
+func qemuArch(arch limayaml.ArchType) string {
 	if arch == limayaml.ARMV7L {
 		return "arm"
 	}
@@ -1037,14 +1037,14 @@ func qemuArch(arch limayaml.Arch) string {
 }
 
 // qemuEdk2 returns the arch string used by `/usr/local/share/qemu/edk2-*-code.fd`.
-func qemuEdk2Arch(arch limayaml.Arch) string {
+func qemuEdk2Arch(arch limayaml.ArchType) string {
 	if arch == limayaml.RISCV64 {
 		return "riscv"
 	}
 	return qemuArch(arch)
 }
 
-func Exe(arch limayaml.Arch) (exe string, args []string, err error) {
+func Exe(arch limayaml.ArchType) (exe string, args []string, err error) {
 	exeBase := "qemu-system-" + qemuArch(arch)
 	envK := "QEMU_SYSTEM_" + strings.ToUpper(qemuArch(arch))
 	if envV := os.Getenv(envK); envV != "" {
@@ -1064,7 +1064,7 @@ func Exe(arch limayaml.Arch) (exe string, args []string, err error) {
 	return exe, args, nil
 }
 
-func Accel(arch limayaml.Arch) string {
+func Accel(arch limayaml.ArchType) string {
 	if limayaml.IsNativeArch(arch) {
 		switch runtime.GOOS {
 		case "darwin":
@@ -1105,7 +1105,7 @@ func getQemuVersion(qemuExe string) (*semver.Version, error) {
 	return parseQemuVersion(stdout.String())
 }
 
-func getFirmware(qemuExe string, arch limayaml.Arch) (string, error) {
+func getFirmware(qemuExe string, arch limayaml.ArchType) (string, error) {
 	switch arch {
 	case limayaml.X8664, limayaml.AARCH64, limayaml.ARMV7L, limayaml.RISCV64:
 	default:

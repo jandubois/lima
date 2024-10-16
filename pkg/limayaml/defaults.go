@@ -45,7 +45,7 @@ const (
 var IPv4loopback1 = net.IPv4(127, 0, 0, 1)
 
 func defaultCPUType() CPUType {
-	cpuType := map[Arch]string{
+	cpuType := map[ArchType]string{
 		AARCH64: "cortex-a72",
 		ARMV7L:  "cortex-a7",
 		// Since https://github.com/lima-vm/lima/pull/494, we use qemu64 cpu for better emulation of x86_64.
@@ -919,7 +919,7 @@ func FillCopyToHostDefaults(rule *CopyToHost, instDir string, param map[string]s
 	}
 }
 
-func NewOS(osname string) OS {
+func NewOS(osname string) OSType {
 	switch osname {
 	case "linux":
 		return LINUX
@@ -945,7 +945,7 @@ func goarm() int {
 	return 5 // default
 }
 
-func NewArch(arch string) Arch {
+func NewArch(arch string) ArchType {
 	switch arch {
 	case "amd64":
 		return X8664
@@ -1072,14 +1072,14 @@ func ResolveVMType(y, d, o *LimaYAML, filePath string) VMType {
 	}
 }
 
-func ResolveOS(s *string) OS {
+func ResolveOS(s *string) OSType {
 	if s == nil || *s == "" || *s == "default" {
 		return NewOS("linux")
 	}
 	return *s
 }
 
-func ResolveArch(s *string) Arch {
+func ResolveArch(s *string) ArchType {
 	if s == nil || *s == "" || *s == "default" {
 		return NewArch(runtime.GOARCH)
 	}
@@ -1112,7 +1112,7 @@ func HasMaxCPU() bool {
 	return runtime.GOOS != "windows"
 }
 
-func IsNativeArch(arch Arch) bool {
+func IsNativeArch(arch ArchType) bool {
 	nativeX8664 := arch == X8664 && runtime.GOARCH == "amd64"
 	nativeAARCH64 := arch == AARCH64 && runtime.GOARCH == "arm64"
 	nativeARMV7L := arch == ARMV7L && runtime.GOARCH == "arm" && goarm() == 7

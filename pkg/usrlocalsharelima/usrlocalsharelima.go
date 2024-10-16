@@ -77,7 +77,7 @@ func Dir() (string, error) {
 		ostype, arch, self, gaCandidates)
 }
 
-func GuestAgentBinary(ostype limayaml.OS, arch limayaml.Arch) (string, error) {
+func GuestAgentBinary(ostype limayaml.OSType, arch limayaml.ArchType) (string, error) {
 	if ostype == "" {
 		return "", errors.New("os must be set")
 	}

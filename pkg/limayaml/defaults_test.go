@@ -30,7 +30,7 @@ func TestFillDefault(t *testing.T) {
 		cmpopts.EquateEmpty(),
 	}
 
-	var arch Arch
+	var arch ArchType
 	switch runtime.GOARCH {
 	case "amd64":
 		arch = X8664

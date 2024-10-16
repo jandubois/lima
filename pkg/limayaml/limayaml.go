@@ -10,8 +10,8 @@ type LimaYAML struct {
 	MinimumLimaVersion    *string       `yaml:"minimumLimaVersion,omitempty" json:"minimumLimaVersion,omitempty"`
 	VMType                *VMType       `yaml:"vmType,omitempty" json:"vmType,omitempty"`
 	VMOpts                VMOpts        `yaml:"vmOpts,omitempty" json:"vmOpts,omitempty"`
-	OS                    *OS           `yaml:"os,omitempty" json:"os,omitempty"`
-	Arch                  *Arch         `yaml:"arch,omitempty" json:"arch,omitempty"`
+	OS                    *OSType       `yaml:"os,omitempty" json:"os,omitempty"`
+	Arch                  *ArchType     `yaml:"arch,omitempty" json:"arch,omitempty"`
 	Images                []Image       `yaml:"images" json:"images"` // REQUIRED
 	CPUType               CPUType       `yaml:"cpuType,omitempty" json:"cpuType,omitempty"`
 	CPUs                  *int          `yaml:"cpus,omitempty" json:"cpus,omitempty"`
@@ -50,21 +50,21 @@ type LimaYAML struct {
 }
 
 type (
-	OS        = string
-	Arch      = string
+	OSType    = string
+	ArchType  = string
 	MountType = string
 	VMType    = string
 )
 
-type CPUType = map[Arch]string
+type CPUType = map[ArchType]string
 
 const (
-	LINUX OS = "Linux"
+	LINUX OSType = "Linux"
 
-	X8664   Arch = "x86_64"
-	AARCH64 Arch = "aarch64"
-	ARMV7L  Arch = "armv7l"
-	RISCV64 Arch = "riscv64"
+	X8664   ArchType = "x86_64"
+	AARCH64 ArchType = "aarch64"
+	ARMV7L  ArchType = "armv7l"
+	RISCV64 ArchType = "riscv64"
 
 	REVSSHFS MountType = "reverse-sshfs"
 	NINEP    MountType = "9p"
@@ -91,7 +91,7 @@ type Rosetta struct {
 
 type File struct {
 	Location string        `yaml:"location" json:"location"` // REQUIRED
-	Arch     Arch          `yaml:"arch,omitempty" json:"arch,omitempty"`
+	Arch     ArchType      `yaml:"arch,omitempty" json:"arch,omitempty"`
 	Digest   digest.Digest `yaml:"digest,omitempty" json:"digest,omitempty"`
 }
 

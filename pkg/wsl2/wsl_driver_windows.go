@@ -17,7 +17,7 @@ import (
 )
 
 var knownYamlProperties = []string{
-	"Arch",
+	"ArchType",
 	"Containerd",
 	"CopyToHost",
 	"CPUType",

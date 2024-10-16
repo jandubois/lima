@@ -42,7 +42,7 @@ type Instance struct {
 	Status          Status             `json:"status"`
 	Dir             string             `json:"dir"`
 	VMType          limayaml.VMType    `json:"vmType"`
-	Arch            limayaml.Arch      `json:"arch"`
+	Arch            limayaml.ArchType  `json:"arch"`
 	CPUType         string             `json:"cpuType"`
 	CPUs            int                `json:"cpus,omitempty"`
 	Memory          int64              `json:"memory,omitempty"` // bytes
