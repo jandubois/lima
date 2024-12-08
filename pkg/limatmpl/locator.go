@@ -2,6 +2,7 @@ package limatmpl
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -10,23 +11,35 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+	"unicode"
 
 	"github.com/containerd/containerd/identifiers"
 	"github.com/lima-vm/lima/pkg/ioutilx"
+	"github.com/lima-vm/lima/pkg/limayaml"
 	"github.com/lima-vm/lima/pkg/templatestore"
 	"github.com/sirupsen/logrus"
 )
 
-type Template struct {
-	Name    string
-	Locator string
-	Bytes   []byte
+// Unmarshal makes sure the tmpl.Config field is set. Any operation that modified
+// tmpl.Bytes is expected to set tmpl.Config back to nil.
+func (tmpl *Template) Unmarshal() error {
+	if tmpl.Config == nil {
+		tmpl.Config = &limayaml.LimaYAML{}
+		if err := limayaml.Unmarshal(tmpl.Bytes, tmpl.Config, tmpl.Locator); err != nil {
+			tmpl.Config = nil
+			return err
+		}
+	}
+	return nil
 }
 
 const yBytesLimit = 4 * 1024 * 1024 // 4MiB
 
-func Read(ctx context.Context, name, locator string) (*Template, error) {
-	var err error
+func Read(ctx context.Context, name, locator, basePath string) (*Template, error) {
+	locator, err := AbsPath(locator, basePath)
+	if err != nil {
+		return nil, err
+	}
 
 	tmpl := &Template{
 		Name:    name,
@@ -40,8 +53,11 @@ func Read(ctx context.Context, name, locator string) (*Template, error) {
 		templateName := filepath.Join(templateURL.Host, templateURL.Path)
 		logrus.Debugf("interpreting argument %q as a template name %q", locator, templateName)
 		if tmpl.Name == "" {
-			// e.g., templateName = "deprecated/centos-7" , tmpl.Name = "centos-7"
-			tmpl.Name = filepath.Base(templateName)
+			// e.g., templateName = "deprecated/centos-7.yaml" , tmpl.Name = "centos-7"
+			tmpl.Name, err = InstNameFromYAMLPath(templateName)
+			if err != nil {
+				return nil, err
+			}
 		}
 		tmpl.Bytes, err = templatestore.Read(templateName)
 		if err != nil {
@@ -76,7 +92,11 @@ func Read(ctx context.Context, name, locator string) (*Template, error) {
 			}
 		}
 		logrus.Debugf("interpreting argument %q as a file url for instance %q", locator, tmpl.Name)
-		r, err := os.Open(strings.TrimPrefix(locator, "file://"))
+		filePath := strings.TrimPrefix(locator, "file://")
+		if !filepath.IsAbs(filePath) {
+			return nil, fmt.Errorf("file URL %q is not an absolute path", locator)
+		}
+		r, err := os.Open(filePath)
 		if err != nil {
 			return nil, err
 		}
@@ -85,7 +105,7 @@ func Read(ctx context.Context, name, locator string) (*Template, error) {
 		if err != nil {
 			return nil, err
 		}
-	case SeemsYAMLPath(locator):
+	case SeemsFilePath(locator):
 		if tmpl.Name == "" {
 			tmpl.Name, err = InstNameFromYAMLPath(locator)
 			if err != nil {
@@ -146,6 +166,16 @@ func SeemsYAMLPath(arg string) bool {
 	return strings.HasSuffix(lower, ".yml") || strings.HasSuffix(lower, ".yaml")
 }
 
+// SeemsFilePath returns true if arg either contains a slash or has a file extension that
+// does not start with a digit. `script.sh` is a file path, `ubuntu-20.10` is not.
+func SeemsFilePath(arg string) bool {
+	if strings.Contains(arg, "/") {
+		return true
+	}
+	ext := filepath.Ext(arg)
+	return len(ext) > 1 && !unicode.IsDigit(rune(ext[1]))
+}
+
 func InstNameFromURL(urlStr string) (string, error) {
 	u, err := url.Parse(urlStr)
 	if err != nil {
@@ -163,4 +193,37 @@ func InstNameFromYAMLPath(yamlPath string) (string, error) {
 		return "", fmt.Errorf("filename %q is invalid: %w", yamlPath, err)
 	}
 	return s, nil
+}
+
+// BasePath returns the locator without the filename part.
+func BasePath(locator string) string {
+	u, err := url.Parse(locator)
+	if err != nil || u.Scheme == "" {
+		return filepath.Dir(locator)
+	}
+	// filepath.Dir("") returns ".", which must be removed for url.JoinPath() to do the right thing later
+	return u.Scheme + "://" + strings.TrimSuffix(filepath.Dir(filepath.Join(u.Host, u.Path)), ".")
+}
+
+// AbsPath either returns the locator directly, or combines it with the basePath if the locator is a relative path.
+// If the relative locator doesn't already use the specified extension, then the extension is appended too.
+func AbsPath(locator, basePath string) (string, error) {
+	if basePath == "" {
+		return locator, nil
+	}
+	u, err := url.Parse(locator)
+	if (err == nil && u.Scheme != "") || filepath.IsAbs(locator) {
+		return locator, nil
+	}
+	if basePath == "-" {
+		return "", errors.New("can't use relative paths when reading template from STDIN")
+	}
+	if strings.Contains(locator, "../") {
+		return "", fmt.Errorf("relative locator path %q must not contain '../' segments", locator)
+	}
+	u, err = url.Parse(basePath)
+	if err != nil {
+		return "", err
+	}
+	return u.JoinPath(locator).String(), nil
 }
