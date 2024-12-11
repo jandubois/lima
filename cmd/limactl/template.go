@@ -19,12 +19,15 @@ func newTemplateCommand() *cobra.Command {
 }
 
 func templateAction(cmd *cobra.Command, args []string) error {
-	tmpl, err := limatmpl.Read(cmd.Context(), "", args[0])
+	tmpl, err := limatmpl.Read(cmd.Context(), "", args[0], "")
 	if err != nil {
 		return err
 	}
 	if len(tmpl.Bytes) == 0 {
 		return fmt.Errorf("don't know how to interpret %q as a template locator", args[0])
+	}
+	if err := tmpl.Assemble(cmd.Context(), true); err != nil {
+		return err
 	}
 	_, err = fmt.Fprint(cmd.OutOrStdout(), string(tmpl.Bytes))
 	return err
