@@ -145,7 +145,7 @@ func loadOrCreateInstance(cmd *cobra.Command, args []string, createOnly bool) (*
 		}
 		tty = false
 	}
-	tmpl, err := limatmpl.Read(cmd.Context(), name, arg)
+	tmpl, err := limatmpl.Read(cmd.Context(), name, arg, "")
 	if err != nil {
 		return nil, err
 	}
@@ -196,7 +196,9 @@ func loadOrCreateInstance(cmd *cobra.Command, args []string, createOnly bool) (*
 			return nil, err
 		}
 	}
-
+	if err := tmpl.Assemble(cmd.Context(), true); err != nil {
+		return nil, err
+	}
 	yqExprs, err := editflags.YQExpressions(flags, true)
 	if err != nil {
 		return nil, err
