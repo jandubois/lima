@@ -21,12 +21,12 @@ require (
 	github.com/docker/go-units v0.5.0
 	github.com/elastic/go-libaudit/v2 v2.6.1
 	github.com/foxcpp/go-mockdns v1.1.0
-	github.com/goccy/go-yaml v1.15.7
+	github.com/goccy/go-yaml v1.15.8
 	github.com/google/go-cmp v0.6.0
 	github.com/google/yamlfmt v0.14.0
 	github.com/invopop/jsonschema v0.12.0
 	github.com/lima-vm/go-qcow2reader v0.6.0
-	github.com/lima-vm/sshocker v0.3.4
+	github.com/lima-vm/sshocker v0.3.5
 	github.com/mattn/go-isatty v0.0.20
 	github.com/mattn/go-shellwords v1.0.12
 	github.com/mdlayher/vsock v1.2.1
@@ -50,9 +50,9 @@ require (
 	google.golang.org/protobuf v1.35.2
 	gopkg.in/op/go-logging.v1 v1.0.0-20160211212156-b2cb9fa56473
 	gotest.tools/v3 v3.5.1
-	k8s.io/api v0.31.3
-	k8s.io/apimachinery v0.31.3
-	k8s.io/client-go v0.31.3
+	k8s.io/api v0.31.4
+	k8s.io/apimachinery v0.31.4
+	k8s.io/client-go v0.31.4
 )
 
 require (
@@ -110,7 +110,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.2.3 // indirect
 	github.com/pierrec/lz4/v4 v4.1.17 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/pkg/sftp v1.13.6 // indirect
+	github.com/pkg/sftp v1.13.7 // indirect
 	github.com/qdm12/dns/v2 v2.0.0-rc6 // indirect
 	github.com/qdm12/gosettings v0.4.1 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
@@ -119,7 +119,7 @@ require (
 	github.com/u-root/uio v0.0.0-20240224005618-d2acac8f3701 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/yuin/gopher-lua v1.1.1 // indirect
-	golang.org/x/crypto v0.30.0 // indirect
+	golang.org/x/crypto v0.31.0 // indirect
 	golang.org/x/exp v0.0.0-20240719175910-8a7402abbf56 // indirect
 	golang.org/x/mod v0.20.0 // indirect
 	golang.org/x/oauth2 v0.23.0 // indirect
