@@ -49,23 +49,55 @@ var templateCopyExample = `  Template locators are local files, file://, https:/
 
 func newTemplateCopyCommand() *cobra.Command {
 	templateCopyCommand := &cobra.Command{
-		Use:     "copy TEMPLATE DEST",
+		Use:     "copy [OPTIONS] TEMPLATE DEST",
 		Short:   "Copy template",
 		Long:    "Copy a template via locator to a local file",
 		Example: templateCopyExample,
 		Args:    WrapArgsError(cobra.ExactArgs(2)),
 		RunE:    templateCopyAction,
 	}
+	templateCopyCommand.Flags().Bool("embed", false, "embed dependencies into template")
+	templateCopyCommand.Flags().Bool("fill", false, "fill defaults")
+	templateCopyCommand.Flags().Bool("verbatim", false, "don't make locators absolute")
 	return templateCopyCommand
 }
 
 func templateCopyAction(cmd *cobra.Command, args []string) error {
-	tmpl, err := limatmpl.Read(cmd.Context(), "", args[0])
+	embed, err := cmd.Flags().GetBool("embed")
+	if err != nil {
+		return err
+	}
+	fill, err := cmd.Flags().GetBool("fill")
+	if err != nil {
+		return err
+	}
+	verbatim, err := cmd.Flags().GetBool("verbatim")
+	if err != nil {
+		return err
+	}
+	if embed && verbatim {
+		return fmt.Errorf("--embed and --verbatim cannot be used together")
+	}
+	if fill && verbatim {
+		return fmt.Errorf("--fill and --verbatim cannot be used together")
+	}
+
+	tmpl, err := limatmpl.Read(cmd.Context(), "", args[0], "")
 	if err != nil {
 		return err
 	}
 	if len(tmpl.Bytes) == 0 {
 		return fmt.Errorf("don't know how to interpret %q as a template locator", args[0])
+	}
+	if !verbatim {
+		if err := tmpl.Copy(); err != nil {
+			return err
+		}
+	}
+	if embed {
+		if err := tmpl.Embed(cmd.Context(), true); err != nil {
+			return err
+		}
 	}
 	writer := cmd.OutOrStdout()
 	target := args[1]
@@ -103,7 +135,7 @@ func templateValidateAction(cmd *cobra.Command, args []string) error {
 	}
 
 	for _, arg := range args {
-		tmpl, err := limatmpl.Read(cmd.Context(), "", arg)
+		tmpl, err := limatmpl.Read(cmd.Context(), "", arg, "")
 		if err != nil {
 			return err
 		}
