@@ -9,7 +9,7 @@ Supported host OS:
 - Windows (untested)
 
 Prerequisite:
-- QEMU 7.0 or later (Required, only if QEMU driver is used)
+- QEMU 7.1 or later (Required, only if QEMU driver is used)
 
 {{< tabpane text=true >}}
 
@@ -59,6 +59,8 @@ make install
 ```
 
 The installation directory (`$PREFIX`) defaults to `/usr/local`.
+
+Run `make help-variables` to show other Makefile variables.
 
 #### Advanced configuration with Kconfig tools
 (This step is not needed for most users)

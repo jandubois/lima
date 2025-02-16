@@ -7,6 +7,7 @@ import (
 )
 
 type LimaYAML struct {
+	Base                  BaseTemplates `yaml:"base,omitempty" json:"base,omitempty" jsonschema:"nullable"`
 	MinimumLimaVersion    *string       `yaml:"minimumLimaVersion,omitempty" json:"minimumLimaVersion,omitempty" jsonschema:"nullable"`
 	VMType                *VMType       `yaml:"vmType,omitempty" json:"vmType,omitempty" jsonschema:"nullable"`
 	VMOpts                VMOpts        `yaml:"vmOpts,omitempty" json:"vmOpts,omitempty"`
@@ -50,6 +51,13 @@ type LimaYAML struct {
 	User                 User           `yaml:"user,omitempty" json:"user,omitempty"`
 }
 
+type BaseTemplates []LocatorWithDigest
+
+type LocatorWithDigest struct {
+	URL    string  `yaml:"url" json:"url"`
+	Digest *string `yaml:"digest,omitempty" json:"digest,omitempty" jsonschema:"nullable"` // TODO currently unused
+}
+
 type (
 	OS        = string
 	Arch      = string
@@ -88,6 +96,7 @@ type User struct {
 	Name    *string `yaml:"name,omitempty" json:"name,omitempty" jsonschema:"nullable"`
 	Comment *string `yaml:"comment,omitempty" json:"comment,omitempty" jsonschema:"nullable"`
 	Home    *string `yaml:"home,omitempty" json:"home,omitempty" jsonschema:"nullable"`
+	Shell   *string `yaml:"shell,omitempty" json:"shell,omitempty" jsonschema:"nullable"`
 	UID     *uint32 `yaml:"uid,omitempty" json:"uid,omitempty" jsonschema:"nullable"`
 }
 
@@ -212,10 +221,11 @@ const (
 )
 
 type Provision struct {
-	Mode                            ProvisionMode `yaml:"mode,omitempty" json:"mode,omitempty" jsonschema:"default=system"`
-	SkipDefaultDependencyResolution *bool         `yaml:"skipDefaultDependencyResolution,omitempty" json:"skipDefaultDependencyResolution,omitempty"`
-	Script                          string        `yaml:"script" json:"script"`
-	Playbook                        string        `yaml:"playbook,omitempty" json:"playbook,omitempty"`
+	Mode                            ProvisionMode      `yaml:"mode,omitempty" json:"mode,omitempty" jsonschema:"default=system"`
+	SkipDefaultDependencyResolution *bool              `yaml:"skipDefaultDependencyResolution,omitempty" json:"skipDefaultDependencyResolution,omitempty"`
+	Script                          string             `yaml:"script" json:"script"`
+	File                            *LocatorWithDigest `yaml:"file,omitempty" json:"file,omitempty" jsonschema:"nullable"`
+	Playbook                        string             `yaml:"playbook,omitempty" json:"playbook,omitempty"`
 }
 
 type Containerd struct {
@@ -231,10 +241,11 @@ const (
 )
 
 type Probe struct {
-	Mode        ProbeMode `yaml:"mode,omitempty" json:"mode,omitempty" jsonschema:"default=readiness"`
-	Description string    `yaml:"description,omitempty" json:"description,omitempty"`
-	Script      string    `yaml:"script,omitempty" json:"script,omitempty"`
-	Hint        string    `yaml:"hint,omitempty" json:"hint,omitempty"`
+	Mode        ProbeMode          `yaml:"mode,omitempty" json:"mode,omitempty" jsonschema:"default=readiness"`
+	Description string             `yaml:"description,omitempty" json:"description,omitempty"`
+	Script      string             `yaml:"script,omitempty" json:"script,omitempty"`
+	File        *LocatorWithDigest `yaml:"file,omitempty" json:"file,omitempty" jsonschema:"nullable"`
+	Hint        string             `yaml:"hint,omitempty" json:"hint,omitempty"`
 }
 
 type Proto = string

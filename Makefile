@@ -46,7 +46,12 @@ PACKAGE := github.com/lima-vm/lima
 VERSION := $(shell git describe --match 'v[0-9]*' --dirty='.m' --always --tags)
 VERSION_TRIMMED := $(VERSION:v%=%)
 
-GO_BUILD_LDFLAGS := -ldflags="-s -w -X $(PACKAGE)/pkg/version.Version=$(VERSION)"
+KEEP_SYMBOLS ?=
+GO_BUILD_LDFLAGS_S := true
+ifeq ($(KEEP_SYMBOLS),1)
+	GO_BUILD_LDFLAGS_S = false
+endif
+GO_BUILD_LDFLAGS := -ldflags="-s=$(GO_BUILD_LDFLAGS_S) -w -X $(PACKAGE)/pkg/version.Version=$(VERSION)"
 # `go -version -m` returns -tags with comma-separated list, because space-separated list is deprecated in go1.13.
 # converting to comma-separated list is useful for comparing with the output of `go version -m`.
 GO_BUILD_FLAG_TAGS := $(addprefix -tags=,$(shell echo "$(GO_BUILDTAGS)"|tr " " "\n"|paste -sd "," -))
@@ -68,7 +73,15 @@ help:
 	@echo  '  binaries        - Build all binaries'
 	@echo  '  manpages        - Build manual pages'
 	@echo
-	@echo  "  Use 'make help-targets' to see additional targets."
+	@echo  '  help-variables  - Show Makefile variables'
+	@echo  '  help-targets    - Show additional Makefile targets'
+
+.PHONY: help-varaibles
+help-variables:
+	@echo  '# Variables that can be overridden.'
+	@echo
+	@echo  '- PREFIX       (directory)  : Installation prefix (default: /usr/local)'
+	@echo  '- KEEP_SYMBOLS (1 or 0)     : Whether to keep symbols (default: 0)'
 
 .PHONY: help-targets
 help-targets:
@@ -80,10 +93,10 @@ help-targets:
 	@echo  '- helpers                   : Copy nerdctl.lima, apptainer.lima, docker.lima, podman.lima, and kubectl.lima'
 	@echo
 	@echo  'Targets for files in _output/share/lima/:'
-	@echo  '- guestagents               : Build guestagents for archs enabled by CONFIG_GUESTAGENT_ARCHS_*'
+	@echo  '- guestagents               : Build guestagents for archs enabled by CONFIG_GUESTAGENT_ARCH_*'
 	@echo  '- native-guestagent         : Build guestagent for native arch'
 	@echo  '- additional-guestagents    : Build guestagents for archs other than native arch'
-	@echo  '- <arch>-guestagent         : Build guestagent for <arch>: $(sort $(GUESTAGENT_ARCHS))'
+	@echo  '- <arch>-guestagent         : Build guestagent for <arch>: $(sort $(LINUX_GUESTAGENT_ARCHS))'
 	@echo
 	@echo  'Targets for files in _output/share/lima/templates/:'
 	@echo  '- templates                 : Copy templates'
@@ -256,10 +269,12 @@ LINUX_GUESTAGENT_PATH_COMMON = _output/share/lima/lima-guestagent.Linux-
 
 # How to add architecture specific guestagent:
 # 1. Add the architecture to GUESTAGENT_ARCHS
-# 2. Add ENVS_$(LINUX_GUESTAGENT_PATH_COMMON)<arch> to set GOOS, GOARCH, and other necessary environment variables
-GUESTAGENT_ARCHS = aarch64 armv7l riscv64 x86_64
+# 2. Add ENVS_$(*_GUESTAGENT_PATH_COMMON)<arch> to set GOOS, GOARCH, and other necessary environment variables
+LINUX_GUESTAGENT_ARCHS = aarch64 armv7l riscv64 x86_64
 
-ALL_GUESTAGENTS_NOT_COMPRESSED = $(addprefix $(LINUX_GUESTAGENT_PATH_COMMON),$(GUESTAGENT_ARCHS))
+ifeq ($(CONFIG_GUESTAGENT_OS_LINUX),y)
+ALL_GUESTAGENTS_NOT_COMPRESSED += $(addprefix $(LINUX_GUESTAGENT_PATH_COMMON),$(LINUX_GUESTAGENT_ARCHS))
+endif
 ifeq ($(CONFIG_GUESTAGENT_COMPRESS),y)
 $(info Guestagents are unzipped each time to check the build configuration; they may be gunzipped afterward.)
 gz=.gz
@@ -267,16 +282,17 @@ endif
 
 ALL_GUESTAGENTS = $(addsuffix $(gz),$(ALL_GUESTAGENTS_NOT_COMPRESSED))
 
-# guestagent path for the given architectures. it may has .gz extension if CONFIG_GUESTAGENT_COMPRESS is enabled.
-# $(1): list of architectures
-guestaget_path = $(foreach arch,$(1),$(LINUX_GUESTAGENT_PATH_COMMON)$(arch)$(gz))
-
-NATIVE_GUESTAGENT_ARCH = $(shell uname -m | sed -e s/arm64/aarch64/)
-NATIVE_GUESTAGENT = $(call guestaget_path,$(NATIVE_GUESTAGENT_ARCH))
-ADDITIONAL_GUESTAGENT_ARCHS = $(filter-out $(NATIVE_GUESTAGENT_ARCH),$(GUESTAGENT_ARCHS))
-ADDITIONAL_GUESTAGENTS = $(call guestaget_path,$(ADDITIONAL_GUESTAGENT_ARCHS))
+# guestagent path for the given platform. it may has .gz extension if CONFIG_GUESTAGENT_COMPRESS is enabled.
+# $(1): operating system (os)
+# $(2): list of architectures
+guestagent_path = $(foreach arch,$(2),$($(1)_GUESTAGENT_PATH_COMMON)$(arch)$(gz))
 
 ifeq ($(CONFIG_GUESTAGENT_OS_LINUX),y)
+NATIVE_GUESTAGENT_ARCH = $(shell uname -m | sed -e s/arm64/aarch64/)
+NATIVE_GUESTAGENT = $(call guestagent_path,LINUX,$(NATIVE_GUESTAGENT_ARCH))
+ADDITIONAL_GUESTAGENT_ARCHS = $(filter-out $(NATIVE_GUESTAGENT_ARCH),$(LINUX_GUESTAGENT_ARCHS))
+ADDITIONAL_GUESTAGENTS = $(call guestagent_path,LINUX,$(ADDITIONAL_GUESTAGENT_ARCHS))
+endif
 
 # config_guestagent_arch returns expanded value of CONFIG_GUESTAGENT_ARCH_<arch>
 # $(1): architecture
@@ -285,10 +301,11 @@ config_guestagent_arch = $(filter y,$(CONFIG_GUESTAGENT_ARCH_$(shell echo $(1)|t
 
 # guestagent_path_enabled_by_config returns the path to the guestagent binary for the given architecture,
 # or an empty string if the CONFIG_GUESTAGENT_ARCH_<arch> is not set.
-guestagent_path_enabled_by_config = $(if $(call config_guestagent_arch,$(1)),$(call guestaget_path,$(1)))
+guestagent_path_enabled_by_config = $(if $(call config_guestagent_arch,$(2)),$(call guestagent_path,$(1),$(2)))
 
+ifeq ($(CONFIG_GUESTAGENT_OS_LINUX),y)
 # apply CONFIG_GUESTAGENT_ARCH_*
-GUESTAGENTS = $(foreach arch,$(GUESTAGENT_ARCHS),$(call guestagent_path_enabled_by_config,$(arch)))
+GUESTAGENTS += $(foreach arch,$(LINUX_GUESTAGENT_ARCHS),$(call guestagent_path_enabled_by_config,LINUX,$(arch)))
 endif
 
 .PHONY: guestagents native-guestagent additional-guestagents
@@ -296,7 +313,7 @@ guestagents: $(GUESTAGENTS)
 native-guestagent: $(NATIVE_GUESTAGENT)
 additional-guestagents: $(ADDITIONAL_GUESTAGENTS)
 %-guestagent:
-	@[ "$(findstring $(*),$(GUESTAGENT_ARCHS))" == "$(*)" ] && make $(call guestaget_path,$*)
+	@[ "$(findstring $(*),$(LINUX_GUESTAGENT_ARCHS))" == "$(*)" ] && make $(call guestagent_path,LINUX,$*)
 
 # environment variables for linx-guestagent. these variable are used for checking force build.
 ENVS_$(LINUX_GUESTAGENT_PATH_COMMON)aarch64 = CGO_ENABLED=0 GOOS=linux GOARCH=arm64
