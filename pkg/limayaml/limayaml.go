@@ -321,7 +321,7 @@ type CACertificates struct {
 	Certs          []string `yaml:"certs,omitempty" json:"certs,omitempty" jsonschema:"nullable"`
 }
 
-// Engine is the name of the container engine, e.g. "docker", "containerd".
+// Engine is the name of the container engine, e.g. "docker", "containerd", that contains a list of sockets to monitor.
 type Engine struct {
 	Sockets []string `yaml:"sockets,omitempty" json:"sockets,omitempty"`
 }

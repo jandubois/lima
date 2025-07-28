@@ -556,10 +556,11 @@ func FillDefault(y, d, o *LimaYAML, filePath string, warn bool) {
 		d.PortMonitors.Docker.Sockets)
 
 	for i := range y.PortMonitors.Docker.Sockets {
-		if out, err := executeGuestTemplate(y.PortMonitors.Docker.Sockets[i], instDir, y.User, y.Param); err == nil {
-			y.PortMonitors.Docker.Sockets[i] = out.String()
+		socket := &y.PortMonitors.Docker.Sockets[i]
+		if out, err := executeGuestTemplate(*socket, instDir, y.User, y.Param); err == nil {
+			*socket = out.String()
 		} else {
-			logrus.WithError(err).Warnf("Couldn't process Docker socket %q as a template", y.PortMonitors.Docker.Sockets[i])
+			logrus.WithError(err).Warnf("Couldn't process Docker socket %q as a template", *socket)
 		}
 	}
 
@@ -570,19 +571,16 @@ func FillDefault(y, d, o *LimaYAML, filePath string, warn bool) {
 		d.PortMonitors.Containerd.Sockets)
 
 	for i := range y.PortMonitors.Containerd.Sockets {
-		if out, err := executeGuestTemplate(y.PortMonitors.Containerd.Sockets[i], instDir, y.User, y.Param); err == nil {
-			y.PortMonitors.Containerd.Sockets[i] = out.String()
+		socket := &y.PortMonitors.Containerd.Sockets[i]
+		if out, err := executeGuestTemplate(*socket, instDir, y.User, y.Param); err == nil {
+			*socket = out.String()
 		} else {
-			logrus.WithError(err).Warnf("Couldn't process Containerd socket %q as a template", y.PortMonitors.Docker.Sockets[i])
+			logrus.WithError(err).Warnf("Couldn't process Containerd socket %q as a template", *socket)
 		}
 	}
 
 	if y.Containerd.System != nil && *y.Containerd.System {
-		if out, err := executeGuestTemplate("/run/containerd/containerd.sock", instDir, y.User, y.Param); err == nil {
-			y.PortMonitors.Containerd.Sockets = unique(append(y.PortMonitors.Containerd.Sockets, out.String()))
-		} else {
-			logrus.WithError(err).Warnf("Couldn't process Containerd system socket")
-		}
+		y.PortMonitors.Containerd.Sockets = unique(append(y.PortMonitors.Containerd.Sockets, "/run/containerd/containerd.sock"))
 	}
 	if y.Containerd.User != nil && *y.Containerd.User {
 		if out, err := executeGuestTemplate("/run/user/{{.UID}}/containerd/containerd.sock", instDir, y.User, y.Param); err == nil {
