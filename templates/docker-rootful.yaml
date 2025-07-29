@@ -61,6 +61,10 @@ hostResolver:
 portForwards:
 - guestSocket: "/var/run/docker.sock"
   hostSocket: "{{.Dir}}/sock/docker.sock"
+portMonitors:
+  docker:
+    sockets:
+    - /var/run/docker.sock
 message: |
   To run `docker` on the host (assumes docker-cli is installed), run the following commands:
   ------
@@ -68,7 +72,3 @@ message: |
   docker context use lima-{{.Name}}
   docker run hello-world
   ------
-portMonitors:
-  docker:
-    sockets:
-    - "/var/run/docker.sock"

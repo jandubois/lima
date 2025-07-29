@@ -345,7 +345,6 @@ func TestFillDefault(t *testing.T) {
 	t.Log("User-provided defaults should override builtin defaults")
 
 	varLog, _ := filepath.Abs("/var/log")
-	defaultUID := 8080
 	d = LimaYAML{
 		VMType: ptr.Of("vz"),
 		OS:     ptr.Of("unknown"),
@@ -465,7 +464,7 @@ func TestFillDefault(t *testing.T) {
 			Comment: ptr.Of("Foo Bar"),
 			Home:    ptr.Of("/tmp"),
 			Shell:   ptr.Of("/bin/tcsh"),
-			UID:     ptr.Of(uint32(defaultUID)),
+			UID:     ptr.Of(uint32(8080)),
 		},
 	}
 
