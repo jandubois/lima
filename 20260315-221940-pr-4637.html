@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260315-221940-pr-4637</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+    :root {
+      --critical: #dc3545;
+      --important: #fd7e14;
+      --suggestion: #0d6efd;
+      --design: #198754;
+      --claude: #7c3aed;
+      --codex: #059669;
+      --gemini: #e11d48;
+      --bg: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --code-header-bg: #2d3748;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      margin: 0;
+      padding: 2rem 1rem;
+    }
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+    h2 {
+      font-size: 1.4rem;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    h3 { font-size: 1.15rem; margin-top: 2rem; }
+    h4 { font-size: 1rem; margin-bottom: 0.5rem; }
+
+    /* Metadata table */
+    table.meta { border-collapse: collapse; margin: 1rem 0 2rem; }
+    table.meta td {
+      padding: 0.25rem 1rem 0.25rem 0;
+      border: none;
+      vertical-align: top;
+    }
+    table.meta td:first-child { font-weight: 600; white-space: nowrap; }
+
+    /* Findings */
+    .finding {
+      padding: 1rem 1.25rem;
+      margin: 1.25rem 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .finding.critical { background: #ffeef0; border-color: #fecaca; }
+    .finding.important { background: #fff0e0; border-color: #fed7aa; }
+    .finding.suggestion { background: #f0f6ff; border-color: #bfdbfe; }
+    .finding.design { background: #f0faf4; border-color: #bbf7d0; }
+    .finding h4 { margin-top: 0; }
+    .finding p:last-child { margin-bottom: 0; }
+
+    /* Severity section headings */
+    h3.severity-critical { color: var(--critical); }
+    h3.severity-important { color: var(--important); }
+    h3.severity-suggestion { color: var(--suggestion); }
+    h3.severity-design { color: var(--design); }
+
+    /* Agent badges */
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.15em 0.55em;
+      border-radius: 999px;
+      color: #fff;
+      vertical-align: middle;
+      margin-left: 0.25em;
+      letter-spacing: 0.02em;
+    }
+    .badge.claude { background: var(--claude); }
+    .badge.codex { background: var(--codex); }
+    .badge.gemini { background: var(--gemini); }
+
+    /* Code file blocks */
+    .code-file { margin: 0.75rem 0; }
+    .code-header {
+      background: var(--code-header-bg);
+      color: #cbd5e1;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.8rem;
+      padding: 0.4rem 1rem;
+      border-radius: 6px 6px 0 0;
+      border-bottom: 1px solid #4a5568;
+    }
+    .code-file pre[class*="language-"] {
+      margin-top: 0;
+      border-radius: 0 0 6px 6px;
+    }
+
+    /* Code block sizing and line numbers via CSS counters */
+    pre[class*="language-"] {
+      font-size: 0.78rem;
+      line-height: 1.3;
+      overflow-x: auto;
+    }
+    .code-line { display: block; }
+    .code-line::before {
+      content: counter(line);
+      counter-increment: line;
+      display: inline-block;
+      width: 3em;
+      margin-right: 0.8em;
+      padding-right: 0.5em;
+      text-align: right;
+      color: #636e7b;
+      border-right: 1px solid #3d4556;
+      user-select: none;
+    }
+    .line-hl { background: rgba(255, 199, 0, 0.18); }
+
+    /* Inline code */
+    code:not([class*="language-"]) {
+      background: #e2e8f0;
+      padding: 0.15em 0.35em;
+      border-radius: 3px;
+      font-size: 0.88em;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    /* Links */
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Retro table */
+    table.retro {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+      table-layout: fixed;
+    }
+    table.retro th, table.retro td {
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+    }
+    table.retro th { background: #f8fafc; font-weight: 600; }
+    table.retro tr:nth-child(even) { background: #f8fafc; }
+
+    /* Generic card for non-finding sections */
+    .card {
+      padding: 1rem 1.25rem;
+      margin: 1.25rem 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+    }
+    .card h3 { margin-top: 0.5rem; }
+    .card p:last-child, .card ul:last-child, .card ol:last-child { margin-bottom: 0; }
+
+    /* Lists */
+    ul, ol { padding-left: 1.5rem; }
+    li { margin-bottom: 0.35rem; }
+  </style>
+</head>
+<body>
+<main>
+
+<h1>Deep Code Review: PR <a href="https://github.com/lima-vm/lima/pull/4637">#4637</a></h1>
+
+<table class="meta">
+  <tr><td>Date</td><td>2026-03-15</td></tr>
+  <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/4637">#4637</a></td></tr>
+  <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/e03a4c242556b7a64f11401c27e89a3dcd0dfb22"><code>e03a4c24</code></a> Ensure only RAW images in cache while keeping original image</td></tr>
+  <tr><td>Reviewers</td><td><span class="badge claude">Claude</span> Opus 4.6, <span class="badge codex">Codex</span> GPT 5.4, <span class="badge gemini">Gemini</span> 3.1 Pro</td></tr>
+  <tr><td>Verdict</td><td><strong>Rework</strong> &mdash; digest validation is bypassed when a cached raw conversion exists, allowing stale images to be silently reused after an upstream digest change</td></tr>
+  <tr><td>Wall-clock time</td><td>17 min 40 s</td></tr>
+</table>
+
+<h2>Consolidated Review</h2>
+
+<div class="card">
+<h3>Executive Summary</h3>
+
+<p>This PR adds a conversion cache layer to Lima's downloader. When a VM driver (VZ, krunkit) cannot boot the downloaded image format (typically QCOW2), the downloader converts the image to RAW once in a new <code>imgconv/raw</code> subdirectory alongside the cached original, avoiding repeated per-instance conversions. The approach is sound and addresses the disk-space and startup-time problems described in issue <a href="https://github.com/lima-vm/lima/issues/4056">#4056</a>.</p>
+
+<p>However, the implementation overwrites the caller's expected digest with the derived raw digest before validation, so a cached raw image is never re-validated against the original template digest. If an upstream image changes and the user updates their digest, Lima silently reuses the stale cached conversion. Two additional important issues affect compressed-image handling and a potential nil-pointer panic.</p>
+</div>
+
+<h3 class="severity-critical">Critical Issues</h3>
+
+<div class="finding critical">
+  <h4>1. Cached raw conversion bypasses the caller's digest validation <span class="badge codex">Codex</span> <span class="badge gemini">Gemini</span></h4>
+
+  <p>When a cached raw image exists at line 315, <code>getCached</code> overwrites <code>o.expectedDigest</code> (the original digest from the template) with the raw image's digest at line 319 and points <code>shadDigest</code> at <code>raw.digest</code> at line 320. The subsequent <code>validateCachedDigest</code> call at line 332 then compares <code>raw.digest</code> against itself &mdash; a tautology that always passes.</p>
+
+  <div class="code-file">
+    <div class="code-header">pkg/downloader/downloader.go</div>
+    <pre class="language-go" data-start="269" data-line="311,312,319,320,332"><code class="language-go">func getCached(ctx context.Context, localPath, remote string, o options) (*Result, error) {
+	shad := cacheDirectoryPath(o.cacheDir, remote)
+	shadData := filepath.Join(shad, "data")
+	shadTime := filepath.Join(shad, "time")
+	shadType := filepath.Join(shad, "type")
+	shadDigest, err := cacheDigestPath(shad, o.expectedDigest)
+	if err != nil {
+		return nil, err
+	}
+	if _, err := os.Stat(shadData); err != nil {
+		return nil, nil
+	}
+
+	if isNonISOImage(o.description, remote, o.supportedImageFormats) {
+		imageFormat, err := nativeimgutil.DetectFormat(shadData)
+		if err != nil {
+			return nil, err
+		}
+		if !slices.Contains(o.supportedImageFormats, imageFormat) {
+			rawImgConvPath := filepath.Join(shad, "imgconv", "raw")
+			rawImgConvDigestPath := filepath.Join(shad, "imgconv", "raw.digest")
+
+			needConvert := false
+			if rawStat, err := os.Stat(rawImgConvPath); err != nil {
+				if errors.Is(err, os.ErrNotExist) {
+					needConvert = true
+				} else {
+					return nil, err
+				}
+			} else {
+				origStat, _ := os.Stat(shadData)
+				if origStat.ModTime().After(rawStat.ModTime()) {
+					needConvert = true
+				}
+			}
+
+			if needConvert {
+				logrus.Infof("Converted raw image is missing or stale; (re)converting now.")
+				converted, rawDigest, err := ensureRawInCache(ctx, shadData, imageFormat, o.expectedDigest)
+				if err != nil {
+					return nil, err
+				}
+				shadData = converted
+				o.expectedDigest = rawDigest
+				shadDigest = rawImgConvDigestPath
+			} else {
+				shadData = rawImgConvPath
+				if currentDigestData, err := os.ReadFile(rawImgConvDigestPath); err == nil {
+					currentDigest := strings.TrimSpace(string(currentDigestData))
+					if d, err := digest.Parse(currentDigest); err == nil {
+						o.expectedDigest = d
+						shadDigest = rawImgConvDigestPath
+					}
+				}
+			}
+		}
+	}
+
+	ext := path.Ext(remote)
+	logrus.Debugf("file %q is cached as %q", localPath, shadData)
+	if _, err := os.Stat(shadDigest); err == nil {
+		logrus.Debugf("Comparing digest %q with the cached digest file %q, not computing the actual digest of %q",
+			o.expectedDigest, shadDigest, shadData)
+		if err := validateCachedDigest(shadDigest, o.expectedDigest); err != nil {
+			return nil, err
+		}
+		if err := copyLocal(ctx, localPath, shadData, ext, o.decompress, "", ""); err != nil {
+			return nil, err
+		}
+	} else {
+		if match, lmCached, lmRemote, err := matchLastModified(ctx, shadTime, remote); err != nil {
+			logrus.WithError(err).Info("Failed to retrieve last-modified for cached digest-less image; using cached image.")
+		} else if match {
+			if err := copyLocal(ctx, localPath, shadData, ext, o.decompress, o.description, o.expectedDigest); err != nil {
+				return nil, err
+			}
+		} else {
+			logrus.Infof("Re-downloading digest-less image: last-modified mismatch (cached: %q, remote: %q)", lmCached, lmRemote)
+			return nil, nil
+		}
+	}
+	res := &amp;Result{
+		Status:          StatusUsedCache,
+		CachePath:       shadData,
+		LastModified:    readTime(shadTime),
+		ContentType:     readFile(shadType),
+		ValidatedDigest: o.expectedDigest != "",
+	}
+	return res, nil
+}</code></pre>
+  </div>
+
+  <p>The original digest file (e.g., <code>sha256:&lt;original&gt;</code>) is never consulted. If the upstream image changes and the user updates their template digest, <code>getCached</code> still returns the old raw conversion. This violates the stated requirement in issue <a href="https://github.com/lima-vm/lima/issues/4056">#4056</a> that "the cache must retain the checksum of the original image for lookup."</p>
+
+  <p>The same overwrite occurs in the <code>needConvert</code> branch at line 312 after <code>ensureRawInCache</code>, and again in <code>fetch()</code> at line 400. In every path, the original digest is lost.</p>
+
+  <p>Claude Opus 4.6 identified a narrower variant (missing <code>raw.digest</code> file) at the same location but rated it important rather than critical. The broader issue &mdash; that digest validation is bypassed even when <code>raw.digest</code> exists &mdash; warrants critical severity because it silently serves wrong data.</p>
+
+  <p><strong>Fix:</strong> Keep the original and derived digests separate. First validate the cached original image against the caller's expected digest (or force a re-download on mismatch). Only then validate <code>imgconv/raw</code> against <code>raw.digest</code> before copying it.</p>
+</div>
+
+<h3 class="severity-important">Important Issues</h3>
+
+<div class="finding important">
+  <h4>1. Nil pointer dereference when <code>os.Stat(shadData)</code> fails <span class="badge claude">Claude</span> <span class="badge gemini">Gemini</span></h4>
+
+  <p>The error from <code>os.Stat</code> at line 299 is discarded. Although <code>shadData</code> was verified to exist at line 278, a concurrent cache deletion or filesystem error between the two stat calls would leave <code>origStat</code> nil, causing a panic at line 300.</p>
+
+  <div class="code-file">
+    <div class="code-header">pkg/downloader/downloader.go</div>
+    <pre class="language-go" data-start="298" data-line="299,300"><code class="language-go">			} else {
+				origStat, _ := os.Stat(shadData)
+				if origStat.ModTime().After(rawStat.ModTime()) {
+					needConvert = true
+				}
+			}</code></pre>
+  </div>
+
+  <p><strong>Fix:</strong> Check the error. If stat fails, set <code>needConvert = true</code>.</p>
+  <pre><code class="language-go">origStat, err := os.Stat(shadData)
+if err != nil {
+    needConvert = true
+} else if origStat.ModTime().After(rawStat.ModTime()) {
+    needConvert = true
+}</code></pre>
+</div>
+
+<div class="finding important">
+  <h4>2. Compressed images bypass cache conversion <span class="badge codex">Codex</span> <span class="badge gemini">Gemini</span></h4>
+
+  <p><code>DetectFormat</code> at lines 283 and 390 runs on the cached file before decompression. Compressed downloads (<code>.qcow2.gz</code>, <code>.img.xz</code>) store compressed bytes in <code>shadData</code>. The QCOW2 magic number is obscured by the compression wrapper, so <code>DetectFormat</code> falls through to "raw." Because "raw" appears in every driver's supported list, the conversion logic is skipped entirely.</p>
+
+  <div class="code-file">
+    <div class="code-header">pkg/downloader/downloader.go</div>
+    <pre class="language-go" data-start="282" data-line="283"><code class="language-go">	if isNonISOImage(o.description, remote, o.supportedImageFormats) {
+		imageFormat, err := nativeimgutil.DetectFormat(shadData)
+		if err != nil {
+			return nil, err
+		}</code></pre>
+  </div>
+
+  <div class="code-file">
+    <div class="code-header">pkg/downloader/downloader.go</div>
+    <pre class="language-go" data-start="388" data-line="390"><code class="language-go">	// Try to convert to raw if it's an non-ISO image and not supported by the driver
+	if isNonISOImage(o.description, remote, o.supportedImageFormats) {
+		format, err := nativeimgutil.DetectFormat(shadData)
+		if err != nil {
+			return nil, err
+		}</code></pre>
+  </div>
+
+  <p>This defeats the PR's purpose for compressed images &mdash; the most common distribution format for cloud images (e.g., Ubuntu <code>.img</code> files distributed as <code>.xz</code>).</p>
+
+  <p><strong>Fix:</strong> Run format detection on uncompressed bytes. Either decompress to a temporary file before calling <code>DetectFormat</code> when <code>o.decompress</code> is true, or check the inner extension (e.g., strip <code>.gz</code>/<code>.xz</code> before checking <code>path.Ext</code>). Add tests for compressed inputs.</p>
+</div>
+
+<div class="finding important">
+  <h4>3. <code>isNonISOImage</code> relies on display-text string matching <span class="badge claude">Claude</span></h4>
+
+  <p>Whether cache conversion fires depends on the <code>description</code> string containing <code>"image"</code>. This display string is constructed at <a href="https://github.com/lima-vm/lima/blob/e03a4c242556b7a64f11401c27e89a3dcd0dfb22/pkg/fileutils/download.go#L32">pkg/fileutils/download.go:32</a>. A caller that passes a different description (e.g., <code>"the disk"</code>) silently disables conversion.</p>
+
+  <div class="code-file">
+    <div class="code-header">pkg/downloader/downloader.go</div>
+    <pre class="language-go" data-start="360" data-line="360,361"><code class="language-go">func isNonISOImage(description, remote string, supportedImageFormats []string) bool {
+	return strings.Contains(description, "image") &amp;&amp; supportedImageFormats != nil &amp;&amp; path.Ext(remote) != ".iso"
+}</code></pre>
+  </div>
+
+  <p>The check is duplicated at <a href="https://github.com/lima-vm/lima/blob/e03a4c242556b7a64f11401c27e89a3dcd0dfb22/pkg/fileutils/download.go#L35">pkg/fileutils/download.go:35</a>, creating a second point of failure:</p>
+
+  <div class="code-file">
+    <div class="code-header">pkg/fileutils/download.go</div>
+    <pre class="language-go" data-start="22" data-line="35"><code class="language-go">// DownloadFile downloads a file to the cache, optionally copying it to the destination. Returns path in cache.
+func DownloadFile(ctx context.Context, dest string, f limatype.File, decompress bool, description string, expectedArch limatype.Arch, supportedImageFormats []string) (string, error) {
+	if f.Arch != expectedArch {
+		return "", fmt.Errorf("%w: %q: unsupported arch: %q", ErrSkipped, f.Location, f.Arch)
+	}
+	fields := logrus.Fields{"location": f.Location, "arch": f.Arch, "digest": f.Digest}
+	logrus.WithFields(fields).Infof("Attempting to download %s", description)
+	opts := []downloader.Opt{
+		downloader.WithCache(),
+		downloader.WithDecompress(decompress),
+		downloader.WithDescription(fmt.Sprintf("%s (%s)", description, path.Base(f.Location))),
+		downloader.WithExpectedDigest(f.Digest),
+	}
+	if strings.Contains(description, "image") &amp;&amp; supportedImageFormats != nil {
+		opts = append(opts, downloader.WithImageFormats(supportedImageFormats))
+	}</code></pre>
+  </div>
+
+  <p><strong>Fix:</strong> Replace the string-matching heuristic with a typed flag. The <code>WithImageFormats</code> option already signals intent &mdash; if <code>supportedImageFormats</code> is non-nil, the caller wants conversion. The <code>description</code> check is redundant.</p>
+</div>
+
+<div class="finding important">
+  <h4>4. <code>MakeSparse</code> call is a no-op through the proxy <span class="badge claude">Claude</span> <span class="badge gemini">Gemini</span></h4>
+
+  <p><code>proxyimgutil.MakeSparse</code> delegates to <code>QemuImageUtil.MakeSparse</code>, which is a stub returning nil. The proxy treats nil as success and never falls through to the native implementation that does the actual <code>seek + truncate</code>.</p>
+
+  <div class="code-file">
+    <div class="code-header">pkg/downloader/downloader.go</div>
+    <pre class="language-go" data-start="436" data-line="446,447,448"><code class="language-go">	// Ensure the image is sparse to save cache space.
+	rawTmpF, err := os.OpenFile(rawPathTmp, os.O_RDWR, 0o644)
+	if err != nil {
+		return "", "", fmt.Errorf("failed to open raw tmp file %q: %w", rawPathTmp, err)
+	}
+	fi, err := rawTmpF.Stat()
+	if err != nil {
+		_ = rawTmpF.Close()
+		return "", "", fmt.Errorf("failed to stat raw tmp file %q: %w", rawPathTmp, err)
+	}
+	if err := diskUtil.MakeSparse(ctx, rawTmpF, fi.Size()); err != nil {
+		logrus.WithError(err).Warnf("Failed to make %q sparse (non-fatal)", rawPathTmp)
+	}
+	if err := rawTmpF.Close(); err != nil {
+		return "", "", fmt.Errorf("failed to close raw tmp file %q: %w", rawPathTmp, err)
+	}</code></pre>
+  </div>
+
+  <div class="code-file">
+    <div class="code-header">pkg/imgutil/proxyimgutil/proxyimgutil.go</div>
+    <pre class="language-go" data-start="74" data-line="75,76,77"><code class="language-go">func (p *ImageDiskManager) MakeSparse(ctx context.Context, f *os.File, offset int64) error {
+	err := p.qemu.MakeSparse(ctx, f, offset)
+	if err == nil {
+		return nil
+	}
+	if errors.Is(err, exec.ErrNotFound) {
+		return p.native.MakeSparse(ctx, f, offset)
+	}
+	return err
+}</code></pre>
+  </div>
+
+  <div class="code-file">
+    <div class="code-header">pkg/qemuimgutil/qemuimgutil.go</div>
+    <pre class="language-go" data-start="189" data-line="190,191"><code class="language-go">// MakeSparse is a stub implementation as the qemu package doesn't provide this functionality.
+func (q *QemuImageUtil) MakeSparse(_ context.Context, _ *os.File, _ int64) error {
+	return nil
+}</code></pre>
+  </div>
+
+  <p>When <code>qemu-img</code> is installed (the common case), <code>qemu-img convert -O raw</code> already produces sparse output, so this is harmless. When <code>qemu-img</code> is absent, the native converter copies bytes without sparsification, and the subsequent <code>MakeSparse</code> call &mdash; the one place that should fix this &mdash; is silently skipped.</p>
+
+  <p><strong>Fix:</strong> Either call <code>p.native.MakeSparse</code> directly in <code>ensureRawInCache</code>, or fix the proxy stub to return a sentinel error (e.g., <code>ErrNotImplemented</code>) that triggers the fallback. The proxy bug is pre-existing, but this new call site makes it load-bearing for cache disk usage.</p>
+</div>
+
+<h3 class="severity-suggestion">Suggestions</h3>
+
+<div class="finding suggestion">
+  <h4>1. <code>EnsureDisk</code> rename path has implicit resize dependency <span class="badge claude">Claude</span></h4>
+
+  <p>The new rename path bypasses <code>diskUtil.Convert</code>, which accepts a <code>diskSizeInBytes</code> parameter. Resizing still happens because <code>prepareDisk</code> at <a href="https://github.com/lima-vm/lima/blob/e03a4c242556b7a64f11401c27e89a3dcd0dfb22/pkg/instance/start.go#L126">pkg/instance/start.go:126</a> runs afterward and calls <code>diskUtil.ResizeDisk</code>. A defensive comment noting this dependency would prevent future regressions.</p>
+
+  <div class="code-file">
+    <div class="code-header">pkg/driverutil/disk.go</div>
+    <pre class="language-go" data-start="98" data-line="104,105,106,107"><code class="language-go">	} else {
+		format, err := nativeimgutil.DetectFormat(imagePath)
+		if err != nil {
+			return err
+		}
+
+		if format == string(diskImageFormat) {
+			if err = os.Rename(imagePath, diskPath); err != nil {
+				return err
+			}
+		} else {
+			if err := diskUtil.Convert(ctx, diskImageFormat, imagePath, diskPath, &amp;diskSizeInBytes, false); err != nil {
+				return fmt.Errorf("failed to convert %q to %q: %w", imagePath, diskPath, err)
+			}
+			os.Remove(imagePath)
+		}
+	}
+	return nil
+}</code></pre>
+  </div>
+
+  <div class="code-file">
+    <div class="code-header">pkg/instance/start.go</div>
+    <pre class="language-go" data-start="119" data-line="126"><code class="language-go">	}
+
+	if err := limaDriver.CreateDisk(ctx); err != nil {
+		return nil, err
+	}
+
+	// Ensure disk size matches the configured value
+	if err := prepareDisk(ctx, inst); err != nil {
+		return nil, err
+	}</code></pre>
+  </div>
+
+  <p>Gemini 3.1 Pro rated this critical, but <code>prepareDisk</code> handles the resize correctly for both raw and qcow2 images &mdash; this is a false positive at critical severity.</p>
+</div>
+
+<div class="finding suggestion">
+  <h4>2. Redundant <code>else if converted != ""</code> <span class="badge claude">Claude</span></h4>
+
+  <p><code>ensureRawInCache</code> always returns a non-empty path on success. The guard is dead code that implies an empty return is possible.</p>
+
+  <div class="code-file">
+    <div class="code-header">pkg/downloader/downloader.go</div>
+    <pre class="language-go" data-start="388" data-line="398"><code class="language-go">	// Try to convert to raw if it's an non-ISO image and not supported by the driver
+	if isNonISOImage(o.description, remote, o.supportedImageFormats) {
+		format, err := nativeimgutil.DetectFormat(shadData)
+		if err != nil {
+			return nil, err
+		}
+		if !slices.Contains(o.supportedImageFormats, format) {
+			converted, rawDigest, err := ensureRawInCache(ctx, shadData, format, o.expectedDigest)
+			if err != nil {
+				return nil, fmt.Errorf("failed to convert image to raw: %w", err)
+			} else if converted != "" {
+				shadData = converted
+				o.expectedDigest = rawDigest
+			}
+		}
+	}</code></pre>
+  </div>
+
+  <p><strong>Fix:</strong> Replace <code>else if converted != ""</code> with <code>else</code>.</p>
+</div>
+
+<div class="finding suggestion">
+  <h4>3. Test uses hardcoded <code>example.com</code> URL <span class="badge claude">Claude</span></h4>
+
+  <p><code>TestDownloadImageConversionCached</code> uses <code>https://example.com/test.qcow2</code> as the remote URL. The test pre-populates the cache, so <code>getCached</code> should return a hit. But if the cache-hit logic ever falls through, this would attempt a real HTTP request. The other conversion test already uses <code>httptest.NewServer</code> &mdash; this test should do the same.</p>
+
+  <div class="code-file">
+    <div class="code-header">pkg/downloader/downloader_test.go</div>
+    <pre class="language-go" data-start="476" data-line="479"><code class="language-go">	ctx := t.Context()
+	tmpDir := t.TempDir()
+	cacheDir := filepath.Join(tmpDir, "cache")
+	remoteURL := "https://example.com/test.qcow2"
+
+	// Pre-populate cache with a qcow2 file
+	shad := cacheDirectoryPath(cacheDir, remoteURL)</code></pre>
+  </div>
+</div>
+
+<h3 class="severity-design">Design Observations</h3>
+
+<div class="finding design">
+  <h4>1. <code>o.expectedDigest</code> serves two meanings <span class="badge codex">Codex</span></h4>
+
+  <p><code>o.expectedDigest</code> starts as "the caller's expected digest for the original download" and later becomes "the derived digest of <code>imgconv/raw</code>." Keeping these as separate variables would eliminate the digest-bypass bug (critical finding #1) and simplify the mental model. The original digest governs cache lookup and revalidation; the raw digest protects only the derived artifact's integrity.</p>
+</div>
+
+<div class="finding design">
+  <h4>2. Hardcoded RAW-only cache layout <span class="badge claude">Claude</span></h4>
+
+  <p><code>ensureRawInCache</code> always converts to raw, and the cache layout is hardcoded to <code>imgconv/raw</code>. All current drivers that set <code>SupportedImageFormats</code> include <code>"raw"</code>, so this works today. If a future driver needs a different format, the layout would need generalization (e.g., <code>imgconv/&lt;format&gt;/data</code>).</p>
+</div>
+
+<div class="finding design">
+  <h4>3. <code>DownloadFile</code> parameter sprawl <span class="badge claude">Claude</span></h4>
+
+  <p>Adding <code>supportedImageFormats []string</code> as a positional parameter to <code>DownloadFile</code> at <a href="https://github.com/lima-vm/lima/blob/e03a4c242556b7a64f11401c27e89a3dcd0dfb22/pkg/fileutils/download.go#L23">pkg/fileutils/download.go:23</a> forces every call site to pass it, even when nil. Six call sites were touched. An options pattern (like <code>downloader.Download</code> already uses) would prevent churn as the function grows.</p>
+</div>
+
+<div class="card">
+<h3>Testing Assessment</h3>
+
+<p>The PR adds three test functions covering the core conversion flow. Untested scenarios, ranked by risk:</p>
+
+<ol>
+  <li><strong>Digest rotation with existing cached raw conversion</strong> &mdash; no test asserts that <code>Download</code> re-downloads when the caller provides a new digest for a URL whose <code>imgconv/raw</code> already exists. This gap masks the critical digest-bypass bug.</li>
+  <li><strong>Compressed image inputs</strong> (<code>.qcow2.gz</code>, <code>.img.xz</code>) through both fresh and cached paths &mdash; <code>DetectFormat</code> runs on compressed bytes and silently misclassifies the format.</li>
+  <li><strong>Corrupt or missing <code>raw.digest</code></strong> with existing raw image &mdash; the fallback path at lines 316-322 has no coverage.</li>
+  <li><strong>Re-conversion on stale raw image</strong> &mdash; the <code>origStat.ModTime().After(rawStat.ModTime())</code> path at line 300 has no test.</li>
+  <li><strong>Native conversion</strong> (no <code>qemu-img</code>) &mdash; all tests skip when <code>qemu-img</code> is absent. The native convert + make-sparse path has no coverage.</li>
+  <li><strong>QEMU driver retains original format</strong> &mdash; no test verifies that a driver listing <code>qcow2</code> as supported skips conversion and returns the original.</li>
+</ol>
+</div>
+
+<div class="card">
+<h3>Documentation Assessment</h3>
+
+<p>The <code>internals.md</code> update describing <code>imgconv/</code> is appropriate. It should also state that the original digest remains authoritative for cache lookup, while <code>raw.digest</code> protects only the derived artifact &mdash; once the implementation matches that contract.</p>
+</div>
+
+<h2>Agent Performance Retro</h2>
+
+<div class="card">
+<h3>Summary Table</h3>
+
+<table class="retro">
+  <thead>
+    <tr><th>Metric</th><th><span class="badge claude">Claude</span> Opus 4.6</th><th><span class="badge codex">Codex</span> GPT 5.4</th><th><span class="badge gemini">Gemini</span> 3.1 Pro</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Duration</td><td>7:03</td><td>4:41</td><td>6:43</td></tr>
+    <tr><td>Critical</td><td>0</td><td>1</td><td>2 (1 false positive)</td></tr>
+    <tr><td>Important</td><td>4</td><td>1</td><td>1</td></tr>
+    <tr><td>Suggestion</td><td>3</td><td>0</td><td>1</td></tr>
+    <tr><td>Design observations</td><td>2</td><td>1</td><td>1</td></tr>
+    <tr><td>False positives</td><td>0</td><td>0</td><td>1</td></tr>
+    <tr><td>Unique insights</td><td>3</td><td>1</td><td>0</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="card">
+<h3>Per-Agent Assessment</h3>
+
+<p><strong><span class="badge claude">Claude</span> Opus 4.6</strong> produced the highest volume of findings (4 important, 3 suggestions) and the best signal-to-noise ratio &mdash; zero false positives. It traced into the proxy <code>MakeSparse</code> stub and the <code>isNonISOImage</code> string coupling, which the other agents missed. It identified the digest issue but underrated its severity (important vs. critical), focusing on the narrow "missing <code>raw.digest</code>" case rather than the fundamental bypass.</p>
+
+<p><strong><span class="badge codex">Codex</span> GPT 5.4</strong> delivered the most impactful single finding: it clearly articulated how <code>o.expectedDigest</code> overwrite defeats digest validation, cited the issue <a href="https://github.com/lima-vm/lima/issues/4056">#4056</a> requirement it violates, and traced the full flow from <code>instance.Prepare</code> through <code>getCached</code> to <code>validateCachedDigest</code>. It also uniquely identified the compressed-image bypass. Its review was concise (73 lines) with near-zero noise. Fastest agent at 4:41.</p>
+
+<p><strong><span class="badge gemini">Gemini</span> 3.1 Pro</strong> independently confirmed the digest-bypass bug and the nil-pointer dereference. However, it produced a false positive at critical severity: it claimed <code>EnsureDisk</code>'s rename path skips disk resizing, missing that <code>prepareDisk()</code> handles this afterward. This required extra verification effort during consolidation.</p>
+
+<p><strong>Overall</strong>: Codex GPT 5.4 provided the most value per token &mdash; fewest findings but the highest hit rate, with both findings confirmed as real regressions. Claude Opus 4.6 had the broadest coverage. Gemini 3.1 Pro added confirmation but introduced a false critical that cost consolidation time.</p>
+</div>
+
+<h2>Skill Improvement Recommendations</h2>
+
+<div class="card">
+<ul>
+  <li><strong>Compressed-image handling</strong>: The prompt should explicitly ask agents to trace compressed vs. uncompressed paths when the codebase has a <code>decompress</code> option. Two of three agents found this; adding a hint would ensure all three do.</li>
+  <li><strong>Cross-agent severity calibration</strong>: Claude rated the digest bypass as important while Codex and Gemini rated it critical. The prompt's severity guidance ("reserve CRITICAL for issues that will or easily can happen in production") is clear enough; the gap is in agent judgment, not prompt wording.</li>
+  <li><strong>False-positive rate</strong>: Gemini's false critical (disk resizing) shows that asking agents to "trace the full lifecycle" is not sufficient. Consider adding: "Before flagging a function for missing behavior, check whether the caller handles it after the call returns."</li>
+  <li><strong>All agents missed</strong>: No agent flagged that <code>ensureRawInCache</code> writes <code>raw.digest</code> non-atomically (line 467) after the atomic rename of the raw image (line 453). A crash between these two operations leaves a raw image without a digest file. Claude noted this as a precondition for a milder bug but did not flag the non-atomicity itself.</li>
+</ul>
+</div>
+
+</main>
+
+<script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script>
+Prism.highlightAll();
+(function() {
+  document.querySelectorAll('pre[class*="language-"]').forEach(function(pre) {
+    var code = pre.querySelector('code');
+    if (!code) return;
+
+    var startLine = parseInt(pre.getAttribute('data-start') || '1', 10);
+    var hlSpec = pre.getAttribute('data-line') || '';
+    var hlSet = new Set();
+    if (hlSpec) {
+      hlSpec.split(',').forEach(function(part) {
+        var range = part.trim().split('-');
+        var from = parseInt(range[0], 10);
+        var to = range.length > 1 ? parseInt(range[1], 10) : from;
+        for (var n = from; n <= to; n++) hlSet.add(n);
+      });
+    }
+
+    // Split Prism's highlighted HTML into lines, joining spans with empty string
+    var html = code.innerHTML;
+    // Prism may insert trailing newline; normalize
+    if (html.endsWith('\n')) html = html.slice(0, -1);
+    var lines = html.split('\n');
+
+    // Set counter start via CSS
+    pre.style.counterReset = 'line ' + (startLine - 1);
+
+    var wrapped = [];
+    for (var i = 0; i < lines.length; i++) {
+      var lineNum = startLine + i;
+      var cls = 'code-line';
+      if (hlSet.has(lineNum)) cls += ' line-hl';
+      wrapped.push('<span class="' + cls + '">' + lines[i] + '</span>');
+    }
+    code.innerHTML = wrapped.join('');
+  });
+})();
+</script>
+</body>
+</html>

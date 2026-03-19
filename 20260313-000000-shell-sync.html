@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: limactl shell --sync</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+  <style>
+    /* Line highlighting (custom, replaces Prism line-highlight plugin) */
+    .line-hl {
+      background: rgba(255, 199, 0, 0.18);
+      display: inline-block;
+      width: calc(100% + 2em);
+      margin-left: -1em;
+      padding-left: 1em;
+    }
+    :root {
+      --critical: #dc3545;
+      --important: #fd7e14;
+      --suggestion: #0d6efd;
+      --design: #198754;
+      --claude: #7c3aed;
+      --codex: #059669;
+      --gemini: #e11d48;
+      --bg: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --code-header-bg: #2d3748;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      margin: 0;
+      padding: 2rem 1rem;
+    }
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+    h2 {
+      font-size: 1.4rem;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    h3 { font-size: 1.15rem; margin-top: 2rem; }
+    h4 { font-size: 1rem; margin-bottom: 0.5rem; }
+
+    /* Metadata table */
+    table.meta { border-collapse: collapse; margin: 1rem 0 2rem; }
+    table.meta td {
+      padding: 0.25rem 1rem 0.25rem 0;
+      border: none;
+      vertical-align: top;
+    }
+    table.meta td:first-child { font-weight: 600; white-space: nowrap; }
+
+    /* Findings */
+    .finding {
+      padding: 1rem 1.25rem;
+      margin: 1.25rem 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .finding.critical { background: #fef2f2; border-color: #fecaca; }
+    .finding.important { background: #fff7ed; border-color: #fed7aa; }
+    .finding.suggestion { background: #eff6ff; border-color: #bfdbfe; }
+    .finding.design { background: #f0fdf4; border-color: #bbf7d0; }
+    .finding h4 { margin-top: 0; }
+    .finding p:last-child { margin-bottom: 0; }
+
+    /* Severity section headings */
+    h3.severity-critical { color: var(--critical); }
+    h3.severity-important { color: var(--important); }
+    h3.severity-suggestion { color: var(--suggestion); }
+    h3.severity-design { color: var(--design); }
+
+    /* Agent badges */
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.15em 0.55em;
+      border-radius: 999px;
+      color: #fff;
+      vertical-align: middle;
+      margin-left: 0.25em;
+      letter-spacing: 0.02em;
+    }
+    .badge.claude { background: var(--claude); }
+    .badge.codex { background: var(--codex); }
+    .badge.gemini { background: var(--gemini); }
+
+    /* Code file blocks */
+    .code-file { margin: 0.75rem 0; }
+    .code-header {
+      background: var(--code-header-bg);
+      color: #cbd5e1;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.8rem;
+      padding: 0.4rem 1rem;
+      border-radius: 6px 6px 0 0;
+      border-bottom: 1px solid #4a5568;
+    }
+    .code-file pre[class*="language-"] {
+      margin-top: 0;
+      border-radius: 0 0 6px 6px;
+    }
+
+    /* Code block sizing */
+    pre[class*="language-"] { font-size: 0.78rem; }
+    .line-numbers .line-numbers-rows { min-width: 2.5em; }
+
+    /* Inline code */
+    code:not([class*="language-"]) {
+      background: #e2e8f0;
+      padding: 0.15em 0.35em;
+      border-radius: 3px;
+      font-size: 0.88em;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    /* Links */
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Retro table */
+    table.retro {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+    table.retro th, table.retro td {
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+    }
+    table.retro th { background: #f8fafc; font-weight: 600; }
+    table.retro tr:nth-child(even) { background: #f8fafc; }
+    table.retro caption {
+      caption-side: bottom;
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding-top: 0.5rem;
+      text-align: left;
+    }
+
+    /* Generic card for non-finding sections */
+    .card {
+      padding: 1rem 1.25rem;
+      margin: 1.25rem 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+    }
+    .card h3 { margin-top: 0.5rem; }
+    .card p:last-child, .card ul:last-child, .card ol:last-child { margin-bottom: 0; }
+
+    /* Lists */
+    ul, ol { padding-left: 1.5rem; }
+    li { margin-bottom: 0.35rem; }
+
+    /* Blockquote */
+    blockquote {
+      border-left: 3px solid var(--border);
+      margin: 1rem 0;
+      padding: 0.5rem 1rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+<main>
+
+<h1>Deep Code Review: <code>limactl shell --sync</code></h1>
+
+<table class="meta">
+  <tr><td>Date</td><td>2026-03-13</td></tr>
+  <tr><td>Target</td><td>Functionality review of <code>limactl shell --sync</code> (rsync-based host-guest directory synchronization)</td></tr>
+  <tr><td>Reviewers</td><td><span class="badge claude">Claude</span> Opus 4.6, <span class="badge codex">Codex</span> GPT 5.4, <span class="badge gemini">Gemini</span> 3.1 Pro</td></tr>
+</table>
+
+<h2>Consolidated Review</h2>
+
+<div class="card">
+<h3>Executive Summary</h3>
+
+<p>The <code>--sync</code> feature mirrors a host working directory into the guest VM via rsync, runs a shell session, then offers an interactive accept/reject/diff workflow before syncing changes back. The core happy path works, but the implementation has serious bugs: two switch-case ordering issues leave <code>destRsyncDir</code> unset in valid configurations, and the guest cleanup deletes far more than it should. Several secondary issues affect robustness (silent failures, state mutation, SSH transport bypass).</p>
+</div>
+
+<h3 class="severity-critical">Critical Issues</h3>
+
+<div class="finding critical">
+  <h4>1. <code>--sync</code> combined with <code>--workdir</code> leaves <code>destRsyncDir</code> empty <span class="badge claude">Claude</span></h4>
+
+  <div class="code-file">
+    <div class="code-header">cmd/limactl/shell.go</div>
+    <pre class="line-numbers" data-start="233" data-line="239,253"><code class="language-go">	var destRsyncDir string
+	workDir, err := cmd.Flags().GetString("workdir")
+	if err != nil {
+		return err
+	}
+	switch {
+	case workDir != "":
+		changeDirCmd = fmt.Sprintf("cd %s || exit 1", shellescape.Quote(workDir))
+		// FIXME: check whether y.Mounts contains the home, not just len &gt; 0
+	case len(inst.Config.Mounts) &gt; 0 || inst.VMType == limatype.WSL2:
+		changeDirCmd = fmt.Sprintf("cd %s", shellescape.Quote(hostCurrentDir))
+		hostHomeDir, err := os.UserHomeDir()
+		if err == nil &amp;&amp; runtime.GOOS == "windows" {
+			hostHomeDir, err = mountDirFromWindowsDir(ctx, inst, hostHomeDir)
+		}
+		if err == nil {
+			changeDirCmd = fmt.Sprintf("%s || cd %s", changeDirCmd, shellescape.Quote(hostHomeDir))
+		} else {
+			logrus.WithError(err).Warn("failed to get the home directory")
+		}
+	case syncHostWorkdir:
+		destRsyncDir = *inst.Config.User.Home + hostCurrentDir
+		changeDirCmd = fmt.Sprintf("cd %s", shellescape.Quote(destRsyncDir))
+	default:
+		logrus.Debug("the host home does not seem mounted, so the guest shell will have a different cwd")
+	}</code></pre>
+  </div>
+
+  <p><code>destRsyncDir</code> is assigned only in the <code>case syncHostWorkdir</code> branch (line 253). When <code>--workdir</code> is also set, <code>case workDir != ""</code> matches first (line 239), so <code>destRsyncDir</code> stays as <code>""</code>. The subsequent rsync operations at <a href="https://github.com/lima-vm/lima/blob/1ed0a0f2231d963bf76ce6c1a34a04da01980bca/cmd/limactl/shell.go#L348-L388">lines 348-388</a> proceed with an empty destination path &mdash; <code>mkdir -p ''</code> via SSH, and rsync to <code>instance:</code> with no path. No validation prevents combining <code>--sync</code> and <code>--workdir</code>.</p>
+
+  <div class="code-file">
+    <div class="code-header">cmd/limactl/shell.go</div>
+    <pre class="line-numbers" data-start="348" data-line="355,370"><code class="language-go">	if syncHostWorkdir {
+		logrus.Infof("Syncing host current directory(%s) to guest instance...", hostCurrentDir)
+		sshExecForRsync = exec.CommandContext(ctx, sshExe.Exe, sshArgs...)
+
+		// Create the destination directory in the guest instance,
+		// we could have done this by using `--rsync-path` but it's more
+		// complex to quote properly.
+		if err := executeSSHForRsync(ctx, *sshExecForRsync, inst.SSHLocalPort, inst.SSHAddress, fmt.Sprintf("mkdir -p %s", shellescape.Quote(destRsyncDir))); err != nil {
+			return fmt.Errorf("failed to create the synced workdir in guest instance: %w", err)
+		}
+
+		// The macOS release of rsync (the latest being 2.6.9) does not support shell escaping of destination path but other versions do.
+		rsyncVer, err := rsyncVersion(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to get rsync version: %w", err)
+		}
+		if rsyncVer.LessThan(*semver.New("3.0.0")) {
+			destRsyncDir = shellescape.Quote(destRsyncDir)
+		}
+
+		paths := []string{
+			hostCurrentDir,
+			fmt.Sprintf("%s:%s", inst.Name, destRsyncDir),
+		}</code></pre>
+  </div>
+
+  <p><strong>Fix:</strong> Reject the combination explicitly:</p>
+  <pre><code class="language-go">if syncHostWorkdir &amp;&amp; workDir != "" {
+	return errors.New("cannot use --sync and --workdir together")
+}</code></pre>
+</div>
+
+<div class="finding critical">
+  <h4>2. <code>--sync</code> on WSL2 instances without mounts silently breaks <span class="badge claude">Claude</span></h4>
+
+  <div class="code-file">
+    <div class="code-header">cmd/limactl/shell.go</div>
+    <pre class="line-numbers" data-start="242" data-line="242,253"><code class="language-go">	case len(inst.Config.Mounts) &gt; 0 || inst.VMType == limatype.WSL2:
+		changeDirCmd = fmt.Sprintf("cd %s", shellescape.Quote(hostCurrentDir))
+		hostHomeDir, err := os.UserHomeDir()
+		if err == nil &amp;&amp; runtime.GOOS == "windows" {
+			hostHomeDir, err = mountDirFromWindowsDir(ctx, inst, hostHomeDir)
+		}
+		if err == nil {
+			changeDirCmd = fmt.Sprintf("%s || cd %s", changeDirCmd, shellescape.Quote(hostHomeDir))
+		} else {
+			logrus.WithError(err).Warn("failed to get the home directory")
+		}
+	case syncHostWorkdir:
+		destRsyncDir = *inst.Config.User.Home + hostCurrentDir</code></pre>
+  </div>
+
+  <p>On a WSL2 instance started with <code>--mount-none</code>, mounts are empty but <code>inst.VMType == limatype.WSL2</code> is true. This case matches before <code>case syncHostWorkdir</code> at line 253, so <code>destRsyncDir</code> is never assigned. The validation at <a href="https://github.com/lima-vm/lima/blob/1ed0a0f2231d963bf76ce6c1a34a04da01980bca/cmd/limactl/shell.go#L197-L200">line 198</a> only checks for mounts, so it passes. Same empty-path failure as above.</p>
+
+  <div class="code-file">
+    <div class="code-header">cmd/limactl/shell.go</div>
+    <pre class="line-numbers" data-start="197" data-line="198"><code class="language-go">	syncHostWorkdir := syncDirVal != ""
+	if syncHostWorkdir &amp;&amp; len(inst.Config.Mounts) &gt; 0 {
+		return errors.New("cannot use `--sync` when the instance has host mounts configured, start the instance with `--mount-none` to disable mounts")
+	}</code></pre>
+  </div>
+
+  <p><strong>Fix:</strong> Compute <code>destRsyncDir</code> before the switch (it depends only on <code>syncHostWorkdir</code> and <code>hostCurrentDir</code>, not on the mount/workdir logic):</p>
+  <pre><code class="language-go">if syncHostWorkdir {
+	destRsyncDir = *inst.Config.User.Home + hostCurrentDir
+}</code></pre>
+</div>
+
+<div class="finding critical">
+  <h4>3. Guest cleanup deletes entire top-level subtree, not just the synced directory <span class="badge claude">Claude</span> <span class="badge codex">Codex</span> <span class="badge gemini">Gemini</span></h4>
+
+  <div class="code-file">
+    <div class="code-header">cmd/limactl/shell.go</div>
+    <pre class="line-numbers" data-start="436" data-line="438-443,460"><code class="language-go">func askUserForRsyncBack(ctx context.Context, cmd *cobra.Command, inst *limatype.Instance, sshCmd *exec.Cmd, hostCurrentDir, destRsyncDir string, rsync copytool.CopyTool, tty bool) error {
+	remoteSource := fmt.Sprintf("%s:%s", inst.Name, destRsyncDir)
+	clean := filepath.Clean(hostCurrentDir)
+	parts := strings.Split(clean, string(filepath.Separator))
+	if len(parts) &lt; 2 {
+		return fmt.Errorf("invalid host current directory: %s", hostCurrentDir)
+	}
+	dirForCleanup := shellescape.Quote(fmt.Sprintf("%s/", *inst.Config.User.Home) + parts[1])
+
+	rsyncBack := func() error {
+		paths := []string{
+			remoteSource,
+			hostCurrentDir,
+		}
+
+		if err := rsyncDirectory(ctx, cmd, rsync, paths); err != nil {
+			return fmt.Errorf("failed to sync back the changes from guest instance to host: %w", err)
+		}
+		logrus.Info("Successfully synced back the changes to host.")
+		return nil
+	}
+
+	defer func() {
+		// Clean up the guest synced workdir
+		if err := executeSSHForRsync(ctx, *sshCmd, inst.SSHLocalPort, inst.SSHAddress, fmt.Sprintf("rm -rf %s", dirForCleanup)); err != nil {
+			logrus.WithError(err).Warn("Failed to clean up guest synced workdir")
+		}
+	}()</code></pre>
+  </div>
+
+  <p><code>dirForCleanup</code> is derived from <code>parts[1]</code> &mdash; the first path component after root (e.g., <code>Users</code> from <code>/Users/jan/repo</code>). The deferred <code>rm -rf</code> at line 460 removes <code>~/Users/</code> in the guest, wiping every synced directory under that top-level component. Concurrent <code>--sync</code> sessions from different host directories under the same top-level path destroy each other&rsquo;s data.</p>
+
+  <p><strong>Fix:</strong> Clean up exactly <code>destRsyncDir</code>:</p>
+  <pre><code class="language-go">dirForCleanup := shellescape.Quote(destRsyncDir)</code></pre>
+  <p>Note: if <code>destRsyncDir</code> was already quoted for older rsync versions (line 365), use the unquoted original to avoid double-quoting.</p>
+</div>
+
+<h3 class="severity-important">Important Issues</h3>
+
+<div class="finding important">
+  <h4>1. Permission-only and metadata-only changes silently dropped <span class="badge codex">Codex</span></h4>
+
+  <div class="code-file">
+    <div class="code-header">cmd/limactl/shell.go</div>
+    <pre class="line-numbers" data-start="469" data-line="469-475"><code class="language-go">	rawOutput, stats, err := getRsyncStats(ctx, remoteSource, filepath.Dir(hostCurrentDir))
+	if err != nil {
+		logrus.WithError(err).Warn("failed to get rsync stats")
+	}
+	if stats != nil &amp;&amp; stats.String() == "" {
+		logrus.Info("No changes detected")
+		return nil
+	}</code></pre>
+  </div>
+
+  <p><code>parseRsyncStats</code> only counts lines starting with <code>&lt;</code>, <code>&gt;</code>, or <code>c</code> as changes. Lines like <code>.f...p..... file</code> (permission-only changes) start with <code>.</code> and are ignored. When all changes are metadata-only, <code>stats.String()</code> returns <code>""</code>, and <code>askUserForRsyncBack</code> returns early with &ldquo;No changes detected&rdquo; &mdash; silently discarding the guest-side changes without prompting.</p>
+
+  <p><strong>Fix:</strong> Count metadata-only updates (lines where positions 3-10 contain non-<code>.</code> characters) as a separate category, or at minimum do not short-circuit sync-back when rsync reports itemized output.</p>
+</div>
+
+<div class="finding important">
+  <h4>2. Rsync backend bypasses Lima&rsquo;s SSH transport configuration <span class="badge codex">Codex</span></h4>
+
+  <div class="code-file">
+    <div class="code-header">pkg/copytool/rsync.go</div>
+    <pre class="line-numbers" data-start="71" data-line="72-80"><code class="language-go">	sshArgs := sshutil.SSHArgsFromOpts(sshOpts)
+	checkCmd := exec.CommandContext(ctx, "ssh")
+	checkCmd.Args = append(checkCmd.Args, sshArgs...)
+	checkCmd.Args = append(checkCmd.Args,
+		"-p", fmt.Sprintf("%d", inst.SSHLocalPort),
+		*inst.Config.User.Name+"@"+inst.SSHAddress,
+		"command -v rsync &gt;/dev/null 2&gt;&amp;1",
+	)
+
+	err = checkCmd.Run()
+	return err == nil</code></pre>
+  </div>
+
+  <div class="code-file">
+    <div class="code-header">pkg/copytool/rsync.go</div>
+    <pre class="line-numbers" data-start="120" data-line="120-130"><code class="language-go">			sshExe, err := sshutil.NewSSHExe()
+			if err != nil {
+				return nil, err
+			}
+			sshOpts, err := sshutil.SSHOpts(ctx, sshExe, cp.Instance.Dir, *cp.Instance.Config.User.Name, false, false, false, false)
+			if err != nil {
+				return nil, err
+			}
+
+			sshArgs := sshutil.SSHArgsFromOpts(sshOpts)
+			sshCmd = fmt.Sprintf("ssh -p %d %s", cp.Instance.SSHLocalPort, strings.Join(sshArgs, " "))</code></pre>
+  </div>
+
+  <p><code>checkRsyncOnGuest()</code> hardcodes <code>exec.CommandContext(ctx, "ssh")</code> and <code>Command()</code> hardcodes <code>ssh</code> in the <code>-e</code> string. This bypasses the <code>$SSH</code> environment variable override and any wrapper args from <code>sshutil.NewSSHExe()</code>. Users with custom SSH commands or config wrappers will find that <code>limactl shell</code> works but <code>limactl shell --sync</code> fails.</p>
+
+  <p><strong>Fix:</strong> Use <code>sshutil.NewSSHExe()</code> in both <code>checkRsyncOnGuest</code> and <code>Command</code>. Build the <code>-e</code> argument from <code>sshExe.Exe</code> + <code>sshExe.Args</code> + SSH opts, shell-escaping each token.</p>
+</div>
+
+<div class="finding important">
+  <h4>3. <code>executeSSHForRsync</code> appends to a value-copied slice, risking silent corruption <span class="badge claude">Claude</span> <span class="badge gemini">Gemini</span></h4>
+
+  <div class="code-file">
+    <div class="code-header">cmd/limactl/shell.go</div>
+    <pre class="line-numbers" data-start="589" data-line="589-596"><code class="language-go">func executeSSHForRsync(ctx context.Context, sshCmd exec.Cmd, sshLocalPort int, sshAddress, command string) error {
+	sshCmd.Args = append(sshCmd.Args,
+		"-p", strconv.Itoa(sshLocalPort),
+		sshAddress,
+	)
+
+	// Skip Args[0] (program name) to avoid duplication
+	sshRmCmd := exec.CommandContext(ctx, sshCmd.Path, append(sshCmd.Args[1:], command)...)
+	if err := sshRmCmd.Run(); err != nil {
+		return err
+	}
+	return nil
+}</code></pre>
+  </div>
+
+  <p>The function takes <code>sshCmd exec.Cmd</code> by value and appends to its <code>Args</code> slice. This works only because <code>exec.CommandContext</code> currently allocates Args without spare capacity, so <code>append</code> creates a new backing array. If Go&rsquo;s implementation changed or a caller constructed <code>exec.Cmd</code> differently, the append would overwrite the caller&rsquo;s data. The function is called multiple times with the same original <code>sshCmd</code>.</p>
+
+  <p><strong>Fix:</strong> Copy the args explicitly:</p>
+  <pre><code class="language-go">newArgs := make([]string, len(sshCmd.Args), len(sshCmd.Args)+4)
+copy(newArgs, sshCmd.Args)
+newArgs = append(newArgs, "-p", strconv.Itoa(sshLocalPort), sshAddress, command)
+sshRmCmd := exec.CommandContext(ctx, sshCmd.Path, newArgs[1:]...)</code></pre>
+</div>
+
+<div class="finding important">
+  <h4>4. <code>Command()</code> permanently mutates receiver options <span class="badge claude">Claude</span> <span class="badge gemini">Gemini</span></h4>
+
+  <div class="code-file">
+    <div class="code-header">pkg/copytool/rsync.go</div>
+    <pre class="line-numbers" data-start="84" data-line="90-92"><code class="language-go">func (t *rsyncTool) Command(ctx context.Context, paths []string, opts *Options) (*exec.Cmd, error) {
+	copyPaths, err := parseCopyPaths(ctx, paths)
+	if err != nil {
+		return nil, err
+	}
+
+	if opts != nil {
+		t.Options = opts
+	}</code></pre>
+  </div>
+
+  <p><code>t.Options = opts</code> replaces the tool&rsquo;s options for all future calls. The <code>CopyTool</code> instance is reused across <code>shellAction</code> and <code>askUserForRsyncBack</code>, so any <code>opts</code> override persists beyond the call that set it. Currently all callers pass <code>nil</code>, so the bug is latent.</p>
+
+  <p><strong>Fix:</strong> Use a local variable instead of mutating the receiver:</p>
+  <pre><code class="language-go">activeOpts := t.Options
+if opts != nil {
+	activeOpts = opts
+}</code></pre>
+</div>
+
+<div class="finding important">
+  <h4>5. Silent failure if <code>diff</code> executable is missing <span class="badge gemini">Gemini</span></h4>
+
+  <div class="code-file">
+    <div class="code-header">cmd/limactl/shell.go</div>
+    <pre class="line-numbers" data-start="571" data-line="571-578"><code class="language-go">		if err := diffCmd.Run(); err != nil {
+			// Command `diff` returns exit code 1 when files differ.
+			var exitErr *exec.ExitError
+			if errors.As(err, &amp;exitErr) &amp;&amp; exitErr.ExitCode() &gt;= 2 {
+				_ = pipeIn.Close()
+				return fmt.Errorf("failed to run diff command: %w", err)
+			}
+		}</code></pre>
+  </div>
+
+  <p>When the user selects &ldquo;View the changed contents&rdquo;, the error handling only checks for <code>*exec.ExitError</code> (exit code &ge; 2). If <code>diff</code> doesn&rsquo;t exist on the host, <code>diffCmd.Run()</code> returns <code>*exec.Error</code>, which doesn&rsquo;t match <code>errors.As(err, &amp;exitErr)</code>. The error is silently ignored and the user sees a blank pager.</p>
+
+  <p><strong>Fix:</strong> Handle non-ExitError failures:</p>
+  <pre><code class="language-go">if err := diffCmd.Run(); err != nil {
+	var exitErr *exec.ExitError
+	if errors.As(err, &amp;exitErr) {
+		if exitErr.ExitCode() &gt;= 2 {
+			_ = pipeIn.Close()
+			return fmt.Errorf("diff command failed: %w", err)
+		}
+	} else {
+		_ = pipeIn.Close()
+		return fmt.Errorf("failed to start diff: %w", err)
+	}
+}</code></pre>
+</div>
+
+<div class="finding important">
+  <h4>6. Path spaces break with rsync 3.0.0 through 3.2.3 <span class="badge gemini">Gemini</span></h4>
+
+  <div class="code-file">
+    <div class="code-header">cmd/limactl/shell.go</div>
+    <pre class="line-numbers" data-start="359" data-line="363-366"><code class="language-go">		// The macOS release of rsync (the latest being 2.6.9) does not support shell escaping of destination path but other versions do.
+		rsyncVer, err := rsyncVersion(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to get rsync version: %w", err)
+		}
+		if rsyncVer.LessThan(*semver.New("3.0.0")) {
+			destRsyncDir = shellescape.Quote(destRsyncDir)
+		}</code></pre>
+  </div>
+
+  <p>The code quotes <code>destRsyncDir</code> for rsync &lt; 3.0.0 (macOS&rsquo;s ancient 2.6.9). But <code>--protect-args</code> did not become the default until rsync 3.2.4. Users running rsync 3.0.0&ndash;3.2.3 (common on older Linux, e.g. Ubuntu 20.04) will see failures when <code>syncDirVal</code> contains spaces, as the remote shell splits the unquoted path.</p>
+
+  <p><strong>Fix:</strong> Change the version check to <code>&lt; 3.2.4</code>, or always pass <code>--protect-args</code> for rsync &ge; 3.0.0.</p>
+</div>
+
+<div class="finding important">
+  <h4>7. Pager displays raw ANSI escape codes <span class="badge claude">Claude</span></h4>
+
+  <div class="code-file">
+    <div class="code-header">cmd/limactl/shell.go</div>
+    <pre class="line-numbers" data-start="532" data-line="532-539"><code class="language-go">		diffCmd := exec.CommandContext(ctx, "diff", "-ruN", "--color=always", hostCurrentDir, hostTmpDest)
+		pager := os.Getenv("PAGER")
+		pager = strings.TrimSpace(pager)
+		if pager == "" {
+			pager = "less"
+		}
+		pagerArgs := strings.Fields(pager)
+		lessCmd := exec.CommandContext(ctx, pagerArgs[0], pagerArgs[1:]...)</code></pre>
+  </div>
+
+  <p>The diff command uses <code>--color=always</code> and the rsync stats headers use ANSI codes. The default pager <code>less</code> does not interpret ANSI escapes by default, so users see raw <code>\033[0;90m</code> text.</p>
+
+  <p><strong>Fix:</strong></p>
+  <pre><code class="language-go">if pager == "" {
+	pager = "less -R"
+}</code></pre>
+</div>
+
+<h3 class="severity-suggestion">Suggestions</h3>
+
+<div class="finding suggestion">
+  <h4>1. Use <code>path</code> instead of <code>filepath</code> for guest directories <span class="badge gemini">Gemini</span></h4>
+
+  <p><code>filepath.Clean</code> applies OS-specific path logic. On Windows, it uses backslashes for paths destined for the Linux guest. Use <code>path.Clean</code>/<code>path.Dir</code> for guest-side paths.</p>
+</div>
+
+<div class="finding suggestion">
+  <h4>2. Temp directory created before it&rsquo;s needed <span class="badge claude">Claude</span></h4>
+
+  <div class="code-file">
+    <div class="code-header">cmd/limactl/shell.go</div>
+    <pre class="line-numbers" data-start="491" data-line="491-504"><code class="language-go">	baseDir, err := os.MkdirTemp("", "lima-guest-synced-*")
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err := os.RemoveAll(baseDir); err != nil {
+			logrus.WithError(err).Warnf("Failed to clean up temporary directory %s", baseDir)
+		}
+	}()
+	hostTmpDest := filepath.Join(baseDir, filepath.Base(hostCurrentDir))
+	err = os.MkdirAll(hostTmpDest, 0o755)
+	if err != nil {
+		return err
+	}</code></pre>
+  </div>
+
+  <p>The temp dir for diff viewing is created unconditionally, even when the user picks &ldquo;Yes&rdquo; or &ldquo;No.&rdquo; Move the creation into the <code>case 2</code> block.</p>
+</div>
+
+<div class="finding suggestion">
+  <h4>3. Redundant rsync guest availability check <span class="badge claude">Claude</span></h4>
+
+  <div class="code-file">
+    <div class="code-header">cmd/limactl/shell.go</div>
+    <pre class="line-numbers" data-start="674" data-line="674-688"><code class="language-go">func getRsyncStats(ctx context.Context, source, destination string) (string, *rsyncStats, error) {
+	paths := []string{source, destination}
+	rsync, err := copytool.New(ctx, string(copytool.BackendRsync), paths, &amp;copytool.Options{
+		Verbose: true,
+		AdditionalArgs: []string{
+			"--dry-run",
+			"--itemize-changes",
+			"-ah",
+			"--delete",
+		},
+	})
+	if err != nil {
+		return "", nil, err
+	}</code></pre>
+  </div>
+
+  <p><code>getRsyncStats</code> creates a new rsync tool via <code>copytool.New</code>, which SSHs into the guest to check rsync availability &mdash; already verified when the primary tool was created. Pass the existing tool or skip the check.</p>
+</div>
+
+<div class="finding suggestion">
+  <h4>4. <code>parseRsyncStats</code> could miscount verbose output lines <span class="badge claude">Claude</span></h4>
+
+  <div class="code-file">
+    <div class="code-header">cmd/limactl/shell.go</div>
+    <pre class="line-numbers" data-start="720" data-line="720-744"><code class="language-go">func parseRsyncStats(output string) *rsyncStats {
+	var s rsyncStats
+	for line := range strings.SplitSeq(output, "\n") {
+		if len(line) &lt; 12 {
+			continue
+		}
+
+		if strings.HasPrefix(line, "*deleting") {
+			s.Deleted++
+			continue
+		}
+
+		updateType := line[0]
+		checksum := line[2]
+
+		if updateType == '&lt;' || updateType == '&gt;' || updateType == 'c' {
+			if checksum == '+' {
+				s.Added++
+			} else {
+				s.Modified++
+			}
+		}
+	}
+	return &amp;s
+}</code></pre>
+  </div>
+
+  <p><code>getRsyncStats</code> creates its rsync tool with <code>Verbose: true</code>, adding <code>-v</code> output. If a filename is 12+ chars and starts with <code>&lt;</code>/<code>&gt;</code>/<code>c</code> with <code>+</code> at index 2, it gets falsely counted. Either remove <code>Verbose: true</code> (the <code>--itemize-changes</code> flag already produces the needed output) or validate position 1 as a valid file-type indicator.</p>
+</div>
+
+<div class="card">
+<h3>Testing Assessment</h3>
+
+<p><strong>Covered well:</strong></p>
+<ul>
+  <li>Happy-path sync with <code>--yes</code>: path preservation, special characters, file CRUD, permissions, missing ControlMaster. BATS tests are solid, testing real rsync against a real VM.</li>
+  <li><code>parseRsyncStats</code> and <code>rsyncStats.String()</code> unit tests cover core parsing.</li>
+</ul>
+
+<p><strong>Gaps:</strong></p>
+<ul>
+  <li><code>--sync</code> + <code>--workdir</code> combination (would expose CRITICAL empty-destRsyncDir bug)</li>
+  <li><code>--sync</code> on WSL2 with <code>--mount-none</code> (would expose the other CRITICAL bug)</li>
+  <li>Interactive prompt flow (Yes/No/View) &mdash; <code>askUserForRsyncBack</code> TTY path has zero test coverage</li>
+  <li>Cleanup scope &mdash; no test verifies <code>dirForCleanup</code> targets the correct directory</li>
+  <li>Permission-only / metadata-only changes syncing back</li>
+  <li>Concurrent <code>--sync</code> sessions</li>
+  <li>Missing <code>diff</code> or pager binary</li>
+  <li>Custom SSH transport (<code>$SSH</code> env var)</li>
+  <li><code>getRsyncStats</code>, <code>rsyncVersion</code>, <code>executeSSHForRsync</code> have no unit tests</li>
+  <li>The unit test at <code>shell_test.go:34</code> codifies incorrect behavior by asserting <code>.f...p.....</code> is &ldquo;no changes&rdquo; <span class="badge codex">Codex</span></li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Documentation Assessment</h3>
+
+<ul>
+  <li>The <code>--sync</code> flag help text is minimal. It doesn&rsquo;t mention the <code>--mount-none</code> requirement, the minimum directory depth restriction, or the dependency on <code>rsync</code> and <code>diff</code>.</li>
+  <li>No documentation warns that host-side changes during an active <code>--sync</code> session will be overwritten if the user accepts the sync-back (<code>rsync --delete</code> runs in both directions). <span class="badge gemini">Gemini</span></li>
+  <li>The <code>rsyncMinimumSrcDirDepth = 4</code> constant explains the value but not the safety rationale (preventing accidental sync of home or system directories). <span class="badge claude">Claude</span></li>
+</ul>
+</div>
+
+<h2>Agent Performance Retro</h2>
+
+<div class="card">
+<h3>Summary Table</h3>
+
+<table class="retro">
+  <caption>Agents run concurrently and compete for resources; durations are approximate.</caption>
+  <thead>
+    <tr><th>Metric</th><th>Claude Opus 4.6</th><th>Codex GPT 5.4</th><th>Gemini 3.1 Pro</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Critical</td><td>3 (2 unique)</td><td>1</td><td>1</td></tr>
+    <tr><td>Important</td><td>4 (1 unique)</td><td>2 (2 unique)</td><td>4 (2 unique)</td></tr>
+    <tr><td>Suggestions</td><td>3 (3 unique)</td><td>0</td><td>1 (1 unique)</td></tr>
+    <tr><td>Unique Finds</td><td>5</td><td>2</td><td>3</td></tr>
+    <tr><td>False Positives</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><td>Depth</td><td>High</td><td>High</td><td>Medium</td></tr>
+    <tr><td>Signal/Noise</td><td>Excellent</td><td>Excellent</td><td>Excellent</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="card">
+<h3>Per-Agent Assessment</h3>
+
+<p><strong><span class="badge claude">Claude</span> Opus 4.6</strong></p>
+<ul>
+  <li><strong>Unique contributions:</strong> Found both switch-case ordering bugs where <code>destRsyncDir</code> is never set &mdash; serious edge cases the other agents missed entirely. Also caught the pager ANSI rendering issue, the redundant guest check, and the verbose output miscount risk.</li>
+  <li><strong>Accuracy:</strong> All findings verified correct. Zero false positives.</li>
+  <li><strong>Depth:</strong> Analyzed control flow through the switch statement carefully enough to spot the <code>--workdir</code> and WSL2 interactions.</li>
+  <li><strong>Signal-to-noise:</strong> Every finding is actionable. The suggestions are genuinely useful, not filler.</li>
+  <li><strong>Note:</strong> Required manual intervention &mdash; the nested Claude-from-Claude invocation produced empty output three times before Jan ran it from a standalone terminal.</li>
+</ul>
+
+<p><strong><span class="badge codex">Codex</span> GPT 5.4</strong></p>
+<ul>
+  <li><strong>Unique contributions:</strong> Identified the permission-only change data loss (metadata changes silently dropped) and the SSH transport bypass in the copytool refactor. Both are real, non-obvious bugs.</li>
+  <li><strong>Accuracy:</strong> All findings verified. Used <code>git blame</code> to trace the origin commits of each bug.</li>
+  <li><strong>Depth:</strong> Traced the permission-change issue through <code>parseRsyncStats</code> &rarr; <code>stats.String()</code> &rarr; early return. Cited specific commits.</li>
+  <li><strong>Signal-to-noise:</strong> Concise and focused &mdash; three findings, all important, zero noise.</li>
+</ul>
+
+<p><strong><span class="badge gemini">Gemini</span> 3.1 Pro</strong></p>
+<ul>
+  <li><strong>Unique contributions:</strong> Caught the <code>diff</code> binary missing causing silent failure, and the rsync 3.0&ndash;3.2.3 <code>--protect-args</code> version gap &mdash; a real-world compatibility issue. Also noted the <code>path</code> vs <code>filepath</code> portability concern for guest paths.</li>
+  <li><strong>Accuracy:</strong> All findings verified. The rsync version analysis is well-researched.</li>
+  <li><strong>Depth:</strong> Did not trace git history (no <code>git blame</code> citations). Analysis is based on static code reading.</li>
+  <li><strong>Signal-to-noise:</strong> Good. The <code>path</code> vs <code>filepath</code> suggestion is forward-looking.</li>
+</ul>
+
+<h3>Overall Assessment</h3>
+
+<p>All three agents provided real value. Claude found the most severe unique bugs (the switch-case ordering issues), Codex found the most subtle data-loss scenario (metadata changes silently dropped), and Gemini caught practical compatibility issues (rsync version gap, missing diff). No agent produced false positives. The ensemble was worth the cost &mdash; no single agent found all the issues.</p>
+</div>
+
+<h2>Skill Improvement Recommendations</h2>
+
+<div class="card">
+<ol>
+  <li><strong>Claude nesting is broken.</strong> Running <code>claude --print</code> from within a Claude Code session produced empty output despite <code>env -u CLAUDECODE</code>. The skill must account for this &mdash; either document that the user needs to run the Claude agent from a separate terminal, or find a reliable workaround.</li>
+  <li><strong>The prompt was good but could push harder on edge-case analysis.</strong> Claude found the switch-case bugs by analyzing control flow; the other agents didn&rsquo;t. Adding a prompt instruction like &ldquo;Trace every code path through switch/if chains&rdquo; could help all agents catch this class of bug.</li>
+  <li><strong><code>git blame</code> instruction was effective for Codex but not Gemini.</strong> Codex cited specific commits; Gemini didn&rsquo;t use <code>git blame</code> at all. Consider making the instruction more explicit.</li>
+  <li><strong>Consider giving each agent a slightly different angle.</strong> The prompt could assign focus areas to reduce redundancy while maintaining coverage. The unanimous finding of the cleanup bug shows convergence works, but specialization might surface more unique findings.</li>
+  <li><strong>Model name note.</strong> The Gemini model <code>gemini-3.1-pro-preview</code> worked but is a preview release. Monitor for the GA model name.</li>
+</ol>
+</div>
+
+<!-- Appendices omitted — see the markdown version for individual agent reviews. -->
+
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+<script>
+// Custom line highlighting — runs after Prism processes all code blocks
+window.addEventListener('load', function() {
+  document.querySelectorAll('pre[data-line]').forEach(function(pre) {
+    var start = parseInt(pre.getAttribute('data-start') || '1');
+    var spec = pre.getAttribute('data-line');
+    var lineSet = new Set();
+    spec.split(',').forEach(function(part) {
+      var range = part.trim().split('-');
+      var from = parseInt(range[0]);
+      var to = range.length > 1 ? parseInt(range[1]) : from;
+      for (var n = from; n <= to; n++) lineSet.add(n);
+    });
+    var code = pre.querySelector('code');
+    if (!code) return;
+    var lines = code.innerHTML.split('\n');
+    for (var i = 0; i < lines.length; i++) {
+      if (lineSet.has(start + i)) {
+        lines[i] = '<span class="line-hl">' + lines[i] + '</span>';
+      }
+    }
+    code.innerHTML = lines.join('\n');
+  });
+});
+</script>
+</body>
+</html>
