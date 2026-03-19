@@ -16,8 +16,7 @@ body {
   padding: 2rem 1rem;
 }
 main { max-width: 1200px; margin: 0 auto; }
-h1 { font-size: 1.6rem; margin-bottom: 0.3rem; color: #111827; }
-.subtitle { color: #6b7280; margin-bottom: 2rem; }
+h1 { font-size: 1.6rem; margin-bottom: 0.8rem; color: #111827; }
 a { color: #2563eb; text-decoration: none; }
 a:hover { text-decoration: underline; }
 table {
@@ -42,6 +41,7 @@ td {
 }
 tr:hover td { background: #f0f4ff; }
 .date { white-space: nowrap; color: #6b7280; font-size: 0.9rem; }
+.time { color: #9ca3af; font-size: 0.82rem; margin-left: 0.3em; }
 .verdict {
   display: inline-block;
   font-size: 0.78rem;
@@ -81,11 +81,10 @@ code {
 <body>
 <main>
 <h1>lima</h1>
-<p class="subtitle">2 reviews</p>
 <table>
 <thead><tr><th>Date</th><th>Review</th><th>Verdict</th></tr></thead>
 <tbody>
-<tr><td class="date">2026-03-15</td><td><a href="20260315-221940-pr-4637.html">#4637</a> — Ensure only RAW images in cache while keeping the original image <a href="20260315-221940-pr-4637.html" class="badge-html">html</a> <a href="20260315-221940-pr-4637.md" class="badge-md">md</a></td><td><span class="verdict verdict-rework">Rework</span></td></tr>
+<tr><td class="date">2026-03-15 <span class="time">22:19</span></td><td><a href="20260315-221940-pr-4637.html">#4637 — Ensure only RAW images in cache while keeping the original image</a> <a href="20260315-221940-pr-4637.html" class="badge-html">html</a> <a href="20260315-221940-pr-4637.md" class="badge-md">md</a></td><td><span class="verdict verdict-rework">Rework</span></td></tr>
 <tr><td class="date">2026-03-13</td><td><a href="20260313-000000-shell-sync.html">Functionality review of `limactl shell --sync` (rsync-based host-guest directory synchronization)</a> <a href="20260313-000000-shell-sync.html" class="badge-html">html</a> <a href="20260313-000000-shell-sync.md" class="badge-md">md</a></td><td><span class="verdict verdict-fixes">Merge with fixes</span></td></tr>
 </tbody>
 </table>
