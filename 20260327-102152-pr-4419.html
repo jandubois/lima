@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260327-102152-pr-4419</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+  </style>
+</head>
+<body>
+  <main>
+
+<h1>Deep Review: 20260327-102152-pr-4419</h1>
+
+<table class="meta-table">
+<tr><td>Date</td><td>2026-03-27 10:21</td></tr>
+<tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+<tr><td>Round</td><td>1</td></tr>
+<tr><td>Author</td><td><a href="https://github.com/Horiodino">@Horiodino</a></td></tr>
+<tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/4419" class="gh-ref" data-title="Hostpath mount validation" data-state="open" data-type="pr">#4419</a> — Hostpath mount validation</td></tr>
+<tr><td>Branch</td><td><code>hostPath_mount_validation</code></td></tr>
+<tr><td>Commits</td><td><code><a href="https://github.com/lima-vm/lima/commit/439c057f">439c057f</a></code> added validation for hostPath</td></tr>
+<tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.6, <span class="pill pill-codex">Codex</span> GPT 5.4, <span class="pill pill-gemini">Gemini</span> 3.1 Pro</td></tr>
+<tr><td>Verdict</td><td class="verdict">Merge with fixes — nested-mount resolution bug and filepath.Dir/path mismatch need fixing before merge</td></tr>
+<tr><td>Wall-clock time</td><td>18 min 29 s</td></tr>
+</table>
+
+<hr>
+
+<h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">¶</a></h2>
+
+<div class="card card-neutral">
+<p>This PR replaces a TODO in the MCP toolset with mount validation logic: <code>TranslateHostPath</code> now verifies that a host path falls under a configured mount and translates it to the corresponding guest path. The core design (hard errors instead of warnings, <code>filepath.Rel</code> for prefix matching) is sound. The main issues are a first-match-wins bug with nested mounts, a <code>filepath.Dir</code> call on a POSIX guest path that breaks on Windows, and guest paths leaking from <code>Glob</code>/<code>SearchFileContent</code> results that cannot be fed back to other tools.</p>
+</div>
+
+<hr>
+
+<h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">¶</a></h2>
+
+<div class="card card-critical">
+<p>None.</p>
+</div>
+
+<hr>
+
+<h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">¶</a></h2>
+
+<div class="card card-important">
+<div class="finding-title" id="important-1">
+  <span class="finding-num">1.</span> Nested mounts resolve to wrong guest path (important, regression) <span class="pill pill-codex">Codex</span>
+  <a href="#important-1" class="pilcrow">¶</a>
+</div>
+
+<p>The loop at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/toolset.go#L124-L136">line 124</a> returns the first matching mount, not the most specific one. Lima supports nested mounts (e.g., <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/cidata/template_test.go#L114-L115"><code>pkg/cidata/template_test.go:114-115</code></a> has both <code>/Users/dummy</code> and <code>/Users/dummy/lima</code>). With mounts ordered as <code>["/Users/dummy" → "/Users/dummy", "/Users/dummy/lima" → "/mnt/lima"]</code>, a host path <code>/Users/dummy/lima/file.txt</code> matches the parent mount first and translates to <code>/Users/dummy/lima/file.txt</code> instead of the correct <code>/mnt/lima/file.txt</code>. All MCP tool functions call <code>TranslateHostPath</code>, so every operation can target the wrong directory. The unit tests at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/toolset_test.go#L95-L108"><code>toolset_test.go:95-108</code></a> only cover disjoint mounts.</p>
+
+<div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/toolset.go#L122-L140">pkg/mcp/toolset/toolset.go</a></div>
+<pre data-start="122" data-line="124,127,128,131,132,134,135"><code class="language-go">func (ts *ToolSet) translateToGuestPath(hostPath string) (string, bool) {
+	cleanPath := filepath.Clean(hostPath)
+	for _, mount := range ts.inst.Config.Mounts {
+		location := filepath.Clean(mount.Location)
+
+		if cleanPath == location {
+			return *mount.MountPoint, true
+		}
+
+		rel, err := filepath.Rel(location, cleanPath)
+		if err == nil &amp;&amp; !strings.HasPrefix(rel, "..") {
+			rel = filepath.ToSlash(rel)
+			guestPath := path.Join(*mount.MountPoint, rel)
+			return guestPath, true
+		}
+	}
+
+	return hostPath, false
+}</code></pre>
+
+<p class="fix-label">Fix: Scan all mounts and select the longest matching <code>mount.Location</code>. Add a test with overlapping mounts in both parent-first and child-first order.</p>
+
+<pre><code class="language-diff"> func (ts *ToolSet) translateToGuestPath(hostPath string) (string, bool) {
+ 	cleanPath := filepath.Clean(hostPath)
++	bestGuestPath := ""
++	bestLen := -1
+ 	for _, mount := range ts.inst.Config.Mounts {
+ 		location := filepath.Clean(mount.Location)
+-
+-		if cleanPath == location {
+-			return *mount.MountPoint, true
+-		}
+-
+ 		rel, err := filepath.Rel(location, cleanPath)
+-		if err == nil &amp;&amp; !strings.HasPrefix(rel, "..") {
+-			rel = filepath.ToSlash(rel)
+-			guestPath := path.Join(*mount.MountPoint, rel)
+-			return guestPath, true
++		if err == nil &amp;&amp; !strings.HasPrefix(rel, ".."+string(filepath.Separator)) &amp;&amp; rel != ".." {
++			candidate := *mount.MountPoint
++			if rel != "." {
++				candidate = path.Join(candidate, filepath.ToSlash(rel))
++			}
++			if len(location) > bestLen {
++				bestGuestPath, bestLen = candidate, len(location)
++			}
+ 		}
+ 	}
+-
+-	return hostPath, false
++	return bestGuestPath, bestLen >= 0
+ }</code></pre>
+</div>
+
+<div class="card card-important">
+<div class="finding-title" id="important-2">
+  <span class="finding-num">2.</span> <code>filepath.Dir</code> on guest path breaks on Windows (important, gap) <span class="pill pill-claude">Claude</span>
+  <a href="#important-2" class="pilcrow">¶</a>
+</div>
+
+<p><code>guestPath</code> is now always a POSIX path (e.g., <code>/mnt/home-user/foo/bar.txt</code>) because <code>translateToGuestPath</code> at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/toolset.go#L134">line 134</a> constructs it with <code>path.Join</code>. On Windows, <code>filepath.Dir</code> converts forward slashes to backslashes, producing <code>\mnt\home-user\foo</code>, which SFTP would send to the Linux guest as an invalid path. The <code>"path"</code> package is already imported at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/filesystem.go#L11">line 11</a>.</p>
+
+<div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/filesystem.go#L91-L99">pkg/mcp/toolset/filesystem.go</a></div>
+<pre data-start="91" data-line="95,96"><code class="language-go">	guestPath, err := ts.TranslateHostPath(args.Path)
+	if err != nil {
+		return nil, nil, err
+	}
+	dir := filepath.Dir(guestPath)
+	err = ts.sftp.MkdirAll(dir)
+	if err != nil {
+		return nil, nil, err
+	}</code></pre>
+
+<p class="fix-label">Fix:</p>
+
+<pre><code class="language-diff">-	dir := filepath.Dir(guestPath)
++	dir := path.Dir(guestPath)</code></pre>
+</div>
+
+<div class="card card-important">
+<div class="finding-title" id="important-3">
+  <span class="finding-num">3.</span> <code>HasPrefix(rel, "..")</code> falsely rejects paths named <code>..something</code> (important, regression) <span class="pill pill-gemini">Gemini</span>
+  <a href="#important-3" class="pilcrow">¶</a>
+</div>
+
+<p>If a directory under a mount is named <code>..ssh</code> (technically valid on Unix), <code>filepath.Rel</code> returns <code>"..ssh"</code> and <code>strings.HasPrefix("..ssh", "..")</code> is <code>true</code>, incorrectly rejecting a valid mounted path at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/toolset.go#L132">line 132</a>. The practical likelihood is very low — such directory names are rare — but the fix is simple. <code>filepath.IsLocal</code> (Go 1.20+) correctly handles this and also returns <code>true</code> for <code>"."</code> (exact mount match), removing the need for the separate <code>cleanPath == location</code> check at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/toolset.go#L127-L129">lines 127-129</a>.</p>
+
+<div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/toolset.go#L127-L136">pkg/mcp/toolset/toolset.go</a></div>
+<pre data-start="127" data-line="127,128,129,131,132"><code class="language-go">		if cleanPath == location {
+			return *mount.MountPoint, true
+		}
+
+		rel, err := filepath.Rel(location, cleanPath)
+		if err == nil &amp;&amp; !strings.HasPrefix(rel, "..") {
+			rel = filepath.ToSlash(rel)
+			guestPath := path.Join(*mount.MountPoint, rel)
+			return guestPath, true
+		}</code></pre>
+
+<p class="fix-label">Fix: Use <code>filepath.IsLocal</code> which composes well with Finding 1's longest-match approach.</p>
+
+<pre><code class="language-diff">-		if cleanPath == location {
+-			return *mount.MountPoint, true
+-		}
+-
+ 		rel, err := filepath.Rel(location, cleanPath)
+-		if err == nil &amp;&amp; !strings.HasPrefix(rel, "..") {
++		if err == nil &amp;&amp; filepath.IsLocal(rel) {</code></pre>
+</div>
+
+<div class="card card-important">
+<div class="finding-title" id="important-4">
+  <span class="finding-num">4.</span> Glob and SearchFileContent return guest paths that fail re-entry (important, gap) <span class="pill pill-gemini">Gemini</span>
+  <a href="#important-4" class="pilcrow">¶</a>
+</div>
+
+<p><code>Glob</code> calls <code>ts.sftp.Glob(pattern)</code> at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/filesystem.go#L137-L138">line 138</a> and returns absolute guest paths in the result.</p>
+
+<div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/filesystem.go#L133-L144">pkg/mcp/toolset/filesystem.go</a></div>
+<pre data-start="133" data-line="137,138"><code class="language-go">	guestPath, err := ts.TranslateHostPath(pathStr)
+	if err != nil {
+		return nil, nil, err
+	}
+	pattern := path.Join(guestPath, args.Pattern)
+	matches, err := ts.sftp.Glob(pattern)
+	if matches == nil {
+		matches = []string{}
+	}
+	if err != nil {
+		return nil, nil, err
+	}</code></pre>
+
+<p><code>SearchFileContent</code> runs <code>git grep ... &lt;guestPath&gt;</code> at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/filesystem.go#L174-L178">line 178</a>, which prefixes output lines with guest paths.</p>
+
+<div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/filesystem.go#L170-L180">pkg/mcp/toolset/filesystem.go</a></div>
+<pre data-start="170" data-line="174,175,178"><code class="language-go">	guestPath, err := ts.TranslateHostPath(pathStr)
+	if err != nil {
+		return nil, nil, err
+	}
+	if args.Include != nil &amp;&amp; *args.Include != "" {
+		guestPath = path.Join(guestPath, *args.Include)
+	}
+	cmdToolRes, cmdRes, err := ts.RunShellCommand(ctx, req, msi.RunShellCommandParams{
+		Command:   []string{"git", "grep", "-n", "--no-index", args.Pattern, guestPath},
+		Directory: pathStr, // Directory must be always set
+	})</code></pre>
+
+<p>When the AI reads these results and passes them to <code>ReadFile</code> or <code>WriteFile</code>, <code>TranslateHostPath</code> rejects them because they are guest paths, not host paths. This works today only because the default mount maps <code>$HOME</code> → <code>$HOME</code> (same path), but breaks with any asymmetric mount. This is pre-existing design — before this PR, there was no translation at all — but the PR makes it more consequential by introducing strict validation. The fix is outside the scope of this PR, but worth tracking.</p>
+</div>
+
+<hr>
+
+<h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">¶</a></h2>
+
+<div class="card card-suggestion">
+<div class="finding-title" id="suggestion-1">
+  <span class="finding-num">1.</span> Vestigial <code>callToolRes</code> variable extraction (suggestion, regression) <span class="pill pill-claude">Claude</span>
+  <a href="#suggestion-1" class="pilcrow">¶</a>
+</div>
+
+<p>All six tool functions extract a <code>callToolRes</code> local variable that was preparation for setting <code>callToolRes.Meta</code> (the abandoned Meta-warning approach from earlier review rounds). The variable is created and immediately returned without modification, adding indirection for no purpose.</p>
+
+<div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/filesystem.go#L44-L48">pkg/mcp/toolset/filesystem.go</a></div>
+<pre data-start="44" data-line="44,45,46,48"><code class="language-go">	callToolRes := &amp;mcp.CallToolResult{
+		StructuredContent: res,
+	}
+
+	return callToolRes, res, nil</code></pre>
+
+<p class="fix-label">Fix: Revert to an inline return or leave as-is if future Meta usage is planned.</p>
+</div>
+
+<div class="card card-suggestion">
+<div class="finding-title" id="suggestion-2">
+  <span class="finding-num">2.</span> Missing cleanup in <code>read_file</code> BATS test (suggestion, regression) <span class="pill pill-claude">Claude</span>
+  <a href="#suggestion-2" class="pilcrow">¶</a>
+</div>
+
+<p>The test creates <code>$HOME/mcp-read.test</code> at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/hack/bats/tests/mcp.bats#L187">line 187</a> but never removes it. Other write tests clean up properly (e.g., <code>rm -f "$HOME/mcp.test"</code> at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/hack/bats/tests/mcp.bats#L241">line 241</a>, <code>rm -rf "$HOME/tmp_mcp_test"</code> at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/hack/bats/tests/mcp.bats#L256">line 256</a>).</p>
+
+<div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/hack/bats/tests/mcp.bats#L186-L199">hack/bats/tests/mcp.bats</a></div>
+<pre data-start="186" data-line="187"><code class="language-bash">@test 'read_file reads a file' {
+    echo "test content" &gt; "$HOME/mcp-read.test"
+    expected="test content"
+
+    tools_call read_file '{"path":"'"$HOME/mcp-read.test"'"}'
+    json=$output
+
+    run_yq '.content[0].text' &lt;&lt;&lt;"$json"
+    run_yq '.content' &lt;&lt;&lt;"$output"
+    assert_output "$expected"
+
+    run_yq '.structuredContent.content' &lt;&lt;&lt;"$json"
+    assert_output "$expected"
+}</code></pre>
+
+<p class="fix-label">Fix: Add <code>rm -f "$HOME/mcp-read.test"</code> at the end of the test block.</p>
+</div>
+
+<div class="card card-suggestion">
+<div class="finding-title" id="suggestion-3">
+  <span class="finding-num">3.</span> <code>translateToGuestPath</code> returns <code>hostPath</code> on false (suggestion, regression) <span class="pill pill-claude">Claude</span>
+  <a href="#suggestion-3" class="pilcrow">¶</a>
+</div>
+
+<p>When no mount matches, the function returns the original <code>hostPath</code> as the first value alongside <code>false</code> at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/toolset.go#L139">line 139</a>. The caller at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/toolset.go#L115-L118">lines 115-118</a> discards this value on error. Returning <code>""</code> makes the contract clearer.</p>
+
+<p class="fix-label">Fix:</p>
+
+<pre><code class="language-diff">-	return hostPath, false
++	return "", false</code></pre>
+</div>
+
+<div class="card card-suggestion">
+<div class="finding-title" id="suggestion-4">
+  <span class="finding-num">4.</span> Nil MountPoint guard (suggestion, gap) <span class="pill pill-gemini">Gemini</span>
+  <a href="#suggestion-4" class="pilcrow">¶</a>
+</div>
+
+<p><code>MountPoint</code> is <code>*string</code> and is dereferenced without a nil check at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/toolset.go#L128">line 128</a> and <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/toolset.go#L134">line 134</a>. Lima's defaults processing (<code>limayaml.FillDefault</code>) ensures <code>MountPoint</code> is always populated, but a <code>continue</code> guard would prevent panics from programmatic callers that bypass defaults.</p>
+
+<p class="fix-label">Fix: Add inside the loop:</p>
+
+<pre><code class="language-go">		if mount.MountPoint == nil {
+			continue
+		}</code></pre>
+</div>
+
+<hr>
+
+<h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">¶</a></h2>
+
+<div class="card card-design">
+<h3 id="design-concerns">Concerns <a href="#design-concerns" class="pilcrow">¶</a></h3>
+
+<ul>
+<li><strong>Glob/SearchFileContent path round-tripping</strong> (in-scope) — Finding 4 describes a design gap where tool outputs contain guest paths that cannot be fed back as inputs. A proper fix requires translating guest paths back to host paths before returning results, or making all tools accept both host and guest paths. Worth addressing in a follow-up PR. <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span></li>
+<li><strong>Glob/SearchFileContent CWD dependency</strong> (future) — Both <code>Glob</code> (<a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/filesystem.go#L126">filesystem.go:126</a>) and <code>SearchFileContent</code> (<a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/filesystem.go#L163">filesystem.go:163</a>) fall back to <code>os.Getwd()</code> when no explicit path is provided. With mount validation active, the MCP server's working directory must be under a configured mount. <span class="pill pill-claude">Claude</span></li>
+<li><strong>Case-insensitive file systems</strong> (future) — <code>translateToGuestPath</code> uses exact string matching. On macOS (case-insensitive by default), <code>/Users/Jan</code> and <code>/users/jan</code> are the same directory, but the mount check would reject the non-matching case. <span class="pill pill-gemini">Gemini</span></li>
+</ul>
+
+<h3 id="design-strengths">Strengths <a href="#design-strengths" class="pilcrow">¶</a></h3>
+
+<ul>
+<li>Correct separation of <code>filepath</code> for host-side operations and <code>path</code> for guest-side in <code>translateToGuestPath</code> (<a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/toolset.go#L123-L134">lines 123-134</a>), with <code>filepath.ToSlash</code> bridging the two. <span class="pill pill-claude">Claude</span></li>
+<li>The <code>filepath.Rel</code> approach correctly handles the <code>/home/user2</code> vs. <code>/home/user</code> edge case without string manipulation, validated by the unit test at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/toolset_test.go#L80-L92">lines 80-92</a>. <span class="pill pill-claude">Claude</span></li>
+<li>Converting from soft warnings to hard errors is the right safety boundary for MCP tools. <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span></li>
+</ul>
+</div>
+
+<hr>
+
+<h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">¶</a></h2>
+
+<div class="card card-neutral">
+<p>The unit tests cover core translation logic well. Missing scenarios ranked by risk:</p>
+<ol>
+<li><strong>Nested/overlapping mounts</strong> — No test with mounts like <code>/Users/dummy</code> and <code>/Users/dummy/lima</code> in both orderings. Highest-risk gap given Finding 1.</li>
+<li><strong>No mounts configured</strong> — <code>Config.Mounts</code> is empty. The code handles this correctly, but no test verifies it.</li>
+<li><strong>Mount with nil <code>MountPoint</code></strong> — Would panic at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/toolset.go#L128">line 128</a>/<a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/toolset.go#L134">134</a>. No test documents this implicit contract.</li>
+<li><strong>Path with trailing slash</strong> — <code>filepath.Clean</code> strips trailing slashes, so it should work, but untested.</li>
+<li><strong>BATS test for rejected unmounted path</strong> — No integration test verifies that requesting a path outside all mounts returns an error through the MCP protocol.</li>
+</ol>
+</div>
+
+<hr>
+
+<h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">¶</a></h2>
+
+<div class="card card-neutral">
+<p>No documentation gaps. The change is internal to the MCP toolset and does not affect user-facing documentation.</p>
+</div>
+
+<hr>
+
+<h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">¶</a></h2>
+
+<div class="card card-neutral">
+<p>The PR is a single squashed commit (<code><a href="https://github.com/lima-vm/lima/commit/439c057f">439c057f</a></code>), which is clean. The commit message "added validation for hostPath" is accurate but could state the scope and motivation more precisely — e.g., "Validate hostPath against configured mounts in MCP toolset."</p>
+</div>
+
+<hr>
+
+<h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">¶</a></h2>
+
+<div class="card card-neutral">
+<ol>
+<li><strong>@AkihiroSuda — fallback vs. hard error</strong> (<a href="https://github.com/lima-vm/lima/pull/4419#discussion_r2576648442">comment</a>, 2025-12-01) — Suggested falling back to the guest path with a metadata annotation instead of a hard error. The PR took the opposite approach (hard error), which @jandubois and @Horiodino subsequently endorsed. @AkihiroSuda has not explicitly confirmed agreement.</li>
+<li><strong>@AkihiroSuda — Windows test failures</strong> (<a href="https://github.com/lima-vm/lima/pull/4419#discussion_r2591474775">comment</a>, 2025-12-05) — Noted tests failing on Windows. The <code>filepath.Dir</code> issue (Finding 2) suggests they may still not pass on Windows.</li>
+<li><strong>@jandubois — nil Meta map panic</strong> (<a href="https://github.com/lima-vm/lima/pull/4419#discussion_r2825737746">comment</a>, 2026-02-19) — Pointed out that <code>Meta</code> is never initialized so assigning to it should panic. The Meta-warning approach was abandoned, but vestigial <code>callToolRes</code> extraction remains (Suggestion 1).</li>
+<li><strong>@jandubois — cleanPath moved outside loop</strong> (<a href="https://github.com/lima-vm/lima/pull/4419#discussion_r2825990704">comment</a>, 2026-02-19) — Suggested moving <code>filepath.Clean(hostPath)</code> outside the loop. This was addressed — <code>cleanPath</code> at <a href="https://github.com/lima-vm/lima/blob/439c057f5748d4a106f92f2aa7f48191498da0df/pkg/mcp/toolset/toolset.go#L123">line 123</a> is outside the loop.</li>
+</ol>
+</div>
+
+<hr>
+
+<h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">¶</a></h2>
+
+<div class="card card-neutral">
+<h3 id="retro-claude"><span class="pill pill-claude">Claude</span> Opus 4.6 <a href="#retro-claude" class="pilcrow">¶</a></h3>
+
+<ul>
+<li><strong>Unique contributions:</strong> Found <code>filepath.Dir</code> vs. <code>path.Dir</code> mismatch on guest paths (Finding 2). Identified vestigial <code>callToolRes</code> variable, missing BATS cleanup, and misleading return value on false. Noted CWD dependency in Glob/SearchFileContent.</li>
+<li><strong>Accuracy:</strong> All findings verified as correct. No false positives.</li>
+<li><strong>Depth:</strong> Traced <code>WriteFile</code>'s use of <code>filepath.Dir</code> on translated guest paths — a subtle cross-function interaction. Good coverage of BATS test gaps.</li>
+<li><strong>Coverage:</strong> All 6 files reviewed. No coverage misses.</li>
+<li><strong>Signal-to-noise:</strong> High signal. 1 important finding, 3 actionable suggestions, 2 design observations.</li>
+</ul>
+
+<h3 id="retro-codex"><span class="pill pill-codex">Codex</span> GPT 5.4 <a href="#retro-codex" class="pilcrow">¶</a></h3>
+
+<ul>
+<li><strong>Unique contributions:</strong> Found the nested-mount resolution bug (Finding 1) — the highest-impact finding in this review. Ran <code>go test ./pkg/mcp/toolset/...</code> to verify existing tests pass.</li>
+<li><strong>Accuracy:</strong> The nested-mount finding is correct and well-evidenced with references to <code>pkg/cidata/template_test.go</code> showing nested mounts are a real pattern. No false positives.</li>
+<li><strong>Depth:</strong> Traced into <code>pkg/hostagent/mount.go</code> and <code>pkg/cidata/template_test.go</code> to verify nested mounts exist in the codebase. Good use of git blame and grep.</li>
+<li><strong>Coverage:</strong> All 6 files reviewed. Coverage summary maps every file to Finding 1, which slightly overstates the finding's scope.</li>
+<li><strong>Signal-to-noise:</strong> Excellent — one finding, zero noise, maximum impact.</li>
+</ul>
+
+<h3 id="retro-gemini"><span class="pill pill-gemini">Gemini</span> 3.1 Pro <a href="#retro-gemini" class="pilcrow">¶</a></h3>
+
+<ul>
+<li><strong>Unique contributions:</strong> Found the <code>HasPrefix("..")</code> edge case with <code>..ssh</code>-style names (Finding 3) and suggested <code>filepath.IsLocal</code> as a cleaner alternative. Identified the guest-path round-trip issue in Glob/SearchFileContent (Finding 4). Raised case-insensitive filesystem concern.</li>
+<li><strong>Accuracy:</strong> Mostly correct. Severity inflation: rated the <code>..ssh</code> edge case as CRITICAL (downgraded to IMPORTANT) and rated the Glob guest-path issue as CRITICAL regression (downgraded to IMPORTANT gap — pre-existing design). The nil-MountPoint concern is valid but Lima's defaults guarantee population.</li>
+<li><strong>Depth:</strong> Good use of <code>filepath.IsLocal</code> suggestion — a cleaner API than the manual <code>HasPrefix</code> check. Did not trace into hostagent/mount.go or cidata to verify nested-mount patterns.</li>
+<li><strong>Coverage:</strong> All 6 files reviewed. Did not flag the BATS cleanup or vestigial variable issues.</li>
+<li><strong>Signal-to-noise:</strong> Moderate. 3 real findings but 2 had inflated severities.</li>
+</ul>
+
+<h3 id="retro-summary">Summary <a href="#retro-summary" class="pilcrow">¶</a></h3>
+
+<table class="retro-table">
+<tr>
+  <th>Metric</th>
+  <th><span class="pill pill-claude">Claude</span> Opus 4.6</th>
+  <th><span class="pill pill-codex">Codex</span> GPT 5.4</th>
+  <th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th>
+</tr>
+<tr><td>Duration</td><td>7:11</td><td>3:14</td><td>9:00</td></tr>
+<tr><td>Critical</td><td>0</td><td>0</td><td>2 (both downgraded)</td></tr>
+<tr><td>Important</td><td>1</td><td>1</td><td>1 (after adjustment)</td></tr>
+<tr><td>Suggestion</td><td>3</td><td>0</td><td>1</td></tr>
+<tr><td>Design observations</td><td>2</td><td>1</td><td>1</td></tr>
+<tr><td>False positives</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>Unique insights</td><td>4</td><td>1</td><td>3</td></tr>
+<tr><td>Files reviewed</td><td>6</td><td>6</td><td>6</td></tr>
+<tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td></tr>
+</table>
+
+<p>Codex delivered the single highest-impact finding (nested mounts) in the shortest time. Claude provided the broadest coverage with the most actionable suggestions and the best cross-function tracing. Gemini contributed the most elegant fix (<code>filepath.IsLocal</code>) and identified the guest-path round-trip issue, though severity calibration was off. All three agents added unique value — none was redundant.</p>
+</div>
+
+  </main>
+
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+  </script>
+</body>
+</html>
