@@ -556,6 +556,9 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
 }</code></pre>
 
 <p>New exported function lacks a Godoc comment.</p>
+<p>Fix:</p>
+<pre><code class="language-diff">+// DetectFormat return the disk image format (e.g., "qcow2", "raw") of the file at path.
+ func DetectFormat(path string) (string, error) {</code></pre>
 </div>
 
 <!-- Finding S7 -->
@@ -575,6 +578,11 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
 }</code></pre>
 
 <p>New exported function lacks a Godoc comment explaining its interaction with the cache.</p>
+<p>Fix:</p>
+<pre><code class="language-diff">+// WithImageFormats set the disk image formats supported by the driver. When
++// set, the downloader converts cached images to a supported format (raw) if
++// needed, storing the result in an imgconv/ subdirectory alongside the original.
+ func WithImageFormats(supportedImageFormats []string) Opt {</code></pre>
 </div>
 
 <hr>
@@ -717,18 +725,14 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
 </thead>
 <tbody>
 <tr><td>Duration (pass 1)</td><td>14:25</td><td>5:12</td><td>6:21</td></tr>
+<tr><td>Findings (pass 1)</td><td>0C 3I 4S</td><td>1C 1I 1S</td><td>2C 1I 1S</td></tr>
 <tr><td>Duration (pass 2)</td><td>9:59</td><td>3:17</td><td>6:29</td></tr>
-<tr><td>Critical</td><td>0</td><td>1</td><td>2</td></tr>
-<tr><td>Important</td><td>3</td><td>1</td><td>1</td></tr>
-<tr><td>Suggestion</td><td>4</td><td>1</td><td>1</td></tr>
+<tr><td>Findings (pass 2)</td><td>1C 0I 1S + 1 dup</td><td>0C 1I 0S</td><td>1C 1I 0S</td></tr>
 <tr><td>Design observations</td><td>2</td><td>2</td><td>1</td></tr>
 <tr><td>False positives</td><td>0</td><td>0</td><td>0</td></tr>
 <tr><td>Unique insights</td><td>2 (os.Stat panic, dead code)</td><td>1 (QEMU format list)</td><td>2 (cache invalidation, ValidatedDigest)</td></tr>
 <tr><td>Files reviewed</td><td>14</td><td>14</td><td>14</td></tr>
 <tr><td>Coverage misses (pass 1)</td><td>1 (disk.go)</td><td>0</td><td>1 (disk.go)</td></tr>
-<tr><td>Follow-up passes</td><td>1</td><td>1</td><td>1</td></tr>
-<tr><td>Follow-up findings (new)</td><td>2</td><td>1</td><td>2</td></tr>
-<tr><td>Dropped after pass</td><td>2</td><td>2</td><td>2</td></tr>
 </tbody>
 </table>
 
