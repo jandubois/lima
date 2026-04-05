@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep Review: PR #4799 — fix(shell): check if mounts contain hostCurrentDir</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+</style>
+<script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-diff.min.js"></script>
+</head>
+<body>
+<main>
+
+<h1 id="title">Deep Review: 20260405-002704-pr-4799 <a class="pilcrow" href="#title">&para;</a></h1>
+
+<table class="meta-table">
+<tr><td>Date</td><td>2026-04-05 00:27</td></tr>
+<tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+<tr><td>Round</td><td>1</td></tr>
+<tr><td>Author</td><td>@opjt</td></tr>
+<tr><td>PR</td><td><a class="gh-ref" href="https://github.com/lima-vm/lima/pull/4799" data-title="fix(shell): check if mounts contain hostCurrentDir, not just len > 0" data-state="open" data-type="pr">#4799</a> &mdash; fix(shell): check if mounts contain hostCurrentDir, not just len &gt; 0</td></tr>
+<tr><td>Branch</td><td><code>fix/shell-mounts-contain-path</code></td></tr>
+<tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/67725aca643a0b8fdef0c1242de888f273289b08"><code>67725aca</code></a> fix(shell): check if mounts contain hostCurrentDir, not just len &gt; 0<br><a href="https://github.com/lima-vm/lima/commit/6a1642c1"><code>6a1642c1</code></a> test(localpathutil): add tests for Expand</td></tr>
+<tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.6, <span class="pill pill-codex">Codex</span> GPT 5.4, <span class="pill pill-gemini">Gemini</span> 3.1 Pro</td></tr>
+<tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; the core logic is sound, but the home directory fallback is lost and symlinks are not resolved</td></tr>
+<tr><td>Wall-clock time</td><td><code>13 min 56 s</code></td></tr>
+</table>
+
+<hr>
+
+<!-- Executive Summary -->
+<h2 id="executive-summary">Executive Summary <a class="pilcrow" href="#executive-summary">&para;</a></h2>
+
+<div class="card card-neutral">
+<p>This PR replaces a broad <code>len(inst.Config.Mounts) &gt; 0</code> check in <code>limactl shell</code> with a precise <code>mountsContainPath</code> function that verifies the host working directory falls under a configured mount before generating a <code>cd</code> command in the guest. The fix eliminates spurious "No such file or directory" errors when only unrelated directories are mounted. Two issues require attention before merge: the home directory fallback is lost when the current working directory is outside mounts but home is mounted (a regression), and the path comparison omits symlink resolution (a gap the codebase's own patterns indicate is required).</p>
+</div>
+
+<hr>
+
+<!-- Findings -->
+<h2 id="findings">Findings <a class="pilcrow" href="#findings">&para;</a></h2>
+
+<h3 id="critical-issues" class="section-critical">Critical Issues <a class="pilcrow" href="#critical-issues">&para;</a></h3>
+<p>None.</p>
+
+<h3 id="important-issues" class="section-important">Important Issues <a class="pilcrow" href="#important-issues">&para;</a></h3>
+
+<!-- Finding 1 -->
+<div class="card card-important" id="important-1">
+<div class="finding-title"><span class="finding-num">1.</span> Home directory fallback lost when CWD is outside mounts &mdash; <a href="https://github.com/lima-vm/lima/blob/67725aca643a0b8fdef0c1242de888f273289b08/cmd/limactl/shell.go#L248-L262">cmd/limactl/shell.go:248-262</a> <span class="pill pill-claude">Claude</span> (important, regression) <a class="pilcrow" href="#important-1">&para;</a></div>
+
+<div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/67725aca643a0b8fdef0c1242de888f273289b08/cmd/limactl/shell.go#L245-L263">cmd/limactl/shell.go:245-263</a></div>
+<pre class="language-go" data-start="245" data-line="248,261,262"><code>	}
+	switch {
+	case workDir != "":
+		changeDirCmd = fmt.Sprintf("cd %s || exit 1", shellescape.Quote(workDir))
+	case mountsContainPath(inst.Config.Mounts, hostCurrentDir) || inst.VMType == limatype.WSL2:
+		changeDirCmd = fmt.Sprintf("cd %s", shellescape.Quote(hostCurrentDir))
+		hostHomeDir, err := os.UserHomeDir()
+		if err == nil &amp;&amp; runtime.GOOS == "windows" {
+			hostHomeDir, err = mountDirFromWindowsDir(ctx, inst, hostHomeDir)
+		}
+		if err == nil {
+			changeDirCmd = fmt.Sprintf("%s || cd %s", changeDirCmd, shellescape.Quote(hostHomeDir))
+		} else {
+			logrus.WithError(err).Warn("failed to get the home directory")
+		}
+	case syncHostWorkdir:
+		changeDirCmd = fmt.Sprintf("cd %s", shellescape.Quote(destRsyncDir))
+	default:
+		logrus.Debug("the host home does not seem mounted, so the guest shell will have a different cwd")
+	}</code></pre>
+
+<p>With the default Lima configuration, <code>~</code> is mounted. When the user's CWD falls outside any mount (e.g., <code>/opt/project</code>), the old code generated <code>cd /opt/project || cd /Users/user</code> &mdash; the first <code>cd</code> failed, but the fallback to home succeeded. The new code skips this branch entirely and falls through to the <code>default</code> case at line 261, which produces no <code>cd</code> at all. The user lands in the guest's default directory with only a debug-level log.</p>
+
+<p>This is the more common scenario than the one the PR fixes: most users have <code>~</code> mounted (the default) and may occasionally work outside <code>~</code>.</p>
+
+<p><span class="fix-label">Fix:</span> Add a fallback in the <code>default</code> branch that checks whether the home directory is mounted:</p>
+
+<pre class="language-diff"><code> default:
+-    logrus.Debug("the host home does not seem mounted, so the guest shell will have a different cwd")
++    hostHomeDir, err := os.UserHomeDir()
++    if err == nil &amp;&amp; runtime.GOOS == "windows" {
++        hostHomeDir, err = mountDirFromWindowsDir(ctx, inst, hostHomeDir)
++    }
++    if err == nil &amp;&amp; mountsContainPath(inst.Config.Mounts, hostHomeDir) {
++        changeDirCmd = fmt.Sprintf("cd %s", shellescape.Quote(hostHomeDir))
++    } else {
++        logrus.Debug("the host home does not seem mounted, so the guest shell will have a different cwd")
++    }</code></pre>
+</div>
+
+<!-- Finding 2 -->
+<div class="card card-important" id="important-2">
+<div class="finding-title"><span class="finding-num">2.</span> Missing symlink resolution causes false negatives &mdash; <a href="https://github.com/lima-vm/lima/blob/67725aca643a0b8fdef0c1242de888f273289b08/cmd/limactl/shell.go#L632-L643">cmd/limactl/shell.go:632-643</a> <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span> (important, gap) <a class="pilcrow" href="#important-2">&para;</a></div>
+
+<div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/67725aca643a0b8fdef0c1242de888f273289b08/cmd/limactl/shell.go#L632-L643">cmd/limactl/shell.go:632-643</a></div>
+<pre class="language-go" data-start="632" data-line="634,638"><code>func mountsContainPath(mounts []limatype.Mount, path string) bool {
+	for _, m := range mounts {
+		loc, err := localpathutil.Expand(m.Location)
+		if err != nil {
+			continue
+		}
+		if path == loc || strings.HasPrefix(path, loc+string(os.PathSeparator)) {
+			return true
+		}
+	}
+	return false
+}</code></pre>
+
+<p>Neither <code>path</code> (from <code>os.Getwd()</code> at line 660) nor <code>loc</code> (from <code>localpathutil.Expand</code>, which calls <code>filepath.Abs</code> &mdash; no symlink resolution) are symlink-resolved. On macOS, <code>/tmp</code> is a symlink to <code>/private/tmp</code>. When <code>os.Getwd()</code> returns the resolved path <code>/private/tmp/...</code> but the mount location remains <code>/tmp/lima</code>, the prefix check at line 638 fails.</p>
+
+<p>The codebase has an established pattern: <a href="https://github.com/lima-vm/lima/blob/67725aca643a0b8fdef0c1242de888f273289b08/pkg/hostagent/inotify.go#L75">pkg/hostagent/inotify.go:75</a> calls <code>filepath.EvalSymlinks(m.Location)</code> before comparing mount locations against host paths.</p>
+
+<p><span class="fix-label">Fix:</span> Resolve symlinks on both sides:</p>
+
+<pre class="language-diff"><code> func mountsContainPath(mounts []limatype.Mount, path string) bool {
++    if resolved, err := filepath.EvalSymlinks(path); err == nil {
++        path = resolved
++    }
+     for _, m := range mounts {
+         loc, err := localpathutil.Expand(m.Location)
+         if err != nil {
+             continue
+         }
++        if resolved, err := filepath.EvalSymlinks(loc); err == nil {
++            loc = resolved
++        }
+         if path == loc || strings.HasPrefix(path, loc+string(os.PathSeparator)) {
+             return true
+         }</code></pre>
+</div>
+
+<!-- Finding 3 -->
+<div class="card card-important" id="important-3">
+<div class="finding-title"><span class="finding-num">3.</span> No unit tests for <code>mountsContainPath</code> &mdash; <a href="https://github.com/lima-vm/lima/blob/67725aca643a0b8fdef0c1242de888f273289b08/cmd/limactl/shell.go#L632-L643">cmd/limactl/shell.go:632-643</a> <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> (important, gap) <a class="pilcrow" href="#important-3">&para;</a></div>
+
+<p>The core logic of this PR has no test coverage. <code>mountsContainPath</code> has subtleties that warrant testing: exact directory match vs. prefix match, paths that share a prefix but diverge (e.g., <code>/tmp/lima-foo</code> vs. mount <code>/tmp/lima</code>), tilde locations, and <code>Expand</code> errors.</p>
+
+<p><span class="fix-label">Fix:</span> Add a table-driven test in <code>shell_test.go</code>:</p>
+
+<pre class="language-go"><code>func TestMountsContainPath(t *testing.T) {
+    homeDir, err := os.UserHomeDir()
+    assert.NilError(t, err)
+
+    mounts := []limatype.Mount{
+        {Location: "~"},
+        {Location: "/tmp/lima"},
+    }
+    tests := []struct {
+        name string
+        path string
+        want bool
+    }{
+        {"exact home", homeDir, true},
+        {"subdir of home", filepath.Join(homeDir, "projects", "foo"), true},
+        {"exact tmp mount", "/tmp/lima", true},
+        {"subdir of tmp mount", "/tmp/lima/work", true},
+        {"prefix but not subdir", "/tmp/lima-other", false},
+        {"unrelated path", "/opt/project", false},
+    }
+    for _, tt := range tests {
+        t.Run(tt.name, func(t *testing.T) {
+            assert.Equal(t, mountsContainPath(mounts, tt.path), tt.want)
+        })
+    }
+
+    t.Run("nil mounts", func(t *testing.T) {
+        assert.Equal(t, mountsContainPath(nil, homeDir), false)
+    })
+}</code></pre>
+</div>
+
+<!-- Finding 4 -->
+<div class="card card-important" id="important-4">
+<div class="finding-title"><span class="finding-num">4.</span> Root directory mount double separator &mdash; <a href="https://github.com/lima-vm/lima/blob/67725aca643a0b8fdef0c1242de888f273289b08/cmd/limactl/shell.go#L638">cmd/limactl/shell.go:638</a> <span class="pill pill-gemini">Gemini</span> (important, gap) <a class="pilcrow" href="#important-4">&para;</a></div>
+
+<p>When a mount location is <code>/</code> (root filesystem mount), <code>loc+string(os.PathSeparator)</code> produces <code>//</code>. The check <code>strings.HasPrefix("/foo", "//")</code> returns false, so <code>mountsContainPath</code> reports the directory as unmounted despite <code>/</code> covering everything. Mounting <code>/</code> is uncommon but valid.</p>
+
+<p><span class="fix-label">Fix:</span> The <code>filepath.EvalSymlinks</code> fix in Finding 2 already calls <code>filepath.Clean</code> internally, which strips trailing separators. If applying the fixes independently, add a <code>filepath.Clean</code> call:</p>
+
+<pre class="language-diff"><code>+        loc = filepath.Clean(loc)
+         if path == loc || strings.HasPrefix(path, loc+string(os.PathSeparator)) {</code></pre>
+</div>
+
+<!-- Finding 5 -->
+<div class="card card-important" id="important-5">
+<div class="finding-title"><span class="finding-num">5.</span> Windows non-WSL2 path format mismatch &mdash; <a href="https://github.com/lima-vm/lima/blob/67725aca643a0b8fdef0c1242de888f273289b08/cmd/limactl/shell.go#L248">cmd/limactl/shell.go:248</a> <span class="pill pill-gemini">Gemini</span> (important, regression) <a class="pilcrow" href="#important-5">&para;</a></div>
+
+<div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/67725aca643a0b8fdef0c1242de888f273289b08/cmd/limactl/shell.go#L207-L216">cmd/limactl/shell.go:207-216</a></div>
+<pre class="language-go" data-start="207" data-line="214,215"><code>	var changeDirCmd string
+	var hostCurrentDir string
+	if syncDirVal != "" {
+		hostCurrentDir, err = filepath.Abs(syncDirVal)
+		if err == nil &amp;&amp; runtime.GOOS == "windows" {
+			hostCurrentDir, err = mountDirFromWindowsDir(ctx, inst, hostCurrentDir)
+		}
+	} else {
+		hostCurrentDir, err = hostCurrentDirectory(ctx, inst)
+	}</code></pre>
+
+<div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/67725aca643a0b8fdef0c1242de888f273289b08/cmd/limactl/shell.go#L659-L665">cmd/limactl/shell.go:659-665</a></div>
+<pre class="language-go" data-start="659" data-line="660,662"><code>func hostCurrentDirectory(ctx context.Context, inst *limatype.Instance) (string, error) {
+	hostCurrentDir, err := os.Getwd()
+	if err == nil &amp;&amp; runtime.GOOS == "windows" {
+		hostCurrentDir, err = mountDirFromWindowsDir(ctx, inst, hostCurrentDir)
+	}
+	return hostCurrentDir, err
+}</code></pre>
+
+<p>On Windows, <code>hostCurrentDirectory()</code> at line 659 converts the native path to a guest-format path (e.g., <code>/c/Users/user/foo</code>) via <code>mountDirFromWindowsDir</code>. Mount locations in <code>inst.Config.Mounts</code> remain in native Windows format (e.g., <code>C:\Users\user</code>). The string comparison in <code>mountsContainPath</code> always fails.</p>
+
+<p>The <code>|| inst.VMType == limatype.WSL2</code> clause masks this for WSL2 (the primary Windows backend), but QEMU-on-Windows users would regress: the branch that previously matched via <code>len &gt; 0</code> now never matches.</p>
+
+<p><span class="fix-label">Fix:</span> Pass the native host path to <code>mountsContainPath</code>, not the guest-converted path. Capture <code>os.Getwd()</code> before conversion:</p>
+
+<pre class="language-diff"><code> var changeDirCmd string
+ var hostCurrentDir string
++var nativeHostDir string
+ if syncDirVal != "" {
+     hostCurrentDir, err = filepath.Abs(syncDirVal)
++    nativeHostDir = hostCurrentDir
+     if err == nil &amp;&amp; runtime.GOOS == "windows" {
+         hostCurrentDir, err = mountDirFromWindowsDir(ctx, inst, hostCurrentDir)
+     }
+ } else {
+-    hostCurrentDir, err = hostCurrentDirectory(ctx, inst)
++    nativeHostDir, err = os.Getwd()
++    if err == nil {
++        hostCurrentDir = nativeHostDir
++        if runtime.GOOS == "windows" {
++            hostCurrentDir, err = mountDirFromWindowsDir(ctx, inst, hostCurrentDir)
++        }
++    }
+ }
+ // ...
+-case mountsContainPath(inst.Config.Mounts, hostCurrentDir) || inst.VMType == limatype.WSL2:
++case mountsContainPath(inst.Config.Mounts, nativeHostDir) || inst.VMType == limatype.WSL2:</code></pre>
+</div>
+
+<!-- Suggestions -->
+<h3 id="suggestions" class="section-suggestion">Suggestions <a class="pilcrow" href="#suggestions">&para;</a></h3>
+
+<!-- Suggestion 1 -->
+<div class="card card-suggestion" id="suggestion-1">
+<div class="finding-title"><span class="finding-num">1.</span> Silent <code>continue</code> on Expand error reduces diagnosability &mdash; <a href="https://github.com/lima-vm/lima/blob/67725aca643a0b8fdef0c1242de888f273289b08/cmd/limactl/shell.go#L635-L637">cmd/limactl/shell.go:635-637</a> <span class="pill pill-claude">Claude</span> (suggestion, regression) <a class="pilcrow" href="#suggestion-1">&para;</a></div>
+
+<div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/67725aca643a0b8fdef0c1242de888f273289b08/cmd/limactl/shell.go#L634-L637">cmd/limactl/shell.go:634-637</a></div>
+<pre class="language-go" data-start="634" data-line="635,636,637"><code>		loc, err := localpathutil.Expand(m.Location)
+		if err != nil {
+			continue
+		}</code></pre>
+
+<p>When <code>Expand</code> fails for a mount location, the function silently skips it. A debug log would help diagnose cases where <code>mountsContainPath</code> returns false due to a misconfigured mount.</p>
+
+<p><span class="fix-label">Fix:</span></p>
+
+<pre class="language-diff"><code> loc, err := localpathutil.Expand(m.Location)
+ if err != nil {
++    logrus.WithError(err).Debugf("Failed to expand mount location %q", m.Location)
+     continue
+ }</code></pre>
+</div>
+
+<!-- Suggestion 2 -->
+<div class="card card-suggestion" id="suggestion-2">
+<div class="finding-title"><span class="finding-num">2.</span> <code>TestExpand</code> missing relative path case &mdash; <code>pkg/localpathutil/localpathutil_test.go</code> <span class="pill pill-claude">Claude</span> (suggestion, gap) <a class="pilcrow" href="#suggestion-2">&para;</a></div>
+
+<p><code>Expand()</code> handles relative paths via <code>filepath.Abs()</code> at line 42 of <code>localpathutil.go</code>, but no test exercises this path.</p>
+
+<p><span class="fix-label">Fix:</span> Add a test case for a relative input like <code>"relative/path"</code> that asserts the result equals <code>filepath.Join(cwd, "relative/path")</code>.</p>
+</div>
+
+<hr>
+
+<!-- Design Observations -->
+<h2 id="design-observations" class="section-design">Design Observations <a class="pilcrow" href="#design-observations">&para;</a></h2>
+
+<div class="card card-design">
+<h3>Concerns</h3>
+<ol>
+<li><strong>Path normalization logic is duplicated</strong> (in-scope) <span class="pill pill-codex">Codex</span> <span class="pill pill-claude">Claude</span>
+<p><a href="https://github.com/lima-vm/lima/blob/67725aca643a0b8fdef0c1242de888f273289b08/cmd/limactl/shell.go#L632-L638">cmd/limactl/shell.go:632-638</a> implements its own mount/path matching rule, while <a href="https://github.com/lima-vm/lima/blob/67725aca643a0b8fdef0c1242de888f273289b08/pkg/hostagent/inotify.go#L75-L108">pkg/hostagent/inotify.go:75-108</a> already has symlink-aware host-path translation logic. A shared helper in <code>pkg/localpathutil</code> that performs tilde expansion, absolute-path normalization, and symlink resolution would eliminate the "one caller remembered <code>EvalSymlinks</code>, another forgot" class of bugs.</p>
+</li>
+</ol>
+
+<h3>Strengths</h3>
+<ol>
+<li>The prefix check <code>strings.HasPrefix(path, loc+string(os.PathSeparator))</code> at line 638 correctly prevents false positives from paths that share a prefix but are not subdirectories (e.g., <code>/tmp/lima-other</code> vs. <code>/tmp/lima</code>). <span class="pill pill-claude">Claude</span></li>
+<li>Replacing the <code>len &gt; 0</code> heuristic with an actual containment check is the right semantic fix. It resolves the FIXME comment and addresses the user-facing problem described in the PR. <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span></li>
+</ol>
+</div>
+
+<hr>
+
+<!-- Testing Assessment -->
+<h2 id="testing-assessment">Testing Assessment <a class="pilcrow" href="#testing-assessment">&para;</a></h2>
+
+<div class="card card-neutral">
+<ol>
+<li><strong><code>mountsContainPath</code> has zero test coverage</strong> &mdash; This is the core logic of the PR. The function handles prefix matching, tilde expansion, and error handling, all of which should be tested. (Highest risk.)</li>
+<li><strong>No integration test for the behavioral change</strong> &mdash; The switch-case in <code>shellAction</code> now branches differently. The BATS tests in <code>hack/bats/tests/</code> cover shell argument parsing, not the specific scenario where the CWD falls outside mounts.</li>
+<li><strong><code>TestExpand</code> is solid</strong> &mdash; Covers the main paths (tilde, absolute, error cases) and was updated to use <code>t.TempDir()</code> to fix the Windows CI failure flagged in review.</li>
+</ol>
+</div>
+
+<hr>
+
+<!-- Documentation Assessment -->
+<h2 id="documentation-assessment">Documentation Assessment <a class="pilcrow" href="#documentation-assessment">&para;</a></h2>
+
+<div class="card card-neutral">
+<ul>
+<li><code>mountsContainPath</code> has no doc comment. As an unexported function this is low priority, but a one-line comment stating its purpose and precondition (path must be absolute) would help readers.</li>
+<li>The FIXME comment removal is correct &mdash; the fix renders it obsolete.</li>
+</ul>
+</div>
+
+<hr>
+
+<!-- Commit Structure -->
+<h2 id="commit-structure">Commit Structure <a class="pilcrow" href="#commit-structure">&para;</a></h2>
+
+<div class="card card-neutral">
+<p>The two commits are clean and self-contained. The test commit was squashed as requested by the reviewer. No issues.</p>
+</div>
+
+<hr>
+
+<!-- Agent Performance Retro -->
+<h2 id="agent-retro">Agent Performance Retro <a class="pilcrow" href="#agent-retro">&para;</a></h2>
+
+<div class="card card-neutral">
+<h3><span class="pill pill-claude">Claude</span></h3>
+<p>Claude produced the most comprehensive review with the highest signal-to-noise ratio. It identified the home directory fallback regression (Finding 1), which no other agent caught. It also flagged the missing unit tests (Finding 3), the symlink gap (Finding 2), and two targeted suggestions. All findings were well-supported with file/line references and concrete fix suggestions.</p>
+<ul>
+<li><strong>Unique contributions</strong>: Home directory fallback regression (Finding 1), Expand error logging (Suggestion 1), TestExpand relative path case (Suggestion 2)</li>
+<li><strong>Accuracy</strong>: No false positives</li>
+<li><strong>Depth</strong>: Read surrounding code and traced the switch-case flow to identify the fallback loss</li>
+<li><strong>Coverage</strong>: Both files reviewed, all findings accurate</li>
+</ul>
+
+<h3><span class="pill pill-codex">Codex</span></h3>
+<p>Codex identified the symlink resolution gap and the design concern about duplicated path normalization logic. Its review was concise and focused. It missed the home directory fallback regression and the root directory edge case.</p>
+<ul>
+<li><strong>Unique contributions</strong>: None exclusive to Codex; its findings overlapped with Claude and Gemini</li>
+<li><strong>Accuracy</strong>: No false positives</li>
+<li><strong>Depth</strong>: Traced into <code>inotify.go</code> and <code>defaults.go</code> for the symlink pattern</li>
+<li><strong>Coverage</strong>: Both files reviewed, no misses relative to what it found</li>
+</ul>
+
+<h3><span class="pill pill-gemini">Gemini</span></h3>
+<p>Gemini raised two findings no other agent caught: the root directory mount edge case (Finding 4) and the Windows non-WSL2 path format mismatch (Finding 5). However, it rated the Windows finding as CRITICAL, which overstates the practical impact &mdash; non-WSL2 Windows Lima is a niche configuration, and the <code>|| inst.VMType == limatype.WSL2</code> clause already handles the primary Windows use case. The finding was downgraded to IMPORTANT in the consolidated report.</p>
+<ul>
+<li><strong>Unique contributions</strong>: Root directory mount double separator (Finding 4), Windows path format mismatch (Finding 5)</li>
+<li><strong>Accuracy</strong>: One severity inflation (Windows finding rated CRITICAL, downgraded to IMPORTANT)</li>
+<li><strong>Depth</strong>: Traced Windows code paths through <code>hostCurrentDirectory</code> and <code>mountDirFromWindowsDir</code></li>
+<li><strong>Coverage</strong>: Both files reviewed</li>
+</ul>
+
+<p><strong>Tool call highlights</strong>: Tool call extraction returned 0 for all agents. The <code>--print</code> mode does not produce session files, so tool call data is unavailable for this review.</p>
+
+<h3>Summary</h3>
+
+<table class="retro-table">
+<thead>
+<tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.6</th><th><span class="pill pill-codex">Codex</span> GPT 5.4</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th></tr>
+</thead>
+<tbody>
+<tr><td>Duration</td><td>312s</td><td>181s</td><td>232s</td></tr>
+<tr><td>Findings</td><td>0C 3I 2S</td><td>0C 1I 0S</td><td>2C 1I 0S</td></tr>
+<tr><td>Tool calls</td><td>N/A</td><td>N/A</td><td>N/A</td></tr>
+<tr><td>Design observations</td><td>2</td><td>1</td><td>1</td></tr>
+<tr><td>False positives</td><td>0</td><td>0</td><td>1 (severity)</td></tr>
+<tr><td>Unique insights</td><td>3</td><td>0</td><td>2</td></tr>
+<tr><td>Files reviewed</td><td>2/2</td><td>2/2</td><td>2/2</td></tr>
+<tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td></tr>
+</tbody>
+</table>
+
+<p>Claude provided the most value overall. Its home directory fallback finding is the most impactful discovery &mdash; a real regression that affects default Lima users. Gemini complemented with edge-case analysis (root mounts, Windows paths). Codex confirmed the symlink finding but did not surface unique insights.</p>
+</div>
+
+<hr>
+
+<!-- Review Process Notes -->
+<h2 id="process-notes">Review Process Notes <a class="pilcrow" href="#process-notes">&para;</a></h2>
+
+<div class="card card-neutral">
+<p>No suggestions for either skill improvements or repo context updates. The existing repo context about symlink resolution in mount path matching (in <code>deep-review-context.md</code>) directly informed the agents' most consistent finding.</p>
+</div>
+
+</main>
+
+<script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+</script>
+</body>
+</html>
