@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260414-134852-pr-4831</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260414-134852-pr-4831</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-04-14 13:48</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/jandubois">@jandubois</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/4831" class="gh-ref" data-title="Fix race condition in 04-persistent-data-volume.sh" data-state="open" data-type="pr">#4831</a> — Fix race condition in 04-persistent-data-volume.sh</td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/17462f4c"><code>17462f4c</code></a> Fix race condition in 04-persistent-data-volume.sh</td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.6, <span class="pill pill-codex">Codex</span> GPT 5.4, <span class="pill pill-gemini">Gemini</span> 3.1 Pro</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge as-is</span> &mdash; Fixes a real user-impacting race with a well-targeted change; all findings are defensive improvements or pre-existing gaps.</td></tr>
+      <tr><td>Wall-clock time</td><td><code>18 min 31 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>PR <a href="https://github.com/lima-vm/lima/issues/4831" class="gh-ref" data-title="Fix race condition in 04-persistent-data-volume.sh" data-state="open" data-type="pr">#4831</a> fixes a real race condition on Alpine ramdisk VMs where <code>growpart</code> triggers a kernel partition-table re-read that races with <code>e2fsck</code>, causing udevd&#39;s libblkid probe to fail and delete the <code>/dev/disk/by-label/data-volume</code> symlink. Under unlucky timing, the symlink never exists at all, and the <code>else</code> branch misidentifies an already-populated data disk as unused and reformats it — silent data loss.</p>
+    <p>The fix has three parts: (1) resolve the data volume via <code>blkid</code> output directly, eliminating the udev-symlink dependency; (2) add <code>udevadm settle</code> after <code>growpart</code> to prevent the concurrent-probe race; and (3) replace the <code>/proc/mounts</code>-only &quot;disk in use&quot; check with an <code>lsblk</code> partition check so a partitioned-but-unmounted data disk is no longer reformatted. Any one of these fixes alone would close the reported bug; together they make the script robust across the failure modes the issue describes.</p>
+    <p>All three reviewers approve the change. No critical or important issues were identified. The suggestions below are defensive improvements against edge cases (PARTLABEL false match, multi-device corner cases, missing udev tooling) and one pre-existing gap around raw-formatted disks. Test coverage for the boot path remains absent, which is noted but is a general Lima constraint rather than a regression. Structure: 0 critical, 0 important, 7 suggestions.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> <code>udevadm settle</code> is unguarded under <code>set -e</code> <span class="pill pill-gemini">Gemini</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/17462f4cc75b79b85b86d1dc415736d5918f3398/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh#L66-L76">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh</a></div>
+      <pre data-start="66" data-line="71"><code class="language-bash">	if command -v growpart &gt;/dev/null 2&gt;&amp;1 &amp;&amp; command -v resize2fs &gt;/dev/null 2&gt;&amp;1; then
+		# Automatically expand the data volume filesystem
+		growpart &quot;$DATA_DISK&quot; 1 || true
+		# growpart triggers a partition table re-read; settle udev before
+		# touching the device to avoid racing with the re-probe.
+		udevadm settle
+		# Only resize when filesystem is in a healthy state
+		if e2fsck -f -p &quot;${DATA_VOLUME}&quot;; then
+			resize2fs &quot;${DATA_VOLUME}&quot; || true
+		fi
+	fi</code></pre>
+    <p>The script runs with <code>set -eux -o pipefail</code>. <code>udevadm settle</code> can exit non-zero in two ways: the <code>udevadm</code> binary may be absent (hypothetical on lima-alpine, which ships eudev, but possible on a user-supplied minimal image using <code>mdev</code>), or the settle may time out (default 120 s) if udevd has a stuck event. Either failure crashes the boot script with the same user-visible symptom this PR set out to fix — <code>/mnt/data</code> does not mount, tmpfs fills up. The <code>udevadm settle</code> call is defense-in-depth against the race; the <code>blkid</code> resolution already eliminates the core dependency on udev state, so making the settle tolerant of failure does not weaken the fix.</p>
+    <p>Fix: guard or silence the call on both lines.</p>
+      <pre><code class="language-diff">-        udevadm settle
++        udevadm settle || true</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> <code>blkid</code> regex can match <code>PARTLABEL</code> <span class="pill pill-gemini">Gemini</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/17462f4cc75b79b85b86d1dc415736d5918f3398/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh#L56-L66">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh</a></div>
+      <pre data-start="56" data-line="61"><code class="language-bash"># The /dev/disk/by-label/ symlink depends on udev having probed the device.
+# A race between growpart (which triggers a partition table re-read and thus
+# a udev re-probe) and e2fsck (which modifies the superblock) can cause the
+# re-probe to see an inconsistent ext4 checksum and delete the symlink.
+# BusyBox blkid doesn&#39;t support --label, so we parse the output instead.
+DATA_VOLUME=$(blkid | sed -n &#39;s/^\([^:]*\):.*LABEL=&quot;data-volume&quot;.*/\1/p&#39;)
+
+if [ -n &quot;${DATA_VOLUME}&quot; ]; then
+	DATA_DISK=&quot;${DATA_VOLUME%[0-9]}&quot;
+	# growpart command may be missing in older VMs
+	if command -v growpart &gt;/dev/null 2&gt;&amp;1 &amp;&amp; command -v resize2fs &gt;/dev/null 2&gt;&amp;1; then</code></pre>
+    <p>The regex <code>.*LABEL=&quot;data-volume&quot;.*</code> also matches lines carrying <code>PARTLABEL=&quot;data-volume&quot;</code>, because the leading <code>.*</code> greedily consumes the <code>PART</code> prefix. BusyBox <code>blkid</code> (the implementation on lima-alpine) does not emit <code>PARTLABEL</code>, so this is currently latent; util-linux <code>blkid</code> does emit it for GPT partitions, so a user who installs <code>util-linux-blkid</code> or attaches a disk with a GPT partition labeled <code>data-volume</code> but no filesystem label would see the script misidentify the device and fall over at <code>e2fsck</code>. Fix is a one-character anchor.</p>
+      <pre><code class="language-diff">-DATA_VOLUME=$(blkid | sed -n &#39;s/^\([^:]*\):.*LABEL=&quot;data-volume&quot;.*/\1/p&#39;)
++DATA_VOLUME=$(blkid | sed -n &#39;s/^\([^:]*\):.*[[:space:]]LABEL=&quot;data-volume&quot;.*/\1/p&#39;)</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> Multi-line <code>blkid</code> output breaks downstream commands <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/17462f4cc75b79b85b86d1dc415736d5918f3398/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh#L56-L69">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh</a></div>
+      <pre data-start="56" data-line="61-64"><code class="language-bash"># The /dev/disk/by-label/ symlink depends on udev having probed the device.
+# A race between growpart (which triggers a partition table re-read and thus
+# a udev re-probe) and e2fsck (which modifies the superblock) can cause the
+# re-probe to see an inconsistent ext4 checksum and delete the symlink.
+# BusyBox blkid doesn&#39;t support --label, so we parse the output instead.
+DATA_VOLUME=$(blkid | sed -n &#39;s/^\([^:]*\):.*LABEL=&quot;data-volume&quot;.*/\1/p&#39;)
+
+if [ -n &quot;${DATA_VOLUME}&quot; ]; then
+	DATA_DISK=&quot;${DATA_VOLUME%[0-9]}&quot;
+	# growpart command may be missing in older VMs
+	if command -v growpart &gt;/dev/null 2&gt;&amp;1 &amp;&amp; command -v resize2fs &gt;/dev/null 2&gt;&amp;1; then
+		# Automatically expand the data volume filesystem
+		growpart &quot;$DATA_DISK&quot; 1 || true
+		# growpart triggers a partition table re-read; settle udev before</code></pre>
+    <p>If <code>blkid</code> reports more than one device with <code>LABEL=&quot;data-volume&quot;</code> (user error, disk cloning, or combined with S2 if <code>PARTLABEL</code> collisions creep in), <code>DATA_VOLUME</code> becomes a newline-separated list. The <code>[ -n ]</code> test still succeeds, <code>${DATA_VOLUME%[0-9]}</code> only strips the final digit, and <code>growpart</code>/<code>e2fsck</code>/<code>mount</code> receive a multi-line argument. The script then crashes under <code>set -e</code>. This is not a regression — the old <code>blkid | grep | awk</code> pipeline had the same behavior — but the defensive fix is trivial: quit sed after the first match.</p>
+    <p>Fix:</p>
+      <pre><code class="language-diff">-DATA_VOLUME=$(blkid | sed -n &#39;s/^\([^:]*\):.*LABEL=&quot;data-volume&quot;.*/\1/p&#39;)
++DATA_VOLUME=$(blkid | sed -n &#39;/[[:space:]]LABEL=&quot;data-volume&quot;/{s/^\([^:]*\):.*/\1/p;q;}&#39;)</code></pre>
+    <p>This also incorporates the anchor from S2 so both issues collapse into a single edit.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> <code>DATA_DISK=&quot;${DATA_VOLUME%[0-9]}&quot;</code> strips only one digit <span class="pill pill-claude">Claude</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/17462f4cc75b79b85b86d1dc415736d5918f3398/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh#L59-L69">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh</a></div>
+      <pre data-start="59" data-line="64"><code class="language-bash"># re-probe to see an inconsistent ext4 checksum and delete the symlink.
+# BusyBox blkid doesn&#39;t support --label, so we parse the output instead.
+DATA_VOLUME=$(blkid | sed -n &#39;s/^\([^:]*\):.*LABEL=&quot;data-volume&quot;.*/\1/p&#39;)
+
+if [ -n &quot;${DATA_VOLUME}&quot; ]; then
+	DATA_DISK=&quot;${DATA_VOLUME%[0-9]}&quot;
+	# growpart command may be missing in older VMs
+	if command -v growpart &gt;/dev/null 2&gt;&amp;1 &amp;&amp; command -v resize2fs &gt;/dev/null 2&gt;&amp;1; then
+		# Automatically expand the data volume filesystem
+		growpart &quot;$DATA_DISK&quot; 1 || true
+		# growpart triggers a partition table re-read; settle udev before</code></pre>
+    <p>This strips a single trailing digit from the device path to derive the parent disk. It is correct for <code>/dev/vda1</code> → <code>/dev/vda</code>, which covers every Lima VM today (virtio-blk on VZ/QEMU always names disks <code>vd[a-z]</code>). It is wrong for NVMe naming (<code>/dev/nvme0n1p1</code> → <code>/dev/nvme0n1p</code>, not <code>/dev/nvme0n1</code>) and for double-digit partitions (<code>/dev/sda10</code> → <code>/dev/sda1</code>). Lima does not use these devices for the Alpine data volume path today, so this is a robustness issue rather than a live bug.</p>
+    <p>Worth noting from <code>git blame</code>: the old code at this location used <code>sub(/\d$/, &quot;&quot;, s[1])</code> inside awk, and <code>\d</code> is not a POSIX character class, so BusyBox awk treated it as a literal <code>d</code>. The digit strip in the old code never actually ran; the new code is the first time <code>DATA_DISK</code> is correctly derived at all, which is why <code>growpart</code> now functions on the happy path.</p>
+    <p>Fix (optional, only if robustness for other device types is wanted):</p>
+      <pre><code class="language-diff">-DATA_DISK=&quot;${DATA_VOLUME%[0-9]}&quot;
++DATA_DISK=&quot;/dev/$(lsblk --noheadings --output pkname &quot;${DATA_VOLUME}&quot;)&quot;</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> Unpartitioned disks with raw filesystems are still reformatted <span class="pill pill-gemini">Gemini</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/17462f4cc75b79b85b86d1dc415736d5918f3398/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh#L98-L113">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh</a></div>
+      <pre data-start="98" data-line="103-108"><code class="language-bash">	for DISK in ${DISKS}; do
+		# A disk is in use if it has any partitions or is mounted directly.
+		# Check lsblk for partitions, not just /proc/mounts; an unmounted
+		# but partitioned disk (e.g. the data volume after a failed boot)
+		# must not be reformatted.
+		if lsblk --list --noheadings --output type /dev/&quot;${DISK}&quot; | grep --quiet &quot;part&quot;; then
+			continue
+		fi
+		if awk &#39;/^\/dev\// {gsub(&quot;/dev/&quot;, &quot;&quot;); print $1}&#39; /proc/mounts | grep --quiet &quot;^${DISK}$&quot;; then
+			continue
+		fi
+		echo &#39;type=83&#39; | sfdisk --label dos /dev/&quot;${DISK}&quot;
+		PART=$(lsblk --list /dev/&quot;${DISK}&quot; --noheadings --output name,type | awk &#39;$2 == &quot;part&quot; {print $1}&#39;)
+		mkfs.ext4 -L data-volume /dev/&quot;${PART}&quot;
+		# Let udev process the new filesystem before continuing; mount
+		# uses the device path directly, but later boot scripts or</code></pre>
+    <p>The new <code>else</code>-branch check correctly protects partitioned-but-unmounted data disks from being reformatted — that is the data-loss path the PR set out to close. A related gap remains: if a user attaches a disk that was formatted directly as a raw filesystem (no partition table, e.g. <code>mkfs.ext4 /dev/vdb</code>), the <code>lsblk</code> partition check finds nothing, and if the disk is not mounted the <code>/proc/mounts</code> check also passes, so the script continues and reformats it. This is pre-existing — the old code had the same gap — and it is not the user scenario the issue describes, but it is the next nearest data-loss path in the same branch.</p>
+    <p>Fix: also reject disks that already carry a filesystem signature.</p>
+      <pre><code class="language-diff">         # A disk is in use if it has any partitions or is mounted directly.
+         # Check lsblk for partitions, not just /proc/mounts; an unmounted
+         # but partitioned disk (e.g. the data volume after a failed boot)
+         # must not be reformatted.
++        if lsblk --list --noheadings --output fstype /dev/&quot;${DISK}&quot; | grep -q &quot;[^[:space:]]&quot;; then
++            continue
++        fi
+         if lsblk --list --noheadings --output type /dev/&quot;${DISK}&quot; | grep --quiet &quot;part&quot;; then
+             continue
+         fi</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> <code>gsub(&quot;/dev/&quot;, &quot;&quot;)</code> is imprecise in the mount-path awk <span class="pill pill-gemini">Gemini</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/17462f4cc75b79b85b86d1dc415736d5918f3398/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh#L101-L111">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh</a></div>
+      <pre data-start="101" data-line="106"><code class="language-bash">		# but partitioned disk (e.g. the data volume after a failed boot)
+		# must not be reformatted.
+		if lsblk --list --noheadings --output type /dev/&quot;${DISK}&quot; | grep --quiet &quot;part&quot;; then
+			continue
+		fi
+		if awk &#39;/^\/dev\// {gsub(&quot;/dev/&quot;, &quot;&quot;); print $1}&#39; /proc/mounts | grep --quiet &quot;^${DISK}$&quot;; then
+			continue
+		fi
+		echo &#39;type=83&#39; | sfdisk --label dos /dev/&quot;${DISK}&quot;
+		PART=$(lsblk --list /dev/&quot;${DISK}&quot; --noheadings --output name,type | awk &#39;$2 == &quot;part&quot; {print $1}&#39;)
+		mkfs.ext4 -L data-volume /dev/&quot;${PART}&quot;</code></pre>
+    <p><code>gsub</code> operates on the whole record, so a mount point containing <code>/dev/</code> (e.g. <code>/mnt/dev/foo</code>) gets its substring rewritten before <code>print $1</code>. The output of <code>print $1</code> is unaffected because only the first field is printed, so this is purely cosmetic today. Pre-existing: the old code had the same awk expression. Worth tidying while touching the area.</p>
+    <p>Fix: scope the substitution to <code>$1</code>.</p>
+      <pre><code class="language-diff">-        if awk &#39;/^\/dev\// {gsub(&quot;/dev/&quot;, &quot;&quot;); print $1}&#39; /proc/mounts | grep --quiet &quot;^${DISK}$&quot;; then
++        if awk &#39;/^\/dev\// {sub(&quot;^/dev/&quot;, &quot;&quot;, $1); print $1}&#39; /proc/mounts | grep --quiet &quot;^${DISK}$&quot;; then</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> No automated coverage for the boot path this PR fixes <span class="pill pill-codex">Codex</span><a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+    <p>There is no BATS or integration test in <code>hack/bats/tests/</code> that exercises <code>04-persistent-data-volume.sh</code> on an Alpine ramdisk VM. The script is timing-sensitive early-boot infrastructure and the race itself is not reproducible on demand, so this is understandable — but it leaves the three highest-risk behaviors this patch protects unguarded: the <code>blkid</code>-based device resolution, the settle-then-e2fsck sequencing, and the partition-presence check in the <code>else</code> branch. A later refactor could silently reintroduce the symlink dependency or the &quot;partitioned but unmounted&quot; reformat bug without any test breaking.</p>
+    <p>Fix: if practical, add a boot-path scenario that exercises both an already-formatted <code>data-volume</code> partition (must still mount after the resize/fsck path) and a partitioned-but-unmounted disk (must be skipped rather than reformatted). If the current BATS harness cannot drive an Alpine ramdisk VM directly, a minimal repo-local harness that asserts the resulting mount state would be sufficient.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Defense-in-depth layering</strong> <code>(in-scope)</code> <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span> — The three fixes target independent failure points: <code>blkid</code> eliminates the udev-state dependency, <code>udevadm settle</code> prevents the <code>growpart</code>/<code>e2fsck</code> race, and the <code>lsblk</code> partition check closes the reformat path in the <code>else</code> branch. Any one fix alone would have been sufficient for the reported bug; together they make the script robust against related regressions.</li>
+      <li><strong>Else-branch restructuring reduces nesting</strong> <code>(in-scope)</code> <span class="pill pill-claude">Claude</span> — Replacing the <code>IN_USE</code> flag with <code>continue</code>-based early exits (lines 103–108) cuts one level of nesting and lifts the format/mount/break work out of a conditional. The control flow reads top-to-bottom instead of inside-out.</li>
+      <li><strong>Comment quality on the race explanation</strong> <code>(in-scope)</code> <span class="pill pill-claude">Claude</span> — The block comment at lines 55–60 explains both the <em>why</em> (udev re-probe during <code>growpart</code> races with <code>e2fsck</code>&#39;s superblock modification) and the <em>what</em> (BusyBox <code>blkid</code> lacks <code>--label</code>) concisely. A future reader has enough context to understand the design without having to find the issue or PR.</li>
+      <li><strong>Topological disk discovery</strong> <code>(in-scope)</code> <span class="pill pill-gemini">Gemini</span> — The <code>else</code> branch uses <code>lsblk --output name,type</code> to enumerate disks rather than hardcoding <code>vda</code>/<code>sda</code> prefixes. This keeps the script adaptable across virtualization backends that might present different block-device names.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>No automated tests exercise <code>04-persistent-data-volume.sh</code>. The script runs during early boot inside an Alpine ramdisk VM, and the race itself is timing-dependent and not reproducible on demand — both genuine obstacles to integration testing. Three scenarios are worth validating by hand or in a minimal harness:</p>
+    <ol>
+      <li><strong>Core race fix.</strong> Boot an Alpine ramdisk VM and confirm <code>/mnt/data</code> mounts successfully. Observe that <code>/dev/disk/by-label/data-volume</code> may still be absent post-boot (the known udev behavior), and that the mount used the <code>blkid</code>-resolved path regardless.</li>
+      <li><strong>Partition-safety path.</strong> Boot a VM whose data disk is partitioned but unmounted (e.g. after a failed previous boot) and confirm the script enters the <code>else</code> branch, skips the disk via the new <code>lsblk</code> partition check, and does not reformat it.</li>
+      <li><strong>Fresh-format path.</strong> Boot a new VM with no data volume and confirm <code>sfdisk</code> → <code>lsblk</code> → <code>mkfs.ext4</code> → <code>udevadm settle</code> → <code>mount</code> completes and the subsequent <code>mount --bind</code> loop succeeds. Per the <code>\d</code>-in-awk observation in S4, this may be the first boot on which <code>growpart</code> and the derived <code>DATA_DISK</code> actually function correctly; a re-resize after a template <code>disk</code> size bump is worth specifically exercising.</li>
+    </ol>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The commit message is thorough and accurately describes all three fixes, the root cause, and the user-facing impact. No user-facing documentation needs updating — this script is internal boot infrastructure. The inline comments added by the PR carry the full explanation of the race and the BusyBox workaround.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><em></em><code># TODO there are probably others that should be updated as well</code><em></em> — <a href="https://github.com/lima-vm/lima/blob/17462f4cc75b79b85b86d1dc415736d5918f3398/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh#L94"><code>pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh:94</code></a>. Pre-existing; refers to config files that should be refreshed onto the persistent volume after mount. Not affected by this change.</li>
+      <li><em></em>BusyBox <code>blkid</code> lacks <code>--label</code><em></em> — <a href="https://github.com/lima-vm/lima/blob/17462f4cc75b79b85b86d1dc415736d5918f3398/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh#L60"><code>pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh:60</code></a>. Acknowledged in a comment on the same line as the workaround. Parsing the full <code>blkid</code> output is the correct workaround for the BusyBox implementation that ships on lima-alpine.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude"><span class="pill pill-claude">Claude</span> <a href="#claude" class="pilcrow">&#182;</a></h3>
+    <p>Claude gave a tight, two-suggestion review centered on the <code>DATA_DISK</code> derivation and a defensive fix for multi-line <code>blkid</code> output. Its most valuable contribution was reconstructing the pre-PR behavior from <code>git blame</code> and noticing that the old awk used <code>\d</code> — not a POSIX character class — so BusyBox awk treated it as a literal <code>d</code> and the old digit-strip never actually ran. That observation reframes the testing question: this is the first PR on which <code>growpart</code> and the derived <code>DATA_DISK</code> actually function end-to-end, and the fresh-format path for <code>sfdisk</code>/<code>mkfs</code> is exercised for real for the first time. Claude did not catch the <code>udevadm settle</code> failure mode or the <code>PARTLABEL</code> false match; both are reasonable to miss in an Alpine-only context, but Gemini found them. The design-observations section was the strongest of the three — control-flow, comment quality, and defense-in-depth each called out explicitly.</p>
+    <h3 id="codex"><span class="pill pill-codex">Codex</span> <a href="#codex" class="pilcrow">&#182;</a></h3>
+    <p>Codex produced the thinnest review: zero critical/important findings and a single suggestion about missing regression coverage. The test-coverage point is fair and nobody else raised it, so Codex retains one unique contribution, but the PR clearly warranted more scrutiny of the shell logic than Codex gave it. Its design observations restated points Claude and Gemini covered with more specificity. On a diff this small, &quot;approve with follow-up&quot; with one generic testing note reads as under-engaged rather than calibrated; the shell-level edge cases the other two agents found were reachable from the same diff.</p>
+    <h3 id="gemini"><span class="pill pill-gemini">Gemini</span> <a href="#gemini" class="pilcrow">&#182;</a></h3>
+    <p>Gemini contributed the most unique insight by a wide margin: <code>udevadm settle</code> crashing the script under <code>set -e</code>, the <code>PARTLABEL</code> false match in the <code>blkid</code> regex, the multi-match crash path (shared with Claude), and the unpartitioned raw-filesystem gap in the <code>else</code> branch. All four of Gemini&#39;s &quot;Important&quot; findings were downgraded during consolidation to suggestions — the failure modes are real but unlikely on lima-alpine specifically (eudev is present, BusyBox <code>blkid</code> does not emit <code>PARTLABEL</code>, the raw-filesystem case is pre-existing and not the user scenario the PR set out to fix). Gemini was the only agent to note the Alpine-specific context in the rating calibration; that said, its pattern-level observations were the most valuable shell scrutiny of the review. Skipped <code>git blame</code> as expected.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.6</th><th><span class="pill pill-codex">Codex</span> GPT 5.4</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>5m 31s</td><td>2m 09s</td><td>4m 27s</td></tr>
+        <tr><td>Findings</td><td>2S</td><td>1S</td><td>5S</td></tr>
+        <tr><td>Tool calls</td><td>11 (Bash 4, Grep 4, Read 3)</td><td>15 (shell 15)</td><td>20 (run<em>shell</em>command 12, grep_search 8)</td></tr>
+        <tr><td>Design observations</td><td>3</td><td>2</td><td>2</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>2</td><td>1</td><td>4</td></tr>
+        <tr><td>Files reviewed</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>2S</strong></td><td><strong>1S</strong></td><td><strong>5S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>4 (I→S)</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Reconciliation</strong></p>
+    <ul>
+      <li>Gemini pass 1 I1 (<code>udevadm settle</code> crash): important → suggestion S1 — the failure mode is real but unlikely on lima-alpine (eudev ships; stuck-event timeout requires specific trigger); the fix remains worth applying.</li>
+      <li>Gemini pass 1 I2 (<code>blkid</code> regex matches <code>PARTLABEL</code>): important → suggestion S2 — BusyBox <code>blkid</code> on lima-alpine does not emit <code>PARTLABEL</code>, so the false match is latent rather than exploitable today.</li>
+      <li>Gemini pass 1 I3 (multi-line <code>blkid</code> output): important → suggestion S3 — not a regression; old pipeline had the same behavior. Merged with Claude&#39;s S2.</li>
+      <li>Gemini pass 1 I4 (unpartitioned raw filesystem): important → suggestion S5 — pre-existing gap, not introduced by this PR and not the scenario the issue describes.</li>
+    </ul>
+    <p>Overall assessment: Gemini provided the most value by catching four distinct edge cases Claude and Codex missed. Claude contributed the sharpest contextual analysis (historical <code>\d</code> bug, control-flow improvement, defense-in-depth framing). Codex added only the test-coverage observation. On a shell-only diff of this size, Gemini&#39;s pattern scrutiny was decisive; Claude&#39;s historical analysis was the best single insight.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em>Shell safety: flag unguarded calls under <code>set -e</code> whose failure reintroduces the bug a PR is fixing.<em></em> When a shell PR fixes a bug and adds defense-in-depth instrumentation (e.g., <code>udevadm settle</code>, <code>sync</code>, <code>flush</code>), check whether the added command can fail and whether <code>set -e</code> is active. If the command&#39;s failure produces the same user-visible symptom the PR was meant to eliminate, flag the unguarded call. Rationale: a defense-in-depth command whose failure reintroduces the class of bug it was added to defend against is strictly worse than a well-chosen primary fix alone.</li>
+      <li><em></em>Shell safety: check <code>sed</code>/<code>grep</code>/<code>awk</code> patterns with leading <code>.*</code> for substring bleed into structurally distinct fields.<em></em> Patterns of the form <code>.*KEY=&quot;value&quot;</code> can inadvertently match lines where <code>KEY</code> is a suffix of another key name (e.g., <code>LABEL</code> matches lines carrying <code>PARTLABEL</code>). When reviewing shell code that parses field-oriented tool output via unanchored regex, verify that the field name cannot appear as a suffix of another known field in the same output, and suggest a leading whitespace or start-of-field anchor when it can.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em>[repo] <code>pkg/cidata/cidata.TEMPLATE.d/boot.Linux/</code> scripts run under BusyBox ash with <code>ASH_BASH_COMPAT</code>, not GNU bash.<em></em> The shebang is <code>#!/bin/bash</code> but on lima-alpine <code>/bin/bash</code> is BusyBox ash with ASH<em>BASH</em>COMPAT enabled. When reviewing scripts in this directory, do not assume GNU-bash-only features (process substitution, <code>[[ ]]</code> regex, <code>mapfile</code>, <code>readarray</code>, associative arrays) will work. Additionally, the <code>blkid</code>, <code>awk</code>, and other utilities on lima-alpine are BusyBox implementations and have reduced flag coverage compared to util-linux/GNU equivalents (e.g., BusyBox <code>blkid</code> lacks <code>--label</code>, BusyBox <code>awk</code> does not support <code>\d</code>). Flag code that depends on GNU-only syntax, and when in doubt, verify against BusyBox documentation rather than GNU man pages.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
