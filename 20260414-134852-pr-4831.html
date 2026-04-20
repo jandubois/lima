@@ -198,17 +198,17 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
         <span class="finding-num">S1.</span> <code>udevadm settle</code> is unguarded under <code>set -e</code> <span class="pill pill-gemini">Gemini</span><a href="#S1" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/17462f4cc75b79b85b86d1dc415736d5918f3398/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh#L66-L76">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh</a></div>
-      <pre data-start="66" data-line="71"><code class="language-bash">	if command -v growpart &gt;/dev/null 2&gt;&amp;1 &amp;&amp; command -v resize2fs &gt;/dev/null 2&gt;&amp;1; then
+      <pre data-start="66" data-line="71"><code class="language-bash">if [ -n &quot;${DATA_VOLUME}&quot; ]; then
+	DATA_DISK=&quot;/dev/$(lsblk --noheadings --output pkname &quot;${DATA_VOLUME}&quot;)&quot;
+	# growpart command may be missing in older VMs
+	if command -v growpart &gt;/dev/null 2&gt;&amp;1 &amp;&amp; command -v resize2fs &gt;/dev/null 2&gt;&amp;1; then
 		# Automatically expand the data volume filesystem
 		growpart &quot;$DATA_DISK&quot; 1 || true
 		# growpart triggers a partition table re-read; settle udev before
-		# touching the device to avoid racing with the re-probe.
-		udevadm settle
-		# Only resize when filesystem is in a healthy state
-		if e2fsck -f -p &quot;${DATA_VOLUME}&quot;; then
-			resize2fs &quot;${DATA_VOLUME}&quot; || true
-		fi
-	fi</code></pre>
+		# touching the device to avoid racing with the re-probe. The
+		# settle is defense-in-depth (blkid above eliminates the core
+		# udev dependency), so tolerate its failure rather than crashing
+		# the boot under set -e if udevadm is missing or stuck.</code></pre>
     <p>The script runs with <code>set -eux -o pipefail</code>. <code>udevadm settle</code> can exit non-zero in two ways: the <code>udevadm</code> binary may be absent (hypothetical on lima-alpine, which ships eudev, but possible on a user-supplied minimal image using <code>mdev</code>), or the settle may time out (default 120 s) if udevd has a stuck event. Either failure crashes the boot script with the same user-visible symptom this PR set out to fix — <code>/mnt/data</code> does not mount, tmpfs fills up. The <code>udevadm settle</code> call is defense-in-depth against the race; the <code>blkid</code> resolution already eliminates the core dependency on udev state, so making the settle tolerant of failure does not weaken the fix.</p>
     <p>Fix: guard or silence the call on both lines.</p>
       <pre><code class="language-diff">-        udevadm settle
@@ -224,12 +224,12 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
 # a udev re-probe) and e2fsck (which modifies the superblock) can cause the
 # re-probe to see an inconsistent ext4 checksum and delete the symlink.
 # BusyBox blkid doesn&#39;t support --label, so we parse the output instead.
-DATA_VOLUME=$(blkid | sed -n &#39;s/^\([^:]*\):.*LABEL=&quot;data-volume&quot;.*/\1/p&#39;)
+# The leading whitespace anchor on LABEL= avoids matching PARTLABEL= on
+# util-linux blkid output; quitting after the first match prevents a
+# multi-match from producing a newline-separated device list.
+DATA_VOLUME=$(blkid | sed -n &#39;/[[:space:]]LABEL=&quot;data-volume&quot;/{s/^\([^:]*\):.*/\1/p;q;}&#39;)
 
-if [ -n &quot;${DATA_VOLUME}&quot; ]; then
-	DATA_DISK=&quot;${DATA_VOLUME%[0-9]}&quot;
-	# growpart command may be missing in older VMs
-	if command -v growpart &gt;/dev/null 2&gt;&amp;1 &amp;&amp; command -v resize2fs &gt;/dev/null 2&gt;&amp;1; then</code></pre>
+if [ -n &quot;${DATA_VOLUME}&quot; ]; then</code></pre>
     <p>The regex <code>.*LABEL=&quot;data-volume&quot;.*</code> also matches lines carrying <code>PARTLABEL=&quot;data-volume&quot;</code>, because the leading <code>.*</code> greedily consumes the <code>PART</code> prefix. BusyBox <code>blkid</code> (the implementation on lima-alpine) does not emit <code>PARTLABEL</code>, so this is currently latent; util-linux <code>blkid</code> does emit it for GPT partitions, so a user who installs <code>util-linux-blkid</code> or attaches a disk with a GPT partition labeled <code>data-volume</code> but no filesystem label would see the script misidentify the device and fall over at <code>e2fsck</code>. Fix is a one-character anchor.</p>
       <pre><code class="language-diff">-DATA_VOLUME=$(blkid | sed -n &#39;s/^\([^:]*\):.*LABEL=&quot;data-volume&quot;.*/\1/p&#39;)
 +DATA_VOLUME=$(blkid | sed -n &#39;s/^\([^:]*\):.*[[:space:]]LABEL=&quot;data-volume&quot;.*/\1/p&#39;)</code></pre>
@@ -244,15 +244,15 @@ if [ -n &quot;${DATA_VOLUME}&quot; ]; then
 # a udev re-probe) and e2fsck (which modifies the superblock) can cause the
 # re-probe to see an inconsistent ext4 checksum and delete the symlink.
 # BusyBox blkid doesn&#39;t support --label, so we parse the output instead.
-DATA_VOLUME=$(blkid | sed -n &#39;s/^\([^:]*\):.*LABEL=&quot;data-volume&quot;.*/\1/p&#39;)
+# The leading whitespace anchor on LABEL= avoids matching PARTLABEL= on
+# util-linux blkid output; quitting after the first match prevents a
+# multi-match from producing a newline-separated device list.
+DATA_VOLUME=$(blkid | sed -n &#39;/[[:space:]]LABEL=&quot;data-volume&quot;/{s/^\([^:]*\):.*/\1/p;q;}&#39;)
 
 if [ -n &quot;${DATA_VOLUME}&quot; ]; then
-	DATA_DISK=&quot;${DATA_VOLUME%[0-9]}&quot;
+	DATA_DISK=&quot;/dev/$(lsblk --noheadings --output pkname &quot;${DATA_VOLUME}&quot;)&quot;
 	# growpart command may be missing in older VMs
-	if command -v growpart &gt;/dev/null 2&gt;&amp;1 &amp;&amp; command -v resize2fs &gt;/dev/null 2&gt;&amp;1; then
-		# Automatically expand the data volume filesystem
-		growpart &quot;$DATA_DISK&quot; 1 || true
-		# growpart triggers a partition table re-read; settle udev before</code></pre>
+	if command -v growpart &gt;/dev/null 2&gt;&amp;1 &amp;&amp; command -v resize2fs &gt;/dev/null 2&gt;&amp;1; then</code></pre>
     <p>If <code>blkid</code> reports more than one device with <code>LABEL=&quot;data-volume&quot;</code> (user error, disk cloning, or combined with S2 if <code>PARTLABEL</code> collisions creep in), <code>DATA_VOLUME</code> becomes a newline-separated list. The <code>[ -n ]</code> test still succeeds, <code>${DATA_VOLUME%[0-9]}</code> only strips the final digit, and <code>growpart</code>/<code>e2fsck</code>/<code>mount</code> receive a multi-line argument. The script then crashes under <code>set -e</code>. This is not a regression — the old <code>blkid | grep | awk</code> pipeline had the same behavior — but the defensive fix is trivial: quit sed after the first match.</p>
     <p>Fix:</p>
       <pre><code class="language-diff">-DATA_VOLUME=$(blkid | sed -n &#39;s/^\([^:]*\):.*LABEL=&quot;data-volume&quot;.*/\1/p&#39;)
@@ -266,15 +266,15 @@ if [ -n &quot;${DATA_VOLUME}&quot; ]; then
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/17462f4cc75b79b85b86d1dc415736d5918f3398/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh#L59-L69">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh</a></div>
       <pre data-start="59" data-line="64"><code class="language-bash"># re-probe to see an inconsistent ext4 checksum and delete the symlink.
 # BusyBox blkid doesn&#39;t support --label, so we parse the output instead.
-DATA_VOLUME=$(blkid | sed -n &#39;s/^\([^:]*\):.*LABEL=&quot;data-volume&quot;.*/\1/p&#39;)
+# The leading whitespace anchor on LABEL= avoids matching PARTLABEL= on
+# util-linux blkid output; quitting after the first match prevents a
+# multi-match from producing a newline-separated device list.
+DATA_VOLUME=$(blkid | sed -n &#39;/[[:space:]]LABEL=&quot;data-volume&quot;/{s/^\([^:]*\):.*/\1/p;q;}&#39;)
 
 if [ -n &quot;${DATA_VOLUME}&quot; ]; then
-	DATA_DISK=&quot;${DATA_VOLUME%[0-9]}&quot;
+	DATA_DISK=&quot;/dev/$(lsblk --noheadings --output pkname &quot;${DATA_VOLUME}&quot;)&quot;
 	# growpart command may be missing in older VMs
-	if command -v growpart &gt;/dev/null 2&gt;&amp;1 &amp;&amp; command -v resize2fs &gt;/dev/null 2&gt;&amp;1; then
-		# Automatically expand the data volume filesystem
-		growpart &quot;$DATA_DISK&quot; 1 || true
-		# growpart triggers a partition table re-read; settle udev before</code></pre>
+	if command -v growpart &gt;/dev/null 2&gt;&amp;1 &amp;&amp; command -v resize2fs &gt;/dev/null 2&gt;&amp;1; then</code></pre>
     <p>This strips a single trailing digit from the device path to derive the parent disk. It is correct for <code>/dev/vda1</code> → <code>/dev/vda</code>, which covers every Lima VM today (virtio-blk on VZ/QEMU always names disks <code>vd[a-z]</code>). It is wrong for NVMe naming (<code>/dev/nvme0n1p1</code> → <code>/dev/nvme0n1p</code>, not <code>/dev/nvme0n1</code>) and for double-digit partitions (<code>/dev/sda10</code> → <code>/dev/sda1</code>). Lima does not use these devices for the Alpine data volume path today, so this is a robustness issue rather than a live bug.</p>
     <p>Worth noting from <code>git blame</code>: the old code at this location used <code>sub(/\d$/, &quot;&quot;, s[1])</code> inside awk, and <code>\d</code> is not a POSIX character class, so BusyBox awk treated it as a literal <code>d</code>. The digit strip in the old code never actually ran; the new code is the first time <code>DATA_DISK</code> is correctly derived at all, which is why <code>growpart</code> now functions on the happy path.</p>
     <p>Fix (optional, only if robustness for other device types is wanted):</p>
@@ -286,22 +286,22 @@ if [ -n &quot;${DATA_VOLUME}&quot; ]; then
         <span class="finding-num">S5.</span> Unpartitioned disks with raw filesystems are still reformatted <span class="pill pill-gemini">Gemini</span><a href="#S5" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/17462f4cc75b79b85b86d1dc415736d5918f3398/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh#L98-L113">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh</a></div>
-      <pre data-start="98" data-line="103-108"><code class="language-bash">	for DISK in ${DISKS}; do
-		# A disk is in use if it has any partitions or is mounted directly.
-		# Check lsblk for partitions, not just /proc/mounts; an unmounted
-		# but partitioned disk (e.g. the data volume after a failed boot)
-		# must not be reformatted.
-		if lsblk --list --noheadings --output type /dev/&quot;${DISK}&quot; | grep --quiet &quot;part&quot;; then
+      <pre data-start="98" data-line="103-108"><code class="language-bash">		cp /etc/timezone /mnt/data/etc/
+	fi
+	# TODO there are probably others that should be updated as well
+else
+	# Find an unpartitioned disk and create data-volume
+	DISKS=$(lsblk --list --noheadings --output name,type | awk &#39;$2 == &quot;disk&quot; {print $1}&#39;)
+	for DISK in ${DISKS}; do
+		# A disk is in use if it has any partitions, carries a filesystem
+		# signature directly, or is mounted. Check lsblk for partitions
+		# and filesystem types, not just /proc/mounts; an unmounted but
+		# partitioned or raw-formatted disk (e.g. the data volume after
+		# a failed boot) must not be reformatted.
+		if lsblk --list --noheadings --output fstype /dev/&quot;${DISK}&quot; | grep --quiet &quot;[^[:space:]]&quot;; then
 			continue
 		fi
-		if awk &#39;/^\/dev\// {gsub(&quot;/dev/&quot;, &quot;&quot;); print $1}&#39; /proc/mounts | grep --quiet &quot;^${DISK}$&quot;; then
-			continue
-		fi
-		echo &#39;type=83&#39; | sfdisk --label dos /dev/&quot;${DISK}&quot;
-		PART=$(lsblk --list /dev/&quot;${DISK}&quot; --noheadings --output name,type | awk &#39;$2 == &quot;part&quot; {print $1}&#39;)
-		mkfs.ext4 -L data-volume /dev/&quot;${PART}&quot;
-		# Let udev process the new filesystem before continuing; mount
-		# uses the device path directly, but later boot scripts or</code></pre>
+		if lsblk --list --noheadings --output type /dev/&quot;${DISK}&quot; | grep --quiet &quot;part&quot;; then</code></pre>
     <p>The new <code>else</code>-branch check correctly protects partitioned-but-unmounted data disks from being reformatted — that is the data-loss path the PR set out to close. A related gap remains: if a user attaches a disk that was formatted directly as a raw filesystem (no partition table, e.g. <code>mkfs.ext4 /dev/vdb</code>), the <code>lsblk</code> partition check finds nothing, and if the disk is not mounted the <code>/proc/mounts</code> check also passes, so the script continues and reformats it. This is pre-existing — the old code had the same gap — and it is not the user scenario the issue describes, but it is the next nearest data-loss path in the same branch.</p>
     <p>Fix: also reject disks that already carry a filesystem signature.</p>
       <pre><code class="language-diff">         # A disk is in use if it has any partitions or is mounted directly.
@@ -320,17 +320,17 @@ if [ -n &quot;${DATA_VOLUME}&quot; ]; then
         <span class="finding-num">S6.</span> <code>gsub(&quot;/dev/&quot;, &quot;&quot;)</code> is imprecise in the mount-path awk <span class="pill pill-gemini">Gemini</span><a href="#S6" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/17462f4cc75b79b85b86d1dc415736d5918f3398/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh#L101-L111">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh</a></div>
-      <pre data-start="101" data-line="106"><code class="language-bash">		# but partitioned disk (e.g. the data volume after a failed boot)
-		# must not be reformatted.
-		if lsblk --list --noheadings --output type /dev/&quot;${DISK}&quot; | grep --quiet &quot;part&quot;; then
-			continue
-		fi
-		if awk &#39;/^\/dev\// {gsub(&quot;/dev/&quot;, &quot;&quot;); print $1}&#39; /proc/mounts | grep --quiet &quot;^${DISK}$&quot;; then
-			continue
-		fi
-		echo &#39;type=83&#39; | sfdisk --label dos /dev/&quot;${DISK}&quot;
-		PART=$(lsblk --list /dev/&quot;${DISK}&quot; --noheadings --output name,type | awk &#39;$2 == &quot;part&quot; {print $1}&#39;)
-		mkfs.ext4 -L data-volume /dev/&quot;${PART}&quot;</code></pre>
+      <pre data-start="101" data-line="106"><code class="language-bash">else
+	# Find an unpartitioned disk and create data-volume
+	DISKS=$(lsblk --list --noheadings --output name,type | awk &#39;$2 == &quot;disk&quot; {print $1}&#39;)
+	for DISK in ${DISKS}; do
+		# A disk is in use if it has any partitions, carries a filesystem
+		# signature directly, or is mounted. Check lsblk for partitions
+		# and filesystem types, not just /proc/mounts; an unmounted but
+		# partitioned or raw-formatted disk (e.g. the data volume after
+		# a failed boot) must not be reformatted.
+		if lsblk --list --noheadings --output fstype /dev/&quot;${DISK}&quot; | grep --quiet &quot;[^[:space:]]&quot;; then
+			continue</code></pre>
     <p><code>gsub</code> operates on the whole record, so a mount point containing <code>/dev/</code> (e.g. <code>/mnt/dev/foo</code>) gets its substring rewritten before <code>print $1</code>. The output of <code>print $1</code> is unaffected because only the first field is printed, so this is purely cosmetic today. Pre-existing: the old code had the same awk expression. Worth tidying while touching the area.</p>
     <p>Fix: scope the substitution to <code>$1</code>.</p>
       <pre><code class="language-diff">-        if awk &#39;/^\/dev\// {gsub(&quot;/dev/&quot;, &quot;&quot;); print $1}&#39; /proc/mounts | grep --quiet &quot;^${DISK}$&quot;; then
