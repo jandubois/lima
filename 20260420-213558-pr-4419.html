@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260420-213558-pr-4419</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260420-213558-pr-4419</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-04-20 21:35</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>3</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/Horiodino">@Horiodino</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/4419" class="gh-ref" data-title="Hostpath mount validation" data-state="open" data-type="pr">#4419</a> — Hostpath mount validation</td></tr>
+      <tr><td>Branch</td><td><code>hostPath_mount_validation</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/45823748"><code>45823748</code></a> added validation for hostPath</td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.7 (effort: xhigh), <span class="pill pill-codex">Codex</span> GPT 5.4 (effort: high), <span class="pill pill-gemini">Gemini</span> 3.1 Pro (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; same SHA as Round 2; the symlink-alias regression and BATS infrastructure issues remain unaddressed</td></tr>
+      <tr><td>Wall-clock time</td><td><code>12 min 48 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Round 3 reviews the same commit (<a href="https://github.com/lima-vm/lima/commit/45823748"><code>45823748</code></a>) as Round 2 — no code has changed since 2026-03-29, so the previously identified gaps remain. The core implementation in <code>TranslateHostPath</code> is sound (longest-match on cleaned mount locations, <code>filepath.Rel</code> + <code>filepath.IsLocal</code> containment, hard errors), but mount locations and host paths are not symlink-resolved. On macOS this rejects legitimate paths whenever <code>/tmp</code> → <code>/private/tmp</code>, <code>$HOME</code> lives on an external volume, or any caller canonicalizes a path through <code>readlink</code> first. The <code>bats</code> instance now unconditionally mounts <code>$HOME</code>, which affects every other test that reuses that instance and creates host-side cleanup hazards on assertion failure. Finally, <code>Glob</code> and <code>SearchFileContent</code> still return raw guest paths that the agent cannot feed back into <code>ReadFile</code>/<code>WriteFile</code> because the new strict validation rejects them — pre-existing design, newly consequential.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> Mount locations and host paths are not symlink-resolved <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/mcp/toolset/toolset.go#L1-L20">pkg/mcp/toolset/toolset.go</a></div>
+      <pre data-start="1" data-line="121-145"><code class="language-go">// SPDX-FileCopyrightText: Copyright The Lima Authors
+// SPDX-License-Identifier: Apache-2.0
+
+package toolset
+
+import (
+	&quot;context&quot;
+	&quot;errors&quot;
+	&quot;fmt&quot;
+	&quot;os&quot;
+	&quot;os/exec&quot;
+	&quot;path/filepath&quot;
+	&quot;slices&quot;
+
+	&quot;github.com/modelcontextprotocol/go-sdk/mcp&quot;
+	&quot;github.com/pkg/sftp&quot;
+	&quot;github.com/sirupsen/logrus&quot;
+
+	&quot;github.com/lima-vm/lima/v2/pkg/instance/hostname&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/limatype&quot;</code></pre>
+    <p><code>filepath.Clean</code> canonicalizes separators and collapses <code>..</code>/<code>.</code> components but does not follow symlinks. Lima stores mount locations cleaned but not resolved (<a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/limayaml/defaults.go#L682"><code>pkg/limayaml/defaults.go:682</code></a>), and the existing hostagent code at <a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/hostagent/inotify.go#L75-L81"><code>pkg/hostagent/inotify.go:75-81</code></a> explicitly calls <code>filepath.EvalSymlinks</code> on every mount location for exactly this reason. The new MCP validation diverges from that precedent.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/limayaml/defaults.go#L677-L687">pkg/limayaml/defaults.go</a></div>
+      <pre data-start="677" data-line="682"><code class="language-go">	// Only works for exact matches; does not normalize case or resolve symlinks.
+	mounts := make([]limatype.Mount, 0, len(d.Mounts)+len(y.Mounts)+len(o.Mounts))
+	mountPoint := make(map[string]int)
+	for _, mount := range slices.Concat(d.Mounts, y.Mounts, o.Mounts) {
+		if out, err := executeHostTemplate(mount.Location, instDir, y.Param); err == nil {
+			mount.Location = filepath.Clean(out.String())
+		} else {
+			logrus.WithError(err).Warnf(&quot;Couldn&#39;t process mount location %q as a template&quot;, mount.Location)
+		}
+		// Expand a path that begins with `~`. Relative paths are not modified, and rejected by Validate() later.
+		if localpathutil.IsTildePath(mount.Location) {</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/hostagent/inotify.go#L70-L86">pkg/hostagent/inotify.go</a></div>
+      <pre data-start="70" data-line="75-81"><code class="language-go">func (a *HostAgent) setupWatchers(events chan notify.EventInfo) error {
+	for _, m := range a.instConfig.Mounts {
+		if !*m.Writable {
+			continue
+		}
+		symlink, err := filepath.EvalSymlinks(m.Location)
+		if err != nil {
+			return err
+		}
+		if m.Location != symlink {
+			mountSymlinks[symlink] = m.Location
+		}
+		if m.MountPoint != nil &amp;&amp; m.Location != *m.MountPoint {
+			mountLocations[m.Location] = *m.MountPoint
+		}
+
+		logrus.Infof(&quot;enable inotify for writable mount: %s&quot;, m.Location)</code></pre>
+    <p>Common failure cases on macOS:</p>
+    <ul>
+      <li><code>/tmp</code> is a symlink to <code>/private/tmp</code>. If the mount location is <code>/tmp</code> and the agent passes <code>/private/tmp/foo</code>, <code>filepath.Rel(&quot;/tmp&quot;, &quot;/private/tmp/foo&quot;)</code> returns <code>&quot;../private/tmp/foo&quot;</code>, <code>IsLocal</code> returns false, and the call fails with <code>path &quot;...&quot; is not under any mounted directory</code>.</li>
+      <li><code>$HOME</code> on an external volume (e.g. <code>/Users/jan</code> → <code>/Volumes/Data/Users/jan</code>). The default template mounts <code>${HOME}</code> as <code>/Users/jan</code>, so any caller that canonicalizes through the symlink target fails validation.</li>
+    </ul>
+    <p>Every MCP filesystem and shell tool routes through <code>TranslateHostPath</code>, so this regression blocks <code>read_file</code>, <code>write_file</code>, <code>list_directory</code>, <code>glob</code>, <code>search_file_content</code>, and <code>run_shell_command</code> on affected paths. The new unit tests in <code>toolset_test.go</code> exercise only lexical parent/child cases; no test covers a symlinked prefix.</p>
+    <p>Fix: resolve symlinks on both the host path and each mount location before comparison. Tolerate <code>EvalSymlinks</code> errors (fall back to the cleaned path) so that write_file targeting a not-yet-existing file under a symlinked parent still works — resolve the deepest existing ancestor and re-append the unresolved suffix.</p>
+      <pre><code class="language-diff"> func (ts *ToolSet) translateToGuestPath(hostPath string) (string, bool) {
+-	cleanPath := filepath.Clean(hostPath)
++	cleanPath := resolveExistingAncestor(filepath.Clean(hostPath))
+ 	bestGuestPath := &quot;&quot;
+ 	bestLen := -1
+ 	for _, mount := range ts.inst.Config.Mounts {
+ 		if mount.MountPoint == nil {
+ 			continue
+ 		}
+-		location := filepath.Clean(mount.Location)
++		location, err := filepath.EvalSymlinks(filepath.Clean(mount.Location))
++		if err != nil {
++			continue
++		}
+ 		rel, err := filepath.Rel(location, cleanPath)</code></pre>
+    <p>Add a regression test with a symlinked host prefix that mirrors the cases in <code>pkg/hostagent/inotify_test.go</code>. Consider extracting a shared mount-translation helper so both call sites use the same symlink semantics (see Design Observations below).</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> <code>Glob</code> and <code>SearchFileContent</code> return guest paths that the agent cannot feed back to other tools <span class="pill pill-gemini">Gemini</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/mcp/toolset/filesystem.go#L125-L144">pkg/mcp/toolset/filesystem.go</a></div>
+      <pre data-start="125" data-line="130-139"><code class="language-go">		pathStr = *args.Path
+	}
+	guestPath, err := ts.TranslateHostPath(pathStr)
+	if err != nil {
+		return nil, nil, err
+	}
+	pattern := path.Join(guestPath, args.Pattern)
+	matches, err := ts.sftp.Glob(pattern)
+	if matches == nil {
+		matches = []string{}
+	}
+	if err != nil {
+		return nil, nil, err
+	}
+	res := &amp;msi.GlobResult{
+		Matches: matches,
+	}
+	return &amp;mcp.CallToolResult{
+		// Gemini:
+		// A message like: Found 5 file(s) matching &quot;*.ts&quot; within src, sorted by modification time (newest first):\nsrc/file1.ts\nsrc/subdir/file2.ts...</code></pre>
+    <p><code>Glob</code> returns absolute guest paths from <code>ts.sftp.Glob</code>. <code>SearchFileContent</code> runs <code>git grep</code> with the guest path, so stdout lines begin with guest paths. When the AI agent feeds either result back into <code>ReadFile</code>, <code>WriteFile</code>, or any other tool, <code>TranslateHostPath</code> rejects the guest path because it does not sit under any host mount. The workflow happens to succeed today only when the mount is symmetric (e.g. <code>$HOME</code> → <code>$HOME</code>, as the BATS harness arranges); any asymmetric mount breaks it.</p>
+    <p>This issue is pre-existing (no translation was performed before this PR) but the new strict validation makes it user-visible. Round 1 flagged it (I4) and deferred to a follow-up; it remains open.</p>
+    <p>Fix: in <code>Glob</code>, translate each match from guest path back to host path before returning. In <code>SearchFileContent</code>, pass a path relative to the search directory so <code>git grep</code> emits host-relative output.</p>
+      <pre><code class="language-diff">-	pattern := path.Join(guestPath, args.Pattern)
+-	matches, err := ts.sftp.Glob(pattern)
++	pattern := path.Join(guestPath, args.Pattern)
++	matches, err := ts.sftp.Glob(pattern)
+ 	if matches == nil {
+ 		matches = []string{}
+ 	}
+ 	if err != nil {
+ 		return nil, nil, err
+ 	}
++	guestPrefix := strings.TrimRight(guestPath, &quot;/&quot;) + &quot;/&quot;
++	for i, m := range matches {
++		if rel, ok := strings.CutPrefix(m, guestPrefix); ok {
++			matches[i] = filepath.Join(pathStr, filepath.FromSlash(rel))
++		}
++	}</code></pre>
+    <p>Gemini raised this at critical severity; we consolidate to important because Round 1 and Round 2 both reviewed this as a deferred design gap rather than a merge blocker, and every caller has a usable error message rather than silent corruption.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> Changing the shared <code>bats</code> instance to mount <code>$HOME:w</code> affects every other test that reuses the instance <span class="pill pill-claude">Claude</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/hack/bats/helpers/limactl.bash#L26-L36">hack/bats/helpers/limactl.bash</a></div>
+      <pre data-start="26" data-line="31"><code class="language-bash">        [[ $status == 0 ]] &amp;&amp; [[ $output == &quot;Running&quot; ]] &amp;&amp; return
+    fi
+    limactl unprotect &quot;$instance&quot; || :
+    limactl delete --force &quot;$instance&quot; || :
+    case &quot;$instance&quot; in
+        bats)          limactl start --yes --name &quot;$instance&quot; template:default 3&gt;&amp;- 4&gt;&amp;- ;;
+        bats-nomount)  limactl start --yes --name &quot;$instance&quot; --mount-none template:default 3&gt;&amp;- 4&gt;&amp;- ;;
+        bats-dummy)    create_dummy_instance &quot;$instance&quot; &#39;.disk = &quot;1M&quot;&#39; ;;
+        *)
+            echo &quot;ensure_instance: unknown instance name &#39;$instance&#39;&quot; &gt;&amp;2
+            return 1</code></pre>
+    <p><code>copy.bats</code>, <code>path.bats</code>, <code>preserve-env.bats</code>, and <code>mcp.bats</code> all set <code>INSTANCE=bats</code> and share the same VM. Two concrete risks:</p>
+    <ol>
+      <li><em></em>Stale instances with <code>LIMA_BATS_REUSE_INSTANCE</code>.<em></em> <code>ensure_instance</code> at <a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/hack/bats/helpers/limactl.bash#L24-L27"><code>hack/bats/helpers/limactl.bash:24-27</code></a> reuses the instance when it is already Running. A developer with a previously created <code>bats</code> instance (no <code>$HOME</code> mount) silently runs <code>mcp.bats</code> against a VM missing the required mount, and every test fails with <code>path &quot;...&quot; is not under any mounted directory</code>. The failure points at the tool output, not the helper change.</li>
+      <li><em></em>Test output depends on the developer&#39;s <code>$HOME</code>.<em></em> <code>mcp.bats</code> writes to <code>$HOME/mcp.test</code>, <code>$HOME/tmp_mcp_test</code>, <code>$HOME/tmp_mcp_ro</code>, etc. A path collision with existing files produces confusing failures, and assertion failures mid-test leave artifacts behind (see I4).</li>
+    </ol>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/hack/bats/helpers/limactl.bash#L19-L32">hack/bats/helpers/limactl.bash</a></div>
+      <pre data-start="19" data-line="24-27"><code class="language-bash"># existing running instance. Otherwise delete and recreate it.
+# The instance configuration is determined by its name; add a case below for new names.
+# Close file handles 3 and 4 so the host agent doesn&#39;t block BATS from exiting.
+ensure_instance() {
+    local instance=$1
+    if [[ -n &quot;${LIMA_BATS_REUSE_INSTANCE:-}&quot; ]]; then
+        run limactl list --format &#39;{{.Status}}&#39; &quot;$instance&quot;
+        [[ $status == 0 ]] &amp;&amp; [[ $output == &quot;Running&quot; ]] &amp;&amp; return
+    fi
+    limactl unprotect &quot;$instance&quot; || :
+    limactl delete --force &quot;$instance&quot; || :
+    case &quot;$instance&quot; in
+        bats)          limactl start --yes --name &quot;$instance&quot; template:default 3&gt;&amp;- 4&gt;&amp;- ;;
+        bats-nomount)  limactl start --yes --name &quot;$instance&quot; --mount-none template:default 3&gt;&amp;- 4&gt;&amp;- ;;</code></pre>
+    <p>Fix: verify the <code>$HOME</code> mount exists in <code>local_setup</code> and fail fast with a clear diagnostic, or rename the instance (e.g. <code>bats-mount-home</code>) so that tests requiring <code>$HOME</code> do not force the mount onto unrelated tests. Add a trailing comment on the <code>--mount &quot;$HOME:w&quot;</code> line explaining the coupling.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I4">
+        <span class="finding-num">I4.</span> <code>write_file</code> read-only-directory test skips cleanup on assertion failure <span class="pill pill-claude">Claude</span><a href="#I4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/hack/bats/tests/mcp.bats#L256-L279">hack/bats/tests/mcp.bats</a></div>
+      <pre data-start="256" data-line="261-274"><code class="language-bash">
+@test &#39;write_file returns an error when the directory is not writable&#39; {
+    limactl shell &quot;$INSTANCE&quot; mkdir -p /tmp/tmp
+    limactl shell &quot;$INSTANCE&quot; chmod 444 /tmp/tmp
+    tools_call write_file &#39;{&quot;path&quot;:&quot;/tmp/tmp/tmp&quot;,&quot;content&quot;:&quot;tmp&quot;}&#39;
+    json=$output
+
+    run_yq &#39;.isError&#39; &lt;&lt;&lt;&quot;$json&quot;
+    assert_output &quot;true&quot;
+
+    run_yq &#39;.content[0].text&#39; &lt;&lt;&lt;&quot;$json&quot;
+    assert_output &quot;permission denied&quot;
+}
+
+@test &#39;write_file returns an error when path is not absolute&#39; {
+    tools_call write_file &#39;{&quot;path&quot;:&quot;tmp/mcp.test&quot;,&quot;content&quot;:&quot;baz&quot;}&#39;
+    json=$output
+
+    run_yq &#39;.isError&#39; &lt;&lt;&lt;&quot;$json&quot;
+    assert_output &quot;true&quot;
+
+    run_yq &#39;.content[0].text&#39; &lt;&lt;&lt;&quot;$json&quot;
+    assert_output --partial &quot;expected an absolute path&quot;
+}</code></pre>
+    <p>When any assertion above line 272 fails, bats aborts the test and the <code>chmod 755</code> / <code>rm -rf</code> cleanup never runs. The result is a mode-444 directory left in the developer&#39;s <code>$HOME</code> that subsequent runs cannot write into (though <code>mkdir -p</code> on the existing directory succeeds, leading to silent reuse).</p>
+    <p>Fix: add defensive cleanup at the start of the test so that a previous failure does not poison the next run.</p>
+      <pre><code class="language-diff"> @test &#39;write_file returns an error when the directory is not writable&#39; {
++    chmod 755 &quot;$HOME/tmp_mcp_ro&quot; 2&gt;/dev/null || true
++    rm -rf &quot;$HOME/tmp_mcp_ro&quot;
+     mkdir -p &quot;$HOME/tmp_mcp_ro&quot;</code></pre>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> <code>TranslateHostPath</code> / <code>translateToGuestPath</code> split adds indirection without clarity <span class="pill pill-claude">Claude</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/mcp/toolset/toolset.go#L101-L114">pkg/mcp/toolset/toolset.go</a></div>
+      <pre data-start="101" data-line="106-145"><code class="language-go">	}
+	return err
+}
+
+func (ts *ToolSet) TranslateHostPath(hostPath string) (string, error) {
+	if hostPath == &quot;&quot; {
+		return &quot;&quot;, errors.New(&quot;path is empty&quot;)
+	}
+	if !filepath.IsAbs(hostPath) {
+		return &quot;&quot;, fmt.Errorf(&quot;expected an absolute path, got a relative path: %q&quot;, hostPath)
+	}
+	// TODO: make sure that hostPath is mounted
+	return hostPath, nil
+}</code></pre>
+    <p>Nothing else calls <code>translateToGuestPath</code>. The two names differ only by a preposition, so a reader must compare both bodies to see which does what. Either inline the loop into <code>TranslateHostPath</code>, or rename the private helper to <code>lookupMount</code> so the boolean return reads naturally (<code>guest, ok := ts.lookupMount(host)</code>).</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> <code>filepath.Rel</code> compares paths case-sensitively on case-insensitive filesystems <span class="pill pill-claude">Claude</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/mcp/toolset/toolset.go#L1-L20">pkg/mcp/toolset/toolset.go</a></div>
+      <pre data-start="1" data-line="130"><code class="language-go">// SPDX-FileCopyrightText: Copyright The Lima Authors
+// SPDX-License-Identifier: Apache-2.0
+
+package toolset
+
+import (
+	&quot;context&quot;
+	&quot;errors&quot;
+	&quot;fmt&quot;
+	&quot;os&quot;
+	&quot;os/exec&quot;
+	&quot;path/filepath&quot;
+	&quot;slices&quot;
+
+	&quot;github.com/modelcontextprotocol/go-sdk/mcp&quot;
+	&quot;github.com/pkg/sftp&quot;
+	&quot;github.com/sirupsen/logrus&quot;
+
+	&quot;github.com/lima-vm/lima/v2/pkg/instance/hostname&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/limatype&quot;</code></pre>
+    <p>macOS APFS (default case-insensitive) and Windows NTFS treat <code>/Users/Jan</code> and <code>/users/jan</code> as the same directory, but <code>filepath.Rel</code> compares lexically. An agent that lowercases paths, or one that happens to emit a different casing than the mount configuration, fails validation even though the file is reachable.</p>
+    <p>Fix: on darwin and windows, compare case-insensitively, or resolve both sides through <code>EvalSymlinks</code> against the real filesystem — which canonicalizes case and composes with the symlink fix in I1.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> Test coverage for the longest-match tiebreaker is order-sensitive only <span class="pill pill-claude">Claude</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/mcp/toolset/toolset_test.go#L33-L89">pkg/mcp/toolset/toolset_test.go</a></div>
+      <pre data-start="33" data-line="38-84"><code class="language-go">		wantGuestPath string
+		wantErr       bool
+	}
+
+	tests := []translateHostPathTest{
+		{
+			name:     &quot;child mount takes precedence&quot;,
+			hostPath: absPath(&quot;/parent/child/file.txt&quot;),
+			toolSet: ToolSet{
+				inst: &amp;limatype.Instance{
+					Config: &amp;limatype.LimaYAML{
+						Mounts: []limatype.Mount{
+							{Location: absPath(&quot;/parent&quot;), MountPoint: &amp;mountPointParent},
+							{Location: absPath(&quot;/parent/child&quot;), MountPoint: &amp;mountPointChild},
+						},
+					},
+				},
+			},
+			wantGuestPath: &quot;/mnt/child/file.txt&quot;,
+			wantErr:       false,
+		},
+		{
+			name:     &quot;parent mount used for parent path&quot;,
+			hostPath: absPath(&quot;/parent/file.txt&quot;),
+			toolSet: ToolSet{
+				inst: &amp;limatype.Instance{
+					Config: &amp;limatype.LimaYAML{
+						Mounts: []limatype.Mount{
+							{Location: absPath(&quot;/parent&quot;), MountPoint: &amp;mountPointParent},
+							{Location: absPath(&quot;/parent/child&quot;), MountPoint: &amp;mountPointChild},
+						},
+					},
+				},
+			},
+			wantGuestPath: &quot;/mnt/parent/file.txt&quot;,
+			wantErr:       false,
+		},
+		{
+			name:     &quot;child mount listed first&quot;,
+			hostPath: absPath(&quot;/parent/child/file.txt&quot;),
+			toolSet: ToolSet{
+				inst: &amp;limatype.Instance{
+					Config: &amp;limatype.LimaYAML{
+						Mounts: []limatype.Mount{
+							{Location: absPath(&quot;/parent/child&quot;), MountPoint: &amp;mountPointChild},
+							{Location: absPath(&quot;/parent&quot;), MountPoint: &amp;mountPointParent},
+						},
+					},
+				},
+			},
+			wantGuestPath: &quot;/mnt/child/file.txt&quot;,
+			wantErr:       false,
+		},
+		{
+			name:     &quot;no mounts configured returns error&quot;,
+			hostPath: absPath(&quot;/foo/bar.txt&quot;),
+			toolSet: ToolSet{</code></pre>
+    <p>All three overlapping-mount cases use the same <code>/parent</code> + <code>/parent/child</code> pair. Add a case with two mounts whose locations have equal string length but different directories (e.g. <code>/foo/aa</code> and <code>/bb/cc</code>) to confirm selection follows real prefix containment rather than lexical ordering, and a three-deep case (<code>/a</code>, <code>/a/b</code>, <code>/a/b/c</code>) to confirm <code>bestLen</code> scales past two entries.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> <code>read_file returns an error when path does not exist</code> depends on the developer&#39;s <code>$HOME</code> contents <span class="pill pill-claude">Claude</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/hack/bats/tests/mcp.bats#L209-L223">hack/bats/tests/mcp.bats</a></div>
+      <pre data-start="209" data-line="214-218"><code class="language-bash">    run_yq &#39;.content[0].text&#39; &lt;&lt;&lt;&quot;$json&quot;
+    assert_output &quot;file does not exist&quot;
+}
+
+@test &#39;read_file returns an error when path is not absolute&#39; {
+    tools_call read_file &#39;{&quot;path&quot;:&quot;os-release&quot;}&#39;
+    json=$output
+
+    run_yq &#39;.isError&#39; &lt;&lt;&lt;&quot;$json&quot;
+    assert_output &quot;true&quot;
+
+    run_yq &#39;.content[0].text&#39; &lt;&lt;&lt;&quot;$json&quot;
+    assert_output --partial &quot;expected an absolute path&quot;
+}
+</code></pre>
+    <p>The test assumes <code>$HOME/os-release-info</code> does not exist. A developer with such a file (however unlikely) sees <code>isError: null</code> instead of <code>true</code>.</p>
+    <p>Fix: use a randomized filename, e.g. <code>$HOME/os-release-info.$$.$RANDOM</code>, or <code>$HOME/mcp-nonexistent-$BATS_TEST_NUMBER</code>. <code>$BATS_TEST_TMPDIR</code> lives under <code>/private/var/folders/...</code> on macOS (outside the <code>$HOME</code> mount), so it is not a drop-in replacement.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> <code>WriteFile</code> ignores the error returned by <code>Close</code> <span class="pill pill-gemini">Gemini</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/mcp/toolset/filesystem.go#L90-L108">pkg/mcp/toolset/filesystem.go</a></div>
+      <pre data-start="90" data-line="95-103"><code class="language-go">	}
+	dir := filepath.Dir(guestPath)
+	err = ts.sftp.MkdirAll(dir)
+	if err != nil {
+		return nil, nil, err
+	}
+	f, err := ts.sftp.Create(guestPath)
+	if err != nil {
+		return nil, nil, err
+	}
+	defer f.Close()
+	_, err = f.Write([]byte(args.Content))
+	if err != nil {
+		return nil, nil, err
+	}
+	res := &amp;msi.WriteFileResult{}
+	return &amp;mcp.CallToolResult{
+		// Gemini:
+		// A success message, e.g., `Successfully overwrote file: /path/to/your/file.txt`</code></pre>
+    <p>SFTP servers may defer flush to <code>Close</code>; a failed close can mean the data never reached disk but the tool reports success. Capture the close error and return it as the operation result when <code>Write</code> itself succeeded.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> MCP tool schema descriptions still advertise &quot;absolute path&quot; without the mount constraint<a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/mcp/msi/filesystem.go#L19-L29">pkg/mcp/msi/filesystem.go</a></div>
+      <pre data-start="19" data-line="24"><code class="language-go">	Name:        &quot;list_directory&quot;,
+	Description: `Lists the names of files and subdirectories directly within a specified directory path.`,
+}
+
+type ListDirectoryParams struct {
+	Path string `json:&quot;path&quot; jsonschema:&quot;The absolute path to the directory to list.&quot;`
+}
+
+// ListDirectoryResultEntry is similar to [io/fs.FileInfo].
+type ListDirectoryResultEntry struct {
+	Name    string       `json:&quot;name&quot; jsonschema:&quot;base name of the file&quot;`</code></pre>
+    <p>After the new hard error at <a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/mcp/toolset/toolset.go#L116"><code>toolset.go:116</code></a>, tools reject absolute paths that fall outside every configured mount. The schema text advertises the old contract, so the AI agent receives tool-call errors it cannot predict from the tool description, causing avoidable retries and confusing failure modes. The same applies to <code>run_shell_command</code>&#39;s <code>directory</code> parameter (<code>pkg/mcp/msi/shell.go</code>).</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/mcp/toolset/toolset.go#L111-L114">pkg/mcp/toolset/toolset.go</a></div>
+      <pre data-start="111" data-line="116"><code class="language-go">	}
+	// TODO: make sure that hostPath is mounted
+	return hostPath, nil
+}</code></pre>
+    <p>Fix: update the jsonschema strings to something like <code>The absolute host path to the file to read. The path must lie under a mount location configured for this Lima instance.</code></p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> Public <code>TranslateHostPath</code> has no nil-instance guard<a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/mcp/toolset/toolset.go#L101-L111">pkg/mcp/toolset/toolset.go</a></div>
+      <pre data-start="101" data-line="106"><code class="language-go">	}
+	return err
+}
+
+func (ts *ToolSet) TranslateHostPath(hostPath string) (string, error) {
+	if hostPath == &quot;&quot; {
+		return &quot;&quot;, errors.New(&quot;path is empty&quot;)
+	}
+	if !filepath.IsAbs(hostPath) {
+		return &quot;&quot;, fmt.Errorf(&quot;expected an absolute path, got a relative path: %q&quot;, hostPath)
+	}</code></pre>
+    <p><code>translateToGuestPath</code> dereferences <code>ts.inst.Config.Mounts</code> at line 125. Every current caller (<code>ListDirectory</code>, <code>ReadFile</code>, <code>WriteFile</code>, <code>Glob</code>, <code>SearchFileContent</code>, <code>RunShellCommand</code>) checks <code>ts.inst == nil</code> first, so the current code is safe. The precondition is undocumented, and a future caller that reuses <code>TranslateHostPath</code> directly crashes with a nil-pointer panic rather than a clear error.</p>
+    <p>Fix: either add <code>if ts.inst == nil { return &quot;&quot;, errors.New(&quot;instance not registered&quot;) }</code> at the top of <code>TranslateHostPath</code>, or add a godoc line stating that the method requires <code>RegisterInstance</code> to have succeeded.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Mount translation is duplicated across packages</strong> <em>(in-scope)</em> — <a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/mcp/toolset/toolset.go#L121-L145"><code>pkg/mcp/toolset/toolset.go:121-145</code></a> reimplements host-to-guest translation already present in <a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/hostagent/inotify.go#L95-L109"><code>pkg/hostagent/inotify.go:95-109</code></a>. The two copies have diverged: the hostagent version resolves symlinks, the toolset version does not. I1 is the first concrete bug caused by that divergence. Extracting a shared helper in a small mount-translation utility would unify symlink handling and give both call sites the same regression tests. <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span></li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em>Containment via <code>filepath.Rel</code> + <code>filepath.IsLocal</code><em></em> <em>(in-scope)</em> — handles trailing slashes, <code>..</code> components, same-prefix-different-directory cases (<code>/home/user</code> vs <code>/home/user2</code>), and Windows cross-drive paths with one primitive. Naive <code>strings.HasPrefix</code> would get all of these wrong. <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span></li>
+      <li><strong>Centralized enforcement</strong> <em>(in-scope)</em> — every MCP tool routes through <code>TranslateHostPath</code> rather than each tool repeating the policy. <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span></li>
+      <li><strong>Longest-match heuristic for overlapping mounts</strong> <em>(in-scope)</em> — after <code>filepath.Clean</code>, a longer canonical location string is always the more specific mount. Simple and correct. <span class="pill pill-claude">Claude</span></li>
+      <li><strong>POSIX/native separator split</strong> <em>(in-scope)</em> — <code>filepath.ToSlash(rel)</code> + <code>path.Join(*mount.MountPoint, ...)</code> correctly produces a Linux path for the guest regardless of host OS. <span class="pill pill-claude">Claude</span></li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Unit coverage is solid for lexical cases — empty, relative, exact match, subdirectory, overlapping mounts in both orders, nil <code>MountPoint</code>, trailing slashes, and Windows drive-letter paths via the <code>absPath()</code> helper.</p>
+    <p>Missing scenarios, ranked by risk:</p>
+    <ol>
+      <li><strong>Symlinked host path or symlinked mount location</strong> — the primary failure mode on macOS (I1). A test with <code>/private/tmp/foo</code> against a <code>/tmp</code> mount would catch it.</li>
+      <li><strong>Case-insensitive filesystem match</strong> — S2.</li>
+      <li><em></em><code>write_file</code> creating a new file under a symlinked parent<em></em> — relevant once I1 is fixed, since <code>EvalSymlinks</code> on a nonexistent target returns an error.</li>
+      <li><strong>Equal-length mount locations</strong> — S3.</li>
+      <li><strong>Windows cross-drive paths</strong> — <code>filepath.Rel</code> returns an error; no test exercises the <code>err != nil</code> branch.</li>
+      <li><em></em>BATS integration on a host where <code>$HOME</code> is a symlink<em></em> — probes I1 end-to-end.</li>
+      <li><strong>BATS end-to-end rejection of unmounted paths</strong> — no integration test asserts the new hard error through the MCP protocol.</li>
+    </ol>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The exported <code>TranslateHostPath</code> gains non-trivial behavior (mount containment + longest match) but no godoc describes the contract or the error cases. Callers in <code>filesystem.go</code> and <code>shell.go</code> propagate the error verbatim to the AI agent, so the error wording is part of the public contract and deserves a godoc comment.</p>
+    <p>The MCP tool schemas at <code>pkg/mcp/msi/filesystem.go</code> and <code>pkg/mcp/msi/shell.go</code> still describe the pre-PR contract (see S6); the AI agent consumes these strings and has no other way to learn the mount restriction.</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>One commit (<code>45823748 added validation for hostPath</code>), squashed per the maintainer&#39;s earlier request. The subject understates the scope — a more descriptive title such as <code>mcp: reject hostPath outside any configured mount</code> would better reflect the change.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>@jandubois</strong> (&quot;warnings should be hard errors&quot;, CHANGES_REQUESTED review) — addressed. <code>TranslateHostPath</code> returns an error; <code>translateToGuestPath</code> returns a <code>bool</code>; the warning path is removed. @Horiodino confirmed agreement at discussion_r2998918106.</li>
+      <li><strong>@AkihiroSuda</strong> (&quot;Callers such as ListDirectory and ReadFile have to handle this case&quot;, discussion_r2576648442) — addressed. Every <code>filesystem.go</code> and <code>shell.go</code> entrypoint calls <code>TranslateHostPath</code> and returns its error.</li>
+      <li><strong>@AkihiroSuda</strong> (&quot;Logging might be too verbose. Also, doesn&#39;t this need to be visible to the AI agent?&quot;, discussion_r2583167309) — addressed by the switch to a hard error, which surfaces to the agent as the tool-call error.</li>
+      <li><strong>@AkihiroSuda</strong> / <strong>@jandubois</strong> (the <code>MetaWarnings</code> constant, <code>Meta</code> initialization, and related discussions across several threads) — obviated. The <code>Meta</code>-based warning machinery is removed entirely.</li>
+      <li><strong>@jandubois</strong> (&quot;On Unix the prefix condition is redundant...&quot;, discussion_r2825747719; &quot;<code>rel</code> being <code>..</code> is already covered by the <code>HasPrefix</code> test&quot;, discussion_r2825966199) — obviated by the switch to <code>filepath.Rel</code> + <code>filepath.IsLocal</code>.</li>
+      <li><strong>@jandubois</strong> (&quot;This could be moved outside the loop because the <code>hostPath</code> doesn&#39;t change&quot;, discussion_r2825990704) — addressed. <code>cleanPath</code> is computed once before the loop at <a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/mcp/toolset/toolset.go#L122"><code>toolset.go:122</code></a>.</li>
+      <li><strong>@AkihiroSuda</strong> (&quot;Tests are failing on Windows. Also please squash the commits.&quot;, discussion_r2591474775) — the <code>absPath</code> helper at <a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/mcp/toolset/toolset_test.go#L16-L21"><code>toolset_test.go:16-21</code></a> prepends <code>C:</code> on Windows, and the commits are squashed. Windows CI has not been re-confirmed on the current HEAD; worth verifying on the rebased branch.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>@jandubois</strong> (&quot;There is no test covering this special case.&quot;, discussion_r2825969131) — the comment referenced an earlier iteration and the &quot;special case&quot; is ambiguous without more context. The current <code>exact mount path match</code> test at <a href="https://github.com/lima-vm/lima/blob/458237488aee7c6b4078cd0449c77428de473225/pkg/mcp/toolset/toolset_test.go#L144-L158"><code>toolset_test.go:144-158</code></a> appears to cover the most plausible reading, but a confirmation from the commenter would close this cleanly.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude"><span class="pill pill-claude">Claude</span> <a href="#claude" class="pilcrow">&#182;</a></h3>
+    <p>Claude delivered the broadest review, covering the code, the BATS infrastructure, and a set of testable gaps that neither other agent surfaced. The I1 symlink finding matched Codex&#39;s but Claude also traced the existing <code>pkg/hostagent/inotify.go</code> precedent and quoted the repo-context guidance verbatim, making the fix direction obvious. Its unique contributions were I3 (shared-<code>bats</code>-instance coupling, with the <code>LIMA_BATS_REUSE_INSTANCE</code> stale-instance failure mode) and I4 (ro-dir cleanup), both restating unaddressed Round 2 findings. The three Claude suggestions (S1 naming/indirection, S2 case-insensitive FS, S3 tiebreaker coverage) are all implementable in under 20 lines and would harden the module against the next regression. One minor miss: S6/S7 from Round 2 were not re-raised, so we added them via the gate check.</p>
+    <h3 id="codex"><span class="pill pill-codex">Codex</span> <a href="#codex" class="pilcrow">&#182;</a></h3>
+    <p>Codex produced a focused, minimal review — one important finding (I1), one design observation (mount translation duplication), zero suggestions, zero false positives. Its fix sketch for I1 was more complete than Claude&#39;s because it spelled out the &quot;preserve the non-existent tail for write_file&quot; wrinkle that the naive <code>EvalSymlinks</code> solution misses. Running <code>go test ./pkg/mcp/toolset ./pkg/limayaml</code> and citing the result is the kind of evidence the dimensions prompt encourages but rarely gets. Codex skipped <code>git blame</code> (as expected per its known behavior) but did not need it here — no regression call hinged on the boundary between pre-existing and new code.</p>
+    <h3 id="gemini"><span class="pill pill-gemini">Gemini</span> <a href="#gemini" class="pilcrow">&#182;</a></h3>
+    <p>Gemini recovered its form after the Round 2 stale-code failure. It raised the symlink issue (C2) and the Glob/SearchFileContent guest-path leakage (C1) that Round 1 deferred. Severity calibration was inflated: both findings are important, not critical. C1 is a pre-existing design gap made more visible by the new validation, and C2 has an obvious hard error path that the caller surfaces cleanly — neither matches the &quot;blocks merge, data loss&quot; bar for critical. Its S5 (unchecked <code>Close</code> on SFTP write) is a fair catch that the other agents missed.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.7</th><th><span class="pill pill-codex">Codex</span> GPT 5.4</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>6m 45s</td><td>5m 18s</td><td>5m 18s</td></tr>
+        <tr><td>Findings</td><td>2I 4S</td><td>1I</td><td>2I 1S</td></tr>
+        <tr><td>Tool calls</td><td>22 (Read 11, Bash 7, Grep 4)</td><td>41 (shell 39, stdin 2)</td><td>8 (run<em>shell</em>command 4, read<em>file 3, grep</em>search 1)</td></tr>
+        <tr><td>Design observations</td><td>2</td><td>2</td><td>1</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>3</td><td>0</td><td>2</td></tr>
+        <tr><td>Files reviewed</td><td>5</td><td>5</td><td>5</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>2I 4S</strong></td><td><strong>1I</strong></td><td><strong>2I 1S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>2 (I→S)</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p>Claude offered the broadest coverage and the most actionable findings. Codex offered the cleanest single-finding review and the best fix sketch for I1. Gemini added one finding (C1, consolidated to I2) that complements the symlink issue and raised an SFTP-specific suggestion the other two missed. All three agents converged on the symlink regression as the primary merge-blocking issue, which matches the Round 2 conclusion — the PR has not moved forward since the previous round.</p>
+    <p><strong>Reconciliation</strong></p>
+    <ul>
+      <li>Gemini C1 (Glob/SearchFileContent leak guest paths): <strong>critical → important I2.</strong> Round 1 reviewed this at important severity and deferred to a follow-up; nothing has changed to justify escalation.</li>
+      <li>Gemini C2 (missing <code>EvalSymlinks</code>): <strong>critical → important I1.</strong> Consolidated with Codex I1 and Claude I1. The issue fails validation with a clear error rather than silently corrupting state — important rather than critical.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <p>None this round — the prompt guidance already covers the dimensions the agents used, and the gate mechanism correctly surfaced Round 2&#39;s unaddressed items.</p>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <p>None — existing <code>deep-review-context.md</code> entries (including the symlink-resolution guidance) held up through this review and were actively applied by Claude.</p>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
