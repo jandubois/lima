@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260426-165750-pr-4889</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260426-165750-pr-4889</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-04-26 16:57</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1</td></tr>
+      <tr><td>Author</td><td>@mn-ram</td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/4889" class="gh-ref" data-title="hostagent: close stale GuestAgentClient on reconnect to stop ClientConn leak" data-state="open" data-type="pr">#4889</a> — hostagent: close stale GuestAgentClient on reconnect to stop ClientConn leak</td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/3b4f6cef"><code>3b4f6cef</code></a> hostagent: close stale GuestAgentClient on reconnect to stop ClientConn leak</td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.7 (effort: xhigh), <span class="pill pill-codex">Codex</span> GPT 5.5 (effort: xhigh), <span class="pill pill-gemini">Gemini</span> 3.1 Pro (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; the leak fix itself is correct and minimal, but the explicit <code>a.client = nil</code> introduces a data race against unprotected reads in <code>watchGuestAgentEvents</code>, and closing the previous client strands the dialer captured by long-lived port-forward listeners.</td></tr>
+      <tr><td>Wall-clock time</td><td>11 min 25 s</td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR retains the <code>*grpc.ClientConn</code> inside <code>GuestAgentClient</code>, exposes <code>Close()</code>, closes the previous client in <code>getOrCreateClient</code> before replacing it, and registers a shutdown cleanup. The leak fix is correct, the new locking is consistent with the existing <code>clientMu</code>, and the diff is small and well-commented.</p>
+    <p>Two important issues survive consolidation:</p>
+    <ol>
+      <li>The new <code>a.client = nil</code> write under lock collides with two pre-existing unprotected reads of <code>a.client</code> in <code>watchGuestAgentEvents</code>. Pre-PR those reads were a benign race (the field was never nilled between writes); post-PR the field is observable as <code>nil</code> between <code>Close()</code> and the new assignment, so the second read in <code>if a.client == nil || !isGuestAgentSocketAccessible(ctx, a.client)</code> can dereference nil and crash the hostagent.</li>
+      <li><code>pkg/portfwd/listener.go</code>&#39;s listener map keys by <code>host/guest</code> and skips re-creation, so the dialer closure captured by <code>DialContextToGRPCTunnel(client)</code> outlives the client. Closing the stale client now permanently breaks dialing through any listener that was set up before the reconnect, even though pre-PR the gRPC reconnect machinery would have papered over a guest-agent restart on the same socket.</li>
+    </ol>
+    <p>Structure: 0 critical, 2 important, 2 suggestions.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> Closing the stale client strands dialers held by existing port-forward listeners <span class="pill pill-codex">Codex</span> <span class="pill pill-claude">Claude</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/hostagent.go#L838-L853">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="838" data-line="843-848"><code class="language-go">	}
+	// The previous client (if any) is unreachable: close its underlying gRPC
+	// ClientConn before replacing it, otherwise the resolver/transport
+	// goroutines and the dialed net.Conn (e.g. forwarded ga.sock) leak across
+	// every guest agent restart or VM reboot.
+	if a.client != nil {
+		if err := a.client.Close(); err != nil {
+			logrus.WithError(err).Debug(&quot;failed to close stale guest agent client&quot;)
+		}
+		a.client = nil
+	}
+	var err error
+	a.client, err = guestagentclient.NewGuestAgentClient(a.createConnection)
+	return a.client, err
+}
+</code></pre>
+    <p><code>processGuestAgentEvents</code> builds the dialer once per loop iteration as <code>dialContext := portfwd.DialContextToGRPCTunnel(client)</code> and hands it to <code>a.grpcPortForwarder.OnEvent</code> (<a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/hostagent.go#L898-L899"><code>pkg/hostagent/hostagent.go:898-899</code></a>). <code>DialContextToGRPCTunnel</code> captures <code>client</code> in a closure (<a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/portfwd/client.go#L46-L67"><code>pkg/portfwd/client.go:46-67</code></a>); each future TCP/UDP accept calls <code>client.Tunnel(...)</code> against that captured pointer.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/hostagent.go#L893-L904">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="893" data-line="898-899"><code class="language-go">			}
+		}
+		if useSSHFwd {
+			a.portForwarder.OnEvent(ctx, ev)
+		} else {
+			dialContext := portfwd.DialContextToGRPCTunnel(client)
+			a.grpcPortForwarder.OnEvent(ctx, dialContext, ev)
+		}
+	}
+
+	if err := client.Events(ctx, onEvent); err != nil {
+		if status.Code(err) == codes.Canceled {</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/portfwd/client.go#L41-L72">pkg/portfwd/client.go</a></div>
+      <pre data-start="41" data-line="46-67"><code class="language-go">	}()
+	proxy.Run()
+	logrus.Debugf(&quot;udp proxy for guestAddr: %s closed&quot;, guestAddr)
+}
+
+func DialContextToGRPCTunnel(client *guestagentclient.GuestAgentClient) func(ctx context.Context, network, addr string) (net.Conn, error) {
+	// gvisor-tap-vsock&#39;s UDPProxy demultiplexes client connections internally based on their source address.
+	// It calls this dialer function only when it receives a datagram from a new, unrecognized client.
+	// For each new client, we must return a new net.Conn, which in our case is a new gRPC stream.
+	// The atomic counter ensures that each stream has a unique ID to distinguish them on the server side.
+	var connectionCounter atomic.Uint32
+	return func(_ context.Context, network, addr string) (net.Conn, error) {
+		// Passed context.Context is used for timeout on initiate connection, not for the lifetime of the connection.
+		// We use context.Background() here to avoid unexpected cancellation.
+		stream, err := client.Tunnel(context.Background())
+		if err != nil {
+			return nil, fmt.Errorf(&quot;could not open tunnel for addr: %s error:%w&quot;, addr, err)
+		}
+		// Handshake message to start tunnel
+		id := fmt.Sprintf(&quot;%s-%s-%d&quot;, network, addr, connectionCounter.Add(1))
+		if err := stream.Send(&amp;api.TunnelMessage{Id: id, Protocol: network, GuestAddr: addr}); err != nil {
+			return nil, fmt.Errorf(&quot;could not start tunnel for id: %s addr: %s error:%w&quot;, id, addr, err)
+		}
+		rw := &amp;GrpcClientRW{stream: stream, id: id, addr: addr, protocol: network}
+		return rw, nil
+	}
+}
+
+type GrpcClientRW struct {
+	id   string
+	addr string
+</code></pre>
+    <p><code>ClosableListeners.forwardTCP</code> keys the listener map by <code>tcp/host/guest</code> and early-returns when the same key already exists, so the dialer is <strong>not refreshed</strong> on a follow-up event:</p>
+      <pre><code class="language-go">_, ok := p.listeners[key]
+if ok {
+    p.listenersRW.Unlock()
+    return
+}</code></pre>
+    <p>(<a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/portfwd/listener.go#L99-L103"><code>pkg/portfwd/listener.go:99-103</code></a>)</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/portfwd/listener.go#L94-L108">pkg/portfwd/listener.go</a></div>
+      <pre data-start="94" data-line="99-103"><code class="language-go">}
+
+func (p *ClosableListeners) forwardTCP(ctx context.Context, dialContext func(ctx context.Context, network string, addr string) (net.Conn, error), hostAddress, guestAddress string) {
+	key := key(&quot;tcp&quot;, hostAddress, guestAddress)
+
+	p.listenersRW.Lock()
+	_, ok := p.listeners[key]
+	if ok {
+		p.listenersRW.Unlock()
+		return
+	}
+	tcpLis, err := Listen(ctx, p.listenConfig, hostAddress)
+	if err != nil {
+		logListenError(err, &quot;tcp&quot;, hostAddress)
+		p.listenersRW.Unlock()</code></pre>
+    <p>After a guest-agent restart with an unchanged guest port set, the existing host listener keeps its old <code>dialContext</code>; new TCP accepts call <code>Tunnel()</code> on the now-<code>Close()</code>d <code>ClientConn</code> and fail immediately with <code>ErrClientConnClosing</code>. Pre-PR the same scenario worked because gRPC&#39;s automatic reconnect (via the <code>WithContextDialer</code> that re-runs <code>a.createConnection</code>) re-dialed the forwarded <code>ga.sock</code> on transport failure — the cost was the leak this PR fixes.</p>
+    <p>Fix: have the dialer resolve the current client on every dial, so existing listeners pick up new clients automatically:</p>
+      <pre><code class="language-go">dialContext := func(ctx context.Context, network, addr string) (net.Conn, error) {
+    client, err := a.getOrCreateClient(ctx)
+    if err != nil {
+        return nil, err
+    }
+    return portfwd.DialContextToGRPCTunnel(client)(ctx, network, addr)
+}
+a.grpcPortForwarder.OnEvent(ctx, dialContext, ev)</code></pre>
+    <p>The same problem applies more weakly to <code>startInotify</code> (<a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/inotify.go#L34-L38"><code>pkg/hostagent/inotify.go:34-38</code></a>), which captures the client once and never re-fetches. That stream is bound to a single <code>ctx</code> and dies naturally on guest-agent restart, so it is less urgent, but the re-fetch pattern would close that gap too.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> Data race on unprotected reads of <code>a.client</code> can crash hostagent with nil-pointer panic <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/hostagent.go#L726-L736">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="726" data-line="731"><code class="language-go">		return errors.Join(errs...)
+	})
+
+	go func() {
+		if a.instConfig.MountInotify != nil &amp;&amp; *a.instConfig.MountInotify {
+			if a.client == nil || !isGuestAgentSocketAccessible(ctx, a.client) {
+				if a.driver.ForwardGuestAgent() {
+					sshAddress, sshPort := a.sshAddressPort()
+					_ = forwardSSH(ctx, a.sshConfig, sshAddress, sshPort, localUnix, remoteUnix, verbForward, false)
+				}
+			}</code></pre>
+    <p>(<a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/hostagent.go#L758"><code>pkg/hostagent/hostagent.go:758</code></a>)</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/hostagent.go#L753-L763">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="753" data-line="758"><code class="language-go">		a.client = nil
+		return err
+	})
+
+	for {
+		if a.client == nil || !isGuestAgentSocketAccessible(ctx, a.client) {
+			if a.driver.ForwardGuestAgent() {
+				sshAddress, sshPort := a.sshAddressPort()
+				_ = forwardSSH(ctx, a.sshConfig, sshAddress, sshPort, localUnix, remoteUnix, verbForward, false)
+			}
+		}</code></pre>
+    <p>Three goroutines call <code>getOrCreateClient</code> concurrently: <code>watchGuestAgentEvents</code> (<a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/cmd/limactl/hostagent.go#L764"><code>hostagent.go:764</code></a>), <code>startInotify</code> (<a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/inotify.go#L34"><code>pkg/hostagent/inotify.go:34</code></a>), and the timesync loop (<a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/timesync.go#L49"><code>pkg/hostagent/timesync.go:49</code></a>). Inside <code>getOrCreateClient</code> the new code at lines 843-847 explicitly nils <code>a.client</code> between <code>Close()</code> and the new <code>NewGuestAgentClient</code> assignment — a window of microseconds inside the locked region.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/inotify.go#L29-L39">pkg/hostagent/inotify.go</a></div>
+      <pre data-start="29" data-line="34"><code class="language-go">	mountWatchCh := make(chan notify.EventInfo, 128)
+	err := a.setupWatchers(mountWatchCh)
+	if err != nil {
+		return err
+	}
+	client, err := a.getOrCreateClient(ctx)
+	if err != nil {
+		logrus.WithError(err).Error(&quot;failed to create client for inotify&quot;)
+	}
+	inotifyClient, err := client.Inotify(ctx)
+	if err != nil {</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/timesync.go#L44-L54">pkg/hostagent/timesync.go</a></div>
+      <pre data-start="44" data-line="49"><code class="language-go">		}
+	}
+}
+
+func (a *HostAgent) syncTimeOnce(ctx context.Context) {
+	client, err := a.getOrCreateClient(ctx)
+	if err != nil {
+		logrus.WithError(err).Debug(&quot;Time sync: failed to get client&quot;)
+		return
+	}
+</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/hostagent.go#L838-L852">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="838" data-line="843-847"><code class="language-go">	}
+	// The previous client (if any) is unreachable: close its underlying gRPC
+	// ClientConn before replacing it, otherwise the resolver/transport
+	// goroutines and the dialed net.Conn (e.g. forwarded ga.sock) leak across
+	// every guest agent restart or VM reboot.
+	if a.client != nil {
+		if err := a.client.Close(); err != nil {
+			logrus.WithError(err).Debug(&quot;failed to close stale guest agent client&quot;)
+		}
+		a.client = nil
+	}
+	var err error
+	a.client, err = guestagentclient.NewGuestAgentClient(a.createConnection)
+	return a.client, err
+}</code></pre>
+    <p>The watcher loop at lines 731 and 758 reads <code>a.client</code> twice in the short-circuit <code>||</code> expression <em>without</em> taking <code>clientMu</code>. If goroutine A enters that window while goroutine B&#39;s loop is mid- expression, the first read can observe the prior pointer (<code>a.client == nil</code> returns false) and the second read can observe the in-window <code>nil</code>. <code>isGuestAgentSocketAccessible(ctx, nil)</code> calls <code>client.Info(ctx)</code> → <code>c.cli.GetInfo(...)</code>, which dereferences nil and panics, taking the hostagent down.</p>
+    <p>Pre-PR this race already existed for line 731 (the inotify goroutine), but <code>a.client</code> was never assigned <code>nil</code> between successful constructions, so the second read could only observe a stale-but- non-nil pointer — a benign data race. The new <code>a.client = nil</code> in the Close path turns it into a crashable race.</p>
+    <p>Fix: serialize every read of <code>a.client</code> through the same mutex. A small accessor avoids touching the loop body shape:</p>
+      <pre><code class="language-go">func (a *HostAgent) getClient() *guestagentclient.GuestAgentClient {
+    a.clientMu.RLock()
+    defer a.clientMu.RUnlock()
+    return a.client
+}</code></pre>
+    <p>Then in <code>watchGuestAgentEvents</code>:</p>
+      <pre><code class="language-diff">-        if a.client == nil || !isGuestAgentSocketAccessible(ctx, a.client) {
++        client := a.getClient()
++        if client == nil || !isGuestAgentSocketAccessible(ctx, client) {</code></pre>
+    <p>Apply the same change at line 731 (inside the inotify-startup goroutine). Note: keeping <code>a.client = nil</code> in <code>getOrCreateClient</code> is fine once readers go through the accessor — the assignment at line 850 will repopulate it before the lock is released, but the explicit nil makes the failure mode clear if <code>NewGuestAgentClient</code> itself returns an error.</p>
+    <p>Severity calibration: Codex flagged this as Important; Gemini escalated to Critical citing the panic. We keep it at Important because the race window is narrow (Close + re-assign happen back-to- back inside one critical section) and the second read at line 758 is the same goroutine that calls <code>getOrCreateClient</code>, so only the inotify/timesync interleaving exposes it. The crash is real, but not deterministic.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> Cleanup hook fires before context cancellation, so the watch loop can recreate one final client that then leaks <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/hostagent.go#L741-L760">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="741" data-line="746-755"><code class="language-go">		}
+	}()
+
+	// ensure close before ctx is cancelled
+	a.cleanUp(a.grpcPortForwarder.Close)
+	a.cleanUp(func() error {
+		a.clientMu.Lock()
+		defer a.clientMu.Unlock()
+		if a.client == nil {
+			return nil
+		}
+		err := a.client.Close()
+		a.client = nil
+		return err
+	})
+
+	for {
+		if a.client == nil || !isGuestAgentSocketAccessible(ctx, a.client) {
+			if a.driver.ForwardGuestAgent() {
+				sshAddress, sshPort := a.sshAddressPort()</code></pre>
+    <p><code>startRoutinesAndWait</code> (<a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/hostagent.go#L514-L517"><code>pkg/hostagent/hostagent.go:514-517</code></a>) calls <code>a.close()</code> first and <em>then</em> <code>cancelHA()</code>. <code>close()</code> walks the cleanup stack in LIFO order, which means this hook closes the client and nils it before the watcher&#39;s parent <code>ctx</code> is cancelled. If the <code>watchGuestAgentEvents</code> for-loop is at the top of an iteration in that microsecond gap, it observes <code>a.client == nil</code>, calls <code>getOrCreateClient</code>, dials a fresh <code>ClientConn</code>, and then <code>&lt;-ctx.Done()</code> fires on the next select — the new client never gets closed.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/hostagent.go#L509-L522">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="509" data-line="514-517"><code class="language-go">		logrus.Infof(&quot;Driver stopped due to error: %q&quot;, driverErr)
+	case sig := &lt;-a.signalCh:
+		logrus.Infof(&quot;Received %s, shutting down the host agent&quot;, osutil.SignalName(sig))
+	}
+	// close the host agent routines before cancelling the context
+	if closeErr := a.close(); closeErr != nil {
+		logrus.WithError(closeErr).Warn(&quot;an error during shutting down the host agent&quot;)
+	}
+	cancelHA()
+	return a.driver.Stop(ctx)
+}
+
+func (a *HostAgent) Info(_ context.Context) (*hostagentapi.Info, error) {
+	info := &amp;hostagentapi.Info{</code></pre>
+    <p>Practical impact: at most one leaked <code>ClientConn</code> at process exit, which the OS reclaims anyway. Worth a guard for hygiene rather than correctness. The least invasive fix is a <code>shuttingDown</code> flag set inside the cleanup under <code>clientMu</code> and checked at the top of <code>getOrCreateClient</code>. A simpler alternative is to drop the cleanup entirely and rely on <code>cancelHA()</code> to shut everything down — the FDs are released on process exit and the leak this PR fixes is the <em>per-reconnect</em> growth, not the one-conn-at-shutdown case.</p>
+    <p>Severity calibration: Gemini flagged this as Important arguing the PR&#39;s clean-shutdown intent is defeated; we downgrade to Suggestion because the at-most-one-leaked-conn-at-exit blast radius does not match Important.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> <code>Close()</code> docstring promises idempotency that the implementation does not enforce <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/guestagent/api/client/client.go#L48-L65">pkg/guestagent/api/client/client.go</a></div>
+      <pre data-start="48" data-line="53-60"><code class="language-go">		cli:  client,
+		conn: clientConn,
+	}, nil
+}
+
+// Close releases the underlying gRPC connection. It is safe to call on a nil
+// receiver or a client whose connection has already been closed.
+func (c *GuestAgentClient) Close() error {
+	if c == nil || c.conn == nil {
+		return nil
+	}
+	return c.conn.Close()
+}
+
+func (c *GuestAgentClient) Info(ctx context.Context) (*api.Info, error) {
+	return c.cli.GetInfo(ctx, &amp;emptypb.Empty{})
+}
+</code></pre>
+    <p><code>c.conn</code> is set once in the constructor and never cleared, so the &quot;already closed&quot; branch is unreachable; the second <code>Close()</code> call dispatches into <code>grpc.ClientConn.Close()</code> again. In current grpc-go that returns <code>nil</code> after a full shutdown, but the implementation does not actually rely on that. The docstring sets up an invariant the code does not guarantee, and a future caller that takes the comment at its word will be surprised when grpc-go semantics change.</p>
+    <p>Both current call sites (<code>getOrCreateClient</code> and the cleanup) set <code>a.client = nil</code> after Close, so the duplicate-close path is unreachable today. Fix is one of:</p>
+      <pre><code class="language-diff"> func (c *GuestAgentClient) Close() error {
+     if c == nil || c.conn == nil {
+         return nil
+     }
+-    return c.conn.Close()
++    conn := c.conn
++    c.conn = nil
++    return conn.Close()
+ }</code></pre>
+    <p>or tighten the docstring to drop the &quot;already-closed&quot; promise.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Long-lived consumers cache the client and lose the gRPC auto-reconnect benefit</strong> <em>(future)</em> — <a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/inotify.go#L34-L38"><code>pkg/hostagent/inotify.go:34-38</code></a>, <a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/portfwd/client.go#L46-L67"><code>pkg/portfwd/client.go:46-67</code></a> <span class="pill pill-claude">Claude</span>. Same root cause as I1 but broader: any code path that captures a <code>*GuestAgentClient</code> and reuses it after a reconnect now sees <code>ErrClientConnClosing</code> instead of an auto-redialed conn. The right long-term fix is a small reconnect loop in <code>startInotify</code> and a current-client lookup in <code>DialContextToGRPCTunnel</code>. Out of scope for this PR.</li>
+      <li><em></em><code>isGuestAgentSocketAccessible</code> performs a unary gRPC call while holding <code>clientMu</code><em></em> <em>(future, pre-existing)</em> — <a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/pkg/hostagent/hostagent.go#L836"><code>pkg/hostagent/hostagent.go:836</code></a> <span class="pill pill-gemini">Gemini</span>. If the guest agent is unresponsive without dropping the socket, the lock is held until the caller&#39;s context times out, blocking <code>timesync</code> and <code>inotify</code> callers of <code>getOrCreateClient</code>. Predates this PR.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Ownership boundary is correct</strong> <em>(in-scope)</em> <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span>. <code>Close()</code> lives on <code>GuestAgentClient</code> rather than leaking <code>*grpc.ClientConn</code> out to callers, so the package that allocates the resource is the one that releases it.</li>
+      <li><strong>No new locks</strong> <em>(in-scope)</em> <span class="pill pill-claude">Claude</span>. Both Close→nil sequences are guarded by the existing <code>clientMu</code>, which keeps the change minimal.</li>
+      <li><strong>Inline comment captures the *why</strong>* <em>(in-scope)</em> <span class="pill pill-claude">Claude</span>. The comment at lines 839-842 explains the leak mechanism, which is the bar — future readers do not need the issue thread.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>No unit tests added. Goroutine/FD leak counts are notoriously fragile because they depend on grpc-go internals, so the absence is defensible; the manual <code>pgrep</code>/<code>/proc/&lt;pid&gt;/fd</code> reproducer in the PR description is a reasonable substitute.</p>
+    <p>Untested scenarios that map to consolidated findings:</p>
+    <ol>
+      <li>The stranded-dialer path (I1): a BATS or integration test that restarts <code>lima-guestagent</code> and then opens a new TCP connection to an existing forward would catch the regression. The agents confirmed a clean <code>go test -race ./pkg/hostagent/... ./pkg/guestagent/...</code> run, but the existing suite does not exercise this path.</li>
+      <li>The shutdown-window race (I2): exercised by stress-running <code>getOrCreateClient</code> from multiple goroutines under <code>-race</code>.</li>
+      <li><code>Close()</code> idempotency (S2): one-line table test in <code>pkg/guestagent/api/client/client_test.go</code>.</li>
+    </ol>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The new <code>Close()</code> docstring overstates the implementation&#39;s guarantee (S2). The inline comment at <a href="https://github.com/lima-vm/lima/blob/3b4f6cef8d62eaf6e7f7fbe9102e0fc4314e6700/cmd/limactl/hostagent.go#L839-L842"><code>hostagent.go:839-842</code></a> is well-written and captures the leak mechanism, which is the bar. No other documentation issues.</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Single commit with a focused subject and a body that walks through symptom → mechanism → fix. The PR description mirrors the issue and gives a deterministic reproducer. Clean.</p>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude"><span class="pill pill-claude">Claude</span> <a href="#claude" class="pilcrow">&#182;</a></h3>
+    <p>Caught both documentation issues (S2) and the broader long-lived-consumer problem as a design observation, but missed elevating the listener stranding to an actionable Important-severity finding — flagged it as &quot;future&quot; rather than &quot;regression-now&quot;. Calibration was conservative: chose &quot;approve with minor nits&quot; where the consensus shifts to &quot;merge with fixes&quot; once the data-race and listener issues are weighed. Strong on locking analysis (correctly noted that <code>clientMu</code> already serialises the writers).</p>
+    <h3 id="codex"><span class="pill pill-codex">Codex</span> <a href="#codex" class="pilcrow">&#182;</a></h3>
+    <p>Strongest pass overall. Caught the listener-stranding regression (I1) with a complete trace through <code>OnEvent</code> → <code>forwardTCP</code> → early-return on duplicate key, named the right fix (resolve-client-on-dial), and flagged the data race (I2) with a clean accessor pattern. Severity calibration matched consolidation — both Important findings landed at Important. Ran <code>go test -race</code> to confirm the existing suite passes, which Claude and Gemini did not.</p>
+    <h3 id="gemini"><span class="pill pill-gemini">Gemini</span> <a href="#gemini" class="pilcrow">&#182;</a></h3>
+    <p>Found the data race independently and escalated it to Critical with the panic scenario spelled out — useful framing even though we downgraded to Important. Missed the listener-stranding regression entirely. Reported the same shutdown-window race as Claude but at Important severity, which overstates the at-most-one-leaked-conn-at-exit impact. Did not run <code>git blame</code> (consistent with the daily-quota limitation noted in the skill); regression labelling was correct anyway because the diff is small and the touched lines are all new.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.7</th><th><span class="pill pill-codex">Codex</span> GPT 5.5</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>7m 08s</td><td>3m 38s</td><td>5m 49s</td></tr>
+        <tr><td>Findings</td><td>2S</td><td>2I 1S</td><td>1I 1S</td></tr>
+        <tr><td>Tool calls</td><td>26 (Read 12, Grep 8, Bash 6)</td><td>25 (shell 24, stdin 1)</td><td>10 (grep<em>search 7, read</em>file 2, run<em>shell</em>command 1)</td></tr>
+        <tr><td>Design observations</td><td>5</td><td>1</td><td>1</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>1</td><td>1</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>1</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>2S</strong></td><td><strong>2I 1S</strong></td><td><strong>1I 1S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>2 (I→S)</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Reconciliation</strong></p>
+    <ul>
+      <li>Gemini P1 data-race: critical → important (I2). The race is real and the panic is reachable, but the window is narrow (a single locked Close+reassign sequence) and only one of the two affected reads is in a different goroutine from the writer, so deterministic crashes are rare.</li>
+      <li>Gemini P1 cleanup leak: important → suggestion (S1). Blast radius is one leaked <code>ClientConn</code> at process exit, which the OS reclaims — hygiene, not correctness.</li>
+    </ul>
+    <p>Codex provided the most actionable findings; Gemini&#39;s independent data-race catch confirmed Codex&#39;s I2; Claude&#39;s locking analysis was correct on the writers but missed how the <code>||</code> short-circuit re-reads <code>a.client</code> and missed elevating the listener-stranding observation.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em>Add — long-lived dialer closures in <code>pkg/portfwd</code>.<em></em> Listeners registered through <code>ClosableListeners.forwardTCP</code> and <code>forwardUDP</code> key by <code>host/guest</code> and skip re-creation when the same key is seen again. Any <code>dialContext</code> closure passed in via <code>OnEvent</code> therefore outlives the client it captured. When reviewing changes that close, replace, or invalidate a <code>*GuestAgentClient</code> (or any other dial target captured into a port-forwarder closure), check whether the listener registration path skips re-creation for already-known keys — if so, the closed/replaced target permanently breaks accepts on every existing listener for the unchanged keys. Flag as a regression unless the dialer resolves its target lazily on each accept.</li>
+    </ul>
+    <p>  Why this is repo-context-worthy: the listener-stranding regression   was visible only by tracing the <code>OnEvent</code> → <code>forwardTCP</code> →   <code>p.listeners[key]</code> early-return chain across two packages. Two of   three agents missed it; codifying the pattern catches it on the   first pass next time.</p>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
