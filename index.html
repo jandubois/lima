@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Deep Reviews — lima</title>
+<title>Reviews — lima</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; }
 body {
@@ -61,9 +61,23 @@ tr:hover td { background: #f0f4ff; }
 }
 .badge-md { background: #f3f4f6; color: #6b7280; }
 .badge-html { background: #dbeafe; color: #1e40af; }
+.badge-kind {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  margin-right: 0.4em;
+  vertical-align: middle;
+  background: #ede9fe;
+  color: #5b21b6;
+}
 .verdict-merge { background: #d1fae5; color: #065f46; }
 .verdict-fixes { background: #fef3c7; color: #92400e; }
 .verdict-rework { background: #fee2e2; color: #991b1b; }
+.verdict-clean { background: #d1fae5; color: #065f46; }
+.verdict-issues { background: #fef3c7; color: #92400e; }
+.verdict-critical { background: #fee2e2; color: #991b1b; }
 .verdict-unknown { background: #f3f4f6; color: #6b7280; }
 code {
   font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
@@ -84,6 +98,7 @@ code {
 <table>
 <thead><tr><th>Date</th><th>Review</th><th>Verdict</th></tr></thead>
 <tbody>
+<tr><td class="date">2026-04-29 <span class="time">13:23</span></td><td><span class="badge-kind">Supply chain scan</span><a href="20260429-132320-supply-chain.html">master @ d6ca3936</a> <a href="20260429-132320-supply-chain.html" class="badge-html">html</a> <a href="20260429-132320-supply-chain.md" class="badge-md">md</a></td><td><span class="verdict verdict-issues">5 open issues + advisories</span></td></tr>
 <tr><td class="date">2026-04-26 <span class="time">16:57</span></td><td><a href="20260426-165750-pr-4889.html">#4889 — hostagent: close stale GuestAgentClient on reconnect to stop ClientConn leak</a> <a href="20260426-165750-pr-4889.html" class="badge-html">html</a> <a href="20260426-165750-pr-4889.md" class="badge-md">md</a></td><td><span class="verdict verdict-fixes">Merge with fixes</span></td></tr>
 <tr><td class="date">2026-04-24 <span class="time">19:06</span></td><td><a href="20260424-190657-pr-4885.html">#4885 — Windows: support native OpenSSH; no Git for Windows / MSYS2 required</a> <a href="20260424-190657-pr-4885.html" class="badge-html">html</a> <a href="20260424-190657-pr-4885.md" class="badge-md">md</a></td><td><span class="verdict verdict-fixes">Merge with fixes</span></td></tr>
 <tr><td class="date">2026-04-20 <span class="time">21:35</span></td><td><a href="20260420-213558-pr-4419.html">#4419 — Hostpath mount validation</a> <a href="20260420-213558-pr-4419.html" class="badge-html">html</a> <a href="20260420-213558-pr-4419.md" class="badge-md">md</a></td><td><span class="verdict verdict-fixes">Merge with fixes</span></td></tr>
