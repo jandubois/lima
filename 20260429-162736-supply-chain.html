@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Supply Chain Scan: 20260429-162736-supply-chain</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Supply Chain Scan: 20260429-162736-supply-chain</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-04-29 16:27</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Branch</td><td><code>master</code> @ <a href="https://github.com/lima-vm/lima/commit/d6ca3936"><code>d6ca3936</code></a></td></tr>
+      <tr><td>Kind</td><td>Supply chain scan</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">5 open issues</span> &mdash; strong default posture (lockfiles + SHA-pinned actions + submodule gitlinks); residual risk lives in CI test-only <code>git clone</code> of moving refs and a handful of unverified <code>curl</code> downloads in maintainer scripts.</td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <table class="summary-table">
+      <thead><tr><th>Ecosystem</th><th>Items</th><th>Pinned</th><th>Open issues</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#go-modules">Go modules</a></td><td>3 modules (<code>/</code>, <code>hack/tools</code>, <code>website</code>-none)</td><td>3 with <code>go.sum</code></td><td>0</td><td>Dependabot ✓</td></tr>
+        <tr><td><a href="#node-website-package-json">Node</a></td><td>1 <code>website/package.json</code></td><td>187/187 lock entries carry <code>integrity</code></td><td>0 advisory: bot coverage missing</td><td>—</td></tr>
+        <tr><td><a href="#github-actions">GitHub Actions</a></td><td>77 <code>uses:</code> references</td><td>62 SHA-pinned, 15 local/<code>docker://</code></td><td>0</td><td>Dependabot ✓</td></tr>
+        <tr><td>Workflow tokens</td><td>3 workflows with <code>permissions:</code></td><td>3 narrow</td><td>0</td><td>All workflows have a top-level <code>permissions:</code> block; sensitive writes scoped per-job with comments.</td></tr>
+        <tr><td><a href="#submodules">Submodules</a></td><td>4 (bats helpers)</td><td>4 SHA gitlinks</td><td>0 advisory: not auto-updated</td><td>—</td></tr>
+        <tr><td><a href="#inline-downloads-curl-without-checksum-verification">Inline downloads</a></td><td>4 <code>curl</code> candidates</td><td>0 verified</td><td>4 (3 maintainer-only, 1 in CI test)</td><td>—</td></tr>
+        <tr><td><a href="#run-from-network-go-install">Run-from-network</a></td><td>3 <code>go install</code></td><td>3 (false positives — pinned via go.sum)</td><td>0</td><td>Script does not understand <code>-modfile=</code> or sumdb defaults.</td></tr>
+        <tr><td>Git clones (CI)</td><td>3 in <code>test.yml</code></td><td>0 SHA-pinned</td><td>3 (tag-pinned or default-branch)</td><td>Test-only paths.</td></tr>
+        <tr><td>Self-fetch</td><td>1 own-repo URL with non-SHA ref</td><td>—</td><td>1 (matrix-driven tag)</td><td>Upgrade test fetches old release tag.</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <hr>
+    <h2 id="pinned-dependencies" class="section-design">Pinned dependencies <a href="#pinned-dependencies" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="go-modules">Go modules <a href="#go-modules" class="pilcrow">&#182;</a></h3>
+    <p>Three modules: root <code>go.mod</code>, <code>hack/tools/go.mod</code> (build-time toolchain pins), and <code>website/</code> (Node, no Go module). Each has a committed <code>go.sum</code>; Go enforces module hash verification by default via the module proxy and sumdb. Dependabot opens daily PRs grouped by <code>golang.org/x/*</code> and <code>k8s.io/*</code>.</p>
+    </div>
+    <div class="card card-design">
+    <h3 id="node-website-package-json">Node — `website/package.json` <a href="#node-website-package-json" class="pilcrow">&#182;</a></h3>
+    <p><code>website/package-lock.json</code> covers 187 installable descriptors, every one carrying an <code>integrity</code> <code>sha512:</code> entry. npm enforces lockfile integrity on install.</p>
+    </div>
+    <div class="card card-design">
+    <h3 id="github-actions">GitHub Actions <a href="#github-actions" class="pilcrow">&#182;</a></h3>
+    <p>77 <code>uses:</code> references across <code>.github/workflows/</code> and <code>.github/actions/</code>. 62 reference third-party actions, all of them SHA-pinned in the form <code>org/action@&lt;40hex&gt;  # vX.Y.Z</code>. The remaining 15 are local (<code>./.github/actions/...</code>) or <code>docker://</code> references. Dependabot&#39;s <code>github-actions</code> ecosystem is configured for daily updates.</p>
+    <p>Sample (consistent across files):</p>
+    <ul>
+      <li><code>actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2</code></li>
+      <li><code>actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c  # v6.4.0</code></li>
+      <li><code>nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60  # v4.0.0</code></li>
+    </ul>
+    </div>
+    <div class="card card-design">
+    <h3 id="workflow-token-permissions">Workflow token permissions <a href="#workflow-token-permissions" class="pilcrow">&#182;</a></h3>
+    <p>All three workflows that declare <code>permissions:</code> set a read-only default at the workflow level and escalate narrowly per-job, with comments documenting the reason:</p>
+    <ul>
+      <li><code>release.yml</code> — workflow <code>contents: read</code>; <code>release</code> job adds <code>contents: write</code> (releases), <code>id-token: write</code> (provenances), <code>attestations: write</code> (provenances).</li>
+      <li><code>codeql.yaml</code> — workflow <code>contents: read</code>; <code>analyze</code> job adds <code>security-events: write</code>, <code>packages: read</code>.</li>
+      <li><code>scorecard.yml</code> — workflow <code>read-all</code>; <code>analysis</code> job adds <code>security-events: write</code>, <code>id-token: write</code>.</li>
+    </ul>
+    <p>This is the recommended pattern. The <code>id-token: write</code> and <code>contents: write</code> scopes are sensitive but appropriately narrowed.</p>
+    </div>
+    <div class="card card-design">
+    <h3 id="submodules">Submodules <a href="#submodules" class="pilcrow">&#182;</a></h3>
+    <p>Four bats helper repos under <code>hack/bats/lib/</code>, each at a 40-hex gitlink:</p>
+    <ul>
+      <li><code>bats-core</code> → <a href="https://github.com/lima-vm/lima/commit/d9faff0d7bc32e7adebc6552446f978118d3ab3b"><code>d9faff0d7bc32e7adebc6552446f978118d3ab3b</code></a></li>
+      <li><code>bats-assert</code> → <a href="https://github.com/lima-vm/lima/commit/697471b7a89d3ab38571f38c6c7c4b460d1f5e35"><code>697471b7a89d3ab38571f38c6c7c4b460d1f5e35</code></a></li>
+      <li><code>bats-file</code> → <a href="https://github.com/lima-vm/lima/commit/6bee58bec7c2f4aed1a7425ccd4bdc42b4a84599"><code>6bee58bec7c2f4aed1a7425ccd4bdc42b4a84599</code></a></li>
+      <li><code>bats-support</code> → <a href="https://github.com/lima-vm/lima/commit/0954abb9925cad550424cebca2b99255d4eabe96"><code>0954abb9925cad550424cebca2b99255d4eabe96</code></a></li>
+    </ul>
+    <p>Pinned by git design. <code>.gitmodules</code> does not set <code>update = none</code> or run <code>--remote</code> in CI, so the parent repo&#39;s gitlink is the source of truth.</p>
+    </div>
+    <div class="card card-design">
+    <h3 id="run-from-network-go-install">Run-from-network (`go install`) <a href="#run-from-network-go-install" class="pilcrow">&#182;</a></h3>
+    <p>Three call sites the script flagged as unverified are in fact pinned by Go&#39;s standard verification path:</p>
+    <div class="issue-list">
+      <div class="issue-row">
+        <div class="issue-loc"><a href="https://github.com/lima-vm/lima/blob/d6ca39362997980d2b6222d7c54cc7c360e89d02/.github/workflows/test.yml#L80"><code>.github/workflows/test.yml:80</code></a></div>
+        <div class="issue-desc"><code>go install github.com/google/go-licenses@v1.6.0</code>. The Go module proxy fetches <code>v1.6.0</code> and verifies it against <code>sum.golang.org</code> by default.</div>
+      </div>
+      <div class="issue-row">
+        <div class="issue-loc"><code>Makefile:632-633</code></div>
+        <div class="issue-desc"><code>go install -modfile=./hack/tools/go.mod ...</code>. Versions resolve through <code>hack/tools/go.mod</code> and are verified against <code>hack/tools/go.sum</code>.</div>
+      </div>
+    </div>
+    </div>
+    <hr>
+    <h2 id="open-issues" class="section-critical">Open issues <a href="#open-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <h3 id="top-tier-self-fetch-from-a-moving-ref">Top tier — self-fetch from a moving ref <a href="#top-tier-self-fetch-from-a-moving-ref" class="pilcrow">&#182;</a></h3>
+    <div class="issue-list">
+      <div class="issue-row">
+        <div class="issue-loc"><a href="https://github.com/lima-vm/lima/blob/d6ca39362997980d2b6222d7c54cc7c360e89d02/.github/workflows/test.yml#L562"><code>.github/workflows/test.yml:562</code></a></div>
+        <div class="issue-desc"><code>template: https://raw.githubusercontent.com/lima-vm/lima/${{ matrix.oldver }}/examples/ubuntu-lts.yaml</code> (matrix is <code>oldver: [&quot;v0.15.1&quot;]</code>). Tag references are mutable; if <code>v0.15.1</code> is ever re-tagged or its branch protection drops, the upgrade test silently runs against different bytes. Either pin the matrix entry to a 40-hex SHA, or fetch the file from <code>actions/checkout</code> of <code>lima-vm/lima@&lt;sha&gt;</code> and reference it via a relative path.</div>
+      </div>
+    </div>
+    </div>
+    <div class="card card-critical">
+    <h3 id="inline-downloads-curl-without-checksum-verification">Inline downloads — `curl` without checksum verification <a href="#inline-downloads-curl-without-checksum-verification" class="pilcrow">&#182;</a></h3>
+    <p>All four sites use <code>curl -L</code> to fetch bytes that are then either evaluated (formula <code>.rb</code>), parsed (template YAML), cached for downstream tools, or extracted as a tarball. None pass the result to <code>sha256sum -c</code>, <code>--checksum=sha256:...</code>, GPG, or cosign.</p>
+    <div class="issue-list">
+      <div class="issue-row">
+        <div class="issue-loc"><a href="https://github.com/lima-vm/lima/blob/d6ca39362997980d2b6222d7c54cc7c360e89d02/hack/brew-install-version.sh#L33"><code>hack/brew-install-version.sh:33</code></a></div>
+        <div class="issue-desc"><code>curl -s &quot;${RAW}/${SHA}/Formula/${FORMULA::1}/${FORMULA}.rb&quot; -o &quot;$OUTPUT&quot;</code>. The <code>${SHA}</code> is resolved from a local checkout of <code>homebrew/homebrew-core</code> via <code>git log --grep</code>, so the URL itself is commit-pinned. The downstream <code>brew install</code> will verify the bottle&#39;s bottled-binary <code>sha256</code> per-formula. Risk: a maintainer compromise that lands a malicious commit message + bottled binary in homebrew-core. Advisory.</div>
+      </div>
+      <div class="issue-row">
+        <div class="issue-loc"><a href="https://github.com/lima-vm/lima/blob/d6ca39362997980d2b6222d7c54cc7c360e89d02/hack/cache-common-inc.sh#L27"><code>hack/cache-common-inc.sh:27</code></a></div>
+        <div class="issue-desc"><code>curl -sSLf &quot;${template}&quot; &gt;&quot;${tmp_yaml}&quot;</code>. Fetches a raw template YAML from <code>https://*</code> when invoked outside the limactl path. Used only by the <code>update-template-*.sh</code> maintainer scripts; not on a user-install path. Advisory.</div>
+      </div>
+      <div class="issue-row">
+        <div class="issue-loc"><a href="https://github.com/lima-vm/lima/blob/d6ca39362997980d2b6222d7c54cc7c360e89d02/hack/cache-common-inc.sh#L400"><code>hack/cache-common-inc.sh:400</code></a></div>
+        <div class="issue-desc"><code>curl -SL ... -o &quot;${cache_path}/data&quot; &quot;${url}&quot;</code> inside <code>download_to_cache()</code>. Used by <code>.github/actions/setup_cache_for_template/action.yml</code> to pre-populate the GHA image cache. The cached bytes are later consumed by <code>limactl</code>, which verifies the template&#39;s <code>digest:</code> field, so the end-to-end install is digest-checked even when this leg is not. Advisory; consider verifying the digest at cache-fill time so a poisoned cache entry fails fast. The matching <code># sha256.digest seems existing if expected digest is available. so, not creating it here.</code> at line 411 acknowledges the gap.</div>
+      </div>
+      <div class="issue-row">
+        <div class="issue-loc"><a href="https://github.com/lima-vm/lima/blob/d6ca39362997980d2b6222d7c54cc7c360e89d02/hack/test-templates.sh#L479"><code>hack/test-templates.sh:479</code></a></div>
+        <div class="issue-desc"><code>curl -Lso nerdctl-full.tgz &quot;${nerdctl}&quot;</code>. Source URL is read from <code>limactl info</code> (which itself was loaded from a digest-bearing template), but the URL is fetched fresh without passing the template&#39;s <code>digest</code> to <code>sha256sum -c</code>. Test-only path. Advisory; pipe the digest through alongside the URL.</div>
+      </div>
+    </div>
+    </div>
+    <div class="card card-critical">
+    <h3 id="git-clones-in-ci-non-sha-refs">Git clones in CI — non-SHA refs <a href="#git-clones-in-ci-non-sha-refs" class="pilcrow">&#182;</a></h3>
+    <p>The script-level threat model treats <code>git clone</code> followed by <code>make &amp;&amp; sudo make install</code> the same as <code>curl … | tar | install</code> — bytes off the network become an executable working tree.</p>
+    <div class="issue-list">
+      <div class="issue-row">
+        <div class="issue-loc"><a href="https://github.com/lima-vm/lima/blob/d6ca39362997980d2b6222d7c54cc7c360e89d02/.github/workflows/test.yml#L460"><code>.github/workflows/test.yml:460</code></a></div>
+        <div class="issue-desc"><code>git clone https://github.com/abiosoft/colima</code> then <code>git checkout &quot;$latest&quot;</code> where <code>latest=$(git tag --sort=-v:refname | head -n1)</code>. Whatever the newest colima tag is on the day CI runs becomes the test target. Pin the colima version explicitly (matrix entry) and check out its 40-hex SHA, or accept the moving target as a feature for &quot;we always test against the freshest colima&quot; and document it.</div>
+      </div>
+      <div class="issue-row">
+        <div class="issue-loc"><a href="https://github.com/lima-vm/lima/blob/d6ca39362997980d2b6222d7c54cc7c360e89d02/.github/workflows/test.yml#L515"><code>.github/workflows/test.yml:515</code></a></div>
+        <div class="issue-desc"><code>git clone https://github.com/lima-vm/socket_vmnet</code> then <code>git checkout $SOCKET_VMNET_VERSION</code> (<code>v1.2.2</code>). Tag is mutable; <code>v1.2.2</code> could be re-pointed. Replace the tag with a 40-hex commit SHA — <code>socket_vmnet</code> is a sibling project, so a Renovate/Dependabot rule can keep the SHA fresh.</div>
+      </div>
+      <div class="issue-row">
+        <div class="issue-loc"><a href="https://github.com/lima-vm/lima/blob/d6ca39362997980d2b6222d7c54cc7c360e89d02/.github/workflows/test.yml#L640"><code>.github/workflows/test.yml:640</code></a></div>
+        <div class="issue-desc"><code>git clone https://github.com/AkihiroSuda/gomodjail</code> with no checkout. Resolves to the upstream default branch&#39;s HEAD on each run. The job is gated as &quot;experimental; failures shall not block merging PRs&quot;, so impact is limited, but the <code>git clone</code> still runs <code>make binaries install</code> on whatever bytes the upstream main carries that day.</div>
+      </div>
+    </div>
+    </div>
+    <div class="card card-critical">
+    <h3 id="github-actions-token-permissions-advisory">GitHub Actions token permissions — advisory <a href="#github-actions-token-permissions-advisory" class="pilcrow">&#182;</a></h3>
+    <p>The <code>permissions:</code> declarations Lima ships are textbook (workflow-level read-only, narrow per-job writes with comments). The script flags these as sensitive-write because the scopes themselves (<code>contents: write</code>, <code>id-token: write</code>) are sensitive — but each is justified inline. No remediation needed; mentioned for completeness.</p>
+    </div>
+    <div class="card card-critical">
+    <h3 id="bot-auto-update-coverage-advisory">Bot / auto-update coverage — advisory <a href="#bot-auto-update-coverage-advisory" class="pilcrow">&#182;</a></h3>
+    <p>Dependabot covers <code>gomod</code> (root and <code>hack/tools</code>) and <code>github-actions</code>. Two ecosystems have no automated update path:</p>
+    <ul>
+      <li><code>website/package.json</code> / <code>package-lock.json</code> — npm deps drift over time. Add <code>package-ecosystem: npm</code> to <code>.github/dependabot.yml</code> (or stand up Renovate).</li>
+      <li>Submodules under <code>hack/bats/lib/</code> — not part of any auto-update flow. Acceptable given they are stable bats helper repos, but worth tracking deliberately.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="retro-dependency-types-not-explicitly-covered">Retro: dependency types not explicitly covered <a href="#retro-dependency-types-not-explicitly-covered" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="r1-go-install-modfile-is-not-recognised-as-a-hash-verified-install">R1. `go install -modfile=…` is not recognised as a hash-verified install <a href="#r1-go-install-modfile-is-not-recognised-as-a-hash-verified-install" class="pilcrow">&#182;</a></h3>
+    <p><strong>Where:</strong> <code>Makefile:632-633</code> — <code>go install -modfile=./hack/tools/go.mod google.golang.org/protobuf/cmd/protoc-gen-go</code> (and the matching <code>protoc-gen-go-grpc</code> line).</p>
+    <p><strong>Why missed:</strong> The <code>run_from_network</code> detector in <code>inventory.py</code> reports the literal target captured by its regex. When that target is <code>-modfile=./hack/tools/go.mod</code> rather than a <code>pkg@ver</code> form, the script labels the line &quot;verifier ✗&quot; — it cannot tell that the version comes from a separate, hash-verified <code>go.mod</code>/<code>go.sum</code> pair next to the script.</p>
+    <p><strong>Proposed change:</strong> When a <code>go install</code> invocation includes a <code>-modfile=&lt;path&gt;</code> flag, resolve <code>&lt;path&gt;</code> relative to the source file, verify a sibling <code>go.sum</code> exists, and treat the call as pinned (same as a direct <code>go install pkg@ver</code>). Mirror the same logic for <code>go run -modfile=...</code> and <code>go tool -modfile=...</code>. The third Makefile reference at line 87 of <code>test.yml</code> (<code>go tool -modfile=./hack/tools/go.mod ltag</code>) is already not flagged because the detector skips <code>go tool</code>, but the rule should be unified.</p>
+    </div>
+    <div class="card card-neutral">
+    <h3 id="r2-bare-go-install-pkg-ver-flagged-as-verifier">R2. Bare `go install pkg@ver` flagged as &quot;verifier ✗&quot; <a href="#r2-bare-go-install-pkg-ver-flagged-as-verifier" class="pilcrow">&#182;</a></h3>
+    <p><strong>Where:</strong> <a href="https://github.com/lima-vm/lima/blob/d6ca39362997980d2b6222d7c54cc7c360e89d02/.github/workflows/test.yml#L80"><code>.github/workflows/test.yml:80</code></a> — <code>go install github.com/google/go-licenses@v1.6.0</code>.</p>
+    <p><strong>Why missed:</strong> The skill rules explicitly say &quot;Go module proxy (<code>go install</code>, <code>go run</code>) — verifies via go.sum / proxy. Pinned version → pinned.&quot; But the inventory&#39;s <code>run_from_network[]</code> listing emits &quot;verifier ✗&quot; for every Go install regardless, leaving the judgment to Phase 2. Two of three Go installs in this repo are false positives — the noise makes the run-from-network section look much worse than it is.</p>
+    <p><strong>Proposed change:</strong> In <code>inventory.py</code>, when the <code>go install</code> / <code>go run</code> target ends in <code>@&lt;concrete-version&gt;</code> (regex <code>@v[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.-]+)?</code> or <code>@[0-9a-f]{12,40}</code>), set <code>pinned: true</code> and drop the entry from the open-issue listing. Keep <code>@latest</code>, <code>@master</code>, and bare-no-version forms in the open-issue stream.</p>
+    </div>
+    <div class="card card-neutral">
+    <h3 id="r3-workflow-vs-job-permissions-tagging-is-inconsistent">R3. Workflow-vs-job permissions tagging is inconsistent <a href="#r3-workflow-vs-job-permissions-tagging-is-inconsistent" class="pilcrow">&#182;</a></h3>
+    <p><strong>Where:</strong> <code>inventory.md</code> lists <code>release.yml:69 (workflow) — sensitive-write contents</code> and <code>release.yml:69 (job) — sensitive-write contents</code> for the same line. The actual workflow-level block for <code>release.yml</code> is at line 26 (<code>contents: read</code>), and the line-69 block sits inside the <code>release:</code> job.</p>
+    <p><strong>Why missed:</strong> The <code>token_permissions[]</code> walker appears to emit one entry per scope per <code>permissions:</code> block but tags duplicates with both <code>(workflow)</code> and <code>(job)</code> when the block is nested. The doubled output makes Phase 2 read every flagged line twice.</p>
+    <p><strong>Proposed change:</strong> In <code>inventory.py</code>, walk the YAML structure (not the raw text), associate each <code>permissions:</code> block with the surrounding <code>jobs.&lt;name&gt;</code> key (or top level), and emit one <code>kind</code> per scope per block. The current text-line approach also appears to attribute the line number of the first scope (e.g. <code>contents:</code>) to the block, which is fine, but the workflow/job distinction must come from the YAML path, not from listing the same line twice.</p>
+    </div>
+    <div class="card card-neutral">
+    <h3 id="r4-tag-pinned-own-repo-url-is-treated-as-non-sha">R4. Tag-pinned own-repo URL is treated as `non-SHA` <a href="#r4-tag-pinned-own-repo-url-is-treated-as-non-sha" class="pilcrow">&#182;</a></h3>
+    <p><strong>Where:</strong> <a href="https://github.com/lima-vm/lima/blob/d6ca39362997980d2b6222d7c54cc7c360e89d02/.github/workflows/test.yml#L562"><code>.github/workflows/test.yml:562</code></a> — the <code>${{ matrix.oldver }}</code> substitution resolves to <code>v0.15.1</code>, a version tag.</p>
+    <p><strong>Why missed:</strong> The <code>self_fetch_unpinned[]</code> detector classifies anything that isn&#39;t a 40-hex SHA as unpinned and surfaces them under the &quot;moving ref&quot; tier alongside <code>main</code>/<code>master</code>. A version tag is mutable but is not a moving ref — putting it in the same bucket as <code>main</code> overstates the threat.</p>
+    <p><strong>Proposed change:</strong> Add a third tier to <code>self_fetch_unpinned[]</code>:</p>
+    <ul>
+      <li><code>moving</code> (HEAD-of-branch refs: <code>main</code>, <code>master</code>, <code>develop</code>, env-var without default, expression resolving to a non-tag-shaped value).</li>
+      <li><code>tag</code> (looks like a semver / <code>vX.Y.Z</code> tag).</li>
+      <li><code>sha</code> (40-hex — pinned, drop from open issues).</li>
+    </ul>
+    <p>  Surface tags under a separate &quot;tag-pinned (mutable)&quot; sub-section in the digest so the report can stratify the recommendation.</p>
+    </div>
+    <div class="card card-neutral">
+    <h3 id="r5-cache-fill-curls-deserve-their-own-bucket">R5. Cache-fill curls deserve their own bucket <a href="#r5-cache-fill-curls-deserve-their-own-bucket" class="pilcrow">&#182;</a></h3>
+    <p><strong>Where:</strong> <a href="https://github.com/lima-vm/lima/blob/d6ca39362997980d2b6222d7c54cc7c360e89d02/hack/cache-common-inc.sh#L400"><code>hack/cache-common-inc.sh:400</code></a> (<code>download_to_cache()</code>) — fetches bytes that downstream consumers (<code>limactl</code>) then verify via the template&#39;s <code>digest:</code> field. The trust chain is sound end-to-end, but the inline check fires on the cache leg.</p>
+    <p><strong>Why missed:</strong> The skill rules treat <code>curl … -o file</code> without an inline <code>sha256sum -c</code> as &quot;verifier ✗&quot;. They have no notion of &quot;consumer-side verification by a trusted tool&quot;. This is correct for adversarial threat modelling (a poisoned cache fails verification at consume time, but only after the bytes already sit in the artefact cache and may be reused by other jobs in the same workflow run), but it inflates the open-issues count for code that does have a downstream check.</p>
+    <p><strong>Proposed change:</strong> Document the pattern in the report rather than suppress it. Add a small &quot;consumer-verified&quot; annotation when the immediate consumer of the downloaded path is a tool that performs digest verification (limactl + template <code>digest:</code>, brew + bottle <code>sha256</code>, helm + chart digest). Surface them under a &quot;fetch-then-verify (split site)&quot; sub-section so the reader knows a real check exists, just not at the curl line.</p>
+    </div>
+    <div class="card card-neutral">
+    <h3 id="r6-npm-only-repos-flagged-renovate-not-configured-without-context">R6. npm-only repos flagged &quot;Renovate: not configured&quot; without context <a href="#r6-npm-only-repos-flagged-renovate-not-configured-without-context" class="pilcrow">&#182;</a></h3>
+    <p><strong>Where:</strong> <code>website/package.json</code> is npm-only and has no Dependabot or Renovate coverage. Dependabot&#39;s config in <code>.github/dependabot.yml</code> lists <code>gomod</code> and <code>github-actions</code> only.</p>
+    <p><strong>Why missed:</strong> The summary digest reports per-ecosystem bot status by reading the <code>dependabot.yml</code> ecosystems list. It does not cross-check against ecosystems found in the repo, so a repo with an npm lockfile but no <code>package-ecosystem: npm</code> entry shows up as &quot;Renovate: not configured&quot; without the more pointed message &quot;lockfile present, no bot configured&quot;.</p>
+    <p><strong>Proposed change:</strong> In <code>inventory.py</code>, after collecting <code>bot_config.dependabot_ecosystems</code>, diff against the set of ecosystems present in the repo (computed from lockfile presence). Surface the diff as <code>bot_config.lockfile_without_bot_coverage[]</code> and have the digest pre-render the matching advisory bullet.</p>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
