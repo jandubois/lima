@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260501-221035-pr-4917</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260501-221035-pr-4917</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-05-01 22:10</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/peschmae">@peschmae</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/4917" class="gh-ref" data-title="shell: Add sync-exclude flag and .limasyncignore file" data-state="open" data-type="pr">#4917</a> — shell: Add sync-exclude flag and .limasyncignore file</td></tr>
+      <tr><td>Branch</td><td><code>pr-4917</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/37bef33b"><code>37bef33b</code></a> shell: --sync-exclude add bats tests<br><a href="https://github.com/lima-vm/lima/commit/6e864710"><code>6e864710</code></a> shell: Add sync-exclude flag and .limasyncignore file</td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.7 (effort: xhigh), <span class="pill pill-codex">Codex</span> GPT 5.5 (effort: xhigh), <span class="pill pill-gemini">Gemini</span> 3.1 Pro (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; Windows-only <code>.limasyncignore</code> lookup is broken, and the interactive diff misrepresents excluded files as deletions; both should be addressed before merge.</td></tr>
+      <tr><td>Wall-clock time</td><td><code>36 min 55 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR adds <code>--sync-exclude</code> (repeatable) and an implicit <code>.limasyncignore</code> file to <code>limactl shell --sync</code>, plumbing both into rsync via <code>--exclude</code> and <code>--exclude-from</code>. The change is small, focused, and ships with unit and BATS coverage for the happy-path round trip.</p>
+    <p>Two important issues block a clean merge: on Windows, <code>.limasyncignore</code> is looked up against the WSL/Cygwin-translated path, so the file is silently never found; and the interactive &quot;View the changed contents&quot; path diffs the unfiltered host directory against a filtered guest snapshot, so excluded host files are displayed as pending deletions. A third important finding flags <code>validateSyncFlagValue</code> as a brittle string-prefix workaround for an underlying <code>--sync</code> argument-parsing ambiguity. The remaining suggestions improve dynamic ignore-file evaluation, error handling, test ergonomics, and documentation precision.</p>
+    <p>This review found <strong>0 critical, 3 important, 7 suggestions</strong> across 3 reviewers.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> <code>.limasyncignore</code> lookup uses the WSL/Cygwin-translated path on Windows — file is never found <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell.go#L217-L231">cmd/limactl/shell.go</a></div>
+      <pre data-start="217" data-line="222-226"><code class="language-go">	//
+	// changeDirCmd := &quot;cd workDir || exit 1&quot;                  if workDir != &quot;&quot;
+	//              := &quot;cd hostCurrentDir || cd hostHomeDir&quot;   if workDir == &quot;&quot;
+	var changeDirCmd string
+	var hostCurrentDir string
+	if syncDirVal != &quot;&quot; {
+		hostCurrentDir, err = filepath.Abs(syncDirVal)
+		if err == nil &amp;&amp; runtime.GOOS == &quot;windows&quot; {
+			hostCurrentDir, err = mountDirFromWindowsDir(ctx, inst, hostCurrentDir)
+		}
+	} else {
+		hostCurrentDir, err = hostCurrentDirectory(ctx, inst)
+	}
+
+	if err != nil {</code></pre>
+    <p>By the time the call site at <a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell.go#L397"><code>cmd/limactl/shell.go:397</code></a> reaches <code>buildSyncExcludeArgs(syncExcludes, hostCurrentDir)</code>, <code>hostCurrentDir</code> has already been transformed by <code>mountDirFromWindowsDir</code> (line 225) into a Cygwin/WSL path such as <code>/cygdrive/c/Users/foo</code> or <code>/mnt/c/Users/foo</code>. <a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/pkg/ioutilx/ioutilx.go#L53"><code>pkg/ioutilx/ioutilx.go:53</code></a> confirms the conversion runs <code>cygpath</code> (or <code>wsl wslpath</code> for WSL2 instances).</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell.go#L392-L402">cmd/limactl/shell.go</a></div>
+      <pre data-start="392" data-line="397"><code class="language-go">
+		paths := []string{
+			hostCurrentDir,
+			fmt.Sprintf(&quot;%s:%s&quot;, inst.Name, destRsyncDir),
+		}
+		excludeArgs = buildSyncExcludeArgs(syncExcludes, hostCurrentDir)
+		rsync, err = copytool.New(ctx, string(copytool.BackendRsync), paths, &amp;copytool.Options{
+			Recursive: true,
+			Verbose:   false,
+			AdditionalArgs: append([]string{
+				&quot;--delete&quot;,</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/pkg/ioutilx/ioutilx.go#L48-L58">pkg/ioutilx/ioutilx.go</a></div>
+      <pre data-start="48" data-line="53"><code class="language-go">	}
+
+	return string(out), nil
+}
+
+func WindowsSubsystemPath(ctx context.Context, orig string) (string, error) {
+	out, err := exec.CommandContext(ctx, &quot;cygpath&quot;, filepath.ToSlash(orig)).CombinedOutput()
+	if err != nil {
+		logrus.WithError(err).Errorf(&quot;failed to convert path to mingw, maybe not using Git ssh?&quot;)
+		return &quot;&quot;, err
+	}</code></pre>
+      <pre><code class="language-go">// shell.go:842-852 (new)
+func buildSyncExcludeArgs(excludes []string, syncDir string) []string {
+    ...
+    ignoreFile := filepath.Join(syncDir, &quot;.limasyncignore&quot;)
+    if _, err := os.Stat(ignoreFile); err == nil {
+        args = append(args, &quot;--exclude-from&quot;, ignoreFile)
+    }
+    return args
+}</code></pre>
+    <p>On Windows, <code>os.Stat(filepath.Join(&quot;/cygdrive/c/Users/foo&quot;, &quot;.limasyncignore&quot;))</code> resolves against the current drive (<code>\cygdrive\c\Users\foo\.limasyncignore</code>), so the file is silently not found and <code>--exclude-from</code> is never appended. The documented <code>.limasyncignore</code> behavior therefore does nothing on Windows. The Windows verification reviewer (<code>@liketosweep</code>) flagged this in recommendation #4 of the test report; the author has not addressed it.</p>
+    <p>Fix: keep both paths around — the native host path for filesystem probing and the converted path for rsync arguments — and stat the local path. For example, capture <code>localHostCurrentDir = filepath.Abs(syncDirVal)</code> before the WSL/Cygwin translation and pass it through as a separate argument to the helper.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> Interactive diff reports excluded host files as deletions <span class="pill pill-codex">Codex</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell.go#L542-L559">cmd/limactl/shell.go</a></div>
+      <pre data-start="542" data-line="547-554"><code class="language-go">		case 2: // View the changed contents
+			var diffCmd *exec.Cmd
+			if _, err := exec.LookPath(&quot;diff&quot;); err != nil {
+				logrus.WithError(err).Warn(&quot;`diff` not found; showing rsync dry-run output only&quot;)
+			} else {
+				diffCmd = exec.CommandContext(ctx, &quot;diff&quot;, &quot;-ruN&quot;, &quot;--color=always&quot;, hostCurrentDir, hostTmpDest)
+				if !rsyncToTempDir {
+					paths := []string{
+						remoteSource,
+						hostTmpDest,
+					}
+
+					if err := rsyncDirectory(ctx, cmd, rsync, paths); err != nil {
+						return fmt.Errorf(&quot;failed to sync back the changes from guest instance to host temporary directory: %w&quot;, err)
+					}
+					rsyncToTempDir = true
+				}
+			}</code></pre>
+    <p>The <code>rsync</code> <code>CopyTool</code> is constructed with <code>excludeArgs</code> baked into <code>AdditionalArgs</code> at <a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell.go#L398-L404"><code>cmd/limactl/shell.go:398-404</code></a>, then reused at line 554 to populate <code>hostTmpDest</code>. As a result, excluded files are absent from the temporary guest snapshot. The diff at line 547 then compares the unfiltered live <code>hostCurrentDir</code> against that filtered snapshot, so for <code>--sync-exclude=foo.txt</code> the user sees <code>foo.txt</code> listed as &quot;Only in host&quot; — i.e., a pending deletion — even though accepting the prompt will leave <code>foo.txt</code> untouched. This is a regression: pre-PR there were no exclude args, so the two trees were comparable.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell.go#L393-L409">cmd/limactl/shell.go</a></div>
+      <pre data-start="393" data-line="398-404"><code class="language-go">		paths := []string{
+			hostCurrentDir,
+			fmt.Sprintf(&quot;%s:%s&quot;, inst.Name, destRsyncDir),
+		}
+		excludeArgs = buildSyncExcludeArgs(syncExcludes, hostCurrentDir)
+		rsync, err = copytool.New(ctx, string(copytool.BackendRsync), paths, &amp;copytool.Options{
+			Recursive: true,
+			Verbose:   false,
+			AdditionalArgs: append([]string{
+				&quot;--delete&quot;,
+			}, excludeArgs...),
+		})
+		if err != nil {
+			return err
+		}
+		logrus.Debugf(&quot;using copy tool %q&quot;, rsync.Name())
+</code></pre>
+    <p>Fix: diff two equivalently filtered trees. Materialize a filtered host snapshot (using the same exclude args) into a separate temp dir, then <code>diff hostTmpSource hostTmpDest</code>. Alternatively, run <code>rsync --dry-run --itemize-changes</code> with the excludes between <code>hostCurrentDir</code> and <code>remoteSource</code> and feed the parsed output into the pager.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> <code>validateSyncFlagValue</code> is a string-prefix workaround for an <code>--sync</code> parsing ambiguity <span class="pill pill-claude">Claude</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell.go#L195-L208">cmd/limactl/shell.go</a></div>
+      <pre data-start="195" data-line="200-203"><code class="language-go">	syncDirVal, err := flags.GetString(&quot;sync&quot;)
+	if err != nil {
+		return fmt.Errorf(&quot;failed to get sync flag: %w&quot;, err)
+	}
+	syncHostWorkdir := syncDirVal != &quot;&quot;
+	// Validate that --sync has a proper directory value, not another flag
+	if err := validateSyncFlagValue(syncDirVal); err != nil {
+		return err
+	}
+	if syncHostWorkdir &amp;&amp; len(inst.Config.Mounts) &gt; 0 {
+		return errors.New(&quot;cannot use `--sync` when the instance has host mounts configured, start the instance with `--mount-none` to disable mounts&quot;)
+	}
+
+	syncExcludes, err := flags.GetStringArray(&quot;sync-exclude&quot;)</code></pre>
+    <p>This was added because <code>limactl shell --sync --sync-exclude=git ai-box ls</code> lets cobra consume <code>--sync-exclude=git</code> as the value of <code>--sync</code>. The string-prefix check is a partial fix only:</p>
+    <ul>
+      <li>It rejects any directory argument that literally begins with <code>--</code> (e.g., a relative path named <code>--data</code>). Rare in practice, but it is a behavioral cliff with no escape hatch in the error.</li>
+      <li>It does not catch the symmetric case <code>limactl shell --sync ai-box ls</code>, where <code>ai-box</code> is silently consumed as the sync directory and <code>ls</code> becomes the (nonexistent) instance name. The user gets a confusing &quot;instance does not exist&quot; error.</li>
+    </ul>
+    <p>The root cause is that <code>--sync</code> is declared as a <code>String</code> flag, while users routinely want the implicit <code>.</code> shorthand. Two cleaner options:</p>
+    <ul>
+      <li>Declare <code>--sync</code> as a <code>Bool</code> and pull the directory from the next positional arg (matching the help text <code>--sync &lt;DIR&gt;</code>); the parser then does the right thing.</li>
+      <li>Or, declare it <code>String</code> with <code>NoOptDefVal</code> so a bare <code>--sync</code> defaults to <code>.</code>, and remove this validator entirely.</li>
+    </ul>
+    <p>If neither refactor is acceptable, narrow the check to recognize specific Lima flag tokens, document the <code>./--foo</code> workaround for paths that legitimately start with <code>--</code>, and split the usage string out of the error so it does not drift from cobra&#39;s generated help (see S8).</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> No test for <code>--sync-exclude</code> rejected without <code>--sync</code> <span class="pill pill-claude">Claude</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell.go#L207-L219">cmd/limactl/shell.go</a></div>
+      <pre data-start="207" data-line="212-214"><code class="language-go">
+	syncExcludes, err := flags.GetStringArray(&quot;sync-exclude&quot;)
+	if err != nil {
+		return fmt.Errorf(&quot;failed to get sync-exclude flag: %w&quot;, err)
+	}
+	if len(syncExcludes) &gt; 0 &amp;&amp; !syncHostWorkdir {
+		return errors.New(&quot;cannot use `--sync-exclude` without `--sync`&quot;)
+	}
+
+	// When workDir is explicitly set, the shell MUST have workDir as the cwd, or exit with an error.
+	//
+	// changeDirCmd := &quot;cd workDir || exit 1&quot;                  if workDir != &quot;&quot;
+	//              := &quot;cd hostCurrentDir || cd hostHomeDir&quot;   if workDir == &quot;&quot;</code></pre>
+    <p>This is the user-visible contract introduced by the PR but has no Go-level or BATS coverage. A regression that drops or inverts the guard would not be caught. Add a BATS case (<code>limactl shell --sync-exclude=foo $INSTANCE -- true</code> asserting the error) or extract the check into a helper that can be unit-tested.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> <code>buildSyncExcludeArgs</code> swallows non-ENOENT stat errors <span class="pill pill-claude">Claude</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell.go#L842-L855">cmd/limactl/shell.go</a></div>
+      <pre data-start="842" data-line="847-850"><code class="language-go">func buildSyncExcludeArgs(excludes []string, syncDir string) []string {
+	var args []string
+	for _, pattern := range excludes {
+		args = append(args, &quot;--exclude&quot;, pattern)
+	}
+	ignoreFile := filepath.Join(syncDir, &quot;.limasyncignore&quot;)
+	if _, err := os.Stat(ignoreFile); err == nil {
+		args = append(args, &quot;--exclude-from&quot;, ignoreFile)
+	}
+	return args
+}
+
+// validateSyncFlagValue ensures the value passed to --sync is a directory
+// path and not another flag token like &quot;--sync-exclude=...&quot;.</code></pre>
+    <p>If <code>.limasyncignore</code> exists but <code>os.Stat</code> fails for a reason other than ENOENT (permission denied, broken symlink, I/O error), the file is silently ignored and the sync quietly stops respecting the user&#39;s excludes.</p>
+    <p>Fix: skip on <code>errors.Is(err, fs.ErrNotExist)</code>, log a warning otherwise so the operator can diagnose.</p>
+      <pre><code class="language-go">ignoreFile := filepath.Join(syncDir, &quot;.limasyncignore&quot;)
+switch _, err := os.Stat(ignoreFile); {
+case err == nil:
+    args = append(args, &quot;--exclude-from&quot;, ignoreFile)
+case errors.Is(err, fs.ErrNotExist):
+    // no ignore file
+default:
+    logrus.WithError(err).Warnf(&quot;ignoring %s due to stat error&quot;, ignoreFile)
+}</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> Use rsync&#39;s per-directory merge filter instead of a startup <code>os.Stat</code> lookup <span class="pill pill-gemini">Gemini</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell.go#L837-L857">cmd/limactl/shell.go</a></div>
+      <pre data-start="837" data-line="842-852"><code class="language-go">	return &amp;s
+}
+
+// buildSyncExcludeArgs converts --sync-exclude flag values and an optional
+// .limasyncignore file into rsync --exclude / --exclude-from arguments.
+func buildSyncExcludeArgs(excludes []string, syncDir string) []string {
+	var args []string
+	for _, pattern := range excludes {
+		args = append(args, &quot;--exclude&quot;, pattern)
+	}
+	ignoreFile := filepath.Join(syncDir, &quot;.limasyncignore&quot;)
+	if _, err := os.Stat(ignoreFile); err == nil {
+		args = append(args, &quot;--exclude-from&quot;, ignoreFile)
+	}
+	return args
+}
+
+// validateSyncFlagValue ensures the value passed to --sync is a directory
+// path and not another flag token like &quot;--sync-exclude=...&quot;.
+func validateSyncFlagValue(syncDirVal string) error {
+	if syncDirVal != &quot;&quot; &amp;&amp; strings.HasPrefix(syncDirVal, &quot;--&quot;) {</code></pre>
+    <p>The current implementation snapshots the host-side <code>.limasyncignore</code> at startup and embeds its absolute path into the rsync arguments reused for both the host→guest sync and the guest→host sync-back. Two consequences:</p>
+    <ul>
+      <li>An ignore file created or modified inside the guest during the shell session is never honored on the way back, because rsync still reads the host-side path.</li>
+      <li>If the user deletes the host-side <code>.limasyncignore</code> mid-session, the cached <code>--exclude-from</code> argument now points at a missing file, causing both <code>getRsyncStats</code> and the eventual <code>rsyncBack()</code> to fail. The pre-existing unconditional <code>defer</code> cleanup at <a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell.go#L480-L485"><code>cmd/limactl/shell.go:480-485</code></a> then <code>rm -rf</code>s the guest workdir regardless. The data-loss-on-failure behavior is pre-existing and not a regression of this PR (verified at <code>MERGE_BASE 898ac652</code>), but the new code adds a contrived trigger.</li>
+    </ul>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell.go#L475-L490">cmd/limactl/shell.go</a></div>
+      <pre data-start="475" data-line="480-485"><code class="language-go">		}
+		logrus.Info(&quot;Successfully synced back the changes to host.&quot;)
+		return nil
+	}
+
+	defer func() {
+		// Clean up the guest synced workdir
+		if err := executeSSHForRsync(ctx, *sshCmd, inst.SSHLocalPort, inst.SSHAddress, fmt.Sprintf(&quot;rm -rf %s&quot;, dirForCleanup)); err != nil {
+			logrus.WithError(err).Warn(&quot;Failed to clean up guest synced workdir&quot;)
+		}
+	}()
+
+	if !tty {
+		return rsyncBack()
+	}
+</code></pre>
+    <p>Fix: replace the static <code>--exclude-from</code> with rsync&#39;s per-directory merge filter, which evaluates the ignore file dynamically at the root of the transfer and tolerates a missing file:</p>
+      <pre><code class="language-go">args = append(args, &quot;--filter&quot;, &quot;:- /.limasyncignore&quot;)</code></pre>
+    <p>This also eliminates the empty-string placeholder dance in <code>TestBuildSyncExcludeArgs</code> and consolidates host- and guest-side semantics. The unconditional cleanup defer is a separate, pre-existing concern worth tracking independently.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> Docs say &quot;directories&quot; but the flag and file accept rsync patterns <span class="pill pill-claude">Claude</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/website/content/en/docs/examples/ai.md#L188-L201">website/content/en/docs/examples/ai.md</a></div>
+      <pre data-start="188" data-line="193-196"><code class="language-markdown">### Excluding files or directories from syncing
+
+ | ⚡ Requirement | Lima &gt;= 2.2 |
+ |----------------|-------------|
+
+In addition to the `--sync` flag, a `--sync-exclude` flag is available, which allows you to configure directories that will not be synced to the VM. This is useful to exclude large generated directories (like `node_modules`, or `vendor`),
+or more sensitive files (like credentials, or a `.git` directory). This flag can be repeated to exclude multiple directories.
+
+The flag is passed to **rsync** as `--exclude` and must conform to its conventions.
+
+```bash
+limactl shell --sync . --sync-exclude .git default
+```
+</code></pre>
+    <p>The example in the same section uses <code>*.o</code>, which is a glob, not a directory. The docs should say &quot;files or patterns&quot; (or just &quot;patterns&quot;) and link the rsync <code>--exclude</code> FILTER RULES section so users know which globbing conventions apply. The <code>.limasyncignore</code> block is missing a note on precedence: file and flag are additive — both apply if both are present.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> <code>TestBuildSyncExcludeArgs</code> mutates the loop-table fixture in place <span class="pill pill-claude">Claude</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell_test.go#L48-L68">cmd/limactl/shell_test.go</a></div>
+      <pre data-start="48" data-line="53-63"><code class="language-go">	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			dir := t.TempDir()
+			if tt.hasIgnore {
+				ignoreFile := filepath.Join(dir, &quot;.limasyncignore&quot;)
+				err := os.WriteFile(ignoreFile, []byte(&quot;build\ndist\n&quot;), 0o644)
+				assert.NilError(t, err)
+				// Patch expected with actual path
+				for i, v := range tt.expected {
+					if v == &quot;&quot; {
+						tt.expected[i] = ignoreFile
+					}
+				}
+			}
+			got := buildSyncExcludeArgs(tt.excludes, dir)
+			assert.DeepEqual(t, got, tt.expected)
+		})
+	}
+}</code></pre>
+    <p>The empty-string sentinel exists because <code>t.TempDir()</code> is unknown at table-declaration time, but the in-place patch is fragile: a future refactor that runs subtests in parallel, or one that shares <code>tt.expected</code> across cases, would silently corrupt fixtures. Build <code>expected</code> from explicit fields (e.g., <code>wantPatterns []string</code>, <code>wantIgnore bool</code>) and compute the final <code>[]string</code> inside the subtest body.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> <code>excludeArgs</code> is plumbed through three functions purely as a duplicate parameter <span class="pill pill-claude">Claude</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell.go#L362-L376">cmd/limactl/shell.go</a></div>
+      <pre data-start="362" data-line="367-371"><code class="language-go">		sshOpts = sshutil.SSHOptsRemovingControlPath(sshOpts)
+	}
+	sshArgs := append([]string{}, sshExe.Args...)
+	sshArgs = append(sshArgs, sshutil.SSHArgsFromOpts(sshOpts)...)
+
+	var (
+		sshExecForRsync *exec.Cmd
+		rsync           copytool.CopyTool
+		excludeArgs     []string
+	)
+	if syncHostWorkdir {
+		logrus.Infof(&quot;Syncing host current directory(%s) to guest instance...&quot;, hostCurrentDir)
+		sshExecForRsync = exec.CommandContext(ctx, sshExe.Exe, sshArgs...)
+
+		// Create the destination directory in the guest instance,</code></pre>
+    <p><code>excludeArgs</code> is now threaded through <code>askUserForRsyncBack</code> and <code>getRsyncStats</code> solely to be re-appended to a fresh <code>copytool.Options</code>. Two reasonable cleanups: reuse the existing <code>rsync</code> <code>CopyTool</code> for the dry-run inside <code>getRsyncStats</code> (with per-call options for <code>--dry-run --itemize-changes</code>), or wrap source/dest/AdditionalArgs into a single struct. As-is, <code>askUserForRsyncBack</code> now takes nine positional parameters and any future caller that forgets <code>excludeArgs</code> will produce stats that disagree with the actual sync.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> Hardcoded usage string in the validator error <span class="pill pill-gemini">Gemini</span><a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell.go#L853-L863">cmd/limactl/shell.go</a></div>
+      <pre data-start="853" data-line="858"><code class="language-go">
+// validateSyncFlagValue ensures the value passed to --sync is a directory
+// path and not another flag token like &quot;--sync-exclude=...&quot;.
+func validateSyncFlagValue(syncDirVal string) error {
+	if syncDirVal != &quot;&quot; &amp;&amp; strings.HasPrefix(syncDirVal, &quot;--&quot;) {
+		return fmt.Errorf(&quot;--sync flag requires a directory path argument, got %q instead\nUsage: limactl shell --sync &lt;DIR&gt; [--sync-exclude &lt;PATTERN&gt;...] &lt;INSTANCE&gt; [COMMAND...]&quot;, syncDirVal)
+	}
+	return nil
+}
+
+func hasMetadataDelta(attrs string) bool {</code></pre>
+    <p>The hardcoded usage line will drift from cobra&#39;s generated help the first time the flag set changes. Drop the second sentence and rely on <code>limactl shell --help</code>:</p>
+      <pre><code class="language-go">return fmt.Errorf(&quot;--sync flag requires a directory path argument, got %q instead&quot;, syncDirVal)</code></pre>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Magic-file conventions deserve an opt-in switch</strong> (in-scope) <span class="pill pill-claude">Claude</span>. <code>.limasyncignore</code> is implicitly applied when present. <code>@unsuman</code> raised this concern in PR review and the author&#39;s own counter-proposal of <code>--sync-exclude-from</code> is more discoverable, easier to script, and avoids &quot;why is my file not syncing?&quot; debugging on workstations that happen to carry an old <code>.limasyncignore</code>. Resolving the design question before merge would avoid shipping a magic-file convention that has to be deprecated later. Overlaps with Unresolved Feedback below.</li>
+      <li><em></em><code>--sync</code> overloads value semantics<em></em> (future) <span class="pill pill-claude">Claude</span>. The flag is documented as taking a directory but the code papers over it repeatedly: implicit <code>.</code>, validator that rejects <code>--</code>-prefixed values, error path for missing argument. Making it a boolean with a separate positional, or giving it <code>NoOptDefVal=.</code>, would eliminate I3 and a class of UX bugs.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Same exclude args applied throughout the pipeline</strong> (in-scope) <span class="pill pill-codex">Codex</span>. The initial sync, the dry-run stats, and the actual sync-back all use the same <code>excludeArgs</code>, preserving the core data-transfer contract users expect from <code>--sync-exclude</code>. (The &quot;View the changed contents&quot; path is the one place this symmetry breaks — see I2.)</li>
+      <li><strong>Unit-test discipline</strong> (in-scope) <span class="pill pill-claude">Claude</span>. <code>TestBuildSyncExcludeArgs</code> covers no-excludes, single, multiple, and ignore-file-only paths.</li>
+      <li><strong>Round-trip BATS coverage</strong> (in-scope) <span class="pill pill-claude">Claude</span>. The new BATS tests assert that excluded files are not pushed <em>and</em> not overwritten on the way back — the correct invariant for an exclude feature.</li>
+      <li><strong>Minimal blast radius</strong> (in-scope) <span class="pill pill-claude">Claude</span>. The PR keeps the existing rsync wiring intact and just appends <code>--exclude</code> arguments; no new dependencies and easy to revert.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Unit and BATS coverage is adequate for the happy path. Untested scenarios, ranked by risk:</p>
+    <ol>
+      <li>Windows behavior — neither unit nor BATS test exercises <code>runtime.GOOS == &quot;windows&quot;</code> paths, and the <code>.limasyncignore</code> lookup is broken there (I1).</li>
+      <li>Interactive &quot;View the changed contents&quot; path with excludes — would catch I2.</li>
+      <li><code>--sync-exclude</code> without <code>--sync</code> — error path is uncovered (S1).</li>
+      <li><code>.limasyncignore</code> modified inside the guest during the session — current implementation cannot honor it (S3).</li>
+      <li>Both <code>--sync-exclude</code> and <code>.limasyncignore</code> present — the additive contract is implemented but not pinned by a test.</li>
+      <li><code>.limasyncignore</code> patterns that exercise rsync filter-rule semantics (leading slash, negation, <code>.limasyncignore</code> matching itself).</li>
+    </ol>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/website/content/en/docs/examples/ai.md#L193-L196"><code>website/content/en/docs/examples/ai.md:193-196</code></a> says &quot;directories&quot; but the in-page example uses <code>*.o</code>; correct to &quot;files or patterns&quot; and link the rsync FILTER RULES section (S4).</li>
+      <li>The doc does not state the precedence rule when both <code>--sync-exclude</code> and <code>.limasyncignore</code> are present (S4).</li>
+      <li>Help text for <code>--sync-exclude</code> (<a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell.go#L76"><code>shell.go:76</code></a>) reads &quot;Exclude pattern for --sync (can be specified multiple times)&quot;; brief mention of rsync <code>--exclude</code> semantics would mirror the docs.</li>
+      <li>The &quot;Lima &gt;= 2.2&quot; requirement banner pins a version that is not yet released; verify this is the intended target and bump if the PR slips.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Two commits: feature + tests. Splitting BATS tests from the implementation is reasonable, but tests usually land in the same commit as the feature so <code>git bisect</code> does not land on a commit lacking coverage. Squashing into one commit before merge would be cleaner.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>Windows error 1 — rsync missing</strong>: author response (<code>@peschmae</code>): &quot;I assume this is already the case with 2.1? […] I think this is unrelated to this PR.&quot; The final code adds an <code>exec.LookPath</code> preflight at <a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/cmd/limactl/shell.go#L236-L237"><code>cmd/limactl/shell.go:236-237</code></a>, so the error message is now actionable; not a finding.</li>
+      <li><strong>Windows error 2/3 — path concatenation and positional parsing</strong>: diagnosed by <code>@peschmae</code> as a pre-existing issue triggered by mixed-shell path separators (<code>os.PathSeparator</code> vs. <code>/</code> from Git Bash). The PR does not change the relevant code path; out of scope for this review.</li>
+      <li><em></em><code>.limasyncignore</code> design<em></em>: <code>@unsuman</code> proposed an environment-block style config; <code>@peschmae</code> proposed <code>--sync-exclude-from</code> as an alternative. Author kept the magic-file behavior pending further input. See Unresolved Feedback.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><code>@unsuman</code> on <a href="https://github.com/lima-vm/lima/blob/37bef33b0c210a6282456341fdbe4a586c2f0d21/website/content/en/docs/examples/ai.md#L202"><code>website/content/en/docs/examples/ai.md:202</code></a> — questioned whether <code>.limasyncignore</code> is the right design vs. a <code>LIMA_SHELLENV_BLOCK</code>-style config block. https://github.com/lima-vm/lima/pull/4917#discussion_r3174868896 — The author replied with a <code>--sync-exclude-from</code> counter-proposal but did not commit a change. Still actionable; resolving before merge would avoid shipping a magic-file convention that has to be deprecated later. Overlaps with the Design Concern above.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude"><span class="pill pill-claude">Claude</span> <a href="#claude" class="pilcrow">&#182;</a></h3>
+    <p>Produced the longest and most varied review: caught the Windows path bug (I1), proposed both refactor options for the <code>--sync</code> validator (I3), and surfaced the strongest set of suggestions including the missing-test gap (S1), error-handling tightening (S2), doc precision (S4), test fixture mutation (S5), and parameter-list bloat (S6). The example list of &quot;blocked legitimate paths&quot; (<code>./--foo</code>) for I3 was incorrect — <code>./--foo</code> does not start with <code>--</code> — but the underlying complaint about the validator being a partial fix stood, and I downgraded the wording rather than the finding.</p>
+    <h3 id="codex"><span class="pill pill-codex">Codex</span> <a href="#codex" class="pilcrow">&#182;</a></h3>
+    <p>Smaller surface area but the highest-signal-per-finding ratio: independently caught the Windows path bug (its I2, merged with Claude&#39;s I1) and was the only agent to spot the interactive-diff asymmetry (I2), which is the most user-visible regression in the PR. No suggestions and no false positives. Coverage summary correctly attributed both findings to <code>shell.go</code>.</p>
+    <h3 id="gemini"><span class="pill pill-gemini">Gemini</span> <a href="#gemini" class="pilcrow">&#182;</a></h3>
+    <p>Single critical finding (its C1) was misclassified: the unconditional <code>defer rm -rf</code> on rsync-back failure is pre-existing, not a regression of this PR (verified at <code>MERGE_BASE 898ac652</code> — the defer block is identical). The TOCTOU framing exaggerated a contrived trigger. The proposed <code>--filter &#39;:- /.limasyncignore&#39;</code> mechanism is genuinely useful — it makes ignore evaluation dynamic and respects guest-side files — so I demoted it to S3 rather than dropping it. Gemini also produced one valid suggestion (S7, hardcoded usage string). Its <code>git blame</code> skip is the documented daily-quota behavior.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.7</th><th><span class="pill pill-codex">Codex</span> GPT 5.5</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>3m 43s</td><td>3m 00s</td><td>12m 44s</td></tr>
+        <tr><td>Findings</td><td>1I 6S</td><td>2I</td><td>2S</td></tr>
+        <tr><td>Tool calls</td><td>9 (Read 5, Bash 3, Grep 1)</td><td>17 (shell 17)</td><td>28 (run<em>shell</em>command 20, grep<em>search 5, read</em>file 3)</td></tr>
+        <tr><td>Design observations</td><td>6</td><td>1</td><td>0</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>5</td><td>1</td><td>1</td></tr>
+        <tr><td>Files reviewed</td><td>4</td><td>4</td><td>4</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>1I 6S</strong></td><td><strong>2I</strong></td><td><strong>2S</strong></td></tr>
+        <tr><td>Downgraded</td><td>1 (I→S)</td><td>0</td><td>1 (I→S)</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Reconciliation</strong></p>
+    <ul>
+      <li>Gemini C1 (data-loss TOCTOU on <code>.limasyncignore</code> removal): demoted critical → suggestion S3. Reason: the unconditional cleanup defer is pre-existing (not a regression of this PR), the TOCTOU trigger is contrived, and the proposed <code>--filter</code> fix has independent merit but does not actually close the underlying data-loss path.</li>
+      <li>Claude I3 (no test for <code>--sync-exclude</code> without <code>--sync</code>): demoted important → suggestion S1. Reason: missing test coverage of a new contract is real, but the failure mode is a regression net rather than a current bug.</li>
+    </ul>
+    <p>Codex provided the highest signal in the smallest review and was the only agent to find the interactive-diff regression. Claude provided the broadest coverage and the cleanest fix sketches. Gemini&#39;s contribution was one usable suggestion plus a misclassified critical that nonetheless surfaced a useful refactor idea.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <p>None. The current dimensions and verification gates were sufficient to catch the misclassified critical and reconcile the duplicate Windows-path finding.</p>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>[repo]</strong> When reviewing changes to <code>limactl shell --sync</code> flow, check whether <code>excludeArgs</code> (or any rsync option set introduced in the change) is applied symmetrically in all three rsync invocations in <code>cmd/limactl/shell.go</code>: the initial host→guest sync, the <code>getRsyncStats</code> dry-run, and the &quot;View the changed contents&quot; path that populates a temp directory before <code>diff</code>. The &quot;View&quot; path diffs the live host directory against a filtered guest snapshot, so any filter applied only to the rsync side will misrepresent excluded files as deletions. Reason: this asymmetry shipped as I2 in this review; future filter-flag additions are likely to repeat the pattern.</li>
+      <li><strong>[repo]</strong> When a Lima command builds host paths and then converts them with <code>mountDirFromWindowsDir</code> / <code>pkg/ioutilx.WindowsSubsystemPath</code> / <code>WindowsSubsystemPathForLinux</code>, treat the original native path and the converted path as two distinct values. Any <code>os.Stat</code>, <code>os.Open</code>, or other filesystem call from the limactl process must use the native host path; only arguments handed to a tool that runs against the converted toolchain (rsync over WSL, ssh into a WSL2 instance) should use the converted form. A single <code>hostCurrentDir</code> variable that is overwritten with the converted path causes silent failures on Windows. Reason: this pattern shipped as I1 in this review.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
