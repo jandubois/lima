@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260512-213934-pr-4967</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260512-213934-pr-4967</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-05-12 21:39</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/WeishiZ">@WeishiZ</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/4967" class="gh-ref" data-title="hostagent: gate Ready on raw-TCP SSH banner probe" data-state="open" data-type="pr">#4967</a> — hostagent: gate Ready on raw-TCP SSH banner probe</td></tr>
+      <tr><td>Branch</td><td><code>hostagent-ssh-banner-readiness</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/42655076"><code>42655076</code></a> hostagent: gate Ready on raw-TCP SSH banner probe</td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.7 (effort: xhigh), <span class="pill pill-codex">Codex</span> GPT 5.5 (effort: xhigh), <span class="pill pill-gemini">Gemini</span> 3.1 Pro (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; single Important (preamble-line handling per RFC 4253 §4.2) plus a handful of small robustness suggestions.</td></tr>
+      <tr><td>Wall-clock time</td><td><code>11 min 43 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR adds a host-side raw-TCP probe that reads the SSH identification banner before the hostagent fires <code>Ready</code>. The placement (head of <code>essentialRequirements</code>), the rationale (Lima&#39;s existing script-based check is masked by the SSH client&#39;s internal retries, so external clients see a <code>connect()</code>→<code>write()</code> <code>EPIPE</code> window), and the test scaffolding are all sound. One Important issue: the line-reader treats the first line as the SSH identification string, so an SSH server that emits the RFC 4253 §4.2-allowed preamble lines would block the gate for all 200 retries. The rest are minor robustness suggestions: probe doesn&#39;t propagate <code>ctx</code> cancellation into the blocking read, hardcoded <code>127.0.0.1</code> diverges from the existing requirement&#39;s use of <code>a.instSSHAddress</code>, the <code>debugHint</code> mentions a &quot;serial log&quot; that only exists for Darwin guests, and the <code>requirement</code> doc-comment claims mutual exclusion of <code>script</code>/<code>check</code> that the dispatcher does not enforce.</p>
+    <p>Structure: 0 Critical, 1 Important, 5 Suggestions, 1 design observation.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> Probe rejects RFC 4253 §4.2 preamble lines <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/hostagent/requirements.go#L355-L368">pkg/hostagent/requirements.go</a></div>
+      <pre data-start="355" data-line="360-365"><code class="language-go">	}
+	// RFC4253 §4.2: an SSH server sends an identification string ending in CR
+	// LF (or just LF historically) before the version exchange. If the proxied
+	// connection inside the guest has no live peer, the host side will close
+	// and ReadString returns EOF.
+	banner, err := bufio.NewReader(conn).ReadString(&#39;\n&#39;)
+	if err != nil {
+		return fmt.Errorf(&quot;read SSH banner from %s: %w&quot;, addr, err)
+	}
+	if !strings.HasPrefix(banner, &quot;SSH-2.0-&quot;) &amp;&amp; !strings.HasPrefix(banner, &quot;SSH-1.99-&quot;) {
+		return fmt.Errorf(&quot;unexpected banner from %s: %q&quot;, addr, strings.TrimRight(banner, &quot;\r\n&quot;))
+	}
+	return nil
+}</code></pre>
+    <p>RFC 4253 §4.2 lets the server emit other lines of data before the version string and requires clients to skip them. The probe reads exactly one line and treats it as the identification string, so any preamble line — a TCP-wrapper notice, a proxy warning, a deployment-specific notice some operators wire into sshd — falls through to the <code>unexpected banner</code> branch. The next retry hits the same preamble, and the gate fails for all 200 attempts (~10 minutes) while the existing script-based <code>ssh</code> requirement at line 154 — which goes through Lima&#39;s SSH client — would have connected fine.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/hostagent/requirements.go#L149-L159">pkg/hostagent/requirements.go</a></div>
+      <pre data-start="149" data-line="154"><code class="language-go">			ConfigFile:     sshConfig.ConfigFile,
+			Persist:        false,
+			AdditionalArgs: sshutil.DisableControlMasterOptsFromSSHArgs(sshConfig.AdditionalArgs),
+		}
+	}
+	stdout, stderr, err := ssh.ExecuteScript(a.instSSHAddress, a.sshLocalPort, sshConfig, script, r.description)
+	logrus.Debugf(&quot;stdout=%q, stderr=%q, err=%v&quot;, stdout, stderr, err)
+	if err != nil {
+		return fmt.Errorf(&quot;stdout=%q, stderr=%q: %w&quot;, stdout, stderr, err)
+	}
+	return nil</code></pre>
+    <p>Lima&#39;s stock templates run OpenSSH without preamble, so no in-tree configuration hits this today, but the new gate is strictly less tolerant of compliant servers than the existing one, and the fix is small.</p>
+    <p>Fix: read lines in a loop, bound the count to cap unbounded input from a wrong service, and only treat an <code>SSH-</code> line as the banner.</p>
+      <pre><code class="language-diff">-	banner, err := bufio.NewReader(conn).ReadString(&#39;\n&#39;)
+-	if err != nil {
+-		return fmt.Errorf(&quot;read SSH banner from %s: %w&quot;, addr, err)
+-	}
+-	if !strings.HasPrefix(banner, &quot;SSH-2.0-&quot;) &amp;&amp; !strings.HasPrefix(banner, &quot;SSH-1.99-&quot;) {
+-		return fmt.Errorf(&quot;unexpected banner from %s: %q&quot;, addr, strings.TrimRight(banner, &quot;\r\n&quot;))
+-	}
+-	return nil
++	reader := bufio.NewReader(conn)
++	for range 50 {
++		line, err := reader.ReadString(&#39;\n&#39;)
++		if err != nil {
++			return fmt.Errorf(&quot;read SSH banner from %s: %w&quot;, addr, err)
++		}
++		line = strings.TrimRight(line, &quot;\r\n&quot;)
++		if strings.HasPrefix(line, &quot;SSH-2.0-&quot;) || strings.HasPrefix(line, &quot;SSH-1.99-&quot;) {
++			return nil
++		}
++		if strings.HasPrefix(line, &quot;SSH-&quot;) {
++			return fmt.Errorf(&quot;unexpected banner from %s: %q&quot;, addr, line)
++		}
++	}
++	return fmt.Errorf(&quot;too many pre-identification lines from %s&quot;, addr)</code></pre>
+    <p>Add a test that feeds one preamble line followed by <code>SSH-2.0-…</code> and asserts the probe accepts it.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> Hardcoded <code>127.0.0.1</code> diverges from the existing requirement&#39;s address <span class="pill pill-claude">Claude</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/hostagent/requirements.go#L179-L194">pkg/hostagent/requirements.go</a></div>
+      <pre data-start="179" data-line="184-189"><code class="language-go">	// Lima&#39;s own SSH client, which has internal retry behavior that can mask a
+	// race where the hostagent accepts a TCP connection on 127.0.0.1:sshLocalPort
+	// before guest sshd has bound :22. External clients (ssh-keyscan, sftp,
+	// rsync, ...) that connect during that window get EPIPE on the first write.
+	// This native probe proves the public-facing path is end-to-end usable.
+	port := a.sshLocalPort
+	req = append(req,
+		requirement{
+			description: &quot;sshLocalPort serves an SSH banner&quot;,
+			check: func(ctx context.Context) error {
+				return probeSSHBannerOnLocalPort(ctx, port)
+			},
+			debugHint: `The host agent is listening on 127.0.0.1:&lt;sshLocalPort&gt; but the
+proxied connection into the guest is failing. Most commonly this means
+guest sshd has not yet bound :22. Check the serial log for sshd startup.
+`,</code></pre>
+      <pre><code class="language-go">func probeSSHBannerOnLocalPort(ctx context.Context, port int) error {
+    addr := fmt.Sprintf(&quot;127.0.0.1:%d&quot;, port)</code></pre>
+    <p>The existing script-based <code>ssh</code> requirement at <a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/hostagent/requirements.go#L154"><code>requirements.go:154</code></a> dials <code>(a.instSSHAddress, a.sshLocalPort)</code>. The new probe ignores <code>a.instSSHAddress</code> and hardcodes <code>127.0.0.1</code>. Every in-tree driver — <code>qemu</code>, <code>vz</code>, <code>krunkit</code>, <code>wsl2</code> — returns <code>&quot;127.0.0.1&quot;</code> from <code>SSHAddress(ctx)</code> today, so the two checks target the same address in practice. The divergence matters only for an external driver plugin (<a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/driver/external/client/methods.go#L323"><code>pkg/driver/external/client/methods.go:323</code></a>) that returns a non-loopback host: the existing <code>ssh</code> requirement would honor the plugin&#39;s address while the new probe would still dial loopback and either fail forever or — worse — match an unrelated SSH server on the host.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/hostagent/requirements.go#L149-L159">pkg/hostagent/requirements.go</a></div>
+      <pre data-start="149" data-line="154"><code class="language-go">			ConfigFile:     sshConfig.ConfigFile,
+			Persist:        false,
+			AdditionalArgs: sshutil.DisableControlMasterOptsFromSSHArgs(sshConfig.AdditionalArgs),
+		}
+	}
+	stdout, stderr, err := ssh.ExecuteScript(a.instSSHAddress, a.sshLocalPort, sshConfig, script, r.description)
+	logrus.Debugf(&quot;stdout=%q, stderr=%q, err=%v&quot;, stdout, stderr, err)
+	if err != nil {
+		return fmt.Errorf(&quot;stdout=%q, stderr=%q: %w&quot;, stdout, stderr, err)
+	}
+	return nil</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/driver/external/client/methods.go#L318-L328">pkg/driver/external/client/methods.go</a></div>
+      <pre data-start="318" data-line="323"><code class="language-go">
+func (d *DriverClient) InspectStatus(_ context.Context, _ *limatype.Instance) string {
+	return &quot;&quot;
+}
+
+func (d *DriverClient) SSHAddress(ctx context.Context) (string, error) {
+	d.logger.Debug(&quot;Getting SSH address for the driver instance&quot;)
+
+	resp, err := d.DriverSvc.SSHAddress(ctx, &amp;emptypb.Empty{})
+	if err != nil {
+		d.logger.WithError(err).Error(&quot;Failed to get SSH address&quot;)</code></pre>
+    <p>Fix: thread <code>a.instSSHAddress</code> through alongside the port, mirroring the existing requirement.</p>
+      <pre><code class="language-diff">-	port := a.sshLocalPort
+ 	req = append(req,
+ 		requirement{
+ 			description: &quot;sshLocalPort serves an SSH banner&quot;,
+ 			check: func(ctx context.Context) error {
+-				return probeSSHBannerOnLocalPort(ctx, port)
++				return probeSSHBanner(ctx, a.instSSHAddress, a.sshLocalPort)
+ 			},</code></pre>
+      <pre><code class="language-diff">-func probeSSHBannerOnLocalPort(ctx context.Context, port int) error {
+-	addr := fmt.Sprintf(&quot;127.0.0.1:%d&quot;, port)
++func probeSSHBanner(ctx context.Context, host string, port int) error {
++	addr := net.JoinHostPort(host, strconv.Itoa(port))</code></pre>
+    <p>Also rename the function (<code>probeSSHBannerOnLocalPort</code> encodes the loopback assumption) and update the doc comment at <a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/hostagent/requirements.go#L338-L344"><code>requirements.go:338-344</code></a>, which currently describes &quot;the host agent&#39;s TCP forwarder on 127.0.0.1:port.&quot;</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> Probe read does not respect <code>ctx</code> cancellation <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/hostagent/requirements.go#L348-L367">pkg/hostagent/requirements.go</a></div>
+      <pre data-start="348" data-line="353-362"><code class="language-go">	conn, err := d.DialContext(ctx, &quot;tcp&quot;, addr)
+	if err != nil {
+		return fmt.Errorf(&quot;dial %s: %w&quot;, addr, err)
+	}
+	defer conn.Close()
+	if err := conn.SetReadDeadline(time.Now().Add(probeSSHBannerTimeout)); err != nil {
+		return fmt.Errorf(&quot;set read deadline on %s: %w&quot;, addr, err)
+	}
+	// RFC4253 §4.2: an SSH server sends an identification string ending in CR
+	// LF (or just LF historically) before the version exchange. If the proxied
+	// connection inside the guest has no live peer, the host side will close
+	// and ReadString returns EOF.
+	banner, err := bufio.NewReader(conn).ReadString(&#39;\n&#39;)
+	if err != nil {
+		return fmt.Errorf(&quot;read SSH banner from %s: %w&quot;, addr, err)
+	}
+	if !strings.HasPrefix(banner, &quot;SSH-2.0-&quot;) &amp;&amp; !strings.HasPrefix(banner, &quot;SSH-1.99-&quot;) {
+		return fmt.Errorf(&quot;unexpected banner from %s: %q&quot;, addr, strings.TrimRight(banner, &quot;\r\n&quot;))
+	}
+	return nil</code></pre>
+    <p><code>DialContext</code> honors <code>ctx</code>, but the subsequent <code>ReadString</code> only respects the 5-second read deadline. If the user runs <code>limactl stop</code> while a probe attempt is mid-read, the goroutine still sits in the read for up to 5 seconds. <code>waitForRequirements</code> does check <code>ctx.Done()</code> between attempts (<a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/hostagent/requirements.go#L48-L53"><code>requirements.go:48-53</code></a>), so this is bounded; it just means the shutdown deadline is &quot;next attempt boundary plus 5 seconds&quot; rather than &quot;immediate.&quot;</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/hostagent/requirements.go#L43-L58">pkg/hostagent/requirements.go</a></div>
+      <pre data-start="43" data-line="48-53"><code class="language-go">			}
+			if j == retries-1 {
+				errs = append(errs, fmt.Errorf(&quot;failed to satisfy the %s requirement %d of %d %q: %s: %w&quot;, label, i+1, len(requirements), req.description, req.debugHint, err))
+				break retryLoop
+			}
+			select {
+			case &lt;-ctx.Done():
+				errs = append(errs, fmt.Errorf(&quot;failed to satisfy the %s requirement %d of %d %q: %s: %w&quot;, label, i+1, len(requirements), req.description, req.debugHint, ctx.Err()))
+				return errors.Join(errs...)
+			case &lt;-time.After(sleepDuration):
+			}
+		}
+	}
+	return errors.Join(errs...)
+}
+</code></pre>
+    <p>Fix: wire <code>ctx</code> into the read with <code>context.AfterFunc(ctx, func() { conn.Close() })</code>.</p>
+      <pre><code class="language-diff"> 	defer conn.Close()
++	stop := context.AfterFunc(ctx, func() { _ = conn.Close() })
++	defer stop()
+ 	if err := conn.SetReadDeadline(time.Now().Add(probeSSHBannerTimeout)); err != nil {</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> <code>TestProbeSSHBannerOnLocalPort_HungWrite</code> deadlocks if <code>DialContext</code> errors <span class="pill pill-gemini">Gemini</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/hostagent/requirements_test.go#L91-L120">pkg/hostagent/requirements_test.go</a></div>
+      <pre data-start="91" data-line="96-115"><code class="language-go">	// Server accepts but neither writes a banner nor closes, so the probe must
+	// time out on the read deadline rather than hang forever.
+	var lc net.ListenConfig
+	ln, err := lc.Listen(t.Context(), &quot;tcp&quot;, &quot;127.0.0.1:0&quot;)
+	assert.NilError(t, err)
+	t.Cleanup(func() { _ = ln.Close() })
+	accepted := make(chan net.Conn, 1)
+	go func() {
+		conn, err := ln.Accept()
+		if err != nil {
+			return
+		}
+		accepted &lt;- conn
+	}()
+	_, portStr, err := net.SplitHostPort(ln.Addr().String())
+	assert.NilError(t, err)
+	port, err := strconv.Atoi(portStr)
+	assert.NilError(t, err)
+
+	ctx, cancel := context.WithTimeout(t.Context(), 2*probeSSHBannerTimeout)
+	defer cancel()
+	start := time.Now()
+	err = probeSSHBannerOnLocalPort(ctx, port)
+	elapsed := time.Since(start)
+	if conn := &lt;-accepted; conn != nil {
+		_ = conn.Close()
+	}
+	assert.Assert(t, err != nil)
+	assert.Assert(t, elapsed &lt; 2*probeSSHBannerTimeout, &quot;probe did not honor read deadline: elapsed=%s&quot;, elapsed)
+}</code></pre>
+    <p>If <code>DialContext</code> fails (rare on loopback but not impossible — local port exhaustion, sandboxed CI), the probe returns immediately. The Accept goroutine never unblocks because nothing dialed it. The main goroutine then blocks on <code>&lt;-accepted</code> forever, <code>t.Cleanup</code> never fires (the test function has not returned), and the test stalls until the Go test framework&#39;s outer timeout. The realistic failure mode is &quot;test hang, hard to root-cause&quot; rather than a silent miss.</p>
+    <p>Fix: drop the channel and tie the accepted connection to the test context.</p>
+      <pre><code class="language-diff">-	accepted := make(chan net.Conn, 1)
+ 	go func() {
+-		conn, err := ln.Accept()
++		conn, err := ln.Accept()
+ 		if err != nil {
+ 			return
+ 		}
+-		accepted &lt;- conn
++		defer conn.Close()
++		&lt;-t.Context().Done()
+ 	}()
+ 	// ...
+ 	err = probeSSHBannerOnLocalPort(ctx, port)
+ 	elapsed := time.Since(start)
+-	if conn := &lt;-accepted; conn != nil {
+-		_ = conn.Close()
+-	}</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> <code>debugHint</code> points at &quot;the serial log&quot; which only exists on Darwin guests <span class="pill pill-claude">Claude</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/hostagent/requirements.go#L186-L199">pkg/hostagent/requirements.go</a></div>
+      <pre data-start="186" data-line="191-194"><code class="language-go">		requirement{
+			description: &quot;sshLocalPort serves an SSH banner&quot;,
+			check: func(ctx context.Context) error {
+				return probeSSHBannerOnLocalPort(ctx, port)
+			},
+			debugHint: `The host agent is listening on 127.0.0.1:&lt;sshLocalPort&gt; but the
+proxied connection into the guest is failing. Most commonly this means
+guest sshd has not yet bound :22. Check the serial log for sshd startup.
+`,
+		})
+	req = append(req,
+		requirement{
+			description: &quot;ssh&quot;,
+			script: `#!/bin/sh</code></pre>
+    <p>The existing <code>finalRequirements</code> block at <a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/hostagent/requirements.go#L307-L311"><code>requirements.go:307-311</code></a> already branches on <code>*a.instConfig.OS == limatype.DARWIN</code> to pick the right log file — <code>cloud-init-output.log in the guest</code> for Linux, <code>serialv.log in the host</code> for Darwin. The new hint hardcodes &quot;serial log&quot; and sends Linux-guest users — the overwhelming majority — looking for a file that does not exist on their setup.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/hostagent/requirements.go#L302-L316">pkg/hostagent/requirements.go</a></div>
+      <pre data-start="302" data-line="307-311"><code class="language-go">	}
+	return req
+}
+
+func (a *HostAgent) finalRequirements() []requirement {
+	req := make([]requirement, 0)
+	logLocation := &quot;/var/log/cloud-init-output.log in the guest&quot;
+	if *a.instConfig.OS == limatype.DARWIN {
+		logLocation = &quot;serialv.log in the host&quot;
+	}
+	req = append(req,
+		requirement{
+			description: &quot;boot scripts must have finished&quot;,
+			script: fmt.Sprintf(`#!/bin/sh
+set -eux</code></pre>
+    <p>Fix: mirror the existing pattern, building the hint based on <code>*a.instConfig.OS</code>.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> <code>requirement</code> doc comment overstates mutual exclusion <span class="pill pill-claude">Claude</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/hostagent/requirements.go#L115-L129">pkg/hostagent/requirements.go</a></div>
+      <pre data-start="115" data-line="120-124"><code class="language-go">
+func (a *HostAgent) bashAvailable() bool {
+	return *a.instConfig.OS != limatype.FREEBSD
+}
+
+func (a *HostAgent) waitForRequirement(ctx context.Context, r requirement) error {
+	if r.check != nil {
+		logrus.Debugf(&quot;checking requirement %q&quot;, r.description)
+		return r.check(ctx)
+	}
+	logrus.Debugf(&quot;executing script %q&quot;, r.description)
+	script := r.script
+	if a.bashAvailable() {
+		var err error
+		// FIXME: prefixExportParam depends on bash</code></pre>
+      <pre><code class="language-go">func (a *HostAgent) waitForRequirement(ctx context.Context, r requirement) error {
+    if r.check != nil {
+        logrus.Debugf(&quot;checking requirement %q&quot;, r.description)
+        return r.check(ctx)
+    }
+    logrus.Debugf(&quot;executing script %q&quot;, r.description)</code></pre>
+    <p>The dispatcher silently prefers <code>check</code> over <code>script</code> if both are set; the &quot;exactly one&quot; claim from the doc-comment is documentation, not invariant. Either tighten the dispatcher with an explicit panic/error when both are set, or rephrase the comment as &quot;if <code>check</code> is set, <code>script</code> is ignored.&quot;</p>
+    <p>The package-internal callers all set exactly one today, so this is a small future-proofing note, not a current bug.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Native probe sidesteps Lima&#39;s SSH client retries (in-scope)</strong> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-claude">Claude</span>. The whole point of the change: the existing <code>ssh</code> requirement masks the race because the client retries internally. A raw <code>net.Dial</code> + <code>bufio.NewReader.ReadString(&#39;\n&#39;)</code> cannot mask the race the PR is fixing.</li>
+      <li><em></em><code>AcceptThenClose</code> test directly reproduces the race shape (in-scope)<em></em> <span class="pill pill-claude">Claude</span>. The test simulates the exact failure: TCP forwarder accepts but the proxied guest peer is dead, so the host side closes immediately and the client sees EOF. That is the regression-prevention shape the PR wants.</li>
+      <li><em></em><code>ctx</code> propagation into <code>waitForRequirements</code>&#39;s sleep is minimal and correct (in-scope)<em></em> <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span>. The new <code>select</code> on <code>ctx.Done()</code> versus <code>time.After(sleepDuration)</code> is the right shape; the three updated call sites in <code>hostagent.go</code> are mechanical and consistent.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The six new unit tests cover the probe&#39;s main shapes without needing a VM: valid modern banner, <code>SSH-1.99</code> legacy banner, accept-then-close (the race shape), wrong banner, no listener, and hung read. Coverage gaps the review identified:</p>
+    <ul>
+      <li><strong>Preamble line acceptance</strong> (covers I1): once the line-reader loops, a test that sends one preamble line followed by <code>SSH-2.0-…</code> locks in the new contract.</li>
+      <li><strong>Context cancellation during read</strong> (covers S2): cancel <code>ctx</code> ~50 ms into a probe against a hung server and assert the probe returns promptly rather than waiting out the 5-second deadline.</li>
+      <li><em></em><code>waitForRequirements</code> <code>ctx</code> propagation<em></em> (covers the new <code>select</code> at <a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/hostagent/requirements.go#L48-L53"><code>requirements.go:48-53</code></a>): a unit test with a list of always-failing requirements that cancels <code>ctx</code> during the 3-second sleep would lock in the new propagation contract.</li>
+      <li><em></em>Dial-failure resilience in <code>HungWrite</code><em></em> (covers S3): once the helper goroutine is fixed to wait on <code>t.Context().Done()</code>, the test no longer depends on the probe dialing successfully.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>The doc-comment on the <code>requirement</code> struct overstates mutual exclusion (S5).</li>
+      <li>The probe&#39;s doc-comment at <a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/pkg/hostagent/requirements.go#L338-L344"><code>requirements.go:338-344</code></a> describes &quot;the host agent&#39;s TCP forwarder on 127.0.0.1:port&quot;; if S1 is taken, this prose needs to reflect <code>a.instSSHAddress</code> rather than loopback.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Single commit with a clear, descriptive subject and a body that lists the four code shape changes. No concerns.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>The PR description discloses that the race-after-Ready scenario was not reproduced on the author&#39;s hardware (macOS aarch64 + <code>vz</code> + Ubuntu 24.04). The empirical table shows the race window is present on every cycle, just closed by later checks in time on this rig. Downstream reports (imbue-ai, pyinfra, ansible) suggest the race surfaces on slower hardware, in <code>--plain</code> mode (which skips the post-<code>ssh</code> checks), or with non-Linux guests where <code>essentialRequirements</code> returns after <code>ssh</code> + <code>ControlMaster</code> only. The PR&#39;s argument that this change is correct <em>regardless</em> of whether the race is reproducible — because it makes the wait explicit instead of relying on coincidence — is sound.</li>
+      <li>The PR explicitly punts a vsock-based guest-side readiness signal as out of scope. That is the right scope decision for this change.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>No prior PR review comments.</p>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude"><span class="pill pill-claude">Claude</span> <a href="#claude" class="pilcrow">&#182;</a></h3>
+    <p>Claude landed two suggestions no other agent raised (the <code>debugHint</code>/serial-log mismatch, the <code>requirement</code> doc-comment overstating mutual exclusion) and tagged the consistency concern between the new probe&#39;s hardcoded loopback and the existing <code>ssh</code> requirement&#39;s <code>a.instSSHAddress</code>. Claude pitched that consistency concern as a regression on the WSL2 driver — citing <code>inst.SSHLocalPort = 22</code> and <code>getSSHAddress</code> returning a guest-routable IP — but <code>LimaWslDriver.SSHAddress(ctx)</code> returns <code>&quot;127.0.0.1&quot;</code> directly (line 325-327), and that is the function that <a href="https://github.com/lima-vm/lima/blob/42655076e99b685079f191dfc0d496503e4c1f67/cmd/limactl/hostagent.go#L427-L432"><code>hostagent.go:427-432</code></a> calls. Every in-tree driver returns <code>&quot;127.0.0.1&quot;</code> from <code>SSHAddress(ctx)</code>, so the &quot;regression&quot; framing is a false read of the WSL2 code path. The underlying observation — hardcoding diverges from the existing pattern and is fragile for external driver plugins — survives at suggestion severity.</p>
+    <h3 id="codex"><span class="pill pill-codex">Codex</span> <a href="#codex" class="pilcrow">&#182;</a></h3>
+    <p>Codex&#39;s single finding (RFC 4253 §4.2 preamble lines) was the most consequential issue in the review and is the one I&#39;d most want a reviewer to catch on this PR. Otherwise the review was disciplined: no padding, only the finding the author can act on. Codex also ran the test suite locally to verify the change builds and passes, which is the only agent that did.</p>
+    <h3 id="gemini"><span class="pill pill-gemini">Gemini</span> <a href="#gemini" class="pilcrow">&#182;</a></h3>
+    <p>Gemini independently surfaced the same RFC 4253 issue as Codex (confirming the concern is not idiosyncratic to one model) and also caught the <code>HungWrite</code> test&#39;s deadlock-on-dial-failure shape, which neither other agent noticed. The deadlock framing was correct but the severity was inflated to &quot;important, correctness&quot; — the failure mode requires <code>DialContext</code> to fail on a freshly-opened loopback listener, which essentially never happens in practice. The realistic impact is &quot;test hangs to outer timeout, hard to debug&quot; rather than &quot;wrong result.&quot; Downgraded to suggestion.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.7</th><th><span class="pill pill-codex">Codex</span> GPT 5.5</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>3m 30s</td><td>5m 03s</td><td>—</td></tr>
+        <tr><td>Findings</td><td>5S</td><td>1I</td><td>1I 2S</td></tr>
+        <tr><td>Tool calls</td><td>21 (Read 10, Grep 9, Bash 2)</td><td>35 (shell 33, stdin 2)</td><td>—</td></tr>
+        <tr><td>Design observations</td><td>3</td><td>1</td><td>1</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>2</td><td>0</td><td>1</td></tr>
+        <tr><td>Files reviewed</td><td>3</td><td>3</td><td>3</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>5S</strong></td><td><strong>1I</strong></td><td><strong>1I 2S</strong></td></tr>
+        <tr><td>Downgraded</td><td>1 (I→S)</td><td>0</td><td>1 (I→S)</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Reconciliation:</strong> Claude&#39;s I1 (WSL2 hardcoded 127.0.0.1, &quot;important regression&quot;) was downgraded to suggestion S1 (consistency / external-driver fragility) — the regression claim relied on a misread of <code>LimaWslDriver.SSHAddress(ctx)</code>. Gemini&#39;s I2 (test deadlock, &quot;important correctness&quot;) was downgraded to suggestion S3 — the failure mode requires a loopback-dial to fail, which is essentially never observed in practice. Codex&#39;s I1 and Gemini&#39;s I1 were merged as the single Important finding I1.</p>
+    <p>Codex was the highest-signal review for this PR: one finding, the right severity, and the only review that ran the tests. Gemini was a close second, especially for catching the test-side deadlock. Claude raised the most suggestions but spent its Important slot on a finding that did not survive verification.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em>Verify dynamic-address driver claims by reading every <code>SSHAddress</code> method, not just the dynamic-resolution helper.<em></em> When an agent claims that a driver feature flag (e.g., <code>DynamicSSHAddress</code>) routes through a runtime helper to produce a non-loopback address, check the actual implementation of the public method the hostagent calls, not the helper the driver uses internally for other purposes. Helpers like a WSL2 <code>getSSHAddress</code> function may exist for status reporting while the hostagent-facing <code>SSHAddress(ctx)</code> returns loopback. The review prompt should remind agents: &quot;Before claiming a driver returns a non-loopback address, find and read the exact method the hostagent calls.&quot;</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>[repo] Lima driver SSHAddress convention.</strong> Every in-tree Lima driver (<code>qemu</code>, <code>vz</code>, <code>krunkit</code>, <code>wsl2</code>) returns <code>&quot;127.0.0.1&quot;</code> from <code>Driver.SSHAddress(ctx context.Context) (string, error)</code>. The <code>DynamicSSHAddress</code> feature flag exists for drivers (like WSL2) whose SSH endpoint might in principle vary at runtime, but in practice the resolution path also returns loopback. Reviewers evaluating code that targets the SSH-forwarded port should treat hardcoded <code>127.0.0.1</code> as functionally equivalent to <code>a.instSSHAddress</code> for any in-tree driver; the divergence only matters for external driver plugins (<code>pkg/driver/external/client/methods.go</code>).</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
