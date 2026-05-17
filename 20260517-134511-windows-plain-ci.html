@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260517-134511-windows-plain-ci</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260517-134511-windows-plain-ci</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-05-17 13:45</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>2</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/jandubois">@jandubois</a></td></tr>
+      <tr><td>Branch</td><td><code>windows-plain-ci</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/ea22d13d"><code>ea22d13d</code></a> CI: factor windows-plain smoke test into a composite action<br><a href="https://github.com/lima-vm/lima/commit/2e868af2"><code>2e868af2</code></a> CI: factor Windows setup into composite actions; add plain-Windows jobs<br><a href="https://github.com/lima-vm/lima/commit/fecd1ff6"><code>fecd1ff6</code></a> docs: document plain Windows support in wsl2.md<br><a href="https://github.com/lima-vm/lima/commit/1a2355ca"><code>1a2355ca</code></a> sshutil: rename &#39;real&#39; to &#39;resolved&#39; in IsSSHCygwin<br><a href="https://github.com/lima-vm/lima/commit/769592ed"><code>769592ed</code></a> sshutil, copytool, ioutilx: address PR review<br><a href="https://github.com/lima-vm/lima/commit/b976a529"><code>b976a529</code></a> remove <em>LIMA</em>WINDOWS<em>EXTRA</em>PATH<br><a href="https://github.com/lima-vm/lima/commit/cf967770"><code>cf967770</code></a> ioutilx: drop unnecessary else after returning if branch<br><a href="https://github.com/lima-vm/lima/commit/dabc51c4"><code>dabc51c4</code></a> add diagnosability for plain-Windows path<br><a href="https://github.com/lima-vm/lima/commit/3b84e922"><code>3b84e922</code></a> ioutilx, hostagent: support reverse-sshfs on plain Windows<br><a href="https://github.com/lima-vm/lima/commit/abae6d76"><code>abae6d76</code></a> downloader: decompress gzip in pure Go<br><a href="https://github.com/lima-vm/lima/commit/62df7e31"><code>62df7e31</code></a> copytool: support native Windows OpenSSH<br><a href="https://github.com/lima-vm/lima/commit/293da74b"><code>293da74b</code></a> sshutil: detect Win32-OpenSSH version, export PathForSSH<br><a href="https://github.com/lima-vm/lima/commit/4649f5ab"><code>4649f5ab</code></a> sshutil: skip cygpath on Windows when ssh is native OpenSSH</td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.7 (effort: xhigh), <span class="pill pill-codex">Codex</span> GPT 5.5 (effort: xhigh), <span class="pill pill-gemini">Gemini</span> 3.1 Pro (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; one important reverse-sshfs toolchain-coupling gap (Codex I1); residue around the round-1 gzip fix is suggestion-level</td></tr>
+      <tr><td>Wall-clock time</td><td><code>13 min 26 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>This is round 2 of the plain-Windows enablement branch — round 1&#39;s three Important findings (cygpath sibling threading, missing QEMU PATH, gzip ctx cancellation) are all addressed in the current HEAD. The new <code>cygpathForSSH</code> helper, <code>WindowsSubsystemPathWithCygpath</code> API split, explicit <code>Add QEMU to PATH</code> step in <code>windows-plain-qemu</code>, and gzip in-process cancellation goroutine all check out against the code.</p>
+    <p>The only new Important is Codex&#39;s: <a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/hostagent/mount.go#L65"><code>pkg/hostagent/mount.go:65</code></a> runs the host mount path through <code>PathForSSH(sshExe)</code> and uses the result as the <code>LocalPath</code> that the locally-spawned <code>sftp-server</code> consumes — but the default <code>SFTPDriver</code> is empty (<a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/limayaml/defaults.go#L758"><code>pkg/limayaml/defaults.go:758</code></a>), so sshocker PATH-resolves <code>sftp-server.exe</code> independently of which <code>ssh.exe</code> Lima selected. A host with Git/MSYS2 ssh.exe in front and native Win32-OpenSSH <code>sftp-server.exe</code> resolved separately gets <code>/c/...</code> fed to a native sftp-server, which fails the reverse-sshfs mount silently during <code>limactl start</code>.</p>
+    <p>The residue around the round-1 gzip fix accounts for most suggestions: the cancellation goroutine double-closes <code>in</code> (benign, but seeds future log-noise traps), and the function still surfaces cancellation as an <code>os.ErrClosed</code>-wrapping error rather than <code>ctx.Err()</code> despite already holding <code>ctx</code>. The remaining suggestions cluster in two areas: CI hygiene (unchecked <code>$LASTEXITCODE</code> after native commands in three composite actions; smoke test only exercises host→guest copy) and small contract/style cleanups in <code>parseCopyPaths</code> and <code>cygwinDetectCache</code>.</p>
+    <p>Structure: 1 Important, 9 Suggestions, 0 Critical.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> Reverse-sshfs <code>LocalPath</code> is keyed to <code>ssh.exe</code>, not the local <code>sftp-server</code> <span class="pill pill-codex">Codex</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/hostagent/mount.go#L50-L84">pkg/hostagent/mount.go</a></div>
+      <pre data-start="50" data-line="55-79"><code class="language-go">		sshfsOptions += &quot;,follow_symlinks&quot;
+	}
+	logrus.Infof(&quot;Mounting %q on %q&quot;, m.Location, *m.MountPoint)
+
+	resolvedLocation := m.Location
+	if runtime.GOOS == &quot;windows&quot; {
+		// Convert the host path to the form sshocker&#39;s sftp-server expects.
+		// PathForSSH tracks the toolchain Lima is using: Cygwin-style
+		// (e.g. /c/Users/jan) when ssh comes from Git for Windows / MSYS2 (where
+		// sftp-server is also Cygwin-based), and native forward-slash form
+		// (e.g. C:/Users/jan) when ssh is native Windows OpenSSH.
+		sshExe, err := sshutil.NewSSHExe()
+		if err != nil {
+			return nil, err
+		}
+		resolvedLocation, err = sshutil.PathForSSH(ctx, sshExe, m.Location)
+		if err != nil {
+			return nil, err
+		}
+		logrus.Debugf(&quot;reverse-sshfs: host path %q resolved to %q for sftp-server&quot;, m.Location, resolvedLocation)
+	}
+
+	sshAddress, sshPort := a.sshAddressPort()
+	// Create a copy of sshConfig to avoid
+	// modifying HostAgent&#39;s sshConfig in case of Windows
+	sshConfig := *a.sshConfig
+	rsf := &amp;reversesshfs.ReverseSSHFS{
+		Driver:              *m.SSHFS.SFTPDriver,
+		SSHConfig:           &amp;sshConfig,
+		LocalPath:           resolvedLocation,
+		Host:                sshAddress,
+		Port:                sshPort,
+		RemotePath:          *m.MountPoint,
+		Readonly:            !(*m.Writable),
+		SSHFSAdditionalArgs: []string{&quot;-o&quot;, sshfsOptions},</code></pre>
+    <p><code>resolvedLocation</code> is keyed off <code>ssh.exe</code>, but it is <code>sftp-server</code> that ultimately consumes the path. The comment asserts the two stay paired — &quot;Cygwin ssh implies Cygwin sftp-server&quot; — but the code does not enforce it. <code>m.SSHFS.SFTPDriver</code> defaults to <code>&quot;&quot;</code> (<a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/limayaml/defaults.go#L758"><code>pkg/limayaml/defaults.go:758</code></a>), which lets sshocker PATH-resolve <code>sftp-server</code> independently of <code>NewSSHExe()</code>. A host with Git/MSYS2 <code>ssh.exe</code> first on <code>PATH</code>, no Cygwin <code>sftp-server</code> available, and native Win32-OpenSSH Server&#39;s <code>C:\Windows\System32\OpenSSH\sftp-server.exe</code> resolving for the unqualified lookup hands <code>/c/Users/...</code> to a native sftp-server that needs <code>C:/Users/...</code>. Mount fails during <code>limactl start</code>.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/limayaml/defaults.go#L753-L763">pkg/limayaml/defaults.go</a></div>
+      <pre data-start="753" data-line="758"><code class="language-go">		}
+		if mount.SSHFS.FollowSymlinks == nil {
+			mount.SSHFS.FollowSymlinks = ptr.Of(false)
+		}
+		if mount.SSHFS.SFTPDriver == nil {
+			mount.SSHFS.SFTPDriver = ptr.Of(&quot;&quot;)
+		}
+		if mount.NineP.SecurityModel == nil {
+			mounts[i].NineP.SecurityModel = ptr.Of(Default9pSecurityModel)
+		}
+		if mount.NineP.ProtocolVersion == nil {</code></pre>
+    <p>The trigger is narrow — same-toolchain installs are the common case, and <code>$SSH</code> plus a divergent PATH or an explicitly-set <code>SFTPDriver</code> is what surfaces it — but the docs at <a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/website/content/en/docs/config/vmtype/wsl2.md#L59-L68"><code>website/content/en/docs/config/vmtype/wsl2.md:59-68</code></a> promise &quot;Lima adapts path forms to the SSH toolchain,&quot; and the comment at <a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/hostagent/mount.go#L57-L60"><code>mount.go:57-60</code></a> extends that promise to the sftp-server side without enforcement.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/website/content/en/docs/config/vmtype/wsl2.md#L54-L73">website/content/en/docs/config/vmtype/wsl2.md</a></div>
+      <pre data-start="54" data-line="59-68"><code class="language-plaintext">  `Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0` from an
+  elevated PowerShell, or via Settings → Apps → Optional features.
+
+Lima needs no additional Cygwin-style toolchain.
+
+Installing [Git for Windows](https://gitforwindows.org/) (`winget install -e --id Git.MinGit`)
+remains supported. Lima detects which ssh toolchain is in use and adapts
+the path form it passes to ssh-family commands accordingly:
+
+- **Cygwin-based ssh** (Git for Windows, MSYS2): paths are converted by
+  `cygpath` to a POSIX form like `/c/Users/jan`, respecting any custom
+  MSYS2 fstab the user has configured.
+- **Native Windows OpenSSH**: paths are returned with forward slashes,
+  like `C:/Users/jan` — native `ssh`, `ssh-keygen`, and `scp` accept
+  this form directly.
+
+On a vanilla Windows install with neither Git for Windows nor MSYS2,
+Lima falls back to a native conversion that handles the common
+drive-letter case (e.g. `C:\Users\jan` → `/c/Users/jan`) when a
+Cygwin-style form is needed.</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/hostagent/mount.go#L52-L65">pkg/hostagent/mount.go</a></div>
+      <pre data-start="52" data-line="57-60"><code class="language-go">	logrus.Infof(&quot;Mounting %q on %q&quot;, m.Location, *m.MountPoint)
+
+	resolvedLocation := m.Location
+	if runtime.GOOS == &quot;windows&quot; {
+		// Convert the host path to the form sshocker&#39;s sftp-server expects.
+		// PathForSSH tracks the toolchain Lima is using: Cygwin-style
+		// (e.g. /c/Users/jan) when ssh comes from Git for Windows / MSYS2 (where
+		// sftp-server is also Cygwin-based), and native forward-slash form
+		// (e.g. C:/Users/jan) when ssh is native Windows OpenSSH.
+		sshExe, err := sshutil.NewSSHExe()
+		if err != nil {
+			return nil, err
+		}
+		resolvedLocation, err = sshutil.PathForSSH(ctx, sshExe, m.Location)</code></pre>
+    <p>Fix: resolve the sftp-server binary up front and pick the path form that matches its toolchain, not <code>ssh.exe</code>&#39;s. For the common case (empty <code>SFTPDriver</code>, native sftp-server on a Win32-OpenSSH host) <code>filepath.ToSlash(m.Location)</code> is correct regardless of what <code>PathForSSH</code> would have returned. Alternatively, set <code>rsf.OpensshSftpServerBinary</code> to a binary in the same toolchain as the detected <code>ssh.exe</code> so the pairing is explicit.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> gzip cancellation goroutine double-closes <code>in</code> <span class="pill pill-claude">Claude</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/downloader/downloader.go#L546-L556">pkg/downloader/downloader.go</a></div>
+      <pre data-start="546" data-line="551"><code class="language-go">
+	in, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+	defer in.Close()
+	out, err := os.OpenFile(dst, os.O_CREATE|os.O_WRONLY, 0o644)
+	if err != nil {
+		return err
+	}
+	defer out.Close()</code></pre>
+    <p><code>defer cancel()</code> always fires on the way out, so the watcher goroutine always closes <code>in</code>. The outer <code>defer in.Close()</code> at line 551 then closes the same file again. <code>os.File.Close()</code> on a closed file returns <code>*fs.PathError(&quot;file already closed&quot;)</code>; both deferred close errors are discarded, so today this is benign. The trap is that a future contributor adding error logging to either close will see spurious &quot;file already closed&quot; errors on every successful gzip download.</p>
+    <p>Fix: gate the goroutine on a <code>done</code> channel that fires before the function returns, so the goroutine only closes <code>in</code> when ctx is actually canceled by the caller:</p>
+      <pre><code class="language-diff">-        ctx, cancel := context.WithCancel(ctx)
+-        defer cancel()
++        done := make(chan struct{})
++        defer close(done)
+         go func() {
+-            &lt;-ctx.Done()
+-            in.Close()
++            select {
++            case &lt;-ctx.Done():
++                in.Close()
++            case &lt;-done:
++            }
+         }()</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> gzip cancellation surfaces as <code>os.ErrClosed</code> rather than <code>ctx.Err()</code> <span class="pill pill-gemini">Gemini</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/downloader/downloader.go#L568-L590">pkg/downloader/downloader.go</a></div>
+      <pre data-start="568" data-line="573-585"><code class="language-go">		gz, err := gzip.NewReader(bar.NewProxyReader(in))
+		if err != nil {
+			return err
+		}
+		defer gz.Close()
+		// Close in on ctx cancellation so io.Copy returns instead of
+		// blocking on disk reads until decompression finishes. io.Copy
+		// will surface the close as an os.ErrClosed-wrapping error, not
+		// ctx.Err() — callers that need to distinguish cancellation from
+		// I/O faults should check ctx.Err() after this returns.
+		ctx, cancel := context.WithCancel(ctx)
+		defer cancel()
+		go func() {
+			&lt;-ctx.Done()
+			in.Close()
+		}()
+		_, err = io.Copy(out, gz)
+		return err
+	}
+	buf := new(bytes.Buffer)
+	cmd := exec.CommandContext(ctx, decompressCmd, &quot;-d&quot;) // -d --decompress
+	cmd.Stdin = bar.NewProxyReader(in)
+	cmd.Stdout = out</code></pre>
+    <p>The author documented this trade-off in the comment, so it is a deliberate contract, not an oversight. The downside is that every caller now has to remember the <code>ctx.Err()</code> check to distinguish a user-initiated cancellation from a corrupt source file. <code>decompressLocal</code> already holds <code>ctx</code>; performing the translation here keeps the public contract aligned with the other decompressor branches (where <code>exec.CommandContext</code> already surfaces cancellation through <code>ctx.Err()</code>):</p>
+      <pre><code class="language-diff">-_, err = io.Copy(out, gz)
+-return err
++_, err = io.Copy(out, gz)
++if err != nil &amp;&amp; ctx.Err() != nil {
++    return ctx.Err()
++}
++return err</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> <code>IsAvailableOnGuest</code> swallows a <code>parseCopyPaths</code> failure into &quot;rsync unavailable&quot; <span class="pill pill-claude">Claude</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/copytool/copytool.go#L61-L94">pkg/copytool/copytool.go</a></div>
+      <pre data-start="61" data-line="66-89"><code class="language-go">		rsync, err := newRsyncTool(opts)
+		if err != nil {
+			return nil, err
+		}
+
+		if !rsync.IsAvailableOnGuest(ctx, paths) {
+			return nil, errors.New(&quot;rsync not available on guest(s)&quot;)
+		}
+		return rsync, nil
+	case BackendAuto:
+		var (
+			tool CopyTool
+			err  error
+		)
+		tool, err = newRsyncTool(opts)
+		if err == nil {
+			if tool.IsAvailableOnGuest(ctx, paths) {
+				return tool, nil
+			}
+			logrus.Debugf(&quot;rsync not available on guest(s), falling back to scp&quot;)
+		} else {
+			logrus.Debugf(&quot;rsync not found on host, falling back to scp: %v&quot;, err)
+		}
+
+		tool, err = newSCPTool(opts)
+		if err != nil {
+			return nil, fmt.Errorf(&quot;neither rsync nor scp found on host: %w&quot;, err)
+		}
+		return tool, nil
+	default:
+		return nil, fmt.Errorf(&quot;invalid backend %q, must be one of: scp, rsync, auto&quot;, backend)
+	}
+}
+</code></pre>
+    <p>When <code>parseCopyPaths</code> fails — for example, <code>NewSSHExe()</code> cannot find <code>ssh.exe</code> on <code>PATH</code> while resolving an absolute Windows path — the error is logged at Debug and the function returns <code>false</code>. <code>New()</code> then falls through to scp, which surfaces <code>&quot;scp not found on host&quot;</code>, hiding the actual root cause. The pre-PR code did not need ssh to parse local paths, so this is a new failure mode introduced by threading <code>PathForSSH</code> through <code>parseCopyPaths</code>.</p>
+    <p>The practical trigger is narrow — native Win32-OpenSSH is part of the Windows 10/11 base since 2018, so <code>ssh.exe</code> rarely is missing in the first place — but when it does fire, the user has no signal pointing at SSH.</p>
+    <p>Fix: log the underlying error at a level higher than Debug, or short-circuit in <code>New()</code> when <code>NewSSHExe()</code> fails so the caller sees the SSH lookup error directly instead of a downstream &quot;scp not found&quot; message.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> Smoke test never exercises guest→host copy <span class="pill pill-claude">Claude</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/.github/actions/windows_plain_smoke_test/action.yml#L39-L51">.github/actions/windows_plain_smoke_test/action.yml</a></div>
+      <pre data-start="39" data-line="44-46"><code class="language-pwsh">      if (Test-Path $env:LIMA_HOME) { Remove-Item $env:LIMA_HOME -Recurse -Force }
+      New-Item -ItemType Directory -Path $env:LIMA_HOME | Out-Null
+      Invoke-Limactl create --tty=false --name=$env:INSTANCE $env:TEMPLATE
+      Invoke-Limactl start $env:INSTANCE
+      Invoke-Limactl shell --tty=false $env:INSTANCE -- uname -srm
+      &#39;roundtrip&#39; | Out-File -Encoding ascii &quot;$env:LIMA_HOME\rt.txt&quot;
+      Invoke-Limactl copy &quot;$env:LIMA_HOME\rt.txt&quot; &quot;${env:INSTANCE}:/tmp/rt.txt&quot;
+      Invoke-Limactl shell --tty=false $env:INSTANCE -- cat /tmp/rt.txt
+      Invoke-Limactl stop $env:INSTANCE
+      Invoke-Limactl delete --force $env:INSTANCE
+
+  - name: Dump Lima logs on failure
+    if: failure()</code></pre>
+    <p>The scp/rsync changes for native Windows OpenSSH apply in both directions, but the test only exercises upload. The download branch runs through different <code>parseCopyPaths</code> plumbing — the local path is the destination, so it never hits <code>isLocalAbs</code> as a source. A round-trip step locks coverage in both directions cheaply:</p>
+      <pre><code class="language-diff"> Invoke-Limactl copy &quot;$env:LIMA_HOME\rt.txt&quot; &quot;${env:INSTANCE}:/tmp/rt.txt&quot;
+ Invoke-Limactl shell --tty=false $env:INSTANCE -- cat /tmp/rt.txt
++Invoke-Limactl copy &quot;${env:INSTANCE}:/tmp/rt.txt&quot; &quot;$env:LIMA_HOME\rt-back.txt&quot;
++if ((Get-Content &quot;$env:LIMA_HOME\rt-back.txt&quot;) -ne &#39;roundtrip&#39;) {
++  throw &quot;round-trip mismatch: $(Get-Content &quot;$env:LIMA_HOME\rt-back.txt&quot;)&quot;
++}
+ Invoke-Limactl stop $env:INSTANCE</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> CI composite actions skip <code>$LASTEXITCODE</code> checks after native commands <span class="pill pill-claude">Claude</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/.github/actions/windows_msys2_prep/action.yml#L9-L14">.github/actions/windows_msys2_prep/action.yml</a></div>
+      <pre data-start="9" data-line="14"><code class="language-pwsh">  steps:
+  - name: Prepend MSYS2 to PATH and install test dependencies
+    shell: pwsh
+    run: |
+      Add-Content -Path $env:GITHUB_PATH -Value &#39;C:\msys64\usr\bin&#39;
+      &amp; &#39;C:\msys64\usr\bin\pacman.exe&#39; -Sy --noconfirm openbsd-netcat diffutils socat w3m</code></pre>
+    <p><code>$ErrorActionPreference = &#39;Stop&#39;</code> does not propagate to native commands in PowerShell. If <code>pacman</code>, <code>winget</code>, <code>wsl --update</code>, <code>wsl --import</code>, or <code>tar -cf</code> fails, the step still succeeds and the next step fails with a confusing downstream symptom. The other plain-Windows actions (<code>windows_plain_build</code>, <code>windows_plain_smoke_test</code>, <code>windows_plain_templates</code>) all use <code>if ($LASTEXITCODE -ne 0) { throw ... }</code>; these three should follow the same pattern.</p>
+    <p>Representative fix for <code>windows_msys2_prep</code>:</p>
+      <pre><code class="language-diff">   - name: Prepend MSYS2 to PATH and install test dependencies
+     shell: pwsh
+     run: |
++      $ErrorActionPreference = &#39;Stop&#39;
+       Add-Content -Path $env:GITHUB_PATH -Value &#39;C:\msys64\usr\bin&#39;
+       &amp; &#39;C:\msys64\usr\bin\pacman.exe&#39; -Sy --noconfirm openbsd-netcat diffutils socat w3m
++      if ($LASTEXITCODE -ne 0) { throw &quot;pacman failed: $LASTEXITCODE&quot; }</code></pre>
+    <p>Apply equivalent guards to <code>winget install</code> in <code>windows_qemu_install</code> and to each <code>wsl</code> / <code>tar</code> invocation in <code>windows_wsl2_setup</code>.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> <code>windows_wsl2_setup</code> writes <code>dummy/</code> and <code>dummy.tar</code> into the checked-out workspace <span class="pill pill-claude">Claude</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/.github/actions/windows_wsl2_setup/action.yml#L15-L29">.github/actions/windows_wsl2_setup/action.yml</a></div>
+      <pre data-start="15" data-line="20-29"><code class="language-pwsh">      wsl --shutdown
+      wsl --update
+      wsl --status
+      wsl --version
+      wsl --list --online
+  - name: Install dummy WSL2 distro
+    shell: pwsh
+    run: |
+      mkdir dummy
+      mkdir dummy\bin
+      mkdir dummy\etc
+      echo &quot;&quot; &gt;dummy\bin\sh
+      tar -cf dummy.tar --format ustar -C dummy .
+      wsl --import dummy $env:TEMP dummy.tar
+      wsl --list --verbose</code></pre>
+    <p>Composite actions necessarily run after <code>actions/checkout</code>, so these scratch paths land inside <code>$GITHUB_WORKSPACE</code> alongside the source tree. On fresh GitHub-hosted runners it is harmless, but it makes the action non-idempotent (a repeated local run fails on <code>mkdir dummy</code> with &quot;directory exists&quot;) and a future <code>git status</code>-based lint would see the artifacts as untracked.</p>
+    <p>Fix: write to <code>$env:RUNNER_TEMP</code>, matching what <code>windows_plain_smoke_test</code> already does for <code>LIMA_HOME</code>:</p>
+      <pre><code class="language-diff">   - name: Install dummy WSL2 distro
+     shell: pwsh
+     run: |
+-      mkdir dummy
+-      mkdir dummy\bin
+-      mkdir dummy\etc
+-      echo &quot;&quot; &gt;dummy\bin\sh
+-      tar -cf dummy.tar --format ustar -C dummy .
+-      wsl --import dummy $env:TEMP dummy.tar
++      $scratch = Join-Path $env:RUNNER_TEMP &#39;wsl2-dummy&#39;
++      New-Item -ItemType Directory -Force -Path &quot;$scratch\bin&quot;,&quot;$scratch\etc&quot; | Out-Null
++      echo &quot;&quot; &gt; &quot;$scratch\bin\sh&quot;
++      tar -cf &quot;$scratch\dummy.tar&quot; --format ustar -C $scratch .
++      wsl --import dummy $env:TEMP &quot;$scratch\dummy.tar&quot;</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> <code>cygwinDetectCache</code> &quot;log once&quot; promise breaks under contention <span class="pill pill-claude">Claude</span><a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+    <p>The doc comment on <code>IsSSHCygwin</code>/<code>cygpathForSSH</code> says &quot;Results are cached per resolved absolute path and logged once per path at Debug level,&quot; but the implementation is check-then-act between the <code>RLock</code>/<code>RUnlock</code> and the <code>Lock</code>/<code>Unlock</code>:</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/sshutil/sshutil.go#L83-L140">pkg/sshutil/sshutil.go</a></div>
+      <pre data-start="83" data-line="88-135"><code class="language-go">// Windows OpenSSH. Detection looks for cygpath.exe in the same directory
+// as ssh.exe (the layout Git for Windows and MSYS2 use), after resolving
+// symlinks so shims from chocolatey, scoop, etc. do not throw the check
+// off. Always returns false on non-Windows.
+//
+// Results are cached per resolved absolute path and logged once per path
+// at Debug level.
+func IsSSHCygwin(sshExe SSHExe) bool {
+	_, ok := cygpathForSSH(sshExe)
+	return ok
+}
+
+// cygpathForSSH locates the cygpath.exe that belongs to the same install
+// as sshExe and reports whether sshExe is Cygwin-based. The returned
+// path is the resolved sibling, so callers that pass it to exec.Command
+// invoke the toolchain&#39;s own cygpath even when $SSH points at an ssh
+// outside PATH. On non-Windows or empty input, returns (&quot;&quot;, false).
+//
+// Results are cached per resolved absolute path and logged once per path
+// at Debug level.
+func cygpathForSSH(sshExe SSHExe) (string, bool) {
+	if runtime.GOOS != &quot;windows&quot; || sshExe.Exe == &quot;&quot; {
+		return &quot;&quot;, false
+	}
+	path := sshExe.Exe
+	if !filepath.IsAbs(path) {
+		resolved, err := exec.LookPath(path)
+		if err != nil {
+			logrus.WithError(err).Debugf(&quot;cygpathForSSH: cannot resolve %q via PATH; assuming native&quot;, sshExe.Exe)
+			return &quot;&quot;, false
+		}
+		path = resolved
+	}
+	if resolved, err := filepath.EvalSymlinks(path); err == nil {
+		path = resolved
+	}
+	cygwinDetectCacheRW.RLock()
+	cached, ok := cygwinDetectCache[path]
+	cygwinDetectCacheRW.RUnlock()
+	if ok {
+		return cached, cached != &quot;&quot;
+	}
+	cygpathExe := filepath.Join(filepath.Dir(path), &quot;cygpath.exe&quot;)
+	if _, err := os.Stat(cygpathExe); err != nil {
+		logrus.Debugf(&quot;ssh at %q detected as native Windows OpenSSH (no cygpath.exe alongside)&quot;, path)
+		cygpathExe = &quot;&quot;
+	} else {
+		logrus.Debugf(&quot;ssh at %q detected as Cygwin-based (found %q alongside)&quot;, path, cygpathExe)
+	}
+	cygwinDetectCacheRW.Lock()
+	cygwinDetectCache[path] = cygpathExe
+	cygwinDetectCacheRW.Unlock()
+	return cygpathExe, cygpathExe != &quot;&quot;
+}
+
+// PathForSSH converts orig to the path form Lima&#39;s ssh-family invocations
+// expect (ssh, ssh-keygen, scp, sftp, rsync-over-ssh). On non-Windows,
+// returns orig unchanged. On Windows:</code></pre>
+    <p>Two goroutines first-hitting the same path both miss the cache, both <code>os.Stat</code>, both log, both write the same value. The cache is correct, but the log line appears twice. Use <code>sync.Map</code> with a <code>sync.Once</code> per key, or accept the contract gap by softening the comment.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S8">
+        <span class="finding-num">S8.</span> Two <code>runtime.GOOS == &quot;windows&quot;</code> checks back-to-back in <code>parseCopyPaths</code> <span class="pill pill-claude">Claude</span><a href="#S8" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/copytool/copytool.go#L122-L149">pkg/copytool/copytool.go</a></div>
+      <pre data-start="122" data-line="127-144"><code class="language-go">		// the cost of no longer recognizing &quot;C:foo&quot; as a local-cwd-relative
+		// path — an obscure form the pre-PR code did not support either.
+		// UNC paths pass IsAbs and flow through PathForSSH; native ssh
+		// accepts the //server/share/... form produced by filepath.ToSlash
+		// (untested — no CI run sends scp a UNC path).
+		isLocalAbs := runtime.GOOS == &quot;windows&quot; &amp;&amp; filepath.IsAbs(path)
+		if isLocalAbs {
+			sshExe, err := ensureSSHExe()
+			if err != nil {
+				return nil, err
+			}
+			path, err = sshutil.PathForSSH(ctx, sshExe, path)
+			if err != nil {
+				return nil, err
+			}
+			cp.Path = path
+			cp.IsRemote = false
+			copyPaths = append(copyPaths, cp)
+			continue
+		}
+		if runtime.GOOS == &quot;windows&quot; {
+			path = filepath.ToSlash(path)
+		}
+
+		parts := strings.SplitN(path, &quot;:&quot;, 2)
+		switch len(parts) {
+		case 1:
+			cp.Path = path</code></pre>
+    <p>Pure readability. Merge into a single Windows branch with the absolute-vs-relative dispatch nested inside, so the platform gating reads in one place.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S9">
+        <span class="finding-num">S9.</span> <code>ParseOpenSSHVersion</code> regex still misses the space-form Win32-OpenSSH banner <span class="pill pill-claude">Claude</span><a href="#S9" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/sshutil/sshutil.go#L477-L487">pkg/sshutil/sshutil.go</a></div>
+      <pre data-start="477" data-line="482"><code class="language-go">
+func ParseOpenSSHVersion(version []byte) *semver.Version {
+	// Matches &quot;OpenSSH_8.4p1 ...&quot; (upstream) and &quot;OpenSSH_for_Windows_9.5p2 ...&quot;
+	// (Win32-OpenSSH). The optional &quot;_for_Windows&quot; prefix is recognized so native
+	// Windows OpenSSH is not misdetected as version 0.0.0.
+	regex := regexp.MustCompile(`(?m)^OpenSSH(?:_for_Windows)?_(\d+\.\d+)(?:p(\d+))?\b`)
+	matches := regex.FindSubmatch(version)
+	if len(matches) == 3 {
+		if len(matches[2]) == 0 {
+			matches[2] = []byte(&quot;0&quot;)
+		}</code></pre>
+    <p>The <code>(?:_for_Windows)?_</code> group requires an underscore between &quot;Windows&quot; and the version. Older Win32-OpenSSH releases reportedly emit <code>OpenSSH_for_Windows 9.5p2</code> (space, not underscore); those banners would silently return <code>0.0.0</code>, triggering the legacy-SSH scp path in <a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/copytool/scp.go#L76"><code>pkg/copytool/scp.go:76</code></a>. The round-1 review raised a related concern about 4-part version banners and the author declined it as speculative (&quot;no banner observed in 4-part shape&quot;). Same precedent applies here — keep this open as a Suggestion that becomes Important the moment a single field report shows a 0.0.0 downgrade in the wild.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/copytool/scp.go#L71-L81">pkg/copytool/scp.go</a></div>
+      <pre data-start="71" data-line="76"><code class="language-go">	// this assumes that ssh and scp come from the same place, but scp has no -V
+	sshExeForVersion, err := sshutil.NewSSHExe()
+	if err != nil {
+		return nil, err
+	}
+	legacySSH := sshutil.DetectOpenSSHVersion(ctx, sshExeForVersion).LessThan(*semver.New(&quot;8.0.0&quot;))
+
+	for _, cp := range copyPaths {
+		if cp.IsRemote {
+			if legacySSH {
+				scpFlags = append(scpFlags, &quot;-P&quot;, fmt.Sprintf(&quot;%d&quot;, cp.Instance.SSHLocalPort))</code></pre>
+    <p>Fix:</p>
+      <pre><code class="language-diff">-regex := regexp.MustCompile(`(?m)^OpenSSH(?:_for_Windows)?_(\d+\.\d+)(?:p(\d+))?\b`)
++regex := regexp.MustCompile(`(?m)^OpenSSH(?:_for_Windows[_ ])?_?(\d+\.\d+)(?:p(\d+))?\b`)</code></pre>
+    <p>and add <code>OpenSSH_for_Windows 9.5p2</code> to <code>TestParseOpenSSHVersion</code>.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em><code>PathForSSH</code> + <code>cygpathForSSH</code> clean split<em></em> <em>(in-scope)</em> <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> — Round 1&#39;s I1 fix introduces a clean separation: <code>cygpathForSSH</code> returns both the detection bool and the sibling <code>cygpath.exe</code> path, <code>PathForSSH</code> threads that sibling to <code>WindowsSubsystemPathWithCygpath</code>, and <code>WindowsSubsystemPath</code> (bare-PATH) is kept as a thin wrapper for callers without an ssh.exe in hand. The internal helper plus exported <code>WithCygpath</code> API split is the right shape.</li>
+      <li><strong>Composite-action sequencing comments are load-bearing and explicit</strong> <em>(in-scope)</em> <span class="pill pill-claude">Claude</span> — <code>windows_plain_host</code>&#39;s &quot;MUST run AFTER any step that needs git CLI&quot; and <code>windows_plain_templates</code>&#39;s &quot;MUST run before <code>windows_plain_host</code>&quot; lock in the implicit ordering between actions; a future job restructure that breaks the order fails loudly instead of producing a strange downstream symptom.</li>
+      <li><em></em><code>windows_plain_host</code> four-layer verification holds up<em></em> <em>(in-scope)</em> <span class="pill pill-claude">Claude</span> — Filesystem, PATH across three scopes, smoking-gun binaries, and registry uninstall keys covered; the WSL <code>C:\Windows\System32\bash.exe</code> allowlist exception is in the right place.</li>
+    </ul>
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Two distinct code paths for &quot;convert a host path for a Linux guest&quot;</strong> <em>(future)</em> <span class="pill pill-claude">Claude</span> — <a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/cmd/limactl/shell.go#L714"><code>cmd/limactl/shell.go:714</code></a> and <a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/limayaml/defaults.go#L698"><code>pkg/limayaml/defaults.go:698</code></a> still call the bare-PATH <code>ioutilx.WindowsSubsystemPath</code>, while copytool / sshutil / hostagent funnel through <code>PathForSSH</code>. On plain Windows both paths produce the same drive-letter form; on a Cygwin install with a custom <code>fstab</code>, they would diverge. Worth a follow-up to either route the mount-point computation through <code>PathForSSH</code> or document why two paths are needed.</li>
+      <li><strong>Toolchain coupling between ssh.exe and the local sftp-server is asserted but not enforced</strong> <em>(in-scope)</em> <span class="pill pill-codex">Codex</span> — See I1. The right shape may be a small &quot;Windows SSH toolchain&quot; descriptor that carries the selected ssh executable and the matching sftp-server, so future call sites that need the pair (mount, future remote-execution helpers) cannot accidentally key them off only one half.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The round-1 mount-coverage gap (Testing Gap #6) remains — <code>windows-plain-qemu</code> runs the default template with <code>mounts: []</code>, so the QEMU smoke test still never exercises reverse-sshfs on plain Windows. That is exactly the surface I1 would silently break, and also the only path that the round-1 fix for <code>_LIMA_WINDOWS_EXTRA_PATH</code> removal and the new <code>PathForSSH</code> thread end-to-end on the platform that motivates them. Round 1 deferred this as needing a template change; I1 sharpens the cost of leaving it deferred.</p>
+    <p>Other gaps:</p>
+    <ol>
+      <li><strong>Guest→host copy direction is untested</strong> (S4). The new <code>parseCopyPaths</code> drive-letter branch only fires when the local path is the source.</li>
+      <li><em></em>gzip cancellation has no test asserting that an in-flight cancel actually unblocks <code>io.Copy</code>.<em></em> A test would also catch S1 (the double-close) if it checked that <code>defer in.Close()</code> returns nil.</li>
+      <li><em></em><code>WindowsSubsystemPathWithCygpath</code> native fallback<em></em> has no Go unit test for the drive-letter conversion (<code>C:\Users\jan</code> → <code>/c/Users/jan</code>) nor for the UNC-path rejection.</li>
+    </ol>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><code>website/content/en/docs/config/vmtype/wsl2.md</code> is well-rewritten and makes the OpenSSH Client vs Server distinction explicit. If I1 is addressed by routing the path conversion through the sftp-server toolchain rather than ssh.exe&#39;s, the WSL2 doc&#39;s &quot;Lima adapts path forms to the SSH toolchain&quot; paragraph should mention the sftp-server coupling so a future mixed-install user has a starting point for diagnosis.</p>
+    <p><code>pkg/sshutil/sshutil.go</code> docstrings for <code>IsSSHCygwin</code>, <code>cygpathForSSH</code>, and <code>PathForSSH</code> are thorough; the &quot;logged once&quot; wording on the detection helpers is at odds with the cache implementation (S7) and should either be softened or backed by per-key <code>sync.Once</code>.</p>
+    <p><code>pkg/ioutilx/ioutilx.go</code> docstrings on the new exported <code>WindowsSubsystemPathWithCygpath</code> are accurate.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><em></em><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/copytool/copytool.go#L115-L126"><code>pkg/copytool/copytool.go:115-126</code></a><em></em> — Author documents that strict <code>filepath.IsAbs</code> means <code>&quot;C:foo&quot;</code> (drive-relative) is no longer recognized as a local path: &quot;an obscure form the pre-PR code did not support either.&quot; Carries forward from round 1.</li>
+      <li><em></em><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/copytool/copytool.go#L124-L126"><code>pkg/copytool/copytool.go:124-126</code></a><em></em> — Author flags that UNC copy paths are untested. Carried forward; CI cannot cheaply construct a UNC share.</li>
+      <li><em></em><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/downloader/downloader.go#L573-L577"><code>pkg/downloader/downloader.go:573-577</code></a><em></em> — Author documents that gzip cancellation surfaces as an <code>os.ErrClosed</code>-wrapping error rather than <code>ctx.Err()</code>. See S2 for the contract observation.</li>
+      <li><em></em><code>pkg/sshutil/sshutil.go</code> (<code>detectOpenSSHInfo</code>)<em></em> — Pre-existing note that ssh wrappers like <code>kitten ssh</code> evade cache invalidation; the new <code>cygpathForSSH</code> inherits this limitation.</li>
+      <li><em></em><a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/website/content/en/docs/config/vmtype/wsl2.md#L75-L80"><code>website/content/en/docs/config/vmtype/wsl2.md:75-80</code></a><em></em> — Warns against swapping toolchains between <code>limactl create</code> and <code>limactl start</code>. I1 is a separate failure mode: divergence within a single start, between ssh.exe and the local sftp-server.</li>
+    </ul>
+    <h3 id="declined-in-prior-rounds">Declined in prior rounds <a href="#declined-in-prior-rounds" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>ParseOpenSSHVersion regex precision</strong> — round 1 S5 (4-part version banners) declined as speculative. S9 above raises the related space-form concern with the same severity; the precedent applies unless field evidence appears.</li>
+      <li><em></em>windows<em>plain</em>host <code>git.exe</code> check<em></em> — round 1 S6 declined; the plain-Windows intent is &quot;no git at all.&quot;</li>
+      <li><strong>PathForSSH native-branch unit test</strong> — round 1 Testing Gap #2 declined; the native branch is covered when the Cygwin sibling is absent in <code>TestCygpathForSSH</code>.</li>
+      <li><strong>Plain-Windows smoke test mount coverage</strong> — round 1 Testing Gap #6 declined as needing a separate template change. Re-raised above in Testing Assessment because I1 sharpens the cost.</li>
+      <li><em></em><code>$SSH</code> outside <code>PATH</code> test<em></em> — round 1 Testing Gap #7 declined as hard to test without runner configuration.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude"><span class="pill pill-claude">Claude</span> <a href="#claude" class="pilcrow">&#182;</a></h3>
+    <p>Carried the breadth of the review — 1 important and 8 suggestions spanning Go, PowerShell, and YAML. Most findings hold up: S1&#39;s double-close trap is concrete and the fix is clean; S5&#39;s <code>$LASTEXITCODE</code> inconsistency is real and applies uniformly; S6&#39;s guest→host coverage gap is a cheap test addition. Two findings landed weaker than the rest — Claude&#39;s original I1 (IsAvailableOnGuest masking) was a real diagnosability issue but with a narrow Windows trigger (native OpenSSH is bundled since Windows 10/11 build 1809), so it consolidated as S3 rather than Important; and Claude&#39;s S8 about a PowerShell try/catch comment in <code>windows_plain_host</code> was pure polish and got dropped from the consolidated list.</p>
+    <h3 id="codex"><span class="pill pill-codex">Codex</span> <a href="#codex" class="pilcrow">&#182;</a></h3>
+    <p>Single Important finding, but it is the one this review actually needed: the reverse-sshfs <code>LocalPath</code> toolchain coupling (I1). The analysis traced through <a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/hostagent/mount.go#L65"><code>mount.go:65</code></a> to <code>LocalPath</code> at line 79 and named the concrete failure mode (Cygwin ssh + native sftp-server). Verified independently — <code>SFTPDriver</code> does default to <code>&quot;&quot;</code> (<a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/limayaml/defaults.go#L758"><code>pkg/limayaml/defaults.go:758</code></a>), and the comment at <a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/hostagent/mount.go#L57-L60"><code>mount.go:57-60</code></a> does assert pairing without enforcement. Codex also caught the implicit design observation that surfaces from I1 (Windows path conversion currently keyed to ssh.exe rather than to a toolchain descriptor). No false positives.</p>
+    <h3 id="gemini"><span class="pill pill-gemini">Gemini</span> <a href="#gemini" class="pilcrow">&#182;</a></h3>
+    <p>Light review — one Important (cancellation-error translation) and one weak Suggestion (squash fixups). The cancellation translation finding is reasonable but the author had explicitly documented the contract in <a href="https://github.com/lima-vm/lima/blob/ea22d13d4c00f97705ae3d1f20f6eddcd33c9149/pkg/downloader/downloader.go#L573-L577"><code>downloader.go:573-577</code></a>, so it consolidated as S2 (a contract-quality suggestion) rather than Important. The squash-fixups suggestion contradicts round 1&#39;s commit-structure assessment (&quot;each commit is single-purpose&quot;) and got dropped. Gemini did not pick up any of the CI hygiene findings (S4, S5, S6) or the Codex sftp-server gap. Coverage Summary marked every file as &quot;Reviewed, no issues&quot; except <code>downloader.go</code> — that file-by-file accounting is helpful, but the brevity meant several findings other agents caught were missed silently.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.7</th><th><span class="pill pill-codex">Codex</span> GPT 5.5</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>4m 52s</td><td>10m 51s</td><td>—</td></tr>
+        <tr><td>Findings</td><td>7S</td><td>1I</td><td>1S</td></tr>
+        <tr><td>Tool calls</td><td>50 (Read 24, Bash 20, Grep 6)</td><td>79 (shell 79)</td><td>—</td></tr>
+        <tr><td>Design observations</td><td>5</td><td>3</td><td>2</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>6</td><td>1</td><td>1</td></tr>
+        <tr><td>Files reviewed</td><td>21</td><td>21</td><td>21</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>7S</strong></td><td><strong>1I</strong></td><td><strong>1S</strong></td></tr>
+        <tr><td>Downgraded</td><td>1 (I→S)</td><td>0</td><td>1 (I→S)</td></tr>
+        <tr><td>Dropped</td><td>1</td><td>0</td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p>Codex provided the single most valuable finding (the reverse-sshfs toolchain coupling), Claude provided the breadth, and Gemini contributed the cancellation-error contract observation. The mix shows the value of all three: the CI hygiene findings cluster (S4, S5, S6) would have been missed without Claude, and Codex&#39;s I1 would have been missed by both others.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>No new generalizable skill suggestions from this round — the existing deep-review prompt surfaced the round-1 fixes&#39; residual issues and caught the single new Important without prompting changes.</p>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
