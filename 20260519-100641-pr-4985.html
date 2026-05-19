@@ -216,10 +216,7 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
     <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-neutral">
-    <p>PR <a href="https://github.com/lima-vm/lima/issues/4985" class="gh-ref" data-title="POC: add Windows guest support via autounattend.xml" data-state="open" data-type="pr">#4985</a> adds a <code>Windows</code> OS type, two arch-specific <code>autounattend.xml</code> files (amd64 and arm64), a developer ISO-generation tool, and a new <code>generateWindowsISO()</code> branch in <code>GenerateISO9660</code>. The structural choices are sound: dispatching on <code>*instConfig.OS == limatype.WINDOWS</code> at the cidata seam keeps the Linux/Darwin/FreeBSD paths untouched, Joliet labeling is correctly applied so <code>autounattend.xml</code> survives ISO9660 8.3 truncation, and using NVMe on arm64 avoids needing <code>virtio-win.iso</code>.</p>
-    <p>The most consequential finding is that the two <code>autounattend.xml</code> files contain <strong>zero Go template directives</strong> — they pass through <code>textutil.ExecuteTemplate</code> unchanged, so the host&#39;s SSH public keys, the configured <code>User.Name</code>, the instance name (<code>Hostname</code>), and the timezone never reach the guest. The PR description claims &quot;OpenSSH server is installed and started during OOBE so Lima&#39;s host-agent can connect&quot;; with <code>ssh-rsa PLACEHOLDER</code> written to <code>administrators_authorized_keys</code> and the local account hardcoded to <code>lima</code>, that claim does not hold today. A separate PowerShell bug in the same <code>FirstLogonCommands</code> block uses backtick escapes (<code></code> <code>r</code>n <code></code>) inside a single-quoted string, which PowerShell does not interpret — the literal characters land in <code>sshd_config</code>. And the same line&#39;s unanchored <code>-replace &#39;#?AuthorizedKeysFile.*&#39;</code> regex rewrites every <code>AuthorizedKeysFile</code> line in <code>sshd_config</code>, including the line inside the default <code>Match Group administrators</code> block.</p>
-    <p>Beyond the answer files, three integration gaps will surface as soon as Lima tries to drive the path: <code>limayaml.Validate</code> accepts <code>os: Windows</code> but <code>pkg/instance/start.go</code>&#39;s <code>Prepare</code> switch has no Windows case, so it falls through to <code>default</code> and calls <code>usrlocal.GuestAgentBinary(&quot;Windows&quot;, arch)</code>, which then returns <code>fs.ErrNotExist</code> because the Makefile only builds Linux and Darwin guest agents; the QEMU driver still exposes virtio disk, virtio-scsi cidata, and virtio-net while the answer files assume SATA/AHCI (amd64) or NVMe (arm64), so WinPE would not see the disk during install; and <code>arch</code> is silently mapped to <code>&quot;amd64&quot;</code> for anything that is not exactly <code>AARCH64</code>, so a user writing <code>arch: riscv64, os: Windows</code> passes validation and gets an amd64 answer file with no warning. Finally, the Windows path silently drops <code>mounts</code>, <code>provision</code>, and <code>bootScripts</code> rather than rejecting them at validation time.</p>
-    <p><strong>Structure of findings:</strong> 0 critical, 7 important, 10 suggestions, 3 design concerns (1 in-scope, 2 future). Strong agreement across the cloud trio on the substitution/placeholder and arch-fallback issues; the PowerShell escape bug (Claude I2), the <code>Prepare</code>/guest-agent gap (Codex I1), and the QEMU device-graph mismatch (Codex I2) are unique to a single agent each. The local trio (Qwen, Gemma) added no findings the cloud trio had not already raised, and Qwen failed its first pass entirely (see Agent Performance Retro).</p>
+    <p>PR <a href="https://github.com/lima-vm/lima/issues/4985" class="gh-ref" data-title="POC: add Windows guest support via autounattend.xml" data-state="open" data-type="pr">#4985</a> adds a <code>Windows</code> OS type, two arch-specific <code>autounattend.xml</code> templates, a developer ISO tool, and a <code>generateWindowsISO()</code> branch. Scaffolding is sound — Joliet labeling, dispatch at the cidata seam, NVMe on arm64 — but the answer files contain zero Go template directives, so every per-instance value (SSH keys, hostname, username, timezone) is lost. Three integration gaps surface once <code>limactl start</code> drives the path: <code>Prepare</code> fails looking for a non-existent <code>lima-guestagent.Windows-*</code>; the QEMU driver exposes virtio devices while templates assume SATA/NVMe; and <code>arch</code> silently falls back to amd64 for any value other than <code>aarch64</code>. 0 critical, 7 important, 10 suggestions.</p>
     </div>
     <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
@@ -241,7 +238,7 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
 &lt;unattend xmlns=&quot;urn:schemas-microsoft-com:unattend&quot;&gt;
 
   &lt;!-- windowsPE: locale, disk layout, image selection, hw bypass --&gt;</code></pre>
-    <p>Neither autounattend.xml contains a single <code>{{</code> directive, yet both pass through <code>textutil.ExecuteTemplate</code> in <code>ExecuteTemplateAutounattend</code> (<a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L241"><code>pkg/cidata/template.go:241</code></a>). The rendered output equals the file on disk byte for byte. <code>TemplateArgs.SSHPubKeys</code>, <code>TemplateArgs.User</code>, <code>TemplateArgs.Hostname</code>, and <code>TemplateArgs.TimeZone</code> are all populated by <code>templateArgs()</code> but never reach the guest. The PR description states &quot;OpenSSH server is installed and started during OOBE so Lima&#39;s host-agent can connect&quot; — with <code>ssh-rsa PLACEHOLDER</code> written to <code>administrators_authorized_keys</code> and the local account hardcoded to <code>lima</code>, Lima&#39;s host-agent cannot connect using the host&#39;s real key as the configured user.</p>
+    <p>Neither autounattend.xml contains a <code>{{</code> directive, yet both pass through <code>textutil.ExecuteTemplate</code> in <code>ExecuteTemplateAutounattend</code> (<a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L241"><code>pkg/cidata/template.go:241</code></a>). The rendered output equals the file on disk byte for byte. <code>TemplateArgs.SSHPubKeys</code>, <code>User</code>, <code>Hostname</code>, and <code>TimeZone</code> are populated but never reach the guest. The PR&#39;s claim that &quot;OpenSSH server is installed and started during OOBE so Lima&#39;s host-agent can connect&quot; therefore fails — <code>ssh-rsa PLACEHOLDER</code> lands in <code>administrators_authorized_keys</code> and the local account is hardcoded to <code>lima</code>.</p>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L236-L242">pkg/cidata/template.go</a></div>
       <pre data-start="236" data-line="241"><code class="language-go">	xmlTemplate, err := templateFS.ReadFile(path.Join(root, &quot;autounattend.xml&quot;))
 	if err != nil {
@@ -250,17 +247,11 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
 
 	return textutil.ExecuteTemplate(string(xmlTemplate), args)
 }</code></pre>
-    <p>Fix: substitute the dynamic values via the template engine. The SSH keys need careful quoting because they pass through both XML and PowerShell layers; the simplest form is a PowerShell array literal joined by newlines, with one entry per key:</p>
-      <pre><code class="language-xml">&lt;CommandLine&gt;powershell.exe -NoProfile -Command &quot;$keys = @(
-{{- range .SSHPubKeys }}
-&#39;{{ . }}&#39;,
-{{- end }}
-&#39;&#39;); Set-Content -Path &#39;C:\ProgramData\ssh\administrators_authorized_keys&#39; -Value $keys; icacls ...&quot;&lt;/CommandLine&gt;</code></pre>
-    <p>Apply the same pattern to the <code>&lt;ComputerName&gt;</code> (use <code>{{ .Hostname }}</code>, then truncate to 15 chars to satisfy NetBIOS limits), the <code>&lt;LocalAccount&gt;</code>/<code>&lt;AutoLogon&gt;</code> <code>&lt;Name&gt;</code> and <code>&lt;Username&gt;</code> blocks (use <code>{{ .User }}</code>), and the <code>&lt;TimeZone&gt;</code> element (<code>{{ .TimeZone }}</code>, with a IANA→Windows mapping table since Windows expects Microsoft IDs like <code>&quot;Pacific Standard Time&quot;</code>, not IANA names).</p>
+    <p>Fix: render the SSH keys via a PowerShell array literal inside the existing <code>&lt;CommandLine&gt;</code> (careful quoting needed across the XML and PowerShell layers), and use <code>{{ .Hostname | printf &quot;%.15s&quot; }}</code> for <code>&lt;ComputerName&gt;</code> (NetBIOS limit), <code>{{ .User }}</code> for <code>&lt;Name&gt;</code>/<code>&lt;Username&gt;</code>, and <code>{{ .TimeZone }}</code> for <code>&lt;TimeZone&gt;</code> with an IANA→Windows mapping table (Windows expects <code>&quot;Pacific Standard Time&quot;</code>, not <code>&quot;America/Los_Angeles&quot;</code>).</p>
     </div>
     <div class="card card-important">
       <div class="finding-title" id="I2">
-        <span class="finding-num">I2.</span> PowerShell backtick escapes inside single-quoted string land as literal characters; unanchored <code>-replace</code> regex breaks the admin Match block <span class="pill pill-claude">Claude</span><a href="#I2" class="pilcrow">&#182;</a>
+        <span class="finding-num">I2.</span> PowerShell backtick escapes inside a single-quoted string land as literal characters; unanchored <code>-replace</code> regex breaks the admin Match block <span class="pill pill-claude">Claude</span><a href="#I2" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.TEMPLATE.d.Windows.amd64/autounattend.xml#L200-L210">pkg/cidata/cidata.TEMPLATE.d.Windows.amd64/autounattend.xml</a></div>
       <pre data-start="200" data-line="205"><code class="language-xml">          &lt;CommandLine&gt;powershell.exe -NoProfile -Command &quot;Set-Content -Path &#39;C:\ProgramData\ssh\administrators_authorized_keys&#39; -Value &#39;ssh-rsa PLACEHOLDER&#39;; icacls &#39;C:\ProgramData\ssh\administrators_authorized_keys&#39; /inheritance:r /grant &#39;SYSTEM:(F)&#39; /grant &#39;Administrators:(F)&#39;&quot;&lt;/CommandLine&gt;
@@ -274,16 +265,13 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
         &lt;SynchronousCommand wcm:action=&quot;add&quot;&gt;
           &lt;Order&gt;6&lt;/Order&gt;
           &lt;CommandLine&gt;reg.exe add &quot;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon&quot; /v AutoAdminLogon /t REG_SZ /d 0 /f&lt;/CommandLine&gt;</code></pre>
-    <p>Two compounding problems in this single line:</p>
+    <p>Two compounding problems:</p>
     <ol>
-      <li>PowerShell single-quoted strings are literal. The <code></code> <code>r</code>n <code></code> inside the <code>Add-Content</code> argument is therefore written to <code>sshd_config</code> as four literal characters (backtick, r, backtick, n) rather than CRLF. The result is one physical line containing <code>Match Group administrators</code>r<code>n  AuthorizedKeysFile C:/ProgramData/ssh/administrators_authorized_keys</code>. sshd parses <code>Match</code> criteria as whitespace-separated tokens and rejects or silently ignores the malformed block.</li>
-      <li>The <code>-replace &#39;#?AuthorizedKeysFile.*&#39;</code> regex is unanchored. It matches every line that contains an <code>AuthorizedKeysFile</code> token, with an optional leading <code>#</code>. Windows OpenSSH ships <code>sshd_config</code> with a default <code>Match Group administrators</code> block whose <code>AuthorizedKeysFile</code> line directs admin-group authentication at <code>__PROGRAMDATA__/ssh/administrators_authorized_keys</code>. The replacement rewrites that line to <code>AuthorizedKeysFile .ssh/authorized_keys</code>, so even if problem (1) were fixed, admin-group authentication would not look at the path the script claims to populate.</li>
+      <li>PowerShell single-quoted strings are literal, so <code></code> <code>r</code>n <code></code> inside <code>Add-Content</code>&#39;s argument writes four literal characters (backtick, r, backtick, n) instead of CRLF. sshd parses the resulting one-line <code>Match</code> block as malformed and silently ignores it.</li>
+      <li>The <code>-replace &#39;#?AuthorizedKeysFile.*&#39;</code> regex is unanchored. Windows OpenSSH ships <code>sshd_config</code> with a default <code>Match Group administrators</code> block whose <code>AuthorizedKeysFile</code> line points at <code>__PROGRAMDATA__/ssh/administrators_authorized_keys</code>. The replacement rewrites that line too, so even with problem (1) fixed, sshd no longer consults the path the script claims to populate.</li>
     </ol>
-    <p>Combined with <strong>I1</strong>, both halves of the SSH-key plumbing are broken: no real key is written, and the location the script claims to write to is no longer consulted by sshd.</p>
-    <p>Fix: switch the <code>Add-Content</code> argument to a double-quoted PowerShell string so <code></code> <code>r</code>n <code></code> expands, and anchor the <code>-replace</code> regex so it only touches the top-level commented-out line. Inside an XML attribute the double quotes need escaping with <code>&amp;quot;</code> or with a PowerShell <code>[char]</code> expression:</p>
-      <pre><code class="language-diff">-          &lt;CommandLine&gt;powershell.exe -NoProfile -Command &quot;$cfg = &#39;C:\ProgramData\ssh\sshd_config&#39;; (Get-Content $cfg) -replace &#39;#?AuthorizedKeysFile.*&#39;, &#39;AuthorizedKeysFile .ssh/authorized_keys&#39; | Set-Content $cfg; Add-Content $cfg &#39;Match Group administrators`r`n  AuthorizedKeysFile C:/ProgramData/ssh/administrators_authorized_keys&#39;; Restart-Service sshd&quot;&lt;/CommandLine&gt;
-+          &lt;CommandLine&gt;powershell.exe -NoProfile -Command &quot;$cfg = &#39;C:\ProgramData\ssh\sshd_config&#39;; (Get-Content $cfg) -replace &#39;^#?AuthorizedKeysFile .*&#39;, &#39;AuthorizedKeysFile .ssh/authorized_keys&#39; | Set-Content $cfg; Add-Content $cfg ([string]::Join([Environment]::NewLine, @(&#39;Match Group administrators&#39;, &#39;  AuthorizedKeysFile C:/ProgramData/ssh/administrators_authorized_keys&#39;))); Restart-Service sshd&quot;&lt;/CommandLine&gt;</code></pre>
-    <p>A simpler alternative is to overwrite <code>sshd_config</code> entirely from a heredoc-style PowerShell array, removing the dependency on the existing file&#39;s layout.</p>
+    <p>Combined with <strong>I1</strong>, both halves of the SSH-key plumbing are broken.</p>
+    <p>Fix: use a double-quoted string for the <code>Add-Content</code> argument (escape XML quotes with <code>&amp;quot;</code>) and anchor the regex with <code>^</code>. A simpler alternative overwrites <code>sshd_config</code> from a PowerShell array, removing the dependency on the existing file&#39;s layout.</p>
     </div>
     <div class="card card-important">
       <div class="finding-title" id="I3">
@@ -310,29 +298,8 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
 		return &quot;&quot;, err
 	}
 </code></pre>
-      <pre><code class="language-go">// qemu.go:715 — main disk
-args = append(args, &quot;-drive&quot;, fmt.Sprintf(&quot;file=%s,if=virtio,discard=on&quot;, diskPath))
-// qemu.go:729-731 — cidata ISO
-args = append(args,
-    &quot;-drive&quot;, &quot;id=cdrom0,if=none,format=raw,readonly=on,file=&quot;+filepath.Join(cfg.InstanceDir, filenames.CIDataISO),
-    &quot;-device&quot;, &quot;virtio-scsi,id=scsi0&quot;,
-    &quot;-device&quot;, &quot;scsi-cd,bus=scsi0.0,drive=cdrom0&quot;)
-// qemu.go:760 — NIC
-args = append(args, &quot;-device&quot;, virtioNet+&quot;,netdev=net0,mac=&quot;+limayaml.MACAddress(cfg.InstanceDir))</code></pre>
-    <p>The Windows branch only changes the cidata payload. The QEMU driver still attaches the disk as virtio, the cidata ISO via <code>virtio-scsi</code>/<code>scsi-cd</code>, and the NIC as <code>virtio-net-pci</code>, while the amd64 template&#39;s own inline comment says the disk is SATA/AHCI (line 68) and the arm64 template uses NVMe. Without inbox virtio drivers in WinPE, the installer cannot see the disk during the <code>windowsPE</code> pass, so installation fails before reaching <code>oobeSystem</code>. This explains why the PR&#39;s testing section invokes QEMU directly with hand-tuned device arguments rather than <code>limactl start</code>.</p>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.go#L63-L73">pkg/cidata/cidata.go</a></div>
-      <pre data-start="63" data-line="68"><code class="language-go">	for i, name := range lowerVars {
-		upperVars[i] = strings.ToUpper(name)
-	}
-	if propagateProxyEnv {
-		for _, name := range append(lowerVars, upperVars...) {
-			if value, ok := os.LookupEnv(name); ok {
-				if _, ok := env[name]; ok &amp;&amp; value != env[name] {
-					logrus.Infof(&quot;Overriding %q value %q with %q from limactl process environment&quot;,
-						name, env[name], value)
-				}
-				env[name] = value</code></pre>
-    <p>Fix: add a Windows code path in the QEMU driver that selects a Windows-compatible device graph matching the templates — SATA/AHCI on amd64 and NVMe on arm64, with <code>usb-storage</code> for both the install ISO and the autounattend ISO, USB keyboard/tablet, and <code>ramfb</code> on arm64. The dev tool&#39;s command lines in <code>hack/gen-autounattend-iso.go</code> are the right shape to copy. Alternatively, embed <code>virtio-win.iso</code> and add a <code>&lt;DriverPaths&gt;</code> block to the answer files to load virtio drivers in WinPE — but this carries a license question that NVMe avoids.</p>
+    <p>The Windows branch in <code>cidata.go</code> only changes the cidata payload. The QEMU driver still attaches the disk as virtio, the cidata ISO via <code>virtio-scsi</code>, and the NIC as <code>virtio-net-pci</code>, while the amd64 template&#39;s own comment says the disk is SATA/AHCI and the arm64 template uses NVMe. Without inbox virtio drivers in WinPE, the installer cannot see the disk during <code>windowsPE</code>, so installation fails before reaching <code>oobeSystem</code>. This is why the PR&#39;s testing section invokes QEMU directly with hand-tuned device arguments rather than <code>limactl start</code>.</p>
+    <p>Fix: add a Windows path in the QEMU driver matching the templates — SATA/AHCI on amd64, NVMe on arm64, <code>usb-storage</code> for both ISOs, USB keyboard/tablet, and <code>ramfb</code> on arm64. The dev tool&#39;s command lines in <code>hack/gen-autounattend-iso.go</code> are the right shape to copy. The alternative (embed <code>virtio-win.iso</code> plus a <code>&lt;DriverPaths&gt;</code> block) carries a license question that NVMe avoids.</p>
     </div>
     <div class="card card-important">
       <div class="finding-title" id="I4">
@@ -365,23 +332,15 @@ func Prepare(ctx context.Context, inst *limatype.Instance, guestAgent string) (*
 	}
 	limaDriver, err := driverutil.CreateConfiguredDriver(inst, 0)
 	if err != nil {</code></pre>
-      <pre><code class="language-go">// pkg/usrlocal/usrlocal.go:142,156
-uncomp := filepath.Join(dir, &quot;lima-guestagent.&quot;+ostype+&quot;-&quot;+arch)
-...
-return &quot;&quot;, fmt.Errorf(&quot;guest agent binary could not be found for %s-%s: %w (Hint: try installing `lima-additional-guestagents` package)&quot;, ostype, arch, err)</code></pre>
-    <p><code>Validate</code> (line 53 of <code>pkg/limayaml/validate.go</code>) now accepts <code>Windows</code>, but <code>Prepare</code> still treats anything other than Darwin/FreeBSD with <code>Plain=false</code> as needing a guest agent. It then calls <code>usrlocal.GuestAgentBinary(&quot;Windows&quot;, arch)</code>, which searches for <code>lima-guestagent.Windows-x86_64</code> (or <code>-aarch64</code>) on disk. The Makefile only builds Linux and Darwin guest agents (<code>LINUX_GUESTAGENT_ARCHS</code>, <code>DARWIN_GUESTAGENT_ARCHS</code>); no <code>lima-guestagent.Windows-*</code> binary exists. <code>limactl start --os Windows</code> therefore fails inside <code>Prepare</code> with a confusing &quot;guest agent binary could not be found&quot; error before the driver ever launches.</p>
-    <p>Fix: add an explicit Windows case to the <code>Prepare</code> switch so the lookup is skipped. The simplest form:</p>
-      <pre><code class="language-diff"> switch *inst.Config.OS {
- case limatype.DARWIN:
-     needsGuestAgent = true
- case limatype.FREEBSD:
+    <p><code>Validate</code> now accepts <code>Windows</code>, but the <code>Prepare</code> switch has no Windows case; the <code>default</code> branch sets <code>needsGuestAgent = true</code> (because <code>Plain</code> is false). <code>Prepare</code> then calls <code>usrlocal.GuestAgentBinary(&quot;Windows&quot;, arch)</code>, which searches for <code>lima-guestagent.Windows-x86_64</code> (or <code>-aarch64</code>). The Makefile only builds Linux and Darwin guest agents — no <code>lima-guestagent.Windows-*</code> exists — so <code>limactl start --os Windows</code> fails inside <code>Prepare</code> with a confusing <code>guest agent binary could not be found</code> error before the driver ever launches.</p>
+    <p>Fix:</p>
+      <pre><code class="language-diff"> case limatype.FREEBSD:
      needsGuestAgent = false
 +case limatype.WINDOWS:
 +    needsGuestAgent = false
  default:
-     needsGuestAgent = !*inst.Config.Plain
- }</code></pre>
-    <p>This is the smallest change that lets the existing scaffolding land cleanly. A more complete fix gates the whole Windows path behind a &quot;not yet startable via limactl&quot; validation error until the driver work in <strong>I3</strong> lands.</p>
+     needsGuestAgent = !*inst.Config.Plain</code></pre>
+    <p>A more complete fix gates the whole Windows path behind a &quot;not yet startable via limactl&quot; validation error until <strong>I3</strong> lands.</p>
     </div>
     <div class="card card-important">
       <div class="finding-title" id="I5">
@@ -405,26 +364,13 @@ return &quot;&quot;, fmt.Errorf(&quot;guest agent binary could not be found for 
 	if err := ValidateTemplateArgs(args); err != nil {
 		return &quot;&quot;, err
 	}</code></pre>
-      <pre><code class="language-go">// template.go: silent fallthrough at a lower layer
-switch arch {
-case &quot;arm64&quot;:
-    templateFS = windowsArm64TemplateFS
-    root = windowsArm64TemplateFSRoot
-default:
-    templateFS = windowsAmd64TemplateFS
-    root = windowsAmd64TemplateFSRoot
-}</code></pre>
-    <p><code>limatype.ArchTypes</code> includes six architectures: <code>x86_64</code>, <code>aarch64</code>, <code>armv7l</code>, <code>ppc64le</code>, <code>riscv64</code>, <code>s390x</code>. The PR&#39;s validation change accepts any of them for <code>os: Windows</code>. A user who writes <code>os: Windows, arch: riscv64</code> passes validation and silently gets an amd64 answer file embedded in their ISO; the failure surfaces deep in the install process when Windows refuses to boot the wrong-arch image. The same problem repeats inside <code>ExecuteTemplateAutounattend</code> at the lower layer.</p>
-    <p>Fix: reject the invalid combination at validation time. This catches the error before any ISO is generated, and removes the need for the lower-layer fallthrough check:</p>
-      <pre><code class="language-diff"> switch *y.OS {
- case limatype.LINUX, limatype.DARWIN, limatype.FREEBSD, limatype.WINDOWS:
+    <p><code>limatype.ArchTypes</code> includes <code>x86_64</code>, <code>aarch64</code>, <code>armv7l</code>, <code>ppc64le</code>, <code>riscv64</code>, <code>s390x</code>. The PR&#39;s validation change accepts any of them for <code>os: Windows</code>. A user writing <code>os: Windows, arch: riscv64</code> passes validation and silently gets an amd64 answer file; the failure surfaces deep in the install process when Windows refuses to boot the wrong-arch image.</p>
+    <p>Fix: reject the invalid combination at validation, catching the error before any ISO is generated:</p>
+      <pre><code class="language-diff"> case limatype.LINUX, limatype.DARWIN, limatype.FREEBSD, limatype.WINDOWS:
 +    if *y.OS == limatype.WINDOWS &amp;&amp; *y.Arch != limatype.X8664 &amp;&amp; *y.Arch != limatype.AARCH64 {
 +        errs = errors.Join(errs, fmt.Errorf(&quot;field `arch` for `os: Windows` must be %q or %q; got %q&quot;, limatype.X8664, limatype.AARCH64, *y.Arch))
-+    }
- default:
-     errs = errors.Join(errs, fmt.Errorf(&quot;field `os` must be one of %q; got %q&quot;, limatype.OSTypes, *y.OS))
- }</code></pre>
-    <p>Make <code>ExecuteTemplateAutounattend</code>&#39;s switch exhaustive afterward (return an error in the default branch rather than silently selecting amd64), so a future caller cannot reintroduce the silent path.</p>
++    }</code></pre>
+    <p>Make <code>ExecuteTemplateAutounattend</code>&#39;s arch switch exhaustive afterward so a future caller cannot reintroduce the silent fallthrough.</p>
     </div>
     <div class="card card-important">
       <div class="finding-title" id="I6">
@@ -451,19 +397,17 @@ default:
 		return &quot;&quot;, err
 	}
 </code></pre>
-    <p>The Windows branch returns from <code>GenerateISO9660</code> immediately after writing the autounattend ISO. It does not run <code>drv.BootScripts()</code>, does not loop over <code>instConfig.Provision</code>, and does not include any <code>Mount</code> entries. A user copying their existing Linux <code>lima.yaml</code> (with <code>mounts:</code>, <code>provision:</code>, or driver-supplied boot scripts) gets no warning that those blocks are ignored — the instance simply starts without them. The trap matters most for <code>provision</code>, where users will read their scripts in the YAML and expect them to run.</p>
-    <p>Fix: reject the unsupported blocks at validation so users fail fast. The error message should name the unsupported field, not the OS, so the user knows what to remove:</p>
-      <pre><code class="language-diff"> switch *y.OS {
- case limatype.LINUX, limatype.DARWIN, limatype.FREEBSD, limatype.WINDOWS:
-+    if *y.OS == limatype.WINDOWS {
-+        if len(y.Provision) &gt; 0 {
-+            errs = errors.Join(errs, errors.New(&quot;field `provision` is not yet supported for Windows guests&quot;))
-+        }
-+        if len(y.Mounts) &gt; 0 {
-+            errs = errors.Join(errs, errors.New(&quot;field `mounts` is not yet supported for Windows guests&quot;))
-+        }
-+    }</code></pre>
-    <p>When the integration in <strong>I3</strong> lands, lift the restrictions one at a time so the validation matches what the driver actually implements.</p>
+    <p>The Windows branch returns from <code>GenerateISO9660</code> immediately. It does not run <code>drv.BootScripts()</code>, does not loop over <code>instConfig.Provision</code>, and does not include any <code>Mount</code> entries. A user copying their existing Linux <code>lima.yaml</code> (with <code>mounts:</code>, <code>provision:</code>, or driver-supplied boot scripts) gets no warning that those blocks are ignored. The trap matters most for <code>provision</code>, where users read their scripts in the YAML and expect them to run.</p>
+    <p>Fix: reject the unsupported blocks at validation. Name the unsupported field in the error, not the OS, so the user knows what to remove:</p>
+      <pre><code class="language-diff">+if *y.OS == limatype.WINDOWS {
++    if len(y.Provision) &gt; 0 {
++        errs = errors.Join(errs, errors.New(&quot;field `provision` is not yet supported for Windows guests&quot;))
++    }
++    if len(y.Mounts) &gt; 0 {
++        errs = errors.Join(errs, errors.New(&quot;field `mounts` is not yet supported for Windows guests&quot;))
++    }
++}</code></pre>
+    <p>Lift restrictions one at a time as <strong>I3</strong>&#39;s integration work lands.</p>
     </div>
     <div class="card card-important">
       <div class="finding-title" id="I7">
@@ -495,48 +439,8 @@ func GenerateISO9660(ctx context.Context, drv driver.Driver, instDir, name strin
 		return &quot;&quot;, err
 	}
 </code></pre>
-    <p><code>templateArgs()</code> dereferences pointers and runs computations specific to the Linux/Darwin/FreeBSD cloud-init pipeline before Windows ever gets a chance to peel off: <code>*instConfig.MountType</code> (line 196), <code>*instConfig.User.Home</code>/<code>Shell</code>/<code>UID</code> (lines 134-138), <code>*instConfig.GuestInstallPrefix</code>, <code>*instConfig.HostResolver.Enabled</code>, the 9p <code>msize</code> parser, <code>sshutil.DefaultPubKeys</code> (line 184), <code>osutil.DNSAddresses</code>. None of this output reaches the autounattend ISO once <strong>I1</strong> is fixed and substitution happens; the Windows path uses <code>args.Name</code>, <code>args.Hostname</code>, <code>args.User</code>, <code>args.SSHPubKeys</code>, <code>args.TimeZone</code>, and <code>args.IID</code>, and nothing else.</p>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.go#L129-L143">pkg/cidata/cidata.go</a></div>
-      <pre data-start="129" data-line="134-138"><code class="language-go">		Debug:              debugutil.Debug,
-		OS:                 *instConfig.OS,
-		BootScripts:        bootScripts,
-		Name:               name,
-		Hostname:           hostname.FromInstName(name), // TODO: support customization
-		User:               *instConfig.User.Name,
-		Comment:            removeControlChars(*instConfig.User.Comment),
-		Home:               *instConfig.User.Home,
-		Shell:              *instConfig.User.Shell,
-		UID:                *instConfig.User.UID,
-		GuestInstallPrefix: *instConfig.GuestInstallPrefix,
-		UpgradePackages:    *instConfig.UpgradePackages,
-		Containerd:         Containerd{System: *instConfig.Containerd.System, User: *instConfig.Containerd.User, Archive: archive},
-		SlirpNICName:       networks.SlirpNICName,
-</code></pre>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.go#L179-L201">pkg/cidata/cidata.go</a></div>
-      <pre data-start="179" data-line="184-196"><code class="language-go">	}
-
-	// change instance id on every boot so network config will be processed again
-	args.IID = fmt.Sprintf(&quot;iid-%d&quot;, time.Now().Unix())
-
-	pubKeys, err := sshutil.DefaultPubKeys(ctx, *instConfig.SSH.LoadDotSSHPubKeys)
-	if err != nil {
-		return nil, err
-	}
-	if len(pubKeys) == 0 {
-		return nil, errors.New(&quot;no SSH key was found, run `ssh-keygen`&quot;)
-	}
-	for _, f := range pubKeys {
-		args.SSHPubKeys = append(args.SSHPubKeys, f.Content)
-	}
-
-	var fstype string
-	switch *instConfig.MountType {
-	case limatype.REVSSHFS:
-		fstype = &quot;sshfs&quot;
-	case limatype.NINEP:
-		fstype = &quot;9p&quot;
-		if *instConfig.OS == limatype.FREEBSD {</code></pre>
-    <p>Two consequences. First, a host with no SSH key (the <code>len(pubKeys) == 0</code> check at line 188), an unreadable resolv.conf, or a 9p mount with an unparseable <code>msize</code> aborts Windows ISO generation with an error from the Linux pipeline. Second, the design intent is the opposite of how the code is structured: Windows should not depend on the Unix pipeline staying happy. The <code>TODO: Split into per-OS template args (Unix vs Windows)</code> at <a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L89"><code>pkg/cidata/template.go:89</code></a> already flags this.</p>
+    <p><code>templateArgs()</code> dereferences Linux-specific fields before Windows can peel off: <code>*instConfig.MountType</code>, <code>User.Home/Shell/UID</code>, <code>GuestInstallPrefix</code>, <code>HostResolver.Enabled</code>, the 9p <code>msize</code> parser, <code>sshutil.DefaultPubKeys</code>, <code>osutil.DNSAddresses</code>. None reaches the autounattend ISO; the Windows path uses only <code>Name</code>, <code>Hostname</code>, <code>User</code>, <code>SSHPubKeys</code>, <code>TimeZone</code>, and <code>IID</code>.</p>
+    <p>Two consequences: a host with no SSH key, an unreadable resolv.conf, or a 9p mount with an unparseable <code>msize</code> aborts Windows ISO generation with an unrelated Linux-pipeline error; and Windows depends on the Unix pipeline staying happy, the opposite of the intended decoupling. The <code>TODO: Split into per-OS template args (Unix vs Windows)</code> at <a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L89"><code>pkg/cidata/template.go:89</code></a> already flags this; <strong>I7</strong> promotes it from paper TODO to concrete blocker for <strong>I1</strong>.</p>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L84-L94">pkg/cidata/template.go</a></div>
       <pre data-start="84" data-line="89"><code class="language-go">	FSType string
 	FSArgs []string
@@ -549,28 +453,7 @@ type TemplateArgs struct {
 	OS                              limatype.OS
 	Name                            string // instance name
 	Hostname                        string // instance hostname</code></pre>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.go#L183-L193">pkg/cidata/cidata.go</a></div>
-      <pre data-start="183" data-line="188"><code class="language-go">
-	pubKeys, err := sshutil.DefaultPubKeys(ctx, *instConfig.SSH.LoadDotSSHPubKeys)
-	if err != nil {
-		return nil, err
-	}
-	if len(pubKeys) == 0 {
-		return nil, errors.New(&quot;no SSH key was found, run `ssh-keygen`&quot;)
-	}
-	for _, f := range pubKeys {
-		args.SSHPubKeys = append(args.SSHPubKeys, f.Content)
-	}</code></pre>
-    <p>Fix: short-circuit the OS check before calling <code>templateArgs</code>, and supply Windows-specific arg construction. A minimal split:</p>
-      <pre><code class="language-go">if *instConfig.OS == limatype.WINDOWS {
-    args, err := windowsTemplateArgs(ctx, instDir, name, instConfig)
-    if err != nil {
-        return &quot;&quot;, err
-    }
-    return generateWindowsISO(args, instDir, args.WinArch)
-}
-args, err := templateArgs(ctx, true, instDir, name, instConfig, udpDNSLocalPort, tcpDNSLocalPort, vsockPort, virtioPort, noCloudInit, rosettaEnabled, rosettaBinFmt)</code></pre>
-    <p><code>windowsTemplateArgs</code> builds only <code>Name</code>, <code>Hostname</code>, <code>User</code>, <code>SSHPubKeys</code>, <code>TimeZone</code>, <code>IID</code>, and the chosen arch.</p>
+    <p>Fix: short-circuit the OS check before <code>templateArgs</code>, and build a Windows-only <code>windowsTemplateArgs</code> that supplies only the fields the Windows path uses.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>

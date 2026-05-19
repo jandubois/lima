@@ -217,8 +217,7 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
     <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-neutral">
-    <p>The PR correctly diagnoses a long-standing race (issue <a href="https://github.com/lima-vm/lima/issues/2227" class="gh-ref" data-title="Guest agent sometimes becomes unavailable from the host" data-state="open" data-type="issue">#2227</a>) where <code>watchGuestAgentEvents</code> and the inotify-startup goroutine both call <code>forwardSSH(verbForward, …)</code> on the same local socket path with no synchronization and no <code>-O cancel</code> of the prior forward, leaving <code>ga.sock</code> permanently missing after the first failed bind. The fix introduces <code>reForwardGuestAgentSock</code>, which serializes via a new <code>gaSockForwardMu</code> and issues a best-effort <code>verbCancel</code> before <code>verbForward</code>. The approach is sound and surgical (~40 lines, one file, no API changes).</p>
-    <p>The structure of this consolidated review: 0 Critical, 3 Important, 2 Suggestions, 1 design concern. All three Important findings were raised in Jan&#39;s most recent general comment on the PR and remain unaddressed in commit <a href="https://github.com/lima-vm/lima/commit/8a7d899f"><code>8a7d899f</code></a>. None of the Important findings is a regression in user-facing behaviour — the fix is a net improvement — but they are correctness/hygiene gaps that should land before merge.</p>
+    <p>The PR correctly diagnoses a long-standing race (issue <a href="https://github.com/lima-vm/lima/issues/2227" class="gh-ref" data-title="Guest agent sometimes becomes unavailable from the host" data-state="open" data-type="issue">#2227</a>) where <code>watchGuestAgentEvents</code> and the inotify-startup goroutine both call <code>forwardSSH(verbForward, …)</code> on the same local socket path with no synchronization and no <code>-O cancel</code> of the prior forward, leaving <code>ga.sock</code> permanently missing after the first failed bind. The fix introduces <code>reForwardGuestAgentSock</code>, which serializes via <code>gaSockForwardMu</code> and issues a best-effort <code>verbCancel</code> before <code>verbForward</code>. Approach is sound and surgical (~40 lines, one file, no API changes). Three Important findings remain unaddressed in commit <a href="https://github.com/lima-vm/lima/commit/8a7d899f"><code>8a7d899f</code></a>; none is user-facing-behaviour regression, all are correctness/hygiene gaps. 0 critical, 3 important, 2 suggestions.</p>
     </div>
     <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
@@ -245,12 +244,11 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
 	}
 }
 </code></pre>
-    <p>The in-source comment justifies ignoring the <em>error</em>, not detaching the <em>lifetime</em>. <code>forwardSSH</code> shells out via <code>exec.CommandContext(ctx, …)</code> and then waits in <code>cmd.Output()</code>, so passing <code>context.Background()</code> means an unresponsive SSH ControlMaster cannot be interrupted by hostagent shutdown: the goroutine sits in <code>cmd.Output()</code> while it holds <code>gaSockForwardMu</code>, blocking any concurrent caller of the helper for the full SSH command timeout. The immediately following <code>verbForward</code> call uses the real <code>ctx</code>, making the asymmetry harder to reason about.</p>
-    <p>Jan flagged this both inline at line 984 (https://github.com/lima-vm/lima/pull/4911#discussion_r3244931774) and as item #1 in his follow-up general comment; the latest commit has not addressed it.</p>
+    <p>The in-source comment justifies ignoring the <em>error</em>, not detaching the <em>lifetime</em>. <code>forwardSSH</code> shells out via <code>exec.CommandContext(ctx, …)</code> and waits in <code>cmd.Output()</code>, so <code>context.Background()</code> means an unresponsive SSH ControlMaster cannot be interrupted by hostagent shutdown: the goroutine blocks in <code>cmd.Output()</code> while it holds <code>gaSockForwardMu</code>, freezing any concurrent caller for the full SSH command timeout. The immediately following <code>verbForward</code> call uses the real <code>ctx</code>, making the asymmetry harder to reason about. Jan flagged this inline at line 984 and as item #1 in his follow-up general comment; the latest commit has not addressed it.</p>
     <p>Fix:</p>
       <pre><code class="language-diff">-	_ = forwardSSH(context.Background(), a.sshConfig, sshAddress, sshPort, localUnix, remoteUnix, verbCancel, false)
 +	_ = forwardSSH(ctx, a.sshConfig, sshAddress, sshPort, localUnix, remoteUnix, verbCancel, false)</code></pre>
-    <p>Qwen also suggested an alternative: wrap the cancel in a short <code>context.WithTimeout(ctx, 3*time.Second)</code> so the lock can never be held longer than that even if SSH hangs. This is reasonable defense-in-depth but not strictly needed — the plain <code>ctx</code> swap is enough to honor shutdown.</p>
+    <p>Qwen&#39;s defense-in-depth alternative (<code>context.WithTimeout(ctx, 3*time.Second)</code>) is reasonable but not strictly needed.</p>
     </div>
     <div class="card card-important">
       <div class="finding-title" id="I2">
@@ -272,7 +270,7 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
 
 	go func() {
 		if a.instConfig.MountInotify == nil || !*a.instConfig.MountInotify {</code></pre>
-    <p>This is the symmetric problem to the one the PR fixes. The cleanup callback registered at line 715 runs during <code>a.close()</code>, which executes <strong>before</strong> <code>cancelHA()</code> cancels the context for <code>watchGuestAgentEvents</code>. That means while cleanup is executing <code>forwardSSH(verbCancel, …)</code> on the guest-agent socket, the reconnect loop and the inotify goroutine are still alive and may concurrently call <code>reForwardGuestAgentSock</code>. The race the new mutex was introduced to prevent (concurrent <code>os.RemoveAll</code> / bind on the same path during a ControlMaster mutation) is reopened during the shutdown window.</p>
+    <p>Symmetric to the race the PR fixes. The cleanup callback registered at line 715 runs during <code>a.close()</code>, which executes <em>before</em> <code>cancelHA()</code> cancels the context for <code>watchGuestAgentEvents</code>. While cleanup is executing <code>forwardSSH(verbCancel, …)</code>, the reconnect loop and inotify goroutine are still alive and may concurrently call <code>reForwardGuestAgentSock</code>. The race the new mutex was introduced to prevent (concurrent <code>os.RemoveAll</code> / bind on the same path during a ControlMaster mutation) reopens during the shutdown window. The prior cleanup at line 762 sets <code>a.client = nil</code>, triggering the reconnect loop&#39;s <code>client == nil</code> branch — which calls <code>reForwardGuestAgentSock</code> concurrently with the unsynchronized cleanup. Worst case: shutdown leaves a fresh <code>ga.sock</code> on disk that the next start recovers from. Real but bounded. Item #3 in Jan&#39;s follow-up comment.</p>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/8a7d899fa2314bfa64aa733031ed79b1c713e6b7/pkg/hostagent/hostagent.go#L710-L720">pkg/hostagent/hostagent.go</a></div>
       <pre data-start="710" data-line="715"><code class="language-go">	}
 
@@ -285,7 +283,6 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
 		sshAddress, sshPort := a.sshAddressPort()
 		for _, rule := range a.instConfig.PortForwards {
 			if rule.GuestSocket != &quot;&quot; {</code></pre>
-    <p>The prior cleanup registered at line 762 sets <code>a.client = nil</code>, which causes the next iteration of the reconnect loop to take the <code>client == nil</code> branch and call <code>reForwardGuestAgentSock</code> — concurrently with the cleanup at line 728 doing <code>verbCancel</code> unsynchronized. The defer in <code>forwardSSH(verbCancel)</code> unlinks the socket file, so the worst case is shutdown leaving a fresh <code>ga.sock</code> on disk that the next start will recover from. Real but bounded.</p>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/8a7d899fa2314bfa64aa733031ed79b1c713e6b7/pkg/hostagent/hostagent.go#L757-L767">pkg/hostagent/hostagent.go</a></div>
       <pre data-start="757" data-line="762"><code class="language-go">		}
 	}()
@@ -298,8 +295,7 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
 		if a.client == nil {
 			return nil
 		}</code></pre>
-    <p>This is item #3 in Jan&#39;s follow-up general comment.</p>
-    <p>Fix: extend the mutex to the cleanup path (or add a small locked helper):</p>
+    <p>Fix:</p>
       <pre><code class="language-diff"> if a.driver.ForwardGuestAgent(ctx) {
 +    a.gaSockForwardMu.Lock()
      if err := forwardSSH(ctx, a.sshConfig, sshAddress, sshPort, localUnix, remoteUnix, verbCancel, false); err != nil {
@@ -318,8 +314,7 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
       <li>Under concurrent callers, <code>reForwardGuestAgentSock</code> is serialized — record observed concurrency depth, assert it stays at 1.</li>
       <li>Within each call, the recorded <code>(verb, ctx)</code> pairs are <code>(verbCancel, _) → (verbForward, _)</code> in that order.</li>
     </ol>
-    <p>The package already has a <code>_test.go</code> file (<code>pkg/hostagent/inotify_test.go</code>), so adding <code>forward_test.go</code> does not require new test infrastructure.</p>
-    <p>This is item #2 in Jan&#39;s follow-up general comment.</p>
+    <p>The package already has a <code>_test.go</code> file (<code>pkg/hostagent/inotify_test.go</code>), so adding <code>forward_test.go</code> does not require new test infrastructure. Item #2 in Jan&#39;s follow-up comment.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>

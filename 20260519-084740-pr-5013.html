@@ -216,8 +216,7 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
     <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-neutral">
-    <p>This PoC introduces <code>pkg/windows/autounattend</code> (a typed answer-file generator) and <code>pkg/windows/cidata</code> (an ISO builder), together with a manual <code>poc-windows-guest/</code> test harness for end-to-end verification on a Linux QEMU host. The architectural direction is sound — a small, testable Go surface plus a shell-driven proof — and the test suite includes a <code>PasswordNeverPlaintext</code> security assertion. But the exported API hides two silent-failure bugs that the current tests do not exercise: a Go-template arity error in the <code>ExtraCommands</code> path that fails at execute time, and a byte-index-as-rune-index error in the UTF-16LE password encoder that produces invalid output for any non-ASCII password. The committed manual answer file at <code>poc-windows-guest/autounattend.xml</code> undoes the package&#39;s security guarantee by storing the password in plaintext. The new ISO builder reimplements behavior that already exists in <code>pkg/iso9660util</code> and invokes the detected tools with flags they do not accept, so the advertised <code>xorriso</code> and <code>mkisofs</code> fallbacks fail.</p>
-    <p>Structure: 2 Critical, 14 Important, 11 Suggestions, 3 Design Observations. Verdict is Rework: the API surface needs C1, C2, I1, I2 fixed before this lands.</p>
+    <p>This PoC introduces <code>pkg/windows/autounattend</code> (a typed answer-file generator), <code>pkg/windows/cidata</code> (an ISO builder), and a manual <code>poc-windows-guest/</code> test harness. Architectural direction is sound — small, testable Go surface plus a shell-driven proof — and the test suite includes a <code>PasswordNeverPlaintext</code> security assertion. But the exported API hides two silent-failure bugs the current tests do not exercise: a Go-template arity error in the <code>ExtraCommands</code> path that fails at execute time, and a byte-index-as-rune-index error in the UTF-16LE password encoder that produces invalid output for non-ASCII passwords. The committed PoC answer file undoes the package&#39;s security guarantee by storing the password in plaintext. The new ISO builder duplicates <code>pkg/iso9660util</code> with flags the detected tools reject. 2 critical, 14 important, 11 suggestions.</p>
     </div>
     <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
@@ -238,7 +237,7 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
         &lt;/SynchronousCommand&gt;
         {{end}}
       &lt;/FirstLogonCommands&gt;</code></pre>
-    <p><code>inc</code> is registered as <code>func(n int) int</code> in <a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend.go#L20"><code>autounattend.go:20</code></a>. The expression <code>inc $i 1</code> invokes <code>inc</code> with two arguments. Go&#39;s <code>text/template</code> checks function arity at execute time, not parse time, so the template parses but the first caller with a non-empty <code>ExtraCommands</code> slice gets <code>wrong number of args for inc: want 1 got 2</code> from <code>Generate(cfg)</code>.</p>
+    <p><code>inc</code> is registered as <code>func(n int) int</code> in <a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend.go#L20"><code>autounattend.go:20</code></a>. The expression <code>inc $i 1</code> invokes <code>inc</code> with two arguments. Go&#39;s <code>text/template</code> checks function arity at execute time, not parse time, so the template parses but the first caller with a non-empty <code>ExtraCommands</code> slice gets <code>wrong number of args for inc: want 1 got 2</code> from <code>Generate(cfg)</code>. The current tests never populate <code>ExtraCommands</code>, so CI sees no failure. The bug is silent until someone uses the exported field.</p>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend.go#L15-L25">pkg/windows/autounattend/autounattend.go</a></div>
       <pre data-start="15" data-line="20"><code class="language-go">var tmpl = template.Must(
 	template.New(&quot;autounattend&quot;).
@@ -251,11 +250,10 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
 )
 
 type Config struct {</code></pre>
-    <p>The current tests never populate <code>ExtraCommands</code>, so CI sees no failure. The bug is silent until someone uses the exported <code>ExtraCommands</code> field, at which point <code>Generate</code> fails and no answer file is produced.</p>
-    <p>Fix: drop the stray <code>1</code> and let the pipeline produce <code>i+2</code>. Add a test case that exercises <code>ExtraCommands</code> with at least one entry so the template body executes in CI.</p>
+    <p>Fix: drop the stray <code>1</code> and let the pipeline produce <code>i+2</code>. Add a test case that exercises <code>ExtraCommands</code> with at least one entry.</p>
       <pre><code class="language-diff">-          &lt;Order&gt;{{inc $i 1 | inc}}&lt;/Order&gt;
 +          &lt;Order&gt;{{inc $i | inc}}&lt;/Order&gt;</code></pre>
-    <p>Codex graded this Important; Claude graded it Critical. I keep it Critical because the bug sits on the exported API surface and surfaces only in production — the test suite cannot catch it without an explicit ExtraCommands test.</p>
+    <p>Codex graded this Important; Claude graded it Critical. Kept Critical because the bug sits on the exported API surface and surfaces only in production.</p>
     </div>
     <div class="card card-critical">
       <div class="finding-title" id="C2">
@@ -281,29 +279,8 @@ func encodeUTF16LE(plaintext string) string {
 // NetBIOS computer name (&lt;=15 chars, alphanumeric + hyphen, no leading/trailing hyphen).
 func SanitiseHostname(name string) string {
 	out := make([]byte, 0, len(name))</code></pre>
-    <p><code>range s</code> over a Go string yields <code>i</code> as the byte offset of each rune, not the rune index. For an ASCII password the two agree, so the security test <code>TestGenerate_PasswordNeverPlaintext</code> passes with <code>&quot;T3stP@ssw0rd!&quot;</code>. The moment <code>s</code> contains a multi-byte rune the destination index <code>b[i*2]</code> skips ahead by the rune&#39;s UTF-8 length times two, leaving zero bytes between writes. Decoders see embedded U+0000 NULs in the password. Claude verified empirically that input <code>&quot;abç&quot;</code> produces <code>61006200e7000000...</code> instead of <code>61006200e700...</code>.</p>
-    <p>Runes outside the BMP need surrogate-pair encoding (4 bytes). The current code never emits surrogates, so it silently produces invalid UTF-16 for code points above U+FFFF.</p>
-    <p>Windows decodes the base64 blob as UTF-16LE for both <code>LocalAccount</code> and <code>AutoLogon</code>. Two concrete failures:</p>
-    <ul>
-      <li>The account is created with a password the user never set.</li>
-      <li>The <code>AutoLogon</code> block contains a different value than the account, so first boot stalls at the login screen and the unattended install hangs.</li>
-    </ul>
-    <p>All five agents flagged this. Claude and Gemini graded it Critical; Codex and Gemma graded it Important; Qwen described it without a severity tag.</p>
-    <p>Fix: use <code>unicode/utf16.Encode</code> over a rune slice.</p>
-      <pre><code class="language-go">import (
-    &quot;encoding/binary&quot;
-    &quot;unicode/utf16&quot;
-)
-
-func encodeUTF16LE(plaintext string) string {
-    u := utf16.Encode([]rune(plaintext + &quot;Password&quot;))
-    b := make([]byte, 2*len(u))
-    for i, v := range u {
-        binary.LittleEndian.PutUint16(b[i*2:], v)
-    }
-    return base64.StdEncoding.EncodeToString(b)
-}</code></pre>
-    <p>Add a unit test that feeds a non-ASCII password and decodes the base64 back to UTF-16LE to verify the round trip.</p>
+    <p><code>range s</code> over a Go string yields <code>i</code> as the byte offset of each rune, not the rune index. For ASCII passwords the two agree, so <code>TestGenerate_PasswordNeverPlaintext</code> passes with <code>&quot;T3stP@ssw0rd!&quot;</code>. As soon as <code>s</code> contains a multi-byte rune, the destination index <code>b[i*2]</code> skips ahead by the rune&#39;s UTF-8 length times two, leaving zero bytes between writes. Claude verified <code>&quot;abç&quot;</code> produces <code>61006200e7000000…</code> instead of <code>61006200e700…</code>. Runes above U+FFFF need surrogate-pair encoding (4 bytes); the current code never emits surrogates. Windows decodes the blob as UTF-16LE for both <code>LocalAccount</code> and <code>AutoLogon</code>, so first boot stalls at login with mismatched passwords.</p>
+    <p>Fix: use <code>unicode/utf16.Encode</code> over a rune slice, then write each <code>uint16</code> little-endian via <code>encoding/binary</code>. Add a unit test that feeds a non-ASCII password and decodes the base64 back to UTF-16LE.</p>
     </div>
     <hr>
     <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
@@ -405,10 +382,12 @@ func runISOTool(toolPath, stagingDir, outputPath string) error {
 	}
 	return nil
 }</code></pre>
-    <p>Two distinct problems compound here:</p>
-    <p>The detection set names <code>xorriso</code>, but the args use the <code>mkisofs</code> emulation dialect that <code>xorriso</code> accepts only with <code>-as mkisofs</code> prepended. Without that, <code>xorriso</code> parses <code>-output</code> as its own command and the invocation fails.</p>
-    <p>Long-form <code>-output</code>, <code>-joliet</code>, <code>-rock</code>, <code>-volid</code> are not standard for <code>genisoimage</code> or <code>mkisofs</code> — those tools use <code>-o</code>, <code>-J</code>, <code>-r</code>, <code>-V</code>. The advertised &quot;fallback&quot; only works on <code>xorrisofs</code> (the mkisofs-emulation binary), which the code does not detect.</p>
-    <p>The existing helper at <a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/iso9660util/joliet.go#L57-L67"><code>pkg/iso9660util/joliet.go:57-67</code></a> already solves all of this:</p>
+    <p>Two compounding problems:</p>
+    <ul>
+      <li>The detection set names <code>xorriso</code>, but the args use the <code>mkisofs</code> emulation dialect that <code>xorriso</code> accepts only with <code>-as mkisofs</code> prepended. Without that, <code>xorriso</code> parses <code>-output</code> as its own command and fails.</li>
+      <li>Long-form <code>-output</code>, <code>-joliet</code>, <code>-rock</code>, <code>-volid</code> are not standard for <code>genisoimage</code> or <code>mkisofs</code> — those use <code>-o</code>, <code>-J</code>, <code>-r</code>, <code>-V</code>. The advertised fallback only works on <code>xorrisofs</code> (the mkisofs-emulation binary), which the code does not detect.</li>
+    </ul>
+    <p>The existing helper at <a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/iso9660util/joliet.go#L57-L67"><code>pkg/iso9660util/joliet.go:57-67</code></a> already handles macOS (<code>hdiutil makehybrid</code>), the correct binary set (<code>xorrisofs</code>, not <code>xorriso</code>), and short flags all three tools accept.</p>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/iso9660util/joliet.go#L52-L68">pkg/iso9660util/joliet.go</a></div>
       <pre data-start="52" data-line="57-67"><code class="language-go">		return fmt.Errorf(&quot;failed to run %v: %w (output=%q)&quot;, cmd.Args, err, string(b))
 	}
@@ -427,20 +406,7 @@ func writeJolietCommand(isoPath, label, workDir string) ([]string, error) {
 	}
 	return nil, fmt.Errorf(&quot;none of %v is available&quot;, candidates)
 }</code></pre>
-      <pre><code class="language-go">func writeJolietCommand(isoPath, label, workDir string) ([]string, error) {
-    if runtime.GOOS == &quot;darwin&quot; {
-        return []string{&quot;hdiutil&quot;, &quot;makehybrid&quot;, &quot;-o&quot;, isoPath, &quot;-iso&quot;, &quot;-joliet&quot;, &quot;-default-volume-name&quot;, label, workDir}, nil
-    }
-    candidates := []string{&quot;xorrisofs&quot;, &quot;genisoimage&quot;, &quot;mkisofs&quot;}
-    for _, cmd := range candidates {
-        if cmdAbs, err := exec.LookPath(cmd); err == nil {
-            return []string{cmdAbs, &quot;-o&quot;, isoPath, &quot;--norock&quot;, &quot;-J&quot;, &quot;-V&quot;, label, workDir}, nil
-        }
-    }
-    return nil, fmt.Errorf(&quot;none of %v is available&quot;, candidates)
-}</code></pre>
-    <p>This handles macOS (<code>hdiutil makehybrid</code>) and detects the correct binary set (<code>xorrisofs</code>, not <code>xorriso</code>) with short flags that all three tools accept.</p>
-    <p>Fix: call <code>pkg/iso9660util.Write(..., iso9660util.WithJoliet())</code> from <code>BuildISO</code>. Drop the in-package <code>detectISOTool</code> and <code>runISOTool</code>. If the existing helper is insufficient, extend it rather than duplicate it.</p>
+    <p>Fix: call <code>pkg/iso9660util.Write(..., iso9660util.WithJoliet())</code> from <code>BuildISO</code>. Drop <code>detectISOTool</code> and <code>runISOTool</code>. Extend the existing helper rather than duplicate it.</p>
     </div>
     <div class="card card-important">
       <div class="finding-title" id="I3">
@@ -458,12 +424,10 @@ func writeJolietCommand(isoPath, label, workDir string) ([]string, error) {
         &lt;SynchronousCommand wcm:action=&quot;add&quot;&gt;
           &lt;Order&gt;{{inc $i 1 | inc}}&lt;/Order&gt;
           &lt;RequiresUserInput&gt;false&lt;/RequiresUserInput&gt;</code></pre>
-      <pre><code class="language-bash">sed &quot;s|REPLACE_WITH_YOUR_SSH_PUBLIC_KEY|${ssh_key}|g&quot; \
-    &quot;$SCRIPT_DIR/autounattend.xml&quot; &gt; &quot;$TMP_DIR/autounattend.xml&quot;</code></pre>
     <p>Three failure modes:</p>
     <ul>
-      <li><code>joinLines</code> joins multiple keys with <code>\n</code>. XML preserves the literal newline inside the element text, and Windows Setup forwards that to <code>cmd.exe</code>, which truncates or rejects multi-line command strings. The single-key test in <a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend_test.go#L15"><code>autounattend_test.go:15</code></a> hides the problem.</li>
-      <li>An SSH key comment containing <code>&quot;</code>, backtick, or <code>$()</code> survives XML escaping and is interpreted by PowerShell. A malicious or merely unusual comment can break argument parsing or trigger expression evaluation as Administrator.</li>
+      <li><code>joinLines</code> joins multiple keys with <code>\n</code>. XML preserves the literal newline; Windows Setup forwards it to <code>cmd.exe</code>, which truncates or rejects multi-line command strings. The single-key test in <a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend_test.go#L15"><code>autounattend_test.go:15</code></a> hides the problem.</li>
+      <li>An SSH key comment containing <code>&quot;</code>, backtick, or <code>$()</code> survives XML escaping and is interpreted by PowerShell. A malicious or unusual comment can break argument parsing or trigger expression evaluation as Administrator.</li>
       <li>In <code>run.sh</code>, <code>sed</code> substitutes the key through a <code>|</code> delimiter. A key containing <code>|</code>, <code>\</code>, or <code>&amp;</code> corrupts the XML before boot.</li>
     </ul>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend_test.go#L10-L20">pkg/windows/autounattend/autounattend_test.go</a></div>
@@ -478,8 +442,8 @@ func writeJolietCommand(isoPath, label, workDir string) ([]string, error) {
 }
 
 func TestGenerate_ContainsRequiredPasses(t *testing.T) {</code></pre>
-    <p>Gemini graded this Critical; Codex and Claude graded it Important. I treat it as Important because the PR controls both ends (the autounattend template and <code>first_logon.ps1</code>), so the fix is local. The severity rises once external SSH keys are accepted from <code>limayaml</code>.</p>
-    <p>Fix: stop passing the key on the command line. Stage an <code>authorized_keys</code> file on the cidata ISO. Have <code>first_logon.ps1</code> read it from <code>$PSScriptRoot</code> and copy it to <code>C:\ProgramData\ssh\administrators_authorized_keys</code>. This removes the quoting hazard, the newline issue, and the <code>sed</code> substitution risk in one change.</p>
+    <p>Gemini graded this Critical; Codex and Claude graded it Important. Kept Important because the PR controls both ends; severity rises once external SSH keys are accepted from <code>limayaml</code>.</p>
+    <p>Fix: stop passing the key on the command line. Stage an <code>authorized_keys</code> file on the cidata ISO. Have <code>first_logon.ps1</code> read it from <code>$PSScriptRoot</code> and copy it to <code>C:\ProgramData\ssh\administrators_authorized_keys</code>. Removes the quoting hazard, the newline issue, and the <code>sed</code> substitution risk in one change.</p>
     </div>
     <div class="card card-important">
       <div class="finding-title" id="I4">
