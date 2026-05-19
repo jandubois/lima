@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260519-100641-pr-4985</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260519-100641-pr-4985</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-05-19 10:06</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/ashwat287">@ashwat287</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/4985" class="gh-ref" data-title="POC: add Windows guest support via autounattend.xml" data-state="open" data-type="pr">#4985</a> — POC: add Windows guest support via autounattend.xml</td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/f3cd7c9b"><code>f3cd7c9b</code></a> poc: add Windows guest support via autounattend.xml</td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.7 (effort: xhigh), <span class="pill pill-codex">Codex</span> GPT 5.5 (effort: xhigh), <span class="pill pill-gemini">Gemini</span> 3.1 Pro (effort: default), <span class="pill pill-qwen">Qwen</span> 3.6 35B (effort: default), <span class="pill pill-gemma">Gemma</span> 31B (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; POC scaffolding is the right shape (Joliet ISO, OS-type seam, arch-specific templates), but the answer files contain zero Go template directives so every per-instance value (SSH keys, hostname, username, timezone) is lost; a PowerShell backtick bug and an unanchored sshd_config regex make admin-key auth fail even if substitution is wired up; and <code>Validate</code> now accepts <code>Windows</code> while <code>Prepare</code> will error out looking for a non-existent <code>lima-guestagent.Windows-*</code> binary.</td></tr>
+      <tr><td>Wall-clock time</td><td><code>53 min 43 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>PR <a href="https://github.com/lima-vm/lima/issues/4985" class="gh-ref" data-title="POC: add Windows guest support via autounattend.xml" data-state="open" data-type="pr">#4985</a> adds a <code>Windows</code> OS type, two arch-specific <code>autounattend.xml</code> files (amd64 and arm64), a developer ISO-generation tool, and a new <code>generateWindowsISO()</code> branch in <code>GenerateISO9660</code>. The structural choices are sound: dispatching on <code>*instConfig.OS == limatype.WINDOWS</code> at the cidata seam keeps the Linux/Darwin/FreeBSD paths untouched, Joliet labeling is correctly applied so <code>autounattend.xml</code> survives ISO9660 8.3 truncation, and using NVMe on arm64 avoids needing <code>virtio-win.iso</code>.</p>
+    <p>The most consequential finding is that the two <code>autounattend.xml</code> files contain <strong>zero Go template directives</strong> — they pass through <code>textutil.ExecuteTemplate</code> unchanged, so the host&#39;s SSH public keys, the configured <code>User.Name</code>, the instance name (<code>Hostname</code>), and the timezone never reach the guest. The PR description claims &quot;OpenSSH server is installed and started during OOBE so Lima&#39;s host-agent can connect&quot;; with <code>ssh-rsa PLACEHOLDER</code> written to <code>administrators_authorized_keys</code> and the local account hardcoded to <code>lima</code>, that claim does not hold today. A separate PowerShell bug in the same <code>FirstLogonCommands</code> block uses backtick escapes (<code></code> <code>r</code>n <code></code>) inside a single-quoted string, which PowerShell does not interpret — the literal characters land in <code>sshd_config</code>. And the same line&#39;s unanchored <code>-replace &#39;#?AuthorizedKeysFile.*&#39;</code> regex rewrites every <code>AuthorizedKeysFile</code> line in <code>sshd_config</code>, including the line inside the default <code>Match Group administrators</code> block.</p>
+    <p>Beyond the answer files, three integration gaps will surface as soon as Lima tries to drive the path: <code>limayaml.Validate</code> accepts <code>os: Windows</code> but <code>pkg/instance/start.go</code>&#39;s <code>Prepare</code> switch has no Windows case, so it falls through to <code>default</code> and calls <code>usrlocal.GuestAgentBinary(&quot;Windows&quot;, arch)</code>, which then returns <code>fs.ErrNotExist</code> because the Makefile only builds Linux and Darwin guest agents; the QEMU driver still exposes virtio disk, virtio-scsi cidata, and virtio-net while the answer files assume SATA/AHCI (amd64) or NVMe (arm64), so WinPE would not see the disk during install; and <code>arch</code> is silently mapped to <code>&quot;amd64&quot;</code> for anything that is not exactly <code>AARCH64</code>, so a user writing <code>arch: riscv64, os: Windows</code> passes validation and gets an amd64 answer file with no warning. Finally, the Windows path silently drops <code>mounts</code>, <code>provision</code>, and <code>bootScripts</code> rather than rejecting them at validation time.</p>
+    <p><strong>Structure of findings:</strong> 0 critical, 7 important, 10 suggestions, 3 design concerns (1 in-scope, 2 future). Strong agreement across the cloud trio on the substitution/placeholder and arch-fallback issues; the PowerShell escape bug (Claude I2), the <code>Prepare</code>/guest-agent gap (Codex I1), and the QEMU device-graph mismatch (Codex I2) are unique to a single agent each. The local trio (Qwen, Gemma) added no findings the cloud trio had not already raised, and Qwen failed its first pass entirely (see Agent Performance Retro).</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> Templates contain no Go template directives — every per-instance value is lost <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.TEMPLATE.d.Windows.amd64/autounattend.xml#L1-L6">pkg/cidata/cidata.TEMPLATE.d.Windows.amd64/autounattend.xml</a></div>
+      <pre data-start="1" data-line=""><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;!-- Windows unattended answer file for Lima guest VMs (amd64).
+     Ref: https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/update-windows-settings-and-scripts-create-your-own-answer-file-sxs --&gt;
+&lt;unattend xmlns=&quot;urn:schemas-microsoft-com:unattend&quot;&gt;
+
+  &lt;!-- windowsPE: locale, disk layout, image selection, hw bypass --&gt;</code></pre>
+    <p>Neither autounattend.xml contains a single <code>{{</code> directive, yet both pass through <code>textutil.ExecuteTemplate</code> in <code>ExecuteTemplateAutounattend</code> (<a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L241"><code>pkg/cidata/template.go:241</code></a>). The rendered output equals the file on disk byte for byte. <code>TemplateArgs.SSHPubKeys</code>, <code>TemplateArgs.User</code>, <code>TemplateArgs.Hostname</code>, and <code>TemplateArgs.TimeZone</code> are all populated by <code>templateArgs()</code> but never reach the guest. The PR description states &quot;OpenSSH server is installed and started during OOBE so Lima&#39;s host-agent can connect&quot; — with <code>ssh-rsa PLACEHOLDER</code> written to <code>administrators_authorized_keys</code> and the local account hardcoded to <code>lima</code>, Lima&#39;s host-agent cannot connect using the host&#39;s real key as the configured user.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L236-L242">pkg/cidata/template.go</a></div>
+      <pre data-start="236" data-line="241"><code class="language-go">	xmlTemplate, err := templateFS.ReadFile(path.Join(root, &quot;autounattend.xml&quot;))
+	if err != nil {
+		return nil, err
+	}
+
+	return textutil.ExecuteTemplate(string(xmlTemplate), args)
+}</code></pre>
+    <p>Fix: substitute the dynamic values via the template engine. The SSH keys need careful quoting because they pass through both XML and PowerShell layers; the simplest form is a PowerShell array literal joined by newlines, with one entry per key:</p>
+      <pre><code class="language-xml">&lt;CommandLine&gt;powershell.exe -NoProfile -Command &quot;$keys = @(
+{{- range .SSHPubKeys }}
+&#39;{{ . }}&#39;,
+{{- end }}
+&#39;&#39;); Set-Content -Path &#39;C:\ProgramData\ssh\administrators_authorized_keys&#39; -Value $keys; icacls ...&quot;&lt;/CommandLine&gt;</code></pre>
+    <p>Apply the same pattern to the <code>&lt;ComputerName&gt;</code> (use <code>{{ .Hostname }}</code>, then truncate to 15 chars to satisfy NetBIOS limits), the <code>&lt;LocalAccount&gt;</code>/<code>&lt;AutoLogon&gt;</code> <code>&lt;Name&gt;</code> and <code>&lt;Username&gt;</code> blocks (use <code>{{ .User }}</code>), and the <code>&lt;TimeZone&gt;</code> element (<code>{{ .TimeZone }}</code>, with a IANA→Windows mapping table since Windows expects Microsoft IDs like <code>&quot;Pacific Standard Time&quot;</code>, not IANA names).</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> PowerShell backtick escapes inside single-quoted string land as literal characters; unanchored <code>-replace</code> regex breaks the admin Match block <span class="pill pill-claude">Claude</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.TEMPLATE.d.Windows.amd64/autounattend.xml#L200-L210">pkg/cidata/cidata.TEMPLATE.d.Windows.amd64/autounattend.xml</a></div>
+      <pre data-start="200" data-line="205"><code class="language-xml">          &lt;CommandLine&gt;powershell.exe -NoProfile -Command &quot;Set-Content -Path &#39;C:\ProgramData\ssh\administrators_authorized_keys&#39; -Value &#39;ssh-rsa PLACEHOLDER&#39;; icacls &#39;C:\ProgramData\ssh\administrators_authorized_keys&#39; /inheritance:r /grant &#39;SYSTEM:(F)&#39; /grant &#39;Administrators:(F)&#39;&quot;&lt;/CommandLine&gt;
+          &lt;Description&gt;Write authorized_keys with correct ACLs&lt;/Description&gt;
+        &lt;/SynchronousCommand&gt;
+        &lt;SynchronousCommand wcm:action=&quot;add&quot;&gt;
+          &lt;Order&gt;5&lt;/Order&gt;
+          &lt;CommandLine&gt;powershell.exe -NoProfile -Command &quot;$cfg = &#39;C:\ProgramData\ssh\sshd_config&#39;; (Get-Content $cfg) -replace &#39;#?AuthorizedKeysFile.*&#39;, &#39;AuthorizedKeysFile .ssh/authorized_keys&#39; | Set-Content $cfg; Add-Content $cfg &#39;Match Group administrators`r`n  AuthorizedKeysFile C:/ProgramData/ssh/administrators_authorized_keys&#39;; Restart-Service sshd&quot;&lt;/CommandLine&gt;
+          &lt;Description&gt;Configure sshd for admin key auth&lt;/Description&gt;
+        &lt;/SynchronousCommand&gt;
+        &lt;SynchronousCommand wcm:action=&quot;add&quot;&gt;
+          &lt;Order&gt;6&lt;/Order&gt;
+          &lt;CommandLine&gt;reg.exe add &quot;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon&quot; /v AutoAdminLogon /t REG_SZ /d 0 /f&lt;/CommandLine&gt;</code></pre>
+    <p>Two compounding problems in this single line:</p>
+    <ol>
+      <li>PowerShell single-quoted strings are literal. The <code></code> <code>r</code>n <code></code> inside the <code>Add-Content</code> argument is therefore written to <code>sshd_config</code> as four literal characters (backtick, r, backtick, n) rather than CRLF. The result is one physical line containing <code>Match Group administrators</code>r<code>n  AuthorizedKeysFile C:/ProgramData/ssh/administrators_authorized_keys</code>. sshd parses <code>Match</code> criteria as whitespace-separated tokens and rejects or silently ignores the malformed block.</li>
+      <li>The <code>-replace &#39;#?AuthorizedKeysFile.*&#39;</code> regex is unanchored. It matches every line that contains an <code>AuthorizedKeysFile</code> token, with an optional leading <code>#</code>. Windows OpenSSH ships <code>sshd_config</code> with a default <code>Match Group administrators</code> block whose <code>AuthorizedKeysFile</code> line directs admin-group authentication at <code>__PROGRAMDATA__/ssh/administrators_authorized_keys</code>. The replacement rewrites that line to <code>AuthorizedKeysFile .ssh/authorized_keys</code>, so even if problem (1) were fixed, admin-group authentication would not look at the path the script claims to populate.</li>
+    </ol>
+    <p>Combined with <strong>I1</strong>, both halves of the SSH-key plumbing are broken: no real key is written, and the location the script claims to write to is no longer consulted by sshd.</p>
+    <p>Fix: switch the <code>Add-Content</code> argument to a double-quoted PowerShell string so <code></code> <code>r</code>n <code></code> expands, and anchor the <code>-replace</code> regex so it only touches the top-level commented-out line. Inside an XML attribute the double quotes need escaping with <code>&amp;quot;</code> or with a PowerShell <code>[char]</code> expression:</p>
+      <pre><code class="language-diff">-          &lt;CommandLine&gt;powershell.exe -NoProfile -Command &quot;$cfg = &#39;C:\ProgramData\ssh\sshd_config&#39;; (Get-Content $cfg) -replace &#39;#?AuthorizedKeysFile.*&#39;, &#39;AuthorizedKeysFile .ssh/authorized_keys&#39; | Set-Content $cfg; Add-Content $cfg &#39;Match Group administrators`r`n  AuthorizedKeysFile C:/ProgramData/ssh/administrators_authorized_keys&#39;; Restart-Service sshd&quot;&lt;/CommandLine&gt;
++          &lt;CommandLine&gt;powershell.exe -NoProfile -Command &quot;$cfg = &#39;C:\ProgramData\ssh\sshd_config&#39;; (Get-Content $cfg) -replace &#39;^#?AuthorizedKeysFile .*&#39;, &#39;AuthorizedKeysFile .ssh/authorized_keys&#39; | Set-Content $cfg; Add-Content $cfg ([string]::Join([Environment]::NewLine, @(&#39;Match Group administrators&#39;, &#39;  AuthorizedKeysFile C:/ProgramData/ssh/administrators_authorized_keys&#39;))); Restart-Service sshd&quot;&lt;/CommandLine&gt;</code></pre>
+    <p>A simpler alternative is to overwrite <code>sshd_config</code> entirely from a heredoc-style PowerShell array, removing the dependency on the existing file&#39;s layout.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> QEMU driver still exposes virtio devices while answer files assume SATA/AHCI (amd64) and NVMe (arm64) <span class="pill pill-codex">Codex</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.go#L388-L407">pkg/cidata/cidata.go</a></div>
+      <pre data-start="388" data-line="393-402"><code class="language-go">	args, err := templateArgs(ctx, true, instDir, name, instConfig, udpDNSLocalPort, tcpDNSLocalPort, vsockPort, virtioPort, noCloudInit, rosettaEnabled, rosettaBinFmt)
+	if err != nil {
+		return &quot;&quot;, err
+	}
+
+	// Windows guests use autounattend.xml instead of cloud-init.
+	if *instConfig.OS == limatype.WINDOWS {
+		var winArch string
+		if instConfig.Arch != nil &amp;&amp; *instConfig.Arch == limatype.AARCH64 {
+			winArch = &quot;arm64&quot;
+		} else {
+			winArch = &quot;amd64&quot;
+		}
+		return generateWindowsISO(args, instDir, winArch)
+	}
+
+	if err := ValidateTemplateArgs(args); err != nil {
+		return &quot;&quot;, err
+	}
+</code></pre>
+      <pre><code class="language-go">// qemu.go:715 — main disk
+args = append(args, &quot;-drive&quot;, fmt.Sprintf(&quot;file=%s,if=virtio,discard=on&quot;, diskPath))
+// qemu.go:729-731 — cidata ISO
+args = append(args,
+    &quot;-drive&quot;, &quot;id=cdrom0,if=none,format=raw,readonly=on,file=&quot;+filepath.Join(cfg.InstanceDir, filenames.CIDataISO),
+    &quot;-device&quot;, &quot;virtio-scsi,id=scsi0&quot;,
+    &quot;-device&quot;, &quot;scsi-cd,bus=scsi0.0,drive=cdrom0&quot;)
+// qemu.go:760 — NIC
+args = append(args, &quot;-device&quot;, virtioNet+&quot;,netdev=net0,mac=&quot;+limayaml.MACAddress(cfg.InstanceDir))</code></pre>
+    <p>The Windows branch only changes the cidata payload. The QEMU driver still attaches the disk as virtio, the cidata ISO via <code>virtio-scsi</code>/<code>scsi-cd</code>, and the NIC as <code>virtio-net-pci</code>, while the amd64 template&#39;s own inline comment says the disk is SATA/AHCI (line 68) and the arm64 template uses NVMe. Without inbox virtio drivers in WinPE, the installer cannot see the disk during the <code>windowsPE</code> pass, so installation fails before reaching <code>oobeSystem</code>. This explains why the PR&#39;s testing section invokes QEMU directly with hand-tuned device arguments rather than <code>limactl start</code>.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.go#L63-L73">pkg/cidata/cidata.go</a></div>
+      <pre data-start="63" data-line="68"><code class="language-go">	for i, name := range lowerVars {
+		upperVars[i] = strings.ToUpper(name)
+	}
+	if propagateProxyEnv {
+		for _, name := range append(lowerVars, upperVars...) {
+			if value, ok := os.LookupEnv(name); ok {
+				if _, ok := env[name]; ok &amp;&amp; value != env[name] {
+					logrus.Infof(&quot;Overriding %q value %q with %q from limactl process environment&quot;,
+						name, env[name], value)
+				}
+				env[name] = value</code></pre>
+    <p>Fix: add a Windows code path in the QEMU driver that selects a Windows-compatible device graph matching the templates — SATA/AHCI on amd64 and NVMe on arm64, with <code>usb-storage</code> for both the install ISO and the autounattend ISO, USB keyboard/tablet, and <code>ramfb</code> on arm64. The dev tool&#39;s command lines in <code>hack/gen-autounattend-iso.go</code> are the right shape to copy. Alternatively, embed <code>virtio-win.iso</code> and add a <code>&lt;DriverPaths&gt;</code> block to the answer files to load virtio drivers in WinPE — but this carries a license question that NVMe avoids.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I4">
+        <span class="finding-num">I4.</span> <code>Validate</code> accepts <code>os: Windows</code> but <code>Prepare</code> falls through to a non-existent guest-agent lookup <span class="pill pill-codex">Codex</span><a href="#I4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/instance/start.go#L45-L70">pkg/instance/start.go</a></div>
+      <pre data-start="45" data-line="50-65"><code class="language-go">	GuestAgent          string
+	NerdctlArchiveCache string
+}
+
+// Prepare ensures the disk, the nerdctl archive, etc.
+func Prepare(ctx context.Context, inst *limatype.Instance, guestAgent string) (*Prepared, error) {
+	var needsGuestAgent bool
+	switch *inst.Config.OS {
+	case limatype.DARWIN:
+		// macOS guests always need the guest agent for running fake-cloud-init
+		needsGuestAgent = true
+	case limatype.FREEBSD:
+		// guest agent is not implemented for FreeBSD yet
+		needsGuestAgent = false
+	default:
+		needsGuestAgent = !*inst.Config.Plain
+	}
+	if needsGuestAgent &amp;&amp; guestAgent == &quot;&quot; {
+		var err error
+		guestAgent, err = usrlocal.GuestAgentBinary(*inst.Config.OS, *inst.Config.Arch)
+		if err != nil {
+			return nil, err
+		}
+	}
+	limaDriver, err := driverutil.CreateConfiguredDriver(inst, 0)
+	if err != nil {</code></pre>
+      <pre><code class="language-go">// pkg/usrlocal/usrlocal.go:142,156
+uncomp := filepath.Join(dir, &quot;lima-guestagent.&quot;+ostype+&quot;-&quot;+arch)
+...
+return &quot;&quot;, fmt.Errorf(&quot;guest agent binary could not be found for %s-%s: %w (Hint: try installing `lima-additional-guestagents` package)&quot;, ostype, arch, err)</code></pre>
+    <p><code>Validate</code> (line 53 of <code>pkg/limayaml/validate.go</code>) now accepts <code>Windows</code>, but <code>Prepare</code> still treats anything other than Darwin/FreeBSD with <code>Plain=false</code> as needing a guest agent. It then calls <code>usrlocal.GuestAgentBinary(&quot;Windows&quot;, arch)</code>, which searches for <code>lima-guestagent.Windows-x86_64</code> (or <code>-aarch64</code>) on disk. The Makefile only builds Linux and Darwin guest agents (<code>LINUX_GUESTAGENT_ARCHS</code>, <code>DARWIN_GUESTAGENT_ARCHS</code>); no <code>lima-guestagent.Windows-*</code> binary exists. <code>limactl start --os Windows</code> therefore fails inside <code>Prepare</code> with a confusing &quot;guest agent binary could not be found&quot; error before the driver ever launches.</p>
+    <p>Fix: add an explicit Windows case to the <code>Prepare</code> switch so the lookup is skipped. The simplest form:</p>
+      <pre><code class="language-diff"> switch *inst.Config.OS {
+ case limatype.DARWIN:
+     needsGuestAgent = true
+ case limatype.FREEBSD:
+     needsGuestAgent = false
++case limatype.WINDOWS:
++    needsGuestAgent = false
+ default:
+     needsGuestAgent = !*inst.Config.Plain
+ }</code></pre>
+    <p>This is the smallest change that lets the existing scaffolding land cleanly. A more complete fix gates the whole Windows path behind a &quot;not yet startable via limactl&quot; validation error until the driver work in <strong>I3</strong> lands.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I5">
+        <span class="finding-num">I5.</span> <code>arch</code> for Windows defaults to amd64 for any value other than <code>aarch64</code> <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-gemma">Gemma</span> <span class="pill pill-qwen">Qwen</span><a href="#I5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.go#L390-L406">pkg/cidata/cidata.go</a></div>
+      <pre data-start="390" data-line="395-401"><code class="language-go">		return &quot;&quot;, err
+	}
+
+	// Windows guests use autounattend.xml instead of cloud-init.
+	if *instConfig.OS == limatype.WINDOWS {
+		var winArch string
+		if instConfig.Arch != nil &amp;&amp; *instConfig.Arch == limatype.AARCH64 {
+			winArch = &quot;arm64&quot;
+		} else {
+			winArch = &quot;amd64&quot;
+		}
+		return generateWindowsISO(args, instDir, winArch)
+	}
+
+	if err := ValidateTemplateArgs(args); err != nil {
+		return &quot;&quot;, err
+	}</code></pre>
+      <pre><code class="language-go">// template.go: silent fallthrough at a lower layer
+switch arch {
+case &quot;arm64&quot;:
+    templateFS = windowsArm64TemplateFS
+    root = windowsArm64TemplateFSRoot
+default:
+    templateFS = windowsAmd64TemplateFS
+    root = windowsAmd64TemplateFSRoot
+}</code></pre>
+    <p><code>limatype.ArchTypes</code> includes six architectures: <code>x86_64</code>, <code>aarch64</code>, <code>armv7l</code>, <code>ppc64le</code>, <code>riscv64</code>, <code>s390x</code>. The PR&#39;s validation change accepts any of them for <code>os: Windows</code>. A user who writes <code>os: Windows, arch: riscv64</code> passes validation and silently gets an amd64 answer file embedded in their ISO; the failure surfaces deep in the install process when Windows refuses to boot the wrong-arch image. The same problem repeats inside <code>ExecuteTemplateAutounattend</code> at the lower layer.</p>
+    <p>Fix: reject the invalid combination at validation time. This catches the error before any ISO is generated, and removes the need for the lower-layer fallthrough check:</p>
+      <pre><code class="language-diff"> switch *y.OS {
+ case limatype.LINUX, limatype.DARWIN, limatype.FREEBSD, limatype.WINDOWS:
++    if *y.OS == limatype.WINDOWS &amp;&amp; *y.Arch != limatype.X8664 &amp;&amp; *y.Arch != limatype.AARCH64 {
++        errs = errors.Join(errs, fmt.Errorf(&quot;field `arch` for `os: Windows` must be %q or %q; got %q&quot;, limatype.X8664, limatype.AARCH64, *y.Arch))
++    }
+ default:
+     errs = errors.Join(errs, fmt.Errorf(&quot;field `os` must be one of %q; got %q&quot;, limatype.OSTypes, *y.OS))
+ }</code></pre>
+    <p>Make <code>ExecuteTemplateAutounattend</code>&#39;s switch exhaustive afterward (return an error in the default branch rather than silently selecting amd64), so a future caller cannot reintroduce the silent path.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I6">
+        <span class="finding-num">I6.</span> Windows path silently drops <code>mounts</code>, <code>provision</code>, <code>bootScripts</code> rather than rejecting them at validation <span class="pill pill-gemini">Gemini</span><a href="#I6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.go#L388-L407">pkg/cidata/cidata.go</a></div>
+      <pre data-start="388" data-line="393-402"><code class="language-go">	args, err := templateArgs(ctx, true, instDir, name, instConfig, udpDNSLocalPort, tcpDNSLocalPort, vsockPort, virtioPort, noCloudInit, rosettaEnabled, rosettaBinFmt)
+	if err != nil {
+		return &quot;&quot;, err
+	}
+
+	// Windows guests use autounattend.xml instead of cloud-init.
+	if *instConfig.OS == limatype.WINDOWS {
+		var winArch string
+		if instConfig.Arch != nil &amp;&amp; *instConfig.Arch == limatype.AARCH64 {
+			winArch = &quot;arm64&quot;
+		} else {
+			winArch = &quot;amd64&quot;
+		}
+		return generateWindowsISO(args, instDir, winArch)
+	}
+
+	if err := ValidateTemplateArgs(args); err != nil {
+		return &quot;&quot;, err
+	}
+</code></pre>
+    <p>The Windows branch returns from <code>GenerateISO9660</code> immediately after writing the autounattend ISO. It does not run <code>drv.BootScripts()</code>, does not loop over <code>instConfig.Provision</code>, and does not include any <code>Mount</code> entries. A user copying their existing Linux <code>lima.yaml</code> (with <code>mounts:</code>, <code>provision:</code>, or driver-supplied boot scripts) gets no warning that those blocks are ignored — the instance simply starts without them. The trap matters most for <code>provision</code>, where users will read their scripts in the YAML and expect them to run.</p>
+    <p>Fix: reject the unsupported blocks at validation so users fail fast. The error message should name the unsupported field, not the OS, so the user knows what to remove:</p>
+      <pre><code class="language-diff"> switch *y.OS {
+ case limatype.LINUX, limatype.DARWIN, limatype.FREEBSD, limatype.WINDOWS:
++    if *y.OS == limatype.WINDOWS {
++        if len(y.Provision) &gt; 0 {
++            errs = errors.Join(errs, errors.New(&quot;field `provision` is not yet supported for Windows guests&quot;))
++        }
++        if len(y.Mounts) &gt; 0 {
++            errs = errors.Join(errs, errors.New(&quot;field `mounts` is not yet supported for Windows guests&quot;))
++        }
++    }</code></pre>
+    <p>When the integration in <strong>I3</strong> lands, lift the restrictions one at a time so the validation matches what the driver actually implements.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I7">
+        <span class="finding-num">I7.</span> <code>generateWindowsISO</code> runs the full Unix <code>templateArgs</code> pipeline whose output is then thrown away <span class="pill pill-claude">Claude</span><a href="#I7" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.go#L383-L407">pkg/cidata/cidata.go</a></div>
+      <pre data-start="383" data-line="388-402"><code class="language-go">}
+
+// GenerateISO9660 generates the cidata ISO9660 image (or directory, for noCloudInit)
+// in instDir. It returns the instance ID, which changes on every boot.
+func GenerateISO9660(ctx context.Context, drv driver.Driver, instDir, name string, instConfig *limatype.LimaYAML, udpDNSLocalPort, tcpDNSLocalPort int, guestAgentBinary, nerdctlArchive string, vsockPort int, virtioPort string, noCloudInit, rosettaEnabled, rosettaBinFmt bool) (string, error) {
+	args, err := templateArgs(ctx, true, instDir, name, instConfig, udpDNSLocalPort, tcpDNSLocalPort, vsockPort, virtioPort, noCloudInit, rosettaEnabled, rosettaBinFmt)
+	if err != nil {
+		return &quot;&quot;, err
+	}
+
+	// Windows guests use autounattend.xml instead of cloud-init.
+	if *instConfig.OS == limatype.WINDOWS {
+		var winArch string
+		if instConfig.Arch != nil &amp;&amp; *instConfig.Arch == limatype.AARCH64 {
+			winArch = &quot;arm64&quot;
+		} else {
+			winArch = &quot;amd64&quot;
+		}
+		return generateWindowsISO(args, instDir, winArch)
+	}
+
+	if err := ValidateTemplateArgs(args); err != nil {
+		return &quot;&quot;, err
+	}
+</code></pre>
+    <p><code>templateArgs()</code> dereferences pointers and runs computations specific to the Linux/Darwin/FreeBSD cloud-init pipeline before Windows ever gets a chance to peel off: <code>*instConfig.MountType</code> (line 196), <code>*instConfig.User.Home</code>/<code>Shell</code>/<code>UID</code> (lines 134-138), <code>*instConfig.GuestInstallPrefix</code>, <code>*instConfig.HostResolver.Enabled</code>, the 9p <code>msize</code> parser, <code>sshutil.DefaultPubKeys</code> (line 184), <code>osutil.DNSAddresses</code>. None of this output reaches the autounattend ISO once <strong>I1</strong> is fixed and substitution happens; the Windows path uses <code>args.Name</code>, <code>args.Hostname</code>, <code>args.User</code>, <code>args.SSHPubKeys</code>, <code>args.TimeZone</code>, and <code>args.IID</code>, and nothing else.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.go#L129-L143">pkg/cidata/cidata.go</a></div>
+      <pre data-start="129" data-line="134-138"><code class="language-go">		Debug:              debugutil.Debug,
+		OS:                 *instConfig.OS,
+		BootScripts:        bootScripts,
+		Name:               name,
+		Hostname:           hostname.FromInstName(name), // TODO: support customization
+		User:               *instConfig.User.Name,
+		Comment:            removeControlChars(*instConfig.User.Comment),
+		Home:               *instConfig.User.Home,
+		Shell:              *instConfig.User.Shell,
+		UID:                *instConfig.User.UID,
+		GuestInstallPrefix: *instConfig.GuestInstallPrefix,
+		UpgradePackages:    *instConfig.UpgradePackages,
+		Containerd:         Containerd{System: *instConfig.Containerd.System, User: *instConfig.Containerd.User, Archive: archive},
+		SlirpNICName:       networks.SlirpNICName,
+</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.go#L179-L201">pkg/cidata/cidata.go</a></div>
+      <pre data-start="179" data-line="184-196"><code class="language-go">	}
+
+	// change instance id on every boot so network config will be processed again
+	args.IID = fmt.Sprintf(&quot;iid-%d&quot;, time.Now().Unix())
+
+	pubKeys, err := sshutil.DefaultPubKeys(ctx, *instConfig.SSH.LoadDotSSHPubKeys)
+	if err != nil {
+		return nil, err
+	}
+	if len(pubKeys) == 0 {
+		return nil, errors.New(&quot;no SSH key was found, run `ssh-keygen`&quot;)
+	}
+	for _, f := range pubKeys {
+		args.SSHPubKeys = append(args.SSHPubKeys, f.Content)
+	}
+
+	var fstype string
+	switch *instConfig.MountType {
+	case limatype.REVSSHFS:
+		fstype = &quot;sshfs&quot;
+	case limatype.NINEP:
+		fstype = &quot;9p&quot;
+		if *instConfig.OS == limatype.FREEBSD {</code></pre>
+    <p>Two consequences. First, a host with no SSH key (the <code>len(pubKeys) == 0</code> check at line 188), an unreadable resolv.conf, or a 9p mount with an unparseable <code>msize</code> aborts Windows ISO generation with an error from the Linux pipeline. Second, the design intent is the opposite of how the code is structured: Windows should not depend on the Unix pipeline staying happy. The <code>TODO: Split into per-OS template args (Unix vs Windows)</code> at <a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L89"><code>pkg/cidata/template.go:89</code></a> already flags this.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L84-L94">pkg/cidata/template.go</a></div>
+      <pre data-start="84" data-line="89"><code class="language-go">	FSType string
+	FSArgs []string
+}
+
+// TemplateArgs holds all data needed to render provisioning templates.
+// TODO: Split into per-OS template args (Unix vs Windows) to avoid carrying irrelevant fields.
+type TemplateArgs struct {
+	Debug                           bool
+	OS                              limatype.OS
+	Name                            string // instance name
+	Hostname                        string // instance hostname</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.go#L183-L193">pkg/cidata/cidata.go</a></div>
+      <pre data-start="183" data-line="188"><code class="language-go">
+	pubKeys, err := sshutil.DefaultPubKeys(ctx, *instConfig.SSH.LoadDotSSHPubKeys)
+	if err != nil {
+		return nil, err
+	}
+	if len(pubKeys) == 0 {
+		return nil, errors.New(&quot;no SSH key was found, run `ssh-keygen`&quot;)
+	}
+	for _, f := range pubKeys {
+		args.SSHPubKeys = append(args.SSHPubKeys, f.Content)
+	}</code></pre>
+    <p>Fix: short-circuit the OS check before calling <code>templateArgs</code>, and supply Windows-specific arg construction. A minimal split:</p>
+      <pre><code class="language-go">if *instConfig.OS == limatype.WINDOWS {
+    args, err := windowsTemplateArgs(ctx, instDir, name, instConfig)
+    if err != nil {
+        return &quot;&quot;, err
+    }
+    return generateWindowsISO(args, instDir, args.WinArch)
+}
+args, err := templateArgs(ctx, true, instDir, name, instConfig, udpDNSLocalPort, tcpDNSLocalPort, vsockPort, virtioPort, noCloudInit, rosettaEnabled, rosettaBinFmt)</code></pre>
+    <p><code>windowsTemplateArgs</code> builds only <code>Name</code>, <code>Hostname</code>, <code>User</code>, <code>SSHPubKeys</code>, <code>TimeZone</code>, <code>IID</code>, and the chosen arch.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> <code>TestAutounattend</code> only renders amd64 <span class="pill pill-codex">Codex</span> <span class="pill pill-claude">Claude</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template_test.go#L168-L182">pkg/cidata/template_test.go</a></div>
+      <pre data-start="168" data-line="173-177"><code class="language-go">			assert.Assert(t, strings.Contains(string(b), &quot;mounts:&quot;))
+		}
+	}
+}
+
+func TestAutounattend(t *testing.T) {
+	args := &amp;TemplateArgs{
+		Name: &quot;default&quot;,
+	}
+	output, err := ExecuteTemplateAutounattend(args, &quot;amd64&quot;)
+	assert.NilError(t, err)
+	t.Log(string(output))
+
+	// Verify the output is well-formed XML
+	assert.Assert(t, xml.Unmarshal(output, new(any)) == nil, &quot;output is not valid XML&quot;)</code></pre>
+    <p>The arm64 template adds 239 lines, none of them covered by the test. A syntax or placeholder regression in <code>cidata.TEMPLATE.d.Windows.arm64/autounattend.xml</code> would not be caught. The fix is a small refactor to a table-driven test:</p>
+      <pre><code class="language-diff">-    output, err := ExecuteTemplateAutounattend(args, &quot;amd64&quot;)
+-    assert.NilError(t, err)
++    for _, arch := range []string{&quot;amd64&quot;, &quot;arm64&quot;} {
++        t.Run(arch, func(t *testing.T) {
++            output, err := ExecuteTemplateAutounattend(args, arch)
++            assert.NilError(t, err)
++            assert.Assert(t, xml.Unmarshal(output, new(any)) == nil)
++            assert.Assert(t, strings.Contains(string(output), &quot;processorArchitecture=\&quot;&quot;+arch+&quot;\&quot;&quot;))
++        })
++    }</code></pre>
+    <p>Once <strong>I1</strong> is fixed, extend the test to assert that a non-placeholder key appears in the rendered output, so the placeholder cannot silently return as a regression.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> No validation that the configured <code>vmType</code> supports Windows <span class="pill pill-claude">Claude</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+    <p>The PR adds <code>WINDOWS</code> to the accepted OS list but does not constrain <code>VMType</code>. VZ has no vTPM (issue <a href="https://github.com/lima-vm/lima/issues/4852" class="gh-ref" data-title="Support for Windows guests" data-state="open" data-type="issue">#4852</a> calls this out explicitly) and WSL2 cannot host a Windows guest. A user can write <code>os: Windows, vmType: vz</code> and validation accepts it; the failure surfaces deep in driver startup. Reject the combination up front:</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/limayaml/validate.go#L48-L58">pkg/limayaml/validate.go</a></div>
+      <pre data-start="48" data-line="53"><code class="language-go">			errs = errors.Join(errs, fmt.Errorf(&quot;template requires Lima version %q; this is only %q&quot;, *y.MinimumLimaVersion, version.Version))
+		}
+	}
+
+	switch *y.OS {
+	case limatype.LINUX, limatype.DARWIN, limatype.FREEBSD, limatype.WINDOWS:
+	default:
+		errs = errors.Join(errs, fmt.Errorf(&quot;field `os` must be one of %q; got %q&quot;, limatype.OSTypes, *y.OS))
+	}
+	if !slices.Contains(limatype.ArchTypes, *y.Arch) {
+		errs = errors.Join(errs, fmt.Errorf(&quot;field `arch` must be one of %v; got %q&quot;, limatype.ArchTypes, *y.Arch))</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> Empty password for <code>lima</code> account + OpenSSH&#39;s <code>PermitEmptyPasswords no</code> default <span class="pill pill-gemini">Gemini</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.TEMPLATE.d.Windows.amd64/autounattend.xml#L159-L172">pkg/cidata/cidata.TEMPLATE.d.Windows.amd64/autounattend.xml</a></div>
+      <pre data-start="159" data-line="164-167"><code class="language-xml">        &lt;LocalAccounts&gt;
+          &lt;LocalAccount wcm:action=&quot;add&quot;&gt;
+            &lt;Name&gt;lima&lt;/Name&gt;
+            &lt;DisplayName&gt;lima&lt;/DisplayName&gt;
+            &lt;Group&gt;Administrators&lt;/Group&gt;
+            &lt;Password&gt;
+              &lt;Value&gt;&lt;/Value&gt;
+              &lt;PlainText&gt;true&lt;/PlainText&gt;
+            &lt;/Password&gt;
+          &lt;/LocalAccount&gt;
+        &lt;/LocalAccounts&gt;
+      &lt;/UserAccounts&gt;
+      &lt;AutoLogon&gt;
+        &lt;Enabled&gt;true&lt;/Enabled&gt;</code></pre>
+    <p>The local account is created with an empty password so AutoLogon can run. Once <strong>I1</strong> is fixed and authentication uses SSH keys, the empty password is acceptable. But corporate Group Policy frequently restricts empty-password accounts even for network logons that authenticate via keys; document the choice in the template&#39;s header comment and consider whether to generate a random password the user never needs to know.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> <code>arch</code> parameter to <code>ExecuteTemplateAutounattend</code> is typed as <code>string</code> instead of <code>limatype.Arch</code> <span class="pill pill-claude">Claude</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L219-L229">pkg/cidata/template.go</a></div>
+      <pre data-start="219" data-line="224"><code class="language-go">	return layout, nil
+}
+
+// ExecuteTemplateAutounattend renders the Windows autounattend.xml template.
+// arch should be &quot;amd64&quot; or &quot;arm64&quot;. Validation is skipped since ValidateTemplateArgs is Unix-specific.
+func ExecuteTemplateAutounattend(args *TemplateArgs, arch string) ([]byte, error) {
+	var templateFS embed.FS
+	var root string
+	switch arch {
+	case &quot;arm64&quot;:
+		templateFS = windowsArm64TemplateFS</code></pre>
+    <p>The caller in <a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.go#L395-L401"><code>cidata.go:395-401</code></a> maps <code>limatype.AARCH64</code> to the string <code>&quot;arm64&quot;</code>; the dev tool in <code>hack/gen-autounattend-iso.go</code> accepts a <code>-arch</code> flag whose values are also <code>&quot;amd64&quot;</code>/<code>&quot;arm64&quot;</code>. Push the dispatch inside <code>ExecuteTemplateAutounattend</code> and accept <code>limatype.Arch</code> directly. This centralizes the lookup, removes the duplicate switch, and lets the function return a typed error for unsupported architectures (see <strong>I5</strong>).</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.go#L390-L406">pkg/cidata/cidata.go</a></div>
+      <pre data-start="390" data-line="395-401"><code class="language-go">		return &quot;&quot;, err
+	}
+
+	// Windows guests use autounattend.xml instead of cloud-init.
+	if *instConfig.OS == limatype.WINDOWS {
+		var winArch string
+		if instConfig.Arch != nil &amp;&amp; *instConfig.Arch == limatype.AARCH64 {
+			winArch = &quot;arm64&quot;
+		} else {
+			winArch = &quot;amd64&quot;
+		}
+		return generateWindowsISO(args, instDir, winArch)
+	}
+
+	if err := ValidateTemplateArgs(args); err != nil {
+		return &quot;&quot;, err
+	}</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> Two arch directories invert the existing embed-naming convention <span class="pill pill-claude">Claude</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L20-L38">pkg/cidata/template.go</a></div>
+      <pre data-start="20" data-line="25-33"><code class="language-go">//go:embed cidata.TEMPLATE.d
+var templateFS embed.FS
+
+const templateFSRoot = &quot;cidata.TEMPLATE.d&quot;
+
+//go:embed cidata.TEMPLATE.d.Windows.amd64
+var windowsAmd64TemplateFS embed.FS
+
+const windowsAmd64TemplateFSRoot = &quot;cidata.TEMPLATE.d.Windows.amd64&quot;
+
+//go:embed cidata.TEMPLATE.d.Windows.arm64
+var windowsArm64TemplateFS embed.FS
+
+const windowsArm64TemplateFSRoot = &quot;cidata.TEMPLATE.d.Windows.arm64&quot;
+
+type CACerts struct {
+	RemoveDefaults *bool
+	Trusted        []Cert
+}</code></pre>
+    <p>The existing root is <code>cidata.TEMPLATE.d/</code>, with subdirectories like <code>util.FreeBSD</code> and <code>boot.Linux</code>. The new directories split on <code>.</code> at the top level. Nest the new directories under the existing root (<code>cidata.TEMPLATE.d/autounattend.Windows.amd64/</code>) or under a single Windows root (<code>cidata.TEMPLATE.d.Windows/amd64/</code>) to keep the embed pattern consistent and remove one of the two <code>embed.FS</code> declarations.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> <code>args.IID</code> is generated but never reaches the Windows ISO <span class="pill pill-claude">Claude</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+    <p><code>templateArgs()</code> sets <code>args.IID = fmt.Sprintf(&quot;iid-%d&quot;, time.Now().Unix())</code> on every call. The Linux path uses the IID to invalidate per-boot network config. The Windows path returns <code>args.IID</code> from <code>generateWindowsISO</code>, but the value is not embedded anywhere — it serves no purpose. Once <strong>I7</strong> is fixed and Windows builds its own args, the IID can be generated locally or omitted; for now this is a symptom of the shared pipeline.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> <code>GenerateISO9660</code>&#39;s docstring no longer matches behavior <span class="pill pill-claude">Claude</span><a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.go#L380-L391">pkg/cidata/cidata.go</a></div>
+      <pre data-start="380" data-line="385-386"><code class="language-go">
+	os.RemoveAll(filepath.Join(instDir, filenames.CloudConfig)) // delete existing
+	return os.WriteFile(filepath.Join(instDir, filenames.CloudConfig), config, 0o444)
+}
+
+// GenerateISO9660 generates the cidata ISO9660 image (or directory, for noCloudInit)
+// in instDir. It returns the instance ID, which changes on every boot.
+func GenerateISO9660(ctx context.Context, drv driver.Driver, instDir, name string, instConfig *limatype.LimaYAML, udpDNSLocalPort, tcpDNSLocalPort int, guestAgentBinary, nerdctlArchive string, vsockPort int, virtioPort string, noCloudInit, rosettaEnabled, rosettaBinFmt bool) (string, error) {
+	args, err := templateArgs(ctx, true, instDir, name, instConfig, udpDNSLocalPort, tcpDNSLocalPort, vsockPort, virtioPort, noCloudInit, rosettaEnabled, rosettaBinFmt)
+	if err != nil {
+		return &quot;&quot;, err
+	}</code></pre>
+    <p>The function now also produces an autounattend ISO (volume label <code>autounattend</code>, not <code>cidata</code>) for Windows. Update the comment so a reader does not have to inspect the body to discover the OS branch:</p>
+      <pre><code class="language-diff">-// GenerateISO9660 generates the cidata ISO9660 image (or directory, for noCloudInit)
+-// in instDir. It returns the instance ID, which changes on every boot.
++// GenerateISO9660 generates the cidata ISO9660 image (or directory, for noCloudInit)
++// in instDir, or an autounattend ISO for Windows guests. It returns the
++// instance ID, which changes on every boot.</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S8">
+        <span class="finding-num">S8.</span> Local variable <code>templateFS</code> shadows the package-level <code>templateFS</code> <span class="pill pill-claude">Claude</span><a href="#S8" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L220-L230">pkg/cidata/template.go</a></div>
+      <pre data-start="220" data-line="225"><code class="language-go">}
+
+// ExecuteTemplateAutounattend renders the Windows autounattend.xml template.
+// arch should be &quot;amd64&quot; or &quot;arm64&quot;. Validation is skipped since ValidateTemplateArgs is Unix-specific.
+func ExecuteTemplateAutounattend(args *TemplateArgs, arch string) ([]byte, error) {
+	var templateFS embed.FS
+	var root string
+	switch arch {
+	case &quot;arm64&quot;:
+		templateFS = windowsArm64TemplateFS
+		root = windowsArm64TemplateFSRoot</code></pre>
+    <p>A package-level <code>templateFS</code> exists at line 21. Rename the local to <code>fsys</code> or similar so a reader does not mistake which <code>templateFS</code> is in scope.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L16-L26">pkg/cidata/template.go</a></div>
+      <pre data-start="16" data-line="21"><code class="language-go">	&quot;github.com/lima-vm/lima/v2/pkg/limatype&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/textutil&quot;
+)
+
+//go:embed cidata.TEMPLATE.d
+var templateFS embed.FS
+
+const templateFSRoot = &quot;cidata.TEMPLATE.d&quot;
+
+//go:embed cidata.TEMPLATE.d.Windows.amd64
+var windowsAmd64TemplateFS embed.FS</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S9">
+        <span class="finding-num">S9.</span> Inconsistent image-index expression between arches <span class="pill pill-claude">Claude</span><a href="#S9" class="pilcrow">&#182;</a>
+      </div>
+    <p>amd64 uses the short <code>&lt;OSImageIndex&gt;6&lt;/OSImageIndex&gt;</code> directly under <code>&lt;OSImage&gt;</code>. arm64 uses the verbose <code>&lt;InstallFrom&gt;&lt;MetaData&gt;&lt;Key&gt;/IMAGE/INDEX&lt;/Key&gt;</code> form. Both are valid; pick one for consistency. Also, hardcoding Pro forces the user to edit the template if they have a single-edition or Enterprise ISO. Surface this via <code>TemplateArgs</code> or a <code>lima.yaml</code> knob once the POC graduates.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S10">
+        <span class="finding-num">S10.</span> Unchecked <code>os.Stat</code> error in the dev tool <span class="pill pill-claude">Claude</span><a href="#S10" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/hack/gen-autounattend-iso.go#L68-L78">hack/gen-autounattend-iso.go</a></div>
+      <pre data-start="68" data-line="73"><code class="language-go">	if err := iso9660util.Write(*outPath, &quot;autounattend&quot;, layout, iso9660util.WithJoliet()); err != nil {
+		fmt.Fprintf(os.Stderr, &quot;error writing ISO: %v\n&quot;, err)
+		os.Exit(1)
+	}
+
+	fi, _ := os.Stat(*outPath)
+	fmt.Fprintf(os.Stdout, &quot;Wrote %s (%d bytes)\n&quot;, *outPath, fi.Size())
+
+	if *arch == &quot;amd64&quot; {
+		printAmd64Usage(*outPath)
+	} else {</code></pre>
+    <p>If <code>os.Stat</code> returns an error, <code>fi</code> is nil and <code>fi.Size()</code> panics. The failure is unlikely on the happy path, but easy to remove: use <code>len(...)</code> over the encoded payload, or check the error. Minor — this is a dev tool, not production code.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>The &quot;template&quot; infrastructure is unused</strong> <em>(in-scope)</em> <span class="pill pill-claude">Claude</span> — Neither autounattend.xml contains a Go template directive, yet both are run through <code>textutil.ExecuteTemplate</code> and called &quot;templates.&quot; Either delete the templating step (treat them as plain embedded XML rendered with <code>os.WriteFile</code>) or actually substitute the parts that vary per instance — SSH keys, hostname, username, timezone, image index, EFI partition size, account password. The current state is the worst of both worlds: the dispatcher pretends to render, but every per-instance value is lost. This is the root cause of <strong>I1</strong> and several suggestions.</li>
+      <li><em></em>The standalone hack tool tests a different system than <code>limactl start</code> runs<em></em> <em>(in-scope)</em> <span class="pill pill-codex">Codex</span> — <code>hack/gen-autounattend-iso.go</code> uses the tested SATA/NVMe/USB device choices in its <code>printAmd64Usage</code>/<code>printArm64Usage</code> output. Production startup goes through the generic QEMU path (see <strong>I3</strong>). Moving the Windows device selection into the QEMU driver so the dev tool and production path share the same device graph would make the dev tool&#39;s tested commands serve as a contract the driver must match.</li>
+      <li><em></em><code>templateArgs</code> is doing two jobs at once<em></em> <em>(future)</em> <span class="pill pill-claude">Claude</span> — <code>templateArgs</code> is the Unix cloud-init prep stage and the single entry point for any future &quot;build args for an OS-specific provisioning artifact.&quot; Splitting it into <code>templateArgsCommon</code> (Name, IID, Hostname, User, SSHPubKeys, TimeZone) and <code>templateArgsUnix</code> (everything else) would let the Windows path be self-contained and decouple it from the FreeBSD/9p/MountType branches. The TODO at <a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L89"><code>pkg/cidata/template.go:89</code></a> already flags this; <strong>I7</strong> turns it into a concrete dependency for fixing <strong>I1</strong>.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>The dispatch on <code>*instConfig.OS == limatype.WINDOWS</code> sits at the natural seam in <code>GenerateISO9660</code>, so the Linux/Darwin/FreeBSD paths are untouched <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span>.</li>
+      <li>Joliet labeling is correct, and the inline comment at <a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/cidata.go#L520-L522"><code>cidata.go:520-522</code></a> explains <em>why</em> — ISO9660 Level 1&#39;s 8.3 truncation would hide <code>autounattend.xml</code> from Windows Setup <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-gemma">Gemma</span>.</li>
+      <li>Using NVMe on arm64 instead of carrying <code>virtio-win.iso</code> is the right tradeoff: WinPE ARM64 has <code>stornvme.sys</code> built in, removing an external download and a license question <span class="pill pill-claude">Claude</span> <span class="pill pill-gemma">Gemma</span>.</li>
+      <li>Keeping separate amd64 and arm64 templates is reasonable while the install device layout and image indexes differ. Once the substitution work in <strong>I1</strong> lands, a single template with <code>{{ if eq .Arch &quot;arm64&quot; }}</code> blocks would reduce divergence — but premature deduplication would tie the hands of arch-specific fixes <span class="pill pill-codex">Codex</span> <span class="pill pill-gemma">Gemma</span>.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The single new unit test (<code>TestAutounattend</code>) verifies that the rendered XML parses with <code>xml.Unmarshal</code> and contains a handful of fixed substrings. It does not exercise:</p>
+    <ol>
+      <li>The arm64 template (zero coverage) — see <strong>S1</strong>.</li>
+      <li>Substitution of <code>SSHPubKeys</code>, <code>Hostname</code>, <code>User</code>, <code>TimeZone</code> — the test passes today because nothing is substituted. Once <strong>I1</strong> is fixed, assertions on the rendered values would prevent regression back to placeholder strings.</li>
+      <li>The <code>generateWindowsISO</code> function itself — no test exercises the end-to-end <code>OS=Windows</code> branch through <code>GenerateISO9660</code>.</li>
+      <li>The OS+Arch validation combinations from <strong>I5</strong> and <strong>S2</strong>.</li>
+      <li>The PowerShell <code>FirstLogonCommands</code> content — a unit test cannot execute PowerShell on Linux/macOS CI, but a textual lint that rejects backtick escapes inside single-quoted strings would have caught <strong>I2</strong> at CI time. The same lint could enforce that <code>-replace</code> patterns are anchored when modifying <code>sshd_config</code>.</li>
+    </ol>
+    <p><code>xml.Unmarshal(output, new(any))</code> is a weak validator — it accepts any well-formed XML and does not validate against the unattend schema, so structural errors (mistyped element names, wrong namespaces, missing required children) pass silently. If practical, run the rendered XML through <code>xsdvalidate</code> against <code>unattend.xsd</code> from the Windows ADK, or parse the rendered output and assert on specific elements rather than substring-matching.</p>
+    <p>No test covers <code>limactl create</code> or <code>limactl start</code> for <code>os: Windows</code> end to end. <strong>I3</strong> and <strong>I4</strong> mean any such test would fail today — until the driver work lands, integration coverage stays at zero.</p>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>The PR description&#39;s claim that &quot;OpenSSH server is installed and started during OOBE so Lima&#39;s host-agent can connect&quot; is not yet true (see <strong>I1</strong>). Update the description to clarify that the POC writes a placeholder key and that host-agent integration is a follow-up — otherwise a reader of the merged commit will be misled about the state of the integration.</li>
+      <li><code>GenerateISO9660</code>&#39;s docstring is out of date — see <strong>S7</strong>.</li>
+      <li>The <code>TODO</code> at <a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L89"><code>pkg/cidata/template.go:89</code></a> (&quot;Split into per-OS template args (Unix vs Windows) to avoid carrying irrelevant fields&quot;) is appropriate; <strong>I7</strong> expands on it.</li>
+      <li><code>hack/gen-autounattend-iso.go</code> is a useful developer aid but is not mentioned in any README or <code>CONTRIBUTING.md</code>. Once the POC graduates, document how a developer iterates on the answer files using this tool.</li>
+      <li>Once Windows is more than a POC, a <code>templates/windows.yaml</code> example and a docs page under <code>website/</code> are expected by Lima&#39;s existing conventions.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>A single commit bundling the OS-type registration, the dispatcher seam, the two answer files, the dev tool, the unit test, and the validation changes. For a POC commit, bundling is appropriate — splitting into atomic commits adds review surface without aiding history. Once the POC graduates, the OS-type registration, the dispatcher, the templates, and the driver-device work are natural seams along which to split.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>Code TODO</strong> — <a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L89"><code>pkg/cidata/template.go:89</code></a>: <em>&quot;Split into per-OS template args (Unix vs Windows) to avoid carrying irrelevant fields.&quot;</em> The author already flags this; <strong>I7</strong> turns it into a concrete dependency for fixing <strong>I1</strong>.</li>
+      <li><strong>Code comment</strong> — <a href="https://github.com/lima-vm/lima/blob/f3cd7c9b0c3bbf7df9abcd11e8b2ffb541dce813/pkg/cidata/template.go#L223"><code>pkg/cidata/template.go:223</code></a>: *&quot;Validation is skipped since <code>ValidateTemplateArgs</code> is Unix-specific.&quot;* The comment is accurate today; a future pass should add Windows-specific validation rather than relying on caller discipline (relates to <strong>S2</strong> and <strong>I5</strong>).</li>
+      <li><strong>PR description</strong> — Explicitly tagged POC; testing was done on macOS via QEMU emulation (amd64) and HVF (arm64). Integration with <code>limactl start</code> (driver wiring, vTPM, ISO acquisition) is out of scope for this PR, which makes <strong>I3</strong> and <strong>I4</strong> &quot;expected gaps&quot; rather than blocking bugs — but the gaps still need closing before Lima users can start a Windows guest.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>@AkihiroSuda</strong> raised two inline comments on the previous revision warning against publishing product keys and KMS keys in the template. The author dropped the <code>&lt;ProductKey&gt;</code> block in this revision (replaced with image-index selection), so the substance is addressed. No further action needed.</li>
+      <li><strong>@AkihiroSuda</strong>&#39;s &quot;Can we support the ARM version of Windows?&quot; — addressed by the addition of the arm64 template in this revision.</li>
+      <li><strong>@unsuman</strong>&#39;s &quot;Can you share info about your testing environment?&quot; — answered by @ashwat287 in the same thread.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude"><span class="pill pill-claude">Claude</span> <a href="#claude" class="pilcrow">&#182;</a></h3>
+    <p>Claude carried the review. It produced the largest set of well-grounded findings (1 critical-class issue at root-cause level — the templates-aren&#39;t-templates observation — and three further important issues), the unique PowerShell-escape catch (<strong>I2</strong>), and the only finding that traced the dependency between the broken <code>templateArgs</code> pipeline and the missing substitution (<strong>I7</strong>). Its severity calibration was the most honest of the cloud trio: it labeled the placeholder key as important rather than critical because the PR is explicitly a POC. Its prose included a faintly visible &quot;Let me check a few more things before writing&quot; preamble at the top of the file — a small leak from its planning into the final output that the prompt should address.</p>
+    <h3 id="codex"><span class="pill pill-codex">Codex</span> <a href="#codex" class="pilcrow">&#182;</a></h3>
+    <p>Codex was the only agent that traced the change across packages. Its two unique findings (<strong>I3</strong>, <strong>I4</strong>) — the QEMU device-graph mismatch and the <code>Prepare</code>/guest-agent gap — required reading <code>pkg/instance/start.go</code>, <code>pkg/usrlocal/usrlocal.go</code>, the Makefile, and the QEMU driver, none of which appear in the PR diff. Without Codex this review would have flagged the answer files but missed why <code>limactl start --os Windows</code> will fail in <code>Prepare</code> before any ISO is even read. Its severity calls were consistently sober; it produced no critical-class findings and only one suggestion, leaving room for the others&#39; broader sweeps.</p>
+    <h3 id="gemini"><span class="pill pill-gemini">Gemini</span> <a href="#gemini" class="pilcrow">&#182;</a></h3>
+    <p>Gemini caught the high-visibility placeholder-key issue and labeled it critical (the only critical-class call in the review). Consolidation downgraded the label to important to match the POC framing, but the call was useful: it forced the executive summary to lead with the issue rather than bury it. Gemini also flagged the silent dropping of <code>mounts</code> and <code>provision</code> (<strong>I6</strong>) and produced a clean fix diff for the arch-validation gap (<strong>I5</strong>). It missed the cross-component integration concerns that Codex caught and the PowerShell-escape bug that Claude caught; consistent with prior reviews, it did not use <code>git blame</code> (daily quota) to distinguish regression from pre-existing context.</p>
+    <h3 id="qwen"><span class="pill pill-qwen">Qwen</span> <a href="#qwen" class="pilcrow">&#182;</a></h3>
+    <p>Qwen produced no usable output on either attempt. The first attempt hallucinated file paths under <code>/Users/jan/.claude/projects/lima-review/...</code> instead of using its actual worktree at <code>/var/folders/.../review-qwen-pass-1-*</code>; opencode auto-rejected the reads and the review file landed empty. The second attempt (manual retry) produced a non-conforming &quot;stream of consciousness&quot; doc with no Critical/Important/Suggestions structure, with seven half-formed findings (most marked as &quot;No issue&quot; by the agent itself) and one finding (arch fallback) that overlaps <strong>I5</strong>. No findings from Qwen survived consolidation.</p>
+    <h3 id="gemma"><span class="pill pill-gemma">Gemma</span> <a href="#gemma" class="pilcrow">&#182;</a></h3>
+    <p>Gemma produced a short, technically clean review — one important and one suggestion — but with very limited surface coverage. It marked both autounattend.xml files as &quot;Reviewed, no issues&quot; while every cloud agent flagged at least one critical-class issue inside them. Its sole important finding (&quot;missing validation for Windows guest arguments&quot;) is a true gap but a broad framing that misses the specific failures the cloud trio caught (placeholder keys, hardcoded user, PowerShell bug). Its arch-fallback suggestion duplicates <strong>I5</strong>.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.7</th><th><span class="pill pill-codex">Codex</span> GPT 5.5</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th><th><span class="pill pill-qwen">Qwen</span> 3.6 35B</th><th><span class="pill pill-gemma">Gemma</span> 31B</th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>7m 15s</td><td>5m 50s</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>Findings</td><td>4I 9S</td><td>3I 1S</td><td>3I 1S</td><td>1S</td><td>1I</td></tr>
+        <tr><td>Tool calls</td><td>31 (Bash 17, Read 10, Grep 4)</td><td>46 (shell 46)</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>Design observations</td><td>3</td><td>2</td><td>1</td><td>0</td><td>1</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>2</td><td>2</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>9</td><td>9</td><td>9</td><td>9</td><td>9</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>2</td><td>1</td><td>8</td><td>4</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>4I 9S</strong></td><td><strong>3I 1S</strong></td><td><strong>3I 1S</strong></td><td><strong>1S</strong></td><td><strong>1I</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>1 (C→I)</td><td>0</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Reconciliation:</strong> Gemini&#39;s C1 was downgraded to <strong>I1</strong> (important) — the placeholder key is a real bug, but the PR&#39;s explicit POC framing and the author&#39;s stated &quot;host-agent integration is follow-up&quot; position make &quot;critical&quot; the wrong severity for the scope as defined; the substantive content of the finding remains identical, and it consolidates with the same observations from Claude and Codex.</p>
+    <p>The cloud trio carried this review. Claude provided the deepest single-file analysis (templates-aren&#39;t-templates, PowerShell escape, templateArgs pipeline coupling) and the highest finding density. Codex provided the irreplaceable cross-package integration view (<code>Prepare</code> switch, QEMU device graph) that no other agent reached. Gemini provided the calibration anchor (severity, scope) and the cleanest fix diffs. The local trio added nothing the cloud trio had not already raised; both failed at basic file navigation in their respective sandbox models, and both produced reviews that would have masked rather than highlighted the consequential issues in this PR. On the next deep review of a non-trivial PR, the local agents should probably stay off the pool until the worktree-anchoring issue (see Review Process Notes) is fixed.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>Inject each agent&#39;s actual worktree path into the prompt, colocated with the existing &quot;Read only files inside the working tree&quot; rule in <code>preamble.md</code>. The rule alone is not enough — a model that does not know its own cwd may hallucinate plausible-looking paths under <code>~/.claude/projects/...</code> or similar. Pair the rule with a concrete value, in the same paragraph: &quot;Your working directory is <code>&lt;path&gt;</code>. Read files using paths relative to this directory, or prefix them with this absolute path.&quot; When the rule and the value sit in two separate sections, smaller models follow the rule but resolve paths against a hallucinated cwd. Putting both in one sentence forces the model to use the real value.</li>
+      <li>Add a lint-style review dimension that names &quot;PowerShell, shell, and other escape-sensitive content in static templates&quot; as a thing to flag. The review prompt currently has language about &quot;validation and error handling&quot; and &quot;security and correctness&quot; but no specific cue to check that quoted strings in non-Go scripting languages (PowerShell, bash, batch, awk, sed) actually interpret the escapes the author appears to intend. A static template that looks plausible at a glance can contain a single-quoted PowerShell string with <code></code> <code>r</code>n <code></code> inside that won&#39;t expand — a category of bug that visual inspection misses unless the reviewer is primed to look for it.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>[repo] Lima POC PRs in this codebase are often labeled &quot;POC&quot; in the title and explicitly defer integration work to a follow-up. When reviewing a POC PR, separate &quot;what the POC scaffolds&quot; from &quot;what the POC claims to do today&quot; — the PR description&#39;s claims are part of the review surface and should be checked against the code. A PR that lands a misleading description is one a future reader will mistrust.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
