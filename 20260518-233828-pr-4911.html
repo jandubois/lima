@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260518-233828-pr-4911</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260518-233828-pr-4911</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-05-18 23:38</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/mn-ram">@mn-ram</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/4911" class="gh-ref" data-title="hostagent: stop destroying ga.sock on guest-agent reconnect" data-state="open" data-type="pr">#4911</a> — hostagent: stop destroying ga.sock on guest-agent reconnect</td></tr>
+      <tr><td>Branch</td><td><code>fix/ga-sock-reconnect</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/8a7d899f"><code>8a7d899f</code></a> hostagent: stop destroying ga.sock on guest-agent reconnect</td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.7 (effort: xhigh), <span class="pill pill-codex">Codex</span> GPT 5.5 (effort: xhigh), <span class="pill pill-gemini">Gemini</span> 3.1 Pro (effort: default), <span class="pill pill-qwen">Qwen</span> 3.6 35B (effort: high), <span class="pill pill-gemma">Gemma</span> 31B (effort: high)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; the diagnosis and surgical mutex+cancel-before-forward approach are correct, but every reviewer flags the same three unaddressed items from prior PR feedback: <code>context.Background()</code> on the cancel call, the cleanup path that bypasses the new mutex, and the absence of an automated regression test.</td></tr>
+      <tr><td>Wall-clock time</td><td><code>1 h 18 min 19 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR correctly diagnoses a long-standing race (issue <a href="https://github.com/lima-vm/lima/issues/2227" class="gh-ref" data-title="Guest agent sometimes becomes unavailable from the host" data-state="open" data-type="issue">#2227</a>) where <code>watchGuestAgentEvents</code> and the inotify-startup goroutine both call <code>forwardSSH(verbForward, …)</code> on the same local socket path with no synchronization and no <code>-O cancel</code> of the prior forward, leaving <code>ga.sock</code> permanently missing after the first failed bind. The fix introduces <code>reForwardGuestAgentSock</code>, which serializes via a new <code>gaSockForwardMu</code> and issues a best-effort <code>verbCancel</code> before <code>verbForward</code>. The approach is sound and surgical (~40 lines, one file, no API changes).</p>
+    <p>The structure of this consolidated review: 0 Critical, 3 Important, 2 Suggestions, 1 design concern. All three Important findings were raised in Jan&#39;s most recent general comment on the PR and remain unaddressed in commit <a href="https://github.com/lima-vm/lima/commit/8a7d899f"><code>8a7d899f</code></a>. None of the Important findings is a regression in user-facing behaviour — the fix is a net improvement — but they are correctness/hygiene gaps that should land before merge.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> <code>context.Background()</code> detaches the cancel call from caller lifecycle <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-qwen">Qwen</span> <span class="pill pill-gemma">Gemma</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/8a7d899fa2314bfa64aa733031ed79b1c713e6b7/pkg/hostagent/hostagent.go#L979-L989">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="979" data-line="984"><code class="language-go">	defer a.gaSockForwardMu.Unlock()
+	sshAddress, sshPort := a.sshAddressPort()
+	// Best-effort teardown of any prior forward registered with the
+	// ControlMaster. Errors are expected (e.g. on the very first call when
+	// no forward exists yet) and intentionally ignored.
+	_ = forwardSSH(context.Background(), a.sshConfig, sshAddress, sshPort, localUnix, remoteUnix, verbCancel, false)
+	if err := forwardSSH(ctx, a.sshConfig, sshAddress, sshPort, localUnix, remoteUnix, verbForward, false); err != nil {
+		logrus.WithError(err).Warn(&quot;failed to (re-)establish forward for the guest agent socket; will retry&quot;)
+	}
+}
+</code></pre>
+    <p>The in-source comment justifies ignoring the <em>error</em>, not detaching the <em>lifetime</em>. <code>forwardSSH</code> shells out via <code>exec.CommandContext(ctx, …)</code> and then waits in <code>cmd.Output()</code>, so passing <code>context.Background()</code> means an unresponsive SSH ControlMaster cannot be interrupted by hostagent shutdown: the goroutine sits in <code>cmd.Output()</code> while it holds <code>gaSockForwardMu</code>, blocking any concurrent caller of the helper for the full SSH command timeout. The immediately following <code>verbForward</code> call uses the real <code>ctx</code>, making the asymmetry harder to reason about.</p>
+    <p>Jan flagged this both inline at line 984 (https://github.com/lima-vm/lima/pull/4911#discussion_r3244931774) and as item #1 in his follow-up general comment; the latest commit has not addressed it.</p>
+    <p>Fix:</p>
+      <pre><code class="language-diff">-	_ = forwardSSH(context.Background(), a.sshConfig, sshAddress, sshPort, localUnix, remoteUnix, verbCancel, false)
++	_ = forwardSSH(ctx, a.sshConfig, sshAddress, sshPort, localUnix, remoteUnix, verbCancel, false)</code></pre>
+    <p>Qwen also suggested an alternative: wrap the cancel in a short <code>context.WithTimeout(ctx, 3*time.Second)</code> so the lock can never be held longer than that even if SSH hangs. This is reasonable defense-in-depth but not strictly needed — the plain <code>ctx</code> swap is enough to honor shutdown.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> Shutdown cleanup bypasses <code>gaSockForwardMu</code> <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-qwen">Qwen</span> <span class="pill pill-gemma">Gemma</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/8a7d899fa2314bfa64aa733031ed79b1c713e6b7/pkg/hostagent/hostagent.go#L722-L736">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="722" data-line="727-731"><code class="language-go">				if err := forwardSSH(ctx, a.sshConfig, sshAddress, sshPort, local, rule.GuestSocket, verbCancel, rule.Reverse); err != nil {
+					errs = append(errs, err)
+				}
+			}
+		}
+		if a.driver.ForwardGuestAgent(ctx) {
+			if err := forwardSSH(ctx, a.sshConfig, sshAddress, sshPort, localUnix, remoteUnix, verbCancel, false); err != nil {
+				errs = append(errs, err)
+			}
+		}
+		return errors.Join(errs...)
+	})
+
+	go func() {
+		if a.instConfig.MountInotify == nil || !*a.instConfig.MountInotify {</code></pre>
+    <p>This is the symmetric problem to the one the PR fixes. The cleanup callback registered at line 715 runs during <code>a.close()</code>, which executes <strong>before</strong> <code>cancelHA()</code> cancels the context for <code>watchGuestAgentEvents</code>. That means while cleanup is executing <code>forwardSSH(verbCancel, …)</code> on the guest-agent socket, the reconnect loop and the inotify goroutine are still alive and may concurrently call <code>reForwardGuestAgentSock</code>. The race the new mutex was introduced to prevent (concurrent <code>os.RemoveAll</code> / bind on the same path during a ControlMaster mutation) is reopened during the shutdown window.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/8a7d899fa2314bfa64aa733031ed79b1c713e6b7/pkg/hostagent/hostagent.go#L710-L720">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="710" data-line="715"><code class="language-go">	}
+
+	localUnix := filepath.Join(a.instDir, filenames.GuestAgentSock)
+	remoteUnix := &quot;/run/lima-guestagent.sock&quot;
+
+	a.cleanUp(func() error {
+		logrus.Debugf(&quot;Stop forwarding unix sockets&quot;)
+		var errs []error
+		sshAddress, sshPort := a.sshAddressPort()
+		for _, rule := range a.instConfig.PortForwards {
+			if rule.GuestSocket != &quot;&quot; {</code></pre>
+    <p>The prior cleanup registered at line 762 sets <code>a.client = nil</code>, which causes the next iteration of the reconnect loop to take the <code>client == nil</code> branch and call <code>reForwardGuestAgentSock</code> — concurrently with the cleanup at line 728 doing <code>verbCancel</code> unsynchronized. The defer in <code>forwardSSH(verbCancel)</code> unlinks the socket file, so the worst case is shutdown leaving a fresh <code>ga.sock</code> on disk that the next start will recover from. Real but bounded.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/8a7d899fa2314bfa64aa733031ed79b1c713e6b7/pkg/hostagent/hostagent.go#L757-L767">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="757" data-line="762"><code class="language-go">		}
+	}()
+
+	// ensure close before ctx is cancelled
+	a.cleanUp(a.grpcPortForwarder.Close)
+	a.cleanUp(func() error {
+		a.clientMu.Lock()
+		defer a.clientMu.Unlock()
+		if a.client == nil {
+			return nil
+		}</code></pre>
+    <p>This is item #3 in Jan&#39;s follow-up general comment.</p>
+    <p>Fix: extend the mutex to the cleanup path (or add a small locked helper):</p>
+      <pre><code class="language-diff"> if a.driver.ForwardGuestAgent(ctx) {
++    a.gaSockForwardMu.Lock()
+     if err := forwardSSH(ctx, a.sshConfig, sshAddress, sshPort, localUnix, remoteUnix, verbCancel, false); err != nil {
+         errs = append(errs, err)
+     }
++    a.gaSockForwardMu.Unlock()
+ }</code></pre>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> No automated regression test for a goroutine-timing fix <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-qwen">Qwen</span> <span class="pill pill-gemma">Gemma</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+    <p>The PR diffs only production code. The failure being fixed is sensitive to subtle goroutine timing on real SSH ControlMaster state, and it bit users for more than two years (<a href="https://github.com/lima-vm/lima/issues/2227" class="gh-ref" data-title="Guest agent sometimes becomes unavailable from the host" data-state="open" data-type="issue">#2227</a>) before being correctly diagnosed. Without a test, the next refactor that touches this area — for example a &quot;consolidate the two reconnect loops&quot; change — can quietly reintroduce the bug, and the manual reproducer in the PR description is the only signal a regression occurred.</p>
+    <p>A cheap unit test would stub <code>forwardSSH</code> via a function variable and assert two invariants:</p>
+    <ol>
+      <li>Under concurrent callers, <code>reForwardGuestAgentSock</code> is serialized — record observed concurrency depth, assert it stays at 1.</li>
+      <li>Within each call, the recorded <code>(verb, ctx)</code> pairs are <code>(verbCancel, _) → (verbForward, _)</code> in that order.</li>
+    </ol>
+    <p>The package already has a <code>_test.go</code> file (<code>pkg/hostagent/inotify_test.go</code>), so adding <code>forward_test.go</code> does not require new test infrastructure.</p>
+    <p>This is item #2 in Jan&#39;s follow-up general comment.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> Helper name implies &quot;re-&quot; only, but it is also the first-call path <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-qwen">Qwen</span> <span class="pill pill-gemma">Gemma</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/8a7d899fa2314bfa64aa733031ed79b1c713e6b7/pkg/hostagent/hostagent.go#L972-L982">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="972" data-line="977"><code class="language-go">//  1. Best-effort verbCancel before verbForward, so the ControlMaster releases
+//     the prior registration and the new bind succeeds cleanly.
+//  2. Serialize via gaSockForwardMu, so the reconnect loop in
+//     watchGuestAgentEvents and the inotify setup goroutine cannot race on
+//     os.RemoveAll/bind of the same path.
+func (a *HostAgent) reForwardGuestAgentSock(ctx context.Context, localUnix, remoteUnix string) {
+	a.gaSockForwardMu.Lock()
+	defer a.gaSockForwardMu.Unlock()
+	sshAddress, sshPort := a.sshAddressPort()
+	// Best-effort teardown of any prior forward registered with the
+	// ControlMaster. Errors are expected (e.g. on the very first call when</code></pre>
+    <p>Both call sites (the inotify goroutine at line 742 and the reconnect loop at line 777) invoke this on the <strong>first</strong> tick as well as on every reconnect tick. The doc comment at line 956 reinforces this: &quot;It must be used everywhere watchGuestAgentEvents (or any goroutine it spawns) needs to bring the forward back up …&quot; — i.e., it is the canonical forward path, not a re-establishment specifically. <code>forwardGuestAgentSock</code> reads more accurately and matches the existing one-word helper name pattern in the file (<code>forwardSSH</code>, <code>executeSSH</code>).</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/8a7d899fa2314bfa64aa733031ed79b1c713e6b7/pkg/hostagent/hostagent.go#L737-L747">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="737" data-line="742"><code class="language-go">			return
+		}
+		client := a.getClient()
+		if client == nil || !isGuestAgentSocketAccessible(ctx, client) {
+			if a.driver.ForwardGuestAgent(ctx) {
+				a.reForwardGuestAgentSock(ctx, localUnix, remoteUnix)
+			}
+		}
+		// Re-spawn startInotify when its gRPC stream dies (typically because
+		// the guest agent restarted). Without this, host-side file changes
+		// silently stop propagating into the guest after the first reconnect.</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/8a7d899fa2314bfa64aa733031ed79b1c713e6b7/pkg/hostagent/hostagent.go#L772-L782">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="772" data-line="777"><code class="language-go">
+	for {
+		client := a.getClient()
+		if client == nil || !isGuestAgentSocketAccessible(ctx, client) {
+			if a.driver.ForwardGuestAgent(ctx) {
+				a.reForwardGuestAgentSock(ctx, localUnix, remoteUnix)
+			}
+		}
+		client, err := a.getOrCreateClient(ctx)
+		if err == nil {
+			if err := a.processGuestAgentEvents(ctx, client); err != nil {</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/8a7d899fa2314bfa64aa733031ed79b1c713e6b7/pkg/hostagent/hostagent.go#L951-L961">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="951" data-line="956"><code class="language-go">		return fmt.Errorf(&quot;failed to run %v: %q: %w&quot;, cmd.Args, string(out), err)
+	}
+	return nil
+}
+
+// reForwardGuestAgentSock (re-)establishes the SSH local forward of the
+// guest-agent unix socket. It must be used everywhere watchGuestAgentEvents
+// (or any goroutine it spawns) needs to bring the forward back up after the
+// guest agent has been restarted, the VM has been rebooted, or the gRPC
+// stream has otherwise become unhealthy.
+//</code></pre>
+    <p>This is item #4 in Jan&#39;s follow-up general comment.</p>
+    <p>Fix: rename <code>reForwardGuestAgentSock</code> → <code>forwardGuestAgentSock</code>, and drop the &quot;re-&quot; framing from the doc comment.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> Startup-only race: both goroutines call the helper concurrently on first tick <span class="pill pill-gemini">Gemini</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+    <p>When <code>mountInotify: true</code>, the inotify goroutine and the main reconnect loop both evaluate <code>client == nil || !isGuestAgentSocketAccessible(ctx, client)</code> near startup. At first tick <code>client</code> is <code>nil</code> in both, so both call <code>reForwardGuestAgentSock</code> and queue on <code>gaSockForwardMu</code>. The first call succeeds (cancel is a no-op, forward binds); the second call cancels the freshly-bound forward and binds again. Net effect: one redundant cancel+forward pair at startup. This is wasted work, not a correctness bug — the mutex still serializes the operations, and the second forward leaves the system in the same end state.</p>
+    <p>The race is confined to startup. The inotify goroutine calls <code>reForwardGuestAgentSock</code> exactly once (at lines 740-744, outside the <code>for</code> loop) and then enters a <code>startInotify</code> retry loop that does not re-establish the forward. So this is not a recurring &quot;every reconnect&quot; race as Gemini&#39;s report framed it.</p>
+    <p>Fix (optional, low priority): inside the helper, after acquiring the mutex, re-check <code>isGuestAgentSocketAccessible(ctx, a.getClient())</code> and short-circuit if the forward is already healthy. Skipping this is fine — the redundant pair only happens once per startup.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Two parallel reconnect loops that both manage the same forward</strong> <em>(future)</em> <span class="pill pill-claude">Claude</span>. The helper localizes the forward-setup race, but the deeper structural issue is that <code>watchGuestAgentEvents</code> and the inotify spawn goroutine both poll the same <code>client == nil || !isGuestAgentSocketAccessible</code> predicate on independent 10-second tickers, and the latter only does so at startup before entering a separate <code>startInotify</code> retry loop. The fix is correct but the mental model is fragile: a future contributor wiring a third consumer would have to know to call the helper too. A cleaner shape is a single &quot;guest-agent supervisor&quot; goroutine that owns the forward + client and exposes a channel to consumers (inotify, event reader). Out of scope for this PR.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Doc comment captures the full failure mode</strong> <span class="pill pill-claude">Claude</span> <span class="pill pill-qwen">Qwen</span>. The comment at lines 956-976 explains both halves of the bug (ControlMaster duplicate registration, defer-unlink-on-failure) and the rationale for each fix step, all in one place where a future reader needs it. A meaningfully better artifact than the typical &quot;fix race&quot; commit message.</li>
+      <li><em></em>Cancel before forward over making <code>forwardSSH</code> idempotent<em></em> <span class="pill pill-codex">Codex</span> <span class="pill pill-claude">Claude</span>. Issuing <code>verbCancel</code> before <code>verbForward</code> keeps the change local and avoids touching <code>forwardSSH</code>&#39;s existing error-handling semantics, which other callers depend on.</li>
+      <li><strong>Surgical scope</strong> <span class="pill pill-qwen">Qwen</span> <span class="pill pill-gemma">Gemma</span>. ~40 lines, one file, one mutex field, no API changes, no architectural overhaul. Easy to review and easy to revert.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><code>go test ./pkg/hostagent/...</code> passes on the branch. Untested scenarios that matter for this PR, ranked by risk:</p>
+    <ol>
+      <li>Concurrent invocation of <code>reForwardGuestAgentSock</code> from the inotify goroutine and the reconnect loop — the exact race the mutex is meant to prevent. A stubbed-<code>forwardSSH</code> unit test can deterministically exercise this. Tracked as <strong>I3</strong>.</li>
+      <li>The <code>verbCancel</code> first-call case where no prior forward exists, confirming the cancel&#39;s defer-unlink does not interact badly with the immediately following <code>verbForward</code>&#39;s <code>os.RemoveAll</code>.</li>
+      <li>Hung ControlMaster during cancel — the failure mode that motivates <strong>I1</strong>. The <code>context.Background()</code> call blocks <code>gaSockForwardMu</code> until the SSH command times out on its own.</li>
+      <li>Shutdown while a reconnect-loop iteration is mid-<code>reForwardGuestAgentSock</code> — relevant to <strong>I1</strong> and <strong>I2</strong> (cleanup race).</li>
+      <li>Repeated guest-agent restart cycles, asserting <code>ga.sock</code> exists after each one. The PR&#39;s manual test plan covers this with five iterations but does not automate it.</li>
+    </ol>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The in-line comment at <a href="https://github.com/lima-vm/lima/blob/8a7d899fa2314bfa64aa733031ed79b1c713e6b7/pkg/hostagent/hostagent.go#L956-L976"><code>pkg/hostagent/hostagent.go:956-976</code></a> is thorough and clearly explains the &quot;why&quot; behind the <code>verbCancel</code>-before-<code>verbForward</code> ordering. No external documentation (<code>docs/</code>, <code>website/</code>) refers to <code>ga.sock</code> management, so nothing else needs updating.</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Single commit, focused, message accurately describes the change. No issues.</p>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>All four items below come from Jan&#39;s most recent general comment on the PR. The latest commit has not addressed any of them.</p>
+    <ul>
+      <li>[Inline comment on <a href="https://github.com/lima-vm/lima/blob/8a7d899fa2314bfa64aa733031ed79b1c713e6b7/pkg/hostagent/hostagent.go#L984"><code>pkg/hostagent/hostagent.go:984</code></a>](https://github.com/lima-vm/lima/pull/4911#discussion_r3244931774) — <code>context.Background()</code> on the cancel call. Tracked as <strong>I1</strong>.</li>
+      <li>Item #2: missing automated regression test. Tracked as <strong>I3</strong>.</li>
+      <li>Item #3: cleanup path bypasses <code>gaSockForwardMu</code>. Tracked as <strong>I2</strong>.</li>
+      <li>Item #4: naming nit on <code>reForwardGuestAgentSock</code>. Tracked as <strong>S1</strong>.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude"><span class="pill pill-claude">Claude</span> <a href="#claude" class="pilcrow">&#182;</a></h3>
+    <p>Caught all four findings raised by any reviewer (I1, I2, I3, S1) with precise line citations and verified the cleanup-vs-shutdown ordering by reading the surrounding cleanup chain. Contributed the only design observation worth keeping — a future &quot;guest-agent supervisor&quot; goroutine that owns the forward and client, exposing a channel to consumers. Severity calibration matched the consolidation exactly; no downgrades or false positives.</p>
+    <h3 id="codex"><span class="pill pill-codex">Codex</span> <a href="#codex" class="pilcrow">&#182;</a></h3>
+    <p>Tight, focused output: the shortest of the cloud trio, with no padding. Caught I1 and I3 at Important and dismissed the naming nit explicitly as too low-priority to surface — a defensible call, even though four other reviewers raised it. Called the cleanup-bypass a Suggestion where the rest of the field called it Important; the consolidation upgraded that finding because the principle of complete locking is load-bearing. No false positives.</p>
+    <h3 id="gemini"><span class="pill pill-gemini">Gemini</span> <a href="#gemini" class="pilcrow">&#182;</a></h3>
+    <p>Three Important findings matching the consolidation, plus a genuinely novel observation — both goroutines can queue on <code>gaSockForwardMu</code> at startup, leading to a redundant cancel+forward pair. Framed it as a recurring race triggered &quot;if the socket drops,&quot; which the code does not support: the inotify goroutine calls the helper exactly once before entering its <code>startInotify</code> retry loop, so the race is startup-only. The consolidation rewrote the description and downgraded to a Suggestion. Did not surface the missing-test concern as its own finding — mentioned it only inside Testing Assessment.</p>
+    <h3 id="qwen"><span class="pill pill-qwen">Qwen</span> <a href="#qwen" class="pilcrow">&#182;</a></h3>
+    <p>First-pass produced no output: opencode auto-rejected <code>read(/Users/jan/.claude/memory/MEMORY.md)</code> and <code>read(/Users/jan/.claude/projects/*/memory/MEMORY.md)</code>, and the agent emitted nothing afterward. Root cause was an under-constrained line in the preamble template (&quot;Repo-level steering files (CLAUDE.md, AGENTS.md, and similar)…&quot;) that Qwen 3.6 35B interpreted as license to read the canonical Claude Code memory index from the global location. The preamble template was tightened (anchored to the working tree and explicit prohibition on out-of-tree reads), and Qwen was re-run. The second-pass output below is what the table and consolidation reflect.</p>
+    <p>Second-pass content was solid: I1, I2, S1, plus a missing-test concern Qwen rated as Suggestion (the consolidation kept it at Important, matching three other reviewers). Bonus contribution on I1 — a <code>context.WithTimeout(ctx, 3*time.Second)</code> defense-in-depth variant. Minor calibration miss on misattributing an inline reviewer comment to the PR author in the Unresolved Feedback section.</p>
+    <h3 id="gemma"><span class="pill pill-gemma">Gemma</span> <a href="#gemma" class="pilcrow">&#182;</a></h3>
+    <p>Clean, structured output that tracks Claude and Codex on all three Important findings and S1, with no unique findings of its own and no false positives. As a local-model viability proof this is genuinely useful — the review is short of the cloud trio&#39;s depth but is well-calibrated, finished within the timeout, and contributes meaningful confirmation. The retro table will not show duration or tool-call counts for local agents until the opencode session reader lands.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.7</th><th><span class="pill pill-codex">Codex</span> GPT 5.5</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th><th><span class="pill pill-qwen">Qwen</span> 3.6 35B</th><th><span class="pill pill-gemma">Gemma</span> 31B</th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>11m 46s</td><td>4m 25s</td><td>—</td><td>8m 07s</td><td>—</td></tr>
+        <tr><td>Findings</td><td>3I 1S</td><td>3I</td><td>2I 2S</td><td>3I 1S</td><td>3I 1S</td></tr>
+        <tr><td>Tool calls</td><td>10 (Bash 6, Read 2, Glob 1)</td><td>39 (shell 39)</td><td>—</td><td>6 (read 2, bash 4)</td><td>—</td></tr>
+        <tr><td>Design observations</td><td>3</td><td>1</td><td>2</td><td>3</td><td>2</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>3I 1S</strong></td><td><strong>3I</strong></td><td><strong>2I 2S</strong></td><td><strong>3I 1S</strong></td><td><strong>3I 1S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>1 (I→S)</td><td>0</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Reconciliation.</strong> Severity changes in the consolidation:</p>
+    <ul>
+      <li>Codex S1 (cleanup-bypass) → I2 (Important). Four of five reviewers called this Important; the lock-hygiene principle the PR establishes argues for the higher severity.</li>
+      <li>Gemini I3 (concurrent startup race) → S2 (Suggestion). The race is real but startup-only and bounded to one redundant cancel+forward pair; the original framing as a recurring &quot;if the socket drops&quot; race was inaccurate.</li>
+      <li>Qwen S2 (missing-test) → I3 (Important). Three of four reviewers who raised this called it Important; the bug&#39;s history (years in production, goroutine-timing-sensitive) supports the higher severity.</li>
+    </ul>
+    <p>Overall: Claude and Codex provided the most signal-dense output, with Claude contributing the only kept design observation and Codex producing the cleanest writeup. Gemini&#39;s unique contribution was the startup race, surviving as S2 after a description rewrite. Qwen&#39;s second-pass output adds a useful timeout-defense-in-depth angle on I1 and confirms three of the Important findings. Gemma confirmed the cloud trio&#39;s findings without adding new ones — useful as a low-cost second-opinion model.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <p><strong>APPLY: anchor the &quot;steering files&quot; instruction to the working tree.</strong> The preamble template line &quot;Repo-level steering files (CLAUDE.md, AGENTS.md, and similar) describe conventions but drift from the code over time&quot; did not constrain the lookup to the working tree, and one local model (Qwen 3.6 35B) treated &quot;and similar&quot; as license to read the canonical Claude Code memory index from the global home directory (<code>~/.claude/memory/MEMORY.md</code>). Both reads were auto-rejected by opencode and the agent produced no output. A two-line fix in the preamble (anchor the steering-files mention to the working tree, plus an explicit &quot;read only files inside the working tree&quot; guard) eliminated the failure on re-run. Applied as <code>~/.claude/skills/deep-review/prompt-templates/preamble.md</code> commit <a href="https://github.com/lima-vm/lima/commit/a41b670"><code>a41b670</code></a>.</p>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <p><strong>ADD: SSH ControlMaster forwards require cancel-before-forward.</strong> Whenever code calls <code>forwardSSH(verbForward, …)</code> on a path that already has an active forward registered with the SSH ControlMaster, the bind fails with <code>forwarding for listen path X already exists</code> and <code>forwardSSH</code>&#39;s failure branch unlinks the local socket — leaving the path permanently broken until a <code>verbCancel</code> releases the registration. Any new caller of <code>forwardSSH(verbForward, …)</code> that may race with a prior forward (reconnect loops, retry goroutines, lifecycle hooks) must call <code>verbCancel</code> first and serialize via a mutex if multiple goroutines can trigger it. Reviewers should flag any direct call to <code>forwardSSH(verbForward, …)</code> that is not preceded by a corresponding <code>verbCancel</code> on the same <code>(local, remote)</code> pair, and any path that mutates a forward without holding the relevant serialization mutex.</p>
+    <p><strong>ADD: HostAgent cleanup callbacks run before context cancellation.</strong> Cleanup callbacks registered via <code>a.cleanUp(...)</code> execute inside <code>a.close()</code>, which runs <em>before</em> <code>cancelHA()</code> cancels the agent&#39;s context. Any background goroutine that uses the same <code>ctx</code> is therefore still alive while cleanups run. If a cleanup function and a still-live goroutine touch the same resource, the synchronization that protects the goroutine&#39;s access must also apply to the cleanup callsite. Reviewers should check that any mutex introduced to serialize hostagent operations is also held at every cleanup-time callsite that touches the same resource.</p>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
