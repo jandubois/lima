@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260519-084740-pr-5013</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260519-084740-pr-5013</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-05-19 08:47</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/liketosweep">@liketosweep</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5013" class="gh-ref" data-title="PoC: Windows Guest Support via autounattend.xml (Issue #4852) " data-state="open" data-type="pr">#5013</a> — PoC: Windows Guest Support via autounattend.xml (Issue <a href="https://github.com/lima-vm/lima/issues/4852" class="gh-ref" data-title="Support for Windows guests" data-state="open" data-type="issue">#4852</a>)</td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/1bfac33a"><code>1bfac33a</code></a> feat : PoC for automated Windows guest via autounattend.xml  Implements issue <a href="https://github.com/lima-vm/lima/issues/4852" class="gh-ref" data-title="Support for Windows guests" data-state="open" data-type="issue">#4852</a>.</td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.7 (effort: xhigh), <span class="pill pill-codex">Codex</span> GPT 5.5 (effort: xhigh), <span class="pill pill-gemini">Gemini</span> 3.1 Pro (effort: default), <span class="pill pill-qwen">Qwen</span> 3.6 35B (effort: default), <span class="pill pill-gemma">Gemma</span> 31B (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Rework</span> &mdash; two silent-failure bugs in the exported <code>pkg/windows/autounattend</code> API (template arity, UTF-16LE encoder) plus a committed plaintext-password answer file that contradicts the PR&#39;s security claim; foundation needs another iteration before integration.</td></tr>
+      <tr><td>Wall-clock time</td><td><code>49 min 38 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>This PoC introduces <code>pkg/windows/autounattend</code> (a typed answer-file generator) and <code>pkg/windows/cidata</code> (an ISO builder), together with a manual <code>poc-windows-guest/</code> test harness for end-to-end verification on a Linux QEMU host. The architectural direction is sound — a small, testable Go surface plus a shell-driven proof — and the test suite includes a <code>PasswordNeverPlaintext</code> security assertion. But the exported API hides two silent-failure bugs that the current tests do not exercise: a Go-template arity error in the <code>ExtraCommands</code> path that fails at execute time, and a byte-index-as-rune-index error in the UTF-16LE password encoder that produces invalid output for any non-ASCII password. The committed manual answer file at <code>poc-windows-guest/autounattend.xml</code> undoes the package&#39;s security guarantee by storing the password in plaintext. The new ISO builder reimplements behavior that already exists in <code>pkg/iso9660util</code> and invokes the detected tools with flags they do not accept, so the advertised <code>xorriso</code> and <code>mkisofs</code> fallbacks fail.</p>
+    <p>Structure: 2 Critical, 14 Important, 11 Suggestions, 3 Design Observations. Verdict is Rework: the API surface needs C1, C2, I1, I2 fixed before this lands.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+      <div class="finding-title" id="C1">
+        <span class="finding-num">C1.</span> Template arity error in <code>ExtraCommands</code> Order computation <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span><a href="#C1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/template.xml#L170-L180">pkg/windows/autounattend/template.xml</a></div>
+      <pre data-start="170" data-line="175"><code class="language-xml">          &lt;RequiresUserInput&gt;false&lt;/RequiresUserInput&gt;
+          &lt;CommandLine&gt;powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File &quot;F:\first_logon.ps1&quot; -SSHKey &quot;{{joinLines .SSHPublicKeys}}&quot;&lt;/CommandLine&gt;
+        &lt;/SynchronousCommand&gt;
+        {{range $i, $cmd := .ExtraCommands}}
+        &lt;SynchronousCommand wcm:action=&quot;add&quot;&gt;
+          &lt;Order&gt;{{inc $i 1 | inc}}&lt;/Order&gt;
+          &lt;RequiresUserInput&gt;false&lt;/RequiresUserInput&gt;
+          &lt;CommandLine&gt;{{$cmd}}&lt;/CommandLine&gt;
+        &lt;/SynchronousCommand&gt;
+        {{end}}
+      &lt;/FirstLogonCommands&gt;</code></pre>
+    <p><code>inc</code> is registered as <code>func(n int) int</code> in <a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend.go#L20"><code>autounattend.go:20</code></a>. The expression <code>inc $i 1</code> invokes <code>inc</code> with two arguments. Go&#39;s <code>text/template</code> checks function arity at execute time, not parse time, so the template parses but the first caller with a non-empty <code>ExtraCommands</code> slice gets <code>wrong number of args for inc: want 1 got 2</code> from <code>Generate(cfg)</code>.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend.go#L15-L25">pkg/windows/autounattend/autounattend.go</a></div>
+      <pre data-start="15" data-line="20"><code class="language-go">var tmpl = template.Must(
+	template.New(&quot;autounattend&quot;).
+		Funcs(template.FuncMap{
+			&quot;encodePassword&quot;: encodeUTF16LE,
+			&quot;joinLines&quot;:      func(ss []string) string { return strings.Join(ss, &quot;\n&quot;) },
+			&quot;inc&quot;:            func(n int) int { return n + 1 },
+		}).
+		Parse(rawTemplate),
+)
+
+type Config struct {</code></pre>
+    <p>The current tests never populate <code>ExtraCommands</code>, so CI sees no failure. The bug is silent until someone uses the exported <code>ExtraCommands</code> field, at which point <code>Generate</code> fails and no answer file is produced.</p>
+    <p>Fix: drop the stray <code>1</code> and let the pipeline produce <code>i+2</code>. Add a test case that exercises <code>ExtraCommands</code> with at least one entry so the template body executes in CI.</p>
+      <pre><code class="language-diff">-          &lt;Order&gt;{{inc $i 1 | inc}}&lt;/Order&gt;
++          &lt;Order&gt;{{inc $i | inc}}&lt;/Order&gt;</code></pre>
+    <p>Codex graded this Important; Claude graded it Critical. I keep it Critical because the bug sits on the exported API surface and surfaces only in production — the test suite cannot catch it without an explicit ExtraCommands test.</p>
+    </div>
+    <div class="card card-critical">
+      <div class="finding-title" id="C2">
+        <span class="finding-num">C2.</span> UTF-16LE encoder uses UTF-8 byte index as destination index <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-gemma">Gemma</span> <span class="pill pill-qwen">Qwen</span><a href="#C2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend.go#L76-L94">pkg/windows/autounattend/autounattend.go</a></div>
+      <pre data-start="76" data-line="81-89"><code class="language-go">	return buf.Bytes(), nil
+}
+
+// encodeUTF16LE implements the Microsoft answer-file password encoding:
+// base64( UTF-16LE( plaintext + &quot;Password&quot; ) )
+func encodeUTF16LE(plaintext string) string {
+	s := plaintext + &quot;Password&quot;
+	b := make([]byte, len(s)*2)
+	for i, r := range s {
+		b[i*2] = byte(r)
+		b[i*2+1] = byte(r &gt;&gt; 8)
+	}
+	return base64.StdEncoding.EncodeToString(b)
+}
+
+// SanitiseHostname converts an arbitrary string into a valid Windows
+// NetBIOS computer name (&lt;=15 chars, alphanumeric + hyphen, no leading/trailing hyphen).
+func SanitiseHostname(name string) string {
+	out := make([]byte, 0, len(name))</code></pre>
+    <p><code>range s</code> over a Go string yields <code>i</code> as the byte offset of each rune, not the rune index. For an ASCII password the two agree, so the security test <code>TestGenerate_PasswordNeverPlaintext</code> passes with <code>&quot;T3stP@ssw0rd!&quot;</code>. The moment <code>s</code> contains a multi-byte rune the destination index <code>b[i*2]</code> skips ahead by the rune&#39;s UTF-8 length times two, leaving zero bytes between writes. Decoders see embedded U+0000 NULs in the password. Claude verified empirically that input <code>&quot;abç&quot;</code> produces <code>61006200e7000000...</code> instead of <code>61006200e700...</code>.</p>
+    <p>Runes outside the BMP need surrogate-pair encoding (4 bytes). The current code never emits surrogates, so it silently produces invalid UTF-16 for code points above U+FFFF.</p>
+    <p>Windows decodes the base64 blob as UTF-16LE for both <code>LocalAccount</code> and <code>AutoLogon</code>. Two concrete failures:</p>
+    <ul>
+      <li>The account is created with a password the user never set.</li>
+      <li>The <code>AutoLogon</code> block contains a different value than the account, so first boot stalls at the login screen and the unattended install hangs.</li>
+    </ul>
+    <p>All five agents flagged this. Claude and Gemini graded it Critical; Codex and Gemma graded it Important; Qwen described it without a severity tag.</p>
+    <p>Fix: use <code>unicode/utf16.Encode</code> over a rune slice.</p>
+      <pre><code class="language-go">import (
+    &quot;encoding/binary&quot;
+    &quot;unicode/utf16&quot;
+)
+
+func encodeUTF16LE(plaintext string) string {
+    u := utf16.Encode([]rune(plaintext + &quot;Password&quot;))
+    b := make([]byte, 2*len(u))
+    for i, v := range u {
+        binary.LittleEndian.PutUint16(b[i*2:], v)
+    }
+    return base64.StdEncoding.EncodeToString(b)
+}</code></pre>
+    <p>Add a unit test that feeds a non-ASCII password and decodes the base64 back to UTF-16LE to verify the round trip.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> Committed PoC answer file stores plaintext admin credentials <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-qwen">Qwen</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/poc-windows-guest/autounattend.xml#L134-L158">poc-windows-guest/autounattend.xml</a></div>
+      <pre data-start="134" data-line="139-153"><code class="language-xml">          &lt;LocalAccount wcm:action=&quot;add&quot;&gt;
+            &lt;Name&gt;limauser&lt;/Name&gt;
+            &lt;DisplayName&gt;limauser&lt;/DisplayName&gt;
+            &lt;Group&gt;Administrators&lt;/Group&gt;
+            &lt;Password&gt;
+              &lt;Value&gt;limauser&lt;/Value&gt;
+              &lt;PlainText&gt;true&lt;/PlainText&gt;
+            &lt;/Password&gt;
+          &lt;/LocalAccount&gt;
+        &lt;/LocalAccounts&gt;
+      &lt;/UserAccounts&gt;
+
+      &lt;AutoLogon&gt;
+        &lt;Enabled&gt;true&lt;/Enabled&gt;
+        &lt;Username&gt;limauser&lt;/Username&gt;
+        &lt;LogonCount&gt;1&lt;/LogonCount&gt;
+        &lt;Password&gt;
+          &lt;Value&gt;limauser&lt;/Value&gt;
+          &lt;PlainText&gt;true&lt;/PlainText&gt;
+        &lt;/Password&gt;
+      &lt;/AutoLogon&gt;
+
+      &lt;OOBE&gt;
+        &lt;HideEULAPage&gt;true&lt;/HideEULAPage&gt;
+        &lt;HideLocalAccountScreen&gt;true&lt;/HideLocalAccountScreen&gt;</code></pre>
+    <p>The Go package encodes passwords (<a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/template.xml#L138-L141"><code>template.xml:138-141</code></a>, <code>PlainText&gt;false&lt;/PlainText&gt;</code>) and the test suite contains an explicit guard (<code>TestGenerate_PasswordNeverPlaintext</code>). The committed manual PoC undoes that guarantee twice: <code>LocalAccount</code> and <code>AutoLogon</code> both carry <code>&lt;Value&gt;limauser&lt;/Value&gt;</code> with <code>&lt;PlainText&gt;true&lt;/PlainText&gt;</code>. Running the PoC creates an Administrators-group account whose password equals the username, then forwards SSH to <code>127.0.0.1:60022</code> via <a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/poc-windows-guest/run.sh#L110"><code>run.sh:110</code></a>.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/template.xml#L133-L146">pkg/windows/autounattend/template.xml</a></div>
+      <pre data-start="133" data-line="138-141"><code class="language-plaintext">        &lt;LocalAccounts&gt;
+          &lt;LocalAccount wcm:action=&quot;add&quot;&gt;
+            &lt;Name&gt;{{.Username}}&lt;/Name&gt;
+            &lt;DisplayName&gt;{{.Username}}&lt;/DisplayName&gt;
+            &lt;Group&gt;Administrators&lt;/Group&gt;
+            &lt;Password&gt;
+              &lt;Value&gt;{{encodePassword .Password}}&lt;/Value&gt;
+              &lt;PlainText&gt;false&lt;/PlainText&gt;
+            &lt;/Password&gt;
+          &lt;/LocalAccount&gt;
+        &lt;/LocalAccounts&gt;
+      &lt;/UserAccounts&gt;
+
+      &lt;AutoLogon&gt;</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/poc-windows-guest/run.sh#L105-L115">poc-windows-guest/run.sh</a></div>
+      <pre data-start="105" data-line="110"><code class="language-bash">        -blockdev driver=raw,file=cdrom1-storage,node-name=cdrom1,read-only=true \
+        -device ide-cd,bus=ide.2,drive=cdrom1 \
+        -blockdev driver=file,filename=&quot;$CIDATA_ISO&quot;,node-name=cdrom2-storage,read-only=true \
+        -blockdev driver=raw,file=cdrom2-storage,node-name=cdrom2,read-only=true \
+        -device ide-cd,bus=ide.3,drive=cdrom2 \
+        -netdev user,id=net0,net=192.168.10.0/24,dhcpstart=192.168.10.15,hostfwd=tcp:127.0.0.1:60022-:22 \
+        -device virtio-net-pci,netdev=net0 \
+        -chardev socket,id=chr-vu-fs0,path=&quot;$SCRIPT_DIR/virtiofsd.sock&quot; \
+        -device vhost-user-fs-pci,chardev=chr-vu-fs0,tag=lima \
+        -device virtio-rng-pci
+}</code></pre>
+    <p>Fix: generate the PoC answer file from <code>pkg/windows/autounattend</code> at run time instead of maintaining two divergent copies. <code>run.sh</code> can invoke a small Go binary that calls <code>autounattend.Generate</code> before staging the ISO.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> <code>pkg/windows/cidata</code> reimplements ISO writing and uses flags the detected tools reject <span class="pill pill-codex">Codex</span> <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-gemma">Gemma</span> <span class="pill pill-qwen">Qwen</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/cidata/cidata.go#L72-L103">pkg/windows/cidata/cidata.go</a></div>
+      <pre data-start="72" data-line="77-103"><code class="language-go">		return fmt.Errorf(&quot;cidata: finalising ISO: %w&quot;, err)
+	}
+	return nil
+}
+
+func detectISOTool() (string, error) {
+	for _, candidate := range []string{&quot;genisoimage&quot;, &quot;mkisofs&quot;, &quot;xorriso&quot;} {
+		if p, err := exec.LookPath(candidate); err == nil {
+			return p, nil
+		}
+	}
+	return &quot;&quot;, fmt.Errorf(
+		&quot;cidata: no ISO tool found; install one of: genisoimage, mkisofs, xorriso\n&quot; +
+			&quot;  Ubuntu/Debian: sudo apt install genisoimage\n&quot; +
+			&quot;  Fedora/RHEL:   sudo dnf install genisoimage&quot;,
+	)
+}
+
+func runISOTool(toolPath, stagingDir, outputPath string) error {
+	cmd := exec.Command(toolPath,
+		&quot;-output&quot;, outputPath,
+		&quot;-joliet&quot;,
+		&quot;-rock&quot;,
+		&quot;-volid&quot;, &quot;cidata&quot;,
+		stagingDir,
+	)
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf(&quot;cidata: %s failed: %w\noutput: %s&quot;, filepath.Base(toolPath), err, out)
+	}
+	return nil
+}</code></pre>
+    <p>Two distinct problems compound here:</p>
+    <p>The detection set names <code>xorriso</code>, but the args use the <code>mkisofs</code> emulation dialect that <code>xorriso</code> accepts only with <code>-as mkisofs</code> prepended. Without that, <code>xorriso</code> parses <code>-output</code> as its own command and the invocation fails.</p>
+    <p>Long-form <code>-output</code>, <code>-joliet</code>, <code>-rock</code>, <code>-volid</code> are not standard for <code>genisoimage</code> or <code>mkisofs</code> — those tools use <code>-o</code>, <code>-J</code>, <code>-r</code>, <code>-V</code>. The advertised &quot;fallback&quot; only works on <code>xorrisofs</code> (the mkisofs-emulation binary), which the code does not detect.</p>
+    <p>The existing helper at <a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/iso9660util/joliet.go#L57-L67"><code>pkg/iso9660util/joliet.go:57-67</code></a> already solves all of this:</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/iso9660util/joliet.go#L52-L68">pkg/iso9660util/joliet.go</a></div>
+      <pre data-start="52" data-line="57-67"><code class="language-go">		return fmt.Errorf(&quot;failed to run %v: %w (output=%q)&quot;, cmd.Args, err, string(b))
+	}
+	return nil
+}
+
+func writeJolietCommand(isoPath, label, workDir string) ([]string, error) {
+	if runtime.GOOS == &quot;darwin&quot; {
+		return []string{&quot;hdiutil&quot;, &quot;makehybrid&quot;, &quot;-o&quot;, isoPath, &quot;-iso&quot;, &quot;-joliet&quot;, &quot;-default-volume-name&quot;, label, workDir}, nil
+	}
+	candidates := []string{&quot;xorrisofs&quot;, &quot;genisoimage&quot;, &quot;mkisofs&quot;}
+	for _, cmd := range candidates {
+		if cmdAbs, err := exec.LookPath(cmd); err == nil {
+			return []string{cmdAbs, &quot;-o&quot;, isoPath, &quot;--norock&quot;, &quot;-J&quot;, &quot;-V&quot;, label, workDir}, nil
+		}
+	}
+	return nil, fmt.Errorf(&quot;none of %v is available&quot;, candidates)
+}</code></pre>
+      <pre><code class="language-go">func writeJolietCommand(isoPath, label, workDir string) ([]string, error) {
+    if runtime.GOOS == &quot;darwin&quot; {
+        return []string{&quot;hdiutil&quot;, &quot;makehybrid&quot;, &quot;-o&quot;, isoPath, &quot;-iso&quot;, &quot;-joliet&quot;, &quot;-default-volume-name&quot;, label, workDir}, nil
+    }
+    candidates := []string{&quot;xorrisofs&quot;, &quot;genisoimage&quot;, &quot;mkisofs&quot;}
+    for _, cmd := range candidates {
+        if cmdAbs, err := exec.LookPath(cmd); err == nil {
+            return []string{cmdAbs, &quot;-o&quot;, isoPath, &quot;--norock&quot;, &quot;-J&quot;, &quot;-V&quot;, label, workDir}, nil
+        }
+    }
+    return nil, fmt.Errorf(&quot;none of %v is available&quot;, candidates)
+}</code></pre>
+    <p>This handles macOS (<code>hdiutil makehybrid</code>) and detects the correct binary set (<code>xorrisofs</code>, not <code>xorriso</code>) with short flags that all three tools accept.</p>
+    <p>Fix: call <code>pkg/iso9660util.Write(..., iso9660util.WithJoliet())</code> from <code>BuildISO</code>. Drop the in-package <code>detectISOTool</code> and <code>runISOTool</code>. If the existing helper is insufficient, extend it rather than duplicate it.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> SSH public keys passed through a PowerShell double-quoted command-line argument <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/template.xml#L166-L176">pkg/windows/autounattend/template.xml</a></div>
+      <pre data-start="166" data-line="171"><code class="language-xml">
+      &lt;FirstLogonCommands&gt;
+        &lt;SynchronousCommand wcm:action=&quot;add&quot;&gt;
+          &lt;Order&gt;1&lt;/Order&gt;
+          &lt;RequiresUserInput&gt;false&lt;/RequiresUserInput&gt;
+          &lt;CommandLine&gt;powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File &quot;F:\first_logon.ps1&quot; -SSHKey &quot;{{joinLines .SSHPublicKeys}}&quot;&lt;/CommandLine&gt;
+        &lt;/SynchronousCommand&gt;
+        {{range $i, $cmd := .ExtraCommands}}
+        &lt;SynchronousCommand wcm:action=&quot;add&quot;&gt;
+          &lt;Order&gt;{{inc $i 1 | inc}}&lt;/Order&gt;
+          &lt;RequiresUserInput&gt;false&lt;/RequiresUserInput&gt;</code></pre>
+      <pre><code class="language-bash">sed &quot;s|REPLACE_WITH_YOUR_SSH_PUBLIC_KEY|${ssh_key}|g&quot; \
+    &quot;$SCRIPT_DIR/autounattend.xml&quot; &gt; &quot;$TMP_DIR/autounattend.xml&quot;</code></pre>
+    <p>Three failure modes:</p>
+    <ul>
+      <li><code>joinLines</code> joins multiple keys with <code>\n</code>. XML preserves the literal newline inside the element text, and Windows Setup forwards that to <code>cmd.exe</code>, which truncates or rejects multi-line command strings. The single-key test in <a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend_test.go#L15"><code>autounattend_test.go:15</code></a> hides the problem.</li>
+      <li>An SSH key comment containing <code>&quot;</code>, backtick, or <code>$()</code> survives XML escaping and is interpreted by PowerShell. A malicious or merely unusual comment can break argument parsing or trigger expression evaluation as Administrator.</li>
+      <li>In <code>run.sh</code>, <code>sed</code> substitutes the key through a <code>|</code> delimiter. A key containing <code>|</code>, <code>\</code>, or <code>&amp;</code> corrupts the XML before boot.</li>
+    </ul>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend_test.go#L10-L20">pkg/windows/autounattend/autounattend_test.go</a></div>
+      <pre data-start="10" data-line="15"><code class="language-go">func baseConfig() autounattend.Config {
+	return autounattend.Config{
+		Hostname:            &quot;lima-win&quot;,
+		Username:            &quot;limauser&quot;,
+		Password:            &quot;T3stP@ssw0rd!&quot;,
+		SSHPublicKeys:       []string{&quot;ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA user@host&quot;},
+		WindowsEditionIndex: 1,
+	}
+}
+
+func TestGenerate_ContainsRequiredPasses(t *testing.T) {</code></pre>
+    <p>Gemini graded this Critical; Codex and Claude graded it Important. I treat it as Important because the PR controls both ends (the autounattend template and <code>first_logon.ps1</code>), so the fix is local. The severity rises once external SSH keys are accepted from <code>limayaml</code>.</p>
+    <p>Fix: stop passing the key on the command line. Stage an <code>authorized_keys</code> file on the cidata ISO. Have <code>first_logon.ps1</code> read it from <code>$PSScriptRoot</code> and copy it to <code>C:\ProgramData\ssh\administrators_authorized_keys</code>. This removes the quoting hazard, the newline issue, and the <code>sed</code> substitution risk in one change.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I4">
+        <span class="finding-num">I4.</span> <code>SanitiseHostname</code> can return a name ending in <code>-</code> <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-gemma">Gemma</span><a href="#I4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend.go#L97-L111">pkg/windows/autounattend/autounattend.go</a></div>
+      <pre data-start="97" data-line="102-110"><code class="language-go">		case r &gt;= &#39;a&#39; &amp;&amp; r &lt;= &#39;z&#39;, r &gt;= &#39;A&#39; &amp;&amp; r &lt;= &#39;Z&#39;, r &gt;= &#39;0&#39; &amp;&amp; r &lt;= &#39;9&#39;:
+			out = append(out, byte(r))
+		default:
+			out = append(out, &#39;-&#39;)
+		}
+	}
+	s := strings.Trim(string(out), &quot;-&quot;)
+	if len(s) &gt; 15 {
+		s = s[:15]
+	}
+	if s == &quot;&quot; {
+		return &quot;lima-windows&quot;
+	}
+	return s
+}</code></pre>
+    <p><code>Trim</code> runs once, before truncation. If the 15-byte truncation lands inside a hyphen run, the result has a trailing <code>-</code>. Concrete repro: <code>&quot;abcdefghijklmn-xyz&quot;</code> filters and trims to <code>&quot;abcdefghijklmn-xyz&quot;</code>, then <code>[:15]</code> is <code>&quot;abcdefghijklmn-&quot;</code>. Windows NetBIOS rejects names ending in <code>-</code>, and Sysprep fails on first boot with the answer file&#39;s <code>&lt;ComputerName&gt;</code> rejected.</p>
+    <p>The test table at <a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend_test.go#L91-L97"><code>autounattend_test.go:91-97</code></a> has <code>&quot;this-is-way-too-long-for-netbios&quot;</code> — that input truncates cleanly because the 15th byte is <code>o</code>, not <code>-</code>. The boundary case is untested.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend_test.go#L86-L102">pkg/windows/autounattend/autounattend_test.go</a></div>
+      <pre data-start="86" data-line="91-97"><code class="language-go">		})
+	}
+}
+
+func TestSanitiseHostname(t *testing.T) {
+	cases := []struct{ in, want string }{
+		{&quot;my-vm&quot;, &quot;my-vm&quot;},
+		{&quot;my_special_vm!&quot;, &quot;my-special-vm&quot;},
+		{&quot;this-is-way-too-long-for-netbios&quot;, &quot;this-is-way-too&quot;},
+		{&quot;---&quot;, &quot;lima-windows&quot;},
+		{&quot;&quot;, &quot;lima-windows&quot;},
+	}
+	for _, tc := range cases {
+		got := autounattend.SanitiseHostname(tc.in)
+		if got != tc.want {
+			t.Errorf(&quot;SanitiseHostname(%q) = %q, want %q&quot;, tc.in, got, tc.want)
+		}</code></pre>
+    <p>Fix: re-trim after truncation.</p>
+      <pre><code class="language-diff"> s := strings.Trim(string(out), &quot;-&quot;)
+ if len(s) &gt; 15 {
+-    s = s[:15]
++    s = strings.TrimRight(s[:15], &quot;-&quot;)
+ }</code></pre>
+    <p>Add <code>{&quot;abcdefghijklmn-xyz&quot;, &quot;abcdefghijklmn&quot;}</code> to the test table.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I5">
+        <span class="finding-num">I5.</span> Native command exit codes are not caught by <code>Invoke-Step</code> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/poc-windows-guest/first_logon.ps1#L59-L71">poc-windows-guest/first_logon.ps1</a></div>
+      <pre data-start="59" data-line="64-66"><code class="language-powershell">    $keyFile = Join-Path $sshDir &#39;administrators_authorized_keys&#39;
+    if (-not (Test-Path $sshDir)) {
+        New-Item -ItemType Directory -Path $sshDir -Force | Out-Null
+    }
+    Set-Content -Path $keyFile -Value $SSHKey -Encoding UTF8 -Force
+    icacls $keyFile /inheritance:r                | Out-Null
+    icacls $keyFile /grant &#39;SYSTEM:(F)&#39;           | Out-Null
+    icacls $keyFile /grant &#39;Administrators:(F)&#39;   | Out-Null
+}
+
+Invoke-Step &#39;Set default SSH shell to PowerShell&#39; {
+    $regPath = &#39;HKLM:\SOFTWARE\OpenSSH&#39;
+    if (-not (Test-Path $regPath)) {</code></pre>
+    <p><code>$ErrorActionPreference = &#39;Stop&#39;</code> does not promote native-executable non-zero exit codes to PowerShell exceptions on Windows PowerShell 5.1 (the default shell on Server 2025). If <code>icacls</code> fails to grant <code>SYSTEM:(F)</code> or <code>choco install winfsp</code> fails (transient network error, package signing change), the enclosing <code>Invoke-Step</code> still prints <code>OK</code>. The script then continues to the next step, register the VirtIO-FS service against a missing WinFSP install. The provisioning log claims success while the guest comes up broken.</p>
+    <p>Fix: wrap native commands in a helper that checks <code>$LASTEXITCODE</code> immediately.</p>
+      <pre><code class="language-powershell">function Invoke-Native {
+    param([string]$FilePath, [string[]]$Arguments)
+    &amp; $FilePath @Arguments
+    if ($LASTEXITCODE -ne 0) {
+        throw &quot;$FilePath exited with $LASTEXITCODE&quot;
+    }
+}</code></pre>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I6">
+        <span class="finding-num">I6.</span> Chocolatey bootstrap downloads and evaluates an unpinned install script as Administrator <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-qwen">Qwen</span><a href="#I6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/poc-windows-guest/first_logon.ps1#L74-L97">poc-windows-guest/first_logon.ps1</a></div>
+      <pre data-start="74" data-line="79-92"><code class="language-powershell">    New-ItemProperty -Path $regPath -Name DefaultShell `
+        -Value &#39;C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe&#39; `
+        -PropertyType String -Force | Out-Null
+}
+
+Invoke-Step &#39;Install WinFSP (required for VirtIO-FS)&#39; {
+    [Net.ServicePointManager]::SecurityProtocol =
+        [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+
+    $chocoExe = &#39;C:\ProgramData\chocolatey\bin\choco.exe&#39;
+    if (-not (Test-Path $chocoExe)) {
+        Set-ExecutionPolicy Bypass -Scope Process -Force
+        $installScript = (New-Object Net.WebClient).DownloadString(
+            &#39;https://community.chocolatey.org/install.ps1&#39;
+        )
+        Invoke-Expression $installScript
+    }
+    &amp; $chocoExe install winfsp -y --pre --no-progress
+}
+
+Invoke-Step &#39;Register and start VirtIO-FS service&#39; {
+    $virtiofsBin = &#39;E:\viofs\2k25\amd64\virtiofs.exe&#39;
+    if (-not (Get-Service -Name VirtioFsSvc -ErrorAction SilentlyContinue)) {
+        New-Service -Name VirtioFsSvc `</code></pre>
+    <p>The provisioning script downloads <code>install.ps1</code> from Chocolatey and runs it with <code>Invoke-Expression</code>, with no checksum, signature, or pinned version. It then installs a pre-release WinFSP package without pinning a specific version. A compromised upstream — or a TLS-interception path during first boot — yields Administrator code execution inside the guest. The PR is the PoC today, but the same script becomes the first-boot path for every Windows guest once <code>pkg/cidata</code> calls into it.</p>
+    <p>Fix:</p>
+    <ul>
+      <li>Bundle the WinFSP MSI onto the cidata ISO. Install with <code>msiexec /i ... /quiet</code>.</li>
+      <li>If bundling is impossible, download a pinned WinFSP release URL and verify its SHA-256 against a hash compiled into the generator before invoking <code>msiexec</code>. Drop <code>--pre</code>.</li>
+    </ul>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I7">
+        <span class="finding-num">I7.</span> <code>pkg/windows/autounattend</code> uses <code>html/template</code> for an XML document <span class="pill pill-claude">Claude</span><a href="#I7" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend.go#L3-L13">pkg/windows/autounattend/autounattend.go</a></div>
+      <pre data-start="3" data-line="8"><code class="language-go">import (
+	_ &quot;embed&quot;
+	&quot;bytes&quot;
+	&quot;encoding/base64&quot;
+	&quot;fmt&quot;
+	&quot;html/template&quot;
+	&quot;strings&quot;
+)
+
+//go:embed template.xml
+var rawTemplate string</code></pre>
+    <p><code>html/template</code> applies HTML-context-aware escaping driven by a state machine that does not match XML. For ASCII input the output is correct enough. As soon as a hostname, username, or extra command contains a quote, ampersand, or angle bracket, the escaping drifts — <code>&amp;#34;</code> for <code>&quot;</code>, <code>&amp;#39;</code> for <code>&#39;</code>, HTML comment handling rather than XML — in ways that downstream XSD validators on some Windows builds reject.</p>
+    <p>The fields that reach element text (<code>Username</code>, <code>Hostname</code>, <code>ExtraCommands</code>, <code>SSHPublicKeys</code>) are already constrained by validation upstream, so the practical risk today is small. The structural defect is that the package depends on <code>html/template</code>&#39;s contextual rules to produce a non-HTML format.</p>
+    <p>Fix: switch to <code>text/template</code>. Escape XML element text and attribute values explicitly with <code>encoding/xml.EscapeString</code> for the free-form fields.</p>
+      <pre><code class="language-diff">-&quot;html/template&quot;
++&quot;text/template&quot;</code></pre>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I8">
+        <span class="finding-num">I8.</span> Hard-coded drive letters <code>E:</code> and <code>F:</code> couple the answer file to QEMU CD-ROM ordering <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span><a href="#I8" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/template.xml#L9-L32">pkg/windows/autounattend/template.xml</a></div>
+      <pre data-start="9" data-line="14-27"><code class="language-xml">               publicKeyToken=&quot;31bf3856ad364e35&quot;
+               language=&quot;neutral&quot; versionScope=&quot;nonSxS&quot;
+               xmlns:wcm=&quot;http://schemas.microsoft.com/WMIConfig/2002/State&quot;&gt;
+      &lt;DriverPaths&gt;
+        &lt;PathAndCredentials wcm:action=&quot;add&quot; wcm:keyValue=&quot;1&quot;&gt;
+          &lt;Path&gt;E:\viostor\2k25\amd64&lt;/Path&gt;
+        &lt;/PathAndCredentials&gt;
+        &lt;PathAndCredentials wcm:action=&quot;add&quot; wcm:keyValue=&quot;2&quot;&gt;
+          &lt;Path&gt;E:\NetKVM\2k25\amd64&lt;/Path&gt;
+        &lt;/PathAndCredentials&gt;
+        &lt;PathAndCredentials wcm:action=&quot;add&quot; wcm:keyValue=&quot;3&quot;&gt;
+          &lt;Path&gt;E:\viofs\2k25\amd64&lt;/Path&gt;
+        &lt;/PathAndCredentials&gt;
+        &lt;PathAndCredentials wcm:action=&quot;add&quot; wcm:keyValue=&quot;4&quot;&gt;
+          &lt;Path&gt;E:\Balloon\2k25\amd64&lt;/Path&gt;
+        &lt;/PathAndCredentials&gt;
+        &lt;PathAndCredentials wcm:action=&quot;add&quot; wcm:keyValue=&quot;5&quot;&gt;
+          &lt;Path&gt;E:\viorng\2k25\amd64&lt;/Path&gt;
+        &lt;/PathAndCredentials&gt;
+      &lt;/DriverPaths&gt;
+    &lt;/component&gt;
+
+    &lt;component name=&quot;Microsoft-Windows-International-Core-WinPE&quot;
+               processorArchitecture=&quot;amd64&quot;</code></pre>
+      <pre><code class="language-bash">-device ide-cd,bus=ide.1,drive=cdrom0 \   # Windows ISO
+-device ide-cd,bus=ide.2,drive=cdrom1 \   # virtio ISO  → guest assigns E:
+-device ide-cd,bus=ide.3,drive=cdrom2 \   # cidata ISO  → guest assigns F:</code></pre>
+    <p>The answer file assumes the virtio driver ISO lands on <code>E:</code> and cidata on <code>F:</code>. Windows assigns drive letters in attach order, but the install ISO often takes the first letter, and any additional disks shift the assignments. The PoC works because <code>run.sh</code> controls attach order exactly. Wiring this into <code>pkg/qemu/qemu.go</code> (the PR&#39;s &quot;Next Steps&quot;) and adding a user&#39;s <code>disk.additionalDisks</code> shifts the letters; installation then hangs at <code>winload.exe</code> because the driver paths no longer resolve.</p>
+    <p>Fix:</p>
+    <ul>
+      <li>In <code>windowsPE</code>, replace hard-coded <code>E:\...</code> paths with <code>%CDROM%\...</code> or scan all CD-ROMs via the <code>wcm:keyValue</code> mechanism.</li>
+      <li>Set a known volume label (<code>cidata</code>) in <code>BuildISO</code> and resolve the script location at first logon via <code>wmic logicaldisk where VolumeName=&#39;cidata&#39; get DeviceID</code>.</li>
+    </ul>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I9">
+        <span class="finding-num">I9.</span> <code>Set-Content -Encoding UTF8</code> writes a BOM that OpenSSH refuses to parse <span class="pill pill-gemini">Gemini</span><a href="#I9" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/poc-windows-guest/first_logon.ps1#L58-L68">poc-windows-guest/first_logon.ps1</a></div>
+      <pre data-start="58" data-line="63"><code class="language-powershell">    $sshDir  = &#39;C:\ProgramData\ssh&#39;
+    $keyFile = Join-Path $sshDir &#39;administrators_authorized_keys&#39;
+    if (-not (Test-Path $sshDir)) {
+        New-Item -ItemType Directory -Path $sshDir -Force | Out-Null
+    }
+    Set-Content -Path $keyFile -Value $SSHKey -Encoding UTF8 -Force
+    icacls $keyFile /inheritance:r                | Out-Null
+    icacls $keyFile /grant &#39;SYSTEM:(F)&#39;           | Out-Null
+    icacls $keyFile /grant &#39;Administrators:(F)&#39;   | Out-Null
+}
+</code></pre>
+    <p>On Windows PowerShell 5.1, <code>-Encoding UTF8</code> writes a UTF-8 BOM. The Windows OpenSSH <code>authorized_keys</code> parser treats the BOM as part of the first key&#39;s algorithm string, so the key never matches and SSH authentication silently fails. The PoC reports &quot;all steps completed successfully&quot; because the <code>Set-Content</code> itself succeeds, but <code>ssh</code> from the host hangs at password prompt.</p>
+    <p>Fix: SSH keys are pure ASCII, so encode as ASCII (or <code>UTF8NoBOM</code> on PS 7+, or <code>[IO.File]::WriteAllText</code> with a no-BOM encoding).</p>
+      <pre><code class="language-diff">-Set-Content -Path $keyFile -Value $SSHKey -Encoding UTF8 -Force
++Set-Content -Path $keyFile -Value $SSHKey -Encoding Ascii -Force</code></pre>
+    <p>Note: if I3&#39;s recommended fix lands (drop the <code>-SSHKey</code> parameter and copy <code>authorized_keys</code> from the cidata ISO), apply the same no-BOM rule to whichever code emits the file.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I10">
+        <span class="finding-num">I10.</span> <code>poc-windows-guest/run.sh</code> uses Ubuntu-specific QEMU machine type and a Linux-only accelerator <span class="pill pill-gemini">Gemini</span><a href="#I10" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/poc-windows-guest/run.sh#L86-L99">poc-windows-guest/run.sh</a></div>
+      <pre data-start="86" data-line="91-94"><code class="language-bash">
+run_qemu() {
+    info &quot;Launching QEMU — Windows installation will begin automatically&quot;
+    warn &quot;First boot (OS install) takes 15-30 min depending on your machine&quot;
+
+    qemu-system-x86_64 \
+        -name guest=win2k25,debug-threads=on \
+        -machine pc-q35-noble,usb=off,vmport=off,dump-guest-core=off,memory-backend=pc.ram,hpet=off,acpi=on \
+        -accel kvm \
+        -cpu host,migratable=on,hv-time=on,hv-relaxed=on,hv-vapic=on,hv-spinlocks=0x1fff \
+        -m size=4096 \
+        -object memory-backend-memfd,id=pc.ram,share=true,size=4096M \
+        -overcommit mem-lock=off \
+        -smp 4,sockets=2,cores=2,threads=1 \</code></pre>
+    <p><code>pc-q35-noble</code> is an Ubuntu Noble downstream alias; upstream QEMU on Fedora/Arch/macOS does not register it. <code>-accel kvm</code> is Linux-only. Anyone running the PoC on macOS or a non-Ubuntu Linux distribution hits a QEMU startup error before the install begins. The PR description claims macOS testing is in scope for the production wiring, so the PoC harness should at least start there.</p>
+    <p>Fix: use the upstream <code>q35</code> machine type and allow the accelerator to fall back.</p>
+      <pre><code class="language-diff">--machine pc-q35-noble,usb=off,vmport=off,dump-guest-core=off,memory-backend=pc.ram,hpet=off,acpi=on \
+--accel kvm \
++-machine q35,usb=off,vmport=off,dump-guest-core=off,memory-backend=pc.ram,hpet=off,acpi=on \
++-accel kvm -accel hvf -accel tcg \</code></pre>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I11">
+        <span class="finding-num">I11.</span> <code>validate()</code> accepts UTF-8 multi-byte hostnames that NetBIOS rejects <span class="pill pill-claude">Claude</span><a href="#I11" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend.go#L50-L61">pkg/windows/autounattend/autounattend.go</a></div>
+      <pre data-start="50" data-line="55-56"><code class="language-go">
+func (c *Config) validate() error {
+	switch {
+	case c.Hostname == &quot;&quot;:
+		return fmt.Errorf(&quot;autounattend: Hostname is required&quot;)
+	case len(c.Hostname) &gt; 15:
+		return fmt.Errorf(&quot;autounattend: Hostname %q exceeds 15-char NetBIOS limit&quot;, c.Hostname)
+	case c.Password == &quot;&quot;:
+		return fmt.Errorf(&quot;autounattend: Password is required&quot;)
+	case len(c.SSHPublicKeys) == 0:
+		return fmt.Errorf(&quot;autounattend: at least one SSH public key is required&quot;)
+	case c.WindowsEditionIndex &lt; 1:</code></pre>
+    <p><code>len()</code> on a Go string returns the byte count. A caller that bypasses <code>SanitiseHostname</code> and passes <code>&quot;日本サーバ&quot;</code> (15 UTF-8 bytes, 5 runes) passes validation. The template embeds those bytes into <code>&lt;ComputerName&gt;</code>, and Sysprep rejects the name at first boot — NetBIOS names are ASCII-only.</p>
+    <p>Fix: reject any character outside <code>[A-Za-z0-9-]</code> in <code>validate()</code>, or document that <code>Hostname</code> must be the output of <code>SanitiseHostname</code> and remove the byte-length check from <code>validate</code> so it is the single source of truth.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I12">
+        <span class="finding-num">I12.</span> <code>run.sh</code> masks ISO tool failures with <code>|| true</code> <span class="pill pill-codex">Codex</span><a href="#I12" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/poc-windows-guest/run.sh#L59-L72">poc-windows-guest/run.sh</a></div>
+      <pre data-start="59" data-line="64-67"><code class="language-bash">    sed &quot;s|REPLACE_WITH_YOUR_SSH_PUBLIC_KEY|${ssh_key}|g&quot; \
+        &quot;$SCRIPT_DIR/autounattend.xml&quot; &gt; &quot;$TMP_DIR/autounattend.xml&quot;
+
+    cp &quot;$SCRIPT_DIR/first_logon.ps1&quot; &quot;$TMP_DIR/first_logon.ps1&quot;
+
+    &quot;$ISO_TOOL&quot; -output &quot;$CIDATA_ISO&quot; -joliet -rock -volid cidata &quot;$TMP_DIR&quot; \
+        2&gt;&amp;1 | grep -v &#39;^$&#39; || true
+
+    [[ -s &quot;$CIDATA_ISO&quot; ]] || fatal &quot;ISO tool produced an empty file&quot;
+    info &quot;win-cidata.iso ready ($(du -sh &quot;$CIDATA_ISO&quot; | cut -f1))&quot;
+}
+
+create_disk() {
+    info &quot;Creating 40 GB qcow2 disk&quot;</code></pre>
+    <p>The <code>|| true</code> after the pipe suppresses every non-zero exit, including a real failure from the ISO tool. The size check only catches an empty output; a tool that exits 1 after writing a partial non-empty file passes the check, and the script proceeds into a confusing Windows install failure 15 minutes later.</p>
+    <p>Fix: capture the output and check the exit code separately.</p>
+      <pre><code class="language-bash">local iso_output
+if ! iso_output=$(&quot;$ISO_TOOL&quot; -output &quot;$CIDATA_ISO&quot; -joliet -rock -volid cidata &quot;$TMP_DIR&quot; 2&gt;&amp;1); then
+    printf &#39;%s\n&#39; &quot;$iso_output&quot; | grep -v &#39;^$&#39; || true
+    rm -f &quot;$CIDATA_ISO&quot;
+    fatal &quot;ISO tool failed&quot;
+fi</code></pre>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I13">
+        <span class="finding-num">I13.</span> Stale <code>virtiofsd.sock</code> prevents the next run from starting <span class="pill pill-gemini">Gemini</span><a href="#I13" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/poc-windows-guest/run.sh#L73-L88">poc-windows-guest/run.sh</a></div>
+      <pre data-start="73" data-line="78-83"><code class="language-bash">    qemu-img create -f qcow2 &quot;$QCOW2&quot; 40G -q
+}
+
+start_virtiofsd() {
+    info &quot;Starting virtiofsd&quot;
+    virtiofsd \
+        --shared-dir=&quot;$SCRIPT_DIR&quot; \
+        --socket-path=&quot;$SCRIPT_DIR/virtiofsd.sock&quot; \
+        --sandbox none &amp;
+    echo $! &gt; &quot;$VIRTIOFSD_PID_FILE&quot;
+    sleep 1
+    [[ -S &quot;$SCRIPT_DIR/virtiofsd.sock&quot; ]] || fatal &quot;virtiofsd socket not created&quot;
+}
+
+run_qemu() {
+    info &quot;Launching QEMU — Windows installation will begin automatically&quot;</code></pre>
+    <p>The <code>EXIT</code> trap at <a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/poc-windows-guest/run.sh#L30"><code>run.sh:30</code></a> clears the socket on normal exit, but <code>kill -9</code> or a host crash bypasses traps. The next run finds <code>virtiofsd.sock</code> on disk, <code>virtiofsd</code> refuses to bind, and the script aborts with no path to recovery short of manual cleanup.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/poc-windows-guest/run.sh#L25-L35">poc-windows-guest/run.sh</a></div>
+      <pre data-start="25" data-line="30"><code class="language-bash">        kill &quot;$(cat &quot;$VIRTIOFSD_PID_FILE&quot;)&quot; 2&gt;/dev/null || true
+        rm -f &quot;$VIRTIOFSD_PID_FILE&quot;
+    fi
+    rm -f &quot;$SCRIPT_DIR/virtiofsd.sock&quot;
+}
+trap cleanup EXIT
+
+check_prereqs() {
+    local missing=()
+    for cmd in qemu-system-x86_64 qemu-img virtiofsd; do
+        command -v &quot;$cmd&quot; &amp;&gt;/dev/null || missing+=(&quot;$cmd&quot;)</code></pre>
+    <p>Fix: delete the socket file immediately before starting the daemon.</p>
+      <pre><code class="language-diff"> start_virtiofsd() {
+     info &quot;Starting virtiofsd&quot;
++    rm -f &quot;$SCRIPT_DIR/virtiofsd.sock&quot;
+     virtiofsd \</code></pre>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I14">
+        <span class="finding-num">I14.</span> <code>validate()</code> rejects empty passwords but accepts passwords Windows will reject <span class="pill pill-claude">Claude</span><a href="#I14" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend.go#L52-L63">pkg/windows/autounattend/autounattend.go</a></div>
+      <pre data-start="52" data-line="57-58"><code class="language-go">	switch {
+	case c.Hostname == &quot;&quot;:
+		return fmt.Errorf(&quot;autounattend: Hostname is required&quot;)
+	case len(c.Hostname) &gt; 15:
+		return fmt.Errorf(&quot;autounattend: Hostname %q exceeds 15-char NetBIOS limit&quot;, c.Hostname)
+	case c.Password == &quot;&quot;:
+		return fmt.Errorf(&quot;autounattend: Password is required&quot;)
+	case len(c.SSHPublicKeys) == 0:
+		return fmt.Errorf(&quot;autounattend: at least one SSH public key is required&quot;)
+	case c.WindowsEditionIndex &lt; 1:
+		return fmt.Errorf(&quot;autounattend: WindowsEditionIndex must be &gt;= 1&quot;)
+	}</code></pre>
+    <p>Windows Server 2025 enforces the default local-account password policy: length ≥ 8, three of four character classes (lower/upper/digit/symbol), and no username substring. A caller that supplies <code>&quot;abc&quot;</code> passes validation here, the XML renders, and Setup fails after the user-creation step. The install drops into OOBE with no message back to the Lima host; the diagnosis is buried in Windows Setup logs.</p>
+    <p>Fix: validate against the default policy in <code>validate()</code> so the caller gets a clear error from <code>Generate</code> instead of a stalled install.</p>
+      <pre><code class="language-go">case !meetsWindowsComplexity(c.Password):
+    return fmt.Errorf(&quot;autounattend: Password does not meet Windows complexity requirements (&gt;=8 chars, three of: lower/upper/digit/symbol)&quot;)</code></pre>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> macOS and Windows host detection in <code>cidata.go</code> <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-qwen">Qwen</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+    <p>macOS ships <code>hdiutil</code> (<code>hdiutil makehybrid -iso -joliet</code>); Windows users install ISO tools via <code>choco install xorriso</code>. The current error message names only <code>apt</code> and <code>dnf</code>. Subsumed by I2 if <code>pkg/iso9660util</code> is reused.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> <code>BuildISO</code> race on <code>&lt;OutputPath&gt;.tmp</code> <span class="pill pill-claude">Claude</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+    <p>Two parallel callers with the same <code>OutputPath</code> collide on the <code>.tmp</code> filename. Use <code>os.CreateTemp(filepath.Dir(cfg.OutputPath), &quot;win-cidata-*.iso.tmp&quot;)</code> to obtain a unique path before renaming. Theoretical today (one caller), invited by the package API.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> Preserve the <code>.tmp</code> file on rename failure <span class="pill pill-claude">Claude</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+    <p>If <code>os.Rename</code> fails (cross-filesystem, parent removed), the current code unconditionally removes the temp file, leaving the user nothing to debug. Drop the <code>os.Remove</code> on rename failure and include the temp path in the error message.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> Tests do not cover <code>ExtraCommands</code>, multi-key SSH, or non-ASCII passwords <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-codex">Codex</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+    <p>The three highest-risk code paths (C1, C2, I3) are precisely the ones not exercised. A table-driven test varying <code>ExtraCommands</code> count (0, 1, 2), <code>SSHPublicKeys</code> count (1, 2), and <code>Password</code> character set (ASCII, non-ASCII BMP, supplementary plane) would have caught all three in CI.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> Replace <code>inc | inc</code> with an <code>add</code> function <span class="pill pill-claude">Claude</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+    <p>Once C1 is fixed, <code>{{add $i 2}}</code> reads better than <code>{{inc $i | inc}}</code>.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/autounattend.go#L15-L25">pkg/windows/autounattend/autounattend.go</a></div>
+      <pre data-start="15" data-line="20"><code class="language-go">var tmpl = template.Must(
+	template.New(&quot;autounattend&quot;).
+		Funcs(template.FuncMap{
+			&quot;encodePassword&quot;: encodeUTF16LE,
+			&quot;joinLines&quot;:      func(ss []string) string { return strings.Join(ss, &quot;\n&quot;) },
+			&quot;inc&quot;:            func(n int) int { return n + 1 },
+		}).
+		Parse(rawTemplate),
+)
+
+type Config struct {</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> <code>poc-windows-guest/</code> will drift once <code>pkg/windows/...</code> is wired in <span class="pill pill-claude">Claude</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+    <p>The PR&#39;s &quot;Next Steps&quot; remove this scaffolding in favor of integration in <code>pkg/cidata</code> and <code>pkg/qemu</code>. After that lands, <code>poc-windows-guest/autounattend.xml</code> diverges from <code>template.xml</code>, <code>first_logon.ps1</code> lives independently of any code that consumes it, and <code>run.sh</code> references a path the production driver may stop using. Either delete the directory in the integration PR, or move it to <code>hack/win-guest-poc/</code> with a README labelling it throwaway scaffolding.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> Pin ISO-tool diagnostics to <code>LC_ALL=C</code> <span class="pill pill-claude">Claude</span><a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+    <p>A user with <code>LC_ALL=fr_FR.UTF-8</code> gets translated <code>genisoimage</code> diagnostics that issue trackers and search engines do not match. Set <code>cmd.Env = append(os.Environ(), &quot;LC_ALL=C&quot;)</code> before <code>CombinedOutput</code>.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S8">
+        <span class="finding-num">S8.</span> Drive letter discovery loop instead of hard-coded <code>F:</code> <span class="pill pill-gemini">Gemini</span><a href="#S8" class="pilcrow">&#182;</a>
+      </div>
+    <p>A <code>cmd.exe</code> discovery loop avoids the I8 problem for the script path:</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/pkg/windows/autounattend/template.xml#L166-L176">pkg/windows/autounattend/template.xml</a></div>
+      <pre data-start="166" data-line="171"><code class="language-xml">
+      &lt;FirstLogonCommands&gt;
+        &lt;SynchronousCommand wcm:action=&quot;add&quot;&gt;
+          &lt;Order&gt;1&lt;/Order&gt;
+          &lt;RequiresUserInput&gt;false&lt;/RequiresUserInput&gt;
+          &lt;CommandLine&gt;powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File &quot;F:\first_logon.ps1&quot; -SSHKey &quot;{{joinLines .SSHPublicKeys}}&quot;&lt;/CommandLine&gt;
+        &lt;/SynchronousCommand&gt;
+        {{range $i, $cmd := .ExtraCommands}}
+        &lt;SynchronousCommand wcm:action=&quot;add&quot;&gt;
+          &lt;Order&gt;{{inc $i 1 | inc}}&lt;/Order&gt;
+          &lt;RequiresUserInput&gt;false&lt;/RequiresUserInput&gt;</code></pre>
+    <p>Subsumed by the broader I8 fix.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S9">
+        <span class="finding-num">S9.</span> Generic <code>Files map[string][]byte</code> in <code>ISOConfig</code> <span class="pill pill-gemini">Gemini</span><a href="#S9" class="pilcrow">&#182;</a>
+      </div>
+    <p>The fixed <code>XMLBytes</code>/<code>ScriptBytes</code> fields force an API change for every new file (e.g., the <code>authorized_keys</code> file from I3). Replace with <code>Files map[string][]byte</code> and let callers supply what they need.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S10">
+        <span class="finding-num">S10.</span> <code>run.sh</code> wipes the qcow2 disk on every run with no opt-out <span class="pill pill-qwen">Qwen</span><a href="#S10" class="pilcrow">&#182;</a>
+      </div>
+    <p><code>rm -f &quot;$QCOW2&quot;</code> runs before <code>create_disk</code>, so any in-progress install lost to <code>^C</code> is wiped on retry. Add a <code>--keep-disk</code> flag or skip the unlink when the disk exists and a <code>LIMA_POC_REUSE_DISK=1</code> env var is set.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S11">
+        <span class="finding-num">S11.</span> Godoc on exported symbols <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-gemma">Gemma</span><a href="#S11" class="pilcrow">&#182;</a>
+      </div>
+    <p><code>Config</code>, <code>Generate</code>, <code>SanitiseHostname</code>, <code>ISOConfig</code>, and <code>BuildISO</code> lack godoc comments. Add the leading-symbol-name comments before another package imports either of these.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <p>D1. <strong>The hand-rolled XML template duplicates a complex Microsoft schema</strong> (future) <span class="pill pill-claude">Claude</span></p>
+    <p><code>autounattend.xml</code> is a complex Microsoft schema with strict component-naming rules, pass ordering, and per-component XSDs. The current 185-line template already drops corner cases (<code>LocalAccount</code> vs <code>DomainAccount</code> password encoding, <code>UnsecureJoin</code> flags, FIDO/PIN policy elements). Hand-rolled templating works for the PoC but accumulates subtle bugs as the supported locale/edition matrix grows. Two alternatives before the production wiring lands:</p>
+    <ul>
+      <li>Define a typed model (<code>Unattend</code>, <code>Settings</code>, <code>Component</code>, ...) and marshal to XML via <code>encoding/xml</code>. This eliminates escape-context bugs (I7), provides field-level validation, and lets tests compare struct values rather than string contents.</li>
+      <li>Survey existing Go libraries that produce answer files from structs and decide whether one is worth adopting.</li>
+    </ul>
+    <p>The current <code>Generate</code> surface is small enough that a later refactor is not blocked by this decision; pinning the direction before <code>pkg/cidata</code> imports the package saves a rewrite.</p>
+    <p>D2. <em></em><code>pkg/windows/cidata</code> overlaps with <code>pkg/cidata</code> in name and concept<em></em> (in-scope) <span class="pill pill-claude">Claude</span></p>
+    <p>Lima already has a <code>pkg/cidata</code> (cloud-init seed builder for Linux guests). The new package is at <code>pkg/windows/cidata</code> with the same <code>cidata</code> leaf name. Importers must alias to disambiguate. Suggest renaming to <code>pkg/windows/answerfileiso</code> or merging the Windows-specific behavior into <code>pkg/cidata</code> behind a guest-OS branch.</p>
+    <p>D3. <strong>Reimplementation of ISO writing instead of reuse</strong> (in-scope) <span class="pill pill-codex">Codex</span></p>
+    <p>This is the design observation behind I2: <code>pkg/windows/cidata</code> introduces a parallel implementation of staging and tool dispatch even though <code>pkg/iso9660util</code> already owns ISO writing and Joliet command selection. Reusing the existing helper would remove the I2 flag-compatibility issue, centralize future fixes, and keep <code>pkg/windows/cidata</code> focused on the Windows-specific file layout. If <code>pkg/iso9660util</code> is missing a feature, extend it rather than fork.</p>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>The Go package surface is small and testable: a single <code>Generate</code> and a single <code>BuildISO</code>.</li>
+      <li><code>TestGenerate_PasswordNeverPlaintext</code> asserts a security property over the output rather than the implementation, which is the right shape. The test would catch a future regression that re-introduces <code>PlainText&gt;true</code>.</li>
+      <li><code>BuildISO</code> writes to <code>&lt;path&gt;.tmp</code> and renames — the correct atomic-write pattern for a host-visible artifact.</li>
+      <li><code>first_logon.ps1</code> wraps each provisioning phase in <code>Invoke-Step</code> under <code>Set-StrictMode</code> with <code>$ErrorActionPreference = &#39;Stop&#39;</code>. The pattern is correct; I5 is about closing the native-command gap, not about the structure.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Untested scenarios, highest-risk first:</p>
+    <ol>
+      <li><code>ExtraCommands</code> with one or more entries (triggers C1).</li>
+      <li>Non-ASCII or supplementary-plane passwords (triggers C2).</li>
+      <li>Multiple SSH public keys (triggers I3).</li>
+      <li>Hostnames that result in a trailing <code>-</code> after the 15-byte truncation (triggers I4 — e.g. <code>&quot;abcdefghijklmn-xyz&quot;</code>).</li>
+      <li><code>Generate</code> called with a non-ASCII multi-byte <code>Hostname</code> that bypasses <code>SanitiseHostname</code> (triggers I11).</li>
+      <li><code>pkg/windows/cidata</code> has no Go tests at all. Tool detection, <code>ISOConfig</code> validation, and the empty-output error path are all easily testable without invoking a real ISO tool.</li>
+    </ol>
+    <p>The cloud agents ran <code>go test ./pkg/windows/...</code> and confirmed all current tests pass.</p>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The new exported symbols (<code>Config</code>, <code>Generate</code>, <code>SanitiseHostname</code>, <code>ISOConfig</code>, <code>BuildISO</code>) lack godoc comments. The <code>encodeUTF16LE</code> comment names the encoding but does not link to the <a href="https://learn.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-shell-setup-useraccounts-localaccounts-localaccount-password-value">LocalAccounts Password schema reference</a>; the magic <code>&quot;Password&quot;</code> suffix is hard to defend without that link.</p>
+    <p><code>poc-windows-guest/run.sh</code> wipes <code>$IMAGES_DIR/windows.qcow2</code> on every run (<a href="https://github.com/lima-vm/lima/blob/1bfac33a1f02780c8bca44b3a59f4c43a9226e47/poc-windows-guest/run.sh#L119"><code>run.sh:119</code></a>) but does not announce that. A user who sees &quot;OS install takes 15-30 min&quot; and <code>^C</code>s mid-install discovers the wipe only on retry.</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Single feature commit <code>1bfac33a &quot;feat : PoC for automated Windows guest via autounattend.xml  Implements issue <a href="https://github.com/lima-vm/lima/issues/4852" class="gh-ref" data-title="Support for Windows guests" data-state="open" data-type="issue">#4852</a>.&quot;</code>. Minor: stray space before the colon, two spaces before &quot;Implements&quot;. A body paragraph noting the split between <code>pkg/windows/...</code> and <code>poc-windows-guest/...</code> and the planned removal of the latter would help future archaeology.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR explicitly defers full Lima integration (wiring <code>pkg/windows/autounattend</code> and <code>pkg/windows/cidata</code> into <code>pkg/cidata</code>, adding <code>guestOS: windows</code> to limayaml, Windows-specific QEMU args, an example template, integration tests) to follow-up PRs. The findings here treat that deferred integration as out of scope. Items that affect the <em>current</em> PR — the API surface, the manual PoC, and the supply chain of the first-boot script — are flagged regardless.</p>
+    <p>The PR description discloses &quot;Assistance taken from Claude opus for the documentation of this Pr.&quot; That is disclosure, not a defect, but combined with the issue&#39;s caution against &quot;blindly submitting an untested AI slop&quot; it argues for closer review of the code paths the test suite does not exercise (C1, C2, I3).</p>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>No inline review comments on PR <a href="https://github.com/lima-vm/lima/issues/5013" class="gh-ref" data-title="PoC: Windows Guest Support via autounattend.xml (Issue #4852) " data-state="open" data-type="pr">#5013</a> at the time of review.</p>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude"><span class="pill pill-claude">Claude</span> <a href="#claude" class="pilcrow">&#182;</a></h3>
+    <p>Claude produced the most comprehensive review and the only one that empirically verified both Critical findings. C2&#39;s encoding analysis includes a hex dump from running the buggy encoder against <code>&quot;abç&quot;</code> and comparing against <code>unicode/utf16.Encode</code> — that level of evidence is the right shape for a silent-failure bug whose test passes by accident. Claude was the only agent to catch the <code>html/template</code> vs XML mismatch (I7), the NetBIOS UTF-8 byte length issue (I11), the lack of a password complexity check (I14), and the design concern about <code>pkg/windows/cidata</code> overlapping with the existing <code>pkg/cidata</code> (D2). Severity calibration was slightly hot — I7 and I14 are real but the practical risk today is bounded by current callers — but the underlying analysis was sound in every case I verified.</p>
+    <h3 id="codex"><span class="pill pill-codex">Codex</span> <a href="#codex" class="pilcrow">&#182;</a></h3>
+    <p>Codex caught the same two top bugs Claude did, plus the cross-file finding that mattered most for this PR: the new <code>pkg/windows/cidata</code> ignores the existing <code>pkg/iso9660util/joliet.go</code>. The pointer to <code>xorrisofs</code> (not <code>xorriso</code>), <code>-o</code>/<code>-J</code>/<code>-V</code> short flags, and the <code>darwin</code>/<code>hdiutil</code> branch in the existing helper is concrete and immediately actionable; my I2 is essentially Codex&#39;s I5 with the cross-reference verified. Codex also caught the <code>|| true</code> exit-code masking in <code>run.sh</code> (I12) that no other agent flagged. Severity calibration ran the other way from Claude — no Criticals at all, even for C1&#39;s arity bug. The bug is real and Codex described it accurately; the severity disagreement is a style difference rather than an error.</p>
+    <h3 id="gemini"><span class="pill pill-gemini">Gemini</span> <a href="#gemini" class="pilcrow">&#182;</a></h3>
+    <p>Gemini produced three useful findings the cloud peers missed — the UTF-8 BOM in <code>Set-Content -Encoding UTF8</code> (I9), the Ubuntu-only <code>pc-q35-noble</code> machine type plus Linux-only <code>-accel kvm</code> (I10), and the stale-socket lockout in <code>run.sh</code> (I13). It missed C1 entirely (the template arity bug). The stderr log showed a single <code>Error stating path</code> from misinterpreting diff text as a file path, but the agent recovered and produced structured findings. Severity was inflated: it marked I3 and I5 as Critical where the other two cloud agents marked them Important. The miss on C1 plus the severity inflation moved the consensus toward the Codex/Claude framing for the consolidated severities.</p>
+    <h3 id="qwen"><span class="pill pill-qwen">Qwen</span> <a href="#qwen" class="pilcrow">&#182;</a></h3>
+    <p>Qwen failed the format check — the output has no <code>Critical Issues</code>/<code>Important Issues</code>/<code>Suggestions</code> sections and no Coverage Summary. More damaging, it found the <code>{{inc $i 1 | inc}}</code> template bug, then talked itself out of it on second pass (&quot;I was reading this wrong. <strong>No bug.</strong>&quot;). The analysis that follows is incorrect: <code>inc $i 1</code> does not mean &quot;increment $i by 1&quot; — <code>inc</code> takes one argument, so the two-argument call is the bug. The agent rejected its own correct first read. The Chocolatey supply-chain finding and the plaintext-password observation are useful but already covered by Claude and Codex. Net: lower confidence than the cloud trio, and the self-rebuttal on C1 is the kind of failure mode that argues against giving Qwen weight in close calls.</p>
+    <h3 id="gemma"><span class="pill pill-gemma">Gemma</span> <a href="#gemma" class="pilcrow">&#182;</a></h3>
+    <p>Gemma produced a short structured review that caught C2 (UTF-16LE encoder), the xorriso flag mismatch (I2), and the SanitiseHostname trailing-hyphen issue (I4). It missed everything else: C1, the plaintext password in the PoC autounattend.xml, the SSH key quoting issue, Chocolatey, BOM, drive letters, macOS QEMU args, virtiofsd socket, native command failures. The output also contained escaped quotes (<code>\&quot;-output\&quot;</code>) leaked from JSON serialization, suggesting an opencode wrapper layer that needs a polish pass. Useful as a sanity check on the highest-confidence findings but cannot stand alone.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.7</th><th><span class="pill pill-codex">Codex</span> GPT 5.5</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th><th><span class="pill pill-qwen">Qwen</span> 3.6 35B</th><th><span class="pill pill-gemma">Gemma</span> 31B</th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>6m 54s</td><td>6m 26s</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>Findings</td><td>2C 8I 7S</td><td>9I</td><td>3C 5I 2S</td><td>none</td><td>1C 2I</td></tr>
+        <tr><td>Tool calls</td><td>12 (Read 7, Bash 5)</td><td>37 (shell 37)</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>Design observations</td><td>3</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>4</td><td>2</td><td>3</td><td>0</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>8</td><td>8</td><td>8</td><td>7</td><td>8</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>4</td><td>5</td><td>4</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>2C 8I 7S</strong></td><td><strong>9I</strong></td><td><strong>3C 5I 2S</strong></td><td><strong>none</strong></td><td><strong>1C 2I</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>2 (I→S)</td><td>0</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p>Cloud agents carried the review. Claude and Codex independently caught every Critical and most Important findings; their disagreements were severity-level rather than presence/absence. Gemini added three Important findings the others missed but missed C1. Among the local agents, Gemma added nothing the cloud trio didn&#39;t already have, and Qwen actively talked itself out of a real bug. For PRs of this size and complexity, Claude+Codex is the most reliable two-of-three baseline; Gemini is a useful third reader for shell/PowerShell-heavy diffs; the local agents are not yet competitive enough to influence consolidation.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Add a dimension: validate template-engine choice against output format.</strong> When a template renders XML, JSON, SQL, YAML, or any non-HTML format, the use of <code>html/template</code> is a defect, not an optimization. Flag any import of <code>html/template</code> whose <code>Parse</code> input has no <code>&lt;html&gt;</code> root or is fed by <code>//go:embed *.xml</code>/<code>*.json</code>/<code>*.yaml</code>. The principle: HTML-context-aware escaping rules misfit other markup, often silently. Reviewers should treat the template-engine/output-format mismatch as a first-class structural smell.</li>
+      <li><strong>Add a dimension: function-arity bugs in Go templates surface at execute time, not parse time.</strong> When a template uses <code>template.FuncMap</code> functions, check that every call site&#39;s argument count matches the function&#39;s declared arity, and that the test suite executes every conditional branch (<code>{{if}}</code>, <code>{{range}}</code>, <code>{{with}}</code>) at least once. A <code>template.Must(...).Parse(...)</code> that passes does not guarantee runtime correctness: an <code>inc $i 1</code> against a one-arg <code>inc</code> parses fine and only errors when the body executes. Flag any template path with conditional or range blocks whose body is not exercised by at least one test case.</li>
+      <li><em></em>Add a dimension: <code>range</code> over a Go string yields byte offset, not rune index.<em></em> A loop of the shape <code>for i, r := range s { dst[i*k] = ... }</code> is buggy whenever <code>s</code> may contain non-ASCII text. The variable <code>i</code> is the byte offset of the rune in the UTF-8 source. Using it to index a destination indexed by rune position skips slots for multi-byte runes. The test suite catches this only when the test data contains non-ASCII input, so flag any such loop where the test fixtures are ASCII-only.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em>Lima reuses ISO writing through <code>pkg/iso9660util</code>.<em></em> Any new package that needs to produce a Joliet ISO should call <code>pkg/iso9660util.Write</code> rather than implement its own tool detection and exec dispatch. The helper handles <code>darwin</code>/<code>hdiutil makehybrid</code>, detects <code>xorrisofs</code> (not <code>xorriso</code>), and uses short-form flags (<code>-o</code>, <code>-J</code>, <code>-V</code>, <code>--norock</code>) that are accepted by all three Linux tools (<code>xorrisofs</code>, <code>genisoimage</code>, <code>mkisofs</code>). New code that reimplements this should be flagged as duplicated infrastructure.</li>
+      <li><em></em>Lima already has a <code>pkg/cidata</code> (Linux cloud-init seed builder).<em></em> A new package whose path or leaf name collides with <code>pkg/cidata</code> forces aliasing at every import site. Flag any new <code>pkg/.../cidata</code> package and ask whether the new behavior belongs inside the existing <code>pkg/cidata</code> (perhaps behind a guest-OS branch) before creating a sibling.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
