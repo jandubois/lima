@@ -220,7 +220,7 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
     <p>This proof-of-concept makes <code>Windows</code> a valid <code>os:</code> value and adds an <code>autounattend.xml</code> generator alongside the existing <code>cloud-config.yaml</code> path. The diff is small (8 files, +77 −4) and the structural choices (a separate exported <code>GenerateAutounattendXML</code>, embedded template, dedicated filename constant) are clean.</p>
     <p>The headline finding is C1: the regression test <code>TestValidateMultipleErrors</code> was edited to drop the OS-validation error from its expected output, but the test YAML still uses lowercase <code>os: windows</code> and nothing in the load → resolve → validate pipeline canonicalises it. <code>go test ./pkg/limayaml -run TestValidateMultipleErrors</code> fails as committed and will block CI.</p>
     <p>The autounattend template itself has several Windows-specific gaps that are worth fixing before the boot wiring lands: a hardcoded <code>processorArchitecture=&quot;amd64&quot;</code> that breaks ARM64 Windows guests (I1), no XML escaping for <code>text/template</code>-substituted user-controlled fields (I2), an SSH-key block embedded inside an XML comment which forbids <code>--</code> (I3), an IANA timezone fed directly into a Windows-TZ-ID-only field (I4), and a computer name derived from a Lima identifier (up to 76 chars + <code>lima-</code> prefix) that can exceed the 15-char Windows ComputerName cap (I5).</p>
-    <p>Structure: 1 critical, 5 important, 5 suggestions, 3 design observations.</p>
+    <p>Structure: 1 critical, 5 important, 6 suggestions, 3 design observations.</p>
     </div>
     <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
@@ -324,7 +324,7 @@ func ResolveOS(s *string) limatype.OS {
     </div>
     <div class="card card-important">
       <div class="finding-title" id="I2">
-        <span class="finding-num">I2.</span> <code>text/template</code> does not escape XML special characters <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I2" class="pilcrow">&#182;</a>
+        <span class="finding-num">I2.</span> <code>text/template</code> does not escape XML special characters <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-qwen">Qwen</span><a href="#I2" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d2730be0da546f579a5236c0a60267bc049634d2/pkg/cidata/template.go#L207-L218">pkg/cidata/template.go</a></div>
       <pre data-start="207" data-line="212-218"><code class="language-go">	}
@@ -455,7 +455,7 @@ func TestAutounattendTemplate(t *testing.T) {
     </div>
     <div class="card card-suggestion">
       <div class="finding-title" id="S3">
-        <span class="finding-num">S3.</span> Redundant <code>ValidateTemplateArgs</code> call <span class="pill pill-claude">Claude</span> <span class="pill pill-gemma">Gemma</span><a href="#S3" class="pilcrow">&#182;</a>
+        <span class="finding-num">S3.</span> Redundant <code>ValidateTemplateArgs</code> call <span class="pill pill-claude">Claude</span> <span class="pill pill-qwen">Qwen</span> <span class="pill pill-gemma">Gemma</span><a href="#S3" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d2730be0da546f579a5236c0a60267bc049634d2/pkg/cidata/cidata.go#L389-L406">pkg/cidata/cidata.go</a></div>
       <pre data-start="389" data-line="394-401"><code class="language-go">	args, err := templateArgs(ctx, false, instDir, name, instConfig, 0, 0, 0, &quot;&quot;, false, false, false)
@@ -517,6 +517,42 @@ func removeControlChars(s string) string {
       <pre><code class="language-diff">-    case limatype.DARWIN, limatype.FREEBSD:
 +    case limatype.DARWIN, limatype.FREEBSD, limatype.WINDOWS:</code></pre>
     </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> <code>NewOS</code> does not normalise <code>&quot;freebsd&quot;</code> <span class="pill pill-qwen">Qwen</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d2730be0da546f579a5236c0a60267bc049634d2/pkg/limatype/lima_yaml.go#L342-L363">pkg/limatype/lima_yaml.go</a></div>
+      <pre data-start="342" data-line="347-358"><code class="language-go">	Config   LimaYAML `json:&quot;config&quot;`
+	FilePath string   `json:&quot;filePath&quot;`
+}
+
+func NewOS(osname string) OS {
+	switch osname {
+	case &quot;linux&quot;:
+		return LINUX
+	case &quot;darwin&quot;:
+		return DARWIN
+	case &quot;windows&quot;, &quot;Windows&quot;:
+		return WINDOWS
+	default:
+		logrus.Warnf(&quot;Unknown os: %s&quot;, osname)
+		return osname
+	}
+}
+
+func Goarm() int {
+	if runtime.GOOS != &quot;linux&quot; {
+		return 0
+	}</code></pre>
+    <p><code>OSTypes</code> lists <code>FREEBSD</code>, but <code>NewOS</code> has no <code>&quot;freebsd&quot;</code> arm — the input falls through to the default branch, which logs <code>Unknown os: freebsd</code> and returns the string verbatim. Pre-existing, but the diff that adds the <code>&quot;windows&quot;</code> case is a natural place to fix it. Closely related to S1 (the <code>NewOS</code> <code>&quot;Windows&quot;</code> arm is unreachable); a normalisation fix that routes the YAML field through <code>NewOS</code> would resolve both.</p>
+    <p>Fix:</p>
+      <pre><code class="language-diff">     case &quot;darwin&quot;:
+         return DARWIN
++    case &quot;freebsd&quot;:
++        return FREEBSD
+     case &quot;windows&quot;, &quot;Windows&quot;:
+         return WINDOWS</code></pre>
+    </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
 
@@ -524,7 +560,7 @@ func removeControlChars(s string) string {
     <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
     <ul>
       <li><em>Hand-rolled unattend XML invites a long tail of correctness bugs.</em> <code>(future)</code> <span class="pill pill-claude">Claude</span> — Autounattend.xml has a real schema (multiple passes: <code>windowsPE</code>, <code>specialize</code>, <code>oobeSystem</code>; <code>OOBE</code>/<code>UserAccounts</code>/<code>AutoLogon</code> sub-elements; arch- and edition-specific component names) and Microsoft publishes both the schema (shipped in WAIK/ADK) and well-maintained generator libraries. A spec-aware builder dissolves I1 (per-arch component selection), I2 (proper escaping), I3 (key block format), and I5 (Windows-name constraints) by construction. Worth raising before this POC matures into a supported feature.</li>
-      <li><em>Cloud-config dispatch is split across two functions.</em> <code>(future)</code> <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span> — <code>GenerateCloudConfig</code> short-circuits to <code>GenerateAutounattendXML</code> for Windows (cidata.go:362-364), but the downstream <code>GenerateISO9660</code> call in <a href="https://github.com/lima-vm/lima/blob/d2730be0da546f579a5236c0a60267bc049634d2/pkg/hostagent/hostagent.go#L181"><code>pkg/hostagent/hostagent.go:181</code></a> still runs the full Linux cloud-init pipeline unconditionally. For Windows guests it produces a <code>cidata.iso</code> that nothing on the guest will consume. Not a regression because no Windows boot path exists yet, but the divergence leaks the moment a driver is wired up. Gate both generators in one place — e.g. <code>generateBootMedia(instConfig)</code>.</li>
+      <li><em>Cloud-config dispatch is split across two functions.</em> <code>(future)</code> <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-qwen">Qwen</span> — <code>GenerateCloudConfig</code> short-circuits to <code>GenerateAutounattendXML</code> for Windows (cidata.go:362-364), but the downstream <code>GenerateISO9660</code> call in <a href="https://github.com/lima-vm/lima/blob/d2730be0da546f579a5236c0a60267bc049634d2/pkg/hostagent/hostagent.go#L181"><code>pkg/hostagent/hostagent.go:181</code></a> still runs the full Linux cloud-init pipeline unconditionally. For Windows guests it produces a <code>cidata.iso</code> that nothing on the guest will consume. Not a regression because no Windows boot path exists yet, but the divergence leaks the moment a driver is wired up. Gate both generators in one place — e.g. <code>generateBootMedia(instConfig)</code>.</li>
       <li><em>Function name no longer matches behavior.</em> <code>(in-scope)</code> <span class="pill pill-gemma">Gemma</span> — <code>GenerateCloudConfig</code> is now a dispatcher that may write <code>autounattend.xml</code>. A name like <code>GenerateGuestConfig</code> would match the expanded responsibility. Closely related to the dispatch concern above and could be addressed together.</li>
     </ul>
     <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
@@ -583,7 +619,7 @@ func removeControlChars(s string) string {
     <h3 id="gemini"><span class="pill pill-gemini">Gemini</span> <a href="#gemini" class="pilcrow">&#182;</a></h3>
     <p>Gemini found the same headline issues (hardcoded amd64, XML escaping) and contributed two unique angles: I3 (SSH-key comments with <code>--</code> breaking the XML comment block) and the Joliet-extension miss (S5 in the consolidated report, demoted from Important to Suggestion because Windows guests don&#39;t yet consume <code>cidata.iso</code>). It missed the test failure: it noticed the assertion was edited (its I5) but reported only &quot;coverage was lost,&quot; not &quot;the test now fails.&quot; A <code>git blame</code>/<code>go test</code> step would have promoted that finding two severities; Gemini&#39;s known no-<code>git blame</code> posture cost it here.</p>
     <h3 id="qwen"><span class="pill pill-qwen">Qwen</span> <a href="#qwen" class="pilcrow">&#182;</a></h3>
-    <p>Qwen did not produce any output. opencode auto-rejected its first tool call — a request to read <code>/Users/jan/.claude/skills/drafting-and-providing-code-review/*</code>, which is outside the worktree&#39;s sandbox. No findings to consolidate. The behaviour suggests the launch-agent helper&#39;s qwen prompt or skill resolution is pulling in something that opencode treats as external; worth investigating before relying on Qwen in future runs.</p>
+    <p>Qwen failed on its first attempt — opencode auto-rejected its initial <code>read</code> because the prompt was sent with the worktree at its unresolved <code>/var/folders/...</code> path, while opencode canonicalised <code>--dir</code> to <code>/private/var/folders/...</code>. After a launch-helper fix that resolves the worktree path with <code>filepath.EvalSymlinks</code> (and a preamble update that anchors <code>__WORKTREE__</code> literally in the in-tree-only sentence), Qwen produced a real review. The contribution was modest: it duplicated the redundant-validation suggestion (S3) and the XML-escape Important (I2), and seconded the design observation about <code>GenerateISO9660</code> running unconditionally for Windows. Its only unique find was S6 (<code>NewOS</code> lacks the <code>&quot;freebsd&quot;</code> arm) — small but legitimate, and a miss for every other agent. Calibration was mixed: it mis-rated the XML-escape risk as Suggestion (&quot;likelihood is low&quot;), missing that <code>User.Comment</code> is explicitly unvalidated; and claimed <code>TestValidateMultipleErrors</code> &quot;now passes&quot; without running it, confirming the same execution gap as Gemini and Gemma.</p>
     <h3 id="gemma"><span class="pill pill-gemma">Gemma</span> <a href="#gemma" class="pilcrow">&#182;</a></h3>
     <p>Gemma&#39;s findings (redundant <code>ValidateTemplateArgs</code> call, unnecessary <code>os.RemoveAll</code> before <code>WriteFile</code>, missing docstrings) are all real but minor — the kind of items a Suggestion-tier reviewer should turn up. Two calibration issues:</p>
     <ol>
@@ -595,20 +631,20 @@ func removeControlChars(s string) string {
     <table class="retro-table">
       <thead><tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.7</th><th><span class="pill pill-codex">Codex</span> GPT 5.5</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th><th><span class="pill pill-qwen">Qwen</span> 3.6 27B</th><th><span class="pill pill-gemma">Gemma</span> 31B</th></tr></thead>
       <tbody>
-        <tr><td>Duration</td><td>5m 48s</td><td>7m 25s</td><td>—</td><td>0m 08s</td><td>3m 55s</td></tr>
-        <tr><td>Findings</td><td>1C 2I 4S</td><td>4I 1S</td><td>4I 1S</td><td>none</td><td>3S</td></tr>
-        <tr><td>Tool calls</td><td>32 (Read 16, Grep 9, Bash 6)</td><td>77 (shell 77)</td><td>—</td><td>1 (read 1)</td><td>—</td></tr>
-        <tr><td>Design observations</td><td>4</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+        <tr><td>Duration</td><td>5m 48s</td><td>7m 25s</td><td>—</td><td>0m 26s (fix-up)</td><td>3m 55s</td></tr>
+        <tr><td>Findings</td><td>1C 2I 4S</td><td>4I 1S</td><td>4I 1S</td><td>1I 2S</td><td>3S</td></tr>
+        <tr><td>Tool calls</td><td>32 (Read 16, Grep 9, Bash 6)</td><td>77 (shell 77)</td><td>—</td><td>8 (read 8)</td><td>—</td></tr>
+        <tr><td>Design observations</td><td>4</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
         <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
-        <tr><td>Unique insights</td><td>3</td><td>1</td><td>2</td><td>0</td><td>0</td></tr>
-        <tr><td>Files reviewed</td><td>8</td><td>8</td><td>8</td><td>0</td><td>8</td></tr>
-        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>2</td><td>8</td><td>4</td></tr>
-        <tr><td><strong>Totals</strong></td><td><strong>1C 2I 4S</strong></td><td><strong>4I 1S</strong></td><td><strong>4I 1S</strong></td><td><strong>none</strong></td><td><strong>3S</strong></td></tr>
-        <tr><td>Downgraded</td><td>0</td><td>0</td><td>1 (I→S)</td><td>0</td><td>1 (I→S)</td></tr>
+        <tr><td>Unique insights</td><td>3</td><td>1</td><td>2</td><td>1</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>2</td><td>0</td><td>4</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>1C 2I 4S</strong></td><td><strong>4I 1S</strong></td><td><strong>4I 1S</strong></td><td><strong>1I 2S</strong></td><td><strong>3S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>1 (I→S)</td><td>1 (I→S)</td><td>1 (I→S)</td></tr>
         <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
       </tbody>
     </table>
-    <p>Claude and Codex did the heavy lifting. Either one alone would have produced an actionable review; together they covered the entire PR including the CI blocker and the unique ComputerName cap. Gemini added two further angles for free. Qwen contributed nothing (a launch failure, not a review failure). Gemma&#39;s findings are real but small, and two were calibration misses; it&#39;s a useful third opinion on the trivial-to-medium tier but should not be relied on for severity calls.</p>
+    <p>Claude and Codex did the heavy lifting. Either one alone would have produced an actionable review; together they covered the entire PR including the CI blocker and the unique ComputerName cap. Gemini added two further angles for free. Qwen (after the permission-system fix-up) contributed one unique find (S6 FreeBSD case) and seconded three existing findings — calibration is comparable to Gemma&#39;s. Gemma&#39;s findings are real but small, and two were calibration misses; it&#39;s a useful third opinion on the trivial-to-medium tier but should not be relied on for severity calls.</p>
     <h3 id="reconciliation">Reconciliation <a href="#reconciliation" class="pilcrow">&#182;</a></h3>
     <ul>
       <li>Codex I1 (lowercase windows test failure): Important → Critical (C1). Reason: failing test blocks CI on merge.</li>
@@ -616,6 +652,8 @@ func removeControlChars(s string) string {
       <li>Gemini I4 (Joliet for Windows): Important → Suggestion (S5). Reason: Windows guests do not yet consume <code>cidata.iso</code>; pre-emptive fix only.</li>
       <li>Gemma I1 (redundant <code>ValidateTemplateArgs</code>): Important → Suggestion (S3). Reason: behaviour is harmless and matches the existing <code>GenerateCloudConfig</code> pattern.</li>
       <li>Gemma S1 (unnecessary <code>os.RemoveAll</code>): dropped as false positive. Reason: target file is <code>0o444</code>; <code>WriteFile</code>&#39;s O_TRUNC fails without the prior remove.</li>
+      <li>Qwen I2 (redundant <code>ValidateTemplateArgs</code>): Important → Suggestion (S3). Reason: same as Gemma&#39;s downgrade — harmless, matches existing pattern.</li>
+      <li>Qwen S1 (XML escaping): Suggestion → Important (I2). Reason: Qwen judged &quot;likelihood is low&quot; but <code>User</code> is documented as not validated, so user-controlled fields routinely reach the template path.</li>
     </ul>
     </div>
     <hr>
