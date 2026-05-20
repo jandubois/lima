@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260519-210030-pr-4991</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260519-210030-pr-4991</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-05-19 21:00</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1</td></tr>
+      <tr><td>Author</td><td>@mn-ram</td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/4991" class="gh-ref" data-title="POC: Windows host &amp; guest scaffolding — remove cygpath, add WINDOWS OS schema" data-state="open" data-type="pr">#4991</a> — POC: Windows host &amp; guest scaffolding — remove cygpath, add WINDOWS OS schema</td></tr>
+      <tr><td>Branch</td><td><code>poc/pure-go-cygpath-replacement</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/2b2e22c3"><code>2b2e22c3</code></a> Windows host &amp; guest scaffolding: pure-Go cygpath replacement, WINDOWS OS schema, experimental template</td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.7 (effort: xhigh), <span class="pill pill-codex">Codex</span> GPT 5.5 (effort: xhigh), <span class="pill pill-gemini">Gemini</span> 3.1 Pro (effort: default), <span class="pill pill-qwen">Qwen</span> 3.6 27B (effort: high), <span class="pill pill-gemma">Gemma</span> 31B (effort: high)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; pure-Go replacement is sound, but the new native-style default silently breaks <code>limactl copy</code> and Linux guest mount-point defaults; PoC sandbox and template scaffolding also need cleanup</td></tr>
+      <tr><td>Wall-clock time</td><td><code>2 h 19 min 45 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR replaces the <code>cygpath.exe</code> shell-out with deterministic pure-Go path translation and adds Windows to the OS schema. The new <code>subsystemNative</code> style returns <code>C:/Users/me/...</code> for Win32-OpenSSH hosts, which silently breaks <code>copytool.parseCopyPaths</code> (splits on <code>:</code> and treats <code>C</code> as a remote instance) and <code>defaults.go</code>&#39;s Linux mount-point defaulting. A 600-line <code>poc/</code> sandbox with a personal module path ships in this PR, and the experimental template fails at guest-agent lookup before its documented 404 image.</p>
+    <p>Severity calibration: Claude and Codex rated the path-translation regression Important; Gemini rated it Critical. This report sides with Gemini — the failure mode silently corrupts a documented user-facing flow. Local agents Qwen and Gemma contributed little (two minor suggestions and a praise note respectively).</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+      <div class="finding-title" id="C1">
+        <span class="finding-num">C1.</span> Native-style output breaks <code>limactl copy</code> and Linux guest mount-point defaulting <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#C1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/ioutilx/ioutilx.go#L135-L152">pkg/ioutilx/ioutilx.go</a></div>
+      <pre data-start="135" data-line="140-147"><code class="language-go">	rest := strings.ReplaceAll(orig[len(vol):], `\`, `/`)
+	if !strings.HasPrefix(rest, &quot;/&quot;) {
+		rest = &quot;/&quot; + rest
+	}
+
+	switch style {
+	case subsystemMSYS:
+		return &quot;/&quot; + drive + rest, nil
+	case subsystemCygwin:
+		return &quot;/cygdrive/&quot; + drive + rest, nil
+	default:
+		return strings.ToUpper(string(vol[0])) + &quot;:&quot; + rest, nil
+	}
+}
+
+// windowsVolumeName mirrors filepath.VolumeName&#39;s behavior for Windows
+// inputs, but works regardless of GOOS. Recognizes drive letters (&quot;C:&quot;)
+// and UNC prefixes (\\server\share). Returns &quot;&quot; for anything else.</code></pre>
+    <p>The default branch returns drive-letter form <code>C:/Users/me</code> for Win32-OpenSSH hosts. Two non-SSH consumers cannot handle the colon:</p>
+    <ul>
+      <li><code>copytool.parseCopyPaths</code> (<a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/copytool/copytool.go#L103"><code>pkg/copytool/copytool.go:103</code></a>) converts each absolute path through this helper, then splits on <code>:</code> at line 112 to detect <code>instance:path</code>. <code>C:/Users/me/file</code> becomes instance <code>C</code> and fails <code>store.Inspect</code>, surfacing &quot;instance C does not exist.&quot;</li>
+      <li><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/limayaml/defaults.go#L698"><code>defaults.go:698</code></a> populates <code>mount.MountPoint</code> from the converted host path when the user did not specify one. <code>C:/Users/me</code> is not a valid Linux mount point.</li>
+    </ul>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/copytool/copytool.go#L98-L108">pkg/copytool/copytool.go</a></div>
+      <pre data-start="98" data-line="103"><code class="language-go">	for _, path := range paths {
+		cp := &amp;Path{}
+		if runtime.GOOS == &quot;windows&quot; {
+			if filepath.IsAbs(path) {
+				var err error
+				path, err = ioutilx.WindowsSubsystemPath(ctx, path)
+				if err != nil {
+					return nil, err
+				}
+			} else {
+				path = filepath.ToSlash(path)</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/limayaml/defaults.go#L693-L703">pkg/limayaml/defaults.go</a></div>
+      <pre data-start="693" data-line="698"><code class="language-go">		}
+		if mount.MountPoint == nil {
+			mountLocation := mount.Location
+			if runtime.GOOS == &quot;windows&quot; {
+				var err error
+				mountLocation, err = ioutilx.WindowsSubsystemPath(ctx, mountLocation)
+				if err != nil {
+					logrus.WithError(err).Warnf(&quot;Couldn&#39;t convert location %q into mount target&quot;, mount.Location)
+				}
+			}
+			mount.MountPoint = ptr.Of(mountLocation)</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/ioutilx/ioutilx.go#L107-L117">pkg/ioutilx/ioutilx.go</a></div>
+      <pre data-start="107" data-line="112"><code class="language-go">		strings.Contains(low, &quot;/mingw32/&quot;):
+		return subsystemMSYS
+	default:
+		// Win32-OpenSSH typically lives under
+		// C:\Windows\System32\OpenSSH\ssh.exe.
+		return subsystemNative
+	}
+}
+
+// convertWindowsSubsystemPath translates an absolute Windows-style path
+// into the requested style. Pure string logic, no path/filepath calls, so</code></pre>
+    <p>Pre-PR, cygpath always returned <code>/cygdrive/c/...</code> for both sites. Post-PR, detection picks <code>subsystemNative</code> on a vanilla Windows host (Win32-OpenSSH).</p>
+    <p>Fix: split by consumer intent — keep <code>WindowsSubsystemPath</code> for SSH args; add a helper that always returns POSIX form for <code>copytool</code> and <code>defaults.go</code>. Add a copytool test for <code>C:\...</code> inputs and a defaults test for the Windows mount-point default.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> The <code>poc/</code> sandbox should not ship in the main repo <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-qwen">Qwen</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/poc/go.mod#L1-L3">poc/go.mod</a></div>
+      <pre data-start="1" data-line="1"><code class="language-go">module github.com/mn-ram/lima-windows-poc
+
+go 1.25.7</code></pre>
+    <p>The <code>poc/</code> directory adds a Go module under a personal namespace, duplicating ~600 lines of logic now inlined into <code>pkg/ioutilx/</code>. The maintenance hazards:</p>
+    <ul>
+      <li>A personal-fork module path that is meaningless to anyone reading lima-vm/lima.</li>
+      <li>A second <code>go.mod</code> the CI matrix may not traverse (root <code>go test ./...</code> skips nested modules).</li>
+      <li>Duplicated logic that will drift from <code>pkg/ioutilx/</code> the moment a fix lands in one and not the other.</li>
+    </ul>
+    <p>The PR description acknowledges that &quot;maintainers may strip before merge.&quot; Strip it.</p>
+    <p>Fix: delete <code>poc/</code> from this PR. If the runnable demo has standalone value, host it on the contributor&#39;s fork.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> Windows template fails at guest-agent lookup before reaching the documented placeholder image <span class="pill pill-codex">Codex</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/templates/experimental/windows.yaml#L17-L36">templates/experimental/windows.yaml</a></div>
+      <pre data-start="17" data-line="22-31"><code class="language-yaml"># boot a working guest. The template is shipped now so the validator path is
+# exercised in CI and so the schema field is reviewable in isolation.
+
+minimumLimaVersion: &quot;1.4.0&quot;
+
+vmType: &quot;qemu&quot;
+os: &quot;Windows&quot;
+arch: &quot;x86_64&quot;
+
+# Placeholder image. Replace with the real Cloudbase-Init-enabled qcow2 when
+# the image-build recipe lands. The location is intentionally a 404 so any
+# user who tries to `limactl start` this today gets a clear failure rather
+# than a partially-booted Windows VM.
+images:
+- location: &quot;https://example.invalid/lima/windows/win11-eval-cloudbaseinit.qcow2&quot;
+  arch: &quot;x86_64&quot;
+
+cpus: 4
+memory: &quot;8GiB&quot;
+disk: &quot;60GiB&quot;</code></pre>
+    <p>The template sets <code>os: Windows</code> and <code>vmType: qemu</code> but does not set <code>plain: true</code>. <code>Plain</code> defaults to false at <a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/limayaml/defaults.go#L837"><code>pkg/limayaml/defaults.go:837</code></a>, and <a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/instance/start.go#L60"><code>pkg/instance/start.go:60</code></a> treats every non-Darwin, non-FreeBSD OS as needing a guest agent. <code>usrlocal.GuestAgentBinary</code> then searches for <code>lima-guestagent.Windows-x86_64</code>, which does not exist in any Lima release. Users running <code>limactl start template://experimental/windows</code> see &quot;guest agent binary could not be found for Windows-x86_64&quot; instead of the intentional download-404 that the template&#39;s comments document.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/limayaml/defaults.go#L832-L842">pkg/limayaml/defaults.go</a></div>
+      <pre data-start="832" data-line="837"><code class="language-go">	}
+	if o.Plain != nil {
+		y.Plain = o.Plain
+	}
+	if y.Plain == nil {
+		y.Plain = ptr.Of(false)
+	}
+
+	fixUpForPlainMode(y)
+}
+</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/instance/start.go#L55-L65">pkg/instance/start.go</a></div>
+      <pre data-start="55" data-line="60"><code class="language-go">		needsGuestAgent = true
+	case limatype.FREEBSD:
+		// guest agent is not implemented for FreeBSD yet
+		needsGuestAgent = false
+	default:
+		needsGuestAgent = !*inst.Config.Plain
+	}
+	if needsGuestAgent &amp;&amp; guestAgent == &quot;&quot; {
+		var err error
+		guestAgent, err = usrlocal.GuestAgentBinary(*inst.Config.OS, *inst.Config.Arch)
+		if err != nil {</code></pre>
+    <p>Fix: add <code>plain: true</code> to the scaffold until a Windows guest agent exists, or special-case <code>limatype.WINDOWS</code> in <code>Prepare</code> so it skips the guest-agent requirement.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> <code>SSH</code> env var is shell-tokenized by Lima but the new detector reads it as a raw path <span class="pill pill-claude">Claude</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/ioutilx/ioutilx.go#L85-L95">pkg/ioutilx/ioutilx.go</a></div>
+      <pre data-start="85" data-line="90"><code class="language-go">		return subsystemMSYS
+	}
+	if getenv(&quot;CYGWIN&quot;) != &quot;&quot; {
+		return subsystemCygwin
+	}
+	sshPath := getenv(&quot;SSH&quot;)
+	if sshPath == &quot;&quot; &amp;&amp; lookPath != nil {
+		if p, err := lookPath(&quot;ssh&quot;); err == nil {
+			sshPath = p
+		}
+	}</code></pre>
+    <p>Lima already documents <code>SSH</code> (<code>EnvShellSSH</code>) as a shell command parsed via <code>shellwords.Parse</code> at <a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/sshutil/sshutil.go#L48"><code>sshutil.go:48</code></a>. A user-set value like <code>SSH=&quot;ssh -v&quot;</code> or <code>SSH=&quot;&#39;C:\Program Files\Git\usr\bin\ssh.exe&#39; -F custom.cfg&quot;</code> is supported by Lima&#39;s other ssh code paths. The new <code>detectSubsystemStyle</code> substring-matches the raw, untokenized string. It happens to work when a known substring (e.g. <code>/git/usr/bin/</code>) appears anywhere in the value, but defaults to <code>subsystemNative</code> for <code>SSH=ssh -v</code> because the bare alias has no path component to match.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/sshutil/sshutil.go#L43-L53">pkg/sshutil/sshutil.go</a></div>
+      <pre data-start="43" data-line="48"><code class="language-go">}
+
+func NewSSHExe() (SSHExe, error) {
+	var sshExe SSHExe
+
+	if sshShell := os.Getenv(EnvShellSSH); sshShell != &quot;&quot; {
+		sshShellFields, err := shellwords.Parse(sshShell)
+		switch {
+		case err != nil:
+			logrus.WithError(err).Warnf(&quot;Failed to split %s variable into shell tokens. &quot;+
+				&quot;Falling back to &#39;ssh&#39; command&quot;, EnvShellSSH)</code></pre>
+    <p>Fix: extract the binary via <code>shellwords.Parse(getenv(&quot;SSH&quot;))[0]</code> before the substring heuristic, or call <code>sshutil.NewSSHExe</code> and reuse its resolved <code>Exe</code>.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> Drive-relative paths silently get rooted to the drive top <span class="pill pill-gemini">Gemini</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+    <p><code>windowsVolumeName(&quot;C:foo&quot;)</code> returns <code>&quot;C:&quot;</code>; the conversion prefixes the rest with <code>/</code> and emits <code>/c/foo</code> — equivalent to <code>C:\foo</code>. On Windows, <code>C:foo</code> means &quot;foo relative to drive C&#39;s current directory,&quot; not &quot;drive root foo.&quot; cygpath resolved this against the cwd; the new code silently relocates. All current production callers pass <code>filepath.Abs(...)</code> results, so this is latent rather than active. Either reject drive-relative inputs (<code>return &quot;&quot;, fmt.Errorf(...)</code>) or document the precondition.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> Substring matches without trailing slash can hit unrelated path segments <span class="pill pill-claude">Claude</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/ioutilx/ioutilx.go#L96-L112">pkg/ioutilx/ioutilx.go</a></div>
+      <pre data-start="96" data-line="101-107"><code class="language-go">	if sshPath == &quot;&quot; {
+		return subsystemNative
+	}
+	low := strings.ToLower(strings.ReplaceAll(sshPath, `\`, `/`))
+	switch {
+	case strings.Contains(low, &quot;/cygwin&quot;):
+		return subsystemCygwin
+	case strings.Contains(low, &quot;/git/usr/bin/&quot;),
+		strings.Contains(low, &quot;/msys64/&quot;),
+		strings.Contains(low, &quot;/msys32/&quot;),
+		strings.Contains(low, &quot;/mingw64/&quot;),
+		strings.Contains(low, &quot;/mingw32/&quot;):
+		return subsystemMSYS
+	default:
+		// Win32-OpenSSH typically lives under
+		// C:\Windows\System32\OpenSSH\ssh.exe.
+		return subsystemNative</code></pre>
+    <p>A path like <code>C:\cygwin-tools\ssh.exe</code> normalizes to <code>c:/cygwin-tools/ssh.exe</code> and matches — there is no Cygwin install. Align with the <code>/git/usr/bin/</code> group: use <code>/cygwin/</code>, <code>/cygwin64/</code>, <code>/cygwin32/</code>.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> <code>convertWindowsSubsystemPath</code> returns an error that is never non-nil <span class="pill pill-claude">Claude</span> <span class="pill pill-qwen">Qwen</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/ioutilx/ioutilx.go#L116-L126">pkg/ioutilx/ioutilx.go</a></div>
+      <pre data-start="116" data-line="121"><code class="language-go">// convertWindowsSubsystemPath translates an absolute Windows-style path
+// into the requested style. Pure string logic, no path/filepath calls, so
+// this is testable on any host (filepath&#39;s Windows semantics only kick in
+// when GOOS=windows). UNC inputs pass through with slashes normalized,
+// matching cygpath -u&#39;s behavior for UNC paths.
+func convertWindowsSubsystemPath(style subsystemStyle, orig string) (string, error) {
+	vol := windowsVolumeName(orig)
+
+	// UNC (\\server\share\...): preserve structure, normalize slashes.
+	if strings.HasPrefix(vol, `\\`) || strings.HasPrefix(vol, `//`) {
+		return strings.ReplaceAll(orig, `\`, `/`), nil</code></pre>
+    <p>The public <code>WindowsSubsystemPath</code> keeps its <code>(string, error)</code> signature for caller compatibility; the internal helper does not need to. Drop the error return on the helper (and the three trailing <code>, nil</code> literals).</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> Slash normalization is repeated three times <span class="pill pill-claude">Claude</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+    <p><code>strings.ReplaceAll(orig, &quot;\\&quot;, &quot;/&quot;)</code> runs at three return points. Normalize once at function entry, then return that variable — fewer calls and one less place to forget when adding a new style.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> <code>NewOS</code> still skips <code>&quot;freebsd&quot;</code> <span class="pill pill-claude">Claude</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/limatype/lima_yaml.go#L341-L363">pkg/limatype/lima_yaml.go</a></div>
+      <pre data-start="341" data-line="346-358"><code class="language-go">type PreConfiguredDriverPayload struct {
+	Config   LimaYAML `json:&quot;config&quot;`
+	FilePath string   `json:&quot;filePath&quot;`
+}
+
+func NewOS(osname string) OS {
+	switch osname {
+	case &quot;linux&quot;:
+		return LINUX
+	case &quot;darwin&quot;:
+		return DARWIN
+	case &quot;windows&quot;:
+		return WINDOWS
+	default:
+		logrus.Warnf(&quot;Unknown os: %s&quot;, osname)
+		return osname
+	}
+}
+
+func Goarm() int {
+	if runtime.GOOS != &quot;linux&quot; {
+		return 0
+	}</code></pre>
+    <p>The PR adds <code>windows</code> but leaves <code>freebsd</code> falling through to the warn-then-return-original path. Pre-existing gap, but the diff already touches this switch — closing the asymmetry costs three lines.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> <code>templates/README.md</code> does not list the new template <span class="pill pill-codex">Codex</span> <span class="pill pill-claude">Claude</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+    <p>The Non-Linux section lists macOS and FreeBSD experimental templates but not <code>experimental/windows.yaml</code>. If the template ships at all (see I2), list it here with a clear &quot;scaffold only / not bootable yet&quot; note so its status is discoverable.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> Test comment claims <code>nil</code> context but the test passes <code>t.Context()</code> <span class="pill pill-claude">Claude</span><a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/ioutilx/ioutilx_test.go#L93-L103">pkg/ioutilx/ioutilx_test.go</a></div>
+      <pre data-start="93" data-line="98"><code class="language-go">}
+
+// TestWindowsSubsystemPath_EndToEnd exercises the public function — the
+// one all eight production call sites (cmd/limactl/shell.go,
+// pkg/copytool, pkg/hostagent/mount, pkg/sshutil, pkg/limayaml/defaults)
+// hit. It asserts no subprocess is required by passing nil context and
+// confirms the output matches what cygpath -u would have produced.
+func TestWindowsSubsystemPath_EndToEnd(t *testing.T) {
+	t.Setenv(&quot;MSYSTEM&quot;, &quot;&quot;)
+	t.Setenv(&quot;CYGWIN&quot;, &quot;&quot;)
+	t.Setenv(&quot;SSH&quot;, `C:\Windows\System32\OpenSSH\ssh.exe`)</code></pre>
+    <p>Either pass <code>nil</code> (as the comment claims) or rewrite the comment to match.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S8">
+        <span class="finding-num">S8.</span> Tests miss real production caller input shapes <span class="pill pill-claude">Claude</span><a href="#S8" class="pilcrow">&#182;</a>
+      </div>
+    <p>The table covers single drive letters and synthetic paths, not the inputs production callers feed in practice: paths containing spaces (<code>C:\Users\Some Name\.lima</code>), mixed-separator paths from <code>filepath.Join</code> on Windows, paths from <code>os.UserHomeDir()</code>. Add at least one fixture with a space and one with mixed separators.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S9">
+        <span class="finding-num">S9.</span> No test for <code>MSYSTEM</code> and <code>CYGWIN</code> set simultaneously <span class="pill pill-qwen">Qwen</span><a href="#S9" class="pilcrow">&#182;</a>
+      </div>
+    <p>The precedence rule (<code>MSYSTEM</code> wins over <code>CYGWIN</code>) is not exercised. A user running MSYS2 alongside Cygwin would set both; the table should pin the precedence so a future refactor cannot silently flip it.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S10">
+        <span class="finding-num">S10.</span> PoC docs reference <a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/ioutilx/ioutilx.go#L54"><code>pkg/ioutilx/ioutilx.go:54</code></a>, which is now line 66 <span class="pill pill-qwen">Qwen</span><a href="#S10" class="pilcrow">&#182;</a>
+      </div>
+    <p>Stale pointers in PoC documentation — <code>WindowsSubsystemPath</code> was line 54 pre-PR, line 66 post-PR. Moot if I1 lands and <code>poc/</code> is dropped.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S11">
+        <span class="finding-num">S11.</span> <code>minimumLimaVersion: &quot;1.4.0&quot;</code> predates the new <code>WINDOWS</code> enum <span class="pill pill-codex">Codex</span><a href="#S11" class="pilcrow">&#182;</a>
+      </div>
+    <p>The template requires <code>os: Windows</code>, which the validator only accepts after this PR (Lima is currently at v2.1.x). A v1.4.0 binary would reject the template with &quot;field <code>os</code> must be one of [Linux Darwin FreeBSD]; got Windows&quot; instead of a clear &quot;template requires Lima version&quot; error. Bump the gate to the first release containing the enum.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <p><strong>Concerns</strong></p>
+    <ul>
+      <li><strong>One conversion helper, two consumer intents</strong> <em>(in-scope)</em> <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span> — <code>WindowsSubsystemPath</code> formats paths for both SSH-client arguments (where native is correct) and Linux guest mount-point defaulting (where POSIX is required). The original code papered over this by always returning POSIX; <code>subsystemNative</code> exposes the mismatch. C1&#39;s fix splits the helper; doing so before Cloudbase-Init work expands the Windows surface prevents future drift.</li>
+      <li><strong>Detection result is process-global, not per-instance</strong> <em>(future)</em> <span class="pill pill-claude">Claude</span> — <code>detectSubsystemStyle</code> reads global env and the resolved <code>ssh</code> binary. If two Lima instances on one host eventually need different SSH toolchains (Win32-OpenSSH vs MSYS2), both pick whatever the env declares. Per-instance caching or a YAML override may be needed once Windows guests on Windows hosts ship.</li>
+      <li><em></em>Pre-existing host-vs-guest path conflation in <code>cmd/limactl/shell.go</code><em></em> <em>(future)</em> <span class="pill pill-gemini">Gemini</span> — The PR does not modify <code>shell.go</code>, but <code>mountDirFromWindowsDir</code> overwrites <code>hostCurrentDir</code> and <code>hostHomeDir</code> with the converted guest-style path. <code>mountsContainPath</code> then prefix-matches that POSIX path against <code>mount.Location</code> (a Windows path), and <code>strings.Split(hostCurrentDir, string(os.PathSeparator))</code> splits a <code>/c/...</code> path by <code>\</code>. Both behave wrong pre-PR and post-PR. Worth fixing alongside C1&#39;s split, since the cleanup is the same shape.</li>
+    </ul>
+    <p><strong>Strengths</strong></p>
+    <ul>
+      <li><strong>Pure-string parsing is testable on any host</strong> <span class="pill pill-codex">Codex</span> <span class="pill pill-qwen">Qwen</span> <span class="pill pill-gemma">Gemma</span> — <code>windowsVolumeName</code> and <code>convertWindowsSubsystemPath</code> deliberately avoid <code>path/filepath</code> so every branch runs under <code>GOOS=linux</code> and <code>GOOS=darwin</code> CI. The right seam for this kind of conversion.</li>
+      <li><em></em>Dependency injection of <code>getenv</code> and <code>lookPath</code><em></em> <span class="pill pill-claude">Claude</span> <span class="pill pill-qwen">Qwen</span> — <code>detectSubsystemStyle(getenv, lookPath)</code> makes every detection branch directly testable without mutating real environment. Pays for itself the next time detection logic changes.</li>
+      <li><em></em>OS enum centralized in <code>limatype.OSTypes</code><em></em> <span class="pill pill-codex">Codex</span> — Validator and generated schema share a single source of truth, so adding the next OS is a one-line change.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR ships 27 new sub-tests; coverage on the conversion logic itself is strong but thin on the integration paths.</p>
+    <ol>
+      <li><strong>No test for the Windows-host mount-point default</strong> — <a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/limayaml/defaults.go#L698"><code>defaults.go:698</code></a> is the call site C1 breaks. A test that constructs a <code>Mount{Location: &quot;C:\\Users\\me&quot;}</code> with <code>MountPoint == nil</code>, runs <code>FillDefault</code> under simulated <code>runtime.GOOS == &quot;windows&quot;</code>, and asserts the resulting <code>MountPoint</code> is a POSIX path would lock the contract.</li>
+      <li><em></em>No test for <code>copytool.parseCopyPaths</code> with a Windows absolute input<em></em> — The split-on-colon regression in C1 is invisible without a <code>C:\...</code> test case.</li>
+      <li><em></em>No test for <code>SSH</code> containing shell args<em></em> — I3&#39;s substring-vs-shellwords mismatch is unverified; <code>SSH=&quot;ssh -v&quot;</code> should pin the contract.</li>
+      <li><em></em>Missing edge cases on <code>convertWindowsSubsystemPath</code><em></em> — empty string, lowercase drive letter, drive-relative (S1), dual env (S9), space-containing (S8), mixed separators (S8).</li>
+      <li><strong>PoC tests duplicate production tests</strong> — <code>poc/pkg/winpath/winpath_test.go</code> mirrors <code>pkg/ioutilx/ioutilx_test.go</code>. Drift inevitable; resolved when I1 lands.</li>
+    </ol>
+    <p>Codex ran <code>go test ./pkg/ioutilx ./pkg/copytool ./pkg/limayaml ./pkg/limatype</code> plus the PoC tests locally at this SHA — all green.</p>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><code>templates/README.md</code> does not list <code>experimental/windows.yaml</code> (S6).</li>
+      <li><code>poc/README.md</code> still describes &quot;How this would land in <code>lima-vm/lima</code>&quot; as future work even though the helper has been inlined into <code>pkg/ioutilx/</code>. Moot if I1 lands.</li>
+      <li><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/ioutilx/ioutilx_test.go#L98"><code>pkg/ioutilx/ioutilx_test.go:98</code></a> comment claims nil context but the test uses <code>t.Context()</code> (S7).</li>
+      <li><a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/poc/cmd/winpath-demo/main.go#L5"><code>poc/cmd/winpath-demo/main.go:5</code></a> and <a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/poc/README.md#L10"><code>poc/README.md:10</code></a> cite the pre-PR file:line for <code>WindowsSubsystemPath</code> (S10).</li>
+      <li>The package doc on the new <code>WindowsSubsystemPath</code> is clear and well-formatted — keep that style for the helpers introduced by C1&#39;s split.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR is a single commit (<a href="https://github.com/lima-vm/lima/commit/2b2e22c3"><code>2b2e22c3</code></a>) bundling four independent concerns:</p>
+    <ol>
+      <li>cygpath replacement (risk-bearing — changes default behaviour on Windows hosts).</li>
+      <li><code>WINDOWS</code> OS schema (purely additive).</li>
+      <li>Experimental template (depends on follow-up image/cidata/driver work).</li>
+      <li>PoC sandbox (duplicates 1).</li>
+    </ol>
+    <p>Splitting at least (1) and (2) into separate commits — even within one PR — would make a bisect that flags a Windows-host regression actionable. Drop (4) outright (I1). Defer (3) until the image-build recipe lands, or add <code>plain: true</code> so users at least reach the documented 404 (I2).</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><em></em><code>ctx</code> parameter retained for signature compatibility<em></em> — documented at <a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/ioutilx/ioutilx.go#L64-L65"><code>pkg/ioutilx/ioutilx.go:64-65</code></a>. Reasonable; the eight production callers all already pass a context.</li>
+      <li><em></em><code>WindowsSubsystemPathForLinux</code> (wsl/wslpath) intentionally not touched<em></em> — <a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/ioutilx/ioutilx.go#L174-L181"><code>pkg/ioutilx/ioutilx.go:174-181</code></a>. WSL&#39;s <code>wslpath</code> is not a Cygwin dependency, so leaving it alone is correct.</li>
+      <li><strong>PoC may be stripped on merge</strong> — acknowledged in the PR description. This report makes the case for stripping now (I1) rather than later.</li>
+      <li><strong>Template image URL is intentionally a 404</strong> — documented at <a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/templates/experimental/windows.yaml#L27-L29"><code>templates/experimental/windows.yaml:27-29</code></a>. The contradiction surfaced by I2 is that even the documented 404 is not reached today.</li>
+      <li><strong>Template does not boot until follow-up work lands</strong> — documented in the template header. Acknowledged; I2 is about the user-visible error message, not the non-bootability.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude"><span class="pill pill-claude">Claude</span> <a href="#claude" class="pilcrow">&#182;</a></h3>
+    <p>Strong consolidated coverage: 4 Important findings (including the unique SSH-tokenization catch in I3 that no other agent noticed) and seven suggestions touching dead-code, naming, and test-input gaps. Claude was the only agent that traced Lima&#39;s own <code>shellwords.Parse(EnvShellSSH)</code> and compared it against the new detector&#39;s raw-string consumption. Claude rated the path-translation regression Important; this report promotes to Critical because silent <code>limactl copy</code> breakage is a worse user experience than a startup-time error. Claude&#39;s first attempt hit <code>API Error: Stream idle timeout — partial response received</code> after ~7 minutes of active tool use; the retry under the freshly-added retry budget succeeded cleanly. Without the retry this review would have lost its broadest agent.</p>
+    <h3 id="codex"><span class="pill pill-codex">Codex</span> <a href="#codex" class="pilcrow">&#182;</a></h3>
+    <p>Calibrated and verification-heavy: Codex was the only agent that actually ran <code>go test ./pkg/ioutilx ./pkg/copytool ./pkg/limayaml ./pkg/limatype</code> plus the PoC tests at this SHA and reported the results. The unique I2 catch (Windows template fails at guest-agent lookup before the documented 404) required tracing through <code>Prepare</code> → <code>usrlocal.GuestAgentBinary</code> — a real call-graph finding the other agents missed. Codex&#39;s commit-structure breakdown into four review units was the most actionable of the three cloud agents. Calibration: Codex rated the C1 regression Important; this report promotes to Critical.</p>
+    <h3 id="gemini"><span class="pill pill-gemini">Gemini</span> <a href="#gemini" class="pilcrow">&#182;</a></h3>
+    <p>The only agent to label the path-translation regression Critical on first pass — this report sides with that calibration. Gemini was also alone in surfacing the <code>defaults.go</code> mount-point impact at first read, before manual call-graph verification. Two findings need reclassification: I1 (drive-relative paths) is real but no production caller feeds drive-relative input, so this report demotes to Suggestion; I2 (<code>hostCurrentDir</code> overwrite in <code>shell.go</code>) is genuinely buggy but pre-existing — the PR does not modify <code>shell.go</code>, so the &quot;regression&quot; label is wrong and this report moves the observation to Design Observations. Gemini did no <code>git blame</code> (consistent with documented quota behaviour), so the pre-vs-post-PR distinction had to be cross-checked manually.</p>
+    <h3 id="qwen"><span class="pill pill-qwen">Qwen</span> <a href="#qwen" class="pilcrow">&#182;</a></h3>
+    <p>Two suggestions, no Important or Critical findings, no Coverage misses but no insight either. Only unique catch: S9 (missing dual-env precedence test). Qwen missed the path-translation regression entirely — the central finding three cloud agents flagged — classified the PoC duplication only as a Design Observation, and noted the always-nil error return as an &quot;acknowledged limitation&quot; rather than an issue. Below the standard-mode continuation threshold of ≥1 important/critical or &gt;2 suggestions; would not have been kept for follow-up passes.</p>
+    <h3 id="gemma"><span class="pill pill-gemma">Gemma</span> <a href="#gemma" class="pilcrow">&#182;</a></h3>
+    <p>Effective failure. 15 lines of unstructured praise text with no Critical / Important / Suggestions sections, no Coverage Summary, and no concrete findings. The PR was rated &quot;clean, well-tested&quot; without engaging with any of the bugs the cloud agents found. Treated as failed for this pass per the structured-output rule — the local agent surface is not yet useful at this PR&#39;s complexity.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.7</th><th><span class="pill pill-codex">Codex</span> GPT 5.5</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th><th><span class="pill pill-qwen">Qwen</span> 3.6 27B</th><th><span class="pill pill-gemma">Gemma</span> 31B</th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>14m 50s</td><td>6m 33s</td><td>5m 11s</td><td>83m 01s</td><td>45m 11s</td></tr>
+        <tr><td>Findings</td><td>1C 2I 7S</td><td>1C 2I 2S</td><td>1C 1S</td><td>1I 3S</td><td>none</td></tr>
+        <tr><td>Tool calls</td><td>56 (Read 24, Bash 19, Grep 13)</td><td>55 (shell 55)</td><td>—</td><td>32 (read 23, grep 7, bash 1)</td><td>8 (read 8)</td></tr>
+        <tr><td>Design observations</td><td>2</td><td>2</td><td>1</td><td>1</td><td>0</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>6</td><td>2</td><td>1</td><td>2</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>11</td><td>11</td><td>11</td><td>11</td><td>0</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>1</td><td>2</td><td>1</td><td>11</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>1C 2I 7S</strong></td><td><strong>1C 2I 2S</strong></td><td><strong>1C 1S</strong></td><td><strong>1I 3S</strong></td><td><strong>none</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>1 (I→S)</td><td>0</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p>Cloud agents produced essentially the entire signal of this review. Claude was the most thorough (after retry), Codex the most calibrated and the only one to run tests locally, Gemini caught the highest-impact bug with the right severity on first pass despite skipping <code>git blame</code>. The two local agents added almost nothing; for a PR with this much subtle call-graph reasoning between <code>pkg/ioutilx</code>, <code>pkg/copytool</code>, and <code>pkg/limayaml/defaults</code>, the 27B/31B local models are out of their depth on this codebase.</p>
+    <p><strong>Reconciliation</strong></p>
+    <ul>
+      <li>Codex pass 1 I1: Important → Critical C1 (user-facing <code>limactl copy</code> regression with no error surfaced to the user).</li>
+      <li>Claude pass 1 I1: Important → Critical C1 (same finding, same reasoning).</li>
+      <li>Gemini pass 1 I1 drive-relative: Important → Suggestion S1 (no production caller feeds drive-relative input).</li>
+      <li>Gemini pass 1 I2 shell.go: dropped as finding, moved to Design Observations (PR does not modify <code>shell.go</code> — pre-existing bug, regression label is wrong).</li>
+      <li>Claude pass 1 I3 template-404: dropped as finding, moved to Acknowledged Limitations (author documents the intentional 404 in the template comments).</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <p><strong>Verify users reach documented failure modes.</strong> When a template, scaffold, or experimental feature ships with a documented expected failure (e.g., &quot;image is intentionally a 404&quot; or &quot;this will fail with X until follow-up Y lands&quot;), trace the code path from the CLI entry-point to confirm the user actually reaches the documented failure rather than an earlier, less helpful error. Prerequisite checks — guest-agent lookup, network probes, driver registration, schema-version gates — may abort before the documented stage and surface the wrong message. The reviewer should follow the same start-flow a first-time user would.</p>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <p><em></em>UPDATE: stale reference to <code>sshutil.PathForSSH</code> in &quot;Windows SSH toolchains&quot; entry.<em></em> The entry recommends &quot;Use <code>sshutil.PathForSSH</code> for path translation,&quot; but no such function exists in the codebase. The actual path-translation helper is <code>pkg/ioutilx.WindowsSubsystemPath</code>. Update the reference or remove the guidance if it has moved elsewhere.</p>
+    <p><em></em>ADD: <code>EnvShellSSH</code> is shell-tokenized, not a raw path.<em></em> Lima parses the <code>SSH</code> environment variable via <code>shellwords.Parse</code> in <code>sshutil.NewSSHExe</code> (<a href="https://github.com/lima-vm/lima/blob/2b2e22c363b9785d63fb81febdc2237bba8b4e61/pkg/sshutil/sshutil.go#L48"><code>pkg/sshutil/sshutil.go:48</code></a>). New code that reads <code>SSH</code> to determine the SSH client must extract the binary via <code>shellwords.Parse(value)[0]</code> rather than substring-matching the raw value. Substring matches break for valid forms like <code>&quot;ssh -v&quot;</code> and <code>&quot;&#39;C:\Program Files\Git\usr\bin\ssh.exe&#39; -F custom.cfg&quot;</code>.</p>
+    <p><em></em>ADD: <code>WindowsSubsystemPath</code> has two consumer intents — flag callers that confuse them.<em></em> The helper formats paths for SSH-client arguments (where native is correct on Win32-OpenSSH) and for Linux guest mount-point defaulting (where POSIX form is required). When reviewing changes to <code>pkg/ioutilx.WindowsSubsystemPath</code> or any of its callers (<code>pkg/copytool</code>, <code>pkg/limayaml/defaults</code>, <code>cmd/limactl/shell</code>, <code>pkg/sshutil</code>, <code>pkg/hostagent/mount</code>), check that the call site&#39;s downstream consumer expects the format the helper returns for the host&#39;s detected style. A native-style return value containing <code>C:</code> will break any consumer that splits on <code>:</code> or treats the value as a Linux path.</p>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
