@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260519-183659-pr-4996</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260519-183659-pr-4996</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-05-19 18:36</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/mie313">@mie313</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/4996" class="gh-ref" data-title="PoC: Run Windows guest VM with VirtIO-FS filesystem mount" data-state="open" data-type="pr">#4996</a> — PoC: Run Windows guest VM with VirtIO-FS filesystem mount</td></tr>
+      <tr><td>Branch</td><td>(PR branch)</td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/c93a1fa2"><code>c93a1fa2</code></a> PoC: Run Windows guest VM with VirtIO-FS filesystem mount</td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.7 (effort: xhigh), <span class="pill pill-codex">Codex</span> GPT 5.5 (effort: xhigh), <span class="pill pill-gemini">Gemini</span> 3.1 Pro (effort: default), <span class="pill pill-qwen">Qwen</span> 3.6 27B (effort: high), <span class="pill pill-gemma">Gemma</span> 31B (effort: high)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; solid PoC; address the qcow2-clobber, tag mismatch, and <code>virtiofsd</code> lifecycle issues before the next iteration</td></tr>
+      <tr><td>Wall-clock time</td><td><code>1 h 44 min 2 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>This PoC adds <code>poc-windows-guest/</code> to boot Windows Server 2025 under QEMU with autounattend-driven install, OpenSSH, and VirtIO-FS host-share. End-to-end functional on Ubuntu 24.04, but <code>run.sh</code> deletes <code>windows.qcow2</code> on every launch, the README&#39;s <code>tag=hoge</code> disagrees with <code>run.sh</code>&#39;s <code>tag=lima</code>, and backgrounded <code>virtiofsd</code> orphans across runs. Eight Important issues span lifecycle, error handling, drive-letter portability, and supply chain.</p>
+    <p>Reviewers: 5 (Claude Opus 4.7, Codex GPT 5.5, Gemini 3.1 Pro, Gemma4 31B, Qwen 3.6 27B). Qwen ran twice: MXFP8 produced hallucinated XML; bf16 produced clean findings. Both included below; bf16 is the kept run.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> <code>run.sh</code> deletes the installed <code>windows.qcow2</code> on every launch <span class="pill pill-codex">Codex</span> <span class="pill pill-qwen">Qwen</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/run.sh#L2-L14">poc-windows-guest/run.sh</a></div>
+      <pre data-start="2" data-line="7-9"><code class="language-bash">
+# Note that this script expects that you&#39;ve already set Windows OS ISO (windows_server_2025.iso) and virtio-win ISO (virtio-win-0.1.285.iso) in ./images/
+
+set -e
+
+# Cleanup
+rm -f images/windows.qcow2
+rm -f images/win-cidata.iso
+
+# Build win-cidata.iso
+mkdir -p tmp/win-cidata
+cp autounattend.xml ./tmp/win-cidata/
+cp first_logon.ps1 ./tmp/win-cidata/</code></pre>
+    <p>The README presents <code>run.sh</code> as the way to launch the VM. The first two lines unconditionally delete the installed qcow2 disk image, so the second invocation destroys the Windows install (and any data created in it) and forces a full reinstall. The cleanup block belongs in a separate <code>rebuild</code> mode, not at the top of the launch path.</p>
+    <p>Fix: gate the deletion behind a flag (<code>--rebuild</code> or similar), or only create the disk when absent.</p>
+      <pre><code class="language-diff">-# Cleanup
+-rm -f images/windows.qcow2
+-rm -f images/win-cidata.iso
++# Build the cidata ISO fresh each run (small, regenerable)
++rm -f images/win-cidata.iso
++
++# Create disk only on first run; preserve installed state otherwise
++if [ ! -f images/windows.qcow2 ]; then
++    qemu-img create -f qcow2 ./images/windows.qcow2 40G
++fi</code></pre>
+    <p>(and remove the unconditional <code>qemu-img create</code> further down).</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> <code>virtiofsd</code> is backgrounded with no readiness check, no PID tracking, and no cleanup trap <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-gemma">Gemma</span> <span class="pill pill-qwen">Qwen</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/run.sh#L17-L27">poc-windows-guest/run.sh</a></div>
+      <pre data-start="17" data-line="22"><code class="language-bash">
+# Create qcow2
+qemu-img create -f qcow2 ./images/windows.qcow2 40G
+
+# Run virtiofsd in background
+virtiofsd --shared-dir=./ --socket-path=./virtiofsd.sock --sandbox none &amp;
+
+# Run QEMU
+qemu-system-x86_64 \
+    -name guest=win2k25,debug-threads=on \
+    -machine pc-q35-noble,usb=off,vmport=off,dump-guest-core=off,memory-backend=pc.ram,hpet=off,acpi=on \</code></pre>
+    <p>Three failure modes compound here. (1) QEMU starts immediately after the <code>&amp;</code>, so if <code>virtiofsd</code> is still binding the socket QEMU&#39;s <code>-chardev socket,...,path=./virtiofsd.sock</code> can race and fail to connect. (2) When <code>virtiofsd</code> itself fails immediately (missing binary, bad arg, stale socket already bound), <code>set -e</code> does not catch background-process exits; the script continues into QEMU and prints a confusing &quot;connection refused.&quot; (3) When QEMU exits — clean shutdown, Ctrl-C, or crash — <code>virtiofsd</code> is never killed and the socket is never removed; subsequent runs race against the orphan or fail with &quot;address already in use.&quot;</p>
+    <p>Fix: store the PID, install an <code>EXIT</code> trap, remove stale sockets, and verify readiness before launching QEMU.</p>
+      <pre><code class="language-diff">+rm -f ./virtiofsd.sock
++trap &#39;kill &quot;${VFS_PID:-0}&quot; 2&gt;/dev/null || true; rm -f ./virtiofsd.sock&#39; EXIT
+ virtiofsd --shared-dir=./ --socket-path=./virtiofsd.sock --sandbox none &amp;
++VFS_PID=$!
++while [ ! -S ./virtiofsd.sock ]; do kill -0 &quot;$VFS_PID&quot; || exit 1; sleep 0.1; done</code></pre>
+    <p>The existing Lima QEMU driver under <code>pkg/hostagent</code> follows this pattern for its vhost sockets — reuse that lifecycle when this graduates from PoC.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> VirtIO-FS <code>tag</code> differs between <code>README.md</code> and <code>run.sh</code> <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-gemma">Gemma</span> <span class="pill pill-qwen">Qwen</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/README.md#L82-L92">poc-windows-guest/README.md</a></div>
+      <pre data-start="82" data-line="87"><code class="language-bash">    -blockdev driver=raw,file=cdrom2-storage,node-name=cdrom2,read-only=true \
+    -device ide-cd,bus=ide.3,drive=cdrom2 \
+    -netdev user,id=net0,net=192.168.10.0/24,dhcpstart=192.168.10.15,hostfwd=tcp:127.0.0.1:60022-:22 \
+    -device virtio-net-pci,netdev=net0 \
+    -chardev socket,id=chr-vu-fs0,path=./virtiofsd.sock \
+    -device vhost-user-fs-pci,chardev=chr-vu-fs0,tag=hoge \
+    -device virtio-rng-pci
+```
+
+#### Try SSH
+```bash</code></pre>
+      <pre><code class="language-bash"># run.sh:47
+-device vhost-user-fs-pci,chardev=chr-vu-fs0,tag=lima \</code></pre>
+    <p><code>hoge</code> is a Japanese placeholder name, evidently leftover. The README&#39;s own sample output later shows <code>Volume in drive Z is lima</code> (README.md:104), so the documented command does not match the documented output. A reader who runs the manual block instead of <code>run.sh</code> gets a <code>hoge</code> tag, which the WinFSP service path (<code>E:\viofs\2k25\amd64\virtiofs.exe</code>) may or may not pick up — the result is silently inconsistent with what the README shows.</p>
+    <p>Fix: change README.md:87 to <code>tag=lima</code>.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I4">
+        <span class="finding-num">I4.</span> <code>first_logon.ps1</code> has no error handling — silent partial-provisioning failures <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-qwen">Qwen</span><a href="#I4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/first_logon.ps1#L1-L40">poc-windows-guest/first_logon.ps1</a></div>
+      <pre data-start="1" data-line="1-40"><code class="language-powershell">$logfile = &quot;C:\Users\limauser\lima-setup.log&quot;
+
+# Record logs
+Start-Transcript -Path $logfile -Append
+
+# Install OpenSSH server, then enable it
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+Start-Service sshd
+Set-Service -Name sshd -StartupType Automatic
+
+# Modify firewall rule
+# Note that Windows server may have a firewall rule for SSH by default, but it doesn&#39;t work on my env.
+# So I remove and recreate the rule.
+Remove-NetFirewallRule -Name &#39;OpenSSH-Server-In-TCP&#39; -ErrorAction Ignore
+New-NetFirewallRule -Name &#39;OpenSSH-Server-In-TCP&#39; -DisplayName &#39;OpenSSH Server (sshd)&#39; -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+
+# Set a public key. Since a user `lima` is in Administrators group,
+# The pubelic key should be located under C:\ProgramData\ssh instead of under C:\Users\lima\.ssh.
+$pubkey = Get-Content -Path F:\user.pub
+$pubkeyLocation = &#39;C:\ProgramData\ssh\administrators_authorized_keys&#39;
+Add-Content -Force -Path $pubkeyLocation -Value $pubkey
+icacls $pubkeyLocation /inheritance:r
+icacls $pubkeyLocation /grant &quot;SYSTEM:F&quot;
+icacls $pubkeyLocation /grant &quot;Administrators:F&quot;
+
+# Install chocolatey for installing WinFSP.
+# WinFSP can be installed through winget as well, but currently winget is unstable in Windows Server Core
+# See: https://github.com/microsoft/winget-cli/discussions/5230
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(&#39;https://community.chocolatey.org/install.ps1&#39;))
+
+# Install WinFSP for VirtioFS
+C:\ProgramData\chocolatey\choco.exe install winfsp -y --pre
+
+# Create VirtioFs service from virtio-win, and enable it
+# By default, the host directory is mounted on Z:
+New-Service -Name VirtioFsSvc -BinaryPathName &#39;E:\viofs\2k25\amd64\virtiofs.exe&#39; -DisplayName VirtioFsSvc -StartupType Automatic
+Start-Service -Name VirtioFsSvc
+
+# Finish recording logs
+Stop-Transcript</code></pre>
+    <p>PowerShell does not stop on cmdlet failure by default, and native commands (<code>choco.exe</code>, <code>icacls</code>) are not checked through <code>$LASTEXITCODE</code>. If <code>Add-WindowsCapability</code> fails with a transient network error pulling FoD from Microsoft, <code>Start-Service sshd</code> runs anyway and produces a separate, unrelated error; the VM boots into a half-provisioned state where SSH never works. The same applies to chocolatey install failure (no WinFSP → <code>New-Service</code> succeeds but the service binary is missing → <code>Start-Service VirtioFsSvc</code> silently fails). The transcript log captures everything but a user has to scroll through hundreds of lines to notice.</p>
+    <p>Fix: set strict error handling at the top of the script, wrap the body in <code>try/finally</code>, and check <code>$LASTEXITCODE</code> after each native command.</p>
+      <pre><code class="language-diff">+$ErrorActionPreference = &#39;Stop&#39;
++try {
+   # ... existing body ...
++  if ($LASTEXITCODE -ne 0) { throw &quot;choco install winfsp failed: $LASTEXITCODE&quot; }
++} catch { Write-Error $_; exit 1 }
++finally { Stop-Transcript }</code></pre>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I5">
+        <span class="finding-num">I5.</span> <code>virtiofsd --shared-dir=./</code> exposes the host ISOs and the live qcow2 to the guest <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span><a href="#I5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/run.sh#L17-L27">poc-windows-guest/run.sh</a></div>
+      <pre data-start="17" data-line="22"><code class="language-bash">
+# Create qcow2
+qemu-img create -f qcow2 ./images/windows.qcow2 40G
+
+# Run virtiofsd in background
+virtiofsd --shared-dir=./ --socket-path=./virtiofsd.sock --sandbox none &amp;
+
+# Run QEMU
+qemu-system-x86_64 \
+    -name guest=win2k25,debug-threads=on \
+    -machine pc-q35-noble,usb=off,vmport=off,dump-guest-core=off,memory-backend=pc.ram,hpet=off,acpi=on \</code></pre>
+    <p>The shared directory is the PoC root, which contains <code>images/</code> (the Windows ISO, the virtio-win ISO, and the live <code>windows.qcow2</code> that QEMU is using as the guest disk), <code>autounattend.xml</code> (with the plaintext password), <code>first_logon.ps1</code>, and the <code>virtiofsd.sock</code> itself. The README&#39;s <code>dir Z:\</code> screenshot at line 109-119 confirms — the guest can list and modify its own backing disk. Combined with <code>--sandbox none</code> (no chroot/user-namespace isolation), this gives the guest a direct path to corrupt its own VM image and tamper with the installation media. For a PoC this is tolerable, but the default share root should be a dedicated subdirectory.</p>
+    <p>Fix:</p>
+      <pre><code class="language-diff">+mkdir -p ./shared
+-virtiofsd --shared-dir=./ --socket-path=./virtiofsd.sock --sandbox none &amp;
++virtiofsd --shared-dir=./shared --socket-path=./virtiofsd.sock --sandbox none &amp;</code></pre>
+    <p>and a note in the README that <code>--sandbox none</code> plus a parent-directory share means the guest can tamper with its own VM image.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I6">
+        <span class="finding-num">I6.</span> Chocolatey bootstrap is <code>iex</code>-piped from the internet with no integrity check <span class="pill pill-claude">Claude</span><a href="#I6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/first_logon.ps1#L24-L34">poc-windows-guest/first_logon.ps1</a></div>
+      <pre data-start="24" data-line="29"><code class="language-powershell">icacls $pubkeyLocation /grant &quot;Administrators:F&quot;
+
+# Install chocolatey for installing WinFSP.
+# WinFSP can be installed through winget as well, but currently winget is unstable in Windows Server Core
+# See: https://github.com/microsoft/winget-cli/discussions/5230
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(&#39;https://community.chocolatey.org/install.ps1&#39;))
+
+# Install WinFSP for VirtioFS
+C:\ProgramData\chocolatey\choco.exe install winfsp -y --pre
+
+# Create VirtioFs service from virtio-win, and enable it</code></pre>
+    <p>This is the canonical <code>iex (DownloadString …)</code> supply-chain anti-pattern: every VM provisioning run executes whatever code currently lives at <code>community.chocolatey.org/install.ps1</code>, as Administrator, with no checksum and no pinned commit. A compromise of the chocolatey CDN (or a man-in-the-middle between the guest and the CDN — the guest does its first network reach through QEMU&#39;s user-mode NAT) is full code execution on every Lima Windows guest provisioned from this PoC. WinFSP is the only package needed; downloading the MSI directly from <code>github.com/winfsp/winfsp</code> releases and verifying a pinned SHA-256 removes both the chocolatey dependency and the unpinned-fetch risk.</p>
+    <p>Fix:</p>
+      <pre><code class="language-powershell">$winfspUrl    = &#39;https://github.com/winfsp/winfsp/releases/download/v2.0/winfsp-2.0.23075.msi&#39;
+$winfspSha256 = &#39;&lt;sha256-of-the-msi&gt;&#39;
+$msi = &quot;$env:TEMP\winfsp.msi&quot;
+Invoke-WebRequest -Uri $winfspUrl -OutFile $msi -UseBasicParsing
+$got = (Get-FileHash -Algorithm SHA256 $msi).Hash
+if ($got -ne $winfspSha256) { throw &quot;winfsp checksum mismatch: $got&quot; }
+Start-Process msiexec.exe -Wait -ArgumentList &quot;/i `&quot;$msi`&quot; /qn&quot;</code></pre>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I7">
+        <span class="finding-num">I7.</span> Drive letters E:\ and F:\ are hardcoded throughout — install-time and at runtime <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-gemma">Gemma</span><a href="#I7" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/autounattend.xml#L4-L27">poc-windows-guest/autounattend.xml</a></div>
+      <pre data-start="4" data-line="9-22"><code class="language-powershell">    &lt;component name=&quot;Microsoft-Windows-PnpCustomizationsWinPE&quot; publicKeyToken=&quot;31bf3856ad364e35&quot;
+        language=&quot;neutral&quot; versionScope=&quot;nonSxS&quot; processorArchitecture=&quot;amd64&quot;
+        xmlns:wcm=&quot;http://schemas.microsoft.com/WMIConfig/2002/State&quot;&gt;
+        &lt;DriverPaths&gt;
+            &lt;PathAndCredentials wcm:action=&quot;add&quot; wcm:keyValue=&quot;2&quot;&gt;
+                &lt;Path&gt;E:\viostor\2k25\amd64&lt;/Path&gt;
+            &lt;/PathAndCredentials&gt;
+            &lt;PathAndCredentials wcm:action=&quot;add&quot; wcm:keyValue=&quot;3&quot;&gt;
+                &lt;Path&gt;E:\NetKVM\2k25\amd64&lt;/Path&gt;
+            &lt;/PathAndCredentials&gt;
+            &lt;PathAndCredentials wcm:action=&quot;add&quot; wcm:keyValue=&quot;4&quot;&gt;
+                &lt;Path&gt;E:\viofs\2k25\amd64&lt;/Path&gt;
+            &lt;/PathAndCredentials&gt;
+            &lt;PathAndCredentials wcm:action=&quot;add&quot; wcm:keyValue=&quot;5&quot;&gt;
+                &lt;Path&gt;E:\Balloon\2k25\amd64&lt;/Path&gt;
+            &lt;/PathAndCredentials&gt;
+            &lt;PathAndCredentials wcm:action=&quot;add&quot; wcm:keyValue=&quot;6&quot;&gt;
+                &lt;Path&gt;E:\viorng\2k25\amd64&lt;/Path&gt;
+            &lt;/PathAndCredentials&gt;
+        &lt;/DriverPaths&gt;
+    &lt;/component&gt;
+
+    &lt;component name=&quot;Microsoft-Windows-International-Core-WinPE&quot; processorArchitecture=&quot;amd64&quot; publicKeyToken=&quot;31bf3856ad364e35&quot; language=&quot;neutral&quot; versionScope=&quot;nonSxS&quot;&gt;
+      &lt;InputLocale&gt;en-US&lt;/InputLocale&gt;</code></pre>
+    <p>Two failure surfaces share one cause. At install time, the answer file driver paths (autounattend.xml:9-22), the cidata <code>first_logon.ps1</code> invocation (autounattend.xml:134), and the cidata <code>user.pub</code> read (first_logon.ps1:19) all assume <code>E:</code> = virtio-win ISO and <code>F:</code> = cidata ISO. That mapping comes from the <code>cdrom0/ide.1 → D:</code>, <code>cdrom1/ide.2 → E:</code>, <code>cdrom2/ide.3 → F:</code> Windows convention — not a contract. Reorder the <code>-device ide-cd,bus=ide.N</code> lines in <code>run.sh</code>, or add another removable device, and every reference silently breaks.</p>
+    <p>At runtime, <a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/first_logon.ps1#L36"><code>first_logon.ps1:36</code></a> registers <code>VirtioFsSvc</code> with its <code>BinaryPathName</code> on the virtio-win CD-ROM. The service persists across reboots, but its binary lives on removable media — detaching the ISO or any drive-letter reshuffle leaves the service registered with a missing binary.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/first_logon.ps1#L31-L40">poc-windows-guest/first_logon.ps1</a></div>
+      <pre data-start="31" data-line="36"><code class="language-plaintext"># Install WinFSP for VirtioFS
+C:\ProgramData\chocolatey\choco.exe install winfsp -y --pre
+
+# Create VirtioFs service from virtio-win, and enable it
+# By default, the host directory is mounted on Z:
+New-Service -Name VirtioFsSvc -BinaryPathName &#39;E:\viofs\2k25\amd64\virtiofs.exe&#39; -DisplayName VirtioFsSvc -StartupType Automatic
+Start-Service -Name VirtioFsSvc
+
+# Finish recording logs
+Stop-Transcript</code></pre>
+    <p>Fix: copy the service binary to <code>C:\</code> before registering, and locate the cidata ISO by volume label (<code>Get-Volume -FileSystemLabel autounattend</code>) rather than by drive letter.</p>
+      <pre><code class="language-diff">-New-Service -Name VirtioFsSvc -BinaryPathName &#39;E:\viofs\2k25\amd64\virtiofs.exe&#39; -DisplayName VirtioFsSvc -StartupType Automatic
++Copy-Item -Path &#39;E:\viofs\2k25\amd64\virtiofs.exe&#39; -Destination &#39;C:\Windows\System32\virtiofs.exe&#39;
++New-Service -Name VirtioFsSvc -BinaryPathName &#39;C:\Windows\System32\virtiofs.exe&#39; -DisplayName VirtioFsSvc -StartupType Automatic</code></pre>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I8">
+        <span class="finding-num">I8.</span> <code>pc-q35-noble</code> machine type is Ubuntu-noble-specific <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I8" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/run.sh#L22-L32">poc-windows-guest/run.sh</a></div>
+      <pre data-start="22" data-line="27"><code class="language-bash">virtiofsd --shared-dir=./ --socket-path=./virtiofsd.sock --sandbox none &amp;
+
+# Run QEMU
+qemu-system-x86_64 \
+    -name guest=win2k25,debug-threads=on \
+    -machine pc-q35-noble,usb=off,vmport=off,dump-guest-core=off,memory-backend=pc.ram,hpet=off,acpi=on \
+    -accel kvm \
+    -cpu host,migratable=on,hv-time=on,hv-relaxed=on,hv-vapic=on,hv-spinlocks=0x1fff \
+    -m size=2048 \
+    -object memory-backend-memfd,id=pc.ram,share=true,size=2048M \
+    -overcommit mem-lock=off \</code></pre>
+    <p>The <code>pc-q35-noble</code> alias ships with Canonical&#39;s Ubuntu 24.04 (&quot;noble&quot;) QEMU package. On Fedora, Arch, Debian-stable, RHEL, or any non-Ubuntu host, QEMU rejects this with <code>unsupported machine type</code> before Windows setup even starts. The README&#39;s &quot;Tested on Ubuntu 24.04&quot; note understates the constraint — this is a hard prerequisite, not a &quot;tested on&quot; annotation. The portable name <code>q35</code> selects the newest variant available on every distro.</p>
+    <p>Fix:</p>
+      <pre><code class="language-diff">-    -machine pc-q35-noble,usb=off,vmport=off,dump-guest-core=off,memory-backend=pc.ram,hpet=off,acpi=on \
++    -machine q35,usb=off,vmport=off,dump-guest-core=off,memory-backend=pc.ram,hpet=off,acpi=on \</code></pre>
+    <p>Apply the same change in <a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/README.md#L67"><code>README.md:67</code></a>.</p>
+    <p>Severity note: Gemini ranked this as Important on portability grounds; Claude and Codex ranked it as a Suggestion since the README explicitly says Ubuntu 24.04 was used. Settling on Important here because the script fails immediately on non-Ubuntu hosts, which is the first thing many readers will try.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> README does not list &quot;run Lima at least once&quot; as a prerequisite <span class="pill pill-claude">Claude</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/README.md#L16-L33">poc-windows-guest/README.md</a></div>
+      <pre data-start="16" data-line="21-28"><code class="language-bash">### Host environment
+I tested the code on:
+CPU arch: x86_64
+OS: Ubuntu 24.04
+
+### Prerequisites
+You should have:
+- QEMU binary
+- mkisofs (or altanatives) for creating ISO file
+  - Through apt, you can install it via `apt install genisoimage`
+- virtiofsd binary
+  - You can install via `cargo install virtiofsd`
+
+### Prepare ISO files
+#### Download Windows Server 2025 ISO
+You can download the ISO file from https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2025.
+Note that you need to register your name, email, company, and so on.
+After downloading it, you should place the ISO file as `poc-windows-guest/images/windows_server_2025.iso`.</code></pre>
+    <p><code>~/.lima/_config/user.pub</code> is created on the first <code>limactl</code> invocation that needs SSH keys. A fresh Lima install (or a CI environment) has no such file; the user gets a generic <code>cp: cannot stat &#39;/root/.lima/_config/user.pub&#39;</code> and has no obvious next step. The Prerequisites section should explicitly say &quot;Run <code>limactl create --name=default template://default</code> once to generate <code>~/.lima/_config/user{,.pub}</code>.&quot;</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> <code>run.sh</code> relies on the user&#39;s CWD being <code>poc-windows-guest/</code> <span class="pill pill-claude">Claude</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/run.sh#L1-L14">poc-windows-guest/run.sh</a></div>
+      <pre data-start="1" data-line="1-9"><code class="language-bash">#!/bin/bash
+
+# Note that this script expects that you&#39;ve already set Windows OS ISO (windows_server_2025.iso) and virtio-win ISO (virtio-win-0.1.285.iso) in ./images/
+
+set -e
+
+# Cleanup
+rm -f images/windows.qcow2
+rm -f images/win-cidata.iso
+
+# Build win-cidata.iso
+mkdir -p tmp/win-cidata
+cp autounattend.xml ./tmp/win-cidata/
+cp first_logon.ps1 ./tmp/win-cidata/</code></pre>
+    <p>Every path is relative to CWD. Running <code>bash poc-windows-guest/run.sh</code> from the repo root silently uses (and creates) <code>./images/</code>, <code>./tmp/</code>, and <code>./virtiofsd.sock</code> in the wrong place. The README&#39;s &quot;Please move to <code>./poc-windows-guest</code> before executing those commands&quot; is a documentation workaround for a one-line script fix.</p>
+    <p>Fix:</p>
+      <pre><code class="language-diff"> #!/bin/bash
++cd &quot;$(dirname &quot;$0&quot;)&quot;
+ set -e</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> Stale and misspelled identifier references in <code>first_logon.ps1</code> <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/first_logon.ps1#L12-L23">poc-windows-guest/first_logon.ps1</a></div>
+      <pre data-start="12" data-line="17-18"><code class="language-powershell"># Note that Windows server may have a firewall rule for SSH by default, but it doesn&#39;t work on my env.
+# So I remove and recreate the rule.
+Remove-NetFirewallRule -Name &#39;OpenSSH-Server-In-TCP&#39; -ErrorAction Ignore
+New-NetFirewallRule -Name &#39;OpenSSH-Server-In-TCP&#39; -DisplayName &#39;OpenSSH Server (sshd)&#39; -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+
+# Set a public key. Since a user `lima` is in Administrators group,
+# The pubelic key should be located under C:\ProgramData\ssh instead of under C:\Users\lima\.ssh.
+$pubkey = Get-Content -Path F:\user.pub
+$pubkeyLocation = &#39;C:\ProgramData\ssh\administrators_authorized_keys&#39;
+Add-Content -Force -Path $pubkeyLocation -Value $pubkey
+icacls $pubkeyLocation /inheritance:r
+icacls $pubkeyLocation /grant &quot;SYSTEM:F&quot;</code></pre>
+    <p>The account is named <code>limauser</code> throughout <code>autounattend.xml</code> (line 117) and the rest of the script, not <code>lima</code>. Both references in this comment block — and the user-profile path <code>C:\Users\lima\.ssh</code> — are wrong. Also <code>pubelic</code> → <code>public</code>. The comment is the place where the subtle Windows OpenSSH &quot;Administrator accounts authorize via <code>C:\ProgramData\ssh\administrators_authorized_keys</code>&quot; rule gets explained for the next maintainer; the explanation should not also be wrong about the username.</p>
+    <p>Fix:</p>
+      <pre><code class="language-diff">-# Set a public key. Since a user `lima` is in Administrators group,
+-# The pubelic key should be located under C:\ProgramData\ssh instead of under C:\Users\lima\.ssh.
++# Set a public key. Since limauser is in the Administrators group,
++# the public key must live under C:\ProgramData\ssh\administrators_authorized_keys
++# rather than C:\Users\limauser\.ssh\authorized_keys (OpenSSH on Windows
++# enforces this for admin accounts).</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> Typos in README and <code>run.sh</code> — <code>altanatives</code>, <code>autoanattend</code> <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span> <span class="pill pill-qwen">Qwen</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/README.md#L19-L29">poc-windows-guest/README.md</a></div>
+      <pre data-start="19" data-line="24"><code class="language-plaintext">OS: Ubuntu 24.04
+
+### Prerequisites
+You should have:
+- QEMU binary
+- mkisofs (or altanatives) for creating ISO file
+  - Through apt, you can install it via `apt install genisoimage`
+- virtiofsd binary
+  - You can install via `cargo install virtiofsd`
+
+### Prepare ISO files</code></pre>
+    <p><code>altanatives</code> → <code>alternatives</code>. The ISO volume label <code>autoanattend</code> is missing a <code>u</code> (should be <code>autounattend</code>). Windows Setup keys off the filename <code>autounattend.xml</code>, not the volume label, so the label typo is cosmetic — but it propagates from <a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/run.sh#L16"><code>run.sh:16</code></a> into the README and matters for grep-ability and search-engine indexing. Fix both occurrences together so the label stays consistent.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/run.sh#L11-L21">poc-windows-guest/run.sh</a></div>
+      <pre data-start="11" data-line="16"><code class="language-bash"># Build win-cidata.iso
+mkdir -p tmp/win-cidata
+cp autounattend.xml ./tmp/win-cidata/
+cp first_logon.ps1 ./tmp/win-cidata/
+cp ~/.lima/_config/user.pub ./tmp/win-cidata/
+mkisofs -o ./images/win-cidata.iso -J -r -V &quot;autoanattend&quot; ./tmp/win-cidata/
+
+# Create qcow2
+qemu-img create -f qcow2 ./images/windows.qcow2 40G
+
+# Run virtiofsd in background</code></pre>
+    <p>Fix:</p>
+      <pre><code class="language-diff">-  - mkisofs (or altanatives) for creating ISO file
++  - mkisofs (or alternatives) for creating ISO file
+...
+-mkisofs -o ./images/win-cidata.iso -J -r -V &quot;autoanattend&quot; ./tmp/win-cidata/
++mkisofs -o ./images/win-cidata.iso -J -r -V &quot;autounattend&quot; ./tmp/win-cidata/</code></pre>
+    <p>and the same change in <a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/run.sh#L16"><code>run.sh:16</code></a>.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> <code>.gitignore</code> pins a single virtio-win ISO version <span class="pill pill-claude">Claude</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/.gitignore#L1-L6">poc-windows-guest/.gitignore</a></div>
+      <pre data-start="1" data-line="1"><code class="language-plaintext">images/virtio-win-0.1.285.iso
+images/win-cidata.iso
+images/windows.qcow2
+images/windows_server_2025.iso
+tmp/*
+*virtiofsd.sock*</code></pre>
+    <p>If a future contributor downloads a different virtio-win release (e.g., <code>virtio-win-0.1.290.iso</code>), it won&#39;t be ignored, and <code>git status</code> will offer to commit it. Use a glob.</p>
+    <p>Fix:</p>
+      <pre><code class="language-diff">-images/virtio-win-0.1.285.iso
++images/virtio-win-*.iso</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> Path quoting in <code>run.sh</code> breaks on paths containing spaces <span class="pill pill-claude">Claude</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/run.sh#L8-L21">poc-windows-guest/run.sh</a></div>
+      <pre data-start="8" data-line="13-16"><code class="language-bash">rm -f images/windows.qcow2
+rm -f images/win-cidata.iso
+
+# Build win-cidata.iso
+mkdir -p tmp/win-cidata
+cp autounattend.xml ./tmp/win-cidata/
+cp first_logon.ps1 ./tmp/win-cidata/
+cp ~/.lima/_config/user.pub ./tmp/win-cidata/
+mkisofs -o ./images/win-cidata.iso -J -r -V &quot;autoanattend&quot; ./tmp/win-cidata/
+
+# Create qcow2
+qemu-img create -f qcow2 ./images/windows.qcow2 40G
+
+# Run virtiofsd in background</code></pre>
+    <p><code>~</code> expands fine outside quotes here, but if a user clones the repo under a path with spaces (a common case on macOS and Windows), the unquoted relative paths break. Combined with S2&#39;s <code>cd &quot;$(dirname &quot;$0&quot;)&quot;</code>, every relative path becomes a fixed string that does not need quoting, so this is largely subsumed once S2 lands.</p>
+    <p>Repo style (<code>CLAUDE.md</code>) also calls for long-form CLI options in checked-in scripts; the <code>mkisofs</code> flags <code>-J -r -V</code> are recognizable enough that this is a stylistic preference rather than a correctness issue.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> <code>tmp/win-cidata/</code> is not cleaned before each <code>mkisofs</code> run <span class="pill pill-claude">Claude</span><a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/run.sh#L2-L17">poc-windows-guest/run.sh</a></div>
+      <pre data-start="2" data-line="7-12"><code class="language-bash">
+# Note that this script expects that you&#39;ve already set Windows OS ISO (windows_server_2025.iso) and virtio-win ISO (virtio-win-0.1.285.iso) in ./images/
+
+set -e
+
+# Cleanup
+rm -f images/windows.qcow2
+rm -f images/win-cidata.iso
+
+# Build win-cidata.iso
+mkdir -p tmp/win-cidata
+cp autounattend.xml ./tmp/win-cidata/
+cp first_logon.ps1 ./tmp/win-cidata/
+cp ~/.lima/_config/user.pub ./tmp/win-cidata/
+mkisofs -o ./images/win-cidata.iso -J -r -V &quot;autoanattend&quot; ./tmp/win-cidata/
+</code></pre>
+    <p><code>mkdir -p</code> does not clear the directory. A previous run that left a renamed <code>first_logon.ps1.old</code> (or any other artifact from manual editing) gets packaged into the next ISO, because <code>mkisofs ... ./tmp/win-cidata/</code> writes the directory&#39;s current contents verbatim. Either <code>rm -rf tmp/win-cidata</code> before the <code>mkdir -p</code>, or use <code>mktemp -d</code> for a fresh staging area each run.</p>
+    <p>Fix:</p>
+      <pre><code class="language-diff">+# Build win-cidata.iso (fresh staging dir each time)
++rm -rf tmp/win-cidata
+ mkdir -p tmp/win-cidata</code></pre>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <p><strong>Concerns</strong></p>
+    <ul>
+      <li><em></em>Plaintext credentials in <code>autounattend.xml</code><em></em> <code>(future)</code> <span class="pill pill-claude">Claude</span> — <code>poc-windows-guest/autounattend.xml:111,142</code>. The local-account password and the autologon password both sit in plaintext, intended as a one-shot bootstrap before the public key is installed. Once the SSH key is in place the password becomes the weak link, and the same file ships into the cidata ISO that gets attached to the running VM. For the eventual non-PoC integration, generate a strong random password per provision, or use <code>&lt;UserAccounts&gt;\AdministratorPassword</code> with the base64 obfuscation Microsoft documents (still trivially decoded, but less visible than <code>&lt;Value&gt;limauser&lt;/Value&gt;</code> next to the username <code>limauser</code>).</li>
+      <li><em></em><code>autounattend.xml</code> and <code>first_logon.ps1</code> are pinned to Windows Server 2025<em></em> <code>(future)</code> <span class="pill pill-claude">Claude</span> — <a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/autounattend.xml#L9-L22"><code>poc-windows-guest/autounattend.xml:9-22</code></a>, <a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/first_logon.ps1#L36"><code>poc-windows-guest/first_logon.ps1:36</code></a>. Driver paths reference <code>\2k25\</code> literally. The eventual Lima integration needs a templating layer that substitutes both the Windows version (<code>2k22</code>, <code>2k25</code>, <code>11</code>, etc.) and the virtio-win release. The current PoC layout — one fixed <code>2k25</code> subdir — should not get codified as the long-term answer-file format.</li>
+      <li><strong>The PoC reimplements QEMU/virtiofsd lifecycle handling instead of reusing Lima&#39;s</strong> <code>(future)</code> <span class="pill pill-codex">Codex</span>. The in-tree QEMU driver under <code>pkg/hostagent</code> already handles socket readiness, vhost-process shutdown, and structured logging. If this graduates into Lima proper, the Windows guest path should reuse that machinery; the current <code>run.sh</code> failures around <code>virtiofsd</code> (I2) are exactly the failure modes the driver already solves.</li>
+    </ul>
+    <p><strong>Strengths</strong></p>
+    <ul>
+      <li>The PoC keeps all new code under one directory and touches no existing Lima Go or template code, making the experiment trivial to delete or evolve.</li>
+      <li>VirtIO-FS (rather than 9p or SMB) on the host side matches the QEMU recommendation in <a href="https://github.com/lima-vm/lima/issues/4852" class="gh-ref" data-title="Support for Windows guests" data-state="open" data-type="issue">#4852</a> and the existing Lima VirtIO-FS path on macOS, so the host-side plumbing is reusable.</li>
+      <li><code>&lt;SynchronousCommand&gt;</code> for first-logon (<a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/autounattend.xml#L131"><code>autounattend.xml:131</code></a>) is the correct primitive — Windows blocks boot until the script completes, so installation failures are observable rather than racing against early SSH access.</li>
+      <li>SSH key placement at <code>C:\ProgramData\ssh\administrators_authorized_keys</code> with the <code>icacls /inheritance:r</code> + <code>SYSTEM:F</code> + <code>Administrators:F</code> ACL set <span class="pill pill-gemma">Gemma</span> correctly handles the specific OpenSSH-for-Windows rule that admin-group accounts authorize via a system-wide file, not <code>%USERPROFILE%\.ssh</code>.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>No tests added. Acceptable for a PoC, but the eventual feature needs:</p>
+    <ol>
+      <li><strong>First-logon failure-mode coverage</strong>: a smoke check inside <code>first_logon.ps1</code> that asserts the WinFSP MSI install succeeded and <code>virtiofs.exe</code> exists before <code>New-Service</code> runs. Addresses I4, I6, I7.</li>
+      <li><strong>Drive-letter-independence test</strong>: either a runtime probe (find ISOs by volume label) or an integration test that boots the guest and asserts <code>Z:\</code> is mounted after first reboot. Addresses I7.</li>
+      <li><strong>Idempotent re-launch test</strong>: running <code>run.sh</code> a second time against an already-installed VM should preserve the qcow2. Addresses I1.</li>
+      <li><strong>virtiofsd lifecycle test</strong>: verify the socket is removed and no orphan <code>virtiofsd</code> remains after a clean QEMU exit or Ctrl-C. Addresses I2.</li>
+      <li><strong>Cross-distro QEMU smoke</strong>: at minimum, document which distros are known to work; better, replace <code>pc-q35-noble</code> with <code>q35</code> so the script runs on Fedora/Debian/Arch without modification. Addresses I8.</li>
+      <li><strong>Offline / proxy-blocked install path</strong>: the chocolatey bootstrap (I6) and <code>Add-WindowsCapability</code> (which pulls from Microsoft FoD) both require unrestricted internet — CI behind a corporate proxy will fail. Document the network requirements or pre-bundle the dependencies.</li>
+    </ol>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><code>README.md</code> is the only documentation, written as a runbook rather than a design note. That fits a PoC, but two improvements would significantly raise the floor for the next reader:</p>
+    <ul>
+      <li><strong>Distinguish &quot;create/rebuild&quot; from &quot;launch existing&quot;</strong>: once I1 lands, the README should make the two flows explicit. Today&#39;s text reads as &quot;launch the VM,&quot; but the script actually means &quot;wipe and reinstall.&quot;</li>
+      <li><strong>State hard prerequisites alongside package names</strong>: the existing &quot;Tested on Ubuntu 24.04&quot; note understates the <code>pc-q35-noble</code> and <code>--accel kvm</code> constraints. List them as hard requirements (Ubuntu 24.04 QEMU, KVM-enabled host, user in the <code>kvm</code> group) so a reader knows up-front whether their setup will work.</li>
+      <li><strong>Note the host-data-exposure caveat</strong>: the README should flag that the guest can read and write any file under the shared directory, including the qcow2 backing its own disk (I5).</li>
+      <li><strong>Fix the find-and-replace artifact noise</strong>: see I3 (tag mismatch). Once that and S4 are fixed, the README and <code>run.sh</code> agree, and the volume label is no longer misspelled.</li>
+    </ul>
+    <p>The Lima top-level documentation does not yet reference this directory (confirmed via grep) — which is correct for a PoC. Do not link it from the main README until the design issues above are settled.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>Code comment</strong>: &quot;Windows server may have a firewall rule for SSH by default, but it doesn&#39;t work on my env.&quot; — <a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/first_logon.ps1#L12"><code>poc-windows-guest/first_logon.ps1:12</code></a>. The remove-and-recreate firewall rule is intentional. Worth investigating later whether this is environment-specific or universal, but not raised as a finding for this PoC.</li>
+      <li><strong>Code comment</strong>: &quot;winget is unstable in Windows Server Core&quot; — <a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/first_logon.ps1#L27"><code>poc-windows-guest/first_logon.ps1:27</code></a>. The chocolatey choice is intentional given winget&#39;s current state on Server Core. I6 is limited to the missing integrity check around that choice, not the choice itself.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude"><span class="pill pill-claude">Claude</span> <a href="#claude" class="pilcrow">&#182;</a></h3>
+    <p>Most thorough reviewer. Caught the supply-chain risk in the chocolatey bootstrap (I6) and the <code>--shared-dir=./</code> host-data exposure (I5) — both raised only by Claude, both high-impact. Grouped the three drive-letter symptoms (autounattend driver paths, <a href="https://github.com/lima-vm/lima/blob/c93a1fa2d4896e7323616c147bf618ecda4310aa/poc-windows-guest/first_logon.ps1#L19"><code>first_logon.ps1:19</code></a> cidata path, and the persistent <code>VirtioFsSvc</code> binary path) into one coherent I5/S3 chain instead of three disconnected findings. Severity calibration matched the consolidated outcome on every entry; no downgrades, no rejections.</p>
+    <h3 id="codex"><span class="pill pill-codex">Codex</span> <a href="#codex" class="pilcrow">&#182;</a></h3>
+    <p>Tightest signal-to-noise. The unique catch — <code>rm -f images/windows.qcow2</code> at the top of <code>run.sh</code> destroys the installed VM on every launch — is arguably the most user-visible bug in the PR, and only Codex framed it as a data-loss issue rather than a cleanup note. Useful Acknowledged Limitations section flagged the chocolatey choice and the firewall workaround as intentional, which kept the consolidated report from re-flagging those as findings.</p>
+    <h3 id="gemini"><span class="pill pill-gemini">Gemini</span> <a href="#gemini" class="pilcrow">&#182;</a></h3>
+    <p>Mixed quality. Caught one real angle the others missed — the persistent <code>VirtioFsSvc</code> binary path pointing at the CD-ROM drive (now part of I7). One outright fabrication: I3 in Gemini&#39;s output claimed the README had find-and-replace artifacts like <code>limauser @localhost</code> and <code>colima.svg</code>, but the actual lines are correct — this was rejected as a false positive. Promoted <code>pc-q35-noble</code> to Critical-adjacent Important; Claude and Codex ranked it as a Suggestion. Settled on Important in the consolidated report, but Gemini overstated by classifying the entire issue as &quot;regression&quot; with a critical-severity verdict block. As usual, Gemini skipped <code>git blame</code> (known quota behavior).</p>
+    <h3 id="gemma"><span class="pill pill-gemma">Gemma</span> <a href="#gemma" class="pilcrow">&#182;</a></h3>
+    <p>Best local-model performance to date. 4 findings, all consolidated cleanly with the cloud trio, no false positives, no malformed output. Caught nothing unique, but the smaller surface (4 findings vs. Claude&#39;s 14) is appropriate for a 31B local model on a 362-line diff. Correctly identified chocolatey as an in-scope design concern rather than just a finding, which matches Claude&#39;s I6 framing.</p>
+    <h3 id="qwen"><span class="pill pill-qwen">Qwen</span> <a href="#qwen" class="pilcrow">&#182;</a></h3>
+    <p>The first pass with the MXFP8 quantization (<code>qwen3.6:27b-coding-mxfp8</code>) produced 33 lines of hallucinated XML state markers (<code>&lt;state&gt;world_write\n&lt;files&gt;\n&lt;file&gt;...</code>) rather than the requested Critical/Important/Suggestions structure. The schema does not appear in the prompt or the source files; the model invented it on its final turn after 3 model turns and ~54 K tokens of accumulated context. A second pass with the bf16 quantization of the same base model (<code>qwen3.6:27b-coding-bf16</code>, 50 GB vs MXFP8&#39;s 29 GB) against the same prompt produced <strong>clean structured findings</strong>: 2 Important and 3 Suggestions, all consolidating with the cloud trio. Notably, bf16 caught the qcow2-destruction issue (consolidated I1) that was otherwise Codex&#39;s unique catch among the cloud agents — no other local model surfaced it. After post-consolidation promotions (S2 virtiofsd → I2, S3 error handling → I4), Qwen&#39;s bf16 pass contributes to four Important findings and one Suggestion. The MXFP8/bf16 comparison isolates quantization as the cause of the earlier failure: same model architecture (standard Qwen 3.5 dense decoder per Ollama&#39;s <code>arch=Qwen3_5ForConditionalGeneration</code> log line), same prompt, same multi-turn conversation shape, same diff under review — only the quantization changed, and the result went from malformed to high-quality. Initial framing during the first pass that called this a &quot;coding-specialized&quot; model was incorrect; the failure was MXFP8 degrading instruction-following under multi-turn load, not training-time bias. The retro table below reflects only the bf16 pass (the kept run); the MXFP8 pass is preserved at <code>/tmp/deep-review-HlOEwA/*.mxfp8</code> for the record.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.7</th><th><span class="pill pill-codex">Codex</span> GPT 5.5</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th><th><span class="pill pill-qwen">Qwen</span> 3.6 27B</th><th><span class="pill pill-gemma">Gemma</span> 31B</th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>3m 50s</td><td>4m 35s</td><td>—</td><td>9m 37s</td><td>10m 07s</td></tr>
+        <tr><td>Findings</td><td>7I 7S</td><td>6I 1S</td><td>4I 1S</td><td>4I 1S</td><td>3I</td></tr>
+        <tr><td>Tool calls</td><td>8 (Read 5, Bash 3)</td><td>33 (shell 31, stdin 2)</td><td>—</td><td>9 (read 6, bash 2, glob 1)</td><td>5 (read 5)</td></tr>
+        <tr><td>Design observations</td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>6</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>6</td><td>6</td><td>6</td><td>6</td><td>6</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>7I 7S</strong></td><td><strong>6I 1S</strong></td><td><strong>4I 1S</strong></td><td><strong>4I 1S</strong></td><td><strong>3I</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>1 (I→S)</td><td>0</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Reconciliation:</strong></p>
+    <ul>
+      <li><strong>Gemini C1 → I2</strong> (downgraded critical → important). Gemini classified &quot;virtiofsd socket conflicts and process leaks&quot; as Critical. The same issue surfaced from Claude (I2), Codex (I3), and Gemma (I1) at Important. Settled on Important: the bug breaks re-runs and leaves orphan processes, but the first run completes successfully and no data is corrupted. Critical is reserved for issues blocking a single-run success or risking persistent damage.</li>
+      <li><strong>Gemini S1, Codex S1, Gemma S1 → I3</strong> (promoted suggestion → important). The README <code>tag=hoge</code> vs <code>run.sh tag=lima</code> mismatch is the central documented entry point for the PoC; the README is what most users will copy. Claude raised it as Important; the others as Suggestion. Promoted to match Claude&#39;s read.</li>
+      <li><strong>Claude S5, Codex S2 → I8</strong> (promoted suggestion → important). The <code>pc-q35-noble</code> machine type fails immediately on non-Ubuntu hosts. Gemini ranked Important; Claude and Codex ranked Suggestion citing the README&#39;s Ubuntu-24.04 note. Promoted to Important because the failure is immediate on every other distribution and the README&#39;s annotation does not flag it as a hard prerequisite.</li>
+      <li><strong>Gemini I3 — rejected</strong>. Claimed the README contained accidental find-and-replace artifacts (<code>limauser @localhost</code> and <code>@website/static/images/users/colima.svg</code>). Verified against the README in the lead worktree: the lines read <code>limauser@localhost</code> and <code>limauser@LIMA</code> respectively. The cited fragments do not exist in the file. False positive.</li>
+      <li><strong>Gemma S2 → merged into I7</strong>. Gemma raised drive-letter fragility as a Suggestion; Claude raised the same issue plus the persistent service path as Important (I5 in Claude&#39;s numbering). Merged into the consolidated I7 at Important.</li>
+      <li><strong>Gemini I2 → merged into I7</strong>. Same root cause as above; Gemini&#39;s framing focused on the persistent service path specifically, which became one of the two failure surfaces under consolidated I7.</li>
+      <li><strong>Qwen S2 → I2</strong> (promoted suggestion → important). Qwen&#39;s bf16 pass raised the <code>virtiofsd</code> cleanup issue as a Suggestion; consolidated as Important on the same reasoning as Gemma S2 above.</li>
+      <li><strong>Qwen S3 → I4</strong> (promoted suggestion → important). Qwen&#39;s bf16 pass raised <code>first_logon.ps1</code> error handling as a Suggestion; consolidated as Important on the same reasoning as the cloud agents.</li>
+    </ul>
+    <p>The cloud trio produced highly complementary findings: Claude&#39;s depth, Codex&#39;s data-loss catch (also caught by Qwen-bf16), and Gemini&#39;s persistent-service angle each surfaced something the others missed. Gemma usefully confirmed consensus without inflating the noise floor. Qwen-bf16 — once the quantization was switched from MXFP8 to bf16 — joined the consensus and added independent confirmation of the highest-impact issue (qcow2 destruction). For future PRs the recommended combination is Claude + Codex + Gemini + Gemma + Qwen (bf16); the MXFP8 variant of Qwen should not be used on prompts in this length class until further evidence shows it can hold the format under multi-turn load.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Per-agent wall-clock is undercounted for local (opencode-backed) agents and may be undercounted for cloud agents too.</strong> <code>collect-metrics/session_opencode.go</code> computes <code>duration_s</code> as the span between the first and last <code>timestamp</code> field in <code>raw-{kind}-pass-{N}.ndjson</code>. opencode&#39;s first <code>step_start</code> event fires only when the model begins streaming its first response tokens — that excludes model load AND all server-side prompt processing on every preceding HTTP request. On this review, the qwen pass showed an ndjson event window of 5 min 25 s while Ollama&#39;s own server log showed actual model-side wall-clock of 13 min 48 s (~60 % undercount; ~8 min of model load and multi-turn prompt processing were invisible to the ndjson stream). The same event-bounds approach applies to Claude/Codex/Gemini; cloud-agent CLIs emit their first session event much earlier, so the undercount is smaller, but it is still nonzero. Capture the actual process start and end times in <code>launch.go</code> (immediately before and after <code>cmd.Run()</code>) and write them to e.g. <code>times-{kind}-pass-{N}.json</code>; <code>collect-metrics</code> should prefer those timestamps over event bounds for all agent kinds.</li>
+      <li><strong>Local-model format adherence is nondeterministic across conversation length and context size, not a fixed property of the model.</strong> This review saw a dense 27 B local model (Qwen 3.5 dense decoder per Ollama&#39;s <code>arch=…</code> log) produce hallucinated XML-shaped markup on a multi-turn 16 KB-diff review while the same model produced clean structured findings on a 7 KB single-turn review three hours earlier. Do not treat a single bad run as evidence of a persistent model failure: the skill&#39;s existing failure handling already drops empty/malformed local-model passes from consolidation, and one such miss is the expected cost of including a local-model slot. Before swapping a model line in <code>launch.go</code> on the strength of one run, check the sidecar JSON&#39;s <code>consolidated_findings</code> for the same agent across 3+ prior reviews of varying diff sizes — if the agent regularly joins consensus findings on small/single-turn reviews but fails on larger/multi-turn ones, the right response is to scope the agent&#39;s use, not to swap the model.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <p>None this review. The PoC sits in a standalone <code>poc-windows-guest/</code> directory and does not exercise existing Lima architecture, conventions, or stable APIs. The current <code>deep-review-context.md</code> entries on mount-path symlink resolution, EnsureDisk responsibilities, Windows SSH toolchains, and the other Lima-specific patterns did not apply to any finding in this review.</p>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
