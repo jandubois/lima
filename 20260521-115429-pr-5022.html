@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260521-115429-pr-5022</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260521-115429-pr-5022</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-05-21 11:54</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1 (of target)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/skataria8443">@skataria8443</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5022" class="gh-ref" data-title="LFX: Windows guest support proof-of-concept" data-state="open" data-type="pr">#5022</a> — LFX: Windows guest support proof-of-concept</td></tr>
+      <tr><td>Branch</td><td><code>windows-guest-support</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/ddf0abaa"><code>ddf0abaa</code></a> qemu: secure boot support with pre-enrolled keys (experimental)<br><a href="https://github.com/lima-vm/lima/commit/cea775f5"><code>cea775f5</code></a> qemu: software TPM 2.0 support (experimental)<br><a href="https://github.com/lima-vm/lima/commit/3cf2d8bc"><code>3cf2d8bc</code></a> qemu: windows guest support (experimental)<br><a href="https://github.com/lima-vm/lima/commit/ff00a4d3"><code>ff00a4d3</code></a> set display to default for windows template</td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.7 (effort: xhigh), <span class="pill pill-codex">Codex</span> GPT 5.5 (effort: xhigh), <span class="pill pill-gemini">Gemini</span> 3.1 Pro (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; two critical correctness gaps (installer boot-key race; firmware-descriptor fail-fast) and several important reliability issues. Architecture is sound and isolates well from non-Windows paths.</td></tr>
+      <tr><td>Wall-clock time</td><td><code>35 min 46 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>This PR adds an experimental Windows guest on QEMU plus its Secure Boot and TPM 2.0 prerequisites. Five fixable issues stand out: a 1.5-second sleep races the Windows installer boot prompt on slow hosts; a single unreadable firmware descriptor aborts the entire descriptor lookup; the UEFI variable store persists across Secure Boot mode changes; the 200×3-second per-requirement retry budget under-caps Windows install time relative to the 60-minute outer timeout; and <code>swtpm</code> shutdown produces a spurious error on every <code>Stop</code>.</p>
+    <p>The change isolates Windows-specific code paths cleanly: descriptor selection lives in <code>pkg/driver/qemu/firmware.go</code>, Windows cidata sits beside the existing Linux template in <code>pkg/cidata</code>, and the schema additions (<code>Firmware.SecureBoot</code>, <code>Firmware.TPM2</code>, <code>GuestDrivers</code>) carry validation. Three independent reviewers (Claude Opus 4.7, Codex GPT 5.5, Gemini 3.1 Pro) ran the same prompt; the boot-key race was raised by all three, lending strong consensus to the Critical severity. Suggestions cluster around polishing the descriptor-matching heuristics, routing virtio-win ISOs through the existing download pipeline, and aligning shell-script and template defaults across host OSes.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+      <div class="finding-title" id="C1">
+        <span class="finding-num">C1.</span> Installer boot-key sleeps a fixed 1.5 s before the UEFI prompt, then marks done before the keypress lands <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#C1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ddf0abaa9ff3ef1f1200b503413ef3cd6590c25a/pkg/driver/qemu/qemu_driver.go#L445-L473">pkg/driver/qemu/qemu_driver.go</a></div>
+      <pre data-start="445" data-line="450-468"><code class="language-go">	}
+	return nil
+}
+
+// Ask the user to sign the qemu binary with the &quot;com.apple.security.hypervisor&quot; if needed.
+// Workaround for https://github.com/lima-vm/lima/issues/1742
+func checkBinarySignature(ctx context.Context, vmArch string) error {
+	macOSProductVersion, err := osutil.ProductVersion()
+	if err != nil {
+		return err
+	}
+	// The codesign --xml option is only available on macOS Monterey and later
+	if !macOSProductVersion.LessThan(*semver.New(&quot;12.0.0&quot;)) &amp;&amp; vmArch != &quot;&quot; {
+		qExe, _, err := Exe(vmArch)
+		if err != nil {
+			return fmt.Errorf(&quot;failed to find the QEMU binary for the architecture %q: %w&quot;, vmArch, err)
+		}
+		if accel := Accel(vmArch); accel == &quot;hvf&quot; {
+			entitlementutil.AskToSignIfNotSignedProperly(ctx, qExe)
+		}
+	}
+
+	return nil
+}
+
+func (l *LimaQemuDriver) changeVNCPassword(password string) error {
+	qmpSockPath := filepath.Join(l.Instance.Dir, filenames.QMPSock)
+	err := waitFileExists(qmpSockPath, 30*time.Second)
+	if err != nil {</code></pre>
+    <p>A QEMU+OVMF guest typically reaches the &quot;Press any key to boot from CD or DVD&quot; prompt 5–15 s after start, depending on host load and firmware path. A 1.5 s sleep after the QMP socket appears fires the keypress before the firmware reaches that screen, so the installer hangs at the prompt forever. The marker is written immediately after <code>sendkey</code> succeeds — not after a guest-observable milestone — so the next <code>limactl start</code> skips the workaround and reinstall is also stuck.</p>
+    <p>Fix: poll until <code>setup.done</code> or hold off on writing the marker until first reboot, and send <code>sendkey ret</code> several times across ~30 s (e.g., every 3 s for 10 iterations) so the keypress survives a slow firmware path.</p>
+    </div>
+    <div class="card card-critical">
+      <div class="finding-title" id="C2">
+        <span class="finding-num">C2.</span> An unreadable or malformed firmware descriptor aborts the entire descriptor search <span class="pill pill-claude">Claude</span><a href="#C2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ddf0abaa9ff3ef1f1200b503413ef3cd6590c25a/pkg/driver/qemu/firmware.go#L141-L179">pkg/driver/qemu/firmware.go</a></div>
+      <pre data-start="141" data-line="146-174"><code class="language-go">	}
+
+	return dirs
+}
+
+func getFirmwareFromDescriptorFiles(descriptorPaths []string, arch limatype.Arch, secureBoot, preEnrollSecureBootKeys bool) (qemuFirmware, error) {
+	var matches []qemuFirmware
+	for _, descriptorPath := range descriptorPaths {
+		if descriptorPath == &quot;&quot; {
+			continue
+		}
+		b, err := os.ReadFile(descriptorPath)
+		if err != nil {
+			return qemuFirmware{}, err
+		}
+		var descriptor qemuFirmwareDescriptor
+		if err = json.Unmarshal(b, &amp;descriptor); err != nil {
+			return qemuFirmware{}, err
+		}
+		firmware, ok := firmwareFromDescriptor(descriptor, descriptorPath, arch, secureBoot, preEnrollSecureBootKeys)
+		if ok {
+			matches = append(matches, firmware)
+		}
+	}
+	for _, firmware := range matches {
+		if firmwareUses4M(firmware) {
+			return firmware, nil
+		}
+	}
+	if len(matches) &gt; 0 {
+		return matches[0], nil
+	}
+	return qemuFirmware{}, fmt.Errorf(&quot;no QEMU firmware descriptor from %v matches arch %q secureBoot=%v preEnrollSecureBootKeys=%v&quot;, descriptorPaths, arch, secureBoot, preEnrollSecureBootKeys)
+}
+
+func qemuFirmwareDescriptorPaths(qemuExe string) ([]string, error) {
+	// QEMU descriptor lookup supports overriding descriptors by filename. More
+	// specific directories are listed first here. A zero-length descriptor file
+	// masks descriptors with the same basename from less-specific directories.</code></pre>
+    <p><code>getFirmwareFromDescriptorFiles</code> walks every descriptor returned by <code>qemuFirmwareDescriptorPaths</code> plus user-supplied <code>firmware.descriptors</code>. A single permission-denied file or malformed JSON anywhere on the search path bubbles up as a hard error, masking every valid descriptor in the same and lower-priority directories. Distribution package updates (Fedora <code>edk2-ovmf</code>, Arch <code>edk2-ovmf</code>) or a user-supplied stale path are sufficient to break Lima&#39;s firmware lookup on the host. With <code>secureBoot=true</code>, the caller returns the error directly — no fallback path runs.</p>
+    <p>Fix: log and <code>continue</code> per-file on read/parse failure; only return an error when every candidate fails.</p>
+      <pre><code class="language-diff">-    b, err := os.ReadFile(descriptorPath)
+-    if err != nil {
+-        return qemuFirmware{}, err
+-    }
++    b, err := os.ReadFile(descriptorPath)
++    if err != nil {
++        logrus.WithError(err).Warnf(&quot;skipping unreadable firmware descriptor %q&quot;, descriptorPath)
++        continue
++    }</code></pre>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> Per-requirement retry budget caps Windows install at 10 minutes <span class="pill pill-codex">Codex</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ddf0abaa9ff3ef1f1200b503413ef3cd6590c25a/pkg/hostagent/requirements.go#L15-L51">pkg/hostagent/requirements.go</a></div>
+      <pre data-start="15" data-line="20-46"><code class="language-go">
+	&quot;github.com/lima-vm/lima/v2/pkg/limatype&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/sshutil&quot;
+)
+
+func (a *HostAgent) waitForRequirements(label string, requirements []requirement) error {
+	const (
+		retries       = 200
+		sleepDuration = 3 * time.Second
+	)
+	var errs []error
+
+	for i, req := range requirements {
+		logrus.Infof(&quot;Waiting for the %s requirement %d of %d: %q&quot;, label, i+1, len(requirements), req.description)
+	retryLoop:
+		for j := range retries {
+			err := a.waitForRequirement(req)
+			if err == nil {
+				logrus.Infof(&quot;The %s requirement %d of %d is satisfied&quot;, label, i+1, len(requirements))
+				break retryLoop
+			}
+			if req.fatal {
+				logrus.Infof(&quot;No further %s requirements will be checked&quot;, label)
+				errs = append(errs, fmt.Errorf(&quot;failed to satisfy the %s requirement %d of %d %q: %s; skipping further checks: %w&quot;, label, i+1, len(requirements), req.description, req.debugHint, err))
+				return errors.Join(errs...)
+			}
+			if j == retries-1 {
+				errs = append(errs, fmt.Errorf(&quot;failed to satisfy the %s requirement %d of %d %q: %s: %w&quot;, label, i+1, len(requirements), req.description, req.debugHint, err))
+				break retryLoop
+			}
+			time.Sleep(sleepDuration)
+		}
+	}
+	return errors.Join(errs...)
+}
+
+// prefixExportParam will modify a script to be executed by ssh.ExecuteScript so that it exports</code></pre>
+    <p><a href="https://github.com/lima-vm/lima/blob/ddf0abaa9ff3ef1f1200b503413ef3cd6590c25a/pkg/instance/start.go#L43-L44"><code>pkg/instance/start.go:43-44</code></a> extends the outer watch timeout to 60 minutes for Windows guests, but <code>waitForRequirement</code> still gives up after 200 × 3 s = 10 minutes per requirement. The first essential Windows requirement is SSH connectivity; a Windows install that needs more than 10 minutes (slow disk, busy host, slipstreaming) fails that probe permanently and <code>errors.Join</code> carries the failure to the end of <code>waitForRequirements</code>, even when the later requirements succeed. <code>watchHostAgentEvents</code> then reports <code>degraded</code> and <code>limactl start</code> returns non-zero. The 60-minute outer timeout is dead code as long as the inner budget is shorter.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ddf0abaa9ff3ef1f1200b503413ef3cd6590c25a/pkg/instance/start.go#L38-L49">pkg/instance/start.go</a></div>
+      <pre data-start="38" data-line="43-44"><code class="language-go">
+// DefaultWatchHostAgentEventsTimeout is the duration to wait for the instance
+// to be running before timing out.
+const DefaultWatchHostAgentEventsTimeout = 10 * time.Minute
+
+type Prepared struct {
+	Driver              driver.Driver
+	GuestAgent          string
+	NerdctlArchiveCache string
+}
+
+// Prepare ensures the disk, the nerdctl archive, etc.</code></pre>
+    <p>Fix: make per-requirement retries context-aware (loop until the surrounding <code>ctx</code> deadline) or expose a Windows-specific retry budget that matches the 60-minute outer envelope.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> <code>ensureFirmwareFileIfMissing</code> preserves stale UEFI vars across Secure Boot mode changes <span class="pill pill-codex">Codex</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ddf0abaa9ff3ef1f1200b503413ef3cd6590c25a/pkg/driver/qemu/firmware.go#L290-L326">pkg/driver/qemu/firmware.go</a></div>
+      <pre data-start="290" data-line="295-321"><code class="language-go">		s += &quot; &quot; + strings.ToLower(filepath.Base(firmware.Vars.Path))
+	}
+	return strings.Contains(s, &quot;4m&quot;)
+}
+
+func prepareFirmwareTemplate(instanceDir string, firmware qemuFirmware, secureBoot bool) (codePath, varsPath, codeFormat, varsFormat string, err error) {
+	codeFormat = firmware.Code.Format
+	varsFormat = qemuFirmwareFormatRaw
+	if firmware.DescriptorPath == &quot;&quot; {
+		logrus.Infof(&quot;Using system firmware %q&quot;, firmware.Code.Path)
+		return firmware.Code.Path, &quot;&quot;, codeFormat, varsFormat, nil
+	}
+	if firmware.Vars == nil {
+		return &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, fmt.Errorf(&quot;firmware descriptor %q is missing a variable store template&quot;, firmware.DescriptorPath)
+	}
+
+	codePath = firmware.instanceCodePath(instanceDir)
+	varsPath = firmware.instanceVarsPath(instanceDir)
+	varsFormat = firmware.Vars.Format
+	if err = ensureFirmwareFile(codePath, firmware.Code); err != nil {
+		return &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, err
+	}
+	if err = ensureFirmwareFileIfMissing(varsPath, *firmware.Vars); err != nil {
+		return &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, err
+	}
+	if secureBoot {
+		logrus.Infof(&quot;Using Secure Boot firmware %q from %q with variable store %q (template %q, descriptor %q)&quot;, codePath, firmware.Code.Path, varsPath, firmware.Vars.Path, firmware.DescriptorPath)
+	} else {
+		logrus.Infof(&quot;Using firmware %q from %q with variable store %q (template %q, descriptor %q)&quot;, codePath, firmware.Code.Path, varsPath, firmware.Vars.Path, firmware.DescriptorPath)
+	}
+	return codePath, varsPath, codeFormat, varsFormat, nil
+}
+
+func supportedFirmwareFormat(format string) bool {
+	switch format {
+	case &quot;&quot;, qemuFirmwareFormatRaw, qemuFirmwareFormatQCOW2:
+		return true</code></pre>
+    <p><code>instanceVarsPath</code> keys on file format only — <code>QemuEfiVarsQCOW2</code> vs <code>QemuEfiVarsFD</code>. Toggling <code>firmware.secureBoot</code>, <code>firmware.preEnrollSecureBootKeys</code>, or swapping a 2 MB descriptor for a 4 MB one keeps the same vars path, so the new firmware code pairs with the old NVRAM. The user thinks they enabled enrolled keys; the guest boots without them, silently. Preserving NVRAM across runs is correct for the same descriptor — losing enrolled keys would break the install — but switching descriptors must invalidate stale NVRAM.</p>
+    <p>Fix: hash or record the descriptor identity beside the vars file. When the recorded identity disagrees with the selected descriptor, refuse to start (with an actionable reset hint) rather than silently mismatch firmware code and NVRAM.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> <code>killSwtpm</code> returns <code>signal: killed</code> as an error on every normal shutdown <span class="pill pill-gemini">Gemini</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ddf0abaa9ff3ef1f1200b503413ef3cd6590c25a/pkg/driver/qemu/qemu_driver.go#L726-L756">pkg/driver/qemu/qemu_driver.go</a></div>
+      <pre data-start="726" data-line="731-751"><code class="language-go">func (l *LimaQemuDriver) SSHAddress(_ context.Context) (string, error) {
+	return &quot;127.0.0.1&quot;, nil
+}
+
+func (l *LimaQemuDriver) InspectStatus(_ context.Context, _ *limatype.Instance) string {
+	return &quot;&quot;
+}
+
+func (l *LimaQemuDriver) Create(_ context.Context) error {
+	return nil
+}
+
+func (l *LimaQemuDriver) Delete(_ context.Context) error {
+	return nil
+}
+
+func (l *LimaQemuDriver) RunGUI() error {
+	return nil
+}
+
+func (l *LimaQemuDriver) Register(_ context.Context) error {
+	return nil
+}
+
+func (l *LimaQemuDriver) Unregister(_ context.Context) error {
+	return nil
+}
+
+func (l *LimaQemuDriver) ForwardGuestAgent() bool {
+	// if driver is not providing, use host agent
+	return l.vSockPort == 0 &amp;&amp; l.virtioPort == &quot;&quot;</code></pre>
+    <p><code>shutdownQEMU</code> calls <code>errors.Join(qWaitErr, l.killVhosts(), l.killSwtpm())</code> on multiple branches. When <code>cmd.Wait</code> returns after a <code>Kill</code>, Go reports <code>signal: killed</code> as a non-nil error. <code>killProcess</code> propagates that into <code>Stop</code>&#39;s return value on every shutdown of a TPM-enabled instance. The user sees a spurious error and <code>limactl stop</code> exits non-zero.</p>
+    <p>Fix: track whether the caller forced the kill; suppress the resulting <code>signal: killed</code> from the wait channel in that case.</p>
+      <pre><code class="language-diff">+    killed := false
+     if cmd.ProcessState == nil {
+         if err := cmd.Process.Kill(); ...
++        killed = true
+     }
+-    if err, ok := &lt;-waitCh; ok &amp;&amp; err != nil {
++    if err, ok := &lt;-waitCh; ok &amp;&amp; err != nil &amp;&amp; !killed {
+         return fmt.Errorf(&quot;%s exited with error: %w&quot;, name, err)
+     }</code></pre>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I4">
+        <span class="finding-num">I4.</span> <code>GuestDrivers.Images</code> accepts the standard <code>FileWithVMType</code> schema but skips the download pipeline; <code>windows.yaml</code> pins a Linux-only path <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ddf0abaa9ff3ef1f1200b503413ef3cd6590c25a/pkg/cidata/cidata.go#L566-L571">pkg/cidata/cidata.go</a></div>
+      <pre data-start="566" data-line="571-583"><code class="language-go">		}
+		_ = f.Close()
+	}
+
+	return nil
+}</code></pre>
+    <p>The schema is <code>FileWithVMType</code> (shared with <code>Firmware.Images</code> and instance <code>Images</code>), which validates URL + digest forms via <code>validateFileObject</code>. <code>guestDriverISO</code> calls <code>localpathutil.Expand</code> and then <code>os.Open</code>, so any non-<code>file://</code> location fails at runtime even though validation accepted it. Compounding this, <code>defaults.go</code> injects <code>/usr/share/virtio-win/virtio-win.iso</code> only on Linux hosts, and <code>templates/windows.yaml</code> repeats the same hardcoded path, so the template fails out-of-the-box on macOS.</p>
+    <p>Fix: route <code>GuestDrivers.Images</code> through <code>fileutils.DownloadFile</code> (mirroring the <code>Firmware.Images</code> path in <code>pkg/driver/qemu/qemu.go</code>), or fail validation when <code>location</code> is not a local path. Drop the explicit <code>guestDrivers.images</code> block from <code>templates/windows.yaml</code>; let the Linux default carry it.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I5">
+        <span class="finding-num">I5.</span> <code>html.EscapeString</code> writes <code>&amp;#39;</code> into XML where <code>&amp;apos;</code> is the canonical form <span class="pill pill-claude">Claude</span><a href="#I5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ddf0abaa9ff3ef1f1200b503413ef3cd6590c25a/pkg/cidata/template.go#L1-L20">pkg/cidata/template.go</a></div>
+      <pre data-start="1" data-line="285-291"><code class="language-go">// SPDX-FileCopyrightText: Copyright The Lima Authors
+// SPDX-License-Identifier: Apache-2.0
+
+package cidata
+
+import (
+	&quot;bytes&quot;
+	&quot;embed&quot;
+	&quot;errors&quot;
+	&quot;fmt&quot;
+	&quot;io/fs&quot;
+	&quot;path&quot;
+
+	&quot;github.com/lima-vm/lima/v2/pkg/identifiers&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/iso9660util&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/limatype&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/textutil&quot;
+)
+
+//go:embed cidata.TEMPLATE.d</code></pre>
+    <p><code>autounattend.xml</code> is XML, not HTML; the repo context flags this pattern explicitly. <code>html.EscapeString</code> happens to escape the five chars XML cares about, so the output parses, but the import is misleading and <code>&amp;#39;</code> for <code>&#39;</code> (instead of <code>&amp;apos;</code>) reads as an oddity to anyone auditing the template. The intent shows up wrong in code search.</p>
+    <p>Fix: switch to <code>encoding/xml</code>&#39;s <code>xml.EscapeText</code> (writes to an <code>io.Writer</code>) or a 6-line helper that replaces only <code>&lt;</code>, <code>&gt;</code>, <code>&amp;</code>, <code>&#39;</code>, <code>&quot;</code>. The runtime behavior is equivalent for current inputs; the new code documents intent.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I6">
+        <span class="finding-num">I6.</span> <code>GenerateCloudConfig</code> for Windows silently drops <code>os.RemoveAll</code> errors <span class="pill pill-claude">Claude</span><a href="#I6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ddf0abaa9ff3ef1f1200b503413ef3cd6590c25a/pkg/cidata/cidata.go#L361-L375">pkg/cidata/cidata.go</a></div>
+      <pre data-start="361" data-line="366-370"><code class="language-go">func GenerateCloudConfig(ctx context.Context, instDir, name string, instConfig *limatype.LimaYAML) error {
+	args, err := templateArgs(ctx, false, instDir, name, instConfig, 0, 0, 0, &quot;&quot;, false, false, false)
+	if err != nil {
+		return err
+	}
+	// mounts are not included here
+	args.Mounts = nil
+	// resolv_conf is not included here
+	args.DNSAddresses = nil
+
+	if err := ValidateTemplateArgs(args); err != nil {
+		return err
+	}
+
+	config, err := ExecuteTemplateCloudConfig(args)</code></pre>
+    <p>The function returns nil regardless of whether the stale cloud-config was actually removed. A locked file, restrictive directory permissions, or an antivirus quarantine on a re-used instance directory leaves the old config in place while the caller proceeds, paired with the wrong cidata for the new guest.</p>
+    <p>Fix: propagate the error.</p>
+      <pre><code class="language-diff">-    os.RemoveAll(filepath.Join(instDir, filenames.CloudConfig)) // delete existing
+-    return nil
++    if err := os.RemoveAll(filepath.Join(instDir, filenames.CloudConfig)); err != nil {
++        return err
++    }
++    return nil</code></pre>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> <code>firmwareTargetsQ35</code> matches any machine containing <code>&quot;q35&quot;</code> as a substring <span class="pill pill-claude">Claude</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ddf0abaa9ff3ef1f1200b503413ef3cd6590c25a/pkg/driver/qemu/firmware.go#L265-L290">pkg/driver/qemu/firmware.go</a></div>
+      <pre data-start="265" data-line="270-285"><code class="language-go">		DescriptorPath: descriptorPath,
+	}
+	return firmware, true
+}
+
+func firmwareTargetsQ35(targets []struct {
+	Architecture string   `json:&quot;architecture&quot;`
+	Machines     []string `json:&quot;machines&quot;`
+}, arch limatype.Arch) bool {
+	for _, target := range targets {
+		if target.Architecture != &quot;x86_64&quot; || arch != limatype.X8664 {
+			continue
+		}
+		for _, machine := range target.Machines {
+			if strings.HasPrefix(machine, &quot;pc-q35-&quot;) || strings.Contains(machine, &quot;q35&quot;) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func firmwareUses4M(firmware qemuFirmware) bool {
+	s := strings.ToLower(filepath.Base(firmware.Code.Path))
+	if firmware.Vars != nil {
+		s += &quot; &quot; + strings.ToLower(filepath.Base(firmware.Vars.Path))</code></pre>
+    <p>The <code>HasPrefix(&quot;pc-q35-&quot;)</code> arm already covers every QEMU-shipped Q35 machine name (<code>pc-q35-7.2</code>, <code>pc-q35-8.0</code>, …). The <code>Contains</code> arm matches any future or vendor name with <code>q35</code> anywhere in the string. Replace with <code>machine == &quot;q35&quot;</code> for the bare alias.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> <code>firmwareUses4M</code> substring check matches <code>&quot;4m&quot;</code> anywhere in the filename <span class="pill pill-claude">Claude</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+    <p>A descriptor whose code path contains &quot;4m&quot; anywhere (e.g., a vendor name) is selected over a non-4M alternative. Anchor the match to the conventional suffix: <code>_4M.</code>, <code>-4m.</code>, or filename suffix.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> Descriptor-not-found error inlines every candidate path <span class="pill pill-claude">Claude</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+    <p>With dozens of system descriptors, <code>fmt.Errorf(&quot;... from %v ...&quot;, descriptorPaths, ...)</code> prints a multi-line list. Report a count plus an actionable hint (&quot;install distribution OVMF packages or set <code>firmware.descriptors</code>&quot;) instead.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> <code>qemuFirmwareDescriptorDirs</code> adds Unix-only paths on Windows hosts <span class="pill pill-claude">Claude</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+    <p><code>/etc/qemu/firmware</code> and <code>/usr/share/qemu/firmware</code> are appended unconditionally; on Windows the <code>localDir != &quot;/usr&quot;</code> check is a no-op and the path itself is meaningless. Gate the Unix entries on <code>runtime.GOOS != &quot;windows&quot;</code>.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> Boot-key marker uses <code>0o644</code> while adjacent secret files use <code>0o600</code> <span class="pill pill-claude">Claude</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+    <p>The marker carries no secret, but <code>windowsUserPassword</code> writes its file with <code>0o600</code>. Use <code>0o600</code> for both to keep the instance directory&#39;s mode story uniform.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> <code>generateAlphaNumericPassword</code> may sample passwords lacking required character classes <span class="pill pill-codex">Codex</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+    <p>24 chars from <code>[A-Za-z0-9]</code> make a missing-class outcome statistically rare but possible. If the host or guest enforces Windows local-account complexity policy (Server SKUs, custom GPO), unattend may fail. Guarantee at least one upper, one lower, and one digit, then shuffle.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> <code>templates/windows.yaml</code> declares <code>minimumLimaVersion: 2.0.0</code> <span class="pill pill-codex">Codex</span><a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+    <p>The template depends on the new <code>Firmware.SecureBoot</code>, <code>Firmware.TPM2</code>, and <code>GuestDrivers</code> fields that don&#39;t exist in 2.0.0. Bump to the first release that contains these schema and runtime changes.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S8">
+        <span class="finding-num">S8.</span> QEMU firmware descriptors can carry relative paths <span class="pill pill-gemini">Gemini</span><a href="#S8" class="pilcrow">&#182;</a>
+      </div>
+    <p>Per <code>interop/firmware.json</code>, <code>filename</code> may be relative to the descriptor&#39;s directory. The current code passes the raw path to <code>osutil.FileExists</code>, rejecting valid system descriptors with relative paths. Resolve relative paths against <code>filepath.Dir(descriptorPath)</code> before the existence check.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S9">
+        <span class="finding-num">S9.</span> <code>windowsVirtioDriverNames</code> rebuilds the slice on every call <span class="pill pill-claude">Claude</span><a href="#S9" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ddf0abaa9ff3ef1f1200b503413ef3cd6590c25a/pkg/cidata/cidata.go#L1-L20">pkg/cidata/cidata.go</a></div>
+      <pre data-start="1" data-line="639-641"><code class="language-go">// SPDX-FileCopyrightText: Copyright The Lima Authors
+// SPDX-License-Identifier: Apache-2.0
+
+package cidata
+
+import (
+	&quot;compress/gzip&quot;
+	&quot;context&quot;
+	&quot;errors&quot;
+	&quot;fmt&quot;
+	&quot;io&quot;
+	&quot;maps&quot;
+	&quot;net&quot;
+	&quot;net/url&quot;
+	&quot;os&quot;
+	&quot;path&quot;
+	&quot;path/filepath&quot;
+	&quot;slices&quot;
+	&quot;strconv&quot;
+	&quot;strings&quot;</code></pre>
+    <p>Promote to a package-level <code>var</code>. Callers iterate, never mutate.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S10">
+        <span class="finding-num">S10.</span> New exported APIs lack godoc <span class="pill pill-claude">Claude</span><a href="#S10" class="pilcrow">&#182;</a>
+      </div>
+    <p><code>TemplateArgsForWindows</code>, <code>ExecuteTemplateWindowsCIDataISO</code>, and the <code>WindowsUser</code> / <code>WindowsPassword</code> / <code>WindowsImageIndex</code> / <code>WindowsDriverPaths</code> fields are exported without docstrings. Add short godoc lines that start with the symbol name (Go convention).</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S11">
+        <span class="finding-num">S11.</span> <code>firmwareTargetsQ35</code> rejects every non-x86_64 architecture <span class="pill pill-gemini">Gemini</span><a href="#S11" class="pilcrow">&#182;</a>
+      </div>
+    <p>The PR description acknowledges that &quot;non-x86_64 architectures may be incomplete,&quot; so this is not a regression, but the function name promises Q35-specific behavior and silently filters out <code>aarch64</code>/<code>virt</code> callers. Rename to <code>firmwareTargetsArchAndMachine</code> and parameterize, or add a comment that the function is x86_64-only.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S12">
+        <span class="finding-num">S12.</span> Test fixture binds two variables to the same path <span class="pill pill-claude">Claude</span><a href="#S12" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ddf0abaa9ff3ef1f1200b503413ef3cd6590c25a/pkg/driver/qemu/qemu_test.go#L101-L115">pkg/driver/qemu/qemu_test.go</a></div>
+      <pre data-start="101" data-line="106-110"><code class="language-go">	secureCode2M := filepath.Join(dir, &quot;OVMF_CODE.secboot.fd&quot;)
+	secureVars2M := filepath.Join(dir, &quot;OVMF_VARS.secboot.fd&quot;)
+	secureCode4M := filepath.Join(dir, &quot;OVMF_CODE_4M.secboot.qcow2&quot;)
+	secureVarsWithKeys := filepath.Join(dir, &quot;OVMF_VARS_4M.secboot.qcow2&quot;)
+	secureVarsWithoutKeys := filepath.Join(dir, &quot;OVMF_VARS_4M.qcow2&quot;)
+	plainCode := filepath.Join(dir, &quot;OVMF_CODE_4M.qcow2&quot;)
+	plainVars := filepath.Join(dir, &quot;OVMF_VARS_4M.qcow2&quot;)
+	for _, path := range []string{secureCode2M, secureVars2M, secureCode4M, secureVarsWithKeys, secureVarsWithoutKeys, plainCode, plainVars} {
+		assert.NilError(t, os.WriteFile(path, nil, 0o644))
+	}
+
+	secureWithKeys2M := filepath.Join(dir, &quot;secure-with-keys-2m.json&quot;)
+	secureWithKeys4M := filepath.Join(dir, &quot;secure-with-keys-4m.json&quot;)
+	secureWithoutKeys := filepath.Join(dir, &quot;secure-without-keys.json&quot;)
+	plain := filepath.Join(dir, &quot;plain-4m.json&quot;)</code></pre>
+    <p>The two variables refer to the same file; the test relies on the second <code>os.WriteFile</code> overwriting the first. Pick distinct filenames or consolidate.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Windows setup state is inferred from host-side timers and marker files</strong> (in-scope) <span class="pill pill-codex">Codex</span>. I1 (retry budget) and C1 (boot-key marker) are symptoms of the same model. A small state machine tied to guest-observable milestones — <code>setup.done</code> on the cidata <code>oem/</code> share, <code>sshd</code> reaching <code>Running</code>, OpenSSH cap install completing — would let the host wait on real progress instead of fixed budgets. The PR already writes <code>setup.done</code> from <code>windows-setup.ps1</code>; build the rest of the state on top of it.</li>
+      <li><em></em>Hand-rolled QEMU descriptor parser covers a partial slice of <code>interop/firmware.json</code><em></em> (future) <span class="pill pill-claude">Claude</span>. Multiple flash variants per target, <code>stateless</code> mode, and additional feature flags are absent. Lima only needs to <em>find</em> a usable file pair, so the partial implementation is correct for now; document the limited subset in a docstring on <code>qemuFirmwareDescriptor</code> with a link to the schema.</li>
+      <li><em></em><code>GuestDrivers</code> is generically named but currently serves only Windows virtio drivers<em></em> (future) <span class="pill pill-claude">Claude</span>. If future guests reuse the field, the name fits; if not, <code>WindowsDrivers</code> reads truer. Pick one and document the contract.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>Descriptor-based firmware selection generalises beyond Windows; Linux guests with Secure Boot also benefit, and the legacy <code>Firmware.Images</code> fallback stays intact <span class="pill pill-claude">Claude</span>.</li>
+      <li><code>qemuFirmwareDescriptorPaths</code> correctly implements QEMU&#39;s zero-byte masking rule, letting users override system descriptors via a same-named empty file in a more-specific directory <span class="pill pill-gemini">Gemini</span>.</li>
+      <li><code>ensureFirmwareFileIfMissing</code> preserves per-instance NVRAM across restarts so enrolled keys survive — verified by the unit test <span class="pill pill-claude">Claude</span>. (Pair with I2&#39;s caveat for cross-mode persistence.)</li>
+      <li>Mounting <code>cidata.iso</code> over IDE plus <code>$WinPEDriver$</code> driver injection avoids slipstreaming a custom Windows ISO <span class="pill pill-gemini">Gemini</span>.</li>
+      <li>Validation in <code>pkg/limayaml/validate.go</code> ships with the feature: TPM/Secure Boot/Legacy BIOS combinations and architecture / vmType gating are enforced <span class="pill pill-claude">Claude</span>.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Unit tests cover <code>getFirmwareFromDescriptorFiles</code> and <code>ensureFirmwareFileIfMissing</code>. Gaps ranked by risk:</p>
+    <ol>
+      <li>C1 (sendkey race): no test asserts the marker isn&#39;t written before the guest reaches the prompt.</li>
+      <li>C2 (descriptor abort): no test feeds a malformed JSON alongside a valid descriptor.</li>
+      <li>I1 (retry budget): no test exercises a Windows install whose SSH appears after 10 minutes.</li>
+      <li>I2 (vars persistence): no test toggles <code>secureBoot</code> or <code>preEnrollSecureBootKeys</code> between runs and checks NVRAM identity.</li>
+      <li>I3 (kill error): no test verifies <code>Stop()</code> returns nil on a TPM-enabled instance.</li>
+      <li><code>templateArgsForWindows</code>: no coverage for generated-password reuse vs. regeneration, or XML-special characters in <code>User.Name</code>.</li>
+      <li>S1/S2/S8: <code>firmwareTargetsQ35</code> and <code>firmwareUses4M</code> predicates and the descriptor relative-path resolver have no unit tests.</li>
+    </ol>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><code>templates/default.yaml</code> documents the new <code>firmware.secureBoot</code>, <code>firmware.tpm2</code>, <code>firmware.preEnrollSecureBootKeys</code>, <code>firmware.descriptors</code>, and <code>guestDrivers</code> keys adequately.</li>
+      <li>New exported APIs in <code>pkg/cidata/template.go</code> and <code>pkg/limatype/lima_yaml.go</code> lack godoc (see S10).</li>
+      <li><code>pkg/driver/qemu/firmware.go</code> has no file- or package-level docstring explaining the descriptor selection algorithm.</li>
+      <li>The <code>docs/</code> and <code>website/content/</code> trees gain no user-facing material; an experimental feature is hard to discover without it. Add a short page describing prerequisites (<code>swtpm</code>, VirtIO driver ISO, OVMF packages), the host OSes that work today, and the documented limitations from the PR description.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Four focused commits:</p>
+    <ol>
+      <li><a href="https://github.com/lima-vm/lima/commit/ddf0abaa"><code>ddf0abaa</code></a> Secure Boot support — self-contained.</li>
+      <li><a href="https://github.com/lima-vm/lima/commit/cea775f5"><code>cea775f5</code></a> TPM 2.0 support — depends on (1) for UEFI.</li>
+      <li><a href="https://github.com/lima-vm/lima/commit/3cf2d8bc"><code>3cf2d8bc</code></a> Windows guest support — large but cohesive.</li>
+      <li><a href="https://github.com/lima-vm/lima/commit/ff00a4d3"><code>ff00a4d3</code></a> set display to default for windows template — two-line fixup that touches only <code>templates/windows.yaml</code>; fold into (3) before merge.</li>
+    </ol>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR description states the change is experimental and lists scope cuts that the consolidated findings respect:</p>
+    <ul>
+      <li>Non-QEMU drivers, non-Linux hosts (other than macOS implications surfaced in I4), and non-x86_64 architectures are not in scope.</li>
+      <li>Legacy BIOS is untested.</li>
+      <li>Guest agent for Windows is not implemented; SSH/PowerShell is the readiness path (<a href="https://github.com/lima-vm/lima/blob/ddf0abaa9ff3ef1f1200b503413ef3cd6590c25a/pkg/instance/start.go#L62-L64"><code>pkg/instance/start.go:62-64</code></a>). I1 lands harder because of this.</li>
+      <li><a href="https://github.com/lima-vm/lima/blob/ddf0abaa9ff3ef1f1200b503413ef3cd6590c25a/pkg/driver/qemu/qemu.go#L805-L807"><code>pkg/driver/qemu/qemu.go:805-807</code></a> documents the boot-order workaround on first boot; C1 flags the workaround&#39;s timing, not the documented choice.</li>
+      <li><a href="https://github.com/lima-vm/lima/blob/ddf0abaa9ff3ef1f1200b503413ef3cd6590c25a/pkg/limatype/lima_yaml.go#L115"><code>pkg/limatype/lima_yaml.go:115</code></a> notes &quot;Password is currently used only for Windows guests&quot;; the corresponding fields are scoped accordingly.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude"><span class="pill pill-claude">Claude</span> <a href="#claude" class="pilcrow">&#182;</a></h3>
+    <p>Claude produced the broadest review and uniquely flagged the firmware-descriptor fail-fast (C2 in this report). It excelled at Go-specific micro-issues that map directly to repo conventions — XML-vs-HTML escaping, <code>RemoveAll</code> error dropped, godoc gaps, slice-from-function — that the other agents passed over. Calibration ran slightly hot: its speculative <code>swtpm</code> cleanup finding (&quot;C2: swtpm orphaned if l.qCmd already set from a previous failed Start&quot;) was dropped after verifying the lifecycle — <code>l.qCmd</code> is only assigned on the success path, so the hypothesised state cannot occur. Several of its Important findings were demoted to Suggestions because the consequence is cosmetic (substring matchers <code>q35</code>/<code>4m</code>, verbose error message, unix-only descriptor dirs on Windows). The first attempt blew the 15-minute watchdog mid-analysis; a retry with an explicit time budget instruction completed cleanly.</p>
+    <h3 id="codex"><span class="pill pill-codex">Codex</span> <a href="#codex" class="pilcrow">&#182;</a></h3>
+    <p>Codex had the highest signal-to-noise: zero false positives, zero downgrades on the issues it raised at Important, and two of the three most consequential Important findings were Codex-only (I1 retry budget, I2 UEFI vars persistence). Both required tracing host-side state interactions across files — <code>requirements.go</code> against <code>instance/start.go</code>, and <code>firmware.go</code>&#39;s vars-path logic against the descriptor identity. The &quot;windows.yaml min version&quot; suggestion is a small but practical catch that the others missed. Output was the most compact of the three reviewers.</p>
+    <h3 id="gemini"><span class="pill pill-gemini">Gemini</span> <a href="#gemini" class="pilcrow">&#182;</a></h3>
+    <p>Gemini contributed the swtpm <code>signal: killed</code> finding (I3) and the QEMU relative-path observation (S8) — both unique. It matched Claude and Codex on the boot-key race (C1) and reinforced Codex&#39;s download-pipeline call by promoting it to Important (the right call once macOS impact is in scope). Per its operating constraints it did not run <code>git blame</code>, which means regressions are inferred from the diff itself rather than confirmed against pre-PR state; the other two agents covered that gap. Its <code>firmwareTargetsQ35</code> finding was demoted to a Suggestion (S11) because the PR documents non-x86_64 as out of scope.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.7</th><th><span class="pill pill-codex">Codex</span> GPT 5.5</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>5m 50s</td><td>12m 46s</td><td>6m 12s</td></tr>
+        <tr><td>Findings</td><td>1C 2I 8S</td><td>3I 2S</td><td>1C 1I 2S</td></tr>
+        <tr><td>Tool calls</td><td>24 (Read 13, Bash 11)</td><td>94 (shell 92, stdin 2)</td><td>—</td></tr>
+        <tr><td>Design observations</td><td>3</td><td>1</td><td>2</td></tr>
+        <tr><td>False positives</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>4</td><td>3</td><td>2</td></tr>
+        <tr><td>Files reviewed</td><td>20</td><td>20</td><td>20</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>1C 2I 8S</strong></td><td><strong>3I 2S</strong></td><td><strong>1C 1I 2S</strong></td></tr>
+        <tr><td>Downgraded</td><td>6 (I→S)</td><td>1 (I→S)</td><td>1 (I→S)</td></tr>
+        <tr><td>Dropped</td><td>2</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Reconciliation.</strong> Severity changes from raw agent findings to this report:</p>
+    <ul>
+      <li>Claude C2 (swtpm cleanup) → <strong>dropped</strong> (speculative; verified <code>l.qCmd</code> assignment lifecycle in <code>Start()</code> does not permit the hypothesised state).</li>
+      <li>Claude I3 (0o644 vs 0o600 marker permission) → <strong>S5</strong> (cosmetic consistency, no security impact).</li>
+      <li>Claude I4 (<code>firmwareTargetsQ35</code> substring) → <strong>S1</strong> (no current Q35 alias hits the loose match).</li>
+      <li>Claude I7 (verbose descriptor error) → <strong>S3</strong> (UX polish).</li>
+      <li>Claude I8 (<code>NewOS</code>/<code>ResolveOS</code> canonicalization mismatch) → <strong>dropped</strong> (pre-existing per repo review context, not introduced by this PR).</li>
+      <li>Claude I9 (unix-only descriptor dirs on Windows host) → <strong>S4</strong> (failed stats, no functional break).</li>
+      <li>Claude I10 (<code>firmwareUses4M</code> substring) → <strong>S2</strong> (no current 4M-named alternative is misranked).</li>
+      <li>Codex I4 (password complexity) → <strong>S6</strong> (alphanumeric × 24 chars makes missing-class outcome statistically rare).</li>
+      <li>Gemini I1 (<code>firmwareTargetsQ35</code> non-x86<em>64) → **S11** (PR documents non-x86</em>64 as out of scope).</li>
+    </ul>
+    <p>Overall, Codex provided the highest per-finding value, Claude the broadest coverage, and Gemini the precision targeting on areas the other two skipped. The three agents together raised every Important issue this report carries; no single agent would have produced an equivalent review.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>ADD:</strong> When reviewing a new <code>pkg/driver/qemu</code> change that calls <code>cmd.Process.Kill()</code> followed by <code>cmd.Wait()</code> (directly or via a channel), check that the calling code distinguishes &quot;the wait error followed a deliberate kill&quot; from &quot;the process exited on its own with an error.&quot; Otherwise <code>Wait</code> returns <code>signal: killed</code> on every clean shutdown and propagates through <code>errors.Join</code> to user-facing return values. The pattern appears in <code>killProcess</code>, but any new subprocess (virtiofsd, swtpm, sidecar VMMs) using the same Kill+Wait shape carries the same risk. Flag findings only when the caller-facing return value is observable (a <code>Stop()</code> method, an HTTP/CLI error path).</li>
+      <li><strong>ADD:</strong> When a Lima driver allocates per-instance state files keyed by content type (e.g., <code>pkg/driver/qemu/firmware.go</code>&#39;s <code>QemuEfiVarsFD</code> / <code>QemuEfiVarsQCOW2</code>), check whether the path key encodes every dimension that affects compatibility. Switching between <code>secureBoot=false</code> and <code>secureBoot=true</code>, or between <code>preEnrollSecureBootKeys=false</code> and <code>=true</code>, currently produces the same per-instance vars path. Any new firmware/NVRAM/state file added to <code>pkg/driver/qemu</code> (or any other driver) must either include the relevant feature flags in its filename or carry a sidecar identity check that refuses to start on mismatch.</li>
+      <li><strong>ADD:</strong> When a Lima feature uses <code>pkg/hostagent/requirements.go</code>&#39;s <code>waitForRequirement</code> for first-boot probes whose budget might exceed 10 minutes (Windows install, large image conversion, slow distribution package installs), check whether the call site also adjusts the per-requirement retry constants (<code>retries = 200</code>, <code>sleepDuration = 3 * time.Second</code>) or makes them context-aware. The outer <code>watchHostAgentTimeout</code> is irrelevant when the inner budget caps the wait. Today only Windows installs hit this; future heavy first-boot flows will too.</li>
+    </ul>
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>ADD to dimensions.md (review dimensions list):</strong> When a finding describes a defer-based cleanup tied to a struct field&#39;s nil/non-nil state, confirm the field&#39;s actual assignment lifecycle by reading the function from &quot;field declared&quot; to &quot;function returns&quot; before classifying severity. Speculative cleanup races (&quot;if X were already set...&quot;) need a concrete code path that produces the state; without one, the finding is a false positive and should be dropped rather than carried as Important. Three independent agents can still all reach the same wrong conclusion if the prompt does not require this verification step.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
