@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260521-135357-pr-5021</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260521-135357-pr-5021</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-05-21 13:53</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1</td></tr>
+      <tr><td>Author</td><td>@Shardz4</td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5021" class="gh-ref" data-title="POC: Add QEMU TPM (swtpm) support for Windows 11 guests (#4852)" data-state="open" data-type="pr">#5021</a> — POC: Add QEMU TPM (swtpm) support for Windows 11 guests (<a href="https://github.com/lima-vm/lima/issues/4852" class="gh-ref" data-title="Support for Windows guests" data-state="open" data-type="issue">#4852</a>)</td></tr>
+      <tr><td>Branch</td><td><code>poc/qemu-tpm-swtpm</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/1d836b86"><code>1d836b86</code></a> feature: add QEMU TPM (swtpm) support to Lima<br><a href="https://github.com/lima-vm/lima/commit/b76ecc47"><code>b76ecc47</code></a> Merge pull request #1 from Shardz4/poc/qemu-tpm-swtpm</td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.7 (effort: xhigh), <span class="pill pill-codex">Codex</span> GPT 5.5 (effort: xhigh), <span class="pill pill-gemini">Gemini</span> 3.1 Pro (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Rework</span> &mdash; the documented <code>limactl create</code> flow for the new Windows template aborts on validation, the new <code>tpm.enabled</code> field has no driver/arch gating, and several swtpm lifecycle paths (Start failure, force-stop, force-kill) leak or corrupt state.</td></tr>
+      <tr><td>Wall-clock time</td><td><code>26 min 56 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>This POC adds swtpm-backed TPM 2.0 support to Lima&#39;s QEMU driver behind a top-level <code>tpm.enabled</code> knob. The arch dispatch picks <code>tpm-crb</code> on x86_64 and <code>tpm-tis-device</code> on ARM, and the swtpm subprocess mirrors the existing virtiofsd lifecycle. The headline gaps are validate-time gating (no driver or arch check on <code>tpm.enabled</code>), a <code>templates/experimental/windows.yaml</code> that fails <code>limactl create</code> validation as documented, and swtpm lifecycle paths that leak the process on Start failure and orphan it on <code>limactl stop -f</code>.</p>
+    <p>The PR also folds in a <code>WindowsSubsystemPath</code> change in <code>defaults.go</code> that the description calls a fix. It swaps one broken behaviour (empty mount point) for another (a native Windows path in <code>mount.MountPoint</code>); the fix belongs in a separate PR and needs more work.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> swtpm process leaks if QEMU Start fails after swtpm is running <span class="pill pill-claude">Claude</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu_driver.go#L310-L379">pkg/driver/qemu/qemu_driver.go</a></div>
+      <pre data-start="310" data-line="315-374"><code class="language-go">
+			vhostCmds = append(vhostCmds, exec.CommandContext(ctx, vhostExe, args...))
+		}
+	}
+
+	// Start swtpm if TPM is enabled
+	var swtpmCmd *exec.Cmd
+	if l.Instance.Config.TPM.Enabled != nil &amp;&amp; *l.Instance.Config.TPM.Enabled {
+		swtpmExe, swtpmArgs, err := SwtpmCmdline(qCfg)
+		if err != nil {
+			return nil, err
+		}
+		swtpmCmd = exec.CommandContext(ctx, swtpmExe, swtpmArgs...)
+		swtpmCmd.SysProcAttr = executil.BackgroundSysProcAttr
+
+		swtpmStdout, err := swtpmCmd.StdoutPipe()
+		if err != nil {
+			return nil, err
+		}
+		go logPipeRoutine(swtpmStdout, &quot;swtpm[stdout]&quot;)
+		swtpmStderr, err := swtpmCmd.StderrPipe()
+		if err != nil {
+			return nil, err
+		}
+		go logPipeRoutine(swtpmStderr, &quot;swtpm[stderr]&quot;)
+
+		logrus.Infof(&quot;Starting swtpm for TPM 2.0 emulation&quot;)
+		logrus.Debugf(&quot;swtpmCmd.Args: %v&quot;, swtpmCmd.Args)
+		if err := swtpmCmd.Start(); err != nil {
+			return nil, fmt.Errorf(&quot;failed to start swtpm: %w&quot;, err)
+		}
+
+		// Wait for the swtpm socket to appear
+		swtpmSock := filepath.Join(l.Instance.Dir, filenames.SwtpmSock)
+		swtpmWaitCh := make(chan error, 1)
+		go func() {
+			swtpmWaitCh &lt;- swtpmCmd.Wait()
+		}()
+
+		swtpmSockExists := false
+		for attempt := range 10 {
+			logrus.Debugf(&quot;Waiting for swtpm socket %s (attempt %d)&quot;, swtpmSock, attempt)
+			if _, err := os.Stat(swtpmSock); err == nil {
+				swtpmSockExists = true
+				break
+			}
+			retry := time.NewTimer(200 * time.Millisecond)
+			select {
+			case err = &lt;-swtpmWaitCh:
+				return nil, fmt.Errorf(&quot;swtpm exited before creating socket: %w&quot;, err)
+			case &lt;-retry.C:
+			}
+		}
+		if !swtpmSockExists {
+			_ = swtpmCmd.Process.Kill()
+			return nil, fmt.Errorf(&quot;swtpm socket %s never appeared&quot;, swtpmSock)
+		}
+
+		// Monitor swtpm in background
+		go func() {
+			if err := &lt;-swtpmWaitCh; err != nil {
+				logrus.Errorf(&quot;swtpm exited with error: %v&quot;, err)
+			}
+		}()
+	}
+
+	var qArgsFinal []string
+	applier := &amp;qArgTemplateApplier{}
+	for _, unapplied := range qArgs {
+		applied, err := applier.applyTemplate(unapplied)</code></pre>
+    <p><code>swtpmCmd</code> is stored on the driver only after <code>qCmd.Start()</code>. Any failure between starting swtpm (line ~340) and assigning <code>l.swtpmCmd</code> (line 462) — vhost Start, vhost-socket timeout, <code>qCmd.Start()</code>, the <code>applier</code> template loop — returns from <code>Start()</code> without <code>killSwtpm</code>, leaves swtpm running with its socket and state directory held open, and a later <code>Stop()</code> finds <code>l.swtpmCmd == nil</code> and exits early.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu_driver.go#L457-L467">pkg/driver/qemu/qemu_driver.go</a></div>
+      <pre data-start="457" data-line="462"><code class="language-go">	logrus.Debugf(&quot;qCmd.Args: %v&quot;, qCmd.Args)
+	if err := qCmd.Start(); err != nil {
+		return nil, err
+	}
+	l.qCmd = qCmd
+	l.swtpmCmd = swtpmCmd
+	l.qWaitCh = make(chan error, 1)
+	go func() {
+		defer close(l.qWaitCh)
+		defer cancel()
+		l.qWaitCh &lt;- qCmd.Wait()</code></pre>
+    <p>Fix: assign <code>l.swtpmCmd = swtpmCmd</code> immediately after the wait-for-socket loop succeeds, so the existing <code>killSwtpm</code> paths cover every later failure. The pre-existing <code>l.vhostCmds</code> assignment has the same shape and deserves the same fix.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> swtpm is orphaned by <code>limactl stop -f</code> and may corrupt NVRAM when killed <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu.go#L1130-L1146">pkg/driver/qemu/qemu.go</a></div>
+      <pre data-start="1130" data-line="1135-1141"><code class="language-go">
+	swtpmSock := filepath.Join(cfg.InstanceDir, filenames.SwtpmSock)
+	// Remove stale socket
+	_ = os.Remove(swtpmSock)
+
+	args = []string{
+		&quot;socket&quot;,
+		&quot;--tpmstate&quot;, &quot;dir=&quot; + stateDir,
+		&quot;--ctrl&quot;, &quot;type=unixio,path=&quot; + swtpmSock,
+		&quot;--tpm2&quot;,
+		&quot;--log&quot;, &quot;level=1&quot;,
+	}
+
+	return swtpmExe, args, nil
+}
+
+// qemuArch returns the arch string used by qemu.</code></pre>
+    <p><code>executil.BackgroundSysProcAttr</code> is <code>&amp;syscall.SysProcAttr{Setpgid: true}</code> on Unix, so swtpm runs in its own process group. <code>StopForcibly</code> (<code>pkg/instance/stop.go:112,147</code>) sends SIGKILL to <code>DriverPID</code> and <code>HostAgentPID</code> only; the signal does not reach swtpm. The swtpm args at <a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu.go#L1135-L1141"><code>qemu.go:1135-1141</code></a> carry no <code>--terminate</code>, so swtpm waits for a new client after QEMU dies and stays alive indefinitely. Even on the graceful <code>killSwtpm</code> path the <code>Process.Kill()</code> (SIGKILL) at <a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu_driver.go#L602"><code>qemu_driver.go:602</code></a> denies swtpm the chance to flush NVRAM, which can corrupt the TPM state of a Windows guest that holds BitLocker keys.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/instance/stop.go#L107-L117">pkg/instance/stop.go</a></div>
+      <pre data-start="107" data-line="112"><code class="language-go">		}
+	}
+}
+
+func StopForcibly(inst *limatype.Instance) {
+	if inst.DriverPID &gt; 0 {
+		logrus.Infof(&quot;Sending SIGKILL to the %s driver process %d&quot;, inst.VMType, inst.DriverPID)
+		if err := osutil.SysKill(inst.DriverPID, osutil.SigKill); err != nil {
+			logrus.Error(err)
+		}
+	} else {</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu.go#L1130-L1146">pkg/driver/qemu/qemu.go</a></div>
+      <pre data-start="1130" data-line="1135-1141"><code class="language-go">
+	swtpmSock := filepath.Join(cfg.InstanceDir, filenames.SwtpmSock)
+	// Remove stale socket
+	_ = os.Remove(swtpmSock)
+
+	args = []string{
+		&quot;socket&quot;,
+		&quot;--tpmstate&quot;, &quot;dir=&quot; + stateDir,
+		&quot;--ctrl&quot;, &quot;type=unixio,path=&quot; + swtpmSock,
+		&quot;--tpm2&quot;,
+		&quot;--log&quot;, &quot;level=1&quot;,
+	}
+
+	return swtpmExe, args, nil
+}
+
+// qemuArch returns the arch string used by qemu.</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu_driver.go#L597-L607">pkg/driver/qemu/qemu_driver.go</a></div>
+      <pre data-start="597" data-line="602"><code class="language-go">
+func (l *LimaQemuDriver) killSwtpm() error {
+	if l.swtpmCmd == nil || l.swtpmCmd.Process == nil {
+		return nil
+	}
+	if err := l.swtpmCmd.Process.Kill(); err != nil &amp;&amp; !errors.Is(err, os.ErrProcessDone) {
+		return fmt.Errorf(&quot;failed to kill swtpm: %w&quot;, err)
+	}
+	return nil
+}
+</code></pre>
+    <p>Fix: add <code>--terminate</code> to <code>SwtpmCmdline</code> so swtpm exits on QEMU disconnect, and replace <code>Process.Kill()</code> in <code>killSwtpm</code> with SIGTERM-then-SIGKILL (matching the QEMU shutdown sequence).</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> <code>tpm.enabled</code> is silently ignored on non-QEMU drivers <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+    <p><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/templates/default.yaml#L638"><code>templates/default.yaml:638</code></a> documents &quot;Only supported with vmType: qemu&quot;, but <code>validate.go</code> carries no <code>tpm</code>-related check and the vz/wsl2 drivers never inspect <code>Config.TPM</code>. A user who sets <code>tpm.enabled: true</code> with <code>vmType: vz</code> passes validation, boots a TPM-less VM, and meets the &quot;This PC can&#39;t run Windows 11&quot; message from inside the guest with no host-side warning.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/templates/default.yaml#L633-L643">templates/default.yaml</a></div>
+      <pre data-start="633" data-line="638"><code class="language-yaml">
+# EXPERIMENTAL
+# When enabled, an emulated TPM 2.0 device is provided to the guest via swtpm.
+# This is required for Windows 11 guests and useful for measured boot or disk
+# encryption (LUKS2+TPM) in Linux guests.
+# Requires swtpm to be installed on the host. Only supported with vmType: qemu.
+# Currently not supported on Windows hosts (requires Unix domain sockets).
+# 🟢 Builtin default: false
+tpm:
+  enabled: null
+</code></pre>
+    <p>Fix: in <code>Validate()</code>, when <code>*y.TPM.Enabled</code> is true, reject <code>*y.VMType != limatype.QEMU</code>:</p>
+      <pre><code class="language-go">if y.TPM.Enabled != nil &amp;&amp; *y.TPM.Enabled &amp;&amp; *y.VMType != limatype.QEMU {
+    errs = errors.Join(errs, errors.New(&quot;`tpm.enabled` is only supported with `vmType: qemu`&quot;))
+}</code></pre>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I4">
+        <span class="finding-num">I4.</span> TPM architecture rejection fires after additional disks are locked <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span><a href="#I4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu.go#L708-L718">pkg/driver/qemu/qemu.go</a></div>
+      <pre data-start="708" data-line="713"><code class="language-go">			logrus.Errorf(&quot;could not load disk %q: %q&quot;, diskName, err)
+			return &quot;&quot;, nil, err
+		}
+
+		logrus.Infof(&quot;Mounting disk %q on %q&quot;, diskName, disk.MountPoint)
+		if err = disk.LockForInstance(cfg.InstanceDir); err != nil {
+			logrus.Errorf(&quot;could not attach disk %q: %s&quot;, diskName, err)
+			return &quot;&quot;, nil, err
+		}
+		dataDisk := filepath.Join(disk.Dir, filenames.DataDisk)
+		extraDisks = append(extraDisks, dataDisk)</code></pre>
+    <p><code>Cmdline()</code> locks <code>AdditionalDisks</code> via <code>disk.LockForInstance(cfg.InstanceDir)</code> at <a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu.go#L713"><code>qemu.go:713</code></a>, then reaches the new TPM switch at line 753. When the architecture is unsupported (<code>riscv64</code>, <code>ppc64le</code>, <code>s390x</code>), the function returns an error after the disks already carry an <code>in_use_by</code> lock for this instance; the hostagent unlock path in <a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/hostagent/hostagent.go#L592-L607"><code>pkg/hostagent/hostagent.go:592-607</code></a> is never registered because <code>Start()</code> (<a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu_driver.go#L293-L295"><code>qemu_driver.go:293-295</code></a>) returns first. Users then need <code>limactl disk unlock</code> to recover. The same error should fire during <code>limactl create</code>, before any persistent state changes.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu.go#L708-L718">pkg/driver/qemu/qemu.go</a></div>
+      <pre data-start="708" data-line="713"><code class="language-go">			logrus.Errorf(&quot;could not load disk %q: %q&quot;, diskName, err)
+			return &quot;&quot;, nil, err
+		}
+
+		logrus.Infof(&quot;Mounting disk %q on %q&quot;, diskName, disk.MountPoint)
+		if err = disk.LockForInstance(cfg.InstanceDir); err != nil {
+			logrus.Errorf(&quot;could not attach disk %q: %s&quot;, diskName, err)
+			return &quot;&quot;, nil, err
+		}
+		dataDisk := filepath.Join(disk.Dir, filenames.DataDisk)
+		extraDisks = append(extraDisks, dataDisk)</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/hostagent/hostagent.go#L587-L612">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="587" data-line="592-607"><code class="language-go">				}
+			}
+			return errors.Join(unmountErrs...)
+		})
+	}
+	if len(a.instConfig.AdditionalDisks) &gt; 0 {
+		a.cleanUp(func() error {
+			var unlockErrs []error
+			for _, d := range a.instConfig.AdditionalDisks {
+				disk, inspectErr := store.InspectDisk(d.Name, d.FSType)
+				if inspectErr != nil {
+					unlockErrs = append(unlockErrs, inspectErr)
+					continue
+				}
+				logrus.Infof(&quot;Unmounting disk %q&quot;, disk.Name)
+				if unlockErr := disk.Unlock(); unlockErr != nil {
+					unlockErrs = append(unlockErrs, unlockErr)
+				}
+			}
+			return errors.Join(unlockErrs...)
+		})
+	}
+
+	staticPortForwards := a.separateStaticPortForwards()
+	a.addStaticPortForwardsFromList(ctx, staticPortForwards)
+</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu_driver.go#L288-L300">pkg/driver/qemu/qemu_driver.go</a></div>
+      <pre data-start="288" data-line="293-295"><code class="language-go">		LimaYAML:     l.Instance.Config,
+		SSHLocalPort: l.SSHLocalPort,
+		SSHAddress:   l.Instance.SSHAddress,
+		VirtioGA:     l.virtioPort != &quot;&quot;,
+	}
+	qExe, qArgs, err := Cmdline(ctx, qCfg)
+	if err != nil {
+		return nil, err
+	}
+
+	var vhostCmds []*exec.Cmd
+	if *l.Instance.Config.MountType == limatype.VIRTIOFS {
+		vhostExe, err := FindVirtiofsd(ctx, qExe)</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu.go#L748-L758">pkg/driver/qemu/qemu.go</a></div>
+      <pre data-start="748" data-line="753"><code class="language-go">	args = append(args,
+		&quot;-drive&quot;, &quot;id=cdrom0,if=none,format=raw,readonly=on,file=&quot;+filepath.Join(cfg.InstanceDir, filenames.CIDataISO),
+		&quot;-device&quot;, &quot;virtio-scsi,id=scsi0&quot;,
+		&quot;-device&quot;, &quot;scsi-cd,bus=scsi0.0,drive=cdrom0&quot;)
+
+	// TPM
+	if y.TPM.Enabled != nil &amp;&amp; *y.TPM.Enabled {
+		swtpmSock := filepath.Join(cfg.InstanceDir, filenames.SwtpmSock)
+		args = append(args, &quot;-chardev&quot;, fmt.Sprintf(&quot;socket,id=chrtpm,path=%s&quot;, swtpmSock))
+		args = append(args, &quot;-tpmdev&quot;, &quot;emulator,id=tpm0,chardev=chrtpm&quot;)
+		// Select TPM device model based on architecture:</code></pre>
+    <p>Fix: in <code>Validate()</code>, when <code>*y.TPM.Enabled</code> is true, reject <code>*y.Arch</code> outside <code>{X8664, AARCH64, ARMV7L}</code>. The runtime switch in <code>Cmdline()</code> can stay as defence in depth.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I5">
+        <span class="finding-num">I5.</span> <code>templates/experimental/windows.yaml</code> fails <code>limactl create</code> validation <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/templates/experimental/windows.yaml#L1-L25">templates/experimental/windows.yaml</a></div>
+      <pre data-start="1" data-line="5-20"><code class="language-yaml"># Experimental: Windows guest VM
+# Requires: swtpm, Windows ISO image, QEMU with UEFI support
+# See: https://github.com/lima-vm/lima/issues/4852
+#
+# Usage:
+#   1. Download a Windows ISO (e.g. from https://www.microsoft.com/software-download/windows11)
+#   2. Create an instance with the ISO path:
+#      limactl create --name=windows --vm-type=qemu template://experimental/windows
+#   3. Edit the instance YAML to set the image location to your ISO path
+#
+# NOTE: This template requires the user to provide a Windows ISO.
+# The &#39;images&#39; field is intentionally left empty; set it before starting.
+
+minimumLimaVersion: &quot;2.2.0&quot;
+
+# Users must provide their own Windows ISO by adding an entry like:
+# images:
+# - location: &quot;/path/to/Win11.iso&quot;
+#   arch: x86_64
+images: []
+
+os: Linux  # TODO: Change to Windows when OS type is added
+vmType: qemu
+
+cpus: 4</code></pre>
+    <p><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/limayaml/validate.go#L61-L62"><code>pkg/limayaml/validate.go:61-62</code></a> rejects <code>len(y.Images) == 0</code> with <code>field images must be set</code>, and <a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/instance/create.go#L55"><code>pkg/instance/create.go:55</code></a> calls <code>limayaml.Validate(..., true)</code> before writing the instance YAML. The template&#39;s own usage block tells the user to run <code>limactl create ... template://experimental/windows</code> and then edit the YAML to set the ISO path; the user never reaches the edit step because create aborts.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/limayaml/validate.go#L56-L67">pkg/limayaml/validate.go</a></div>
+      <pre data-start="56" data-line="61-62"><code class="language-go">	}
+	if !slices.Contains(limatype.ArchTypes, *y.Arch) {
+		errs = errors.Join(errs, fmt.Errorf(&quot;field `arch` must be one of %v; got %q&quot;, limatype.ArchTypes, *y.Arch))
+	}
+
+	if len(y.Images) == 0 {
+		errs = errors.Join(errs, errors.New(&quot;field `images` must be set&quot;))
+	}
+	for i, f := range y.Images {
+		err := validateFileObject(f.File, fmt.Sprintf(&quot;images[%d]&quot;, i))
+		if err != nil {
+			errs = errors.Join(errs, err)</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/instance/create.go#L50-L60">pkg/instance/create.go</a></div>
+      <pre data-start="50" data-line="55"><code class="language-go">		return nil, err
+	}
+	if err := driverutil.ResolveVMType(ctx, loadedInstConfig, filePath); err != nil {
+		return nil, fmt.Errorf(&quot;failed to resolve vm for %q: %w&quot;, filePath, err)
+	}
+	if err := limayaml.Validate(loadedInstConfig, true); err != nil {
+		if !saveBrokenYAML {
+			return nil, err
+		}
+		rejectedYAML := &quot;lima.REJECTED.yaml&quot;
+		if writeErr := os.WriteFile(rejectedYAML, instConfig, 0o644); writeErr != nil {</code></pre>
+    <p>Fix: ship the template with a placeholder image and tell the user to replace it, or update the usage block to set the location at create time:</p>
+      <pre><code class="language-plaintext">limactl create --name=windows --vm-type=qemu \
+  --set=&#39;.images[0].location=&quot;/path/to/Win11.iso&quot;&#39; template://experimental/windows</code></pre>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I6">
+        <span class="finding-num">I6.</span> <code>WindowsSubsystemPath</code> &quot;fix&quot; trades one broken mount point for another <span class="pill pill-gemini">Gemini</span> <span class="pill pill-claude">Claude</span><a href="#I6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/limayaml/defaults.go#L689-L708">pkg/limayaml/defaults.go</a></div>
+      <pre data-start="689" data-line="694-703"><code class="language-go">				mount.Location = location
+			} else {
+				logrus.WithError(err).Warnf(&quot;Couldn&#39;t expand location %q&quot;, mount.Location)
+			}
+		}
+		if mount.MountPoint == nil {
+			mountLocation := mount.Location
+			if runtime.GOOS == &quot;windows&quot; {
+				if wPath, err := ioutilx.WindowsSubsystemPath(ctx, mountLocation); err != nil {
+					logrus.WithError(err).Warnf(&quot;Couldn&#39;t convert location %q into mount target&quot;, mount.Location)
+				} else {
+					mountLocation = wPath
+				}
+			}
+			mount.MountPoint = ptr.Of(mountLocation)
+		} else {
+			if out, err := executeGuestTemplate(*mount.MountPoint, instDir, y.User, y.Param); err == nil {
+				mount.MountPoint = ptr.Of(out.String())
+			} else {
+				logrus.WithError(err).Warnf(&quot;Couldn&#39;t process mount point %q as a template&quot;, *mount.MountPoint)</code></pre>
+    <p><code>WindowsSubsystemPath</code> (<a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/ioutilx/ioutilx.go#L53-L60"><code>pkg/ioutilx/ioutilx.go:53-60</code></a>) shells out to <code>cygpath</code> and returns <code>(&quot;&quot;, err)</code> on failure. The old code overwrote <code>mountLocation</code> with that empty string; the new code preserves the original Windows path like <code>C:\Users\foo</code>. Both reach <code>mount.MountPoint = ptr.Of(mountLocation)</code> and propagate to the Linux guest, where neither a literal <code>C:\Users\foo</code> nor an empty string is a valid mount point. The PR description calls this a fix, but the behaviour is still broken whenever <code>cygpath</code> is missing.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/ioutilx/ioutilx.go#L48-L65">pkg/ioutilx/ioutilx.go</a></div>
+      <pre data-start="48" data-line="53-60"><code class="language-go">	}
+
+	return string(out), nil
+}
+
+func WindowsSubsystemPath(ctx context.Context, orig string) (string, error) {
+	out, err := exec.CommandContext(ctx, &quot;cygpath&quot;, filepath.ToSlash(orig)).CombinedOutput()
+	if err != nil {
+		logrus.WithError(err).Errorf(&quot;failed to convert path to mingw, maybe not using Git ssh?&quot;)
+		return &quot;&quot;, err
+	}
+	return strings.TrimSpace(string(out)), nil
+}
+
+func WindowsSubsystemPathForLinux(ctx context.Context, orig, distro string) (string, error) {
+	out, err := exec.CommandContext(ctx, &quot;wsl&quot;, &quot;-d&quot;, distro, &quot;--exec&quot;, &quot;wslpath&quot;, filepath.ToSlash(orig)).CombinedOutput()
+	if err != nil {
+		logrus.WithError(err).Errorf(&quot;failed to convert path to mingw, maybe wsl command is not operational?&quot;)</code></pre>
+    <p>Fix: either fail explicitly when cygpath fails, or fall back to <code>WindowsSubsystemPathForLinux</code> (which uses <code>wsl wslpath</code>) to produce a valid POSIX path. Also see S2 — this change should not ride with the TPM commit.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> <code>tpm/</code> state directory is copied on instance clone <span class="pill pill-claude">Claude</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/limatype/filenames/filenames.go#L102-L114">pkg/limatype/filenames/filenames.go</a></div>
+      <pre data-start="102" data-line="107-109"><code class="language-go">func PIDFile(name string) string {
+	return name + &quot;.pid&quot;
+}
+
+// SkipOnClone files should be skipped on cloning an instance.
+var SkipOnClone = []string{
+	Protected,
+}
+
+// NullifyOnClone files should be nullified on cloning an instance.
+// FIXME: this list should be provided by the VM driver.
+var NullifyOnClone = []string{
+	VzIdentifier,</code></pre>
+    <p><code>SkipOnClone</code> carries only <code>Protected</code>. Cloning an instance with TPM enabled copies the swtpm state directory verbatim, so both instances share the same EK seed, NVRAM, and sealed-key state. Two VMs with identical TPM state defeats TPM-bound disk encryption (the clone can unseal the original&#39;s disk) and duplicates EK certificates on the network.</p>
+    <p>Fix: add <code>SwtpmDir</code> to <code>SkipOnClone</code>. Note that <code>WalkDir</code> callbacks need <code>fs.SkipDir</code> (not <code>return nil</code>) to skip a directory&#39;s contents, so the existing <code>slices.Contains</code> branch in <a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/cmd/limactl/clone.go#L62-L64"><code>clone.go:62-64</code></a> also needs to return <code>fs.SkipDir</code> when the entry is a directory; verify against an integration test.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> Unrelated <code>WindowsSubsystemPath</code> change does not belong in the TPM commit <span class="pill pill-claude">Claude</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+    <p>The PR description acknowledges this as an &quot;incidental&quot; change. It touches Windows host mount-point handling, not TPM. Bundling it with the TPM feature defeats <code>git bisect</code>, prevents cherry-picking either change into a release branch on its own, and (as I6 covers) the change itself is incomplete. Split it into its own commit at minimum; preferably its own PR so the broken-fix question can be discussed without holding up TPM.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> swtpm directory constant name does not match its on-disk name <span class="pill pill-claude">Claude</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/limatype/filenames/filenames.go#L77-L87">pkg/limatype/filenames/filenames.go</a></div>
+      <pre data-start="77" data-line="82"><code class="language-go">	MntDir    = &quot;mnt&quot; // mount point (macOS guests only)
+
+	Protected = &quot;protected&quot; // empty file; used by `limactl protect`
+
+	SwtpmSock = &quot;swtpm.sock&quot; // swtpm socket for QEMU chardev
+	SwtpmDir  = &quot;tpm&quot;        // directory for swtpm state files
+)
+
+// Filenames used under a disk directory
+
+const (</code></pre>
+    <p>The constant is <code>SwtpmDir</code> but the on-disk path is <code>tpm</code>. The implementation is swtpm-specific; if Lima ever adds a non-swtpm vTPM backend (vz, krunkit), the directory either gets shared or needs a rename. Name the directory <code>swtpm</code> so the on-disk layout matches the constant and the backend that owns it.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> <code>init()</code> in <code>tpm_test.go</code> hijacks the entire package&#39;s test binary <span class="pill pill-claude">Claude</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/tpm_test.go#L17-L51">pkg/driver/qemu/tpm_test.go</a></div>
+      <pre data-start="17" data-line="22-46"><code class="language-go">	&quot;github.com/lima-vm/lima/v2/pkg/limatype&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/limatype/filenames&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/ptr&quot;
+)
+
+func init() {
+	if os.Getenv(&quot;LIMA_TEST_MOCK_QEMU&quot;) == &quot;1&quot; {
+		// Mock behavior for inspecting qemu features
+		if len(os.Args) &gt; 1 {
+			for i, arg := range os.Args {
+				if arg == &quot;--version&quot; {
+					fmt.Println(&quot;QEMU emulator version 8.2.1&quot;)
+					os.Exit(0)
+				}
+				if arg == &quot;-accel&quot; &amp;&amp; i+1 &lt; len(os.Args) &amp;&amp; os.Args[i+1] == &quot;help&quot; {
+					fmt.Println(&quot;Accelerators: kvm, hvf, whpx, nvmm, tcg&quot;)
+					os.Exit(0)
+				}
+				if arg == &quot;-cpu&quot; &amp;&amp; i+1 &lt; len(os.Args) &amp;&amp; os.Args[i+1] == &quot;help&quot; {
+					fmt.Println(&quot;Available CPUs:&quot;)
+					fmt.Println(&quot;  qemu64&quot;)
+					fmt.Println(&quot;  max&quot;)
+					fmt.Println(&quot;  host&quot;)
+					os.Exit(0)
+				}
+			}
+		}
+		os.Exit(0)
+	}
+}
+
+func TestSwtpmCmdline(t *testing.T) {
+	if runtime.GOOS == &quot;windows&quot; {
+		t.Skip(&quot;swtpm Unix socket mode is not supported on Windows hosts&quot;)
+	}</code></pre>
+    <p><code>init()</code> runs for every test invocation in the <code>qemu</code> package, not just <code>TestTPMQEMUArgs</code>. A stray <code>LIMA_TEST_MOCK_QEMU=1</code> in a contributor&#39;s environment makes every test in the package exit 0 with no output, silently passing. Move the mock logic into <code>TestMain</code> so the misconfiguration is scoped to a deliberate opt-in, or guard <code>os.Exit(0)</code> with a second sentinel that only <code>TestTPMQEMUArgs</code> sets.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> <code>TestTPMQEMUArgs</code> writes firmware blobs outside <code>t.TempDir()</code> and leaves directories behind <span class="pill pill-claude">Claude</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/tpm_test.go#L94-L144">pkg/driver/qemu/tpm_test.go</a></div>
+      <pre data-start="94" data-line="99-139"><code class="language-go">	// Verify that state directory was created
+	_, err = os.Stat(stateDir)
+	assert.NilError(t, err)
+}
+
+func TestTPMQEMUArgs(t *testing.T) {
+	// Setup the test executable as mock QEMU
+	absSelf, err := filepath.Abs(os.Args[0])
+	assert.NilError(t, err)
+
+	os.Setenv(&quot;QEMU_SYSTEM_X86_64&quot;, filepath.ToSlash(absSelf))
+	defer os.Unsetenv(&quot;QEMU_SYSTEM_X86_64&quot;)
+	os.Setenv(&quot;QEMU_SYSTEM_AARCH64&quot;, filepath.ToSlash(absSelf))
+	defer os.Unsetenv(&quot;QEMU_SYSTEM_AARCH64&quot;)
+
+	os.Setenv(&quot;LIMA_TEST_MOCK_QEMU&quot;, &quot;1&quot;)
+	defer os.Unsetenv(&quot;LIMA_TEST_MOCK_QEMU&quot;)
+
+	// We also need to configure firmware mock files so getFirmware doesn&#39;t fail
+	// Candidate search path will check filepath.Dir(qemuExe)/share/edk2-xxx-code.fd
+	// Since qemuExe is absSelf, we can create those files in filepath.Dir(absSelf)
+	binDir := filepath.Dir(absSelf)
+	localDir := filepath.Dir(binDir)
+
+	// Create directories for firmware candidates
+	shareDir1 := filepath.Join(binDir, &quot;share&quot;)
+	err = os.MkdirAll(shareDir1, 0o755)
+	assert.NilError(t, err)
+	shareDir2 := filepath.Join(localDir, &quot;share&quot;, &quot;qemu&quot;)
+	err = os.MkdirAll(shareDir2, 0o755)
+	assert.NilError(t, err)
+
+	// Dummy firmware files
+	dummyFiles := []string{
+		filepath.Join(shareDir1, &quot;edk2-x86_64-code.fd&quot;),
+		filepath.Join(shareDir2, &quot;edk2-x86_64-code.fd&quot;),
+		filepath.Join(shareDir1, &quot;edk2-aarch64-code.fd&quot;),
+		filepath.Join(shareDir2, &quot;edk2-aarch64-code.fd&quot;),
+		filepath.Join(shareDir1, &quot;edk2-i386-vars.fd&quot;),
+		filepath.Join(shareDir2, &quot;edk2-i386-vars.fd&quot;),
+	}
+	for _, f := range dummyFiles {
+		err = os.WriteFile(f, []byte(&quot;mock-firmware-content&quot;), 0o644)
+		assert.NilError(t, err)
+		defer os.Remove(f)
+	}
+
+	testCases := []struct {
+		name         string
+		arch         limatype.Arch
+		tpmEnabled   bool</code></pre>
+    <p><code>absSelf</code> resolves to the running test binary, usually under <code>$GOCACHE/go-build/.../qemu.test</code>. The test creates <code>share/</code> and <code>../share/qemu/</code> next to it and writes six firmware blobs there. <code>defer os.Remove(f)</code> removes the files; the directories stay. Repeated <code>go test</code> runs accumulate empty directories, and two parallel <code>go test ./pkg/driver/qemu/...</code> invocations race on these shared paths.</p>
+    <p>Fix: stage a fake <code>qemu-system-*</code> binary under <code>t.TempDir()/bin/</code>, set <code>QEMU_SYSTEM_*</code> to point there, and create <code>share/</code> siblings under the same TempDir. Go cleans up <code>t.TempDir()</code> after each test.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> Unsupported architecture path has no test coverage <span class="pill pill-claude">Claude</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+    <p><code>TestTPMQEMUArgs</code> exercises <code>x86_64</code> and <code>aarch64</code>, both supported. Neither <code>armv7l</code> (also supported) nor an unsupported arch like <code>riscv64</code> appears in the table. The <code>default:</code> branch at <a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu.go#L767-L768"><code>qemu.go:767-768</code></a> — and the architecture-validate gate suggested in I4 — never run in CI. Add a <code>riscv64</code> row asserting the error and an <code>armv7l</code> row asserting <code>tpm-tis-device</code>.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu.go#L762-L773">pkg/driver/qemu/qemu.go</a></div>
+      <pre data-start="762" data-line="767-768"><code class="language-go">		switch *y.Arch {
+		case limatype.X8664:
+			tpmDevice = &quot;tpm-crb&quot;
+		case limatype.AARCH64, limatype.ARMV7L:
+			tpmDevice = &quot;tpm-tis-device&quot;
+		default:
+			return &quot;&quot;, nil, fmt.Errorf(&quot;TPM is not supported for architecture %q&quot;, *y.Arch)
+		}
+		args = append(args, &quot;-device&quot;, tpmDevice+&quot;,tpmdev=tpm0&quot;)
+	}
+
+	// Kernel</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> <code>SwtpmCmdline</code> does not clear stale swtpm state-directory locks <span class="pill pill-claude">Claude</span><a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu.go#L1121-L1138">pkg/driver/qemu/qemu.go</a></div>
+      <pre data-start="1121" data-line="1126-1133"><code class="language-go">	swtpmExe, err := FindSwtpm()
+	if err != nil {
+		return &quot;&quot;, nil, err
+	}
+
+	stateDir := filepath.Join(cfg.InstanceDir, filenames.SwtpmDir)
+	if err := os.MkdirAll(stateDir, 0o700); err != nil {
+		return &quot;&quot;, nil, fmt.Errorf(&quot;failed to create swtpm state directory: %w&quot;, err)
+	}
+
+	swtpmSock := filepath.Join(cfg.InstanceDir, filenames.SwtpmSock)
+	// Remove stale socket
+	_ = os.Remove(swtpmSock)
+
+	args = []string{
+		&quot;socket&quot;,
+		&quot;--tpmstate&quot;, &quot;dir=&quot; + stateDir,
+		&quot;--ctrl&quot;, &quot;type=unixio,path=&quot; + swtpmSock,</code></pre>
+    <p>The function removes the stale Unix socket, but swtpm also writes a <code>.lock</code> file inside the state directory on every run. After a host crash or SIGKILL, the lock survives, and the next start fails with <code>TPM already in use</code>. The virtiofsd analogue (<code>VirtiofsdCmdline</code>) does not need this because virtiofsd holds no on-disk lock; swtpm does. After <code>os.MkdirAll(stateDir)</code>, also <code>_ = os.Remove(filepath.Join(stateDir, &quot;.lock&quot;))</code>.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S8">
+        <span class="finding-num">S8.</span> A clean swtpm exit during VM runtime is logged silently <span class="pill pill-claude">Claude</span><a href="#S8" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu_driver.go#L364-L378">pkg/driver/qemu/qemu_driver.go</a></div>
+      <pre data-start="364" data-line="369-373"><code class="language-go">			_ = swtpmCmd.Process.Kill()
+			return nil, fmt.Errorf(&quot;swtpm socket %s never appeared&quot;, swtpmSock)
+		}
+
+		// Monitor swtpm in background
+		go func() {
+			if err := &lt;-swtpmWaitCh; err != nil {
+				logrus.Errorf(&quot;swtpm exited with error: %v&quot;, err)
+			}
+		}()
+	}
+
+	var qArgsFinal []string
+	applier := &amp;qArgTemplateApplier{}
+	for _, unapplied := range qArgs {</code></pre>
+    <p>swtpm normally runs until killed by <code>killSwtpm</code>. A nil-error exit during runtime — for example, swtpm dying from a signal — leaves QEMU running with a dead TPM and is invisible to the operator. Log at <code>Info</code> on nil-error exit too, so guest-side TPM failures correlate with a host-side line.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S9">
+        <span class="finding-num">S9.</span> <code>time.NewTimer</code> inside the swtpm-startup loop never stops <span class="pill pill-gemini">Gemini</span><a href="#S9" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu_driver.go#L340-L355">pkg/driver/qemu/qemu_driver.go</a></div>
+      <pre data-start="340" data-line="345-350"><code class="language-go">		}
+
+		// Wait for the swtpm socket to appear
+		swtpmSock := filepath.Join(l.Instance.Dir, filenames.SwtpmSock)
+		swtpmWaitCh := make(chan error, 1)
+		go func() {
+			swtpmWaitCh &lt;- swtpmCmd.Wait()
+		}()
+
+		swtpmSockExists := false
+		for attempt := range 10 {
+			logrus.Debugf(&quot;Waiting for swtpm socket %s (attempt %d)&quot;, swtpmSock, attempt)
+			if _, err := os.Stat(swtpmSock); err == nil {
+				swtpmSockExists = true
+				break
+			}</code></pre>
+    <p>The timer is created per iteration and goes out of scope without <code>Stop()</code>. The cost is minor — ten timers GC&#39;d at the end of the loop — but the swtpmWaitCh branch returns from the function while the timer is still armed. Call <code>retry.Stop()</code> before the <code>return</code>.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S10">
+        <span class="finding-num">S10.</span> <code>templates/experimental/windows.yaml</code> does not tell the user how to reach the VNC display <span class="pill pill-claude">Claude</span><a href="#S10" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/templates/experimental/windows.yaml#L30-L36">templates/experimental/windows.yaml</a></div>
+      <pre data-start="30" data-line="35-36"><code class="language-yaml">  legacyBIOS: false  # UEFI required for Windows 11
+
+tpm:
+  enabled: true  # Required for Windows 11
+
+video:
+  display: &quot;vnc&quot;  # Needed for Windows installer UI</code></pre>
+    <p><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu.go#L875-L877"><code>pkg/driver/qemu/qemu.go:875-877</code></a> opens a VNC listener with <code>password=on</code>, but the template does not say how to discover the listener address or the password. Without that, a new user runs <code>limactl start windows</code>, sees the boot logs, and has no way to drive the Windows installer. Add a usage note pointing at <code>&lt;instanceDir&gt;/qemu.pid</code> for the QEMU process and the VNC port that follows, or call out the VNC password sequence (it can be set via <code>qmp</code>).</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu.go#L870-L882">pkg/driver/qemu/qemu.go</a></div>
+      <pre data-start="870" data-line="875-877"><code class="language-go">		args = append(args, &quot;-device&quot;, fmt.Sprintf(&quot;hda-output,audiodev=%s&quot;, id))
+	}
+	// Graphics
+	if *y.Video.Display != &quot;&quot; {
+		display := *y.Video.Display
+		if display == &quot;vnc&quot; {
+			display += &quot;=&quot; + *y.Video.VNC.Display
+			display += &quot;,password=on&quot;
+			// use tablet to avoid double cursors
+			input = &quot;tablet&quot;
+		}
+		args = appendArgsIfNoConflict(args, &quot;-display&quot;, display)
+	}</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S11">
+        <span class="finding-num">S11.</span> <code>TestSwtpmCmdline</code> carries an unreachable Windows branch <span class="pill pill-gemini">Gemini</span><a href="#S11" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/tpm_test.go#L43-L71">pkg/driver/qemu/tpm_test.go</a></div>
+      <pre data-start="43" data-line="48-66"><code class="language-go">		}
+		os.Exit(0)
+	}
+}
+
+func TestSwtpmCmdline(t *testing.T) {
+	if runtime.GOOS == &quot;windows&quot; {
+		t.Skip(&quot;swtpm Unix socket mode is not supported on Windows hosts&quot;)
+	}
+	tmpDir := t.TempDir()
+
+	// 1. Create a mock swtpm executable in a temporary bin directory
+	binDir := filepath.Join(tmpDir, &quot;bin&quot;)
+	err := os.MkdirAll(binDir, 0o755)
+	assert.NilError(t, err)
+
+	swtpmName := &quot;swtpm&quot;
+	if runtime.GOOS == &quot;windows&quot; {
+		swtpmName = &quot;swtpm.exe&quot;
+	}
+	swtpmPath := filepath.Join(binDir, swtpmName)
+	err = os.WriteFile(swtpmPath, []byte{}, 0o755)
+	assert.NilError(t, err)
+
+	// 2. Prepend the temporary bin directory to PATH
+	oldPath := os.Getenv(&quot;PATH&quot;)
+	defer os.Setenv(&quot;PATH&quot;, oldPath)
+	os.Setenv(&quot;PATH&quot;, binDir+string(os.PathListSeparator)+oldPath)
+</code></pre>
+    <p>The test skips at <code>t.Skip(...)</code> on line 50 when <code>runtime.GOOS == &quot;windows&quot;</code>, so the Windows branch is dead. Drop it and call the binary <code>swtpm</code> directly. Same applies to the <code>os.PathListSeparator</code> usage at line 70, which collapses to <code>:</code> on every reachable platform.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/tpm_test.go#L65-L75">pkg/driver/qemu/tpm_test.go</a></div>
+      <pre data-start="65" data-line="70"><code class="language-go">	assert.NilError(t, err)
+
+	// 2. Prepend the temporary bin directory to PATH
+	oldPath := os.Getenv(&quot;PATH&quot;)
+	defer os.Setenv(&quot;PATH&quot;, oldPath)
+	os.Setenv(&quot;PATH&quot;, binDir+string(os.PathListSeparator)+oldPath)
+
+	cfg := Config{
+		Name:        &quot;test-tpm&quot;,
+		InstanceDir: tmpDir,
+		LimaYAML:    &amp;limatype.LimaYAML{},</code></pre>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <p><em></em><code>TPM</code> as a top-level field vs. inside <code>vmOpts.qemu</code><em></em> (future) <span class="pill pill-claude">Claude</span> — Every other driver-specific feature (vz&#39;s Rosetta, wsl2-specific paths, qemu-only accel knobs) lives under <code>vmOpts.&lt;driver&gt;</code>. A top-level <code>tpm.enabled</code> reads as &quot;portable across drivers,&quot; which is not the case today. The PR description calls this a deliberate architectural choice. If vz/krunkit ever grow TPM backends, the top-level location is right; until then, the field reads as misplaced. Either way, gate it against the active driver (I3).</p>
+    <p><strong>Helper subprocess lifecycle is spread across QEMU, virtiofsd, and now swtpm</strong> (future) <span class="pill pill-codex">Codex</span> — Each helper carries its own pidfile, signal handling, and cleanup expectations. A small helper registry with <code>Start</code>, <code>Wait</code>, <code>Pidfile</code>, and <code>Cleanup</code> hooks would make force-stop and restart behaviour less dependent on each helper remembering its own cleanup path. The swtpm leak in I1, the orphan in I2, and the pre-existing virtiofsd parallel all share this shape.</p>
+    <p><strong>swtpm dying mid-run leaves QEMU with a dead TPM</strong> (future) <span class="pill pill-claude">Claude</span> — The lifecycle mirrors virtiofsd, which has no death-of-helper → shutdown-of-QEMU plumbing. A follow-up that ties helper exit into a supervisor that escalates to <code>qCmd.Process.Signal(SIGTERM)</code> would catch swtpm crashes, vhost crashes, and future helpers.</p>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <p><em></em>Explicit arch dispatch with a <code>default</code> error<em></em> (in-scope) <span class="pill pill-codex">Codex</span> <span class="pill pill-claude">Claude</span> — The TPM device switch at <a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu.go#L761-L769"><code>qemu.go:761-769</code></a> rejects unsupported architectures with a clear error instead of silently emitting an invalid <code>-device</code> to QEMU.</p>
+    <p><em></em>Windows-host guard in <code>SwtpmCmdline</code><em></em> (in-scope) <span class="pill pill-claude">Claude</span> — <code>runtime.GOOS == &quot;windows&quot;</code> is checked first and returns a precise message; the rest of the function never runs with an inappropriate transport.</p>
+    <p><strong>Defaults follow the established triple-merge pattern</strong> (in-scope) <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span> — TPM defaults use the same <code>y → d → o → fallback</code> pattern as <code>NestedVirtualization</code> and <code>Plain</code>, with matching assertions at all four checkpoints in <code>defaults_test.go</code>.</p>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><code>TestSwtpmCmdline</code> skips on Windows but does not exercise the stale-socket removal at <a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu.go#L1133"><code>qemu.go:1133</code></a>. Pre-create the socket and assert it is gone after the call.</li>
+      <li><code>TestTPMQEMUArgs</code> covers only <code>x86_64</code>/<code>aarch64</code> with TPM on/off. Missing: <code>armv7l</code> (supported), <code>riscv64</code> (unsupported, must error), and a row for an instance with <code>additionalDisks</code> to expose I4.</li>
+      <li>No coverage for swtpm-startup-timeout (<a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu_driver.go#L363-L366"><code>qemu_driver.go:363-366</code></a>) or swtpm-exits-before-socket (line 358-359). A mock swtpm binary that exits with status 1 covers both.</li>
+      <li>No coverage for the I1 leak: a contrived <code>qCmd.Start()</code> failure with swtpm running would catch the missing <code>l.swtpmCmd</code> assignment.</li>
+      <li>No template-validation test for <code>templates/experimental/windows.yaml</code>. <code>LIMA_TEMPLATES_PATH=templates go run ./cmd/limactl template validate template:experimental/windows</code> currently fails with <code>field images must be set</code> (I5).</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/templates/default.yaml#L631-L642"><code>templates/default.yaml:631-642</code></a> documents the <code>tpm:</code> block clearly, including the Windows-host caveat. Accurate.</li>
+      <li><code>templates/experimental/windows.yaml</code> ships with <code>os: Linux  # TODO: Change to Windows when OS type is added</code> (line 22). Acceptable for a POC, but the file reads as a working Windows template when it is not; lift the EXPERIMENTAL warning to the first comment line.</li>
+      <li>No update under <code>website/content</code> for the new <code>tpm.enabled</code> field. <code>default.yaml</code> is the only documentation; add a website page before stabilising.</li>
+      <li><a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/limatype/lima_yaml.go#L233-L237"><code>pkg/limatype/lima_yaml.go:233-237</code></a> — the <code>TPM</code> struct itself has no godoc; only the <code>Enabled</code> field does. Add <code>// TPM configures an emulated TPM 2.0 device. Currently only supported with vmType: qemu.</code> so the field doc matches the rest of <code>LimaYAML</code>.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR squash-merges two commits: a merge commit at <a href="https://github.com/lima-vm/lima/commit/b76ecc47"><code>b76ecc47</code></a> and the substantive <a href="https://github.com/lima-vm/lima/commit/1d836b86"><code>1d836b86</code></a>. The substantive commit bundles:</p>
+    <ol>
+      <li>The TPM feature (<code>qemu.go</code>, <code>qemu_driver.go</code>, <code>lima_yaml.go</code>, <code>filenames.go</code>, <code>defaults.go</code> TPM block, <code>default.yaml</code>, <code>windows.yaml</code>, <code>defaults_test.go</code>, <code>tpm_test.go</code>).</li>
+      <li>An unrelated <code>WindowsSubsystemPath</code> change in <a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/limayaml/defaults.go#L694-L703"><code>defaults.go:694-703</code></a> (I6, S2).</li>
+    </ol>
+    <p>Split the second change out so it can be reviewed, bisected, and cherry-picked on its own. With it removed, the TPM commit reads cleanly as a single feature.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>Code comment</strong>, <a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu.go#L1115"><code>pkg/driver/qemu/qemu.go:1115</code></a>: &quot;Currently only supported on Unix hosts (Linux, macOS) where Unix domain sockets are available.&quot; — the Windows-host rejection at <a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/pkg/driver/qemu/qemu.go#L1117-L1119"><code>qemu.go:1117-1119</code></a> enforces it. Appropriate for a POC.</li>
+      <li><strong>Code comment</strong>, <a href="https://github.com/lima-vm/lima/blob/1d836b86ca7ddeb4654d66f7f1fce6de9d2dbb9f/templates/experimental/windows.yaml#L22"><code>templates/experimental/windows.yaml:22</code></a>: <code>os: Linux  # TODO: Change to Windows when OS type is added</code> — acknowledged future-work tracker tied to issue <a href="https://github.com/lima-vm/lima/issues/4852" class="gh-ref" data-title="Support for Windows guests" data-state="open" data-type="issue">#4852</a>.</li>
+      <li><strong>PR description</strong>: VZ driver TPM support is explicitly deferred to a later phase.</li>
+      <li><strong>PR description</strong>: TPM placed at the top level rather than under <code>vmOpts.qemu</code> is called out as a deliberate architectural decision. The driver/arch validation gap (I3, I4) is independent of this choice and still applies.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><strong>[Claude]</strong> — Produced the broadest coverage of the three, with the only finding on the Start-time swtpm leak (I1) and on the clone secret-copy issue (S1) — both load-bearing and verified against the code. Calibration was conservative on severity (no critical, four important) and matched the consolidated result. The test-hygiene findings (S4, S5, S6, S11) are valuable but the package-leaking <code>init()</code> (S4) was the standout — easy to miss in review of a new test file.</p>
+    <p><strong>[Codex]</strong> — Sharpest finding-to-noise ratio. The disk-locking interaction in I4 — locks acquired at line 713 before the new TPM switch at line 753 — is the kind of cross-cut nobody else caught. Same on the SIGKILL/Setpgid orphaning in I2: required tracing through <code>executil.BackgroundSysProcAttr</code>, <code>StopForcibly</code>, and the swtpm args together. Skipped the test files and the templates beyond <code>windows.yaml</code>, which the table reflects as fewer findings but better aimed.</p>
+    <p><strong>[Gemini]</strong> — Anchored I2 with the NVRAM-corruption framing and the <code>--terminate</code> fix that nobody else proposed, which is the right primary remediation. Mislabelled the <code>WindowsSubsystemPath</code> change as a critical regression — both the old and new behaviour are broken, so &quot;regression&quot; is the wrong tag (downgraded to I6). Found the unreachable Windows branch in <code>TestSwtpmCmdline</code> (S11) that the others walked past.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.7</th><th><span class="pill pill-codex">Codex</span> GPT 5.5</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>8m 38s</td><td>7m 22s</td><td>19m 01s</td></tr>
+        <tr><td>Findings</td><td>4I 8S</td><td>3I</td><td>3I 2S</td></tr>
+        <tr><td>Tool calls</td><td>51 (Bash 32, Read 19)</td><td>67 (shell 67)</td><td>—</td></tr>
+        <tr><td>Design observations</td><td>5</td><td>2</td><td>1</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>6</td><td>2</td><td>2</td></tr>
+        <tr><td>Files reviewed</td><td>9</td><td>9</td><td>9</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>4I 8S</strong></td><td><strong>3I</strong></td><td><strong>3I 2S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>1 (I→S)</td></tr>
+        <tr><td>Dropped</td><td>1</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p>All three reviewers converged on the validation gaps (I3, I5) and the swtpm lifecycle (I1/I2). Codex contributed the cross-file disk-locking discovery; Gemini contributed the swtpm <code>--terminate</code> fix; Claude contributed the breadth (clone, init, test-tempdir) and the design framing. Together they catch issues none would catch alone.</p>
+    <h3 id="reconciliation">Reconciliation <a href="#reconciliation" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>Gemini C1 (cygpath fix is a regression) → downgraded to Important I6. The old behaviour was also broken; calling it a regression overstates the change. The &quot;incomplete fix&quot; framing survives in I6.</li>
+      <li>Claude S8 (windows.yaml <code>images: []</code>) was a duplicate of Codex I2 / Gemini I3; consolidated as I5.</li>
+      <li>Claude I2 and Gemini I1 merged into I3 (same finding).</li>
+      <li>Claude I4 and Codex I3 merged into I4 (Claude&#39;s framing + Codex&#39;s disk-lock concrete).</li>
+      <li>Codex I1 and Gemini I2 merged into I2 (orphan + NVRAM corruption are two facets of the same lifecycle gap).</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><strong>Repo context updates:</strong></p>
+    <ul>
+      <li><code>[repo]</code> <code>pkg/limayaml/validate.go</code> is the single source of truth for cross-field validation in this repo. New top-level configuration fields with cross-cutting requirements (driver gating, arch gating, mutually-exclusive options) must add their own checks here, even when the documentation in <code>templates/default.yaml</code> describes the constraint. Documentation-only constraints get bypassed silently.</li>
+      <li><code>[repo]</code> <code>pkg/instance/stop.go::StopForcibly</code> only sends SIGKILL to <code>DriverPID</code> and <code>HostAgentPID</code>. Any helper subprocess launched with <code>executil.BackgroundSysProcAttr</code> (<code>Setpgid: true</code>) runs in its own process group and will be orphaned by <code>limactl stop -f</code> unless it has its own cleanup path or exits when the parent disconnects.</li>
+      <li><code>[repo]</code> <code>pkg/instance/clone.go</code> uses <code>filenames.SkipOnClone</code>, matched against the filesystem entry&#39;s basename. Returning <code>nil</code> from the walk function continues into a skipped directory&#39;s contents; only <code>fs.SkipDir</code> actually skips the children. New per-instance secret directories (TPM state, future SEV launch blobs, etc.) need both an entry in <code>SkipOnClone</code> and a directory-aware fix in the walk callback.</li>
+      <li><code>[repo]</code> <code>pkg/driver/qemu/qemu.go::Cmdline</code> acquires per-disk locks via <code>disk.LockForInstance</code> before later validation steps. Any new error path added to <code>Cmdline</code> should return before the disk-locking block at line 713, otherwise the hostagent&#39;s unlock path never runs and disks need manual <code>limactl disk unlock</code> recovery.</li>
+    </ul>
+    <p><strong>Skill improvements:</strong></p>
+    <ul>
+      <li>Add a review dimension on &quot;validation gating for new top-level YAML fields&quot;: every new field that documents a constraint in the template (driver, arch, host OS, mutually exclusive flag) should be checked in <code>Validate()</code> of the relevant package; a documentation-only constraint is a bug magnet because the field will be silently ignored when the constraint is violated. The principle generalises: any time a PR adds a config knob whose docs say &quot;Only supported with X,&quot; verify the validate layer enforces it.</li>
+      <li>Add a review dimension on &quot;ordering of failure paths against persistent state&quot;: when a new error path is added to a function that already mutates persistent state (file locks, directories, network state), verify the error fires before the mutation. The principle generalises beyond Lima: any function that combines validation and resource acquisition should fail before acquiring resources.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
