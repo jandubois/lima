@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260706-203659-pr-4877</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260706-203659-pr-4877</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-07-06 20:36</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1 (of pr-4877)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/unsuman">@unsuman</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/4877" class="gh-ref" data-title="Fix: external driver transport irregularities" data-state="open" data-type="pr">#4877</a> — Fix: external driver transport irregularities</td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/79e52541"><code>79e52541</code></a> address comments by copilot in server.go<br><a href="https://github.com/lima-vm/lima/commit/1be86f3c"><code>1be86f3c</code></a> merge Configure() and FillConfig()<br><a href="https://github.com/lima-vm/lima/commit/2a014191"><code>2a014191</code></a> make server reuse + pid-based shutdown reliable for stop/rm -f<br><a href="https://github.com/lima-vm/lima/commit/34ff6065"><code>34ff6065</code></a> keep the grpc server socket file inside instance dir<br><a href="https://github.com/lima-vm/lima/commit/e74d083d"><code>e74d083d</code></a> Reduce redundant driver.Info() calls</td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.8 (effort: xhigh), <span class="pill pill-codex">Codex</span> GPT 5.5 (effort: xhigh), <span class="pill pill-gemini">Gemini</span> 3.1 Pro (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; <code>factory-reset</code> panics on the default instance (C1) and a <code>create</code> failure orphans the driver server (I1); both need targeted fixes before merge</td></tr>
+      <tr><td>Wall-clock time</td><td><code>27 min 8 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR cleanly consolidates external-driver config-filling into <code>Configure</code> and makes the gRPC server persistent per-instance. Two regressions block merge: moving default-filling out of <code>ResolveVMType</code> leaves <code>MountType</code> nil for <code>store.Inspect</code> consumers, so <code>limactl factory-reset</code> panics on the default instance after deleting its files (C1); and a <code>create</code> failure orphans the spawned driver server (I1). The rest are robustness and UX suggestions.</p>
+    <p>All three reviewers agreed the refactor is sound and builds/tests green. Codex alone caught the crash-class C1; Gemini alone caught the Windows signal regression (I2); Claude gave the sharpest account of I1. The three findings barely overlap, so each reviewer carried real weight.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+      <div class="finding-title" id="C1">
+        <span class="finding-num">C1.</span> <code>limactl factory-reset</code> panics on nil <code>MountType</code> <span class="pill pill-codex">Codex</span><a href="#C1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/pkg/cidata/cidata.go#L191-L201">pkg/cidata/cidata.go</a></div>
+      <pre data-start="191" data-line="196"><code class="language-go">	for _, f := range pubKeys {
+		args.SSHPubKeys = append(args.SSHPubKeys, f.Content)
+	}
+
+	var fstype string
+	switch *instConfig.MountType {
+	case limatype.REVSSHFS:
+		fstype = &quot;sshfs&quot;
+	case limatype.NINEP:
+		fstype = &quot;9p&quot;
+		if *instConfig.OS == limatype.FREEBSD {</code></pre>
+    <p><a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/cmd/limactl/factory-reset.go#L73"><code>factory-reset.go:73</code></a> passes the <code>store.Inspect</code> config straight to <code>GenerateCloudConfig</code> without running <code>Configure</code>. <code>store.Inspect</code> → <code>LoadYAMLByFilePath</code> now fills only <code>VMType</code>; <code>FillDefault</code> leaves <code>MountType</code> nil because the built-in default is <code>mountType: null</code> (<a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/pkg/limayaml/default.yaml#L108"><code>pkg/limayaml/default.yaml:108</code></a>). The old <code>ResolveVMType</code> filled it via the driver&#39;s <code>FillConfig</code> (vz→virtiofs, qemu→9p), so this is a regression. factory-reset first stops the instance and deletes its files (<a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/cmd/limactl/factory-reset.go#L52-L71"><code>factory-reset.go:52-71</code></a>), <em>then</em> panics — leaving a half-reset instance. Triggers on the default instance, whose persisted YAML sets no <code>mountType</code>.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/cmd/limactl/factory-reset.go#L47-L78">cmd/limactl/factory-reset.go</a></div>
+      <pre data-start="47" data-line="52-73"><code class="language-go">	}
+	if inst.Protected {
+		return errors.New(&quot;instance is protected to prohibit accidental factory-reset (Hint: use `limactl unprotect`)&quot;)
+	}
+
+	instance.StopForcibly(inst)
+
+	fi, err := os.ReadDir(inst.Dir)
+	if err != nil {
+		return err
+	}
+	retain := map[string]struct{}{
+		filenames.LimaVersion:  {},
+		filenames.Protected:    {},
+		filenames.VzIdentifier: {},
+	}
+	for _, f := range fi {
+		path := filepath.Join(inst.Dir, f.Name())
+		if _, ok := retain[f.Name()]; !ok &amp;&amp; !strings.HasSuffix(path, &quot;.yaml&quot;) &amp;&amp; !strings.HasSuffix(path, &quot;.yml&quot;) {
+			logrus.Infof(&quot;Removing %#q&quot;, path)
+			if err := os.Remove(path); err != nil {
+				logrus.Error(err)
+			}
+		}
+	}
+	// Regenerate the cloud-config.yaml, to reflect any changes to the global _config
+	if err := cidata.GenerateCloudConfig(ctx, inst.Dir, instName, inst.Config); err != nil {
+		logrus.Error(err)
+	}
+
+	logrus.Infof(&quot;Instance %#q has been factory reset&quot;, instName)
+	return nil</code></pre>
+    <p>Fix: fill driver defaults before non-<code>Configure</code> consumers use the config (a side-effect-free fill/validate step), or nil-guard the <code>MountType</code> derefs at <a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/pkg/cidata/cidata.go#L196"><code>cidata.go:196</code></a> and <code>:247</code>.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> <code>create</code> failure orphans the external-driver server <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/pkg/instance/create.go#L64-L104">pkg/instance/create.go</a></div>
+      <pre data-start="64" data-line="69-99"><code class="language-go">		return nil, fmt.Errorf(&quot;the YAML is invalid, saved the buffer as %#q: %w&quot;, rejectedYAML, err)
+	}
+	if err := os.MkdirAll(instDir, 0o700); err != nil {
+		return nil, err
+	}
+	var createSucceeded bool
+	defer func() {
+		if !createSucceeded {
+			_ = os.RemoveAll(instDir)
+		}
+	}()
+
+	if err := os.WriteFile(filePath, instConfig, 0o644); err != nil {
+		return nil, err
+	}
+	if err := os.WriteFile(filepath.Join(instDir, filenames.LimaVersion), []byte(version.Version), 0o444); err != nil {
+		return nil, err
+	}
+
+	inst, err := store.Inspect(ctx, instName)
+	if err != nil {
+		return nil, err
+	}
+
+	limaDriver, err := driverutil.CreateConfiguredDriver(ctx, inst, 0)
+	if err != nil {
+		return nil, fmt.Errorf(&quot;failed to create driver instance: %w&quot;, err)
+	}
+	if err := limayaml.Validate(inst.Config, true); err != nil {
+		return nil, fmt.Errorf(&quot;failed to validate the instance YAML after filling defaults: %w&quot;, err)
+	}
+	if err := cidata.GenerateCloudConfig(ctx, instDir, instName, inst.Config); err != nil {
+		return nil, err
+	}
+
+	if err := limaDriver.Create(ctx); err != nil {
+		return nil, err
+	}
+
+	createSucceeded = true
+	return inst, nil</code></pre>
+    <p>For an external driver, <code>CreateConfiguredDriver</code> (line 88) spawns a server via <code>server.Start</code>. limactl runs on <code>context.Background()</code> (<a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/cmd/limactl/main.go#L51"><code>cmd/limactl/main.go:51</code></a>), so the child is not ctx-cancelled, and the CLI now calls only <code>server.Disconnect()</code> at exit, not <code>StopAllExternalDrivers()</code>. If a later step (Validate/GenerateCloudConfig/Create) fails, the rollback deletes <code>instDir</code> including <code>lima-driver-*.pid</code>/<code>.sock</code>, which <code>server.Stop</code> globs — so the process can never be reaped. With the 60s self-shutdown timer removed, it leaks permanently.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/cmd/limactl/main.go#L46-L56">cmd/limactl/main.go</a></div>
+      <pre data-start="46" data-line="51"><code class="language-go">			if err != nil {
+				logrus.Warning(&quot;Can&#39;t add extras to PATH, relying entirely on system PATH&quot;)
+			}
+		}
+	}
+	err := newApp().Execute()
+	server.Disconnect()
+	osutil.HandleExitError(err)
+	if err != nil {
+		logrus.Fatal(err)
+	}</code></pre>
+    <p>Fix: call <code>server.Stop(instDir, true)</code> before <code>os.RemoveAll</code> in the rollback.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> <code>server.Stop</code> never kills processes on Windows <span class="pill pill-gemini">Gemini</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/pkg/driver/external/server/server.go#L286-L296">pkg/driver/external/server/server.go</a></div>
+      <pre data-start="286" data-line="291"><code class="language-go">		if err != nil {
+			_ = os.Remove(pidFile)
+			continue
+		}
+		// Check if process is still alive.
+		if err := proc.Signal(syscall.Signal(0)); err != nil {
+			_ = os.Remove(pidFile)
+			continue
+		}
+		if force {
+			logrus.Infof(&quot;Sending SIGKILL to external driver process %d&quot;, pid)</code></pre>
+    <p>On Windows, <code>os.Process.Signal</code> supports only <code>os.Kill</code>; every other signal — including <code>Signal(0)</code> and <code>SIGTERM</code> — returns an error. The liveness pre-check therefore always fails, the loop removes the PID file and <code>continue</code>s, and neither the graceful <code>SIGTERM</code> nor the force <code>SIGKILL</code> branch runs. External-driver processes are never stopped, and their PID files vanish. <code>StopForcibly</code> previously used the cross-platform <code>osutil.SysKill</code>, so this regresses Windows cleanup for external drivers.</p>
+    <p>Fix: signal and probe liveness through <code>osutil.SysKill</code> / a Windows-aware helper instead of raw <code>proc.Signal</code>.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> <code>ResolveVMType</code> failure is now fatal in prune/template scans <span class="pill pill-claude">Claude</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+    <p>Previously these logged a warning and continued; now they return the error. <code>ResolveVMType</code> (<a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/pkg/driverutil/vm.go#L25"><code>pkg/driverutil/vm.go:25</code></a>) errors only when <code>VMType</code> names a driver absent from both <code>limatype.VMTypes</code> and the registry. So one template pinning an uninstalled external driver aborts the whole <code>limactl prune</code> or template-validation scan. Built-in types are unaffected. Keep the non-fatal behavior for multi-item scans, or confirm the stricter behavior is intended.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/pkg/driverutil/vm.go#L20-L30">pkg/driverutil/vm.go</a></div>
+      <pre data-start="20" data-line="25"><code class="language-go">)
+
+// ResolveVMType sets y.VMType to the appropriate default if it is nil.
+// It validates the VMType is a known type (built-in or discovered external driver)
+// but does NOT require the driver to be available on the current platform.
+func ResolveVMType(y *limatype.LimaYAML) error {
+	if y.VMType == nil {
+		y.VMType = ptr.Of(limatype.DefaultDriver())
+		if y.Arch != nil &amp;&amp; !limatype.IsNativeArch(*y.Arch) {
+			y.VMType = ptr.Of(limatype.DefaultNonNativeArchDriver())
+		}</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> Duplicate &quot;experimental&quot; warnings during <code>create</code> <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+    <p><code>limayaml.Validate(_, true)</code> runs before and after driver fill, so <code>warnExperimental</code> fires twice and users see doubled <code>os</code>/<code>video</code>/<code>audio</code> warnings. Pass <code>warn=false</code> to the pre-fill call. (Gemini flagged the same double-validation as a rejection risk, but <code>Validate</code> guards its driver-filled derefs, so it does not wrongly reject — only the duplicate warning is real.)</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> Dead nil guard for <code>Arch</code> in <code>warnExperimental</code> <span class="pill pill-claude">Claude</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+    <p><code>Validate</code> already dereferences <code>*y.Arch</code> unconditionally at line 63 (<code>FillDefault</code> always sets <code>Arch</code>), so the added <code>if y.Arch != nil</code> wrapper is unreachable-guarded. The sibling <code>MountType</code> guard <em>is</em> necessary, since the driver fills <code>MountType</code>. Drop the <code>Arch</code> wrapper for consistency.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/pkg/limayaml/validate.go#L58-L68">pkg/limayaml/validate.go</a></div>
+      <pre data-start="58" data-line="63"><code class="language-go">			errs = errors.Join(errs, fmt.Errorf(&quot;currently Windows guest is only supported on [%#q]; got %#q&quot;, limatype.X8664, *y.Arch))
+		}
+	default:
+		errs = errors.Join(errs, fmt.Errorf(&quot;field `os` must be one of %#q; got %#q&quot;, limatype.OSTypes, *y.OS))
+	}
+	if !slices.Contains(limatype.ArchTypes, *y.Arch) {
+		errs = errors.Join(errs, fmt.Errorf(&quot;field `arch` must be one of %v; got %#q&quot;, limatype.ArchTypes, *y.Arch))
+	}
+
+	if len(y.Images) == 0 {
+		errs = errors.Join(errs, errors.New(&quot;field `images` must be set&quot;))</code></pre>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> Registry singleton mutation leaks clients across instances <span class="pill pill-gemini">Gemini</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+    <p><code>CreateConfiguredDriver</code> overwrites <code>extDriver.Client</code> on the shared <code>registry.ExternalDriver</code>. A command that processes several instances leaves earlier clients unclosed; <code>Disconnect</code> then closes only the last. Return an instance-scoped client instead of mutating the global.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> <code>Stop</code> can signal a reused PID or orphan a socket <span class="pill pill-codex">Codex</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+    <p>A stale PID file can outlive its process; the SIGTERM→SIGKILL escalation (10s window) may then hit a recycled PID. Conversely, a live socket with no PID file is unlinked without stopping its server. Verify process identity before signaling, and unlink a socket only once its process has exited. Low likelihood on a single host, and the stale-PID pattern predates this PR.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> <code>create</code> rollback can delete a concurrently created instance <span class="pill pill-codex">Codex</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+    <p>The existence check (line 43) and <code>MkdirAll</code> (line 66) do not atomically claim <code>instDir</code>. Two concurrent <code>create</code> calls for the same name can both pass the check; if the second fails, its <code>os.RemoveAll</code> deletes the first&#39;s instance. Claim the directory with <code>os.Mkdir</code> and install the rollback only after a successful claim.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <p><strong>Concerns</strong></p>
+    <ul>
+      <li><strong>No reaper for short-lived CLI callers</strong> (in-scope) <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> — the root of C1 and I1. Removing the idle timer means any CLI command that spawns a server but never calls <code>server.Stop</code> (<code>create</code> on success, <code>snapshot</code> on a stopped instance) leaves an idle server running until a later <code>start</code>/<code>stop</code>/<code>delete</code>. Consider a bounded idle backstop, or have non-hostagent callers stop the server they spawn.</li>
+      <li><strong>Keep config normalization side-effect-free</strong> (in-scope) <span class="pill pill-codex">Codex</span> — C1 stems from merging default-filling into runtime <code>Configure</code>. A pure &quot;fill defaults + validate&quot; layer, shared by <code>store.Inspect</code>, template validation, factory-reset, and startup, would let every consumer normalize without spawning a server or mutating driver state.</li>
+      <li><em></em><code>isServerRunning</code> infers health from a successful dial<em></em> (in-scope) <span class="pill pill-gemini">Gemini</span> — a shutting-down or hung server whose socket still accepts connections is treated as ready.</li>
+    </ul>
+    <p><strong>Strengths</strong></p>
+    <ul>
+      <li>The <code>Configure</code> gRPC round-trip — the server marshals the filled instance back (<a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/pkg/driver/external/server/methods.go#L82-L89"><code>server/methods.go:82-89</code></a>) and the client unmarshals it (<a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/pkg/driver/external/client/methods.go#L309"><code>client/methods.go:309</code></a>) — cleanly propagates driver defaults and keeps in-tree and external drivers symmetric. <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span></li>
+      <li>Socket-file polling with a <code>procExit</code> channel (<a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/pkg/driver/external/server/server.go#L223-L262"><code>server.go:223-262</code></a>) replaces the fragile stdout handshake and distinguishes &quot;died early&quot; from &quot;timed out.&quot; <span class="pill pill-claude">Claude</span></li>
+      <li>Splitting <code>Disconnect</code> from <code>Stop</code>, moving the socket into the instance directory, and rejecting non-positive PIDs before signaling (<a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/pkg/driver/external/server/server.go#L281"><code>server.go:281</code></a>) are all sound. <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span></li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>No new tests accompany the substantial new logic; <code>registry_test.go</code> and <code>validate_test.go</code> only track signature changes. Untested scenarios, by risk: <code>server.Start</code> reuse path (the PR&#39;s core rationale); <code>Stop</code> PID handling (stale/non-numeric PID, force vs. graceful escalation, socket cleanup); <code>create</code> rollback (no leaked server, <code>instDir</code> removed); the <code>Configure</code> JSON round-trip preserving non-<code>Config</code> fields (<code>Dir</code>, <code>Name</code>, <code>SSHLocalPort</code>); and <code>factory-reset</code> on an instance with unset <code>mountType</code> (C1).</p>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><code>website/content/en/docs/dev/internals.md</code> is correctly updated for the new single-PID/socket layout. But <a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/website/content/en/docs/dev/drivers.md#L62-L63"><code>website/content/en/docs/dev/drivers.md:62-63</code></a> still documents the old interface — <code>Configure(inst) *ConfiguredDriver</code> and <code>FillConfig(ctx, cfg, filePath) error</code>. Update it to <code>Configure(ctx, inst) (*ConfiguredDriver, error)</code> and drop <code>FillConfig</code>. <span class="pill pill-codex">Codex</span></p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><code>79e52541 address comments by copilot in server.go</code> is a fixup that belongs folded into <a href="https://github.com/lima-vm/lima/commit/2a014191"><code>2a014191</code></a>. The author stated in the PR description that they will squash before merge, so this is acknowledged — just confirm the squash lands. The other four commits are cohesive.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><em></em>Concurrent-spawn race at <a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/pkg/driver/external/server/server.go#L191"><code>server.go:191</code></a><em></em> (<a href="https://github.com/lima-vm/lima/pull/4877#discussion_r3523980516">PR discussion</a>) — the author declined a fix: &quot;This race is very hard to reproduce and I cannot think of a way to actually initiate this race, so I think it&#39;s a overkill.&quot; It requires two <code>limactl</code> processes to invoke the same instance simultaneously; reasonable to defer for single-user use.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><strong>[Codex]</strong> delivered the highest value of the three by uniquely catching C1 — the only crash-class finding — tracing <code>store.Inspect</code> → <code>GenerateCloudConfig</code> → the unguarded <code>MountType</code> deref across three files the others marked clean. It was also alone in noticing the stale <code>drivers.md</code> interface docs and in articulating the &quot;keep normalization side-effect-free&quot; design point that names C1&#39;s root cause. Its PID/socket and concurrent-create findings were real but over-rated as important; both are low-likelihood and one predates the PR. No false positives.</p>
+    <p><strong>[Claude]</strong> was the most reliable: zero false positives and the sharpest account of I1, tracing the ctx lifetime to <code>main.go</code> to prove the spawned process survives limactl exit and noticing that the rollback deletes the very files <code>Stop</code> needs. It verified that all four in-tree drivers call <code>validateConfig</code> inside <code>Configure</code>, and correctly separated the necessary <code>MountType</code> guard from the dead <code>Arch</code> guard. It missed C1 (marked <code>store.go</code> clean) and the Windows regression (marked <code>stop.go</code> clean).</p>
+    <p><strong>[Gemini]</strong> was alone in flagging the Windows signal regression (I2), a genuine portability gap the other two missed. But both of its &quot;critical&quot; findings were off: the stale-socket claim ignored the <code>os.Remove</code> at <a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/pkg/driver/external/server/server.go#L69"><code>server.go:69</code></a> (false positive), and its &quot;premature validation rejects valid YAML&quot; claim misread <code>Validate</code>&#39;s <code>warn</code> parameter as <code>requireAll</code>. Its create-orphan and singleton-leak findings held up. It skipped <code>git blame</code> (quota limits), so it could not separate regressions from pre-existing issues.</p>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.8</th><th><span class="pill pill-codex">Codex</span> GPT 5.5</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>15m 04s</td><td>8m 46s</td><td>6m 02s</td></tr>
+        <tr><td>Findings</td><td>1I 3S</td><td>1C 2S</td><td>2I 1S</td></tr>
+        <tr><td>Tool calls</td><td>36 (Read 25, Bash 11)</td><td>78 (shell 78)</td><td>—</td></tr>
+        <tr><td>Design observations</td><td>5</td><td>3</td><td>1</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>1</td></tr>
+        <tr><td>Unique insights</td><td>3</td><td>3</td><td>1</td></tr>
+        <tr><td>Files reviewed</td><td>34</td><td>34</td><td>34</td></tr>
+        <tr><td>Coverage misses</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>1I 3S</strong></td><td><strong>1C 2S</strong></td><td><strong>2I 1S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>2 (I→S)</td><td>2 (I→S)</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Reconciliation.</strong> Codex C1 (MountType panic): important → <strong>critical C1</strong> (a guaranteed crash on the default instance after state deletion). Codex I2 (PID/socket cleanup): important → <strong>suggestion S5</strong> (low-likelihood, partly pre-existing). Codex I3 (concurrent create): important → <strong>suggestion S6</strong> (edge case). Gemini C1 (stale socket breaks startup): <strong>dropped</strong> — <a href="https://github.com/lima-vm/lima/blob/79e52541de81eb8a938933f32cf82f191d31e660/pkg/driver/external/server/server.go#L69"><code>server.go:69</code></a> unlinks the socket before <code>lc.Listen</code>, so the described failure cannot occur. Gemini C2 (Windows signals): critical → <strong>important I2</strong> (conditional on external drivers on Windows). Gemini I2 (premature validate rejects YAML): rejection claim <strong>dropped</strong>; the valid double-validation observation merged into <strong>S2</strong>.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><strong>Skill improvements</strong></p>
+    <ul>
+      <li>When a diff changes what a shared load, resolve, or normalization function fills into a config or struct — for example moving default-population out of a load/resolve path into a later runtime step — enumerate every consumer of the earlier path and check each pointer-field dereference. A field a consumer previously received filled may now be nil, turning a <code>*field</code> deref into a panic. Flag any consumer that dereferences a pointer field the function no longer populates, paying special attention to consumers outside the diff, because the failing deref and the changed fill often live in different files.</li>
+      <li>In cross-platform Go, flag <code>os.Process.Signal</code> (or <code>proc.Signal</code>) called with any signal other than <code>os.Kill</code>. On Windows only <code>os.Kill</code> is delivered; a <code>Signal(0)</code> liveness probe and <code>SIGTERM</code>/<code>SIGINT</code> return an error, so signal-based liveness checks and graceful-termination loops silently no-op there. Require a cross-platform kill/liveness helper for any process-management code that must run on Windows, and treat a swap away from such a helper toward raw <code>syscall</code> signals as a portability regression.</li>
+    </ul>
+    <p><strong>Repo context updates</strong></p>
+    <ul>
+      <li>[repo] Driver-specific config defaults (<code>MountType</code>, and other fields the driver selects) are filled only inside <code>Driver.Configure</code> (formerly <code>FillConfig</code>). <code>LoadYAMLByFilePath</code> / <code>store.Inspect</code> fill general defaults via <code>limayaml.FillDefault</code> but not driver-specific ones, and the built-in default (<code>pkg/limayaml/default.yaml</code>) sets <code>mountType: null</code>. Any consumer of a <code>store.Inspect</code> config that dereferences <code>MountType</code> — or another driver-defaulted pointer field — must nil-guard it or run <code>Configure</code> first. When reviewing a change that moves or removes driver default-filling, check <code>cidata.GenerateCloudConfig</code> callers and other <code>store.Inspect</code> consumers for unguarded derefs.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
