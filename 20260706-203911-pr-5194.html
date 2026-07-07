@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260706-203911-pr-5194</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Fix label */
+.fix-label { font-weight: 700; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260706-203911-pr-5194</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-07-06 20:39</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1 (of PR <a href="https://github.com/lima-vm/lima/issues/5194" class="gh-ref" data-title="feat(cli): add `--user-shell` flag" data-state="open" data-type="pr">#5194</a>)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/unsuman">@unsuman</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5194" class="gh-ref" data-title="feat(cli): add `--user-shell` flag" data-state="open" data-type="pr">#5194</a> — feat(cli): add <code>--user-shell</code> flag</td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/6394ba66"><code>6394ba66</code></a> feat(cli): add --user-shell flag</td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.8 (effort: xhigh), <span class="pill pill-codex">Codex</span> GPT 5.5 (effort: xhigh), <span class="pill pill-gemini">Gemini</span> 3.1 Pro (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; strong validation and tests, but two Important boot-time issues break the advertised <code>--user-shell</code> + default-template workflow until fixed</td></tr>
+      <tr><td>Wall-clock time</td><td><code>55 min 48 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>PR <a href="https://github.com/lima-vm/lima/issues/5194" class="gh-ref" data-title="feat(cli): add `--user-shell` flag" data-state="open" data-type="pr">#5194</a> adds a first-class <code>user.shell</code> field and <code>--user-shell</code> flag: it defaults the shell per guest OS, auto-installs it on Linux and FreeBSD guests at boot, and generalizes <code>limactl shell</code> on Windows to <code>cmd.exe</code>, <code>powershell.exe</code>, and <code>pwsh.exe</code>. Validation and tests are strong. Two Important guest-boot problems block the documented custom-shell workflow: the shell installer runs after rootless-containerd setup, and the Linux installer applies the configured path without confirming a binary landed there.</p>
+    <p>All three reviewers converged on the missing path check (I2). Codex alone traced the boot-ordering failure (I1) — the standout catch of this round — and I verified its full chain against the code. Gemini rated the path check Critical and the Windows argument quoting Important; I downgraded both after checking the default path stays unaffected and the quoting predates this PR. The remaining four suggestions and the <code>$SHELL</code> design shift all came from Claude.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> Shell installer runs after rootless-containerd setup, so a custom shell breaks containerd on first boot <span class="pill pill-codex">Codex</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/6394ba66964e0a5afc821acc3beb2176293a221d/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/40-install-shell.sh#L1-L6">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/40-install-shell.sh</a></div>
+      <pre data-start="1" data-line=""><code class="language-sh">#!/bin/sh
+
+# SPDX-FileCopyrightText: Copyright The Lima Authors
+# SPDX-License-Identifier: Apache-2.0
+
+set -eu</code></pre>
+    <p><code>40-install-shell.sh</code> sorts alphabetically after <code>40-install-containerd.sh</code>, so the shell installs second. cloud-init has already set the lima user&#39;s login shell from <code>user.shell</code> (<code>user-data:50</code>), and <code>containerd.user</code> defaults to true on Linux amd64/arm64 (<a href="https://github.com/lima-vm/lima/blob/6394ba66964e0a5afc821acc3beb2176293a221d/pkg/limayaml/defaults.go#L536-L539"><code>defaults.go:536-539</code></a>). Rootless-containerd setup runs <code>sudo -iu</code>, which execs that login shell; when the shell is not yet installed, <code>set -eux</code> aborts the script. Boot continues (per-script failures only warn), so <code>limactl create --user-shell=/bin/zsh template:default</code> — the documented example — returns success with containerd silently broken until a restart installs the shell. The new bats test misses this because it never exercises containerd.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/6394ba66964e0a5afc821acc3beb2176293a221d/pkg/limayaml/defaults.go#L531-L544">pkg/limayaml/defaults.go</a></div>
+      <pre data-start="531" data-line="536-539"><code class="language-go">	}
+	if y.Containerd.User == nil {
+		// nerdctl is a Linux-only container runtime; only default
+		// containerd.user=true when the guest OS is Linux. Otherwise
+		// downloading the nerdctl archive (~250 MiB) is wasted I/O.
+		if *y.OS == limatype.LINUX {
+			switch *y.Arch {
+			case limatype.X8664, limatype.AARCH64:
+				y.Containerd.User = ptr.Of(true)
+			default:
+				y.Containerd.User = ptr.Of(false)
+			}
+		} else {
+			y.Containerd.User = ptr.Of(false)</code></pre>
+    <p>Fix: rename the installer to run before any step that enters the user login environment — after <code>04-persistent-data-volume.sh</code> (which must precede <code>/etc</code> writes) but before <code>20-rootless-base.sh</code>, e.g. <code>11-install-shell.sh</code>.</p>
+    </div>
+    <div class="card card-important">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> Linux installer never verifies the shell exists at the configured path <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/6394ba66964e0a5afc821acc3beb2176293a221d/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/40-install-shell.sh#L11-L54">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/40-install-shell.sh</a></div>
+      <pre data-start="11" data-line="16-53"><code class="language-sh">
+SHELL_PATH=&quot;${LIMA_CIDATA_SHELL}&quot;
+SHELL_NAME=&quot;$(basename &quot;${SHELL_PATH}&quot;)&quot;
+
+# Install the shell if not already present.
+if ! command -v &quot;${SHELL_NAME}&quot; &gt;/dev/null 2&gt;&amp;1; then
+	pkg=&quot;${SHELL_NAME}&quot;
+
+	if command -v apt-get &gt;/dev/null 2&gt;&amp;1; then
+		export DEBIAN_FRONTEND=noninteractive
+		apt-get update -q || true
+		apt-get install -y --no-upgrade --no-install-recommends -q &quot;${pkg}&quot;
+	elif command -v dnf &gt;/dev/null 2&gt;&amp;1; then
+		dnf install -y --setopt=install_weak_deps=False &quot;${pkg}&quot;
+	elif command -v yum &gt;/dev/null 2&gt;&amp;1; then
+		yum install -y &quot;${pkg}&quot;
+	elif command -v pacman &gt;/dev/null 2&gt;&amp;1; then
+		pacman -Sy --noconfirm &quot;${pkg}&quot;
+	elif command -v zypper &gt;/dev/null 2&gt;&amp;1; then
+		zypper --non-interactive install -y --no-recommends &quot;${pkg}&quot;
+	elif command -v apk &gt;/dev/null 2&gt;&amp;1; then
+		apk update || true
+		if [ &quot;${pkg}&quot; = &quot;ksh&quot; ]; then pkg=&quot;mksh&quot;; fi
+		apk add &quot;${pkg}&quot;
+	else
+		echo &quot;ERROR: no supported package manager found; cannot install &#39;${SHELL_NAME}&#39;.&quot; &gt;&amp;2
+		exit 1
+	fi
+fi
+
+# Ensure the shell is registered in /etc/shells.
+if [ -f /etc/shells ] &amp;&amp; ! grep -qxF &quot;${SHELL_PATH}&quot; /etc/shells; then
+	echo &quot;${SHELL_PATH}&quot; &gt;&gt;/etc/shells
+fi
+
+# Update login shell if it differs from the configured value.
+current_shell=&quot;$(getent passwd &quot;${LIMA_CIDATA_USER}&quot; 2&gt;/dev/null | awk -F: &#39;{print $7}&#39;)&quot;
+if [ &quot;${current_shell}&quot; != &quot;${SHELL_PATH}&quot; ]; then
+	if command -v chsh &gt;/dev/null 2&gt;&amp;1; then
+		chsh -s &quot;${SHELL_PATH}&quot; &quot;${LIMA_CIDATA_USER}&quot;
+	elif command -v usermod &gt;/dev/null 2&gt;&amp;1; then
+		usermod -s &quot;${SHELL_PATH}&quot; &quot;${LIMA_CIDATA_USER}&quot;
+	fi
+fi</code></pre>
+    <p>The installer decides &quot;already present?&quot; with a basename lookup on <code>PATH</code>, then registers and <code>chsh</code>-es the full configured <code>SHELL_PATH</code> without checking a binary lives there. When the package lands off the requested path — Alpine maps <code>ksh</code>→<code>mksh</code>, and non-usrmerge distros split <code>/bin</code> from <code>/usr/bin</code> — the account points at a missing shell, breaking login and <code>limactl shell</code> (which now execs <code>SHELL_PATH</code>), and reinstalls every boot. The FreeBSD sibling gates on <code>[ ! -x &quot;${SHELL_PATH}&quot; ]</code> and re-verifies after install; Linux does neither. Line 48 also drops the <code>[ -n &quot;${current_shell}&quot; ]</code> guard FreeBSD keeps, so an empty <code>getent</code> runs <code>chsh</code> and aborts under <code>set -e</code>.</p>
+    <p>Fix: mirror the FreeBSD structure —</p>
+      <pre><code class="language-sh">if [ ! -x &quot;${SHELL_PATH}&quot; ]; then
+    # install by ${SHELL_NAME}...
+    if [ ! -x &quot;${SHELL_PATH}&quot; ]; then
+        echo &quot;ERROR: &#39;${SHELL_PATH}&#39; not found after installing &#39;${SHELL_NAME}&#39;.&quot; &gt;&amp;2
+        exit 1
+    fi
+fi</code></pre>
+    <p>Gemini rated this Critical; I downgraded it to Important because the default <code>/bin/bash</code> path stays unaffected and the break requires an opt-in custom shell whose install path differs from the requested one.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> Dead nil-checks on <code>inst.Config.User.Shell</code> <span class="pill pill-claude">Claude</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/6394ba66964e0a5afc821acc3beb2176293a221d/cmd/limactl/shell.go#L290-L313">cmd/limactl/shell.go</a></div>
+      <pre data-start="290" data-line="295-308"><code class="language-go">	if err != nil {
+		return err
+	}
+	if *inst.Config.OS == limatype.WINDOWS {
+		if shell == &quot;&quot; {
+			if inst.Config.User.Shell != nil {
+				shell = *inst.Config.User.Shell
+			} else {
+				shell = &quot;cmd.exe&quot;
+			}
+		}
+		if !limayaml.IsSupportedWindowsShell(shell) {
+			return fmt.Errorf(&quot;unsupported shell %#q for Windows guest, must be one of %v&quot;, shell, limayaml.SupportedWindowsShells)
+		}
+	} else if shell == &quot;&quot; {
+		if inst.Config.User.Shell != nil {
+			shell = shellescape.Quote(*inst.Config.User.Shell)
+		} else {
+			shell = `&quot;$SHELL&quot;`
+		}
+	} else {
+		shell = shellescape.Quote(shell)
+	}
+	// Handle environment variable propagation</code></pre>
+    <p><code>FillDefault</code> populates <code>User.Shell</code> for every OS (<a href="https://github.com/lima-vm/lima/blob/6394ba66964e0a5afc821acc3beb2176293a221d/pkg/limayaml/defaults.go#L201-L212"><code>defaults.go:201-212</code></a>), and <code>inst.Config</code> loads through <code>limayaml.Load</code>, which runs it. So the <code>inst.Config.User.Shell != nil</code> checks are always true and the <code>else</code> fallbacks (<code>cmd.exe</code> at line 298, <code>&quot;$SHELL&quot;</code> at line 308) never run. The dead branches imply reachable states that do not exist.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/6394ba66964e0a5afc821acc3beb2176293a221d/pkg/limayaml/defaults.go#L196-L217">pkg/limayaml/defaults.go</a></div>
+      <pre data-start="196" data-line="201-212"><code class="language-go">	}
+	if y.User.Home == nil {
+		y.User.Home = ptr.Of(osutil.LimaUser(ctx, existingLimaVersion, warn, y.OS).HomeDir)
+		warn = false
+	}
+	if y.User.Shell == nil {
+		switch *y.OS {
+		case limatype.FREEBSD:
+			y.User.Shell = ptr.Of(&quot;/bin/sh&quot;)
+		case limatype.DARWIN:
+			y.User.Shell = ptr.Of(&quot;/bin/zsh&quot;)
+		case limatype.WINDOWS:
+			y.User.Shell = ptr.Of(&quot;cmd.exe&quot;)
+		default:
+			y.User.Shell = ptr.Of(&quot;/bin/bash&quot;)
+		}
+	}
+	if y.User.UID == nil {
+		uidString := osutil.LimaUser(ctx, existingLimaVersion, warn, y.OS).Uid
+		if uid, err := strconv.ParseUint(uidString, 10, 32); err == nil {
+			y.User.UID = ptr.Of(uint32(uid))
+		} else {</code></pre>
+    <p>Fix: assign from <code>*inst.Config.User.Shell</code> directly, or add a comment that the pointer is guaranteed non-nil after load.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> <code>--user-shell</code> completion duplicates <code>SupportedWindowsShells</code> <span class="pill pill-claude">Claude</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+    <p>The completion list hardcodes <code>cmd.exe</code>, <code>powershell.exe</code>, and <code>pwsh.exe</code> — a third copy of <code>limayaml.SupportedWindowsShells</code> (<a href="https://github.com/lima-vm/lima/blob/6394ba66964e0a5afc821acc3beb2176293a221d/pkg/identifiers/validate.go#L449"><code>validate.go:449</code></a>); a shell added there never reaches this list. The POSIX entries (<code>/bin/ksh</code>, <code>/bin/tcsh</code>) also hardcode paths that may not match a distro&#39;s package layout, so completing a value that then fails to install (see I1, I2) is a poor hint. Reference <code>SupportedWindowsShells</code> for the Windows portion.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> Help text calls the Windows value a &quot;login shell&quot; <span class="pill pill-claude">Claude</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+    <p><code>&quot;User login shell in the guest (e.g. /bin/bash, /bin/zsh)&quot;</code> fits POSIX but not Windows, where <code>user.shell</code> is the command interpreter <code>limactl shell</code> launches, not a login shell. Append a Windows note such as &quot;(command interpreter on Windows)&quot;.</p>
+    </div>
+    <div class="card card-suggestion">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> Windows command args are POSIX-escaped, then wrapped for cmd/powershell <span class="pill pill-claude">Claude</span> <span class="pill pill-gemini">Gemini</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/6394ba66964e0a5afc821acc3beb2176293a221d/cmd/limactl/shell.go#L334-L357">cmd/limactl/shell.go</a></div>
+      <pre data-start="334" data-line="339-352"><code class="language-go">		script = windowsQuoteShell(shell)
+	}
+	if len(args) &gt; 1 {
+		quotedArgs := make([]string, len(args[1:]))
+		parsingEnv := true
+		for i, arg := range args[1:] {
+			if parsingEnv &amp;&amp; isEnv(arg) {
+				quotedArgs[i] = quoteEnv(arg)
+			} else {
+				parsingEnv = false
+				quotedArgs[i] = shellescape.Quote(arg)
+			}
+		}
+		switch *inst.Config.OS {
+		case limatype.WINDOWS:
+			// cmd.exe uses &quot;/c&quot;, while powershell.exe / pwsh.exe use &quot;-Command&quot;.
+			flag := windowsShellCommandFlag(shell)
+			// On Windows, commands should be double-quoted.
+			script += fmt.Sprintf(` %s &quot;%s&quot;`, flag, strings.Join(quotedArgs, &quot; &quot;))
+		default:
+			script += fmt.Sprintf(
+				&quot; -c %s&quot;,
+				shellescape.Quote(strings.Join(quotedArgs, &quot; &quot;)),
+			)</code></pre>
+    <p><code>shellescape.Quote</code> produces POSIX single-quoted tokens, which neither <code>cmd.exe /c</code> nor <code>powershell -Command</code> parse as intended — <code>limactl shell win -- echo &quot;a b&quot;</code> sends <code>echo &#39;a b&#39;</code> and prints the quotes. This predates the PR for cmd.exe, but the PR now routes powershell and pwsh through the same path, where quoting differs again. Windows-guest support is experimental and this path is untested, so a suggestion — worth a follow-up before Windows <code>shell -- args</code> is relied on.</p>
+    <p>Gemini rated this Important and proposed naive double-quoting (<code>&quot;</code>+arg+<code>&quot;</code>), which itself breaks on args containing <code>&quot;</code>; I downgraded it to Suggestion because the cmd.exe behavior predates this PR and correct cmd/powershell quoting is a larger, untested change.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <p><em></em><code>limactl shell</code> default shifts from <code>$SHELL</code> to the configured <code>user.shell</code><em></em> — (future) <span class="pill pill-claude">Claude</span></p>
+    <p>An empty <code>--shell</code> previously ran <code>exec &quot;$SHELL&quot; -l</code>, honoring the guest&#39;s actual login shell — including a manual in-guest <code>chsh</code>. It now runs <code>exec &lt;user.shell&gt; -l</code> (<a href="https://github.com/lima-vm/lima/blob/6394ba66964e0a5afc821acc3beb2176293a221d/cmd/limactl/shell.go#L304-L306"><code>shell.go:304-306</code></a>), and because <code>FillDefault</code> always sets <code>User.Shell</code>, the shift applies to every existing and new instance. The config value therefore overrides an in-guest shell change, and <code>limactl shell</code> now depends on a successful install: it breaks where <code>$SHELL</code> would have worked when the boot install fails (I1) or no installer exists (macOS guests). The PR intends this behavior, but the docs should call out the lost <code>$SHELL</code> fidelity.</p>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <p><strong>Validation centralized with a shared shell enum</strong> — (in-scope) <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span></p>
+    <p><code>validate.go</code> holds the new check (the single source of cross-field validation), <code>SupportedWindowsShells</code> is shared between <code>validate.go</code> and <code>shell.go</code>, and <code>path.IsAbs</code> — the always-POSIX predicate — validates guest paths correctly even from a Windows host.</p>
+    <p><strong>FreeBSD installer re-verifies after install</strong> — (in-scope) <span class="pill pill-claude">Claude</span></p>
+    <p>The FreeBSD script gates on <code>[ ! -x &quot;${SHELL_PATH}&quot; ]</code> and, on a post-install path mismatch, prints an actionable error pointing at <code>/usr/local/bin</code>. This is the pattern I2 asks the Linux script to adopt.</p>
+    <p><em></em><code>windowsQuoteShell</code> skips already-quoted input<em></em> — (in-scope) <span class="pill pill-gemini">Gemini</span></p>
+    <p>The helper returns a pre-quoted path unchanged, avoiding double-wrapping.</p>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The pure helpers are well covered: <code>TestWindowsShellCommandFlag</code>, <code>TestWindowsQuoteShell</code>, <code>TestIsSupportedWindowsShell</code>, and <code>TestValidateUserShell</code> all pass, and the bats suite exercises the Linux create-with-zsh, edit-to-fish, and <code>--shell</code> override paths. Gaps, by risk:</p>
+    <ol>
+      <li><strong>Install-path mismatch (I2).</strong> No test drives a shell whose package lands somewhere other than <code>SHELL_PATH</code> (Alpine <code>ksh</code>, or a <code>/usr/local/bin</code> shell). The bats suite runs only on the Ubuntu default template, where the suggested shells happen to resolve, so it passes over both I1 and I2.</li>
+      <li><strong>Containerd interaction (I1).</strong> No test starts a default-template instance with a custom shell and then checks containerd, which is exactly the failing path.</li>
+      <li><em></em>Windows <code>shellAction</code> branch.<em></em> The runtime rejection (<a href="https://github.com/lima-vm/lima/blob/6394ba66964e0a5afc821acc3beb2176293a221d/cmd/limactl/shell.go#L301-L303"><code>shell.go:301-303</code></a>) and the <code>windowsQuoteShell</code>/<code>windowsShellCommandFlag</code> wiring into <code>script</code> have no test — only the isolated helpers do.</li>
+      <li><strong>FreeBSD installer.</strong> Unexercised; <code>guest-shells.bats</code> is Linux-only.</li>
+      <li><em></em><code>bats-shell</code> lifecycle.<em></em> The new instance lives outside the <code>ensure_instance</code>/<code>teardown_file</code> mechanism, so cleanup rides on the final <code>@test</code>; the file also adds two extra full boots against the CI time budget.</li>
+    </ol>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><a href="https://github.com/lima-vm/lima/blob/6394ba66964e0a5afc821acc3beb2176293a221d/templates/default.yaml#L368-L372"><code>templates/default.yaml:368-372</code></a> and <code>website/content/en/docs/usage/_index.md</code> are accurate and consistent with the per-OS defaults in <code>defaults.go</code> and the checks in <code>validate.go</code>; the two new exported symbols carry doc comments. Two gaps: the website&#39;s &quot;Any shell available as a package … Must be specified as an absolute path&quot; understates that the path must match where the distro&#39;s package installs the binary (the root of I2); and neither doc mentions the <code>$SHELL</code>→<code>user.shell</code> default shift for <code>limactl shell</code>.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><a href="https://github.com/lima-vm/lima/blob/6394ba66964e0a5afc821acc3beb2176293a221d/cmd/limactl/shell.go#L333"><code>cmd/limactl/shell.go:333</code></a> — the pre-existing <code>// TODO: change directory here</code> for Windows guests stays unaddressed. The PR leaves the Windows <code>changeDirCmd</code> unused, and the TODO already documents it. Not worsened by this change.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><strong>[Claude]</strong> — Claude produced the broadest coverage: it alone raised all four suggestions and the <code>$SHELL</code> design shift, and it verified the dead-branch claim (S1) by tracing the config load path rather than asserting it. It rated the install-path issue Important, matching the verified impact, and caught the missing <code>[ -n &quot;${current_shell}&quot; ]</code> guard inside that finding that the others overlooked. It ran the four new Go tests before reporting. Its one gap was the containerd-ordering interaction (I1).</p>
+    <p><strong>[Codex]</strong> — Codex was the sharpest this round. It alone traced the boot-ordering failure (I1) from cloud-init user creation through <code>sudo -iu</code> to the alphabetical script order — a cross-script, cross-component chain neither other agent followed, and the highest-value finding of the review. It kept the report tight and correctly rated both findings Important. Its only miss was the smaller polish items Claude surfaced.</p>
+    <p><strong>[Gemini]</strong> — Gemini independently found the path-verification bug but over-rated severity twice: Critical for I2 and Important for the Windows quoting, both corrected in consolidation. Its proposed <code>cmd.exe</code> fix (<code>&quot;</code>+arg+<code>&quot;</code>) breaks on arguments containing a double quote. As expected under its daily quota, it skipped <code>git blame</code>, so it could not separate pre-existing behavior from newly introduced. It raised no suggestions and missed the boot-ordering chain.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude</span> Opus 4.8</th><th><span class="pill pill-codex">Codex</span> GPT 5.5</th><th><span class="pill pill-gemini">Gemini</span> 3.1 Pro</th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>12m 10s</td><td>46m 05s</td><td>6m 56s</td></tr>
+        <tr><td>Findings</td><td>1I 4S</td><td>2I</td><td>1I 1S</td></tr>
+        <tr><td>Tool calls</td><td>37 (Bash 19, Read 18)</td><td>83 (shell 83)</td><td>—</td></tr>
+        <tr><td>Design observations</td><td>4</td><td>1</td><td>2</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>4</td><td>1</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>11</td><td>11</td><td>11</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>1I 4S</strong></td><td><strong>2I</strong></td><td><strong>1I 1S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>2 (I→S)</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p>Codex delivered the single most valuable finding (I1); Claude delivered the most breadth and the most careful verification; Gemini supplied a third confirmation of I2 but added no unique insight and needed the most severity correction. For this PR, Codex and Claude together covered everything that mattered.</p>
+    <p><strong>Reconciliation.</strong> Two Gemini severities changed: I2 (Linux path check) from Critical to Important, and the Windows argument quoting from Important to Suggestion S4. All three agents tagged the install-script findings as &quot;regression&quot;; I reclassified them as gaps introduced by this PR, since <code>40-install-shell.sh</code> is a new file with no prior behavior to regress. No Claude or Codex severities changed.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>When a change installs or sets a per-user login resource during guest boot — login shell, home directory, group membership, dotfiles — trace every earlier boot step that assumes that resource is already valid, especially steps that enter the user&#39;s login environment (<code>sudo -i</code>, <code>su -</code>, <code>systemctl --user</code>, or a login-shell exec). A new step ordered after such a consumer, but whose resource the consumer needs, silently breaks the consumer. Where boot steps run in numeric-prefix order, confirm the new step&#39;s prefix sorts before every consumer of what it provides. This class of bug hides because the ordering is implicit in filenames and the failing consumer is a sibling file, not the changed one.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>[repo] Guest boot scripts under <code>pkg/cidata/cidata.TEMPLATE.d/boot.&lt;OS&gt;/</code> run in numeric-prefix (lexical) order via <code>boot.sh</code>, which catches each script&#39;s failure as a warning, sets <code>CODE=1</code>, and continues — and writes <code>lima-boot-done</code> regardless. A failing boot script therefore does not abort <code>limactl start</code>; it degrades silently. Two constraints for any new or reordered boot script: (1) changes to <code>/etc</code> or <code>/var/lib</code> must run after <code>04-persistent-data-volume.sh</code>, which may relocate those directories on first boot; (2) several scripts (e.g. <code>40-install-containerd.sh</code>, <code>set -eux</code>) enter the user&#39;s login environment via <code>sudo -iu &quot;${LIMA_CIDATA_USER}&quot;</code>, which execs the login shell recorded in <code>/etc/passwd</code>. The lima user&#39;s login shell is set at cloud-init time from <code>user.shell</code> (<code>user-data</code>: <code>shell: {{.Shell}}</code>) before any <code>boot.&lt;OS&gt;</code> script runs, so a script that provisions or changes that shell must run before every <code>sudo -iu</code> consumer, or the consumer fails to exec a not-yet-installed shell.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
