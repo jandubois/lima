@@ -206,8 +206,9 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
       <tr><td>Branch</td><td><code>support-native-windows-openssh</code></td></tr>
       <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/e1b9688d"><code>e1b9688d</code></a> ioutilx: add native fallback for cygpath path conversion<br><a href="https://github.com/lima-vm/lima/commit/0fdcd63f"><code>0fdcd63f</code></a> sshutil: detect Windows SSH toolchain and pair its companion tools<br><a href="https://github.com/lima-vm/lima/commit/11dd5692"><code>11dd5692</code></a> ioutilx: address review comments<br><a href="https://github.com/lima-vm/lima/commit/85ddcc98"><code>85ddcc98</code></a> sshutil: addressed review comment</td></tr>
       <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd"><code>85ddcc98502de97a4c87d565fdf3ca511ab0d9fd</code></a></td></tr>
+      <tr><td>Compared against</td><td><a href="https://github.com/lima-vm/lima/pull/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> head <a href="https://github.com/lima-vm/lima/commit/70671db3"><code>70671db3</code></a> — the PR this one is derived from</td></tr>
       <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude</span> Opus 4.8 (effort: xhigh), <span class="pill pill-codex">Codex</span> GPT 5.5 (effort: xhigh), <span class="pill pill-gemini">Gemini</span> 3.1 Pro (effort: default)</td></tr>
-      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; the design is still sound and the four outstanding fixes are mechanical, but none of them landed this round</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Rework</span> &mdash; the re-derivation from <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> silently dropped a fix and two test functions, and introduced three doc regressions</td></tr>
       <tr><td>Wall-clock time</td><td><code>22 min 14 s</code></td></tr>
     </table>
 
@@ -217,8 +218,8 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
     <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-neutral">
-    <p>Nothing was fixed since round 1. The only code change — adding <code>filepath.Clean(s)</code> inside <code>filepath.Join(dir, s)</code> in <code>missingSiblings</code> — is a provable no-op, so the review comment that prompted it stays open. All four round-1 Important findings apply verbatim: <code>ControlPath</code> and <code>ssh-keygen</code> still bypass the selected toolchain, the <code>cygpath</code> fallback still swallows every error, and two exported helpers still have no caller.</p>
-    <p>All three reviewers read all five changed files and independently confirmed every round-1 finding, so this report re-states them at their original severity rather than re-deriving them. Claude alone traced the fallback&#39;s collateral damage into <code>pkg/hostagent/mount.go</code> — a degradation that fixing I3 would <em>not</em> close, and the one genuinely new insight this round.</p>
+    <p><a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a> is a re-derivation of <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a>, and the re-derivation lost work. It drops the <code>ControlPath</code> fix that <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> carries, deletes two of <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a>&#39;s test functions, and introduces three documentation regressions while &quot;slightly modifying comments.&quot; The one code change since round 1 — <code>filepath.Clean(s)</code> inside <code>filepath.Join(dir, s)</code> — is a provable no-op, so the review comment that prompted it stays open.</p>
+    <p>The three agents diffed only against the merge-base, which is what the review prompt gave them, so they classified I1 as a gap the PR never closed and asked the author to <em>write</em> tests that <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> already contains. I2 and the regression labels on S2, S5, and S7 come from diffing the two PR heads afterwards, not from any agent.</p>
     </div>
     <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
@@ -231,11 +232,10 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
 
     <div class="card card-important" data-file="pkg/sshutil/sshutil.go">
       <div class="finding-title" id="I1">
-        <span class="finding-num">I1.</span> <code>SSHOpts</code> converts <code>ControlPath</code> with PATH-global <code>cygpath</code> <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I1" class="pilcrow">&#182;</a>
+        <span class="finding-num">I1.</span> The <code>ControlPath</code> fix from <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> was dropped <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I1" class="pilcrow">&#182;</a>
       </div>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L549-L565">pkg/sshutil/sshutil.go</a></div>
-      <pre data-start="549" data-line="554-560"><code class="language-go">	opts, err := CommonOpts(ctx, sshExe, useDotSSH)
-	if err != nil {
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L550-L560">pkg/sshutil/sshutil.go</a></div>
+      <pre data-start="550" data-line="555"><code class="language-go">	if err != nil {
 		return nil, err
 	}
 	controlPath := fmt.Sprintf(`ControlPath=&quot;%s&quot;`, controlSock)
@@ -245,43 +245,18 @@ h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1
 			return nil, err
 		}
 		controlPath = fmt.Sprintf(`ControlPath=&#39;%s&#39;`, controlSock)
-	}
-	opts = append(opts,
-		fmt.Sprintf(&quot;User=%s&quot;, username), // guest and host have the same username, but we should specify the username explicitly (#85)
-		&quot;ControlMaster=auto&quot;,
-		controlPath,
-		&quot;ControlPersist=yes&quot;,</code></pre>
-    <p><code>SSHOpts</code> receives <code>sshExe</code> (line 544) and threads it into <code>CommonOpts</code> (line 549), whose <code>identityFileEntry</code> (line 459) now converts through <code>PathForSSH</code>. Line 555 is the one conversion left on the PATH-global helper.</p>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L454-L464">pkg/sshutil/sshutil.go</a></div>
-      <pre data-start="454" data-line="459"><code class="language-go">		}
-	}
-	return opts, nil
-}
-
-func identityFileEntry(ctx context.Context, sshExe SSHExe, privateKeyPath string) (string, error) {
-	if runtime.GOOS == &quot;windows&quot; {
-		privateKeyPath, err := PathForSSH(ctx, sshExe, privateKeyPath)
-		if err != nil {
-			return &quot;&quot;, err
-		}</code></pre>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L539-L554">pkg/sshutil/sshutil.go</a></div>
-      <pre data-start="539" data-line="544-549"><code class="language-go">	}
-	return existed, nil
-}
-
-// SSHOpts adds the following options to CommonOptions: User, ControlMaster, ControlPath, ControlPersist.
-func SSHOpts(ctx context.Context, sshExe SSHExe, instDir, username string, useDotSSH, forwardAgent, forwardX11, forwardX11Trusted bool) ([]string, error) {
-	controlSock := filepath.Join(instDir, filenames.SSHSock)
-	if len(controlSock) &gt;= osutil.UnixPathMax {
-		return nil, fmt.Errorf(&quot;socket path %#q is too long: &gt;= UNIX_PATH_MAX=%d&quot;, controlSock, osutil.UnixPathMax)
-	}
-	opts, err := CommonOpts(ctx, sshExe, useDotSSH)
-	if err != nil {
-		return nil, err
-	}
-	controlPath := fmt.Sprintf(`ControlPath=&quot;%s&quot;`, controlSock)
-	if runtime.GOOS == &quot;windows&quot; {</code></pre>
-    <p>New this round: with the <code>ioutilx</code> fallback in place, this no longer errors on the PR&#39;s target host (native OpenSSH, no <code>cygpath</code>) — it returns <code>/c/Users/.../ssh.sock</code> and hands that Cygwin-form path to a native <code>ssh.exe</code>, which reads it drive-relative. Lima&#39;s own bookkeeping stats the <em>native</em> socket path (<code>IsControlMasterExisting</code> at line 501, <code>RemoveStaleControlMaster</code> at line 531), so the two can never agree. <a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/hostagent/hostagent.go#L578"><code>hostagent.go:578</code></a> confirms ControlMaster is live on Windows for port forwarding.</p>
+	}</code></pre>
+    <p><code>SSHOpts</code> builds one <code>ssh</code> command line carrying two paths, and they go through two different converters. <code>IdentityFile</code> is converted by <code>PathForSSH</code>, which is toolchain-aware. <code>ControlPath</code> is converted by <code>ioutilx.WindowsSubsystemPath</code>, which runs whatever <code>cygpath</code> is first on PATH — and on a native-OpenSSH host with no <code>cygpath</code>, falls through to the new MSYS fallback and yields <code>/c/Users/.../ssh.sock</code>. A native <code>ssh.exe</code> reads that leading <code>/</code> as the current drive&#39;s root.</p>
+    <p><a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> already fixes this. <a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a> does not:</p>
+    <table>
+      <thead><tr><th>ref</th><th>conversion</th></tr></thead>
+      <tbody>
+        <tr><td><code>master</code></td><td><code>ioutilx.WindowsSubsystemPath(ctx, controlSock)</code></td></tr>
+        <tr><td><strong><a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a></strong></td><td><em></em><code>PathForSSH(ctx, sshExe, controlSock)</code><em></em></td></tr>
+        <tr><td><a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a></td><td><code>ioutilx.WindowsSubsystemPath(ctx, controlSock)</code></td></tr>
+      </tbody>
+    </table>
+    <p>This is live, not theoretical: <code>forwardSSH</code> (<a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/hostagent/hostagent.go#L1043"><code>hostagent.go:1043</code></a>) runs <code>ssh -O forward</code>/<code>-O cancel</code> against the ControlMaster for guest-agent port forwarding, and <a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/hostagent/hostagent.go#L578"><code>hostagent.go:578</code></a> states outright that &quot;on Windows, the ControlMaster is used only for SSH port forwarding.&quot; The mux-option stripping elsewhere applies only to the written <code>ssh -F</code> config file, <code>limactl shell</code>, the requirement probes, and reverse-sshfs — never to this path.</p>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/hostagent/hostagent.go#L573-L583">pkg/hostagent/hostagent.go</a></div>
       <pre data-start="573" data-line="578"><code class="language-go">		}
 		logrus.Info(msg)
@@ -294,41 +269,33 @@ func SSHOpts(ctx context.Context, sshExe SSHExe, instDir, username string, useDo
 		}
 		logrus.Debugf(&quot;shutting down the SSH master&quot;)
 		if exitMasterErr := ssh.ExitMaster(a.instSSHAddress, a.sshLocalPort, a.sshConfig); exitMasterErr != nil {</code></pre>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L496-L506">pkg/sshutil/sshutil.go</a></div>
-      <pre data-start="496" data-line="501"><code class="language-go">	}
-	return res
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/hostagent/hostagent.go#L1038-L1048">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="1038" data-line="1043"><code class="language-go">	sshAddress, sshPort := a.sshAddressPort()
+	return forwardSSH(ctx, a.sshConfig, sshAddress, sshPort, localUnix, remoteUnix, verbCancel, false)
 }
 
-// IsControlMasterExisting returns true if the control socket file exists.
-func IsControlMasterExisting(instDir string) bool {
-	controlSock := filepath.Join(instDir, filenames.SSHSock)
-	_, err := os.Stat(controlSock)
-	return err == nil
-}
-</code></pre>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L526-L536">pkg/sshutil/sshutil.go</a></div>
-      <pre data-start="526" data-line="531"><code class="language-go">// RemoveStaleControlMaster removes the SSH control socket only when no master
-// process is listening on it. It returns true when a stale socket was removed.
-// A live master&#39;s socket is never touched (returns false), and a missing socket
-// is treated as a no-op (returns false). This lets callers recover from a wedged
-// session without clobbering a healthy ControlMaster.
-func RemoveStaleControlMaster(ctx context.Context, instDir string) (bool, error) {
-	if IsControlMasterRunning(ctx, instDir) {
-		return false, nil
-	}
-	existed := IsControlMasterExisting(instDir)
-	controlSock := filepath.Join(instDir, filenames.SSHSock)</code></pre>
-    <p>Fix:</p>
-      <pre><code class="language-diff"> 	if runtime.GOOS == &quot;windows&quot; {
--		controlSock, err = ioutilx.WindowsSubsystemPath(ctx, controlSock)
-+		controlSock, err = PathForSSH(ctx, sshExe, controlSock)
- 		if err != nil {
- 			return nil, err
- 		}</code></pre>
+// forwardSSH is a var (not a func) so tests can stub it without touching real ssh.
+var forwardSSH = func(ctx context.Context, sshConfig *ssh.SSHConfig, sshAddress string, sshPort int, local, remote, verb string, reverse bool) error {
+	args := sshConfig.Args()
+	args = append(args,
+		&quot;-T&quot;,
+		&quot;-O&quot;, verb,
+	)</code></pre>
+    <p>Fix: restore <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a>&#39;s line.</p>
+      <pre><code class="language-diff">-		controlSock, err = ioutilx.WindowsSubsystemPath(ctx, controlSock)
++		controlSock, err = PathForSSH(ctx, sshExe, controlSock)</code></pre>
+    </div>
+    <div class="card card-important" data-file="pkg/sshutil/sshutil_test.go">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> Two test functions from <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> were dropped<a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+    <p><a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> ships <code>TestCygpathForSSH</code> (subtests <code>cygwin</code>, <code>native</code>, <code>empty</code>) and <code>TestSftpServerForSSH</code> (subtests for the native sibling, the missing sibling, and empty input). Neither exists anywhere in <a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a>&#39;s tree.</p>
+    <p>Those two functions cover exactly the code this PR adds and exactly the gaps the Testing Assessment below would otherwise ask the author to fill: <code>cygpathForSSH</code> is the central new primitive and <code>SftpServerForSSH</code> is the helper I5 flags as untested dead code. <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> tests both without needing a real Cygwin install.</p>
+    <p>Fix: restore both functions from <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> (<code>pkg/sshutil/sshutil_test.go</code>), splitting them into <code>sshutil_windows_test.go</code> to match this PR&#39;s file layout.</p>
     </div>
     <div class="card card-important" data-file="pkg/sshutil/sshutil.go">
-      <div class="finding-title" id="I2">
-        <span class="finding-num">I2.</span> Key path is converted for the selected toolchain, then handed to a PATH-resolved <code>ssh-keygen</code> <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I2" class="pilcrow">&#182;</a>
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> Key path is converted for the selected toolchain, then handed to a PATH-resolved <code>ssh-keygen</code> <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I3" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L285-L296">pkg/sshutil/sshutil.go</a></div>
       <pre data-start="285" data-line="290-291"><code class="language-go">				privPath, err = PathForSSH(ctx, sshExe, privPath)
@@ -343,7 +310,7 @@ func RemoveStaleControlMaster(ctx context.Context, instDir string) (bool, error)
 				return fmt.Errorf(&quot;failed to run %v: %#q: %w&quot;, keygenCmd.Args, string(out), err)
 			}
 			return nil</code></pre>
-    <p>Line 285 formats <code>privPath</code> for the <code>ssh.exe</code> that <code>NewSSHExe</code> selected; line 290 executes whichever <code>ssh-keygen</code> PATH resolves first. The two diverge whenever <code>NewSSHExe</code> picks a binary outside PATH — via the <code>SSH</code> env var, or via the <code>%SystemRoot%\System32\OpenSSH</code> fallback at line 102. <code>SSH=C:\Program Files\Git\usr\bin\ssh.exe</code> on a host whose PATH leads with native OpenSSH yields <code>-f /c/Users/...</code>, which native <code>ssh-keygen</code> writes to the wrong location.</p>
+    <p>Line 285 formats <code>privPath</code> for the <code>ssh.exe</code> that <code>NewSSHExe</code> selected; line 290 executes whichever <code>ssh-keygen</code> PATH resolves first. The two diverge whenever <code>NewSSHExe</code> picks a binary outside PATH — via the <code>SSH</code> env var, or via the <code>%SystemRoot%\System32\OpenSSH</code> fallback at line 102.</p>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L97-L107">pkg/sshutil/sshutil.go</a></div>
       <pre data-start="97" data-line="102"><code class="language-go">			continue
 		}
@@ -356,7 +323,7 @@ func RemoveStaleControlMaster(ctx context.Context, instDir string) (bool, error)
 
 	return &quot;&quot;
 }</code></pre>
-    <p><a href="https://github.com/lima-vm/lima/commit/0fdcd63f"><code>0fdcd63f</code></a>&#39;s subject promises exactly this pairing (&quot;pair its companion tools&quot;), and <code>cygpathForSSH</code> (line 148) already computes the resolved toolchain directory needed to do it. <a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/copytool/scp.go#L24"><code>pkg/copytool/scp.go:24</code></a> repeats the shape with <code>exec.LookPath(&quot;scp&quot;)</code>.</p>
+    <p><a href="https://github.com/lima-vm/lima/commit/0fdcd63f"><code>0fdcd63f</code></a>&#39;s subject promises exactly this pairing (&quot;pair its companion tools&quot;), and <code>cygpathForSSH</code> already computes the resolved toolchain directory needed to do it. <a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/copytool/scp.go#L24"><code>pkg/copytool/scp.go:24</code></a> repeats the shape with <code>exec.LookPath(&quot;scp&quot;)</code>.</p>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/copytool/scp.go#L19-L29">pkg/copytool/scp.go</a></div>
       <pre data-start="19" data-line="24"><code class="language-go">	toolPath string
 	Options  *Options
@@ -369,23 +336,11 @@ func newSCPTool(opts *Options) (*scpTool, error) {
 	}
 	return &amp;scpTool{toolPath: path, Options: opts}, nil
 }</code></pre>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L143-L153">pkg/sshutil/sshutil.go</a></div>
-      <pre data-start="143" data-line="148"><code class="language-go">// cygpathForSSH returns the cygpath.exe besides sshExe (resolved through
-// symlinks) and whether sshExe is Cygwin-based. Callers pass the returned
-// path to exec.Command so conversions run through that toolchain&#39;s own
-// cygpath, even when $SSH points outside PATH. It returns
-// (&quot;&quot;, false) on non-Windows or empty input; results are cached per resolved path.
-func cygpathForSSH(sshExe SSHExe) (string, bool) {
-	if runtime.GOOS != &quot;windows&quot; || sshExe.Exe == &quot;&quot; {
-		return &quot;&quot;, false
-	}
-	path := sshExe.Exe
-	if !filepath.IsAbs(path) {</code></pre>
     <p>Fix: resolve the companion from the directory of the selected <code>ssh</code>, falling back to PATH only when the sibling is absent. Shape the helper so the <code>scp</code> call site can adopt it when <code>limactl copy</code> lands.</p>
     </div>
     <div class="card card-important" data-file="pkg/ioutilx/ioutilx.go">
-      <div class="finding-title" id="I3">
-        <span class="finding-num">I3.</span> The native fallback fires on every <code>cygpath</code> error, not on a missing binary <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I3" class="pilcrow">&#182;</a>
+      <div class="finding-title" id="I4">
+        <span class="finding-num">I4.</span> The native fallback fires on every <code>cygpath</code> error, not on a missing binary <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I4" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/ioutilx/ioutilx.go#L62-L79">pkg/ioutilx/ioutilx.go</a></div>
       <pre data-start="62" data-line="67-74"><code class="language-go">// cygpathExe (&quot;cygpath&quot; for PATH, or an absolute path to bind the
@@ -406,8 +361,7 @@ func WindowsSubsystemPathWithCygpath(ctx context.Context, cygpathExe, orig strin
 func windowsSubsystemPathWithoutCygpath(orig string) (string, error) {
 	// Only an absolute drive-letter path (&quot;C:\foo&quot;) has a well-defined
 	// Cygwin form here. A drive-relative path (&quot;C:foo&quot;) would become</code></pre>
-    <p>Every failure degrades to the hand-rolled conversion: a non-zero exit, a broken Cygwin install, a cancelled context. A cancelled context therefore yields a successful conversion rather than an error. The fallback&#39;s <code>/c/...</code> formula is the MSYS2 and Git-for-Windows convention, while stock Cygwin maps <code>C:\</code> to <code>/cygdrive/c/</code> and any <code>fstab</code> can remap it — so on a host that <em>has</em> an authoritative <code>cygpath</code>, a transient failure silently substitutes a path that resolves elsewhere.</p>
-    <p>New this round: the pre-PR code logged this at Error with a user-facing hint; line 72 logs at Debug, so a user without <code>--debug</code> gets no signal that the path was fabricated. The message also claims &quot;cygpath unavailable&quot; for a <code>cygpath</code> that ran and failed.</p>
+    <p>Every failure degrades to the hand-rolled conversion: a non-zero exit, a broken Cygwin install, a cancelled context. A cancelled context therefore yields a successful conversion rather than an error. The <code>/c/...</code> formula is the MSYS2 and Git-for-Windows convention, while stock Cygwin maps <code>C:\</code> to <code>/cygdrive/c/</code> and any <code>fstab</code> can remap it — so on a host that <em>has</em> an authoritative <code>cygpath</code>, a transient failure silently substitutes a path that resolves elsewhere. The pre-PR code logged this at Error; it now logs at Debug, so a user without <code>--debug</code> gets no signal.</p>
     <p>Fix: fall back only when the binary is genuinely absent, and warn when it fires.</p>
       <pre><code class="language-diff"> 	if err == nil {
  		return strings.TrimSpace(string(out)), nil
@@ -417,8 +371,8 @@ func windowsSubsystemPathWithoutCygpath(orig string) (string, error) {
 +	}</code></pre>
     </div>
     <div class="card card-important" data-file="pkg/sshutil/sshutil.go">
-      <div class="finding-title" id="I4">
-        <span class="finding-num">I4.</span> <code>SftpServerForSSH</code> and <code>IsSSHCygwin</code> are exported with no caller <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I4" class="pilcrow">&#182;</a>
+      <div class="finding-title" id="I5">
+        <span class="finding-num">I5.</span> <code>SftpServerForSSH</code> and <code>IsSSHCygwin</code> are exported with no caller <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#I5" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L200-L215">pkg/sshutil/sshutil.go</a></div>
       <pre data-start="200" data-line="205-210"><code class="language-go">// so a locally-spawned sftp-server (reverse-sshfs) uses the same path form
@@ -437,7 +391,7 @@ func SftpServerForSSH(ctx context.Context, sshExe SSHExe) string {
 		}
 		candidate := strings.TrimSpace(string(out))
 		for _, p := range []string{candidate, candidate + &quot;.exe&quot;} {</code></pre>
-    <p>Neither symbol has a call site anywhere in the tree; <code>IsSSHCygwin</code> (line 138) is a one-line wrapper over <code>cygpathForSSH</code>.</p>
+    <p>Neither symbol has a call site anywhere in the tree; <code>IsSSHCygwin</code> (line 138) is a one-line wrapper over <code>cygpathForSSH</code>. In <a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a> they are also untested, because I2&#39;s dropped <code>TestSftpServerForSSH</code> was their only coverage.</p>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L133-L143">pkg/sshutil/sshutil.go</a></div>
       <pre data-start="133" data-line="138"><code class="language-go">)
 
@@ -450,7 +404,7 @@ func IsSSHCygwin(sshExe SSHExe) bool {
 }
 
 // cygpathForSSH returns the cygpath.exe besides sshExe (resolved through</code></pre>
-    <p>New this round, and the sharpest argument for wiring it now: <code>OpensshSftpServerBinary</code> is set nowhere in Lima, so sshocker (v0.3.9) falls through to its own <code>DetectOpensshSftpServerBinary</code>, which on Windows shells out to a <strong>bare-PATH</strong> <code>cygpath -w /usr/lib/ssh/sftp-server</code> (<code>reversesshfs.go:89</code>). That is precisely the toolchain-agnostic lookup this PR exists to eliminate — the helper that would fix it is sitting unused in the same commit.</p>
+    <p>The sharpest argument for wiring it now: <code>OpensshSftpServerBinary</code> is set nowhere in Lima, so sshocker (v0.3.9) falls through to its own <code>DetectOpensshSftpServerBinary</code>, which on Windows shells out to a <strong>bare-PATH</strong> <code>cygpath -w /usr/lib/ssh/sftp-server</code> (<code>reversesshfs.go:89</code>) — precisely the toolchain-agnostic lookup this PR exists to eliminate.</p>
     <p>Fix: set <code>rsf.OpensshSftpServerBinary = sshutil.SftpServerForSSH(ctx, sshExe)</code> in <code>setupMount</code> (guarded on non-empty), or drop both exports and land them with the reverse-sshfs follow-up.</p>
     </div>
     <hr>
@@ -472,9 +426,8 @@ func missingSiblings(dir string, siblings ...string) []string {
 	}
 	return missing
 }</code></pre>
-    <p>This is the only code change since round 1. <code>filepath.Join</code> cleans its own result, so <code>Join(dir, Clean(s))</code> and <code>Join(dir, s)</code> are byte-identical for every input — verified by running both forms over <code>&quot;scp.exe&quot;</code>, <code>&quot;../scp.exe&quot;</code>, <code>&quot;sub/../scp.exe&quot;</code>, <code>&quot;&quot;</code>, and an absolute path. It also blocks no traversal: <code>Clean(&quot;../scp.exe&quot;)</code> is <code>&quot;../scp.exe&quot;</code>, and <code>Join</code> still escapes <code>dir</code>.</p>
-    <p>The line came from Akihiro&#39;s own suggestion (r3564681441), which offered <em>either</em> the <code>Clean</code> <em>or</em> an explanatory comment. Only the comment closes the concern; the <code>Clean</code> leaves a reader believing non-clean siblings are handled.</p>
-    <p>Gemini rated this Important. It changes no behavior, so it lands as a Suggestion — but see Unresolved Feedback: the thread it was meant to close is still open.</p>
+    <p><code>filepath.Join</code> cleans its own result, so <code>Join(dir, Clean(s))</code> and <code>Join(dir, s)</code> are byte-identical for every input — verified by running both forms over <code>&quot;scp.exe&quot;</code>, <code>&quot;../scp.exe&quot;</code>, <code>&quot;sub/../scp.exe&quot;</code>, <code>&quot;&quot;</code>, and an absolute path. It also blocks no traversal: <code>Clean(&quot;../scp.exe&quot;)</code> is <code>&quot;../scp.exe&quot;</code>, and <code>Join</code> still escapes <code>dir</code>.</p>
+    <p>The line came from Akihiro&#39;s own suggestion (r3564681441), which offered <em>either</em> the <code>Clean</code> <em>or</em> an explanatory comment. Only the comment closes the concern.</p>
     <p>Fix: revert to <code>filepath.Join(dir, s)</code> and document the contract instead.</p>
       <pre><code class="language-diff">+// missingSiblings reports which of siblings are absent from dir.
 +// siblings must be plain file names: filepath.Join does not constrain
@@ -497,20 +450,9 @@ func missingSiblings(dir string, siblings ...string) []string {
 func WindowsSubsystemPathForLinux(ctx context.Context, orig, distro string) (string, error) {
 	out, err := exec.CommandContext(ctx, &quot;wsl&quot;, &quot;-d&quot;, distro, &quot;--exec&quot;, &quot;wslpath&quot;, filepath.ToSlash(orig)).CombinedOutput()
 	if err != nil {</code></pre>
-    <p>The branch catches every absolute path whose <code>VolumeName</code> is not exactly <code>X:</code> — a UNC path, but also an extended-length path (<code>\\?\C:\foo</code>, whose <code>VolumeName</code> is <code>\\?\C:</code>) and device paths. The test at <a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/ioutilx/ioutilx_windows_test.go#L33"><code>pkg/ioutilx/ioutilx_windows_test.go:33</code></a> asserts only the shared <code>&quot;cannot convert&quot;</code> prefix, so the mislabel stays invisible.</p>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/ioutilx/ioutilx_windows_test.go#L28-L38">pkg/ioutilx/ioutilx_windows_test.go</a></div>
-      <pre data-start="28" data-line="33"><code class="language-go">	})
-
-	t.Run(&quot;non-drive-letter rejected&quot;, func(t *testing.T) {
-		// UNC and POSIX inputs both lack a drive letter; on every
-		// platform the fallback must refuse rather than fabricate.
-		for _, input := range []string{`\\server\share\foo`, &quot;/etc/hosts&quot;, &quot;relative.txt&quot;} {
-			_, err := windowsSubsystemPathWithoutCygpath(input)
-			assert.ErrorContains(t, err, &quot;cannot convert&quot;, &quot;input=%q&quot;, input)
-		}
-	})
-</code></pre>
-    <p>Fix: name what the input lacks — <code>&quot;input is not an absolute drive-letter path&quot;</code> — and merge the two error returns into one message.</p>
+    <p>The branch catches every absolute path whose <code>VolumeName</code> is not exactly <code>X:</code> — a UNC path, but also an extended-length path (<code>\\?\C:\foo</code>, whose <code>VolumeName</code> is <code>\\?\C:</code>) and device paths.</p>
+    <p><a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> had one accurate message covering both branches: <code>&quot;cygpath unavailable and input is not an absolute drive-letter path&quot;</code>. Splitting it in two produced the false claim, and also lost the &quot;cygpath unavailable&quot; context that told the user <em>why</em> the in-process converter was reached.</p>
+    <p>Fix: name what the input lacks rather than guessing what it is.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/sshutil/sshutil.go">
       <div class="finding-title" id="S3">
@@ -531,7 +473,7 @@ func WindowsSubsystemPathForLinux(ctx context.Context, orig, distro string) (str
 }
 
 // systemRoot returns %SystemRoot%, or C:\Windows when unset - honouring</code></pre>
-    <p>The PATH walk rejects any directory whose <code>ssh.exe</code> lacks <code>scp.exe</code> or <code>ssh-keygen.exe</code> (line 95), but the native fallback returns <code>ssh.exe</code> unchecked — and a client-only native install is exactly the shape the walk exists to reject. The docstring at lines 80-85 claims the function returns an <code>ssh.exe</code> &quot;whose directory also has scp.exe and ssh-keygen.exe&quot;, which this path does not honour. It matters more once I2 reads the companion tools from that same directory.</p>
+    <p>The PATH walk rejects any directory whose <code>ssh.exe</code> lacks <code>scp.exe</code> or <code>ssh-keygen.exe</code> (line 95), but the native fallback returns <code>ssh.exe</code> unchecked — and a client-only native install is exactly the shape the walk exists to reject. The docstring at lines 80-85 claims a completeness guarantee this path does not honour. It matters more once I3 reads the companion tools from that same directory.</p>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L75-L100">pkg/sshutil/sshutil.go</a></div>
       <pre data-start="75" data-line="80-95"><code class="language-go">	sshExe.Exe = executable
 
@@ -584,7 +526,7 @@ func pickCompleteSSHOnWindows() string {
 	}
 	sftpServer := filepath.Join(filepath.Dir(path), &quot;sftp-server.exe&quot;)
 	if _, err := os.Stat(sftpServer); err != nil {</code></pre>
-    <p>The same abs-check, <code>LookPath</code>, and <code>EvalSymlinks</code> sequence appears verbatim at lines 152-163 in <code>cygpathForSSH</code>. A future change to how Lima resolves the ssh binary must land in both places — and I2&#39;s <code>ssh-keygen</code> pairing needs the same sequence a third time.</p>
+    <p>The same abs-check, <code>LookPath</code>, and <code>EvalSymlinks</code> sequence appears verbatim at lines 152-163 in <code>cygpathForSSH</code> — and I3&#39;s <code>ssh-keygen</code> pairing needs it a third time.</p>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L147-L168">pkg/sshutil/sshutil.go</a></div>
       <pre data-start="147" data-line="152-163"><code class="language-go">// (&quot;&quot;, false) on non-Windows or empty input; results are cached per resolved path.
 func cygpathForSSH(sshExe SSHExe) (string, bool) {
@@ -614,9 +556,8 @@ func cygpathForSSH(sshExe SSHExe) (string, bool) {
       <div class="finding-title" id="S5">
         <span class="finding-num">S5.</span> The cache comment buries the lock protocol in a 190-column run-on <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#S5" class="pilcrow">&#182;</a>
       </div>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L124-L136">pkg/sshutil/sshutil.go</a></div>
-      <pre data-start="124" data-line="129-131"><code class="language-go">	}
-	return missing
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L125-L135">pkg/sshutil/sshutil.go</a></div>
+      <pre data-start="125" data-line="130"><code class="language-go">	return missing
 }
 
 var (
@@ -626,9 +567,8 @@ var (
 	cygwinDetectCacheRW sync.RWMutex
 )
 
-// IsSSHCygwin reports whether sshExe is a Cygwin-based OpenSSH (Git for
-// Windows, MSYS2, Cygwin) rather than native Windows OpenSSH; always false</code></pre>
-    <p>The third sentence reads as a note-to-self and runs past 190 columns.</p>
+// IsSSHCygwin reports whether sshExe is a Cygwin-based OpenSSH (Git for</code></pre>
+    <p><a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a>&#39;s comment ended at &quot;Each path is probed once.&quot; The third sentence was appended here; it reads as a note-to-self and runs past 190 columns.</p>
     <p>Fix: put <code>// Guarded by cygwinDetectCacheRW.</code> on its own line and rewrap.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/sshutil/sshutil_test.go">
@@ -649,35 +589,17 @@ func TestDefaultPubKeys_WithoutExistingKey(t *testing.T) {
 func TestParseOpenSSHVersion(t *testing.T) {
 	assert.Check(t, ParseOpenSSHVersion([]byte(&quot;OpenSSH_8.4p1 Ubuntu&quot;)).Equal(
 		semver.Version{Major: 8, Minor: 4, Patch: 1, PreRelease: &quot;&quot;, Metadata: &quot;&quot;}))</code></pre>
-    <p>Round 1 called this test nearly empty. That was too harsh, and Claude corrected it: <code>DefaultPubKeys</code> reads the key back through the <em>native</em> path (line 301), so a botched Windows conversion that writes the key elsewhere already surfaces as a non-nil error and fails the test. The remaining gap is narrower than round 1 claimed — the test never checks that the returned content is a valid key.</p>
+    <p>This is the one test <a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a> adds that <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> lacks, and it is worth keeping. Round 1 called it nearly empty; that was too harsh. <code>DefaultPubKeys</code> reads the key back through the <em>native</em> path (line 301), so a botched Windows conversion already surfaces as a non-nil error. The remaining gap is narrower: the test never checks that the returned content is a valid key.</p>
     <p>Fix: add <code>assert.Assert(t, detectValidPublicKey(keys[0].Content))</code> and assert <code>keys[0].Filename</code> against the expected path under <code>tmpDir</code>.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/ioutilx/ioutilx.go">
       <div class="finding-title" id="S7">
-        <span class="finding-num">S7.</span> Doc wording: &quot;fails back&quot;, &quot;besides&quot;, and &quot;Cygwin-style&quot; <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#S7" class="pilcrow">&#182;</a>
+        <span class="finding-num">S7.</span> Doc wording: &quot;fails back&quot; and &quot;besides&quot; <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#S7" class="pilcrow">&#182;</a>
       </div>
-    <p><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/ioutilx/ioutilx.go#L63"><code>ioutilx.go:63</code></a> says the conversion &quot;fails back to a native conversion&quot; where it means &quot;falls back&quot;; <a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L143"><code>sshutil.go:143</code></a> says &quot;the cygpath.exe besides sshExe&quot; for &quot;beside&quot;. More substantively, the <code>/c/...</code> formula and the phrase &quot;Cygwin-style path&quot; (<a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/ioutilx/ioutilx.go#L82"><code>ioutilx.go:82</code></a> and <code>:95</code>) name the wrong toolchain — <code>/c/...</code> is the MSYS2 and Git-for-Windows form, while stock Cygwin defaults to <code>/cygdrive</code>.</p>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/ioutilx/ioutilx.go#L58-L87">pkg/ioutilx/ioutilx.go</a></div>
-      <pre data-start="58" data-line="63-82"><code class="language-go">	return WindowsSubsystemPathWithCygpath(ctx, &quot;cygpath&quot;, orig)
-}
-
-// WindowsSubsystemPathWithCygpath converts a Windows path with the given
-// cygpathExe (&quot;cygpath&quot; for PATH, or an absolute path to bind the
-// conversion to one Cygwin install). When cygpath is unavailable it fails
-// back to a native conversion of the drive-letter case; Universal naming convention
-// (UNC) and other non-drive-letter inputs return an error.
-func WindowsSubsystemPathWithCygpath(ctx context.Context, cygpathExe, orig string) (string, error) {
-	out, err := exec.CommandContext(ctx, cygpathExe, filepath.ToSlash(orig)).CombinedOutput()
-	if err == nil {
-		return strings.TrimSpace(string(out)), nil
-	}
-
-	logrus.WithError(err).Debugf(&quot;cygpath unavailable for %#q (output: %#q), attempting native conversion&quot;, orig, strings.TrimSpace(string(out)))
-
-	return windowsSubsystemPathWithoutCygpath(orig)
-}
-
-func windowsSubsystemPathWithoutCygpath(orig string) (string, error) {
+    <p><a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> reads &quot;it <strong>falls</strong> back to a native conversion&quot; and &quot;the cygpath.exe <strong>beside</strong> sshExe&quot;. The comment pass in <a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a> changed them to &quot;fails back&quot; and &quot;besides&quot;, and expanded &quot;UNC&quot; into a mid-sentence &quot;Universal naming convention (UNC)&quot; that reads awkwardly. All three are regressions against the source PR.</p>
+    <p>Separately — and true of both PRs — the <code>/c/...</code> formula and the phrase &quot;Cygwin-style path&quot; (<a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/ioutilx/ioutilx.go#L82"><code>ioutilx.go:82</code></a>, <code>:95</code>) name the wrong toolchain: <code>/c/...</code> is the MSYS2 and Git-for-Windows form, while stock Cygwin defaults to <code>/cygdrive</code>.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/ioutilx/ioutilx.go#L77-L87">pkg/ioutilx/ioutilx.go</a></div>
+      <pre data-start="77" data-line="82"><code class="language-go">func windowsSubsystemPathWithoutCygpath(orig string) (string, error) {
 	// Only an absolute drive-letter path (&quot;C:\foo&quot;) has a well-defined
 	// Cygwin form here. A drive-relative path (&quot;C:foo&quot;) would become
 	// an unrelated absolute path, so reject it.
@@ -688,19 +610,26 @@ func windowsSubsystemPathWithoutCygpath(orig string) (string, error) {
 	// UNC path (&quot;\\server\share\foo&quot;) is rejected here.
 	if vol := filepath.VolumeName(orig); len(vol) == 2 &amp;&amp; vol[1] == &#39;:&#39; {
 		// orig[2:] starts with a separator for an absolute drive path</code></pre>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L138-L148">pkg/sshutil/sshutil.go</a></div>
-      <pre data-start="138" data-line="143"><code class="language-go">func IsSSHCygwin(sshExe SSHExe) bool {
-	_, ok := cygpathForSSH(sshExe)
-	return ok
+    <p>Fix: restore <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a>&#39;s wording, and say &quot;MSYS-style&quot; for the fallback&#39;s target form.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/sshutil/sshutil.go">
+      <div class="finding-title" id="S8">
+        <span class="finding-num">S8.</span> Preallocating <code>missing</code> pessimizes the common case<a href="#S8" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L114-L124">pkg/sshutil/sshutil.go</a></div>
+      <pre data-start="114" data-line="119"><code class="language-go">	}
+	return `C:\Windows`
 }
 
-// cygpathForSSH returns the cygpath.exe besides sshExe (resolved through
-// symlinks) and whether sshExe is Cygwin-based. Callers pass the returned
-// path to exec.Command so conversions run through that toolchain&#39;s own
-// cygpath, even when $SSH points outside PATH. It returns
-// (&quot;&quot;, false) on non-Windows or empty input; results are cached per resolved path.
-func cygpathForSSH(sshExe SSHExe) (string, bool) {</code></pre>
-    <p>Fix: say &quot;MSYS-style&quot; in the fallback&#39;s doc and errors, and note that the fallback models no <code>fstab</code>.</p>
+func missingSiblings(dir string, siblings ...string) []string {
+	missing := make([]string, 0, len(siblings))
+	for _, s := range siblings {
+		if _, err := os.Stat(filepath.Join(dir, filepath.Clean(s))); err != nil {
+			missing = append(missing, s)
+		}
+	}</code></pre>
+    <p><a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> declared <code>var missing []string</code>. The common case — a complete install — appends nothing, so the nil slice allocated nothing at all; the new form allocates a two-element backing array on every call and every PATH entry walked. The author&#39;s rationale (r3547543706, &quot;the maximum length of <code>missing</code> is <code>len(siblings)</code>&quot;) is correct about the bound but inverts the cost: the bound is the <em>worst</em> case, not the expected one. Callers only test <code>len(missing) &gt; 0</code>, so nil and empty behave alike.</p>
+    <p>Fix: restore <code>var missing []string</code>.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
@@ -708,11 +637,12 @@ func cygpathForSSH(sshExe SSHExe) (string, bool) {</code></pre>
     <div class="card card-design">
     <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
     <p><em></em>The <code>ioutilx</code> fallback turns four unrelated call sites from fail-fast into silent-degrade (in-scope)<em></em> <span class="pill pill-claude">Claude</span>. <code>WindowsSubsystemPath</code> has four callers besides <code>SSHOpts</code>: <a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/limayaml/defaults.go#L717"><code>pkg/limayaml/defaults.go:717</code></a>, <a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/hostagent/mount.go#L58"><code>pkg/hostagent/mount.go:58</code></a>, <a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/copytool/copytool.go#L127"><code>pkg/copytool/copytool.go:127</code></a>, and <a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/cmd/limactl/shell.go#L789"><code>cmd/limactl/shell.go:789</code></a>. Making the helper fall back rather than error changes all four at once, and the new behavior is right for only one of them. <a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/limayaml/defaults.go#L717"><code>defaults.go:717</code></a> wants a POSIX guest mount point, so <code>/c/Users/...</code> is the desired form — that is the improvement the PR is after. <a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/hostagent/mount.go#L58"><code>mount.go:58</code></a> feeds <code>ReverseSSHFS.LocalPath</code>, which a <strong>host-side</strong> sftp-server opens; on a native-OpenSSH host that binary is <code>sftp-server.exe</code>, which cannot resolve <code>/c/Users/...</code>. <a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/copytool/copytool.go#L127"><code>copytool.go:127</code></a> and <code>shell.go:789</code> fall in the same class.</p>
-    <p>The load-bearing detail: <strong>fixing I3 does not close this.</strong> On a native-OpenSSH host <code>cygpath</code> is genuinely absent, so the fallback fires legitimately and <code>mount.go</code> still receives a Cygwin-form path. Mounts previously failed loudly (&quot;cygpath not found&quot;); they now fail deeper, with a confusing path error. sshocker even logs <code>&quot;Accepting %q Unix path, assuming Cygwin/msys2 OpenSSH&quot;</code> (<code>reversesshfs.go:135</code>) — an assumption this PR quietly invalidates. Splitting the API by consumer intent (<code>PathForSSH</code> for ssh-client arguments, a separate helper for Linux-guest paths) would stop the next reader from &quot;fixing&quot; <code>defaults.go</code> into emitting <code>C:/Users/...</code> as a mount point, and would let <code>mount.go</code> keep its clear error until its follow-up lands.</p>
-    <p><strong>Model the selected toolchain explicitly (in-scope)</strong> <span class="pill pill-codex">Codex</span>. Toolchain state is spread across <code>SSHExe</code>, <code>cygpathForSSH</code>, <code>PathForSSH</code>, a direct <code>&quot;ssh-keygen&quot;</code> exec, and the PATH-global <code>WindowsSubsystemPath</code>. A resolved struct carrying <code>ssh</code>, <code>scp</code>, <code>ssh-keygen</code>, an optional <code>cygpath</code>, and a path-conversion method would eliminate I1 and I2 by construction and fold S4 in with them.</p>
-    <p><strong>Pre-existing: an empty mount point on conversion failure (future)</strong> <span class="pill pill-claude">Claude</span>. <a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/limayaml/defaults.go#L717"><code>pkg/limayaml/defaults.go:717</code></a> overwrites <code>mountLocation</code> with <code>&quot;&quot;</code> when the conversion fails, warns, and then sets <code>MountPoint = ptr.Of(&quot;&quot;)</code> (line 722). Blame predates this PR, and the new fallback makes it <em>less</em> likely to fire — but the result should go to a temporary rather than clobber the input.</p>
+    <p>The load-bearing detail: <strong>fixing I4 does not close this.</strong> On a native-OpenSSH host <code>cygpath</code> is genuinely absent, so the fallback fires legitimately and <code>mount.go</code> still receives a Cygwin-form path. sshocker even logs <code>&quot;Accepting %q Unix path, assuming Cygwin/msys2 OpenSSH&quot;</code> (<code>reversesshfs.go:135</code>) — an assumption this PR quietly invalidates. Splitting the API by consumer intent (<code>PathForSSH</code> for ssh-client arguments, a separate helper for Linux-guest paths) would let <code>mount.go</code> keep its clear error until its follow-up lands. This applies to <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> as much as to <a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a>.</p>
+    <p><strong>Model the selected toolchain explicitly (in-scope)</strong> <span class="pill pill-codex">Codex</span>. Toolchain state is spread across <code>SSHExe</code>, <code>cygpathForSSH</code>, <code>PathForSSH</code>, a direct <code>&quot;ssh-keygen&quot;</code> exec, and the PATH-global <code>WindowsSubsystemPath</code>. A resolved struct carrying <code>ssh</code>, <code>scp</code>, <code>ssh-keygen</code>, an optional <code>cygpath</code>, and a path-conversion method would eliminate I1 and I3 by construction and fold S4 in with them.</p>
+    <p><strong>Pre-existing: an empty mount point on conversion failure (future)</strong> <span class="pill pill-claude">Claude</span>. <a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/limayaml/defaults.go#L717"><code>pkg/limayaml/defaults.go:717</code></a> overwrites <code>mountLocation</code> with <code>&quot;&quot;</code> when the conversion fails, warns, and then sets <code>MountPoint = ptr.Of(&quot;&quot;)</code> (line 722). Blame predates both PRs, and the new fallback makes it <em>less</em> likely to fire — but the result should go to a temporary rather than clobber the input.</p>
     <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
     <ul>
+      <li>Extracting <code>windowsSubsystemPathWithoutCygpath</code> (<a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/ioutilx/ioutilx.go#L77"><code>ioutilx.go:77</code></a>) is a genuine improvement over <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a>, where the fallback was inlined and therefore unreachable from a unit test. It is what makes <code>TestWindowsSubsystemPathWithoutCygpath</code> possible, and it answers Akihiro&#39;s review directly. Keep it. [post-review analysis]</li>
       <li>Detecting the toolchain from a sibling <code>cygpath.exe</code> rather than sniffing version strings is cheap and correct for all three Cygwin-family installs, and caching by the symlink-resolved path is the right key. <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span></li>
       <li><code>pickCompleteSSHOnWindows</code>&#39;s &quot;skip the partial install, keep walking&quot; rule is the right shape for the MinGit problem, and returning <code>&quot;&quot;</code> rather than erroring preserves the old <code>exec.LookPath</code> behavior. <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span></li>
       <li><code>PathForSSH</code> stays a no-op on non-Windows, so call sites can shed their <code>runtime.GOOS</code> guards over time without behavior change. <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span></li>
@@ -723,20 +653,22 @@ func cygpathForSSH(sshExe SSHExe) (string, bool) {</code></pre>
 
     <div class="card card-neutral">
     <p><code>go test ./pkg/sshutil ./pkg/ioutilx</code> passes on darwin. Windows CI runs <code>go test ./...</code>, so both new <code>_windows_test.go</code> files execute there. Gating the <code>ioutilx</code> fallback test by filename is correct, not a gap: <code>filepath.IsAbs</code> and <code>filepath.VolumeName</code> are OS-dependent.</p>
-    <p>Untested scenarios, highest risk first:</p>
+    <p>The headline is I2: <strong><a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a> has strictly less coverage than <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a>.</strong> The two biggest holes below are holes only because the tests that filled them were dropped.</p>
     <ol>
-      <li><em></em><code>cygpathForSSH</code> and <code>PathForSSH</code> have no tests at all<em></em> — the central new logic (toolchain detection, symlink resolution, the <code>&quot;&quot;</code>-means-native cache sentinel, the native <code>ToSlash</code> branch) is entirely uncovered. A temp directory with and without a <code>cygpath.exe</code> sibling covers it without a real Cygwin install.</li>
-      <li><em></em><code>WindowsSubsystemPathWithCygpath</code> with <code>cygpath</code> present<em></em> — the success path and the error branching (I3) have no coverage. A stub <code>cygpath</code> that echoes a canned answer, exits non-zero, or is absent covers all three branches. The author&#39;s objection — that real Cygwin and native toolchains produce different results — does not apply to a stub.</li>
-      <li><em></em><code>SSH</code> pointing outside PATH<em></em> — the case <code>cygpathForSSH</code>&#39;s own docstring calls out, and the one that makes I2 fire.</li>
-      <li><em></em><code>missingSiblings</code><em></em> — no direct test, so S1&#39;s change is unverified and unverifiable through the current call site.</li>
-      <li><em></em><code>SftpServerForSSH</code><em></em> — no coverage at all (I4).</li>
+      <li><em></em><code>cygpathForSSH</code> has no test<em></em> — the central new primitive (toolchain detection, symlink resolution, the <code>&quot;&quot;</code>-means-native cache sentinel). <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a>&#39;s <code>TestCygpathForSSH</code> covers the cygwin, native, and empty cases. Restore it.</li>
+      <li><em></em><code>SftpServerForSSH</code> has no test<em></em> — <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a>&#39;s <code>TestSftpServerForSSH</code> covers the native sibling, the missing sibling, and empty input. Restore it.</li>
+      <li><em></em><code>PathForSSH</code> has no test in either PR<em></em> — nothing asserts <code>C:\Users\x</code> becomes <code>C:/Users/x</code> on the native branch.</li>
+      <li><em></em><code>WindowsSubsystemPathWithCygpath</code>&#39;s fallback trigger<em></em> — <code>windowsSubsystemPathWithoutCygpath</code> is tested directly, but nothing exercises the wrapper&#39;s <em>decision</em> to fall back. A stub <code>cygpath</code> that exits non-zero versus one that is absent covers the two cases I4 says must behave differently.</li>
+      <li><em></em><code>SSHOpts</code> on Windows<em></em> — no test asserts that <code>ControlPath</code> and <code>IdentityFile</code> come out in the <em>same</em> path form. Such a test would have caught I1 mechanically.</li>
+      <li><em></em><code>missingSiblings</code><em></em> — no direct test, so S1&#39;s and S8&#39;s changes are unverified through the current call site.</li>
     </ol>
     </div>
     <hr>
     <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-neutral">
-    <p>No user-facing doc mentions <code>cygpath</code> or Git for Windows, so nothing goes stale. The doc comments carry the whole explanation, which raises their weight — see S5 and S7. Two docstrings overclaim: <code>pickCompleteSSHOnWindows</code> (lines 80-85) promises a completeness guarantee its native fallback does not honour (S3), and <code>SftpServerForSSH</code>&#39;s &quot;uses the same path form PathForSSH produces&quot; (line 200) is ambiguous enough that one reviewer read it as a claim about the return value — it means the spawned sftp-server <em>understands</em> that form. Reword it.</p>
+    <p>No user-facing doc mentions <code>cygpath</code> or Git for Windows, so nothing goes stale. The doc comments carry the whole explanation, which raises their weight — and the comment pass in <a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a> damaged three of them (S2, S5, S7).</p>
+    <p>Two docstrings overclaim in both PRs: <code>pickCompleteSSHOnWindows</code> (lines 80-85) promises a completeness guarantee its native fallback does not honour (S3), and <code>SftpServerForSSH</code>&#39;s &quot;uses the same path form PathForSSH produces&quot; (line 200) is ambiguous enough that one reviewer read it as a claim about the return value — it means the spawned sftp-server <em>understands</em> that form. Reword it.</p>
     <p>Once native OpenSSH works for <code>limactl create</code>, the Windows install docs should name the two supported toolchains and the <code>SSH</code> env var that pins the choice.</p>
     </div>
     <hr>
@@ -744,7 +676,8 @@ func cygpathForSSH(sshExe SSHExe) (string, bool) {</code></pre>
 
     <div class="card card-neutral">
     <p>The two feature commits (<a href="https://github.com/lima-vm/lima/commit/e1b9688d"><code>e1b9688d</code></a>, <a href="https://github.com/lima-vm/lima/commit/0fdcd63f"><code>0fdcd63f</code></a>) are well-scoped and correctly ordered. <a href="https://github.com/lima-vm/lima/commit/11dd5692"><code>11dd5692</code></a> and <a href="https://github.com/lima-vm/lima/commit/85ddcc98"><code>85ddcc98</code></a> are explicit fixups whose messages already promise the fold. Confirm it before merge: <a href="https://github.com/lima-vm/lima/commit/85ddcc98"><code>85ddcc98</code></a> now carries only the one-line <code>filepath.Clean</code> change, and if S1 is taken the commit disappears entirely.</p>
-    <p><a href="https://github.com/lima-vm/lima/commit/0fdcd63f"><code>0fdcd63f</code></a>&#39;s subject claims the change will &quot;pair its companion tools&quot;, which the diff still does not do — I2 is that promise unkept. Either fix the code or amend the subject.</p>
+    <p><a href="https://github.com/lima-vm/lima/commit/0fdcd63f"><code>0fdcd63f</code></a>&#39;s subject claims the change will &quot;pair its companion tools&quot;, which the diff still does not do — I3 is that promise unkept. Either fix the code or amend the subject.</p>
+    <p>More important than the shape of the history is what it does not contain. Because <a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a> re-types <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a>&#39;s work rather than cherry-picking its commits, the dropped <code>ControlPath</code> fix (I1) and the dropped tests (I2) leave no trace in the log — nothing was reverted, so nothing is reviewable as a revert. Rebasing <a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a> onto <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a>&#39;s commits, or cherry-picking them, would make any future divergence explicit.</p>
     </div>
     <hr>
     <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
@@ -752,11 +685,11 @@ func cygpathForSSH(sshExe SSHExe) (string, bool) {</code></pre>
     <div class="card card-neutral">
     <ul>
       <li><em></em>Windows code not split into <code>*_windows.go</code><em></em> (<a href="https://github.com/lima-vm/lima/pull/5205#discussion_r3548205197">r3548205197</a>). The author found the split awkward because callers like <code>DefaultPubKeys</code> nest Windows-specific helpers, and split the tests instead. Akihiro approved with &quot;can be worked out later.&quot;</li>
-      <li><em></em>CI still ships <code>cygpath</code><em></em> (<a href="https://github.com/lima-vm/lima/pull/5205#discussion_r3548211503">r3548211503</a>). Removing MSYS2 from the runner&#39;s PATH broke <code>pacman</code> and <code>cygpath</code> reappeared via <code>/bin</code>; Akihiro accepted keeping it installed. Consequence: integration tests never exercise the new fallback, which is why the unit-test gaps above matter.</li>
-      <li><em></em>No test drives a real <code>cygpath</code><em></em> (<a href="https://github.com/lima-vm/lima/pull/5205#discussion_r3561912552">r3561912552</a>). The author&#39;s rationale holds for a <em>real</em> <code>cygpath</code>; a stub binary sidesteps it.</li>
+      <li><em></em>CI still ships <code>cygpath</code><em></em> (<a href="https://github.com/lima-vm/lima/pull/5205#discussion_r3548211503">r3548211503</a>). Removing MSYS2 from the runner&#39;s PATH broke <code>pacman</code> and <code>cygpath</code> reappeared via <code>/bin</code>; Akihiro accepted keeping it installed. Consequence: integration tests never exercise the new fallback, which is why the unit-test gaps above matter — and why the dropped tests in I2 matter more.</li>
+      <li><em></em>No test drives a real <code>cygpath</code><em></em> (<a href="https://github.com/lima-vm/lima/pull/5205#discussion_r3561912552">r3561912552</a>). The author&#39;s rationale holds for a <em>real</em> <code>cygpath</code>; a stub binary sidesteps it, which is what <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a>&#39;s dropped tests do.</li>
       <li><em></em><code>WindowsSubsystemPathWithCygpath</code> stays exported<em></em> (<a href="https://github.com/lima-vm/lima/pull/5205#discussion_r3561905582">r3561905582</a>). <code>PathForSSH</code> calls it to pin the conversion to the toolchain&#39;s own <code>cygpath</code>. The export is required.</li>
       <li><em></em><code>sync.Once</code> rejected for the detection cache<em></em> (<a href="https://github.com/lima-vm/lima/pull/5205#discussion_r3562023250">r3562023250</a>). The author is right: <code>sync.Once</code> cannot memoize a per-key result. The <code>RWMutex</code> and map match the <code>openSSHInfos</code> cache already in the file.</li>
-      <li><em></em><code>limactl copy</code> and reverse-sshfs mounts are out of scope<em></em> (PR description). Deferred deliberately — but see the first Design Concern: the fallback changes how those paths fail <em>today</em>, and fixing I3 does not undo it.</li>
+      <li><em></em><code>limactl copy</code> and reverse-sshfs mounts are out of scope<em></em> (PR description). Deferred deliberately — but see the first Design Concern: the fallback changes how those paths fail <em>today</em>, and fixing I4 does not undo it.</li>
     </ul>
     </div>
     <hr>
@@ -773,7 +706,7 @@ func cygpathForSSH(sshExe SSHExe) (string, bool) {</code></pre>
 
     <div class="card card-neutral">
     <h3 id="claude"><span class="pill pill-claude">Claude</span> <a href="#claude" class="pilcrow">&#182;</a></h3>
-    <p>Claude carried the round. Its unique contribution is the design concern: it traced the <code>ioutilx</code> fallback out of the diff into <code>pkg/hostagent/mount.go</code> and on into sshocker, and established the point neither other agent reached — that fixing I3 does <strong>not</strong> close the mount degradation, because on a native-OpenSSH host <code>cygpath</code> is legitimately absent and the fallback fires as designed. It also caught the log-level demotion from Error to Debug inside I3, and it was the only agent to push back on the <em>prior</em> round: round 1 called <code>TestDefaultPubKeys_WithoutExistingKey</code> nearly empty, and Claude showed the readback at line 301 already catches a botched conversion, narrowing S6 honestly rather than inheriting the harsher claim. Its weakness was citation drift — <code>identityFileEntry</code> is at 459 not 461, <code>IsControlMasterExisting</code> at 501 not 502, sshocker is v0.3.9 not v0.3.4 — and one sub-claim inside I4, that <code>SftpServerForSSH</code>&#39;s docstring misdescribes its return value, rests on a misreading: the sentence describes the sftp-server <em>process</em> understanding <code>PathForSSH</code>&#39;s form, not the returned string. That sub-claim was dropped; the finding stands.</p>
+    <p>Claude carried the round. Its unique contribution is the design concern: it traced the <code>ioutilx</code> fallback out of the diff into <code>pkg/hostagent/mount.go</code> and on into sshocker, and established the point neither other agent reached — that fixing I4 does <strong>not</strong> close the mount degradation, because on a native-OpenSSH host <code>cygpath</code> is legitimately absent and the fallback fires as designed. It also caught the log-level demotion from Error to Debug inside I4, and it was the only agent to push back on the <em>prior</em> round: round 1 called <code>TestDefaultPubKeys_WithoutExistingKey</code> nearly empty, and Claude showed the readback at line 301 already catches a botched conversion, narrowing S6 honestly rather than inheriting the harsher claim. Its weakness was citation drift — <code>identityFileEntry</code> is at 459 not 461, <code>IsControlMasterExisting</code> at 501 not 502, sshocker is v0.3.9 not v0.3.4 — and one sub-claim inside I5, that <code>SftpServerForSSH</code>&#39;s docstring misdescribes its return value, rests on a misreading: the sentence describes the sftp-server <em>process</em> understanding <code>PathForSSH</code>&#39;s form, not the returned string. That sub-claim was dropped; the finding stands.</p>
     <h3 id="codex"><span class="pill pill-codex">Codex</span> <a href="#codex" class="pilcrow">&#182;</a></h3>
     <p>Codex confirmed the three Important findings and the <code>filepath.Clean</code> no-op independently, and it was alone in calibrating the no-op correctly on the first try — Suggestion, because it changes no behavior. It handled the round-2 framing best of the three: rather than re-raising the six unchanged round-1 suggestions as fresh numbered findings, it confirmed each in a compact &quot;Prior-Round Reverification&quot; section, which is exactly what the prompt asked for and what made its review the cheapest to consolidate. Its one misstep is in the S1 fix, which proposes <code>panic()</code> on a non-basename sibling — a programmer-error guard that Lima would not accept in library code, and unnecessary when the only callers pass string literals.</p>
     <h3 id="gemini"><span class="pill pill-gemini">Gemini</span> <a href="#gemini" class="pilcrow">&#182;</a></h3>
@@ -795,8 +728,11 @@ func cygpathForSSH(sshExe SSHExe) (string, bool) {</code></pre>
         <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td></tr>
       </tbody>
     </table>
-    <p><strong>Reconciliation.</strong> Two severity changes. Gemini&#39;s I1 (<code>filepath.Clean</code> no-op) was downgraded to S1: it is dead code, not a defect, and neither Claude nor Codex rated it above Suggestion. Codex&#39;s S3 (unused <code>SftpServerForSSH</code>) was promoted to I4 and merged with Claude&#39;s and Gemini&#39;s, on the strength of the sshocker evidence that the unused helper is the exact fix for a live bare-PATH <code>cygpath</code> call.</p>
-    <p>All three agents converged on the same ten findings, which is itself the story of this round: the code did not move, so the reviews did not either. The marginal value of the third and even second agent was low here — a re-review of an unchanged diff rewards breadth far less than a first-pass review does. Claude&#39;s out-of-diff tracing was the only thing that produced new information.</p>
+    <p><strong>Reconciliation.</strong> Two severity changes. Gemini&#39;s I1 (<code>filepath.Clean</code> no-op) was downgraded to S1: it is dead code, not a defect, and neither Claude nor Codex rated it above Suggestion. Codex&#39;s S3 (unused <code>SftpServerForSSH</code>) was promoted to I5 and merged with Claude&#39;s and Gemini&#39;s, on the strength of the sshocker evidence that the unused helper is the exact fix for a live bare-PATH <code>cygpath</code> call.</p>
+    <p>The table counts what the agents raised. Two findings in this report came from neither: I2 (dropped tests) and S8 (<code>missing</code> preallocation) were found afterwards by diffing <a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a> against <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a>, and the regression labels on I1, S2, S5, and S7 came from the same diff.</p>
+    <h3 id="the-miss-that-matters">The miss that matters <a href="#the-miss-that-matters" class="pilcrow">&#182;</a></h3>
+    <p>All three agents classified I1 as a gap the PR never closed, and the Testing Assessment they produced asked the author to <em>write</em> <code>TestCygpathForSSH</code> and <code>TestSftpServerForSSH</code> — tests that <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> already contains. None of them looked at <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a>&#39;s code, and that is not their failing: the review prompt supplied <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> as <em>issue context</em> (title, description, author) and gave them a merge-base diff. A merge-base diff cannot distinguish &quot;never fixed&quot; from &quot;fixed upstream, then dropped in the re-derivation.&quot; Both render as an absent change.</p>
+    <p>The consequence is not a missed nit. The single most actionable fact about this PR — that it silently reverts a fix and deletes two tests relative to the PR it claims to derive from — was invisible to every agent, and a review that recommended &quot;add these tests&quot; would have sent the author to re-write work that already exists. Three models agreeing on an incomplete frame produces confident, unanimous, incomplete output; the fix belongs in the prompt, not in the models.</p>
     </div>
     <hr>
     <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
@@ -804,6 +740,7 @@ func cygpathForSSH(sshExe SSHExe) (string, bool) {</code></pre>
     <div class="card card-neutral">
     <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
     <ul>
+      <li>When a PR describes itself as derived from, extracted from, ported from, or superseding another PR or branch, diff it against <strong>that PR&#39;s head</strong>, not only against the merge-base. Fetch the referenced head and compare the two trees file by file. A re-derivation that re-types the original rather than cherry-picking its commits can silently drop fixes, tests, and comment corrections, and none of that is visible in a merge-base diff — a dropped fix and a fix that was never written render identically. Report anything the derived PR lost as a regression against its source, and confirm each intentional difference the PR description claims. The setup step should fetch the referenced head and inline the cross-PR diff alongside the merge-base diff, because an agent given only the merge-base cannot recover this no matter how carefully it reads.</li>
       <li>When a round&#39;s only change implements a reviewer&#39;s literal suggestion, verify the suggestion itself before crediting the thread as closed. A reviewer&#39;s proposed one-liner carries the authority of the reviewer, not of the compiler, and an author who applies it verbatim inherits its defects. Check the suggested code against the language&#39;s actual semantics, and when it turns out to be inert, say so in Unresolved Feedback rather than in Suggestions alone — the thread is still open, and only the reviewer can close it.</li>
       <li>When a change replaces a hard error with a fallback in a shared helper, enumerate every caller and classify each by whether the fallback&#39;s output is the form that caller&#39;s downstream consumer expects. A fallback added to serve one caller silently reroutes all of them, and the fix that corrects the fallback&#39;s trigger condition does not necessarily correct the callers it now degrades — those are two separate defects, and reporting only the first leaves the second invisible.</li>
     </ul>
