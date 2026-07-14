@@ -450,9 +450,10 @@ func missingSiblings(dir string, siblings ...string) []string {
 func WindowsSubsystemPathForLinux(ctx context.Context, orig, distro string) (string, error) {
 	out, err := exec.CommandContext(ctx, &quot;wsl&quot;, &quot;-d&quot;, distro, &quot;--exec&quot;, &quot;wslpath&quot;, filepath.ToSlash(orig)).CombinedOutput()
 	if err != nil {</code></pre>
-    <p>The branch catches every absolute path whose <code>VolumeName</code> is not exactly <code>X:</code> — a UNC path, but also an extended-length path (<code>\\?\C:\foo</code>, whose <code>VolumeName</code> is <code>\\?\C:</code>) and device paths.</p>
-    <p><a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> had one accurate message covering both branches: <code>&quot;cygpath unavailable and input is not an absolute drive-letter path&quot;</code>. Splitting it in two produced the false claim, and also lost the &quot;cygpath unavailable&quot; context that told the user <em>why</em> the in-process converter was reached.</p>
-    <p>Fix: name what the input lacks rather than guessing what it is.</p>
+    <p>Both error strings in <code>windowsSubsystemPathWithoutCygpath</code> are wrong, for different reasons.</p>
+    <p>The <code>&quot;input is UNC path&quot;</code> half is <strong>new in <a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a></strong>. The branch catches every absolute path whose <code>VolumeName</code> is not exactly <code>X:</code> — a UNC path, but also an extended-length path (<code>\\?\C:\foo</code>, whose <code>VolumeName</code> is <code>\\?\C:</code>) and device paths. <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> had one accurate message covering both branches (<code>&quot;cygpath unavailable and input is not an absolute drive-letter path&quot;</code>); splitting it in two produced the false claim and lost the &quot;cygpath unavailable&quot; context that told the user why the in-process converter was reached at all.</p>
+    <p>The <code>&quot;Cygwin-style path&quot;</code> half is <strong>wrong in both PRs</strong> — <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> carries the same phrase in its single message. <code>/c/...</code> is the MSYS2 and Git-for-Windows form; stock Cygwin defaults to <code>/cygdrive/c/</code>, and an <code>fstab</code> can remap it. Calling the target &quot;Cygwin-style&quot; tells the reader the conversion is authoritative for Cygwin when it is the one toolchain it is <em>not</em> right for.</p>
+    <p>Fix: name what the input lacks rather than guessing what it is, and say &quot;MSYS-style&quot;.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/sshutil/sshutil.go">
       <div class="finding-title" id="S3">
@@ -596,21 +597,31 @@ func TestParseOpenSSHVersion(t *testing.T) {
       <div class="finding-title" id="S7">
         <span class="finding-num">S7.</span> Doc wording: &quot;fails back&quot; and &quot;besides&quot; <span class="pill pill-claude">Claude</span> <span class="pill pill-codex">Codex</span> <span class="pill pill-gemini">Gemini</span><a href="#S7" class="pilcrow">&#182;</a>
       </div>
-    <p><a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> reads &quot;it <strong>falls</strong> back to a native conversion&quot; and &quot;the cygpath.exe <strong>beside</strong> sshExe&quot;. The comment pass in <a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a> changed them to &quot;fails back&quot; and &quot;besides&quot;, and expanded &quot;UNC&quot; into a mid-sentence &quot;Universal naming convention (UNC)&quot; that reads awkwardly. All three are regressions against the source PR.</p>
-    <p>Separately — and true of both PRs — the <code>/c/...</code> formula and the phrase &quot;Cygwin-style path&quot; (<a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/ioutilx/ioutilx.go#L82"><code>ioutilx.go:82</code></a>, <code>:95</code>) name the wrong toolchain: <code>/c/...</code> is the MSYS2 and Git-for-Windows form, while stock Cygwin defaults to <code>/cygdrive</code>.</p>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/ioutilx/ioutilx.go#L77-L87">pkg/ioutilx/ioutilx.go</a></div>
-      <pre data-start="77" data-line="82"><code class="language-go">func windowsSubsystemPathWithoutCygpath(orig string) (string, error) {
-	// Only an absolute drive-letter path (&quot;C:\foo&quot;) has a well-defined
-	// Cygwin form here. A drive-relative path (&quot;C:foo&quot;) would become
-	// an unrelated absolute path, so reject it.
-	if !filepath.IsAbs(orig) {
-		return &quot;&quot;, fmt.Errorf(&quot;cannot convert %#q to a Cygwin-style path: input is not an absolute drive-letter path&quot;, orig)
-	}
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/ioutilx/ioutilx.go#L58-L70">pkg/ioutilx/ioutilx.go</a></div>
+      <pre data-start="58" data-line="63-65"><code class="language-go">	return WindowsSubsystemPathWithCygpath(ctx, &quot;cygpath&quot;, orig)
+}
 
-	// UNC path (&quot;\\server\share\foo&quot;) is rejected here.
-	if vol := filepath.VolumeName(orig); len(vol) == 2 &amp;&amp; vol[1] == &#39;:&#39; {
-		// orig[2:] starts with a separator for an absolute drive path</code></pre>
-    <p>Fix: restore <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a>&#39;s wording, and say &quot;MSYS-style&quot; for the fallback&#39;s target form.</p>
+// WindowsSubsystemPathWithCygpath converts a Windows path with the given
+// cygpathExe (&quot;cygpath&quot; for PATH, or an absolute path to bind the
+// conversion to one Cygwin install). When cygpath is unavailable it fails
+// back to a native conversion of the drive-letter case; Universal naming convention
+// (UNC) and other non-drive-letter inputs return an error.
+func WindowsSubsystemPathWithCygpath(ctx context.Context, cygpathExe, orig string) (string, error) {
+	out, err := exec.CommandContext(ctx, cygpathExe, filepath.ToSlash(orig)).CombinedOutput()
+	if err == nil {
+		return strings.TrimSpace(string(out)), nil
+	}</code></pre>
+    <p>The comment pass in <a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a> rewrote three phrases into worse English, all on doc comments that <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a> already had:</p>
+    <table>
+      <thead><tr><th></th><th><a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a></th><th><a href="https://github.com/lima-vm/lima/issues/5205" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5205</a></th></tr></thead>
+      <tbody>
+        <tr><td><code>WindowsSubsystemPathWithCygpath</code></td><td>&quot;it <strong>falls</strong> back&quot;</td><td>&quot;it <strong>fails</strong> back&quot;</td></tr>
+        <tr><td><code>WindowsSubsystemPathWithCygpath</code></td><td>&quot;<strong>UNC</strong> and other&quot;</td><td>&quot;<strong>Universal naming convention (UNC)</strong> and other&quot;</td></tr>
+        <tr><td><code>cygpathForSSH</code> (<a href="https://github.com/lima-vm/lima/blob/85ddcc98502de97a4c87d565fdf3ca511ab0d9fd/pkg/sshutil/sshutil.go#L143"><code>sshutil.go:143</code></a>)</td><td>&quot;cygpath.exe <strong>beside</strong> sshExe&quot;</td><td>&quot;cygpath.exe <strong>besides</strong> sshExe&quot;</td></tr>
+      </tbody>
+    </table>
+    <p>These sit on functions present in both PRs; only the wording changed. (The separate &quot;Cygwin-style path&quot; misnomer lives in the error strings — see S2.)</p>
+    <p>Fix: restore <a href="https://github.com/lima-vm/lima/issues/5196" class="gh-ref" data-title="Windows: detect the SSH toolchain and convert paths for native OpenSSH" data-state="open" data-type="pr">#5196</a>&#39;s wording.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/sshutil/sshutil.go">
       <div class="finding-title" id="S8">
