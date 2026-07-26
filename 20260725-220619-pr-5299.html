@@ -228,6 +228,12 @@ table:not([class]) tr:nth-child(even) { background: #f9fafb; }
     <p>Three items are new this round: the concrete <code>limactl shell --sync</code> path that breaks (folded into I1), a <code>ControlPath</code> that <code>SSHOpts</code> computes and can reject before copytool discards it (S6), and a Debug line announcing a strip that removes nothing (S7). All four reviewers landed I1 and I2 again; the two Gemini models agree with each other, so count that as one opinion.</p>
     </div>
     <hr>
+    <h2 id="note-the-code-has-moved-since-this-review">Note: the code has moved since this review <a href="#note-the-code-has-moved-since-this-review" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Every finding below was addressed on 2026-07-26, and each one ends with a line recording what happened to it. The line numbers and snippets throughout describe <a href="https://github.com/lima-vm/lima/commit/460484af"><code>460484af</code></a>. That commit no longer exists; <a href="https://github.com/lima-vm/lima/commit/20d168aa"><code>20d168aa</code></a> replaced it, and the parse-error fix landed in <a href="https://github.com/lima-vm/lima/commit/1775db7b"><code>1775db7b</code></a> on a separate branch. Read the citations as a record of what the review found, rather than as a map of the current tree.</p>
+    </div>
+    <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-critical">
@@ -296,6 +302,7 @@ table:not([class]) tr:nth-child(even) { background: #f9fafb; }
 		controlPath = fmt.Sprintf(`ControlPath=&#39;%s&#39;`, controlSock)
 	}</code></pre>
     <p>Fix: keep <code>Path.Path</code> native and convert per backend, <code>PathForSSH</code> in <code>scp.go</code> and the rsync toolchain&#39;s own <code>cygpath</code> in <code>rsync.go</code>.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/20d168aa"><code>20d168aa</code></a>. <code>parseCopyPaths</code> keeps the native path, <code>scp.go</code> converts with <code>PathForSSH</code>, and <code>rsync.go</code> converts through the cygpath beside its own <code>rsync.exe</code>.</p>
     </div>
     <div class="card card-important" data-file="pkg/copytool/scp.go">
       <div class="finding-title" id="I2">
@@ -317,6 +324,7 @@ func newSCPTool(opts *Options) (*scpTool, error) {
     <p>The default case stays consistent because <code>pickCompleteSSHOnWindows</code> requires <code>scp.exe</code> beside the <code>ssh.exe</code> it selects and walks PATH in <code>LookPath</code> order, which is why this is Important and not Critical. Gemini 3.1 Pro again filed it Critical; that overstates the reach.</p>
     <p><code>exec.LookPath(&quot;scp&quot;)</code> predates this PR, so this is a gap the change made load-bearing, not a regression.</p>
     <p>Fix: export <code>companionForSSH</code> (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/sshutil/sshutil.go#L176"><code>pkg/sshutil/sshutil.go:176</code></a>, already used for <code>ssh-keygen</code> at <code>:320</code>) and resolve scp from the selected toolchain.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/20d168aa"><code>20d168aa</code></a>. <code>CompanionForSSH</code> is exported, and <code>scpTool</code> stores the ssh it resolved scp from, which also drives the path form and the version probe.</p>
     </div>
     <div class="card card-important" data-file="pkg/copytool/rsync.go">
       <div class="finding-title" id="I3">
@@ -354,6 +362,7 @@ func hasRemoteSourceAndDestination(ctx context.Context, paths []string) bool {
 			if hasRemoteSource {</code></pre>
     <p>Codex filed this as a suggestion, arguing the failure is loud even when misdescribed. The line still cannot do the job its own comment claims, on the only backend most users invoke, so Important is the right severity.</p>
     <p>Fix: report the parse error where it is swallowed, in <code>hasRemoteSourceAndDestination</code> or in <code>New</code>.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/1775db7b"><code>1775db7b</code></a> on a separate branch, so it is absent from this PR&#39;s diff. <code>hasRemoteSourceAndDestination</code> returns its parse error and <code>New</code> reports it; the unreachable <code>Warn</code> was never introduced.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
@@ -378,6 +387,7 @@ func hasRemoteSourceAndDestination(ctx context.Context, paths []string) bool {
     <p>The test locks in the drive-letter/instance-name split, which is worth having, but it passes under either conversion result, so nothing pins the behavior this PR changes. <code>PathForSSH</code> has no direct unit test in <code>pkg/sshutil</code> either.</p>
     <p>Gemini 3.5 Flash proposes asserting <code>cps[0].Path == &quot;C:/foo&quot;</code> unconditionally. That fails on the MSYS2 CI runner, which takes the Cygwin branch and yields <code>/c/foo</code>; any such assertion has to key on the detected toolchain.</p>
     <p>Fix: add a table test over <code>rsyncTool.Command</code>&#39;s argv asserting no local operand matches <code>^[A-Za-z]:</code>. That runs on any host, needs no Windows, and is the one test that would have caught I1.</p>
+    <p><strong>Resolved:</strong> test written in <a href="https://github.com/lima-vm/lima/commit/20d168aa"><code>20d168aa</code></a>. <code>TestRsyncCommandLocalPathForm</code> pins the rsync operand form on any host, with no Cygwin install required.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/copytool/copytool_test.go">
       <div class="finding-title" id="S2">
@@ -398,6 +408,7 @@ func hasRemoteSourceAndDestination(ctx context.Context, paths []string) bool {
 }</code></pre>
     <p><code>store.Inspect</code> resolves through <code>$LIMA_HOME</code> or <code>~/.lima</code>, so an instance actually named <code>C</code> makes <code>err</code> nil and fails the assert, and a stopped one produces &quot;instance <code>C</code> is stopped&quot;, which satisfies the substring through the wrong branch. Line 61 has the same exposure.</p>
     <p>Fix: <code>t.Setenv(&quot;LIMA_HOME&quot;, t.TempDir())</code> and assert on <code>does not exist</code> as well as the name. <code>dirnames.LimaDir</code> honours the variable (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/limatype/dirnames/dirnames.go#L26"><code>pkg/limatype/dirnames/dirnames.go:26</code></a>), and <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/store/fuzz_test.go#L28"><code>pkg/store/fuzz_test.go:28</code></a> already uses this pattern.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/20d168aa"><code>20d168aa</code></a>. The test isolates <code>LIMA_HOME</code> and asserts <code>does not exist</code>.</p>
     </div>
     <div class="card card-suggestion" data-file="cmd/limactl/shell.go">
       <div class="finding-title" id="S3">
@@ -478,6 +489,7 @@ func hasRemoteSourceAndDestination(ctx context.Context, paths []string) bool {
 	logrus.Debugf(&quot;stdout=%#q, stderr=%#q, err=%v&quot;, stdout, stderr, err)
 	if err != nil {</code></pre>
     <p>Fix: reword both copies around the real boundary, that command and session invocations strip mux options on Windows while port forwarding keeps them.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/20d168aa"><code>20d168aa</code></a>. Both copies now state the rule instead of enumerating the sites, so adding a site cannot make them stale again.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/copytool/scp.go">
       <div class="finding-title" id="S4">
@@ -515,6 +527,7 @@ func hasRemoteSourceAndDestination(ctx context.Context, paths []string) bool {
 	return exec.CommandContext(ctx, t.toolPath, append(sshArgs, scpArgs...)...), nil
 }</code></pre>
     <p>Fix: note the Windows exception here, or move the strip inside the <code>len(instances) == 1</code> branch so the two comments sit together.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/20d168aa"><code>20d168aa</code></a>. S6&#39;s helper removed the strip entirely, so the comment gained a one-clause Windows exception rather than a relocated strip.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/copytool/copytool.go">
       <div class="finding-title" id="S5">
@@ -591,6 +604,7 @@ func checkRsyncOnGuest(ctx context.Context, inst *limatype.Instance) bool {
 
 // PathForSSH converts orig to the path form Lima&#39;s ssh-family invocations</code></pre>
     <p>Fix: memoize in <code>sshutil</code> beside <code>cygwinDetectCache</code>, or let I1&#39;s restructure delete the closure outright.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/20d168aa"><code>20d168aa</code></a>. I1&#39;s restructure deleted the closure; the residual <code>NewSSHExe</code> and <code>cygpath</code> cost is deliberately left alone.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/copytool/scp.go">
       <div class="finding-title" id="S6">
@@ -672,6 +686,7 @@ type Stat struct {
 	Uid uint32
 	Gid uint32</code></pre>
     <p>Fix: add a <code>sshutil</code> helper composing <code>CommonOpts</code> plus <code>User=</code> without the mux triple, and call it from the three Windows branches instead of building and stripping.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/20d168aa"><code>20d168aa</code></a> as <code>sshutil.SSHOptsWithoutMultiplexing</code>, which the scp path, the rsync probe, and the rsync command all reach through one <code>copytool</code> helper.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/copytool/scp.go">
       <div class="finding-title" id="S7">
@@ -691,6 +706,7 @@ type Stat struct {
 	return exec.CommandContext(ctx, t.toolPath, append(sshArgs, scpArgs...)...), nil</code></pre>
     <p>The strip sits after both branches, so on the multi-instance path it logs a strip against <code>CommonOpts</code> output that never held those options. The resulting argv is already visible through <code>logrus.Debugf</code> in <code>cmd/limactl/copy.go</code>.</p>
     <p>Fix: drop the line, or move the strip into the <code>len(instances) == 1</code> branch where it can act, which also settles S4.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/20d168aa"><code>20d168aa</code></a>. Both Debug lines are gone, and the mux-free helper replaced the strip they described.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
