@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260725-220619-pr-5299</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260725-220619-pr-5299</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-07-25 22:06</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>2 (of target)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/jandubois">@jandubois</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="open" data-type="pr">#5299</a> — copytool: support native Windows OpenSSH</td></tr>
+      <tr><td>Branch</td><td><code>copytool-native-windows-openssh</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/460484af"><code>460484af</code></a> copytool: support native Windows OpenSSH</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/460484af59469288ade868d5dcace94ce4077067"><code>460484af59469288ade868d5dcace94ce4077067</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5</span> (effort: xhigh), <span class="pill pill-codex">Codex GPT 5.6 Sol</span> (effort: xhigh), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; scp on native OpenSSH works, rsync on the same hosts still fails</td></tr>
+      <tr><td>Wall-clock time</td><td><code>26 min 13 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Round 2 reviewed the same commit as round 1; nothing changed, so all eight prior findings are still open. The central one holds: <code>parseCopyPaths</code> formats local paths for ssh, and rsync reads the resulting <code>C:/foo</code> as <code>host:path</code>. Its severity holds too, but its label is a gap rather than a regression, because the merge-base handed native ssh ControlMaster options it cannot use, so rsync failed there as well.</p>
+    <p>Three items are new this round: the concrete <code>limactl shell --sync</code> path that breaks (folded into I1), a <code>ControlPath</code> that <code>SSHOpts</code> computes and can reject before copytool discards it (S6), and a Debug line announcing a strip that removes nothing (S7). All four reviewers landed I1 and I2 again; the two Gemini models agree with each other, so count that as one opinion.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file="pkg/copytool/copytool.go">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> Local path is formatted for ssh but consumed by rsync <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/copytool.go#L143-L157">pkg/copytool/copytool.go</a></div>
+      <pre data-start="143" data-line="148-152"><code class="language-go">			if filepath.IsAbs(path) {
+				sshExe, err := ensureSSHExe()
+				if err != nil {
+					return nil, err
+				}
+				path, err = sshutil.PathForSSH(ctx, sshExe, path)
+				if err != nil {
+					return nil, err
+				}
+				cp.Path = path
+				cp.IsRemote = false
+				copyPaths = append(copyPaths, cp)
+				continue
+			}
+			path = filepath.ToSlash(path)</code></pre>
+    <p><code>parseCopyPaths</code> feeds both backends but formats for <code>sshExe</code> alone. With native OpenSSH selected, <code>PathForSSH</code> returns <code>C:/foo</code>, and <code>rsyncTool.Command</code> appends it verbatim (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/rsync.go#L189"><code>pkg/copytool/rsync.go:189</code></a>). Measured here: <code>rsync -n C:/foo C:/bar</code> gives <code>both source and destination cannot be remote files</code>, while <code>/c/foo</code> reaches <code>stat</code> (openrsync, &quot;rsync 2.6.9 compatible&quot;, darwin). Windows has no native rsync, so the colon always triggers hostspec parsing.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/rsync.go#L184-L194">pkg/copytool/rsync.go</a></div>
+      <pre data-start="184" data-line="189"><code class="language-go">
+	for _, cp := range copyPaths {
+		if cp.IsRemote {
+			rsyncArgs = append(rsyncArgs, fmt.Sprintf(&quot;%s:%s&quot;, *cp.Instance.Config.User.Name+&quot;@&quot;+cp.Instance.SSHAddress, cp.Path))
+		} else {
+			rsyncArgs = append(rsyncArgs, cp.Path)
+		}
+	}
+
+	return exec.CommandContext(ctx, t.toolPath, rsyncArgs...), nil
+}</code></pre>
+    <p>The initial <code>limactl shell --sync</code> transfer escapes this: shell.go pre-converts <code>hostCurrentDir</code> to <code>/c/…</code>, which <code>filepath.IsAbs</code> rejects on Windows. The diff view does not, because <code>hostTmpDest</code> (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/cmd/limactl/shell.go#L581"><code>cmd/limactl/shell.go:581</code></a>) is a native temp path handed straight to rsync.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/cmd/limactl/shell.go#L576-L586">cmd/limactl/shell.go</a></div>
+      <pre data-start="576" data-line="581"><code class="language-go">	defer func() {
+		if err := os.RemoveAll(baseDir); err != nil {
+			logrus.WithError(err).Warnf(&quot;Failed to clean up temporary directory %s&quot;, baseDir)
+		}
+	}()
+	hostTmpDest := filepath.Join(baseDir, filepath.Base(hostCurrentDir))
+	err = os.MkdirAll(hostTmpDest, 0o755)
+	if err != nil {
+		return fmt.Errorf(&quot;failed to create temporary directory: %w; preserving guest synced workdir at %s&quot;, err, destRsyncDir)
+	}
+</code></pre>
+    <p>Round 1 called this a regression. At the merge-base, <code>SSHOpts</code> already gave native ssh <code>ControlMaster=auto</code> plus a ControlPath it cannot use (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/sshutil/sshutil.go#L591"><code>pkg/sshutil/sshutil.go:591</code></a>), so rsync failed on those hosts too. This change replaces one blocker with another.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/sshutil/sshutil.go#L586-L596">pkg/sshutil/sshutil.go</a></div>
+      <pre data-start="586" data-line="591"><code class="language-go">	if err != nil {
+		return nil, err
+	}
+	controlPath := fmt.Sprintf(`ControlPath=&quot;%s&quot;`, controlSock)
+	if runtime.GOOS == &quot;windows&quot; {
+		controlSock, err = PathForSSH(ctx, sshExe, controlSock)
+		if err != nil {
+			return nil, err
+		}
+		controlPath = fmt.Sprintf(`ControlPath=&#39;%s&#39;`, controlSock)
+	}</code></pre>
+    <p>Fix: keep <code>Path.Path</code> native and convert per backend, <code>PathForSSH</code> in <code>scp.go</code> and the rsync toolchain&#39;s own <code>cygpath</code> in <code>rsync.go</code>.</p>
+    </div>
+    <div class="card card-important" data-file="pkg/copytool/scp.go">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> <code>scp</code> is resolved from PATH independently of the selected ssh <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/scp.go#L21-L31">pkg/copytool/scp.go</a></div>
+      <pre data-start="21" data-line="26"><code class="language-go">	toolPath string
+	Options  *Options
+}
+
+func newSCPTool(opts *Options) (*scpTool, error) {
+	path, err := exec.LookPath(&quot;scp&quot;)
+	if err != nil {
+		return nil, fmt.Errorf(&quot;scp not found on host: %w&quot;, err)
+	}
+	return &amp;scpTool{toolPath: path, Options: opts}, nil
+}</code></pre>
+    <p>The local-path format is now a function of the <code>sshExe</code> that <code>NewSSHExe</code> picks, while the binary consuming it comes from a bare PATH lookup. <code>$SSH</code> returns early with no sibling check, and <code>pickCompleteSSHOnWindows</code> can fall back to <code>%SystemRoot%\System32\OpenSSH</code>, off PATH entirely. Codex demonstrated the split with <code>$SSH</code> pointing outside PATH while <code>scp</code> resolved to <code>/usr/bin/scp</code>.</p>
+    <p>The default case stays consistent because <code>pickCompleteSSHOnWindows</code> requires <code>scp.exe</code> beside the <code>ssh.exe</code> it selects and walks PATH in <code>LookPath</code> order, which is why this is Important and not Critical. Gemini 3.1 Pro again filed it Critical; that overstates the reach.</p>
+    <p><code>exec.LookPath(&quot;scp&quot;)</code> predates this PR, so this is a gap the change made load-bearing, not a regression.</p>
+    <p>Fix: export <code>companionForSSH</code> (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/sshutil/sshutil.go#L176"><code>pkg/sshutil/sshutil.go:176</code></a>, already used for <code>ssh-keygen</code> at <code>:320</code>) and resolve scp from the selected toolchain.</p>
+    </div>
+    <div class="card card-important" data-file="pkg/copytool/rsync.go">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> The new Warn cannot fire on the default <code>auto</code> backend <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/rsync.go#L35-L47">pkg/copytool/rsync.go</a></div>
+      <pre data-start="35" data-line="40-42"><code class="language-go">}
+
+func (t *rsyncTool) IsAvailableOnGuest(ctx context.Context, paths []string) bool {
+	copyPaths, err := parseCopyPaths(ctx, paths)
+	if err != nil {
+		// Warn, not Debug: New()&#39;s fallback then reports &quot;scp not found on
+		// host&quot;, masking the real cause, often a missing ssh.exe on Windows.
+		logrus.Warnf(&quot;rsync availability check skipped: %v&quot;, err)
+		return false
+	}
+	instances := make(map[string]*limatype.Instance)
+
+	for _, cp := range copyPaths {</code></pre>
+    <p>The comment names the exact failure this line exists to expose, and <code>limactl copy</code> defaults to <code>auto</code>. On that path <code>New</code> calls <code>hasRemoteSourceAndDestination</code> first, which runs the same <code>parseCopyPaths</code>, discards the identical error, and returns <code>true</code> (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/copytool.go#L100-L103"><code>pkg/copytool/copytool.go:100-103</code></a>). <code>true</code> means &quot;both ends remote&quot;, so <code>New</code> skips the whole rsync branch, including <code>IsAvailableOnGuest</code> and this Warn, and reaches <code>newSCPTool</code>, which emits the very message the comment set out to avoid. The Warn fires only under an explicit <code>--backend rsync</code>.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/copytool.go#L95-L108">pkg/copytool/copytool.go</a></div>
+      <pre data-start="95" data-line="100-103"><code class="language-go">		return nil, fmt.Errorf(&quot;invalid backend %#q, must be one of: scp, rsync, auto&quot;, backend)
+	}
+}
+
+func hasRemoteSourceAndDestination(ctx context.Context, paths []string) bool {
+	copyPaths, err := parseCopyPaths(ctx, paths)
+	if err != nil {
+		return true
+	}
+
+	var hasRemoteSource, hasRemoteDestination bool
+	for _, cp := range copyPaths {
+		if cp.IsRemote {
+			if hasRemoteSource {</code></pre>
+    <p>Codex filed this as a suggestion, arguing the failure is loud even when misdescribed. The line still cannot do the job its own comment claims, on the only backend most users invoke, so Important is the right severity.</p>
+    <p>Fix: report the parse error where it is swallowed, in <code>hasRemoteSourceAndDestination</code> or in <code>New</code>.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="pkg/copytool/copytool_test.go">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> Test asserts classification but never the converted path <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/copytool_test.go#L45-L56">pkg/copytool/copytool_test.go</a></div>
+      <pre data-start="45" data-line="50-51"><code class="language-go">			// the guarantee is only that it is not an instance-name lookup.
+			assert.Assert(t, !strings.Contains(err.Error(), &quot;instance `C`&quot;),
+				&quot;%q must not be classified as instance C: %v&quot;, p, err)
+			continue
+		}
+		assert.Equal(t, len(cps), 1)
+		assert.Equal(t, cps[0].IsRemote, false, &quot;%q must be a local path&quot;, p)
+	}
+
+	// &quot;C:foo&quot; is drive-relative (not absolute). It must reach the
+	// instance-lookup branch as instance &quot;C&quot; path &quot;foo&quot; and fail at
+	// store.Inspect with an instance-not-found error.</code></pre>
+    <p>The test locks in the drive-letter/instance-name split, which is worth having, but it passes under either conversion result, so nothing pins the behavior this PR changes. <code>PathForSSH</code> has no direct unit test in <code>pkg/sshutil</code> either.</p>
+    <p>Gemini 3.5 Flash proposes asserting <code>cps[0].Path == &quot;C:/foo&quot;</code> unconditionally. That fails on the MSYS2 CI runner, which takes the Cygwin branch and yields <code>/c/foo</code>; any such assertion has to key on the detected toolchain.</p>
+    <p>Fix: add a table test over <code>rsyncTool.Command</code>&#39;s argv asserting no local operand matches <code>^[A-Za-z]:</code>. That runs on any host, needs no Windows, and is the one test that would have caught I1.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/copytool/copytool_test.go">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> Test reaches the developer&#39;s real Lima home <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/copytool_test.go#L52-L63">pkg/copytool/copytool_test.go</a></div>
+      <pre data-start="52" data-line="57-58"><code class="language-go">	}
+
+	// &quot;C:foo&quot; is drive-relative (not absolute). It must reach the
+	// instance-lookup branch as instance &quot;C&quot; path &quot;foo&quot; and fail at
+	// store.Inspect with an instance-not-found error.
+	_, err := parseCopyPaths(ctx, []string{&quot;C:foo&quot;})
+	assert.ErrorContains(t, err, &quot;instance `C`&quot;)
+
+	// Explicit instance:path behaves the same.
+	_, err = parseCopyPaths(ctx, []string{&quot;nonexistent-instance-for-test:/tmp/x&quot;})
+	assert.ErrorContains(t, err, &quot;instance `nonexistent-instance-for-test`&quot;)
+}</code></pre>
+    <p><code>store.Inspect</code> resolves through <code>$LIMA_HOME</code> or <code>~/.lima</code>, so an instance actually named <code>C</code> makes <code>err</code> nil and fails the assert, and a stopped one produces &quot;instance <code>C</code> is stopped&quot;, which satisfies the substring through the wrong branch. Line 61 has the same exposure.</p>
+    <p>Fix: <code>t.Setenv(&quot;LIMA_HOME&quot;, t.TempDir())</code> and assert on <code>does not exist</code> as well as the name. <code>dirnames.LimaDir</code> honours the variable (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/limatype/dirnames/dirnames.go#L26"><code>pkg/limatype/dirnames/dirnames.go:26</code></a>), and <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/store/fuzz_test.go#L28"><code>pkg/store/fuzz_test.go:28</code></a> already uses this pattern.</p>
+    </div>
+    <div class="card card-suggestion" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> Stale comment: the mux-stripping site list no longer matches the code <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/cmd/limactl/shell.go#L384-L394">cmd/limactl/shell.go</a></div>
+      <pre data-start="384" data-line="389"><code class="language-go">		// By removing these options:
+		//   - Avoids execution failures when the control master is not yet available.
+		//   - Prevents error messages such as:
+		//     &gt; mux_client_request_session: read from master failed: Connection reset by peer
+		//     &gt; ControlSocket ....sock already exists, disabling multiplexing
+		// Only remove these options when writing the SSH config file and executing `limactl shell`, since multiplexing seems to work with port forwarding.
+		sshOpts = sshutil.SSHOptsRemovingControlPath(sshOpts)
+	}
+	sshArgs := append([]string{}, sshExe.Args...)
+	sshArgs = append(sshArgs, sshutil.SSHArgsFromOpts(sshOpts)...)
+</code></pre>
+    <p>This PR adds three more stripping sites (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/scp.go#L129"><code>pkg/copytool/scp.go:129</code></a>, <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/rsync.go#L77"><code>pkg/copytool/rsync.go:77</code></a> and <code>:142</code>).</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/scp.go#L124-L134">pkg/copytool/scp.go</a></div>
+      <pre data-start="124" data-line="129"><code class="language-go">	}
+	if runtime.GOOS == &quot;windows&quot; {
+		// Native Windows OpenSSH has no multiplexing, and Cygwin ssh&#39;s mux is
+		// unreliable for sftp.
+		logrus.Debug(&quot;scp: stripping ControlMaster/ControlPath/ControlPersist (Windows)&quot;)
+		sshOpts = sshutil.SSHOptsRemovingControlPath(sshOpts)
+	}
+	sshArgs := sshutil.SSHArgsFromOpts(sshOpts)
+
+	return exec.CommandContext(ctx, t.toolPath, append(sshArgs, scpArgs...)...), nil
+}</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/rsync.go#L72-L82">pkg/copytool/rsync.go</a></div>
+      <pre data-start="72" data-line="77"><code class="language-go">		return false
+	}
+	if runtime.GOOS == &quot;windows&quot; {
+		// The probe must use the same options as Command below, or it falsely
+		// rejects a working rsync install.
+		sshOpts = sshutil.SSHOptsRemovingControlPath(sshOpts)
+	}
+
+	sshArgs := append([]string{}, sshExe.Args...)
+	sshArgs = append(sshArgs, sshutil.SSHArgsFromOpts(sshOpts)...)
+	checkCmd := exec.CommandContext(ctx, sshExe.Exe, sshArgs...)</code></pre>
+    <p>Two refinements on round 1, both found this round. The sentence appears verbatim in a second file, <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/hostagent/hostagent.go#L316"><code>pkg/hostagent/hostagent.go:316</code></a>, so a fix that touches only shell.go leaves a stale copy behind. And the &quot;only&quot; claim was already inaccurate at the merge-base: <code>DisableControlMasterOptsFromSSHArgs</code> strips the same options for reverse-sshfs mounts (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/hostagent/mount.go#L87"><code>pkg/hostagent/mount.go:87</code></a>) and requirement checks (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/hostagent/requirements.go#L148"><code>pkg/hostagent/requirements.go:148</code></a>, <code>:181</code>), neither of which is the config file or <code>limactl shell</code>.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/hostagent/hostagent.go#L311-L321">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="311" data-line="316"><code class="language-go">		// By removing these options:
+		//   - Avoids execution failures when the control master is not yet available.
+		//   - Prevents error messages such as:
+		//     &gt; mux_client_request_session: read from master failed: Connection reset by peer
+		//     &gt; ControlSocket ....sock already exists, disabling multiplexing
+		// Only remove these options when writing the SSH config file and executing `limactl shell`, since multiplexing seems to work with port forwarding.
+		sshOpts = sshutil.SSHOptsRemovingControlPath(sshOpts)
+	}
+	if err := sshutil.Format(b, sshPath, instName, sshutil.FormatConfig,
+		append(sshOpts,
+			fmt.Sprintf(&quot;Hostname=%s&quot;, instSSHAddress),</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/hostagent/mount.go#L82-L92">pkg/hostagent/mount.go</a></div>
+      <pre data-start="82" data-line="87"><code class="language-go">		// It is reasonable to disable this on Windows if required feature is not fully operational.
+		rsf.SSHConfig.Persist = false
+
+		// HostAgent&#39;s `sshConfig` already has some ControlMaster related args in `AdditionalArgs`,
+		// so it is necessary to remove them to avoid overrides above `Persist=false`.
+		rsf.SSHConfig.AdditionalArgs = sshutil.DisableControlMasterOptsFromSSHArgs(rsf.SSHConfig.AdditionalArgs)
+	}
+	if err := rsf.Prepare(); err != nil {
+		return nil, fmt.Errorf(&quot;failed to prepare reverse sshfs for %#q on %#q: %w&quot;, resolvedLocation, *m.MountPoint, err)
+	}
+	if err := rsf.Start(); err != nil {</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/hostagent/requirements.go#L143-L153">pkg/hostagent/requirements.go</a></div>
+      <pre data-start="143" data-line="148"><code class="language-go">		//     &gt; ControlSocket ....sock already exists, disabling multiplexing
+		//     &gt; mm_send_fd: sendmsg(2): Connection reset by peer\\r\\nmux_client_request_session: send fds failed\\r\\n
+		sshConfig = &amp;ssh.SSHConfig{
+			ConfigFile:     sshConfig.ConfigFile,
+			Persist:        false,
+			AdditionalArgs: sshutil.DisableControlMasterOptsFromSSHArgs(sshConfig.AdditionalArgs),
+		}
+	}
+	stdout, stderr, err := ssh.ExecuteScript(a.instSSHAddress, a.sshLocalPort, sshConfig, script, r.description)
+	logrus.Debugf(&quot;stdout=%#q, stderr=%#q, err=%v&quot;, stdout, stderr, err)
+	if err != nil {</code></pre>
+    <p>Fix: reword both copies around the real boundary, that command and session invocations strip mux options on Windows while port forwarding keeps them.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/copytool/scp.go">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> Stale comment: the multiplexing rationale is now false on Windows <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/scp.go#L96-L108">pkg/copytool/scp.go</a></div>
+      <pre data-start="96" data-line="101-103"><code class="language-go">	scpFlags = append(scpFlags, &quot;-3&quot;, &quot;--&quot;)
+	scpArgs = append(scpFlags, scpArgs...)
+
+	var sshOpts []string
+	if len(instances) == 1 {
+		// Only one (instance) host is involved; we can use the instance-specific
+		// arguments such as ControlPath.  This is preferred as we can multiplex
+		// sessions without re-authenticating (MaxSessions permitting).
+		for _, inst := range instances {
+			sshExe, err := sshutil.NewSSHExe()
+			if err != nil {
+				return nil, err
+			}</code></pre>
+    <p>The strip at lines 125-129 removes exactly the options this comment says are kept, so on Windows the single-instance branch re-authenticates like the multi-host branch. Confirmed that the strip is a no-op in the <code>else</code> branch: <code>CommonOpts</code> never adds the mux triple.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/scp.go#L120-L134">pkg/copytool/scp.go</a></div>
+      <pre data-start="120" data-line="125-129"><code class="language-go">		sshOpts, err = sshutil.CommonOpts(ctx, sshExe, false)
+		if err != nil {
+			return nil, err
+		}
+	}
+	if runtime.GOOS == &quot;windows&quot; {
+		// Native Windows OpenSSH has no multiplexing, and Cygwin ssh&#39;s mux is
+		// unreliable for sftp.
+		logrus.Debug(&quot;scp: stripping ControlMaster/ControlPath/ControlPersist (Windows)&quot;)
+		sshOpts = sshutil.SSHOptsRemovingControlPath(sshOpts)
+	}
+	sshArgs := sshutil.SSHArgsFromOpts(sshOpts)
+
+	return exec.CommandContext(ctx, t.toolPath, append(sshArgs, scpArgs...)...), nil
+}</code></pre>
+    <p>Fix: note the Windows exception here, or move the strip inside the <code>len(instances) == 1</code> branch so the two comments sit together.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/copytool/copytool.go">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> <code>ensureSSHExe</code> caches the cheap half of the per-path cost <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/copytool.go#L124-L140">pkg/copytool/copytool.go</a></div>
+      <pre data-start="124" data-line="129-135"><code class="language-go">	var (
+		sshExe       sshutil.SSHExe
+		sshExeErr    error
+		sshExeLoaded bool
+	)
+	ensureSSHExe := func() (sshutil.SSHExe, error) {
+		if !sshExeLoaded {
+			sshExe, sshExeErr = sshutil.NewSSHExe()
+			sshExeLoaded = true
+		}
+		return sshExe, sshExeErr
+	}
+
+	for _, path := range paths {
+		cp := &amp;Path{}
+		if runtime.GOOS == &quot;windows&quot; {
+			// Classify absolute paths before the &quot;:&quot; split, so a drive letter</code></pre>
+    <p>Codex defends the closure: it does what its comment says, collapsing <code>NewSSHExe</code> to one call when a single parse sees several absolute paths. That is correct, and it is also the smaller cost. A single <code>limactl copy</code> calls <code>parseCopyPaths</code> three times and <code>NewSSHExe</code> four more times unconditionally (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/rsync.go#L64"><code>rsync.go:64</code></a>, <code>:130</code>; <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/scp.go#L72"><code>scp.go:72</code></a>, <code>:105</code>), while the <code>cygpath</code> subprocess inside <code>PathForSSH</code> runs once per absolute path per call and is never cached; only the Cygwin detection is (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/sshutil/sshutil.go#L205-L220"><code>pkg/sshutil/sshutil.go:205-220</code></a>).</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/rsync.go#L59-L69">pkg/copytool/rsync.go</a></div>
+      <pre data-start="59" data-line="64"><code class="language-go">
+	return true
+}
+
+func checkRsyncOnGuest(ctx context.Context, inst *limatype.Instance) bool {
+	sshExe, err := sshutil.NewSSHExe()
+	if err != nil {
+		logrus.Debugf(&quot;failed to create SSH executable: %v&quot;, err)
+		return false
+	}
+	sshOpts, err := sshutil.SSHOpts(ctx, sshExe, inst.Dir, *inst.Config.User.Name, false, false, false, false)</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/scp.go#L67-L77">pkg/copytool/scp.go</a></div>
+      <pre data-start="67" data-line="72"><code class="language-go">	if effectiveOpts.AdditionalArgs != nil {
+		scpFlags = append(scpFlags, effectiveOpts.AdditionalArgs...)
+	}
+
+	// this assumes that ssh and scp come from the same place, but scp has no -V
+	sshExeForVersion, err := sshutil.NewSSHExe()
+	if err != nil {
+		return nil, err
+	}
+	legacySSH := sshutil.DetectOpenSSHVersion(ctx, sshExeForVersion).LessThan(*semver.New(&quot;8.0.0&quot;))
+</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/sshutil/sshutil.go#L200-L225">pkg/sshutil/sshutil.go</a></div>
+      <pre data-start="200" data-line="205-220"><code class="language-go">	}
+	path, ok := resolvedSSHPath(sshExe)
+	if !ok {
+		return &quot;&quot;, false
+	}
+	cygwinDetectCacheRW.RLock()
+	cached, ok := cygwinDetectCache[path]
+	cygwinDetectCacheRW.RUnlock()
+	if ok {
+		return cached, cached != &quot;&quot;
+	}
+	cygpathExe := filepath.Join(filepath.Dir(path), &quot;cygpath.exe&quot;)
+	if _, err := os.Stat(cygpathExe); err != nil {
+		logrus.Debugf(&quot;ssh at %#q detected as native Windows OpenSSH (no cygpath.exe alongside)&quot;, path)
+		cygpathExe = &quot;&quot;
+	} else {
+		logrus.Debugf(&quot;ssh at %#q detected as Cygwin-based (found %#q alongside)&quot;, path, cygpathExe)
+	}
+	cygwinDetectCacheRW.Lock()
+	cygwinDetectCache[path] = cygpathExe
+	cygwinDetectCacheRW.Unlock()
+
+	return cygpathExe, cygpathExe != &quot;&quot;
+}
+
+// PathForSSH converts orig to the path form Lima&#39;s ssh-family invocations</code></pre>
+    <p>Fix: memoize in <code>sshutil</code> beside <code>cygwinDetectCache</code>, or let I1&#39;s restructure delete the closure outright.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/copytool/scp.go">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> <code>SSHOpts</code> computes, and can fail on, a <code>ControlPath</code> the caller strips two lines later <span class="pill pill-claude">Claude Opus 5</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/scp.go#L104-L114">pkg/copytool/scp.go</a></div>
+      <pre data-start="104" data-line="109"><code class="language-go">		for _, inst := range instances {
+			sshExe, err := sshutil.NewSSHExe()
+			if err != nil {
+				return nil, err
+			}
+			sshOpts, err = sshutil.SSHOpts(ctx, sshExe, inst.Dir, *inst.Config.User.Name, false, false, false, false)
+			if err != nil {
+				return nil, err
+			}
+		}
+	} else {</code></pre>
+    <p>All three Windows copy paths (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/scp.go#L109"><code>scp.go:109</code></a>, <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/rsync.go#L69"><code>rsync.go:69</code></a>, <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/rsync.go#L134"><code>rsync.go:134</code></a>) build the mux options and then discard them. On Windows <code>SSHOpts</code> first rejects a socket path at or above <code>UnixPathMax</code>, 108 (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/sshutil/sshutil.go#L582-L584"><code>pkg/sshutil/sshutil.go:582-584</code></a>, <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/osutil/osutil_windows.go#L18"><code>pkg/osutil/osutil_windows.go:18</code></a>), then spawns <code>cygpath</code> to convert it (<code>:591</code>). So a long <code>$LIMA_HOME</code> plus a long instance name fails <code>limactl copy</code> with &quot;socket path … is too long&quot; for a control socket the command never opens, and every copy pays a subprocess for a discarded value.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/scp.go#L104-L114">pkg/copytool/scp.go</a></div>
+      <pre data-start="104" data-line="109"><code class="language-go">		for _, inst := range instances {
+			sshExe, err := sshutil.NewSSHExe()
+			if err != nil {
+				return nil, err
+			}
+			sshOpts, err = sshutil.SSHOpts(ctx, sshExe, inst.Dir, *inst.Config.User.Name, false, false, false, false)
+			if err != nil {
+				return nil, err
+			}
+		}
+	} else {</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/rsync.go#L64-L74">pkg/copytool/rsync.go</a></div>
+      <pre data-start="64" data-line="69"><code class="language-go">	sshExe, err := sshutil.NewSSHExe()
+	if err != nil {
+		logrus.Debugf(&quot;failed to create SSH executable: %v&quot;, err)
+		return false
+	}
+	sshOpts, err := sshutil.SSHOpts(ctx, sshExe, inst.Dir, *inst.Config.User.Name, false, false, false, false)
+	if err != nil {
+		logrus.Debugf(&quot;failed to get SSH options for rsync check: %v&quot;, err)
+		return false
+	}
+	if runtime.GOOS == &quot;windows&quot; {</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/rsync.go#L129-L139">pkg/copytool/rsync.go</a></div>
+      <pre data-start="129" data-line="134"><code class="language-go">				remoteInstance = cp.Instance
+				sshExe, err := sshutil.NewSSHExe()
+				if err != nil {
+					return nil, err
+				}
+				sshOpts, err := sshutil.SSHOpts(ctx, sshExe, cp.Instance.Dir, *cp.Instance.Config.User.Name, false, false, false, false)
+				if err != nil {
+					return nil, err
+				}
+				if runtime.GOOS == &quot;windows&quot; {
+					// Native Windows OpenSSH has no multiplexing, and Cygwin</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/sshutil/sshutil.go#L577-L589">pkg/sshutil/sshutil.go</a></div>
+      <pre data-start="577" data-line="582-584"><code class="language-go">}
+
+// SSHOpts adds the following options to CommonOptions: User, ControlMaster, ControlPath, ControlPersist.
+func SSHOpts(ctx context.Context, sshExe SSHExe, instDir, username string, useDotSSH, forwardAgent, forwardX11, forwardX11Trusted bool) ([]string, error) {
+	controlSock := filepath.Join(instDir, filenames.SSHSock)
+	if len(controlSock) &gt;= osutil.UnixPathMax {
+		return nil, fmt.Errorf(&quot;socket path %#q is too long: &gt;= UNIX_PATH_MAX=%d&quot;, controlSock, osutil.UnixPathMax)
+	}
+	opts, err := CommonOpts(ctx, sshExe, useDotSSH)
+	if err != nil {
+		return nil, err
+	}
+	controlPath := fmt.Sprintf(`ControlPath=&quot;%s&quot;`, controlSock)</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/osutil/osutil_windows.go#L13-L23">pkg/osutil/osutil_windows.go</a></div>
+      <pre data-start="13" data-line="18"><code class="language-go">
+	&quot;golang.org/x/sys/windows&quot;
+)
+
+// UnixPathMax is the value of UNIX_PATH_MAX.
+const UnixPathMax = 108
+
+// Stat is a selection of syscall.Stat_t.
+type Stat struct {
+	Uid uint32
+	Gid uint32</code></pre>
+    <p>Fix: add a <code>sshutil</code> helper composing <code>CommonOpts</code> plus <code>User=</code> without the mux triple, and call it from the three Windows branches instead of building and stripping.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/copytool/scp.go">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> Debug line announces a strip that can remove nothing <span class="pill pill-claude">Claude Opus 5</span><a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/scp.go#L123-L133">pkg/copytool/scp.go</a></div>
+      <pre data-start="123" data-line="128"><code class="language-go">		}
+	}
+	if runtime.GOOS == &quot;windows&quot; {
+		// Native Windows OpenSSH has no multiplexing, and Cygwin ssh&#39;s mux is
+		// unreliable for sftp.
+		logrus.Debug(&quot;scp: stripping ControlMaster/ControlPath/ControlPersist (Windows)&quot;)
+		sshOpts = sshutil.SSHOptsRemovingControlPath(sshOpts)
+	}
+	sshArgs := sshutil.SSHArgsFromOpts(sshOpts)
+
+	return exec.CommandContext(ctx, t.toolPath, append(sshArgs, scpArgs...)...), nil</code></pre>
+    <p>The strip sits after both branches, so on the multi-instance path it logs a strip against <code>CommonOpts</code> output that never held those options. The resulting argv is already visible through <code>logrus.Debugf</code> in <code>cmd/limactl/copy.go</code>.</p>
+    <p>Fix: drop the line, or move the strip into the <code>len(instances) == 1</code> branch where it can act, which also settles S4.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em><code>Path.Path</code> conflates what the user typed with what one tool wants<em></em> <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span>. After <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/copytool.go#L152"><code>copytool.go:152</code></a> the native host path is unrecoverable, so a second consumer with different rules has no correct value to read. This is the structural cause of I1 and it will recur for any future backend. Round 1 raised the same concern; all four reviewers reached it independently again, which is the strongest signal in this round. Storing the native path and adding one formatter per backend puts each conversion beside the <code>exec.Command</code> that consumes it.</li>
+      <li><strong>Windows mux stripping is now five copy-pasted sites with three different justifications</strong> <em>(future)</em> <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span>. <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/cmd/limactl/shell.go#L390"><code>cmd/limactl/shell.go:390</code></a>, <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/hostagent/hostagent.go#L317"><code>pkg/hostagent/hostagent.go:317</code></a>, <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/scp.go#L129"><code>pkg/copytool/scp.go:129</code></a>, <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/rsync.go#L77"><code>pkg/copytool/rsync.go:77</code></a> and <code>:142</code>, plus three <code>DisableControlMasterOptsFromSSHArgs</code> sites in <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/hostagent/requirements.go#L148"><code>pkg/hostagent/requirements.go:148</code></a>, <code>:181</code> and <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/hostagent/mount.go#L87"><code>pkg/hostagent/mount.go:87</code></a>. The stated reasons range over &quot;Cygwin does not support multiplexing when executing commands&quot;, &quot;Cygwin ssh&#39;s mux is unreliable for sftp&quot;, and &quot;native Windows OpenSSH has no multiplexing&quot;, which are three claims about two toolchains. One <code>sshutil</code> entry point would hold the rationale once and could gate on <code>cygpathForSSH</code>, the distinction this PR already detects, rather than on <code>runtime.GOOS</code>.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>The <code>continue</code> short-circuit at <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/copytool.go#L152-L155"><code>copytool.go:152-155</code></a> is the right call <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span>. Once <code>PathForSSH</code> can return a colon-bearing <code>C:/foo</code>, falling through to <code>strings.SplitN(path, &quot;:&quot;, 2)</code> would re-misclassify it as instance <code>C</code>. Round 1 credited this and it still holds; <code>filepath.IsAbs</code> rejecting drive-relative <code>C:foo</code> is what keeps single-letter instance names working.</li>
+      <li>Applying the same strip to the probe (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/rsync.go#L74-L78"><code>rsync.go:74-78</code></a>) as to the command it predicts is a correctness fix <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span>. A probe with different options answers a different question, and the comment&#39;s stated failure mode, falsely rejecting a working rsync, is real.</li>
+      <li>Binding conversion to the selected toolchain rather than to PATH is the correct principle <span class="pill pill-claude">Claude Opus 5</span>. I1 asks only that rsync get the same treatment.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Executed on the review host at <a href="https://github.com/lima-vm/lima/commit/460484af"><code>460484af</code></a>: <code>go test ./pkg/copytool/... ./pkg/sshutil/...</code> passes; <code>GOOS=windows go vet ./pkg/copytool/...</code>, <code>GOOS=windows go build ./pkg/copytool/... ./cmd/limactl/...</code>, and <code>GOOS=windows go test -c ./pkg/copytool</code> all exit 0. <code>TestParseCopyPathsWindowsDriveLetter</code> skips on darwin by design. Codex reported the same results independently, including the cross-compiled test binary. No reviewer had a Windows host, so no branch of <code>PathForSSH</code> was exercised at runtime.</p>
+    <p>Untested scenarios, highest risk first:</p>
+    <ol>
+      <li><strong>The produced argv (I1).</strong> Nothing asserts what <code>rsyncTool.Command</code> or <code>scpTool.Command</code> emit for a Windows local path. A host-independent table test is the single highest-value addition and would have caught I1.</li>
+      <li><strong>Either conversion branch (S1).</strong> No test pins Cygwin ssh to <code>/c/foo</code> or native ssh to <code>C:/foo</code>.</li>
+      <li><strong>The mux strip.</strong> Nothing asserts the three options are absent from the three new Windows call sites, nor that <code>checkRsyncOnGuest</code> and <code>Command</code> agree, which is the invariant <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/rsync.go#L75-L76"><code>rsync.go:75-76</code></a> declares. <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/sshutil/sshutil_test.go#L136"><code>pkg/sshutil/sshutil_test.go:136</code></a> covers <code>DisableControlMasterOptsFromSSHArgs</code> but no caller.</li>
+      <li><strong>I3&#39;s reachability.</strong> No test drives <code>New(BackendAuto, …)</code> with a failing <code>parseCopyPaths</code>, which is why a Warn that cannot fire shipped.</li>
+      <li><strong>Test isolation (S2).</strong> Results still depend on the developer&#39;s instance store.</li>
+      <li><strong>UNC and extended-length paths.</strong> <code>filepath.IsAbs</code> accepts <code>\\server\share\f</code> and <code>\\?\C:\f</code>, which the native branch turns into <code>//server/share/f</code> and <code>//?/C:/f</code>. Measured here that rsync stats <code>//?/C:/foo</code> as a local path rather than a hostspec, so the risk is low, but nothing exercises it.</li>
+    </ol>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Three comments are wrong or misleading in the current tree: the two enumeration copies and the scp multiplexing rationale (S3, S4), and <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/rsync.go#L40-L41"><code>rsync.go:40-41</code></a>, which describes a masking scenario its own code cannot prevent on the default backend (I3).</p>
+    <p>The commit body says &quot;Paths now go through the ssh.exe that will consume them.&quot; Local operands are consumed by rsync or scp, not by ssh, which is the distinction behind I1 and I2; the sentence overstates what the change achieves. <code>PathForSSH</code>&#39;s docstring (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/sshutil/sshutil.go#L225-L229"><code>pkg/sshutil/sshutil.go:225-229</code></a>) asserts that native ssh, ssh-keygen, and scp all accept <code>C:/Users/...</code>. That claim is now load-bearing for <code>limactl copy</code> and unverified in-tree.</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>One commit, one concept, subject matches the diff, <code>Signed-off-by</code> present. No concerns.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>Declined in prior rounds</strong> — none. Round 1&#39;s report carries no Resolution table, so no finding has been declined and none was dropped from this round on that basis.</li>
+      <li><strong>Code comment</strong> — <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/copytool_test.go#L44-L45"><code>pkg/copytool/copytool_test.go:44-45</code></a>: <em>&quot;A stripped test env may lack ssh, so PathForSSH can error; the guarantee is only that it is not an instance-name lookup.&quot;</em> A deliberate weakening for environments without ssh. It matters more than it reads, because I1 would pass this test unchanged.</li>
+      <li><strong>Code comment</strong> — <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/scp.go#L71"><code>pkg/copytool/scp.go:71</code></a>: <em>&quot;this assumes that ssh and scp come from the same place, but scp has no -V&quot;</em>. Pre-existing. This change makes the assumption govern path correctness, not only version detection (I2).</li>
+      <li><strong>PR description</strong>: end-to-end validation on a plain Windows host is deferred to a later PR adding plain-Windows CI. Confirmed against <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/.github/workflows/test.yml#L212"><code>.github/workflows/test.yml:212</code></a> and <code>:244</code>, which prepend <code>C:\msys64\usr\bin</code> before the integration tests, so CI selects MSYS2&#39;s ssh and never takes the native branch.</li>
+      <li><strong>PR description</strong>: the series (<a href="https://github.com/lima-vm/lima/issues/5298" class="gh-ref" data-title="sshutil: parse the Win32-OpenSSH version banner" data-state="merged" data-type="pr">#5298</a>, <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="open" data-type="pr">#5299</a>, <a href="https://github.com/lima-vm/lima/issues/5300" class="gh-ref" data-title="hostagent: support reverse-sshfs on plain Windows" data-state="open" data-type="pr">#5300</a>, <a href="https://github.com/lima-vm/lima/issues/5301" class="gh-ref" data-title="sshutil: remove the unused IsSSHCygwin" data-state="merged" data-type="pr">#5301</a>) is declared independent. Still true for this PR: it touches only <code>pkg/copytool</code> and consumes <code>sshutil</code> exports none of the siblings change.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>None. The PR still carries no review comments from other reviewers.</p>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><strong>[Claude Opus 5]</strong> It reached the same merge-base conclusion I did independently: at <a href="https://github.com/lima-vm/lima/commit/460484af"><code>460484af</code></a>&#39;s parent, <code>SSHOpts</code> already handed native ssh mux options it cannot use, so rsync was broken on the hosts I1 names and the round-1 &quot;regression&quot; label does not survive. That is the round&#39;s most consequential judgment and it required reading <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/sshutil/sshutil.go#L591"><code>sshutil.go:591</code></a>, two files outside the diff. Both new suggestions are its own (S6, S7), as is the observation that the stale enumeration comment exists in two files. It also noticed that the <code>default:</code> arm at <a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/copytool/copytool.go#L181-L182"><code>copytool.go:181-182</code></a> is unreachable, checked <code>git blame</code>, found it pre-existing, and correctly declined to file it. Its <code>.github/workflows/test.yml</code> citations drifted by two lines from the actual PATH prepends.</p>
+    <p><strong>[Codex GPT 5.6 Sol]</strong> The only agent to push back on a round-1 finding rather than confirm it: it argued the <code>ensureSSHExe</code> closure does exactly what its comment claims, which is right, and I kept S5 only because the uncached <code>cygpath</code> cost sits elsewhere. It backed I1 with its own experiment, invoking rsync through a <code>-e /usr/bin/false</code> shim to show that <code>C:/…</code> enters remote transport while <code>/c/…</code> produces a local <code>lstat</code> error, matching my openrsync measurement from a different angle. It was also alone in reading the commit body against the code and finding the &quot;the ssh.exe that will consume them&quot; claim overstated. Its downgrade of I3 to a suggestion is the one call I overrode.</p>
+    <p><strong>[Gemini 3.1 Pro]</strong> It escalated the rsync defect to Critical, having escalated a different finding to Critical in round 1, which suggests the severity is coming from the framing rather than from the code. Its supporting claim that the defect breaks <code>limactl shell --sync</code> &quot;entirely&quot; is wrong: shell.go pre-converts <code>hostCurrentDir</code> through <code>mountDirFromWindowsDir</code>, and <code>filepath.IsAbs</code> rejects the <code>/c/…</code> result on Windows, so the initial sync never reaches the new branch. It labelled the scp-resolution gap a regression, which a <code>git blame</code> would have corrected, consistent with its known habit of skipping blame under quota pressure. No finding this round was its alone.</p>
+    <p><strong>[Gemini 3.5 Flash]</strong> It re-derived all three Important findings from the injected list and added nothing beyond them, and its two concrete fixes both have defects: asserting <code>Path == &quot;C:/foo&quot;</code> unconditionally would fail on the MSYS2 CI runner, and its I1 patch converts with the PATH-global <code>fsutil.WindowsSubsystemPath</code> rather than the rsync toolchain&#39;s own <code>cygpath</code>. That said, round 1&#39;s retro rejected that same patch on the grounds that it &quot;fails on exactly the native-only host this PR exists to support&quot;, and that rejection was wrong: <code>WindowsSubsystemPathWithCygpath</code> falls back to a native <code>/c/…</code> conversion when cygpath is absent (<a href="https://github.com/lima-vm/lima/blob/460484af59469288ade868d5dcace94ce4077067/pkg/fsutil/fsutil_windows.go#L32-L44"><code>pkg/fsutil/fsutil_windows.go:32-44</code></a>). The patch is viable, just bound to the wrong toolchain.</p>
+    <p>The two Gemini models converged on the same headline and the same overstatement, so treat their agreement as one opinion. Independent confirmation this round came from Claude, Codex, and the executions I ran myself.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5</span></th><th><span class="pill pill-codex">Codex GPT 5.6 Sol</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>11m 00s</td><td>16m 57s</td><td>3m 57s</td><td>2m 39s</td></tr>
+        <tr><td>Findings</td><td>3I 7S</td><td>2I 4S</td><td>3I 4S</td><td>3I 5S</td></tr>
+        <tr><td>Tool calls</td><td>35 (Bash 24, Read 11)</td><td>4 (plan 4)</td><td>17 (run<em>shell</em>command 17)</td><td>18 (grep<em>search 8, read</em>file 7, update_topic 2)</td></tr>
+        <tr><td>Design observations</td><td>5</td><td>5</td><td>3</td><td>2</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>4</td><td>2</td><td>0</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>4</td><td>4</td><td>4</td><td>4</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>3I 7S</strong></td><td><strong>2I 4S</strong></td><td><strong>3I 4S</strong></td><td><strong>3I 5S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>1 (C→I)</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p>The Codex tool-call figure counts only its plan updates. Its executions did happen: its worktree holds the cross-compiled <code>copytool.test.exe</code> and the two probe programs its findings cite, all under <code>.scratch/</code> with the reviewed code untouched.</p>
+    <p><strong>Reconciliation.</strong> Three severity changes, all on this round&#39;s claims. Gemini 3.1 Pro&#39;s C1 (local path formatted for ssh, consumed by rsync) was downgraded from critical to important as I1: the failure is loud, needs both a native-ssh selection and an rsync on PATH, and the merge-base failed on the same hosts. Codex&#39;s S2 (the Warn cannot fire on <code>auto</code>) was raised from suggestion to important as I3, because the line cannot serve its documented purpose on the default backend. Gemini 3.5 Flash&#39;s S3 (repeated <code>NewSSHExe</code> calls in <code>scpTool</code>) was folded into S5, which covers the same cost from the parser side. Separately, I1 keeps its Important severity but changes label from regression to gap, for the reason stated in the finding.</p>
+    <p>Claude contributed the most: the merge-base adjudication that corrects round 1, both new suggestions, and the duplicate-comment refinement. Codex was the only agent to defend the code against an inherited finding, which is worth as much as a new catch on a round where every reviewer is handed the previous verdict.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>Before accepting a &quot;regression&quot; label, name a configuration in which the merge-base produced a working outcome and the change breaks it. A diff that replaces one failure mode with another on the same hosts is a gap, not a regression, even though the cited lines did change. Check the other inputs the same code path receives (options, environment variables, sibling arguments) for one that already failed under the affected configuration, because a reviewer reading only the changed lines sees the new failure and assumes the old path worked.</li>
+      <li>When judging how a formatting or conversion defect reaches users, inspect each caller for a pre-conversion of the same value. A caller that already normalizes its argument escapes the defect entirely, so naming it as an affected path overstates the reach; a caller that mixes normalized and raw values inside one invocation is the real reproducer. Enumerate the arguments individually rather than treating the call site as uniform.</li>
+      <li>When a change makes a comment stale, grep the repo for a distinctive clause from that comment before proposing the fix. Comments that enumerate where a policy applies get copy-pasted alongside the code they describe, so a fix that touches one copy leaves the others asserting the same false claim.</li>
+      <li>On a round after the first, treat the prior round&#39;s retro as claims to re-verify, not as settled findings. A retro that rejected a proposed fix, or credited one, rests on a helper&#39;s behavior that the retro may have read wrong, and the judgment carries forward unchallenged because it sits outside the findings list. Read the helper the fix calls before repeating either verdict.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>[repo] UPDATE the &quot;Windows SSH toolchains&quot; entry: it names <code>pkg/ioutilx.WindowsSubsystemPath</code> as the path-translation helper and lists <code>SSHOpts</code> and <code>pkg/copytool</code> among the call sites that still use a PATH-global converter. The helper lives in <code>pkg/fsutil</code> (<code>pkg/ioutilx</code> exports only <code>ReadAtMaximum</code>), and both named call sites now convert through the toolchain-aware <code>sshutil.PathForSSH</code>. The remaining PATH-global callers are <code>pkg/hostagent/mount.go</code>, <code>pkg/limayaml/defaults.go</code>, and <code>cmd/limactl/shell.go</code>&#39;s <code>mountDirFromWindowsDir</code>.</li>
+      <li>[repo] UPDATE the same entry&#39;s claim that the mux-strip helpers apply only when writing the SSH config file and for <code>limactl shell</code>. <code>sshutil.DisableControlMasterOptsFromSSHArgs</code> also strips for reverse-sshfs mounts (<code>pkg/hostagent/mount.go</code>) and for guest requirement checks (<code>pkg/hostagent/requirements.go</code>), and <code>sshutil.SSHOptsRemovingControlPath</code> is called from <code>pkg/copytool</code> as well. The accurate boundary is that command and session invocations strip mux options on Windows while port forwarding retains them.</li>
+      <li>[repo] <code>fsutil.WindowsSubsystemPathWithCygpath</code> falls back to an in-process <code>/c/...</code> conversion when the cygpath binary is absent, and returns an error only when cygpath runs and fails, or when the input is not an absolute drive-letter path (UNC, device, extended-length, drive-relative). Treat any claim that a PATH-global conversion &quot;fails on a host without cygpath&quot; as false, and note that the fallback emits the MSYS form, which is wrong for a stock Cygwin consumer that maps <code>C:\</code> to <code>/cygdrive/c</code>.</li>
+      <li>[repo] <code>sshutil.SSHOpts</code> always builds the <code>ControlMaster</code>/<code>ControlPath</code>/<code>ControlPersist</code> triple and, on Windows, both validates the control socket against <code>osutil.UnixPathMax</code> and spawns cygpath to convert it. A caller that strips the triple afterwards still inherits the length rejection and the subprocess, so a long <code>$LIMA_HOME</code> or instance name can fail a command that never opens a control socket. Flag a build-then-strip pattern on Windows and prefer composing <code>CommonOpts</code> without the triple.</li>
+      <li>[repo] <code>cmd/limactl/shell.go</code> hands <code>pkg/copytool</code> a mix of path forms on Windows: <code>mountDirFromWindowsDir</code> pre-converts the synced host directory to the MSYS form, while the temporary directory it creates for the sync-back diff view stays a native drive-letter path. A defect in copytool&#39;s Windows absolute-path branch therefore reaches <code>limactl shell --sync</code> only through the native argument. When judging the reach of such a defect, check each argument the caller passes rather than the call site as a whole.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
