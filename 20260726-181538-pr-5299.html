@@ -235,6 +235,12 @@ summary { cursor: pointer; font-weight: 600; }
     <p>Round 2&#39;s eight findings are genuinely closed; I re-read each fix rather than trusting the Resolution table. Only one finding this round is Important, and it is a comment, not code. The two Gemini models found little and agree with each other, so count that as one opinion. Codex raised the pre-existing parse-error swallow that a sibling PR already fixes; it moves to Acknowledged Limitations rather than the findings list.</p>
     </div>
     <hr>
+    <h2 id="note-the-code-has-moved-since-this-review">Note: the code has moved since this review <a href="#note-the-code-has-moved-since-this-review" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Every finding below was addressed on 2026-07-26, and each one ends with a line recording what happened to it. The line numbers and snippets describe <a href="https://github.com/lima-vm/lima/commit/c02e44ae"><code>c02e44ae</code></a>. That commit no longer exists; <a href="https://github.com/lima-vm/lima/commit/5c631f40"><code>5c631f40</code></a> replaced it. Read the citations as a record of what the review found, rather than as a map of the current tree.</p>
+    </div>
+    <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-critical">
@@ -279,6 +285,7 @@ summary { cursor: pointer; font-weight: 600; }
 		if rule.Ignore &amp;&amp; rule.GuestPortRange[0] == 1 &amp;&amp; rule.GuestPortRange[1] == 65535 {</code></pre>
     <p>The comment it replaced was incomplete rather than false, so this is a fresh inaccuracy. Severity is arguable: round 2 filed the stale-comment findings as Suggestions, and nothing here changes runtime behavior. I kept it Important because the text sits at a strip site and invites removing a strip that Windows needs.</p>
     <p>Fix: say where Lima actually strips, and note that the hostagent&#39;s own <code>sshConfig</code> keeps the options.</p>
+    <p><strong>Fixed</strong> in <a href="https://github.com/lima-vm/lima/commit/5c631f40"><code>5c631f40</code></a>. Both copies now name the exception rather than enumerating strip sites, since the round 1 and 2 finding was that such a list goes stale. A second copy of the same false policy at <a href="https://github.com/lima-vm/lima/blob/c02e44ae4872e79ab847f7eccf75b5f3cad0bb34/cmd/limactl/hostagent.go#L575"><code>hostagent.go:575</code></a>, pre-existing and not flagged here, was corrected in the same pass.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
@@ -313,6 +320,7 @@ summary { cursor: pointer; font-weight: 600; }
 
 	for _, cp := range copyPaths {</code></pre>
     <p>Fix: resolve the converter from <code>filepath.Dir(t.toolPath)</code> as <code>pathForRsync</code> already does, so the sibling and fallback cases agree by construction. Codex proposed hard-failing instead, which also breaks hosts where a PATH scp would have worked.</p>
+    <p><strong>Fixed</strong> in <a href="https://github.com/lima-vm/lima/commit/5c631f40"><code>5c631f40</code></a>, and wider than proposed. Operands alone were not enough: <code>CommonOpts</code> also formatted <code>IdentityFile</code> for <code>t.sshExe</code> while scp parses it, which fails publickey under <code>IdentitiesOnly=yes</code>. The consuming binary&#39;s path is now threaded through the option builders as well.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/copytool/copytool_test.go">
       <div class="finding-title" id="S2">
@@ -332,6 +340,7 @@ summary { cursor: pointer; font-weight: 600; }
 	}
 	sshArgs := sshutil.SSHArgsFromOpts(sshOpts)</code></pre>
     <p>Fix: add <code>TestSCPCommandLocalPathForm</code> building <code>&amp;scpTool{toolPath: …, sshExe: sshutil.SSHExe{Exe: &quot;ssh&quot;}, Options: &amp;Options{}}</code> and assert the trailing operands against <code>PathForSSH</code>&#39;s output.</p>
+    <p><strong>Test written</strong> in <a href="https://github.com/lima-vm/lima/commit/5c631f40"><code>5c631f40</code></a>, covering the <code>IdentityFile</code> option as well as the operands. Its Windows assertions run only in the <code>windows-2025</code> job; off Windows both branches return the path unchanged.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/copytool/rsync.go">
       <div class="finding-title" id="S3">
@@ -351,6 +360,7 @@ func (t *rsyncTool) Command(ctx context.Context, paths []string, opts *Options) 
 	copyPaths, err := parseCopyPaths(ctx, paths)</code></pre>
     <p><code>toolPath</code> comes from <code>exec.LookPath(&quot;rsync&quot;)</code>, which resolves PATH but not symlinks. <code>sshutil.resolvedSSHPath</code> calls <code>filepath.EvalSymlinks</code> before taking its sibling, so the two sibling lookups disagree. On a miss the conversion falls back to the in-process <code>/c/…</code> form, which is wrong for a stock Cygwin rsync expecting <code>/cygdrive/c/…</code>, and says so only at debug level.</p>
     <p>Fix: run <code>toolPath</code> through <code>filepath.EvalSymlinks</code> in <code>newRsyncTool</code>, and try the PATH-global <code>cygpath</code> before the in-process guess.</p>
+    <p><strong>Fixed</strong> in <a href="https://github.com/lima-vm/lima/commit/5c631f40"><code>5c631f40</code></a>, but not in <code>newRsyncTool</code>. That field is also the exec target and <code>argv[0]</code>, so resolving it there changes which binary runs on Linux and macOS for a benefit that is Windows-only; the resolution sits inside the Windows-gated <code>pathForRsync</code> instead. The PATH-global fallback was not added.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/copytool/scp.go">
       <div class="finding-title" id="S4">
@@ -385,6 +395,7 @@ func newSCPTool(opts *Options) (*scpTool, error) {
 		return nil, fmt.Errorf(&quot;invalid backend %#q, must be one of: scp, rsync, auto&quot;, backend)
 	}</code></pre>
     <p>Fix: wrap it as <code>fmt.Errorf(&quot;ssh not found on host: %w&quot;, err)</code>.</p>
+    <p><strong>Fixed</strong> in <a href="https://github.com/lima-vm/lima/commit/5c631f40"><code>5c631f40</code></a>. The wrap alone left <code>New</code>&#39;s outer message still blaming scp, so that message now names neither tool and defers to the inner error.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/sshutil/sshutil.go">
       <div class="finding-title" id="S5">
@@ -405,6 +416,7 @@ func SSHOptsWithoutMultiplexing(ctx context.Context, sshExe SSHExe, username str
 	opts, err := CommonOpts(ctx, sshExe, useDotSSH)</code></pre>
     <p><code>SSHOpts</code> also appends <code>ForwardAgent</code>, <code>ForwardX11</code>, and <code>ForwardX11Trusted</code>, which this helper takes no parameters for. Callers are safe today because copytool passes every forwarding flag false and <code>SSHOpts</code> appends them after delegating.</p>
     <p>Fix: state the contract directly, as CommonOpts plus an explicit <code>User</code>, with neither multiplexing nor forwarding.</p>
+    <p><strong>Fixed</strong> in <a href="https://github.com/lima-vm/lima/commit/5c631f40"><code>5c631f40</code></a>. <code>SSHOpts</code>&#39;s own summary had the mirror-image omission, listing no forwarding options either, and was corrected with it.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/copytool/rsync.go">
       <div class="finding-title" id="S6">
@@ -424,6 +436,7 @@ func (t *rsyncTool) pathForRsync(ctx context.Context, orig string) (string, erro
 	if runtime.GOOS != &quot;windows&quot; || !filepath.IsAbs(orig) {</code></pre>
     <p>&quot;the rsync t will run&quot; reads as a typo for &quot;the rsync binary <code>t</code> will run&quot;.</p>
     <p>Fix: name the binary.</p>
+    <p><strong>Fixed</strong> in <a href="https://github.com/lima-vm/lima/commit/5c631f40"><code>5c631f40</code></a>, along with a sentence added and then corrected during the fix: the missing-cygpath fallback emits an MSYS path that a stock Cygwin rsync resolves under its own install root, not relative to the working directory.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
