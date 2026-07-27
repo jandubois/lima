@@ -235,6 +235,12 @@ summary { cursor: pointer; font-weight: 600; }
     <p>Claude and Codex converged on I1 from separate experiments, which is the round&#39;s strongest signal. The two Gemini models again returned close to nothing and agree with each other, so count that as one opinion. I2 came out of the CI logs rather than from any agent: every reviewer read the new <code>hack/test-templates.sh</code> hunk as coverage, and it is not.</p>
     </div>
     <hr>
+    <h2 id="note-the-code-has-moved-since-this-review">Note: the code has moved since this review <a href="#note-the-code-has-moved-since-this-review" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Every finding below was addressed on 2026-07-26, and each one ends with a line recording what happened to it. The line numbers and snippets describe <a href="https://github.com/lima-vm/lima/commit/5c631f40"><code>5c631f40</code></a>. That commit no longer exists; <a href="https://github.com/lima-vm/lima/commit/65ed1221"><code>65ed1221</code></a> replaced it. Read the citations as a record of what the review found, rather than as a map of the current tree.</p>
+    </div>
+    <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-critical">
@@ -288,6 +294,7 @@ func sshOptsForInstance(ctx context.Context, sshExe sshutil.SSHExe, toolPath str
 		if strings.HasPrefix(arg, &quot;IdentityFile=&quot;) {
 			identityFile = arg</code></pre>
     <p>Fix: say that scp forwards these options to the ssh from its own install, so the form must match that toolchain.</p>
+    <p><strong>Fixed</strong> in <a href="https://github.com/lima-vm/lima/commit/65ed1221"><code>65ed1221</code></a>. All three comments and the commit body now say scp hands its options to the ssh beside itself. <code>PathForTool</code>&#39;s own godoc carried the same claim and was corrected in the same pass.</p>
     </div>
     <div class="card card-important" data-file="hack/test-templates.sh">
       <div class="finding-title" id="I2">
@@ -322,6 +329,7 @@ func sshOptsForInstance(ctx context.Context, sshExe sshutil.SSHExe, toolPath str
         $env:HOME_GUEST = &quot;/mnt$env:HOME_HOST&quot;
         $env:LIMACTL_CREATE_ARGS = &#39;--vm-type=wsl2 --mount-type=wsl2 --containerd=system&#39;</code></pre>
     <p>Fix: add <code>rsync</code> to the pacman line in both Windows jobs. The PR description&#39;s &quot;CI exercises only the Cygwin path&quot; then holds for both backends rather than for scp alone.</p>
+    <p><strong>Fixed</strong> in <a href="https://github.com/lima-vm/lima/commit/c1f83823"><code>c1f83823</code></a>, on the CI branch rather than this one. PR 5342 replaces the inline package lists with a composite action, so the same edit here would have been dropped when that PR lands.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
@@ -360,6 +368,7 @@ func TestSSHOptsForInstanceMultiplexing(t *testing.T) {</code></pre>
 	var identityFile string
 	for _, arg := range cmd.Args {</code></pre>
     <p>Fix: compare against the exact value, <code>fmt.Sprintf(&quot;IdentityFile=&#39;%s&#39;&quot;, filepath.ToSlash(filepath.Join(configDir, filenames.UserPrivateKey)))</code>, which does separate the two keyings.</p>
+    <p><strong>Fixed</strong> in <a href="https://github.com/lima-vm/lima/commit/65ed1221"><code>65ed1221</code></a>, though not with that expression. Building the expectation from the test&#39;s own <code>configDir</code> would have failed on Windows CI, where <code>LimaDir</code> resolves the 8.3 temp path; it comes from <code>dirnames.LimaConfigDir()</code> instead, the helper production uses.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/sshutil/sshutil.go">
       <div class="finding-title" id="S2">
@@ -417,6 +426,7 @@ func PathForSSH(ctx context.Context, sshExe SSHExe, orig string) (string, error)
 		controlPath = fmt.Sprintf(`ControlPath=&#39;%s&#39;`, controlSock)
 	}</code></pre>
     <p>Fix: delete <code>CommonOpts</code> and either delete <code>PathForSSH</code> or document it as the ssh-family entry point. Both are exported from a package other projects import, so if either stays for out-of-tree callers, say so in the doc comment.</p>
+    <p><strong>Fixed</strong> in <a href="https://github.com/lima-vm/lima/commit/65ed1221"><code>65ed1221</code></a>, and further. With <code>CommonOpts</code> deleted, <code>CommonOptsForTool</code> contrasted with nothing, so it was renamed into <code>CommonOpts</code> with the wider signature; the PR now adds no net exported symbol. <code>PathForSSH</code> stays, documented as the wrapper for callers holding an <code>SSHExe</code>.</p>
     </div>
     <div class="card card-suggestion" data-file="cmd/limactl/shell.go">
       <div class="finding-title" id="S3">
@@ -486,6 +496,7 @@ func PathForSSH(ctx context.Context, sshExe SSHExe, orig string) (string, error)
 		// It is reasonable to disable this on Windows if required feature is not fully operational.
 		rsf.SSHConfig.Persist = false</code></pre>
     <p>Fix: name the sites and the reason. The same two lines read correctly at <a href="https://github.com/lima-vm/lima/blob/5c631f402ecd389210bc1aefc02458c45e321679/pkg/hostagent/hostagent.go#L305"><code>pkg/hostagent/hostagent.go:305</code></a>, where the <code>sshConfig</code> they describe is 80 lines up in the same file.</p>
+    <p><strong>Fixed</strong> in <a href="https://github.com/lima-vm/lima/commit/65ed1221"><code>65ed1221</code></a>, structurally rather than by rewording. Four rounds of more precise policy claims each went stale, so the claim is gone from <code>cmd/limactl/shell.go</code>, which now states only why that site strips. <code>pkg/hostagent/hostagent.go</code> keeps one sentence, scoped to what holds inside that file.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/hostagent/hostagent.go">
       <div class="finding-title" id="S4">
@@ -507,6 +518,7 @@ func PathForSSH(ctx context.Context, sshExe SSHExe, orig string) (string, error)
     <p>A <code>ControlMaster=auto</code> socket appears when a master starts, on Linux and macOS as much as on Windows, so attributing the fact to Windows explains nothing about why the guard matters there.</p>
     <p>Claude proposed restoring the deleted line&#39;s claim that port forwarding is the only Windows invocation that multiplexes. Do not: round 3 established that the hostagent&#39;s <code>sshConfig</code> keeps the mux triple for the ForwardAgent script, <code>executeSSH</code>, the cloud-init log tail, and <code>copyToHost</code>, which is why that line was replaced.</p>
     <p>Fix: state what this PR changed, that <code>limactl copy</code> no longer joins the set of Windows multiplexers, or drop the second sentence and keep the guard&#39;s own reason.</p>
+    <p><strong>Fixed</strong> in <a href="https://github.com/lima-vm/lima/commit/65ed1221"><code>65ed1221</code></a>. The platform sentence is gone and the guard keeps its own reason.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/copytool/rsync.go">
       <div class="finding-title" id="S5">
@@ -554,6 +566,7 @@ func PathForTool(ctx context.Context, toolPath, orig string) (string, error) {
 	if runtime.GOOS != &quot;windows&quot; {
 		return orig, nil</code></pre>
     <p>Fix: export the lookup from <code>sshutil</code> (<code>CygpathFor(toolPath string) string</code>, empty when absent) and let <code>PathForTool</code> and <code>pathForRsync</code> share it, each keeping its own fallback.</p>
+    <p><strong>Skipped.</strong> Five lines of duplication with a documented reason for the divergent fallback; a shared helper belongs with the other sshutil follow-ups rather than in a round-4 recut.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/sshutil/sshutil.go">
       <div class="finding-title" id="S6">
@@ -573,6 +586,7 @@ func cygpathForSSH(sshExe SSHExe) (string, bool) {
 	if !ok {</code></pre>
     <p><code>PathForTool</code> now wraps arbitrary binaries as <code>SSHExe{Exe: toolPath}</code> and passes them here, which the doc comment covers with &quot;read sshExe as any tool whose toolchain is being probed&quot;. A rename says it without the note.</p>
     <p>Fix: rename the parameter to <code>toolExe</code> and the helper to <code>resolvedToolPath</code>. Folding in S5 would settle both at once.</p>
+    <p><strong>Fixed</strong> in <a href="https://github.com/lima-vm/lima/commit/65ed1221"><code>65ed1221</code></a>. Both helpers take <code>toolExe</code>, <code>resolvedSSHPath</code> became <code>resolvedToolPath</code>, and the doc note that reinterpreted the old name is gone.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
