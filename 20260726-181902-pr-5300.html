@@ -235,6 +235,12 @@ summary { cursor: pointer; font-weight: 600; }
     <p>Four reviewers ran the same prompt. Gemini 3.1 Pro reported nothing; Gemini 3.5 Flash reported one finding that verification rejected. Claude and Codex agreed on the substance.</p>
     </div>
     <hr>
+    <h2 id="status">Status <a href="#status" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>All findings below are resolved, and the cited code has changed since this review ran. Each entry ends with a line naming its outcome. Line numbers and snippets show the code as reviewed, not as it stands in <a href="https://github.com/lima-vm/lima/commit/6a32bc50"><code>6a32bc50</code></a>.</p>
+    </div>
+    <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-critical">
@@ -264,6 +270,7 @@ summary { cursor: pointer; font-weight: 600; }
 			logrus.Warnf(&quot;reverse-sshfs: no sftp-server found alongside %#q; falling back to auto-detection, which may pick one that cannot resolve %#q&quot;, a.sshExe.Exe, resolvedLocation)</code></pre>
     <p>This PR exists to make <code>LocalPath</code> and <code>OpensshSftpServerBinary</code> come from one toolchain, and nothing exercises that. <code>pkg/hostagent</code> contains only <code>ga_sock_forward_test.go</code> and <code>inotify_test.go</code>, and the block sits inline in a method needing a fully constructed <code>*HostAgent</code>. Windows CI runs MSYS2, so it reaches only the Cygwin branch of both helpers. <code>sshutil_windows_test.go</code> covers each helper alone, but no test asserts that <code>setupMount</code> derives both from the same <code>sshExe</code>.</p>
     <p>Fix: extract the Windows block into a package-private helper returning <code>(localPath, sftpServer string, err error)</code>, then table-test it against fake toolchain directories (<code>ssh.exe</code>+<code>cygpath.exe</code> versus <code>ssh.exe</code>+<code>sftp-server.exe</code>) in a <code>_windows_test.go</code>, matching the shape <code>TestSftpServerForSSH</code> already uses.</p>
+    <p><strong>Resolved: fixed.</strong> The block is now <code>mountPathAndSftpServer</code> in <code>pkg/hostagent/mount.go</code>, table-tested in the new <code>pkg/hostagent/mount_windows_test.go</code>. Only the native branch is covered; a fake toolchain directory cannot supply a runnable <code>cygpath.exe</code>.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
@@ -298,6 +305,7 @@ const (
 type SSHFS struct {
 	Cache          *bool       `yaml:&quot;cache,omitempty&quot; json:&quot;cache,omitempty&quot; jsonschema:&quot;nullable&quot;`</code></pre>
     <p>Fix: guard the whole block on <code>*m.SSHFS.SFTPDriver != limatype.SFTPDriverBuiltin</code>.</p>
+    <p><strong>Resolved: fixed.</strong> <code>mountPathAndSftpServer</code> returns early for <code>limatype.SFTPDriverBuiltin</code>, skipping both the lookup and the log.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/hostagent/mount.go">
       <div class="finding-title" id="S2">
@@ -320,6 +328,7 @@ type SSHFS struct {
 	// modifying HostAgent&#39;s sshConfig in case of Windows</code></pre>
     <p><code>pickCompleteSSHOnWindows</code> accepts a toolchain on <code>scp.exe</code> and <code>ssh-keygen.exe</code> alone, so a selected <code>ssh.exe</code> with no sibling <code>sftp-server.exe</code> is a supported configuration; Windows ships <code>sftp-server.exe</code> with the OpenSSH Server feature, not the client (reasoned, no Windows host was available). The builtin driver then serves the mount fine. Warning once per mount on a working setup trains operators to ignore warnings, and the <code>Debugf</code> prints <code>for sftp-server &quot;&quot;</code> right after announcing that none was found.</p>
     <p>Fix: demote the warning to <code>Infof</code>, and make the <code>Debugf</code> an <code>else</code> branch so the two cannot both fire.</p>
+    <p><strong>Resolved: fixed.</strong> The warning is now <code>Infof</code> and the <code>Debugf</code> sits in an <code>else</code>, so only one fires per mount. The message also names the toolchain instead of <code>ssh.exe</code>&#39;s directory, which was wrong for the Cygwin branch: that branch asks cygpath for <code>/usr/lib/ssh/sftp-server</code> rather than looking beside <code>ssh.exe</code>.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/sshutil/sshutil.go">
       <div class="finding-title" id="S3">
@@ -343,6 +352,7 @@ type SSHFS struct {
 		return &quot;&quot;</code></pre>
     <p>With the default driver <code>&quot;&quot;</code>, sshocker routes to <code>DetectDriver(explicit)</code>, which runs <code>exec.LookPath(explicit)</code> and on failure returns an error that <code>Start()</code> wraps as <code>failed to choose driver automatically</code>. Both <code>Start()</code> attempts then fail, so the mount errors out where an empty field would have degraded to auto-detect or builtin. Go 1.26&#39;s <code>findExecutable</code> skips the direct stat for an extension-less path and tries only <code>file+ext</code>, so it rejects a candidate that <code>os.Stat</code> here accepts. Cygwin&#39;s magic-<code>.exe</code> handling means the real file is <code>sftp-server.exe</code> today, so the filesystem layout guards this, not the code.</p>
     <p>Fix: validate the candidate with <code>exec.LookPath</code> before returning it, so a non-executable match yields <code>&quot;&quot;</code> and preserves the fallback.</p>
+    <p><strong>Resolved: fixed.</strong> Both branches of <code>SftpServerForSSH</code> now resolve through <code>exec.LookPath</code>, and the Cygwin branch logs the rejected candidate at Debug. The accompanying comment is scoped to the default driver, since sshocker skips <code>DetectDriver</code> entirely when <code>sftpDriver</code> is set to <code>openssh-sftp-server</code>.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/hostagent/mount.go">
       <div class="finding-title" id="S4">
@@ -403,6 +413,7 @@ func WindowsSubsystemPathForLinux(ctx context.Context, orig, distro string) (str
 		if err != nil {
 			errs = errors.Join(errs, fmt.Errorf(&quot;field `mounts[%d].location` refers to an unexpandable path: %#q: %w&quot;, i, f.Location, err))</code></pre>
     <p>Fix: reject a <code>filepath.VolumeName</code> that is not a two-character drive letter in <code>PathForSSH</code>&#39;s native branch, matching the Cygwin-less fallback&#39;s contract.</p>
+    <p><strong>Resolved: declined.</strong> This finding is wrong. A UNC location mounts under the builtin driver: <code>filepath.ToSlash</code> yields <code>//server/share/dir</code>, sshfs 3.7.3 prefixes that verbatim, and <code>pkg/sftp</code> v1.13.11&#39;s <code>toLocalPath</code> maps it back to <code>\\server\share\dir</code>. The old helper rejected UNC only when cygpath was absent, so this PR enabled such mounts rather than losing a guard, and the proposed rejection would remove them. A rejection was implemented, verified against that chain, then reverted.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
@@ -432,6 +443,7 @@ func WindowsSubsystemPathForLinux(ctx context.Context, orig, distro string) (str
       <li>The guest-side <code>sshfs :C:/...</code> argument (Design Observation 1), untested at any level.</li>
       <li>The <code>sftpDriver: builtin</code> combination (S1) and the <code>sftpServerBinary == &quot;&quot;</code> fallback (S2).</li>
     </ol>
+    <p><strong>Resolved.</strong> Gaps 1 and 4 are closed by <code>TestMountPathAndSftpServer</code>, which covers the sibling present and absent, the builtin driver, and an explicit <code>openssh-sftp-server</code>. Gaps 2 and 3 are declined: both need a plain Windows host with no Cygwin toolchain, which the PR description already defers to the plain-Windows CI jobs.</p>
     </div>
     <hr>
     <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
@@ -439,6 +451,7 @@ func WindowsSubsystemPathForLinux(ctx context.Context, orig, distro string) (str
     <div class="card card-neutral">
     <p><a href="https://github.com/lima-vm/lima/blob/78b9ab7afe2a8ee6e8f9839411780f7baa460050/website/content/en/docs/config/mount.md#L58"><code>website/content/en/docs/config/mount.md:58</code></a> documents the <code>sftpDriver</code> default as &quot;openssh-sftp-server ... if an OpenSSH SFTP Server binary is found&quot;. That stays accurate, but the Windows search order changed: Lima now offers the sibling of the selected <code>ssh.exe</code> before sshocker&#39;s PATH scan. A sentence naming that precedence would help users who see a different sftp-server chosen after upgrading.</p>
     <p><code>sshutil.PathForSSH</code>&#39;s docstring names <code>ssh</code>, <code>ssh-keygen</code>, and <code>scp</code> as the consumers of its output. This PR adds two that are not ssh-family invocations: the local sftp-server&#39;s <code>-d</code> root, and the guest sshfs base path. Extending the docstring would tell the next caller what the contract covers.</p>
+    <p><strong>Resolved: both updated.</strong> <code>mount.md</code> gains the Windows lookup order, naming <code>sftp-server.exe</code> beside a native OpenSSH and <code>/usr/lib/ssh/sftp-server</code> for a Cygwin-based one. The <code>PathForSSH</code> docstring names the two extra consumers, and says the sftp-server chdirs into the path rather than treating it as a root: <code>-d</code> only chdirs, so &quot;root&quot; would assert a confinement the Caveats section explicitly denies.</p>
     </div>
     <hr>
     <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
