@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260726-221155-pr-5300</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260726-221155-pr-5300</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-07-26 22:11</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>2 (of PR 5300)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/jandubois">@jandubois</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5300" class="gh-ref" data-title="hostagent: support reverse-sshfs on plain Windows" data-state="open" data-type="pr">#5300</a> — hostagent: support reverse-sshfs on plain Windows</td></tr>
+      <tr><td>Branch</td><td><code>hostagent-reverse-sshfs-plain-windows</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/05b4b2f9"><code>05b4b2f9</code></a> hostagent: support reverse-sshfs on plain Windows</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/05b4b2f92e4b1a08bb441dda45cb0832170b3b13"><code>05b4b2f92e4b1a08bb441dda45cb0832170b3b13</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5</span> (effort: xhigh), <span class="pill pill-codex">Codex GPT 5.6 Sol</span> (effort: xhigh), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; the code is correct and now tested on Windows CI; three prose corrections remain</td></tr>
+      <tr><td>Wall-clock time</td><td><code>24 min 50 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Round 1&#39;s findings are all fixed, and the new Windows test runs and passes in CI. No correctness defect survived verification. What remains is a prose problem. Master&#39;s sshocker v0.3.9 to v0.3.11 bump added a conversion that rewrites the Cygwin path form before either consumer reads it, so the new docstring and the pairing comment describe a value the library no longer delivers.</p>
+    <p>Four reviewers ran the same prompt. Both Gemini models reported nothing and marked every file clean. Codex raised one documentation-precision point. Claude raised five, of which one important finding was refuted by the Go compiler and re-filed narrower. The sshocker interaction is the finding that should change what the author does next, and only Claude reached it.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="pkg/sshutil/sshutil.go">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> The new docstring lines describe a path form sshocker rewrites before either consumer sees it <span class="pill pill-claude">Claude Opus 5</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/sshutil/sshutil.go#L217-L228">pkg/sshutil/sshutil.go</a></div>
+      <pre data-start="217" data-line="222-223"><code class="language-go">// PathForSSH converts orig to the path form the selected ssh toolchain
+// expects; unchanged on non-Windows. On Windows, Cygwin-based ssh (Git for
+// Windows, MSYS2) gets a /c/Users/... form from the sibling cygpath, which
+// respects the toolchain&#39;s fstab; native Windows OpenSSH gets forward
+// slashes (C:/Users/...), which native ssh, ssh-keygen, and scp accept.
+// Tools outside that family read the result too: a locally spawned sftp-server
+// chdirs into it, and the guest&#39;s sshfs prefixes it to every request.
+func PathForSSH(ctx context.Context, sshExe SSHExe, orig string) (string, error) {
+	if runtime.GOOS != &quot;windows&quot; {
+		return orig, nil
+	}
+	if cygpathExe, ok := cygpathForSSH(sshExe); ok {</code></pre>
+    <p>sshocker v0.3.11 (<a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/go.mod#L10"><code>go.mod:10</code></a>, bumped from v0.3.9 on master between rounds) added <code>convertMSYS2Path</code>, which <code>reversesshfs.Start</code> applies to any <code>path.IsAbs</code> <code>LocalPath</code>. So on the Cygwin branch <code>/c/Users/jan</code> becomes <code>C:\Users\jan</code> before the sftp-server&#39;s <code>-d</code> and the guest&#39;s sshfs argument. The Windows QEMU job for this SHA logs both halves: <code>Accepting &quot;/c/Users/runneradmin&quot; Unix path</code> then <code>Converted path for native Windows OpenSSH: &quot;C:\\Users\\runneradmin&quot;</code>. The native branch is untouched, since <code>C:/Users/jan</code> fails <code>path.IsAbs</code>.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/go.mod#L5-L15">go.mod</a></div>
+      <pre data-start="5" data-line="10"><code class="language-plaintext">
+// Our own packages and golang.org/x packages are trusted
+//gosocialcheck:trusted
+require (
+	github.com/lima-vm/go-qcow2reader v0.7.1
+	github.com/lima-vm/sshocker v0.3.11 // gomodjail:unconfined
+	golang.org/x/net v0.57.0
+	golang.org/x/sync v0.22.0
+	golang.org/x/sys v0.47.0 // gomodjail:unconfined
+	golang.org/x/text v0.40.0
+)</code></pre>
+    <p><code>mountPathAndSftpServer</code>&#39;s comment at <a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/hostagent/mount.go#L24-L27"><code>pkg/hostagent/mount.go:24-27</code></a> claims the same agreement and needs the same qualification.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/hostagent/mount.go#L19-L32">pkg/hostagent/mount.go</a></div>
+      <pre data-start="19" data-line="24-27"><code class="language-go">
+type mount struct {
+	close func() error
+}
+
+// mountPathAndSftpServer returns location in the path form sshExe&#39;s toolchain
+// expects, and the sftp-server from that same toolchain, so the server and the
+// path it serves agree on the Windows path form. The server is empty when the
+// driver is builtin, which needs none, and when the toolchain ships none.
+func mountPathAndSftpServer(ctx context.Context, sshExe sshutil.SSHExe, driver, location string) (resolvedLocation, sftpServerBinary string, err error) {
+	resolvedLocation, err = sshutil.PathForSSH(ctx, sshExe, location)
+	if err != nil {
+		return &quot;&quot;, &quot;&quot;, err
+	}</code></pre>
+    <p>Fix: say that on Windows sshocker rewrites a <code>/c/...</code> result to <code>C:\...</code> before handing it on.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/hostagent/mount.go">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> The Infof names sshocker, the mention the reviewer asked to drop <span class="pill pill-claude">Claude Opus 5</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/hostagent/mount.go#L33-L43">pkg/hostagent/mount.go</a></div>
+      <pre data-start="33" data-line="38"><code class="language-go">	if driver == limatype.SFTPDriverBuiltin {
+		return resolvedLocation, &quot;&quot;, nil
+	}
+	sftpServerBinary = sshutil.SftpServerForSSH(ctx, sshExe)
+	if sftpServerBinary == &quot;&quot; {
+		logrus.Infof(&quot;reverse-sshfs: no sftp-server in the toolchain of %#q; leaving detection to sshocker, which may pick one that cannot resolve %#q&quot;, sshExe.Exe, resolvedLocation)
+	} else {
+		logrus.Debugf(&quot;reverse-sshfs: host path %#q resolved to %#q for sftp-server %#q&quot;, location, resolvedLocation, sftpServerBinary)
+	}
+	return resolvedLocation, sftpServerBinary, nil
+}</code></pre>
+    <p>At <a href="https://github.com/lima-vm/lima/commit/78b9ab7a"><code>78b9ab7a</code></a> the mention lived in a code comment and the log read &quot;falling back to auto-detection&quot;. The comment is gone, but the mention moved into output users see, which is more visible than the place @AkihiroSuda flagged. The Windows CI log for this SHA carries the full line. The message also overstates the risk on its commonest trigger, a plain host with the OpenSSH Client feature only, where sshocker finds nothing and falls back to the builtin driver, which handles <code>C:/...</code> correctly.</p>
+    <p>Fix: name the remedy instead of the dependency, for example &quot;falling back to a generic search for one that can serve <code>%#q</code>&quot;.</p>
+    </div>
+    <div class="card card-suggestion" data-file="website/content/en/docs/config/mount.md">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> The mount.md paragraph presents the same-toolchain guarantee unconditionally <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/website/content/en/docs/config/mount.md#L60-L71">website/content/en/docs/config/mount.md</a></div>
+      <pre data-start="60" data-line="65-66"><code class="language-markdown">Lima prior to v0.10 had used &quot;builtin&quot; as the SFTP driver.
+
+On Windows, Lima first looks for an sftp-server in the toolchain of the `ssh.exe` it selected, either
+`sftp-server.exe` beside a native OpenSSH or `/usr/lib/ssh/sftp-server` for a Cygwin-based one.
+Only if that finds nothing does the generic search apply.
+This keeps the server and the host paths it serves on one toolchain, which matters when a Cygwin-based OpenSSH
+(Git for Windows, MSYS2) and the native Windows OpenSSH are both installed.
+
+#### Caveats
+- A mount is disabled when the SSH connection was shut down.
+- A compromised `sshfs` process in the guest may have access to unexposed host directories.
+</code></pre>
+    <p>Two conditions narrow that sentence. <code>mountPathAndSftpServer</code> returns early for <code>sftpDriver: builtin</code> (<a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/hostagent/mount.go#L33-L35"><code>pkg/hostagent/mount.go:33-35</code></a>), skipping the lookup entirely. And when the lookup finds nothing, <a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/hostagent/mount.go#L37-L38"><code>pkg/hostagent/mount.go:37-38</code></a> hands the choice back to the generic search, which may pick another toolchain. The preceding sentence does document the fallback, so only this sentence reads as an unconditional promise.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/hostagent/mount.go#L28-L43">pkg/hostagent/mount.go</a></div>
+      <pre data-start="28" data-line="33-38"><code class="language-go">func mountPathAndSftpServer(ctx context.Context, sshExe sshutil.SSHExe, driver, location string) (resolvedLocation, sftpServerBinary string, err error) {
+	resolvedLocation, err = sshutil.PathForSSH(ctx, sshExe, location)
+	if err != nil {
+		return &quot;&quot;, &quot;&quot;, err
+	}
+	if driver == limatype.SFTPDriverBuiltin {
+		return resolvedLocation, &quot;&quot;, nil
+	}
+	sftpServerBinary = sshutil.SftpServerForSSH(ctx, sshExe)
+	if sftpServerBinary == &quot;&quot; {
+		logrus.Infof(&quot;reverse-sshfs: no sftp-server in the toolchain of %#q; leaving detection to sshocker, which may pick one that cannot resolve %#q&quot;, sshExe.Exe, resolvedLocation)
+	} else {
+		logrus.Debugf(&quot;reverse-sshfs: host path %#q resolved to %#q for sftp-server %#q&quot;, location, resolvedLocation, sftpServerBinary)
+	}
+	return resolvedLocation, sftpServerBinary, nil
+}</code></pre>
+    <p>Fix: qualify it, for example &quot;When the lookup finds one, the server and the host path it serves stay on one toolchain.&quot;</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/sshutil/sshutil.go">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> The Cygwin branch of <code>SftpServerForSSH</code> is the only branch CI runs, and it has no unit test <span class="pill pill-claude">Claude Opus 5</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/sshutil/sshutil.go#L248-L263">pkg/sshutil/sshutil.go</a></div>
+      <pre data-start="248" data-line="253-258"><code class="language-go">		}
+		// Validate with LookPath, which appends the &quot;.exe&quot; that cygpath omits.
+		// Under the default driver sshocker resolves this path with LookPath as
+		// well and fails the mount when it does not resolve, so returning
+		// nothing beats returning a path it will reject.
+		candidate := strings.TrimSpace(string(out))
+		sftpServer, err := exec.LookPath(candidate)
+		if err != nil {
+			logrus.WithError(err).Debugf(&quot;cannot use the sftp-server at %#q that cygpath resolved&quot;, candidate)
+			return &quot;&quot;
+		}
+		return sftpServer
+	}
+	path, ok := resolvedSSHPath(sshExe)
+	if !ok {
+		return &quot;&quot;</code></pre>
+    <p>The <code>os.Stat</code> pair to <code>exec.LookPath</code> migration narrows what this branch accepts. Go&#39;s <code>findExecutable</code> skips the direct stat when the path has no extension (<code>lp_windows.go</code>), so an extension-less <code>sftp-server</code> that exists is now rejected, where the old loop returned it. Git for Windows ships <code>sftp-server.exe</code>, so the layout hides this today.</p>
+    <p><a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/hostagent/mount_windows_test.go#L20-L21"><code>mount_windows_test.go:20-21</code></a> says a fake directory cannot provide <code>cygpath.exe</code>. But the helper-process pattern can: copy <code>os.Executable()</code> to <code>&lt;dir&gt;\cygpath.exe</code> and have <code>TestMain</code> short-circuit on an env var.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/hostagent/mount_windows_test.go#L15-L26">pkg/hostagent/mount_windows_test.go</a></div>
+      <pre data-start="15" data-line="20-21"><code class="language-go">	&quot;github.com/lima-vm/lima/v2/pkg/sshutil&quot;
+)
+
+// TestMountPathAndSftpServer: the mount path and the sftp-server serving it
+// come from one toolchain, and the builtin driver gets no server. Only the
+// native branch is covered; the Cygwin branch runs cygpath.exe, which a fake
+// toolchain directory cannot provide.
+func TestMountPathAndSftpServer(t *testing.T) {
+	if runtime.GOOS != &quot;windows&quot; {
+		t.Skip(&quot;Windows-only path handling&quot;)
+	}
+	ctx := t.Context()</code></pre>
+    <p>Fix: add a Cygwin subtest to <code>TestSftpServerForSSH</code> covering an extension-less candidate and a missing one.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/hostagent/mount.go">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> No test asserts that the resolved path reaches <code>LocalPath</code> <span class="pill pill-claude">Claude Opus 5</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/hostagent/mount.go#L88-L98">pkg/hostagent/mount.go</a></div>
+      <pre data-start="88" data-line="93"><code class="language-go">	sshConfig := *a.sshConfig
+	rsf := &amp;reversesshfs.ReverseSSHFS{
+		Driver:                  *m.SSHFS.SFTPDriver,
+		OpensshSftpServerBinary: sftpServerBinary,
+		SSHConfig:               &amp;sshConfig,
+		LocalPath:               resolvedLocation,
+		Host:                    sshAddress,
+		Port:                    sshPort,
+		RemotePath:              *m.MountPoint,
+		Readonly:                !(*m.Writable),
+		SSHFSAdditionalArgs:     []string{&quot;-o&quot;, sshfsOptions},</code></pre>
+    <p><code>TestMountPathAndSftpServer</code> covers the computation, not the delivery. I checked whether a mis-wiring here compiles: replacing <code>resolvedLocation</code> with <code>m.Location</code> builds clean for <code>GOOS=windows</code>, because <code>resolvedLocation</code> still has readers at lines 112 through 127. The sibling field <code>OpensshSftpServerBinary</code> is safe by accident, since deleting it fails the build with <code>declared and not used: sftpServerBinary</code>.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/hostagent/mount.go#L107-L117">pkg/hostagent/mount.go</a></div>
+      <pre data-start="107" data-line="112"><code class="language-go">		// HostAgent&#39;s `sshConfig` already has some ControlMaster related args in `AdditionalArgs`,
+		// so it is necessary to remove them to avoid overrides above `Persist=false`.
+		rsf.SSHConfig.AdditionalArgs = sshutil.DisableControlMasterOptsFromSSHArgs(rsf.SSHConfig.AdditionalArgs)
+	}
+	if err := rsf.Prepare(); err != nil {
+		return nil, fmt.Errorf(&quot;failed to prepare reverse sshfs for %#q on %#q: %w&quot;, resolvedLocation, *m.MountPoint, err)
+	}
+	if err := rsf.Start(); err != nil {
+		logrus.WithError(err).Warnf(&quot;failed to mount reverse sshfs for %#q on %#q, retrying with `-o nonempty`&quot;, resolvedLocation, *m.MountPoint)
+		// NOTE: nonempty is not supported for libfuse3: https://github.com/canonical/multipass/issues/1381
+		rsf.SSHFSAdditionalArgs = []string{&quot;-o&quot;, &quot;nonempty&quot;}</code></pre>
+    <p>The Windows QEMU integration job would probably catch a <code>LocalPath</code> mis-wiring, because <code>addQuotes</code> runs <code>strconv.Quote</code> and a backslash path reaches the guest with doubled separators.</p>
+    <p>Fix: extract the struct construction so a Windows test can assert both fields together.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/hostagent/mount_windows_test.go">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> <code>nativeToolchain</code> repeats <code>resolvedTempDir</code> without its rationale <span class="pill pill-claude">Claude Opus 5</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/hostagent/mount_windows_test.go#L30-L42">pkg/hostagent/mount_windows_test.go</a></div>
+      <pre data-start="30" data-line="35-37"><code class="language-go">
+	// nativeToolchain writes an ssh.exe, plus a sibling sftp-server.exe when
+	// withSftpServer, and returns both paths.
+	nativeToolchain := func(t *testing.T, withSftpServer bool) (sshExe, sftpExe string) {
+		t.Helper()
+		dir := t.TempDir()
+		resolved, err := filepath.EvalSymlinks(dir)
+		assert.NilError(t, err)
+		sshExe = filepath.Join(resolved, &quot;ssh.exe&quot;)
+		assert.NilError(t, os.WriteFile(sshExe, nil, 0o644))
+		if withSftpServer {
+			sftpExe = filepath.Join(resolved, &quot;sftp-server.exe&quot;)
+			assert.NilError(t, os.WriteFile(sftpExe, nil, 0o644))</code></pre>
+    <p><a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/sshutil/sshutil_windows_test.go#L155-L159"><code>pkg/sshutil/sshutil_windows_test.go:155-159</code></a> carries the same three lines under a comment explaining why: on GitHub Windows runners <code>t.TempDir()</code> returns an 8.3 short path (<code>C:\Users\RUNNER~1\...</code>) that the production helpers expand, so a raw compare fails. The packages differ, so the helper cannot be shared. Without the comment, a future reader may take the <code>EvalSymlinks</code> call for ceremony and drop it, and the test then fails only on CI.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/sshutil/sshutil_windows_test.go#L150-L164">pkg/sshutil/sshutil_windows_test.go</a></div>
+      <pre data-start="150" data-line="155-159"><code class="language-go">
+	t.Run(&quot;empty input falls back to the bare name&quot;, func(t *testing.T) {
+		assert.Equal(t, companionForSSH(SSHExe{}, &quot;ssh-keygen&quot;), &quot;ssh-keygen&quot;)
+	})
+}
+
+// resolvedTempDir is t.TempDir() run through EvalSymlinks, matching what
+// the production helpers compute. On GitHub Windows runners t.TempDir()
+// is an 8.3 short path (C:\Users\RUNNER~1\...) that the helpers expand,
+// so a raw compare would fail.
+func resolvedTempDir(t *testing.T) string {
+	t.Helper()
+	dir := t.TempDir()
+	resolved, err := filepath.EvalSymlinks(dir)
+	assert.NilError(t, err)</code></pre>
+    <p>Fix: carry the one-line reason across, or point at <code>resolvedTempDir</code>.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ol>
+      <li><strong>The sshocker bump weakened the premise this PR argues from</strong> <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span>. <code>convertMSYS2Path</code> maps <code>/c/...</code> to <code>C:\...</code>, so for the MSYS2 form any sftp-server now receives a native path, and the mismatch the pairing prevents cannot arise. The pairing still earns its place in two cases. Stock Cygwin&#39;s <code>cygpath</code> returns <code>/cygdrive/c/...</code>, which <code>convertMSYS2Path</code> leaves alone because its third byte is not a slash, so only a Cygwin sftp-server resolves it. And the native branch never reaches the conversion. So the change is still right, on narrower grounds than the commit message gives. See S1.</li>
+      <li><strong>The single-toolchain invariant stops short of the transport</strong> <em>(future)</em> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span>. sshocker&#39;s <code>SSHConfig.Binary()</code> is still a hardcoded <code>return &quot;ssh&quot;</code> in v0.3.11 (<code>pkg/ssh/ssh.go:22-24</code>), so PATH picks the ssh that carries the mount while Lima pins the path form and the sftp-server. Closing this needs an upstream field. Carried from round 1, re-verified against the new version.</li>
+      <li><strong>A pre-existing zero-value bug in the mount-point default</strong> <em>(future)</em> <span class="pill pill-claude">Claude Opus 5</span>. At <a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/limayaml/defaults.go#L732"><code>pkg/limayaml/defaults.go:732</code></a> the multi-assign leaves <code>mountLocation</code> empty when the conversion fails, and the code only warns, so <code>MountPoint</code> becomes <code>&quot;&quot;</code> and sshocker&#39;s <code>Prepare</code> then rejects it as relative. A UNC location on a Windows host without <code>cygpath</code> reaches it. Outside this PR&#39;s files, and distinct from the known rule that this call site must keep the POSIX form.</li>
+      <li><strong>The Cygwin sftp-server probe is one hardcoded path</strong> <em>(future)</em> <span class="pill pill-claude">Claude Opus 5</span>. <a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/sshutil/sshutil.go#L245"><code>pkg/sshutil/sshutil.go:245</code></a> asks cygpath for <code>/usr/lib/ssh/sftp-server</code>, and <a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/website/content/en/docs/config/mount.md#L63"><code>mount.md:63</code></a> now names that as the Cygwin location. CI proves it for Git for Windows: the Windows QEMU job logged no &quot;no sftp-server in the toolchain&quot; line. Stock Cygwin&#39;s <code>libexecdir</code> is unverified.</li>
+    </ol>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>The native branch&#39;s forward-slash form avoids an sshocker quirk. <code>addQuotes</code> runs <code>strconv.Quote</code>, so <code>C:\Users\lima\shared</code> would reach the guest as <code>&#39;:C:\\Users\\lima\\shared&#39;</code> with doubled separators, while <code>C:/Users/lima/shared</code> passes through clean <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span></li>
+      <li>Returning <code>&quot;&quot;</code> rather than a candidate sshocker would reject turns a fatal mount failure into a fallback. <code>DetectDriver</code> runs <code>exec.LookPath</code> on an explicit binary and errors out, and the comment at <a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/sshutil/sshutil.go#L249-L252"><code>sshutil.go:249-252</code></a> states this correctly, including its scope to the default driver <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
+      <li><code>mountPathAndSftpServer</code> handles every reachable driver value. Only <code>builtin</code> returns early; <code>&quot;&quot;</code>, <code>openssh-sftp-server</code>, and any unrecognized string take the lookup path, which matches sshocker&#39;s own switch <em>(in-scope)</em> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-claude">Claude Opus 5</span></li>
+      <li>Caching <code>sshExe</code> on <code>HostAgent</code> reuses the value <code>SSHOpts</code> and <code>writeSSHConfigFile</code> already received, so the mount path cannot drift from the SSH config <em>(in-scope)</em> [all four reviewers]</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>I ran the suite from the lead worktree at the review SHA rather than trusting inspection. <code>GOOS=windows go vet ./pkg/hostagent/... ./pkg/sshutil/... ./pkg/fsutil/...</code> is clean, both packages cross-compile as test binaries for <code>windows/amd64</code>, and <code>go test ./pkg/hostagent/... ./pkg/sshutil/... ./pkg/fsutil/... ./pkg/limayaml/...</code> passes on darwin.</p>
+    <p>More useful than any of that: the new test executes on Windows in CI. Both Windows jobs run <code>go test -v ./...</code> on <code>windows-2025</code> (<a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/.github/workflows/test.yml#L190"><code>.github/workflows/test.yml:190</code></a>, <code>:249</code>), and job 89891619019 for this exact SHA shows <code>TestMountPathAndSftpServer</code> and all four subtests PASS. Round 1 could only reason about this branch. Job 89891618959 shows the Cygwin mount path end to end. The overall run is still in progress, with three integration jobs pending.</p>
+    <p>Ranked by residual risk:</p>
+    <ol>
+      <li>The Cygwin branch of <code>SftpServerForSSH</code>, the branch CI executes and this commit changed (S4).</li>
+      <li>The <code>LocalPath</code> field assignment (S5).</li>
+      <li>Native-OpenSSH reverse-sshfs end to end, deferred to <a href="https://github.com/lima-vm/lima/issues/5342" class="gh-ref" data-title="CI: factor Windows setup into composite actions; add plain-Windows jobs" data-state="open" data-type="pr">#5342</a>. That PR&#39;s smoke action runs create, start, shell, copy, stop, delete; <code>limactl copy</code> goes through scp or rsync, so nothing there reads or writes through the mount. A mount that starts but serves the wrong directory would pass it.</li>
+      <li>A <code>sftpDriver</code> value outside <code>{&quot;&quot;, builtin, openssh-sftp-server}</code>. <code>pkg/limayaml/validate.go</code> has no check, so a typo reaches sshocker&#39;s <code>unknown driver</code> error. Pre-existing and loud.</li>
+    </ol>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The <code>mount.md</code> addition describes the lookup order accurately for the <code>&quot;&quot;</code> and <code>openssh-sftp-server</code> drivers, and S3 covers the one sentence that overreaches. The <code>PathForSSH</code> docstring needs S1&#39;s qualification; its <code>/c/Users/...</code> example is the MSYS2 and Git-for-Windows form, while stock Cygwin returns <code>/cygdrive/c/...</code>.</p>
+    <p><code>mountPathAndSftpServer</code>&#39;s doc comment matches the implementation for every driver value that reaches it.</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>One commit, and the message states the intent accurately. It describes only the path and sftp-server pairing, though the diff also changes the resolution semantics of the exported <code>SftpServerForSSH</code> in both branches. A sentence on that would help a later bisect over <code>exec.LookPath</code> behavior.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>PR description</strong>: end-to-end validation on a plain Windows host is deferred to <a href="https://github.com/lima-vm/lima/issues/5342" class="gh-ref" data-title="CI: factor Windows setup into composite actions; add plain-Windows jobs" data-state="open" data-type="pr">#5342</a>. Consistent with the code, and re-confirmed this round: <code>cygpathForSSH</code> succeeds whenever <code>cygpath.exe</code> sits beside the selected <code>ssh.exe</code>, so CI cannot reach the native branch at runtime.</li>
+      <li><strong>PR state</strong>: still a draft (&quot;may need another change&quot;), so this review reads an in-progress branch.</li>
+      <li><strong>Test comment</strong> (<a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/hostagent/mount_windows_test.go#L18-L21"><code>mount_windows_test.go:18-21</code></a>): only the native branch is covered. S4 argues the stated blocker is surmountable.</li>
+    </ul>
+    <h3 id="declined-in-prior-rounds">Declined in prior rounds <a href="#declined-in-prior-rounds" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>The native branch drops the UNC and drive-relative rejection</strong> — declined round 1: a UNC location mounts under the builtin driver, verified through <code>filepath.ToSlash</code>, sshfs 3.7.3, and <code>pkg/sftp</code> <code>toLocalPath</code>, so the proposed rejection would remove working behavior. <code>PathForSSH</code>&#39;s body is unchanged this round, so the decision stands and no agent re-raised it.</li>
+      <li><strong>Native-OpenSSH end-to-end coverage</strong> — declined round 1: needs a plain Windows host with no Cygwin toolchain.</li>
+      <li><em></em>The guest-side <code>sshfs :C:/...</code> argument<em></em> — declined round 1: same constraint.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>@AkihiroSuda</strong>: &quot;nit: not necessary to mention sshocker&quot; → <strong>@jandubois</strong>: &quot;Fixed&quot;. The code comment that carried the mention at <a href="https://github.com/lima-vm/lima/commit/78b9ab7a"><code>78b9ab7a</code></a> is gone, but <a href="https://github.com/lima-vm/lima/blob/05b4b2f92e4b1a08bb441dda45cb0832170b3b13/pkg/hostagent/mount.go#L38"><code>pkg/hostagent/mount.go:38</code></a> now puts &quot;sshocker&quot; into an Infof users see. See S2. Only the reviewer can say whether the log line fell inside the nit.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5"><span class="pill pill-claude">Claude Opus 5</span> <a href="#claude-opus-5" class="pilcrow">&#182;</a></h3>
+    <p>Claude produced five of the six findings and was the only agent to notice that master&#39;s sshocker bump had changed one side of the parity this PR argues for. It was also the only agent to check the claim against CI logs for the exact review SHA, quoting the <code>Accepting</code> and <code>Converted path</code> pair from the Windows QEMU job, which is stronger evidence than any source reading. Its one Important finding did not survive: it argued that deleting <code>OpensshSftpServerBinary: sftpServerBinary</code> would leave every test green, and the Go compiler rejects that deletion with <code>declared and not used</code>. I re-filed the real residual as S5 after finding that a <code>LocalPath</code> mis-wiring does compile. Its S3 proposed deleting a subtest, which would have cut coverage, so I kept the duplication and reframed the point as a missing comment.</p>
+    <h3 id="codex-gpt-5-6-sol"><span class="pill pill-codex">Codex GPT 5.6 Sol</span> <a href="#codex-gpt-5-6-sol" class="pilcrow">&#182;</a></h3>
+    <p>Codex raised one finding and it survived. It reached further outside the diff than anyone: it read the CI status for this SHA and opened <a href="https://github.com/lima-vm/lima/issues/5342" class="gh-ref" data-title="CI: factor Windows setup into composite actions; add plain-Windows jobs" data-state="open" data-type="pr">#5342</a>&#39;s smoke action to judge whether the deferred coverage would actually arrive. Both claims check out, and the second sharpened this review&#39;s testing assessment more than its own finding did. It marked <code>mount.go</code> and <code>sshutil.go</code> clean while both carry findings, so its coverage summary was optimistic. Its writing was again the tightest of the four.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Gemini 3.1 Pro reported nothing and marked all five files clean. It wrote that <code>exec.LookPath</code> makes Lima&#39;s validation &quot;perfectly mirror sshocker&#39;s internal checks&quot;, which holds only under the default driver: with <code>sftpDriver: openssh-sftp-server</code> sshocker skips <code>DetectDriver</code> and uses the binary as given. The PR&#39;s own comment scopes the claim correctly, so the review asserted more than the code it was reading. It ran 28 shell commands to reach a two-strength summary.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Flash also reported nothing. Two of its three strengths overstate: <code>exec.LookPath</code> confirms paths &quot;exist and are executable&quot;, but Go&#39;s <code>chkStat</code> on Windows stats the file and rejects directories only; and the guest-side drive-letter argument &quot;functions correctly with native OpenSSH&#39;s sftp-server&quot;, which round 1 explicitly left unproven and which still needs a real host. Unlike round 1 it produced no false positive, which is an improvement, but it reached that by finding nothing.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5</span></th><th><span class="pill pill-codex">Codex GPT 5.6 Sol</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>16m 27s</td><td>9m 32s</td><td>3m 36s</td><td>3m 33s</td></tr>
+        <tr><td>Findings</td><td>5S</td><td>1S</td><td>none</td><td>none</td></tr>
+        <tr><td>Tool calls</td><td>55 (Bash 48, Read 7)</td><td>26 (shell 20, plan 4, stdin 2)</td><td>15 (run<em>shell</em>command 15)</td><td>32 (grep<em>search 17, read</em>file 9, run<em>shell</em>command 4)</td></tr>
+        <tr><td>Design observations</td><td>6</td><td>3</td><td>2</td><td>3</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>5</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>5</td><td>5</td><td>5</td><td>5</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>2</td><td>3</td><td>3</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>5S</strong></td><td><strong>1S</strong></td><td><strong>none</strong></td><td><strong>none</strong></td></tr>
+        <tr><td>Downgraded</td><td>1 (I→S)</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Reconciliation.</strong> Claude filed the untested pairing as Important, arguing that removing the sftp-server field assignment would go unnoticed; I reproduced the deletion and the build fails, so the finding as written is refuted. The narrower gap it points at is real, and S5 states it against <code>LocalPath</code>, the field where a mis-wiring does compile. That is the only severity change: Claude I1 important, to S5 suggestion.</p>
+    <p>The two Gemini reviewers share a model family, so their identical &quot;no issues&quot; verdict counts as one opinion. Claude carried this round, as it did round 1, and its habit of checking a claim against the project&#39;s own CI logs is what separated it from the others. Codex remains the useful counterweight: one finding, verified outside the diff, stated in the fewest words.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>When a finding argues from a counterfactual edit (&quot;deleting this line leaves the suite green&quot;, &quot;this field could be removed and nothing would fail&quot;), apply the edit in the lead worktree and run the build and the tests before accepting the finding. Compilers reject a large share of proposed silent regressions, and the experiment costs one build. Keep the finding only for the edits that compile, and say in the finding which edit you ran.</li>
+      <li>When a round follows a rebase, diff the dependency manifest between the prior round&#39;s base and the current merge-base, then re-verify every prior-round conclusion that rested on a third-party library&#39;s behavior. A version bump on the base branch changes what a library does without touching a line of the diff, so a fact one round verified against the old version can be false in the next while the reviewed files look untouched. State the bumped dependencies in the prompt so agents re-read the new source instead of the version a prior round cited.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>[repo] UPDATE the &quot;sshocker performs a hidden sftp-server path conversion on Windows&quot; entry. Its description of the conversion is out of date. Since v0.3.11 sshocker does more than accept a Unix-form <code>LocalPath</code> with an &quot;assuming Cygwin/msys2 OpenSSH&quot; log line: <code>reversesshfs.Start</code> calls <code>convertMSYS2Path</code>, which rewrites <code>/c/Users/...</code> to <code>C:\Users\...</code> before both the local sftp-server&#39;s <code>-d</code> argument and the guest&#39;s sshfs base path. The rewrite fires only when the third byte is a slash, so stock Cygwin&#39;s <code>/cygdrive/c/...</code> and native <code>C:/...</code> forms pass through unchanged. The entry&#39;s conclusion still holds and should be kept: Lima&#39;s own conversion is not the last word on what the sftp-server receives. Check the entry&#39;s opening premise against master when applying, since it asserts that <code>pkg/hostagent/mount.go</code> leaves <code>ReverseSSHFS.OpensshSftpServerBinary</code> unset.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(n){function e(n){return n=n.replace(/<inner>/g,(function(){return"(?:\\\\.|[^\\\\\n\r]|(?:\n|\r\n?)(?![\r\n]))"})),RegExp("((?:^|[^\\\\])(?:\\\\{2})*)(?:"+n+")")}var t="(?:\\\\.|``(?:[^`\r\n]|`(?!`))+``|`[^`\r\n]+`|[^\\\\|\r\n`])+",a="\\|?__(?:\\|__)+\\|?(?:(?:\n|\r\n?)|(?![^]))".replace(/__/g,(function(){return t})),i="\\|?[ \t]*:?-{3,}:?[ \t]*(?:\\|[ \t]*:?-{3,}:?[ \t]*)+\\|?(?:\n|\r\n?)";n.languages.markdown=n.languages.extend("markup",{}),n.languages.insertBefore("markdown","prolog",{"front-matter-block":{pattern:/(^(?:\s*[\r\n])?)---(?!.)[\s\S]*?[\r\n]---(?!.)/,lookbehind:!0,greedy:!0,inside:{punctuation:/^---|---$/,"front-matter":{pattern:/\S+(?:\s+\S+)*/,alias:["yaml","language-yaml"],inside:n.languages.yaml}}},blockquote:{pattern:/^>(?:[\t ]*>)*/m,alias:"punctuation"},table:{pattern:RegExp("^"+a+i+"(?:"+a+")*","m"),inside:{"table-data-rows":{pattern:RegExp("^("+a+i+")(?:"+a+")*$"),lookbehind:!0,inside:{"table-data":{pattern:RegExp(t),inside:n.languages.markdown},punctuation:/\|/}},"table-line":{pattern:RegExp("^("+a+")"+i+"$"),lookbehind:!0,inside:{punctuation:/\||:?-{3,}:?/}},"table-header-row":{pattern:RegExp("^"+a+"$"),inside:{"table-header":{pattern:RegExp(t),alias:"important",inside:n.languages.markdown},punctuation:/\|/}}}},code:[{pattern:/((?:^|\n)[ \t]*\n|(?:^|\r\n?)[ \t]*\r\n?)(?: {4}|\t).+(?:(?:\n|\r\n?)(?: {4}|\t).+)*/,lookbehind:!0,alias:"keyword"},{pattern:/^```[\s\S]*?^```$/m,greedy:!0,inside:{"code-block":{pattern:/^(```.*(?:\n|\r\n?))[\s\S]+?(?=(?:\n|\r\n?)^```$)/m,lookbehind:!0},"code-language":{pattern:/^(```).+/,lookbehind:!0},punctuation:/```/}}],title:[{pattern:/\S.*(?:\n|\r\n?)(?:==+|--+)(?=[ \t]*$)/m,alias:"important",inside:{punctuation:/==+$|--+$/}},{pattern:/(^\s*)#.+/m,lookbehind:!0,alias:"important",inside:{punctuation:/^#+|#+$/}}],hr:{pattern:/(^\s*)([*-])(?:[\t ]*\2){2,}(?=\s*$)/m,lookbehind:!0,alias:"punctuation"},list:{pattern:/(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,lookbehind:!0,alias:"punctuation"},"url-reference":{pattern:/!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/,inside:{variable:{pattern:/^(!?\[)[^\]]+/,lookbehind:!0},string:/(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,punctuation:/^[\[\]!:]|[<>]/},alias:"url"},bold:{pattern:e("\\b__(?:(?!_)<inner>|_(?:(?!_)<inner>)+_)+__\\b|\\*\\*(?:(?!\\*)<inner>|\\*(?:(?!\\*)<inner>)+\\*)+\\*\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^..)[\s\S]+(?=..$)/,lookbehind:!0,inside:{}},punctuation:/\*\*|__/}},italic:{pattern:e("\\b_(?:(?!_)<inner>|__(?:(?!_)<inner>)+__)+_\\b|\\*(?:(?!\\*)<inner>|\\*\\*(?:(?!\\*)<inner>)+\\*\\*)+\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^.)[\s\S]+(?=.$)/,lookbehind:!0,inside:{}},punctuation:/[*_]/}},strike:{pattern:e("(~~?)(?:(?!~)<inner>)+\\2"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^~~?)[\s\S]+(?=\1$)/,lookbehind:!0,inside:{}},punctuation:/~~?/}},"code-snippet":{pattern:/(^|[^\\`])(?:``[^`\r\n]+(?:`[^`\r\n]+)*``(?!`)|`[^`\r\n]+`(?!`))/,lookbehind:!0,greedy:!0,alias:["code","keyword"]},url:{pattern:e('!?\\[(?:(?!\\])<inner>)+\\](?:\\([^\\s)]+(?:[\t ]+"(?:\\\\.|[^"\\\\])*")?\\)|[ \t]?\\[(?:(?!\\])<inner>)+\\])'),lookbehind:!0,greedy:!0,inside:{operator:/^!/,content:{pattern:/(^\[)[^\]]+(?=\])/,lookbehind:!0,inside:{}},variable:{pattern:/(^\][ \t]?\[)[^\]]+(?=\]$)/,lookbehind:!0},url:{pattern:/(^\]\()[^\s)]+/,lookbehind:!0},string:{pattern:/(^[ \t]+)"(?:\\.|[^"\\])*"(?=\)$)/,lookbehind:!0}}}}),["url","bold","italic","strike"].forEach((function(e){["url","bold","italic","strike","code-snippet"].forEach((function(t){e!==t&&(n.languages.markdown[e].inside.content.inside[t]=n.languages.markdown[t])}))})),n.hooks.add("after-tokenize",(function(n){"markdown"!==n.language&&"md"!==n.language||function n(e){if(e&&"string"!=typeof e)for(var t=0,a=e.length;t<a;t++){var i=e[t];if("code"===i.type){var r=i.content[1],o=i.content[3];if(r&&o&&"code-language"===r.type&&"code-block"===o.type&&"string"==typeof r.content){var l=r.content.replace(/\b#/g,"sharp").replace(/\b\+\+/g,"pp"),s="language-"+(l=(/[a-z][\w-]*/i.exec(l)||[""])[0].toLowerCase());o.alias?"string"==typeof o.alias?o.alias=[o.alias,s]:o.alias.push(s):o.alias=[s]}}else n(i.content)}}(n.tokens)})),n.hooks.add("wrap",(function(e){if("code-block"===e.type){for(var t="",a=0,i=e.classes.length;a<i;a++){var s=e.classes[a],d=/language-(.+)/.exec(s);if(d){t=d[1];break}}var p=n.languages[t];if(p)e.content=n.highlight(e.content.replace(r,"").replace(/&(\w{1,8}|#x?[\da-f]{1,8});/gi,(function(n,e){var t;return"#"===(e=e.toLowerCase())[0]?(t="x"===e[1]?parseInt(e.slice(2),16):Number(e.slice(1)),l(t)):o[e]||n})),p,t);else if(t&&"none"!==t&&n.plugins.autoloader){var u="md-"+(new Date).valueOf()+"-"+Math.floor(1e16*Math.random());e.attributes.id=u,n.plugins.autoloader.loadLanguages(t,(function(){var e=document.getElementById(u);e&&(e.innerHTML=n.highlight(e.textContent,n.languages[t],t))}))}}}));var r=RegExp(n.languages.markup.tag.pattern.source,"gi"),o={amp:"&",lt:"<",gt:">",quot:'"'},l=String.fromCodePoint||String.fromCharCode;n.languages.md=n.languages.markdown}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
