@@ -235,6 +235,12 @@ summary { cursor: pointer; font-weight: 600; }
     <p>Four reviewers ran the same prompt. Both Gemini models reported nothing and marked every file clean. Codex raised one documentation-precision point. Claude raised five, of which one important finding was refuted by the Go compiler and re-filed narrower. The sshocker interaction is the finding that should change what the author does next, and only Claude reached it.</p>
     </div>
     <hr>
+    <h2 id="status">Status <a href="#status" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>All findings below are resolved, and the cited code has changed since this review ran. Each entry ends with a line naming its outcome. Line numbers and snippets show the code as reviewed, not as it stands in <a href="https://github.com/lima-vm/lima/commit/2f970faf"><code>2f970faf</code></a>.</p>
+    </div>
+    <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-critical">
@@ -296,6 +302,7 @@ func mountPathAndSftpServer(ctx context.Context, sshExe sshutil.SSHExe, driver, 
 		return &quot;&quot;, &quot;&quot;, err
 	}</code></pre>
     <p>Fix: say that on Windows sshocker rewrites a <code>/c/...</code> result to <code>C:\...</code> before handing it on.</p>
+    <p><strong>Resolved: fixed.</strong> The docstring now names the rewrite and gives both Cygwin forms, and <code>mountPathAndSftpServer</code>&#39;s comment drops the path-form claim. Verification found a second copy of the same claim in <code>SftpServerForSSH</code>&#39;s docstring, which no agent reported; that one now states provenance instead, after a first attempt named cygpath on the native branch, where none exists.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/hostagent/mount.go">
       <div class="finding-title" id="S2">
@@ -315,6 +322,7 @@ func mountPathAndSftpServer(ctx context.Context, sshExe sshutil.SSHExe, driver, 
 }</code></pre>
     <p>At <a href="https://github.com/lima-vm/lima/commit/78b9ab7a"><code>78b9ab7a</code></a> the mention lived in a code comment and the log read &quot;falling back to auto-detection&quot;. The comment is gone, but the mention moved into output users see, which is more visible than the place @AkihiroSuda flagged. The Windows CI log for this SHA carries the full line. The message also overstates the risk on its commonest trigger, a plain host with the OpenSSH Client feature only, where sshocker finds nothing and falls back to the builtin driver, which handles <code>C:/...</code> correctly.</p>
     <p>Fix: name the remedy instead of the dependency, for example &quot;falling back to a generic search for one that can serve <code>%#q</code>&quot;.</p>
+    <p><strong>Resolved: fixed</strong>, though not with the wording proposed here. &quot;a generic search for one that can serve <code>%#q</code>&quot; asserts an outcome the fallback cannot deliver, since <code>DetectOpensshSftpServerBinary</code> never looks at the path. The message now reads &quot;falling back to a generic search, which may pick one that cannot resolve <code>%#q</code>&quot;, which drops the dependency name and keeps the accurate hedge.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/config/mount.md">
       <div class="finding-title" id="S3">
@@ -352,6 +360,7 @@ This keeps the server and the host paths it serves on one toolchain, which matte
 	return resolvedLocation, sftpServerBinary, nil
 }</code></pre>
     <p>Fix: qualify it, for example &quot;When the lookup finds one, the server and the host path it serves stay on one toolchain.&quot;</p>
+    <p><strong>Resolved: fixed.</strong> The paragraph now opens with &quot;unless <code>sftpDriver</code> is \&quot;builtin\&quot;&quot; and makes the guarantee conditional on the toolchain lookup finding a server.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/sshutil/sshutil.go">
       <div class="finding-title" id="S4">
@@ -390,6 +399,7 @@ func TestMountPathAndSftpServer(t *testing.T) {
 	}
 	ctx := t.Context()</code></pre>
     <p>Fix: add a Cygwin subtest to <code>TestSftpServerForSSH</code> covering an extension-less candidate and a missing one.</p>
+    <p><strong>Resolved: test written.</strong> <code>TestSftpServerForSSHCygwin</code> covers the extension-less candidate, an unresolvable one, and a cygpath that exits non-zero. A new <code>TestMain</code> doubles as the fake <code>cygpath.exe</code>; it writes through <code>os.Stdout</code> rather than <code>fmt.Println</code>, which <code>forbidigo</code> rejects on the windows-2025 lint job. The test has never executed, since no Windows host was available.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/hostagent/mount.go">
       <div class="finding-title" id="S5">
@@ -422,6 +432,7 @@ func TestMountPathAndSftpServer(t *testing.T) {
 		rsf.SSHFSAdditionalArgs = []string{&quot;-o&quot;, &quot;nonempty&quot;}</code></pre>
     <p>The Windows QEMU integration job would probably catch a <code>LocalPath</code> mis-wiring, because <code>addQuotes</code> runs <code>strconv.Quote</code> and a backslash path reaches the guest with doubled separators.</p>
     <p>Fix: extract the struct construction so a Windows test can assert both fields together.</p>
+    <p><strong>Resolved: declined.</strong> Closing it restructures production code for a wiring the Windows integration job already exercises end to end.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/hostagent/mount_windows_test.go">
       <div class="finding-title" id="S6">
@@ -459,6 +470,7 @@ func resolvedTempDir(t *testing.T) string {
 	resolved, err := filepath.EvalSymlinks(dir)
 	assert.NilError(t, err)</code></pre>
     <p>Fix: carry the one-line reason across, or point at <code>resolvedTempDir</code>.</p>
+    <p><strong>Resolved: fixed.</strong> The fixture&#39;s comment now gives the 8.3 short-path reason.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
@@ -492,6 +504,7 @@ func resolvedTempDir(t *testing.T) string {
       <li>Native-OpenSSH reverse-sshfs end to end, deferred to <a href="https://github.com/lima-vm/lima/issues/5342" class="gh-ref" data-title="CI: factor Windows setup into composite actions; add plain-Windows jobs" data-state="open" data-type="pr">#5342</a>. That PR&#39;s smoke action runs create, start, shell, copy, stop, delete; <code>limactl copy</code> goes through scp or rsync, so nothing there reads or writes through the mount. A mount that starts but serves the wrong directory would pass it.</li>
       <li>A <code>sftpDriver</code> value outside <code>{&quot;&quot;, builtin, openssh-sftp-server}</code>. <code>pkg/limayaml/validate.go</code> has no check, so a typo reaches sshocker&#39;s <code>unknown driver</code> error. Pre-existing and loud.</li>
     </ol>
+    <p><strong>Resolved.</strong> Gap 1 is closed by <code>TestSftpServerForSSHCygwin</code>, which drives the branch through a fake <code>cygpath.exe</code>. Gaps 2, 3, and 4 are declined: closing gap 2 restructures production code for a wiring the Windows integration job already exercises; gap 3&#39;s smoke action belongs to <a href="https://github.com/lima-vm/lima/issues/5342" class="gh-ref" data-title="CI: factor Windows setup into composite actions; add plain-Windows jobs" data-state="open" data-type="pr">#5342</a>; gap 4 is pre-existing and fails loudly at mount time.</p>
     </div>
     <hr>
     <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
