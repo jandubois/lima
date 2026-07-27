@@ -233,6 +233,7 @@ summary { cursor: pointer; font-weight: 600; }
     <div class="card card-neutral">
     <p>Every round-2 fix survived, and I re-verified the collapse loop independently: over 271,453 generated inputs the new <code>pathDepth</code> never scores higher than the old one. One gap remains. The depth guard measures the native path, so nothing checks the converted string rsync actually receives, and <code>cygpath</code> can return an empty path with a nil error. The merge-base caught that; this commit does not.</p>
     <p>Gemini 3.1 Pro was quota-exhausted for the second consecutive round, so three reviewers ran. Claude raised all four findings; Codex and Flash returned clean. Codex did the delta-verdict work the round-3 prompt asked for and corroborated the <code>pathDepth</code> comparison at larger scale. I ran the suite, the vet, and the Windows cross-build myself at the review SHA in a clean tree.</p>
+    <p>&gt; <strong>The cited code has changed since this review ran.</strong> The findings were &gt; addressed on 2026-07-27 and the commit was amended from <a href="https://github.com/lima-vm/lima/commit/73b5c4f7"><code>73b5c4f7</code></a> to &gt; <a href="https://github.com/lima-vm/lima/commit/dcb57070"><code>dcb57070</code></a>, so line numbers and snippets below describe the reviewed SHA &gt; rather than the current branch. Each addressed finding carries a &gt; <strong>Resolved</strong> line naming its outcome.</p>
     </div>
     <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
@@ -318,6 +319,7 @@ func WindowsSubsystemPathWithCygpath(ctx context.Context, cygpathExe, orig strin
       <pre><code class="language-diff">+		if depth := pathDepth(hostCurrentDir); depth &lt; rsyncMinimumSrcDirDepth {
 +			return fmt.Errorf(&quot;the host working directory converted to %#q, which is only %d deep&quot;, hostCurrentDir, depth)
 +		}</code></pre>
+    <p><strong>Resolved:</strong> Fixed, and split. The lost guard belongs to this commit, which removed it, so the depth re-check landed here; the merge-base refused an empty converted path and the amended code does again. The wider defect it exposed does not belong here: <code>WindowsSubsystemPathWithCygpath</code> returns unvalidated subprocess output through <code>CombinedOutput</code>, so stderr can contaminate the path, and a depth check cannot catch that. Five callers share that helper, so hardening it is its own PR.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
@@ -369,6 +371,7 @@ func WindowsSubsystemPathWithCygpath(ctx context.Context, cygpathExe, orig strin
 	if syncHostWorkdir &amp;&amp; inst.VMType == limatype.WSL2 {
 		return errors.New(&quot;cannot use `--sync` with a wsl2 instance&quot;)</code></pre>
     <p>Fix: state the isolation reason in the comment, and end the error with <code>, the host directory is already visible in the guest</code>.</p>
+    <p><strong>Resolved:</strong> Fixed as proposed. The comment now gives the isolation reason and drops the rsync mechanism, which was the half that invited a <code>cygpath</code> &quot;fix&quot;. The commit body gained the same reasoning, keeping it ahead of the mechanical one it already carried.</p>
     </div>
     <div class="card card-suggestion" data-file="cmd/limactl/shell.go">
       <div class="finding-title" id="S2">
@@ -419,6 +422,7 @@ func pathDepth(path string) int {
 	// A separator run delimits one field. The two leading separators of a UNC
 	// path enclose one root, so counting both would clear the minimum depth for</code></pre>
     <p>Fix: add the trailing-separator rule to the docstring, and note in the prefix comment that the <code>UNC</code> token counts as the root field.</p>
+    <p><strong>Resolved:</strong> Fixed as proposed. Both gaps are now recorded where a reader meets them, so neither has to be re-derived to trust the code.</p>
     </div>
     <div class="card card-suggestion" data-file="">
       <div class="finding-title" id="S3">
@@ -428,6 +432,7 @@ func pathDepth(path string) int {
     <p>The merge-base counted <code>len(strings.Split(path, string(os.PathSeparator)))</code>, so on Linux each backslash now adds a level rather than one level total. I measured <code>/home/jan/a\b</code> at 4 then 5, and <code>/a\b\c</code> at 2 then 4: two backslashes in a top-level directory name are enough to clear a threshold the merge-base refused. Claude put the crossing point at three; two suffices.</p>
     <p>Round 1 declined the behaviour itself and I am not re-raising it. The decline rested on the commit message disclosing the change, which makes the disclosure&#39;s precision the load-bearing part.</p>
     <p>Fix: say the count grows by one level per backslash, and that enough of them can clear a threshold the old formula failed.</p>
+    <p><strong>Resolved:</strong> Fixed. The commit body now says the count grows per backslash rather than once, which keeps round 1&#39;s decline resting on a disclosure that matches the code. The conversion-failure paragraph was rewritten in the same pass to account for the second depth check I1 added.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
