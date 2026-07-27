@@ -233,6 +233,7 @@ summary { cursor: pointer; font-weight: 600; }
     <div class="card card-neutral">
     <p>The depth computation and its unit test are correct, and measuring the native path is the right fix. But the old guard was also the only thing that aborted <code>--sync</code> when the Windows path conversion failed. Reading a different variable removes that abort, and the empty path left behind becomes <code>/</code> in the rsync argv. Three pre-existing Windows path bugs become reachable once <code>--sync</code> works on Windows at all.</p>
     <p>All four reviewers converged on the conversion-failure regression. Codex and Claude independently traced it into <code>pkg/copytool</code>, and I confirmed the mechanism plus a missing confirmation prompt neither of them mentioned. The remaining Important findings are pre-existing gaps, so each belongs in its own follow-up PR.</p>
+    <p>&gt; <strong>The cited code has changed since this review ran.</strong> The findings were &gt; addressed on 2026-07-27 and the commit was amended from <a href="https://github.com/lima-vm/lima/commit/ebaf33db"><code>ebaf33db</code></a> to &gt; <a href="https://github.com/lima-vm/lima/commit/ed3ad083"><code>ed3ad083</code></a>, so line numbers and snippets below describe the reviewed SHA &gt; rather than the current branch. Each addressed finding carries a &gt; <strong>Resolved</strong> line naming its outcome.</p>
     </div>
     <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
@@ -327,6 +328,7 @@ summary { cursor: pointer; font-weight: 600; }
  		changeDirCmd = &quot;false&quot;
  		logrus.WithError(err).Warn(&quot;failed to get the current directory&quot;)
  	}</code></pre>
+    <p><strong>Resolved:</strong> Fixed as proposed. <code>--sync</code> now returns the error instead of warning and continuing. Declined a further guard on <code>hostCurrentDir == &quot;&quot;</code> with <code>err == nil</code>: no reachable case exists, since a conversion helper returning success with an empty path would be a bug in that helper.</p>
     </div>
     <hr>
     <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
@@ -371,6 +373,7 @@ func shellAction(cmd *cobra.Command, args []string) error {</code></pre>
 +	slashed := &quot;/&quot; + strings.TrimLeft(strings.ReplaceAll(path, `\`, &quot;/&quot;), &quot;/&quot;)
 +	return strings.Count(slashed, &quot;/&quot;) + 1
  }</code></pre>
+    <p><strong>Resolved:</strong> Fixed, and widened during verification. Beyond the leading separator run, <code>pathDepth</code> now strips extended-length and device prefixes (<code>\\?\C:\</code>, <code>\\.\C:\</code>, <code>\\?\UNC\server\share</code>) and normalises a root&#39;s trailing separator, without which <code>\\server\share\</code> still counted 4 while <code>\\server\share</code> counted 3. Eight rows were added to <code>TestPathDepth</code>, which closes Testing Gap #3. The Unix backslash-in-filename half was declined: it only loosens a foot-gun guard and the commit message discloses it. <code>\??\</code> and <code>\\?\GLOBALROOT\</code> prefixes remain unstripped, since a conversion error catches them downstream.</p>
     </div>
     <div class="card card-important" data-file="cmd/limactl/shell.go">
       <div class="finding-title" id="I2">
@@ -417,6 +420,7 @@ func askUserForRsyncBack(ctx context.Context, cmd *cobra.Command, inst *limatype
 		logrus.Info(&quot;No changes detected&quot;)</code></pre>
     <p>This code is pre-existing and untouched by the PR. But <code>--sync</code> never ran on Windows before, so this is the first release where anyone can reach it.</p>
     <p>Fix: use the <code>path</code> package for guest paths and <code>hostCurrentDirNative</code> for host-filesystem calls.</p>
+    <p><strong>Resolved:</strong> Declined for this PR — pre-existing bug in untouched code, so it belongs in its own PR under the one-commit-per-PR convention. Verification confirmed the mechanism and found that <code>filepath.Dir(hostCurrentDir)</code> at <a href="https://github.com/lima-vm/lima/blob/ebaf33db607943f7e083dd03f2d19e5c860cb1ca/cmd/limactl/shell.go#L557"><code>shell.go:557</code></a> degrades the change preview on Windows the same way. Both should land together in the follow-up.</p>
     </div>
     <div class="card card-important" data-file="cmd/limactl/shell.go">
       <div class="finding-title" id="I3">
@@ -480,6 +484,7 @@ func askUserForRsyncBack(ctx context.Context, cmd *cobra.Command, inst *limatype
 </code></pre>
     <p>This PR creates the variable the fix needs. Passing <code>hostCurrentDirNative</code> to <code>mountsContainPath</code> while keeping <code>hostCurrentDir</code> for the guest <code>cd</code> restores the match, because the defaulted <code>MountPoint</code> is the <code>/c/...</code> form. An explicit <code>mountPoint:</code> in the YAML still breaks the <code>cd</code>, which is a separate bug.</p>
     <p>Fix: pass the native paths to <code>mountsContainPath</code>, in a follow-up PR.</p>
+    <p><strong>Resolved:</strong> Declined for this PR — pre-existing bug on a different code path than <code>--sync</code>, so it belongs in its own PR.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
@@ -517,6 +522,7 @@ func rsyncVersion(ctx context.Context) (*semver.Version, error) {
 	out, err := exec.CommandContext(ctx, string(copytool.BackendRsync), &quot;--version&quot;).Output()
 	if err != nil {</code></pre>
     <p>Fix: keep only what stays true. &quot;Measure the host&#39;s own path: the <code>/c/...</code> (or <code>/mnt/c/...</code>) form <code>hostCurrentDir</code> carries on Windows adds one or two components.&quot;</p>
+    <p><strong>Resolved:</strong> Fixed. The proposed wording used a colon after a full clause, so the applied version splits it into two sentences.</p>
     </div>
     <div class="card card-suggestion" data-file="cmd/limactl/shell_test.go">
       <div class="finding-title" id="S2">
@@ -549,6 +555,7 @@ func rsyncVersion(ctx context.Context) (*semver.Version, error) {
 	if err == nil {
 		hostCurrentDir = hostCurrentDirNative</code></pre>
     <p>Fix: say the helper tolerates either separator so the whole table runs on every platform, which is what the case actually demonstrates.</p>
+    <p><strong>Resolved:</strong> Fixed.</p>
     </div>
     <div class="card card-suggestion" data-file="hack/bats/tests/shell-sync.bats">
       <div class="finding-title" id="S3">
@@ -556,6 +563,7 @@ func rsyncVersion(ctx context.Context) (*semver.Version, error) {
       </div>
     <p>The commit message and PR description say &quot;The 11 <code>--sync</code> tests in <code>hack/bats/tests/shell-sync.bats</code>&quot;. The file holds 10 <code>@test</code> blocks, which I counted at the review SHA. Because the PR body mirrors the commit body in this repo, correcting it means amending the commit and force-pushing, so fold in any pending rebase at the same time.</p>
     <p>Fix: change 11 to 10.</p>
+    <p><strong>Resolved:</strong> Fixed in the PR description. The count lives only there; the commit message never carried it, so no amend was needed for this one.</p>
     </div>
     <div class="card card-suggestion" data-file="cmd/limactl/shell.go">
       <div class="finding-title" id="S4">
@@ -587,6 +595,7 @@ func rsyncVersion(ctx context.Context) (*semver.Version, error) {
 	}
 </code></pre>
     <p>Fix: fold into I2 and pass <code>hostCurrentDirNative</code> here.</p>
+    <p><strong>Resolved:</strong> Declined for this PR — unverified, pre-existing, and on the same code path as I2, so it folds into that follow-up.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
