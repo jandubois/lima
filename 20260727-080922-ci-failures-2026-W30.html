@@ -212,7 +212,7 @@ summary { cursor: pointer; font-weight: 600; }
     <h1>CI Failures: 2026-W30</h1>
 
     <table class="meta-table">
-      <tr><td>Date</td><td>2026-07-27 08:09</td></tr>
+      <tr><td>Date</td><td>2026-07-28 07:06</td></tr>
       <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
       <tr><td>Period</td><td>2026-W30 (Mon 2026-07-20 – Sun 2026-07-26)</td></tr>
       <tr><td>Verdict</td><td><span class="verdict">62 failed jobs</span> &mdash; 14 on <code>master</code>, 41 known flakes, 23 proven</td></tr>
@@ -233,6 +233,8 @@ summary { cursor: pointer; font-weight: 600; }
         <tr><td>proven flakes (re-run went green)</td><td>23</td><td>26</td><td>▼ -3</td><td>17.2</td></tr>
         <tr><td>unrecognized</td><td>19</td><td>84</td><td>▼ -65</td><td>86.2</td></tr>
         <tr><td>awaiting analysis (<code>master</code>)</td><td>0</td><td>3</td><td>▼ -3</td><td>2.0</td></tr>
+        <tr><td>jobs run (outside the quarantine)</td><td>3569</td><td>4278</td><td>▼ -709</td><td>3743.2</td></tr>
+        <tr><td>failure rate</td><td>1.7%</td><td>3.0%</td><td>▼ -1.3pp</td><td>3.4%</td></tr>
       </tbody>
     </table>
     <p>Every <code>master</code> failure in this period has a verdict. 38 await analysis in other periods.</p>
@@ -241,10 +243,10 @@ summary { cursor: pointer; font-weight: 600; }
     <h2 id="assessment">Assessment <a href="#assessment" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-neutral">
-    <p>62 failed jobs against 129 the week before. The sweep only visits runs that already failed, so it cannot say whether CI improved or the week was simply quieter; 41 runs carried a failure, against 76.</p>
-    <p>What it can say is that <code>master</code> did not improve. Its 14 failures match the previous week exactly and sit above the 10.8 four-week average, so the whole drop is on PR branches. Every one of those 14 has a verdict, and not one is a regression. Thirteen are known flakes or a recorded one-off, and the fourteenth is a log that expired before anyone read it.</p>
-    <p>Twenty-three of the 62 failures are proven flakes, where the identical job passed on a re-run of the same commit. More than a third of the week&#39;s failures cost a developer a re-run and told them nothing.</p>
-    <p><code>requirement-script-bad-fd</code> is the one moving the wrong way, at 10 jobs against a 6.8 four-week average, its highest in six weeks (4, 6, 5, 8, 8, 10), and 3 of them on <code>master</code>. It reports a guest requirement as unsatisfied when the requirement script never ran at all, so the instance is declared degraded and the message names the wrong cause. That one is worth root-causing rather than re-running. <code>lychee-link-unreachable</code> is larger at 14 but flat across the same six weeks (16, 13, 20, 21, 12, 14), and it is lima&#39;s own docs site refusing connections, so it burns re-runs without saying anything about the code.</p>
+    <p>62 failed jobs against 129 the week before, on 3,569 jobs run against 4,278. The failure rate fell from 3.0% to 1.7% against a 3.4% four-week average, so the failures fell faster than the volume did.</p>
+    <p><code>master</code> is where nothing improved. Its 14 failures match the previous week exactly and sit above the 10.8 four-week average, so the whole drop belongs to PR branches. Every one of the 14 has a verdict and none is a regression: thirteen are known flakes or a recorded one-off, and the fourteenth is a log that expired before anyone read it.</p>
+    <p>Twenty-three of the 62 are proven flakes, where the identical job passed on a re-run of the same commit. More than a third of the week&#39;s failures cost a developer a re-run and told them nothing. <code>requirement-script-bad-fd</code> is the one moving the wrong way: 10 jobs against a 6.8 four-week average, its highest in six weeks (4, 6, 5, 8, 8, 10), and 3 of them on <code>master</code>. It reports a guest requirement as unsatisfied when the requirement script never ran at all, so the instance is declared degraded and the message names the wrong cause. Root-cause that one; re-running it only hides it. <code>lychee-link-unreachable</code> is larger at 14 but flat across the same six weeks (16, 13, 20, 21, 12, 14), and it is lima&#39;s own docs site refusing connections, so it says nothing about the code.</p>
+    <p>Two of the eight flakes have fixes open: <a href="https://github.com/lima-vm/lima/issues/5355" class="gh-ref" data-title="hack: ignore SIGPIPE in test-port-forwarding.pl" data-state="open" data-type="pr">#5355</a> ignores SIGPIPE in test-port-forwarding.pl, and <a href="https://github.com/lima-vm/lima/issues/5356" class="gh-ref" data-title="hack: wait for the coredns forward before querying it" data-state="open" data-type="pr">#5356</a> waits for the coredns forward before querying it. Between them they account for 3 of this week&#39;s failures. Nothing new needs a matcher: the only unrecognized surface appearing on more than one branch is the socat port-forwarding message, and one of those two jobs was read and recorded as a one-off.</p>
     </div>
     <hr>
     <h2 id="known-flakes">Known flakes <a href="#known-flakes" class="pilcrow">&#182;</a></h2>
@@ -257,8 +259,8 @@ summary { cursor: pointer; font-weight: 600; }
         <tr><td><code>requirement-script-bad-fd</code></td><td>10</td><td>3</td><td>8</td><td>▲ +2</td><td>6.8</td><td>—</td><td>a guest requirement script never ran because reading its result gave a bad file descriptor, so lima declared the instance degraded and blamed the requirement; proven flake, and the <code>degraded</code> fatal is the consequence</td></tr>
         <tr><td><code>instance-start-timeout</code></td><td>8</td><td>1</td><td>14</td><td>▼ -6</td><td>12.2</td><td>—</td><td>limactl start timed out waiting for the instance to reach running; the test reports it as Failed to start &lt;instance&gt;, and the instance name varies by template</td></tr>
         <tr><td><code>port-forward-payload-not-received</code></td><td>4</td><td>2</td><td>3</td><td>▲ +1</td><td>1.8</td><td>—</td><td>a forwarded port did not carry its payload within the 1s connect timeout although the hostagent had announced the forward; reported as <code>Port forwarding rules do not work with socat</code></td></tr>
-        <tr><td><code>port-forward-writer-sigpipe</code></td><td>2</td><td>1</td><td>4</td><td>▼ -2</td><td>2.0</td><td>proposed</td><td>test-port-forwarding.pl was killed by SIGPIPE writing its payload to a socat that had already exited on the expected refusal of an <code>ignore:</code> rule, so it printed no per-forward result and the harness reported port forwarding broken</td></tr>
-        <tr><td><code>coredns-forward-not-ready</code></td><td>1</td><td>1</td><td>0</td><td>▲ +1</td><td>0.0</td><td>proposed</td><td>the dig against coredns on the forwarded UDP port got no answer and killed hack/test-templates.sh with dig&#39;s exit 9; the harness queries the port with no readiness wait, and lima publishes the host listener only after the guest agent reports it</td></tr>
+        <tr><td><code>port-forward-writer-sigpipe</code></td><td>2</td><td>1</td><td>4</td><td>▼ -2</td><td>2.0</td><td>PR <a href="https://github.com/lima-vm/lima/issues/5355" class="gh-ref" data-title="hack: ignore SIGPIPE in test-port-forwarding.pl" data-state="open" data-type="pr">#5355</a></td><td>test-port-forwarding.pl was killed by SIGPIPE writing its payload to a socat that had already exited on the expected refusal of an <code>ignore:</code> rule, so it printed no per-forward result and the harness reported port forwarding broken</td></tr>
+        <tr><td><code>coredns-forward-not-ready</code></td><td>1</td><td>1</td><td>0</td><td>▲ +1</td><td>0.0</td><td>PR <a href="https://github.com/lima-vm/lima/issues/5356" class="gh-ref" data-title="hack: wait for the coredns forward before querying it" data-state="open" data-type="pr">#5356</a></td><td>the dig against coredns on the forwarded UDP port got no answer and killed hack/test-templates.sh with dig&#39;s exit 9; the harness queries the port with no readiness wait, and lima publishes the host listener only after the guest agent reports it</td></tr>
         <tr><td><code>guest-image-pull-blob-fetch-failed</code></td><td>1</td><td>1</td><td>1</td><td>—</td><td>0.5</td><td>—</td><td>a container image pull inside the guest failed mid-download on a transient network or registry error, killing hack/test-templates.sh under set -e</td></tr>
         <tr><td><code>image-location-check-server-error</code></td><td>1</td><td>1</td><td>0</td><td>▲ +1</td><td>0.0</td><td>—</td><td>the image host answered the pre-flight HEAD with a 5xx or 429, so no location passed and the job died in setup<em>cache</em>for_template before any test ran</td></tr>
       </tbody>
@@ -276,7 +278,7 @@ summary { cursor: pointer; font-weight: 600; }
         <tr><td>Mon 20 02:14</td><td><a href="https://github.com/lima-vm/lima/actions/runs/29712197046/job/88257781545">88257781545</a></td><td><code>dependabot/go_modules/github.com/mattn/go-shellwords-1.0.14</code></td><td><code>Windows tests (WSL2)</code></td><td>a forwarded port did not carry its payload within the 1s connect time…</td><td><code>port-forward-payload-not-received</code></td><td>13.8h</td></tr>
         <tr><td>Mon 20 02:14</td><td><a href="https://github.com/lima-vm/lima/actions/runs/29712197046/job/88257781597">88257781597</a></td><td><code>dependabot/go_modules/github.com/mattn/go-shellwords-1.0.14</code></td><td><code>Integration tests (vz) (default.yaml)</code></td><td>a guest requirement script never ran because reading its result gave …</td><td><code>requirement-script-bad-fd</code></td><td>13.8h</td></tr>
         <tr><td>Tue 21 04:23</td><td><a href="https://github.com/lima-vm/lima/actions/runs/29801110725/job/88542217675">88542217675</a></td><td><code>fix/3103-limactl-panic-invalid-config</code></td><td><code>Lints</code></td><td>lychee could not reach a link target (connection refused/reset, TLS h…</td><td><code>lychee-link-unreachable</code></td><td>5.6h</td></tr>
-        <tr><td>Tue 21 04:23</td><td><a href="https://github.com/lima-vm/lima/actions/runs/29801110725/job/88542217680">88542217680</a></td><td><code>fix/3103-limactl-panic-invalid-config</code></td><td><code>Integration tests (vz) (default.yaml)</code></td><td><em>unnamed</em></td><td><strong>none — write one</strong></td><td>5.4h</td></tr>
+        <tr><td>Tue 21 04:23</td><td><a href="https://github.com/lima-vm/lima/actions/runs/29801110725/job/88542217680">88542217680</a></td><td><code>fix/3103-limactl-panic-invalid-config</code></td><td><code>Integration tests (vz) (default.yaml)</code></td><td><code>step :: Test</code></td><td><strong>none — write one</strong></td><td>5.4h</td></tr>
         <tr><td>Tue 21 06:20</td><td><a href="https://github.com/lima-vm/lima/actions/runs/29806698893/job/88558620945">88558620945</a></td><td><code>hostagent-reverse-sshfs-plain-windows</code></td><td><code>Lints</code></td><td>lychee could not reach a link target (connection refused/reset, TLS h…</td><td><code>lychee-link-unreachable</code></td><td>2.1h</td></tr>
         <tr><td>Tue 21 06:20</td><td><a href="https://github.com/lima-vm/lima/actions/runs/29806698893/job/88558620983">88558620983</a></td><td><code>hostagent-reverse-sshfs-plain-windows</code></td><td><code>Integration tests (vz) (default.yaml)</code></td><td><em>log expired</em></td><td><strong>none — write one</strong></td><td>1.1h</td></tr>
         <tr><td>Tue 21 06:24</td><td><a href="https://github.com/lima-vm/lima/actions/runs/29806920932/job/88559298488">88559298488</a></td><td><code>sshutil-remove-issshcygwin</code></td><td><code>Lints</code></td><td>lychee could not reach a link target (connection refused/reset, TLS h…</td><td><code>lychee-link-unreachable</code></td><td>0.9h</td></tr>
@@ -371,7 +373,7 @@ summary { cursor: pointer; font-weight: 600; }
     <table>
       <thead><tr><th>branch</th><th>jobs</th><th>known flake</th><th>unrecognized</th><th>most common failure</th></tr></thead>
       <tbody>
-        <tr><td><code>ci-plain-windows-jobs</code></td><td>6</td><td>1</td><td>5</td><td><code>lychee :: [ERROR] &lt;https://scorecard.dev/viewer/?uri=github.com/lima-vm/lima&gt;</code></td></tr>
+        <tr><td><code>ci-plain-windows-jobs</code></td><td>6</td><td>1</td><td>5</td><td><code>step :: Run ./.github/actions/windows_plain_smoke_test</code></td></tr>
         <tr><td><code>copytohost-symlink-nofollow</code></td><td>5</td><td>4</td><td>1</td><td>lychee could not reach a link target (connection refused/reset, TLS h…</td></tr>
         <tr><td><code>extend-default-timeout-for-Windows</code></td><td>5</td><td>4</td><td>1</td><td>lychee could not reach a link target (connection refused/reset, TLS h…</td></tr>
         <tr><td><code>docs/5267-agents-md</code></td><td>3</td><td>3</td><td>0</td><td>a forwarded port did not carry its payload within the 1s connect time…</td></tr>
@@ -379,8 +381,8 @@ summary { cursor: pointer; font-weight: 600; }
         <tr><td><code>dependabot/github_actions/github/codeql-action/upload-sarif-4.37.1</code></td><td>2</td><td>1</td><td>1</td><td><code>job error :: pkg/mcp/msi/filesystem.go:15:2: github.com/modelcontextprotocol/go-sdk</code></td></tr>
         <tr><td><code>dependabot/go_modules/github.com/mattn/go-shellwords-1.0.14</code></td><td>2</td><td>2</td><td>0</td><td>a forwarded port did not carry its payload within the 1s connect time…</td></tr>
         <tr><td><code>feat/ubuntu-amd64v3-arch-variant</code></td><td>2</td><td>2</td><td>0</td><td>limactl start timed out waiting for the instance to reach running; th…</td></tr>
-        <tr><td><code>fix/3103-limactl-panic-invalid-config</code></td><td>2</td><td>1</td><td>1</td><td>lychee could not reach a link target (connection refused/reset, TLS h…</td></tr>
-        <tr><td><code>fix/5296</code></td><td>2</td><td>1</td><td>1</td><td>lychee could not reach a link target (connection refused/reset, TLS h…</td></tr>
+        <tr><td><code>fix/3103-limactl-panic-invalid-config</code></td><td>2</td><td>1</td><td>1</td><td><code>step :: Test</code></td></tr>
+        <tr><td><code>fix/5296</code></td><td>2</td><td>1</td><td>1</td><td><code>step :: Validate templates</code></td></tr>
         <tr><td><code>hostagent-reverse-sshfs-plain-windows</code></td><td>2</td><td>1</td><td>0</td><td>lychee could not reach a link target (connection refused/reset, TLS h…</td></tr>
         <tr><td><code>portfwd-validate-guest-addr</code></td><td>2</td><td>1</td><td>1</td><td><code>lima test :: Failed to start &quot;test-misc&quot;</code></td></tr>
         <tr><td><code>sshutil-remove-issshcygwin</code></td><td>2</td><td>1</td><td>1</td><td><code>github:jandubois/jandubois/@v0.0.0 in 30425ms :: file &#39;https://raw.githubusercontent.com/jandubois/jandubois/v0.0.0/.li</code></td></tr>
@@ -392,7 +394,7 @@ summary { cursor: pointer; font-weight: 600; }
         <tr><td><code>feat/downloader-resume-partial-downloads</code></td><td>1</td><td>1</td><td>0</td><td>a guest requirement script never ran because reading its result gave …</td></tr>
         <tr><td><code>fix/rosetta-cdi-symlink-cleanup</code></td><td>1</td><td>0</td><td>1</td><td><code>lima test :: Port forwarding rules do not work with socat</code></td></tr>
         <tr><td><code>k3s-proxy</code></td><td>1</td><td>1</td><td>0</td><td>limactl start timed out waiting for the instance to reach running; th…</td></tr>
-        <tr><td><code>schema-release</code></td><td>1</td><td>0</td><td>1</td><td>—</td></tr>
+        <tr><td><code>schema-release</code></td><td>1</td><td>0</td><td>1</td><td><code>step :: Make json schema</code></td></tr>
         <tr><td><code>shell-sync-depth</code></td><td>1</td><td>1</td><td>0</td><td>limactl start timed out waiting for the instance to reach running; th…</td></tr>
       </tbody>
     </table>
@@ -403,11 +405,11 @@ summary { cursor: pointer; font-weight: 600; }
       <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
       <tbody>
         <tr><td>Sun 26 23:17</td><td><a href="https://github.com/lima-vm/lima/actions/runs/30224936407/job/89853473331">89853473331</a></td><td>lint-quick</td><td><code>Quick lints</code></td><td><code>lychee :: [ERROR] &lt;https://scorecard.dev/viewer/?uri=github.com/lima-vm/lima&gt;</code></td><td>unrecognized</td></tr>
-        <tr><td>Sun 26 23:17</td><td><a href="https://github.com/lima-vm/lima/actions/runs/30224936450/job/89853473542">89853473542</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td><em>unnamed</em></td><td>unrecognized</td></tr>
-        <tr><td>Sun 26 23:17</td><td><a href="https://github.com/lima-vm/lima/actions/runs/30224936450/job/89853473558">89853473558</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td><em>unnamed</em></td><td>unrecognized</td></tr>
+        <tr><td>Sun 26 23:17</td><td><a href="https://github.com/lima-vm/lima/actions/runs/30224936450/job/89853473542">89853473542</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td><code>step :: Integration tests (QEMU, Windows host)</code></td><td>unrecognized</td></tr>
+        <tr><td>Sun 26 23:17</td><td><a href="https://github.com/lima-vm/lima/actions/runs/30224936450/job/89853473558">89853473558</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td><code>step :: Integration tests (WSL2, Windows host)</code></td><td>unrecognized</td></tr>
         <tr><td>Sun 26 23:17</td><td><a href="https://github.com/lima-vm/lima/actions/runs/30224936450/job/89853473606">89853473606</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/net-user-v2.yaml)</code></td><td>limactl start timed out waiting for the instance to reach running; th…</td><td><code>instance-start-timeout</code></td></tr>
-        <tr><td>Sun 26 23:17</td><td><a href="https://github.com/lima-vm/lima/actions/runs/30224936450/job/89853473624">89853473624</a></td><td>test</td><td><code>Windows tests (WSL2, plain Windows host)</code></td><td><em>unnamed</em></td><td>unrecognized</td></tr>
-        <tr><td>Sun 26 23:17</td><td><a href="https://github.com/lima-vm/lima/actions/runs/30224936450/job/89853473639">89853473639</a></td><td>test</td><td><code>Windows tests (QEMU, plain Windows host)</code></td><td><em>unnamed</em></td><td>unrecognized</td></tr>
+        <tr><td>Sun 26 23:17</td><td><a href="https://github.com/lima-vm/lima/actions/runs/30224936450/job/89853473624">89853473624</a></td><td>test</td><td><code>Windows tests (WSL2, plain Windows host)</code></td><td><code>step :: Run ./.github/actions/windows_plain_smoke_test</code></td><td>unrecognized</td></tr>
+        <tr><td>Sun 26 23:17</td><td><a href="https://github.com/lima-vm/lima/actions/runs/30224936450/job/89853473639">89853473639</a></td><td>test</td><td><code>Windows tests (QEMU, plain Windows host)</code></td><td><code>step :: Run ./.github/actions/windows_plain_smoke_test</code></td><td>unrecognized</td></tr>
       </tbody>
     </table>
     <p><em></em><code>copytohost-symlink-nofollow</code><em></em> (5)</p>
@@ -479,14 +481,14 @@ summary { cursor: pointer; font-weight: 600; }
       <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
       <tbody>
         <tr><td>Tue 21 04:23</td><td><a href="https://github.com/lima-vm/lima/actions/runs/29801110725/job/88542217675">88542217675</a></td><td>test</td><td><code>Lints</code></td><td>lychee could not reach a link target (connection refused/reset, TLS h…</td><td><code>lychee-link-unreachable</code> ✓</td></tr>
-        <tr><td>Tue 21 04:23</td><td><a href="https://github.com/lima-vm/lima/actions/runs/29801110725/job/88542217680">88542217680</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td><em>unnamed</em></td><td><strong>proven flake — needs matcher</strong></td></tr>
+        <tr><td>Tue 21 04:23</td><td><a href="https://github.com/lima-vm/lima/actions/runs/29801110725/job/88542217680">88542217680</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td><code>step :: Test</code></td><td><strong>proven flake — needs matcher</strong></td></tr>
       </tbody>
     </table>
     <p><em></em><code>fix/5296</code><em></em> (2)</p>
     <table>
       <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
       <tbody>
-        <tr><td>Tue 21 13:35</td><td><a href="https://github.com/lima-vm/lima/actions/runs/29835093284/job/88649274188">88649274188</a></td><td>test</td><td><code>Integration tests (QEMU, macOS host)</code></td><td><em>unnamed</em></td><td>unrecognized</td></tr>
+        <tr><td>Tue 21 13:35</td><td><a href="https://github.com/lima-vm/lima/actions/runs/29835093284/job/88649274188">88649274188</a></td><td>test</td><td><code>Integration tests (QEMU, macOS host)</code></td><td><code>step :: Validate templates</code></td><td>unrecognized</td></tr>
         <tr><td>Tue 21 13:35</td><td><a href="https://github.com/lima-vm/lima/actions/runs/29835093284/job/88649274220">88649274220</a></td><td>test</td><td><code>Lints</code></td><td>lychee could not reach a link target (connection refused/reset, TLS h…</td><td><code>lychee-link-unreachable</code></td></tr>
       </tbody>
     </table>
@@ -574,7 +576,7 @@ summary { cursor: pointer; font-weight: 600; }
     <table>
       <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
       <tbody>
-        <tr><td>Sun 26 15:52</td><td><a href="https://github.com/lima-vm/lima/actions/runs/30209130798/job/89812959583">89812959583</a></td><td>Release</td><td><code>release</code></td><td><em>unnamed</em></td><td>unrecognized</td></tr>
+        <tr><td>Sun 26 15:52</td><td><a href="https://github.com/lima-vm/lima/actions/runs/30209130798/job/89812959583">89812959583</a></td><td>Release</td><td><code>release</code></td><td><code>step :: Make json schema</code></td><td>unrecognized</td></tr>
       </tbody>
     </table>
     <p><em></em><code>shell-sync-depth</code><em></em> (1)</p>
@@ -596,12 +598,18 @@ summary { cursor: pointer; font-weight: 600; }
       <tbody>
         <tr><td>2</td><td>2</td><td><code>lima test :: Port forwarding rules do not work with socat</code></td></tr>
         <tr><td>3</td><td>1</td><td><code>lychee :: [ERROR] &lt;https://lima-vm.io/&gt;</code></td></tr>
-        <tr><td>1</td><td>1</td><td><code>job error :: ./pkg/instance/start.go:44: detault ==&gt; default</code></td></tr>
-        <tr><td>1</td><td>1</td><td><code>github:jandubois/jandubois/@v0.0.0 in 30425ms :: file &#39;https://raw.githubusercontent.com/jandubois/jandubois/v0.0.0/.li</code></td></tr>
-        <tr><td>1</td><td>1</td><td><code>github:jandubois/jandubois in 372ms :: failed to fetch file: Get \</code></td></tr>
-        <tr><td>1</td><td>1</td><td><code>lychee :: [ERROR] &lt;https://scorecard.dev/viewer/?uri=github.com/lima-vm/lima&gt;</code></td></tr>
-        <tr><td>1</td><td>1</td><td><code>org redirects cannot point to another org in 30976ms :: file &#39;https://raw.githubusercontent.com/jandubois/jandubois/main/inval</code></td></tr>
+        <tr><td>2</td><td>1</td><td><code>step :: Run ./.github/actions/windows_plain_smoke_test</code></td></tr>
         <tr><td>1</td><td>1</td><td><code>job error :: pkg/mcp/msi/filesystem.go:15:2: github.com/modelcontextprotocol/go-sdk</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>lychee :: [ERROR] &lt;https://scorecard.dev/viewer/?uri=github.com/lima-vm/lima&gt;</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>step :: Integration tests (WSL2, Windows host)</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>job error :: ./pkg/instance/start.go:44: detault ==&gt; default</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>step :: Test</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>org redirects cannot point to another org in 30976ms :: file &#39;https://raw.githubusercontent.com/jandubois/jandubois/main/inval</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>github:jandubois/jandubois in 372ms :: failed to fetch file: Get \</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>step :: Make json schema</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>github:jandubois/jandubois/@v0.0.0 in 30425ms :: file &#39;https://raw.githubusercontent.com/jandubois/jandubois/v0.0.0/.li</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>step :: Validate templates</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>step :: Integration tests (QEMU, Windows host)</code></td></tr>
         <tr><td>1</td><td>1</td><td><code>lima test :: Failed to start &quot;test-misc&quot;</code></td></tr>
       </tbody>
     </table>
