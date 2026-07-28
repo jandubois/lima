@@ -235,6 +235,14 @@ summary { cursor: pointer; font-weight: 600; }
     <p>All four reviewers ran against <a href="https://github.com/lima-vm/lima/commit/fac4aebb"><code>fac4aebb</code></a>. Two CI runs settled every disputed finding, the PR&#39;s own <code>30243838085</code> and master&#39;s <code>30236908109</code>. In both plain jobs <code>windows_plain_build</code> succeeded, so the &quot;Go is dropped from PATH&quot; claim that two reviewers raised as critical is false. Both MSYS2 jobs failed at <code>limactl copy</code> with <code>C:\Windows\System32\OpenSSH\scp.exe</code>, which confirms the regression three reviewers reached independently. The two plain-Windows jobs fail exactly as the PR description predicts.</p>
     </div>
     <hr>
+    <h2 id="status-findings-addressed">Status: findings addressed <a href="#status-findings-addressed" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The code this review cites has changed. Every finding below was walked with the author and resolved in commit <a href="https://github.com/lima-vm/lima/commit/c7e9fb93"><code>c7e9fb93</code></a>, which amends the reviewed <a href="https://github.com/lima-vm/lima/commit/fac4aebb"><code>fac4aebb</code></a>, so line numbers and snippets here describe the reviewed SHA rather than the current branch.</p>
+    <p>Twelve findings were fixed, one documentation gap was closed, one testing gap got an explanatory comment, and four items were declined. C1 was also recalibrated after the review: this PR merges through the <code>integration-windows-plain</code> branch rather than to master, where <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="open" data-type="pr">#5299</a> fixes the copy failure, so the blocking half of C1 does not apply. What was fixed is the silent toolchain switch it exposed. S6 was withdrawn as a false positive.</p>
+    <p>Three verification rounds ran over the fixes and raised twelve concerns, all accepted. Two were errors in the fixes themselves.</p>
+    </div>
+    <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-critical" data-file=".github/workflows/test.yml">
@@ -273,6 +281,7 @@ if command -v rsync &gt;/dev/null &amp;&amp; limactl shell &quot;$NAME&quot; com
     <p>Fix: install MSYS2&#39;s <code>openssh</code>, which puts <code>ssh.exe</code>, <code>scp.exe</code>, and <code>ssh-keygen.exe</code> beside the <code>cygpath</code> and <code>rsync</code> these jobs already use.</p>
       <pre><code class="language-diff">-      &amp; &#39;C:\msys64\usr\bin\pacman.exe&#39; -Sy --noconfirm openbsd-netcat diffutils rsync socat w3m
 +      &amp; &#39;C:\msys64\usr\bin\pacman.exe&#39; -Sy --noconfirm openbsd-netcat diffutils openssh rsync socat w3m</code></pre>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/c7e9fb93"><code>c7e9fb93</code></a>. <code>openssh</code> added to the pacman list.</p>
     </div>
     <hr>
     <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
@@ -292,6 +301,7 @@ if command -v rsync &gt;/dev/null &amp;&amp; limactl shell &quot;$NAME&quot; com
     <p>This outlives C1. Once <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="open" data-type="pr">#5299</a> makes native OpenSSH work, these two jobs go green again while running the native path, because no <code>cygpath.exe</code> sits beside <code>C:\Windows\System32\OpenSSH\ssh.exe</code>. All four Windows jobs would then exercise native OpenSSH, and nothing would drive the Cygwin branch of <code>PathForSSH</code>. That is the reverse of the PR&#39;s goal, which is plain-Windows coverage <em>alongside</em> the existing Cygwin coverage.</p>
     <p>The newly added rsync sharpens it: rsync comes from MSYS2 while ssh is native, so the un-skipped rsync block runs a host combination neither of the two code paths targets.</p>
     <p>Fix: the same <code>openssh</code> addition as C1 puts ssh, scp, cygpath, and rsync all in <code>C:\msys64\usr\bin</code>.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/c7e9fb93"><code>c7e9fb93</code></a> by C1&#39;s change.</p>
     </div>
     <div class="card card-important" data-file=".github/actions/windows_plain_host/action.yml">
       <div class="finding-title" id="I2">
@@ -347,6 +357,7 @@ if command -v rsync &gt;/dev/null &amp;&amp; limactl shell &quot;$NAME&quot; com
 -      $machine = [Environment]::GetEnvironmentVariable(&#39;Path&#39;,&#39;Machine&#39;)
 -      $user = [Environment]::GetEnvironmentVariable(&#39;Path&#39;,&#39;User&#39;)
 -      $env:PATH = (@($machine, $user) | Where-Object { $_ }) -join &#39;;&#39;</code></pre>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/c7e9fb93"><code>c7e9fb93</code></a>. Both comments corrected and the verify step&#39;s PATH rebuild removed.</p>
     </div>
     <div class="card card-important" data-file=".github/actions/windows_wsl2_setup/action.yml">
       <div class="finding-title" id="I3">
@@ -368,6 +379,7 @@ if command -v rsync &gt;/dev/null &amp;&amp; limactl shell &quot;$NAME&quot; com
       $scratch = Join-Path $env:RUNNER_TEMP &#39;wsl2-dummy&#39;</code></pre>
     <p>At the merge-base this same work carried <code>timeout-minutes: 1</code>, bounding a <code>wsl --import</code> hang. GitHub supports <code>timeout-minutes</code> only on job-level steps, never inside a composite action, so the extraction silently drops it. A hang now burns the job&#39;s full 30 minutes, and in two jobs rather than one.</p>
     <p>Fix: keep the import as a job-level step in both jobs, or bound it in-script with <code>Start-Job</code> plus <code>Wait-Job -Timeout 60</code>.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/c7e9fb93"><code>c7e9fb93</code></a>, bounded in-script with <code>Start-Process</code> plus <code>WaitForExit(60000)</code>.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
@@ -402,6 +414,7 @@ if command -v rsync &gt;/dev/null &amp;&amp; limactl shell &quot;$NAME&quot; com
     - uses: ./.github/actions/windows_qemu_install
     - uses: ./.github/actions/windows_plain_templates</code></pre>
     <p>Fix: use the v7.0.0 SHA at both sites.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/c7e9fb93"><code>c7e9fb93</code></a>.</p>
     </div>
     <div class="card card-suggestion" data-file=".github/workflows/test.yml">
       <div class="finding-title" id="S2">
@@ -422,6 +435,7 @@ if command -v rsync &gt;/dev/null &amp;&amp; limactl shell &quot;$NAME&quot; com
       run: |</code></pre>
     <p>Required status checks match the check-run name, which comes from <code>name:</code>, and <code>name:</code> is unchanged. The GitHub API reports <code>Windows tests (WSL2)</code> for both master&#39;s <code>windows</code> job and this branch&#39;s <code>windows-wsl2</code> job. No <code>needs:</code> references the job id either.</p>
     <p>Fix: drop the &quot;update any branch-protection required checks&quot; paragraph, so nobody edits protection rules unnecessarily.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/c7e9fb93"><code>c7e9fb93</code></a>. The paragraph now states that required checks are unaffected.</p>
     </div>
     <div class="card card-suggestion" data-file=".github/actions/windows_plain_host/action.yml">
       <div class="finding-title" id="S3">
@@ -445,6 +459,7 @@ if command -v rsync &gt;/dev/null &amp;&amp; limactl shell &quot;$NAME&quot; com
       }</code></pre>
     <p>The job&#39;s premise is that Lima falls back to <code>%SystemRoot%\System32\OpenSSH</code>. Nothing asserts that directory exists. A runner image that ever ships without the OpenSSH client fails later with an opaque <code>exec: &quot;ssh&quot;: executable file not found</code>, not the loud prerequisite error the action promises. The same gap let C1 through on the MSYS2 side: no job asserts which ssh it selected.</p>
     <p>Fix: add a positive layer asserting <code>ssh.exe</code>, <code>scp.exe</code>, <code>ssh-keygen.exe</code>, and <code>sftp-server.exe</code> under <code>Join-Path $env:SystemRoot &#39;System32\OpenSSH&#39;</code>.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/c7e9fb93"><code>c7e9fb93</code></a> as Layer 5, all four binaries.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/config/environment-variables.md">
       <div class="finding-title" id="S4">
@@ -452,6 +467,7 @@ if command -v rsync &gt;/dev/null &amp;&amp; limactl shell &quot;$NAME&quot; com
       </div>
     <p><code>website/content/en/docs/releases/breaking.md</code> has an open <code>## v2.2.0</code> section. <code>_LIMA_WINDOWS_EXTRA_PATH</code> was the only knob for pointing <code>limactl</code> at tools outside PATH, and C1 shows it was load-bearing rather than vestigial. <code>SSH</code> replaces it for the ssh binary alone; <code>rsync</code> and <code>cygpath</code> still resolve from the bare PATH.</p>
     <p>Fix: add a v2.2.0 bullet naming the removal and the replacement.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/c7e9fb93"><code>c7e9fb93</code></a>.</p>
     </div>
     <div class="card card-suggestion" data-file=".github/actions/windows_wsl2_setup/action.yml">
       <div class="finding-title" id="S5">
@@ -477,6 +493,7 @@ if command -v rsync &gt;/dev/null &amp;&amp; limactl shell &quot;$NAME&quot; com
       # Write the scratch tarball under $RUNNER_TEMP so the action stays</code></pre>
     <p>The runner appends <code>exit $LASTEXITCODE</code> to every <code>pwsh</code> script, so the last command&#39;s exit code becomes the step&#39;s. <code>wsl --list --online</code> queries the same Microsoft service the comment calls flaky, and unlike <code>--update</code> it does gate the step. The ordering predates this PR; the new comment is what asserts otherwise.</p>
     <p>Fix: append <code>exit 0</code>, or move an unchecked command off the end.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/c7e9fb93"><code>c7e9fb93</code></a>. <code>exit 0</code> appended to both wsl steps.</p>
     </div>
     <div class="card card-suggestion" data-file=".github/actions/windows_msys2_prep/action.yml">
       <div class="finding-title" id="S6">
@@ -492,6 +509,7 @@ if command -v rsync &gt;/dev/null &amp;&amp; limactl shell &quot;$NAME&quot; com
       if ($LASTEXITCODE -ne 0) { throw &quot;pacman failed: $LASTEXITCODE&quot; }</code></pre>
     <p>In run <code>30243838085</code> this prints <code>error: command failed to execute correctly</code> from the <code>Updating the info directory file</code> post-transaction hook, which the new <code>rsync</code> package triggers. Master&#39;s run <code>30236908109</code> installs the same list without rsync and logs no error. pacman still exits 0, so the guard does not fire and the error rides along in every future Windows job log.</p>
     <p>Fix: install <code>texinfo</code> alongside, or pass <code>--noscriptlet</code>, so the log stays clean.</p>
+    <p><strong>Resolved:</strong> declined. The finding is wrong: integration-branch jobs that install no rsync emit the same error, so this PR does not cause it.</p>
     </div>
     <div class="card card-suggestion" data-file=".github/workflows/test.yml">
       <div class="finding-title" id="S7">
@@ -511,6 +529,7 @@ if command -v rsync &gt;/dev/null &amp;&amp; limactl shell &quot;$NAME&quot; com
       with:</code></pre>
     <p>zizmor 1.28 reports no <code>github-env</code> finding for <code>test.yml</code> at any persona, because the workflow triggers on <code>push</code> and <code>pull_request</code> rather than a dangerous trigger. Removing the line changes nothing. The two inline <code>run: | # zizmor: ignore[github-env]</code> comments in the composite actions do carry weight: each suppresses a real finding, since an action has no trigger context. CI pins zizmor through <code>zizmor-action</code> v0.6.0, whose version I did not check.</p>
     <p>Fix: drop the <code>test.yml</code> comment, keep the two in the actions.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/c7e9fb93"><code>c7e9fb93</code></a>.</p>
     </div>
     <div class="card card-suggestion" data-file=".github/actions/windows_plain_host/action.yml">
       <div class="finding-title" id="S8">
@@ -533,6 +552,7 @@ if command -v rsync &gt;/dev/null &amp;&amp; limactl shell &quot;$NAME&quot; com
         if (Test-Path $d) {</code></pre>
     <p>Inno Setup copies itself to a randomly named <code>_iu*.tmp</code> in the temp directory, so <code>-Name unins000</code> never matches the worker. Job <code>89906470794</code> shows the wait returning after 5 seconds with <code>C:\Program Files\Git</code> still present, and the <code>Remove-Item</code> fallback doing the real work. It succeeded there, but the fallback runs with <code>-ErrorAction SilentlyContinue</code>, so a worker still holding a lock would leave remnants and fail Layer 1.</p>
     <p>Fix: poll <code>Get-Process</code> for any name matching <code>unins000</code> or <code>_iu*</code> until it clears.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/c7e9fb93"><code>c7e9fb93</code></a>.</p>
     </div>
     <div class="card card-suggestion" data-file=".github/actions/windows_wsl2_setup/action.yml">
       <div class="finding-title" id="S9">
@@ -557,6 +577,7 @@ if command -v rsync &gt;/dev/null &amp;&amp; limactl shell &quot;$NAME&quot; com
       if ($LASTEXITCODE -ne 0) { throw &quot;wsl --import dummy failed: $LASTEXITCODE&quot; }
       wsl --list --verbose</code></pre>
     <p>Fix: narrow the idempotency claim, or unregister an existing <code>dummy</code> first and import into a dedicated subdirectory.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/c7e9fb93"><code>c7e9fb93</code></a>. Both: unregister first, import into a subdirectory, claim narrowed.</p>
     </div>
     <div class="card card-suggestion" data-file=".github/actions/windows_plain_smoke_test/action.yml">
       <div class="finding-title" id="S10">
@@ -591,6 +612,7 @@ if command -v rsync &gt;/dev/null &amp;&amp; limactl shell &quot;$NAME&quot; com
       function Invoke-Limactl {
         &amp; .\_output\bin\limactl.exe --debug @args</code></pre>
     <p>Fix: <code>$back = &quot;$(Get-Content &quot;$env:LIMA_HOME\rt-back.txt&quot; -Raw)&quot;.Trim()</code>.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/c7e9fb93"><code>c7e9fb93</code></a>. The same defect in <code>windows_plain_templates</code> was fixed with it.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
