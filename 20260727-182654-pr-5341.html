@@ -235,6 +235,12 @@ summary { cursor: pointer; font-weight: 600; }
     <p>All four reviewers produced output. Both Gemini models returned clean, which is one opinion rather than two: they share a model family. Claude found I1 and I3; Codex found the tokenisation defect behind I2 and one important claim that did not survive verification. I confirmed every finding below against the implementing branches, rendered the site, and reproduced the tokenisation experiment.</p>
     </div>
     <hr>
+    <h2 id="status-addressed">Status: addressed <a href="#status-addressed" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Every finding below has been acted on, so the cited lines no longer match the branch. Nine were fixed and one declined; each finding ends with a <strong>Resolved</strong> line naming what happened. Commit <a href="https://github.com/lima-vm/lima/commit/df1997c1"><code>df1997c1</code></a> carries the changes, and verification while applying them corrected three of the fixes below — see the Resolved lines for I1, I3, and S1.</p>
+    </div>
+    <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-critical">
@@ -329,6 +335,7 @@ func DisableControlMasterOptsFromSSHArgs(sshArgs []string) []string {
   install that comes first on `PATH` to keep them consistent.
   `limactl guest-install` ignores this variable altogether.</code></pre>
     <p>Fix: drop the <code>SSH</code> alternative here and tell the reader to fix <code>PATH</code>; keep <code>SSH</code> documented as an override on the environment-variables page.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/df1997c1"><code>df1997c1</code></a>, with a correction. The first wording said <code>SSH</code> overrides &quot;for the commands Lima runs itself&quot;, which verification disproved: the hostagent runs <code>PATH</code>&#39;s <code>ssh</code> for requirement checks too, and those precede mounts, so a mismatch fails <code>limactl start</code> outright. The page now separates the <code>ssh</code> half from the <code>cygpath</code> half and names the direction that breaks.</p>
     </div>
     <div class="card card-important" data-file="website/content/en/docs/config/environment-variables.md">
       <div class="finding-title" id="I2">
@@ -373,6 +380,7 @@ setting adds only `cmd\`, which holds none of those binaries, and
 `usr\bin` also carries `find.exe` and `sort.exe`, which shadow the
 Windows commands of those names.</code></pre>
     <p>Fix: say the value is shell-tokenised, so a Windows path needs quoting or forward slashes, and add <code>$env:SSH = &#39;&quot;C:/Program Files/Git/usr/bin/ssh.exe&quot;&#39;</code> as a PowerShell example.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/df1997c1"><code>df1997c1</code></a>. The entry now says tokenization reads <code>\</code> as an escape and splits on spaces, that backslashes survive only inside single quotes, and carries a PowerShell example. &quot;a bare path is the reliable form&quot; became &quot;a path with no arguments&quot; to stop it contradicting the caveat.</p>
     </div>
     <div class="card card-important" data-file="website/content/en/docs/config/vmtype/wsl2.md">
       <div class="finding-title" id="I3">
@@ -426,6 +434,7 @@ toolchain, so the path and the server that reads it match:
   like `C:/Users/USER`. Native `ssh`, `ssh-keygen`, and `scp` accept
   this form directly. `sftp-server.exe` is picked from the same</code></pre>
     <p>Fix: keep the <code>fstab</code> hazard, then replace the exemption with a note that a mount without an explicit <code>mountPoint</code> moves inside the guest when the toolchain changes.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/df1997c1"><code>df1997c1</code></a>, with two corrections. The first draft keyed the guest-path move to &quot;changing ssh toolchains&quot;, but that path comes from <code>PATH</code>&#39;s <code>cygpath</code>, not the selected toolchain; the note now separates host-path and guest-path effects and exempts <code>sftpDriver: builtin</code>. Verification also found <code>sshocker</code> remaps the path from its leading <code>/x/</code> segment ignoring <code>fstab</code>, so the note states that mechanism rather than the original one.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
@@ -450,6 +459,7 @@ toolchain, so the path and the server that reads it match:
 Installing [Git for Windows](https://gitforwindows.org/)</code></pre>
     <p>True for the default: <code>SFTPDriver</code> stays <code>&quot;&quot;</code>, which sshocker routes through <code>DetectDriver</code> to <code>DriverBuiltin</code> when it finds nothing. Pin <code>sftpDriver: openssh-sftp-server</code> and the same path returns <code>errors.New(&quot;no openssh sftp-server found&quot;)</code> instead (sshocker v0.3.11, <code>pkg/reversesshfs/reversesshfs.go:198-202</code>), so the mount fails rather than degrading.</p>
     <p>Fix: append &quot;unless you pinned <code>sftpDriver: openssh-sftp-server</code>, which fails instead of falling back&quot;.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/df1997c1"><code>df1997c1</code></a>, with a correction. &quot;fails instead of falling back&quot; was wrong: with the pin set, sshocker still runs its generic search and errors only when that finds nothing too. The text now says the pin drops the in-process fallback.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/config/vmtype/qemu.md">
       <div class="finding-title" id="S2">
@@ -490,6 +500,7 @@ An example configuration:
 			cfg.MountType = ptr.Of(limatype.REVSSHFS)
 		}</code></pre>
     <p>Fix: say reverse-sshfs is the default mount type for QEMU on Windows, which is why the toolchain matters there.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/df1997c1"><code>df1997c1</code></a>, and strengthened: QEMU on Windows <em>rejects</em> any other mount type, so the page says mounts must be reverse-sshfs. The OpenSSH requirement is now bound to <code>ssh</code>, <code>scp</code>, and <code>ssh-keygen</code> rather than to mounts.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/config/vmtype/wsl2.md">
       <div class="finding-title" id="S3">
@@ -510,6 +521,7 @@ Prerequisite:
 {{% tab header=&quot;Homebrew&quot; %}}
 ```bash</code></pre>
     <p>Fix: add a Windows line to the installation prerequisites linking <code>#windows-toolchain</code>.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/df1997c1"><code>df1997c1</code></a>. The bullet notes Windows 10 and 11 ship a client, so it does not read as a manual install step.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/config/vmtype/wsl2.md">
       <div class="finding-title" id="S4">
@@ -517,6 +529,7 @@ Prerequisite:
       </div>
     <p>The nesting is correct — <code>SFTPDriver</code> sits on <code>limatype.SSHFS</code>, reached through a mount entry — but <code>config/mount.md</code> is where the field is documented, and <a href="https://github.com/lima-vm/lima/issues/5300" class="gh-ref" data-title="hostagent: support reverse-sshfs on plain Windows" data-state="open" data-type="pr">#5300</a> adds an overlapping Windows paragraph there describing the same lookup. Two descriptions of one mechanism drift apart.</p>
     <p>Fix: link <code>mount.md</code> here and let its paragraph point back to <code>#windows-toolchain</code> instead of restating the lookup.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/df1997c1"><code>df1997c1</code></a> for this half; <code>sshfs</code> now links to <code>mount.md#reverse-sshfs</code>. The reciprocal pointer belongs to <a href="https://github.com/lima-vm/lima/issues/5300" class="gh-ref" data-title="hostagent: support reverse-sshfs on plain Windows" data-state="open" data-type="pr">#5300</a>.</p>
     </div>
     <div class="card card-suggestion" data-file="">
       <div class="finding-title" id="S5">
@@ -524,6 +537,7 @@ Prerequisite:
       </div>
     <p>The body says &quot;The <strong>page</strong> describes the state after…&quot; while three pages changed, and it mentions neither the <code>SSH</code> environment-variable entry nor the replaced Known Issues bullet. That bullet is a separate user-facing correction: it drops the claim that Windows ships no <code>ssh.exe</code> and replaces it with the decompressor split.</p>
     <p>Fix: add a sentence for the decompressor bullet, and make &quot;the page&quot; plural.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/df1997c1"><code>df1997c1</code></a>. The amended message adds a paragraph for the decompressor bullet and pluralises &quot;the page&quot;.</p>
     </div>
     <div class="card card-suggestion" data-file="">
       <div class="finding-title" id="S6">
@@ -531,6 +545,7 @@ Prerequisite:
       </div>
     <p>&quot;Extracted from the plain-Windows integration branch&quot; says where the change was noticed, which is not a question the description raises. The series convention keeps a cross-reference only when the number answers such a question, as the &quot;#5299 and <a href="https://github.com/lima-vm/lima/issues/5300" class="gh-ref" data-title="hostagent: support reverse-sshfs on plain Windows" data-state="open" data-type="pr">#5300</a>&quot; ordering sentence does.</p>
     <p>Fix: drop the sentence; keep the ordering constraint and the CI note.</p>
+    <p><strong>Resolved:</strong> Fixed. The PR description no longer carries the provenance clause.</p>
     </div>
     <div class="card card-suggestion" data-file="">
       <div class="finding-title" id="S7">
@@ -538,6 +553,7 @@ Prerequisite:
       </div>
     <p><code>origin/hostagent-reverse-sshfs-plain-windows</code> logs through <code>logrus.Infof</code> with &quot;falling back to a generic search&quot;, which is what line 125 describes. <code>origin/integration-windows-plain</code> still has the older <code>logrus.Warnf</code> &quot;falling back to auto-detection&quot; at <a href="https://github.com/lima-vm/lima/blob/f452a603afda3cf3b0041645400d70bdb5989acb/pkg/hostagent/mount.go#L67"><code>pkg/hostagent/mount.go:67</code></a>; its tip is 8 hours older than <a href="https://github.com/lima-vm/lima/issues/5300" class="gh-ref" data-title="hostagent: support reverse-sshfs on plain Windows" data-state="open" data-type="pr">#5300</a>&#39;s. The doc is correct against the branch that will merge.</p>
     <p>Fix: no doc change. Rebase the integration branch onto the current <a href="https://github.com/lima-vm/lima/issues/5300" class="gh-ref" data-title="hostagent: support reverse-sshfs on plain Windows" data-state="open" data-type="pr">#5300</a> so a later reader does not re-raise this.</p>
+    <p><strong>Resolved:</strong> Declined. Branch hygiene on <code>integration-windows-plain</code>; the doc is already correct against the <a href="https://github.com/lima-vm/lima/issues/5300" class="gh-ref" data-title="hostagent: support reverse-sshfs on plain Windows" data-state="open" data-type="pr">#5300</a> branch that will merge.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
