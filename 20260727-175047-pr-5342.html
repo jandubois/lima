@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260727-175047-pr-5342</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260727-175047-pr-5342</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-07-27 17:50</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1 (of PR 5342)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/jandubois">@jandubois</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5342" class="gh-ref" data-title="CI: factor Windows setup into composite actions; add plain-Windows jobs" data-state="open" data-type="pr">#5342</a> — CI: factor Windows setup into composite actions; add plain-Windows jobs</td></tr>
+      <tr><td>Branch</td><td><code>ci-plain-windows-jobs</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/fac4aebb"><code>fac4aebb</code></a> CI: factor Windows setup into composite actions; add plain-Windows jobs</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/fac4aebbb3278bf098a71c9f9dc55539717972fc"><code>fac4aebbb3278bf098a71c9f9dc55539717972fc</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5</span> (effort: xhigh), <span class="pill pill-codex">Codex GPT 5.6 Sol</span> (effort: xhigh), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; C1 turns two green jobs red; the fix is one package plus three comment corrections</td></tr>
+      <tr><td>Wall-clock time</td><td><code>29 min 59 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Seven composite actions replace the inline Windows setup, and two plain-Windows jobs add native-toolchain coverage. The extraction is careful and the four-layer host verification is well built. But dropping <code>_LIMA_WINDOWS_EXTRA_PATH</code> leaves no Cygwin ssh on <code>limactl</code>&#39;s PATH. Both pre-existing Windows jobs, green on master, now fail with native <code>scp.exe</code>, and the copy test dies before it reaches the rsync backend this PR set out to enable.</p>
+    <p>All four reviewers ran against <a href="https://github.com/lima-vm/lima/commit/fac4aebb"><code>fac4aebb</code></a>. Two CI runs settled every disputed finding, the PR&#39;s own <code>30243838085</code> and master&#39;s <code>30236908109</code>. In both plain jobs <code>windows_plain_build</code> succeeded, so the &quot;Go is dropped from PATH&quot; claim that two reviewers raised as critical is false. Both MSYS2 jobs failed at <code>limactl copy</code> with <code>C:\Windows\System32\OpenSSH\scp.exe</code>, which confirms the regression three reviewers reached independently. The two plain-Windows jobs fail exactly as the PR description predicts.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical" data-file=".github/workflows/test.yml">
+      <div class="finding-title" id="C1">
+        <span class="finding-num">C1.</span> Dropping <code>_LIMA_WINDOWS_EXTRA_PATH</code> switches the MSYS2 jobs to native OpenSSH <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span><a href="#C1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/workflows/test.yml#L165-L177">.github/workflows/test.yml</a></div>
+      <pre data-start="165" data-line="170-172"><code class="language-yaml">    - uses: ./.github/actions/windows_msys2_prep
+    - name: Unit tests
+      run: go test -v ./...
+    - name: Make
+      run: make
+    - name: Integration tests (WSL2, Windows host)
+      run: |
+        $env:PATH = &quot;$pwd\_output\bin;&quot; + $env:PATH
+        $env:MSYS2_ENV_CONV_EXCL = &#39;HOME_HOST;HOME_GUEST&#39;
+        $env:HOME_HOST = $(cygpath.exe &quot;$env:USERPROFILE&quot;)
+        $env:HOME_GUEST = &quot;/mnt$env:HOME_HOST&quot;
+        $env:LIMACTL_CREATE_ARGS = &#39;--vm-type=wsl2 --mount-type=wsl2 --containerd=system&#39;
+        bash.exe -c &quot;./hack/test-templates.sh templates/experimental/wsl2.yaml&quot;</code></pre>
+    <p><code>C:\Program Files\Git\usr\bin</code> is not on the runner&#39;s machine PATH, and the runner&#39;s <code>C:\msys64\usr\bin</code> ships no <code>ssh.exe</code>. The removed variable was the only thing putting a Cygwin ssh ahead of <code>%SystemRoot%\System32\OpenSSH</code>, so <code>limactl</code> now picks the native client.</p>
+    <p>In run <code>30243838085</code>, jobs <code>89906470800</code> (WSL2) and <code>89906470695</code> (QEMU) both die at the first <code>limactl copy</code> with <code>C:\Windows\System32\OpenSSH\scp.exe: Connection closed</code>. Both pass on master run <code>30236908109</code>. That pair of runs also contradicts the commit message&#39;s &quot;back when Lima required a Cygwin toolchain&quot;.</p>
+    <p>The copy test aborts before <a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/hack/test-templates.sh#L284"><code>hack/test-templates.sh:284</code></a>, so the rsync backend this PR enables never runs either.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/hack/test-templates.sh#L279-L289">hack/test-templates.sh</a></div>
+      <pre data-start="279" data-line="284"><code class="language-bash">if [ &quot;$got&quot; != &quot;$expected&quot; ]; then
+	ERROR &quot;copy command with scp backend did not fetch the file&quot;
+	exit 1
+fi
+
+if command -v rsync &gt;/dev/null &amp;&amp; limactl shell &quot;$NAME&quot; command -v rsync &gt;/dev/null 2&gt;&amp;1; then
+	INFO &quot;Testing limactl copy command with rsync backend&quot;
+	tmpfile_rsync=&quot;$tmpdir/lima-hostname-rsync&quot;
+	rm -f &quot;$tmpfile_rsync&quot;
+	tmpfile_rsync_host=$tmpfile_rsync
+	if [ &quot;${OS_HOST}&quot; = &quot;Msys&quot; ]; then</code></pre>
+    <p>Fix: install MSYS2&#39;s <code>openssh</code>, which puts <code>ssh.exe</code>, <code>scp.exe</code>, and <code>ssh-keygen.exe</code> beside the <code>cygpath</code> and <code>rsync</code> these jobs already use.</p>
+      <pre><code class="language-diff">-      &amp; &#39;C:\msys64\usr\bin\pacman.exe&#39; -Sy --noconfirm openbsd-netcat diffutils rsync socat w3m
++      &amp; &#39;C:\msys64\usr\bin\pacman.exe&#39; -Sy --noconfirm openbsd-netcat diffutils openssh rsync socat w3m</code></pre>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file=".github/actions/windows_msys2_prep/action.yml">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> After <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="open" data-type="pr">#5299</a> lands, the MSYS2 jobs cover the native toolchain, not the Cygwin one <span class="pill pill-claude">Claude Opus 5</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/actions/windows_msys2_prep/action.yml#L15-L21">.github/actions/windows_msys2_prep/action.yml</a></div>
+      <pre data-start="15" data-line="20"><code class="language-yaml">    run: | # zizmor: ignore[github-env]
+      $ErrorActionPreference = &#39;Stop&#39;
+      Add-Content -Path $env:GITHUB_PATH -Value &#39;C:\msys64\usr\bin&#39;
+      # Without rsync the copy test skips its rsync backend instead of failing,
+      # so the Windows path conversion for that backend goes unexercised.
+      &amp; &#39;C:\msys64\usr\bin\pacman.exe&#39; -Sy --noconfirm openbsd-netcat diffutils rsync socat w3m
+      if ($LASTEXITCODE -ne 0) { throw &quot;pacman failed: $LASTEXITCODE&quot; }</code></pre>
+    <p>This outlives C1. Once <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="open" data-type="pr">#5299</a> makes native OpenSSH work, these two jobs go green again while running the native path, because no <code>cygpath.exe</code> sits beside <code>C:\Windows\System32\OpenSSH\ssh.exe</code>. All four Windows jobs would then exercise native OpenSSH, and nothing would drive the Cygwin branch of <code>PathForSSH</code>. That is the reverse of the PR&#39;s goal, which is plain-Windows coverage <em>alongside</em> the existing Cygwin coverage.</p>
+    <p>The newly added rsync sharpens it: rsync comes from MSYS2 while ssh is native, so the un-skipped rsync block runs a host combination neither of the two code paths targets.</p>
+    <p>Fix: the same <code>openssh</code> addition as C1 puts ssh, scp, cygpath, and rsync all in <code>C:\msys64\usr\bin</code>.</p>
+    </div>
+    <div class="card card-important" data-file=".github/actions/windows_plain_host/action.yml">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> <code>$GITHUB_PATH</code> is not suppressed by <code>$GITHUB_ENV</code>, so the PATH scrub is bypassable <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/actions/windows_plain_host/action.yml#L62-L74">.github/actions/windows_plain_host/action.yml</a></div>
+      <pre data-start="62" data-line="67-69"><code class="language-yaml">    # PR-controlled data reaches the env file.
+    run: | # zizmor: ignore[github-env]
+      # The uninstall removes the dirs, but the Machine/User PATH still has
+      # stale entries (C:\mingw64\bin stays registered). Rewrite both scopes
+      # so the verify step sees a clean host, then publish the combined PATH
+      # via $GITHUB_ENV — registry changes do not reach the running runner
+      # process. Later steps adding entries (QEMU) must also write PATH= via
+      # $GITHUB_ENV; $GITHUB_PATH is suppressed once $GITHUB_ENV sets PATH.
+      $forbidden = &#39;(?i)(msys|mingw|cygwin|\\Git\\(cmd|bin|usr))&#39;
+      foreach ($scope in @(&#39;Machine&#39;,&#39;User&#39;)) {
+        $orig = [Environment]::GetEnvironmentVariable(&#39;Path&#39;, $scope)
+        if (-not $orig) { continue }
+        $cleaned = ($orig -split &#39;;&#39; | Where-Object { $_ -and ($_ -notmatch $forbidden) }) -join &#39;;&#39;</code></pre>
+    <p>Job <code>89906470794</code> refutes the claim. After the scrub, every step env dump lists only the image&#39;s <code>go\1.24.13\x64\bin</code>, yet <code>windows_plain_build</code> compiled a module whose <code>go.mod</code> requires <code>go 1.25.7</code> under <code>GOTOOLCHAIN: local</code>, with no toolchain download logged. Only setup-go&#39;s <code>go 1.26.5</code>, registered through <code>$GITHUB_PATH</code>, explains that. The runner prepends those entries on top of the <code>$GITHUB_ENV</code> PATH.</p>
+    <p>A forbidden directory registered the same way therefore survives the scrub unseen, and lines 92-94 keep the verify step from noticing. They overwrite <code>$env:PATH</code> from Machine and User, then Layer 2 checks the <code>Process</code> scope it just wrote, so that arm cannot fail. Only Go uses <code>$GITHUB_PATH</code> here today, so the hole stays latent. <a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/workflows/test.yml#L263-L264"><code>test.yml:263-264</code></a> repeats the same wrong claim.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/workflows/test.yml#L258-L269">.github/workflows/test.yml</a></div>
+      <pre data-start="258" data-line="263-264"><code class="language-yaml">    - uses: ./.github/actions/windows_qemu_install
+    - uses: ./.github/actions/windows_plain_templates
+    - uses: ./.github/actions/windows_plain_host
+    # winget&#39;s QEMU manifest does not register a PATH entry, and
+    # windows_plain_host has just published a scrubbed PATH= through
+    # $GITHUB_ENV. Subsequent $GITHUB_PATH prepending is suppressed
+    # once $GITHUB_ENV defines PATH, so prepend the QEMU install dir
+    # through $GITHUB_ENV too, so the smoke test resolves
+    # qemu-system-x86_64.
+    - name: Add QEMU to PATH
+      shell: pwsh
+      # zizmor: ignore[github-env]</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/actions/windows_plain_host/action.yml#L87-L99">.github/actions/windows_plain_host/action.yml</a></div>
+      <pre data-start="87" data-line="92-94"><code class="language-yaml">    run: |
+      $ErrorActionPreference = &#39;Stop&#39;
+      # This process inherited PATH before the scrub above; refresh it from
+      # the scrubbed Machine + User values so Layer 2 reflects what later
+      # steps inherit.
+      $machine = [Environment]::GetEnvironmentVariable(&#39;Path&#39;,&#39;Machine&#39;)
+      $user = [Environment]::GetEnvironmentVariable(&#39;Path&#39;,&#39;User&#39;)
+      $env:PATH = (@($machine, $user) | Where-Object { $_ }) -join &#39;;&#39;
+      $fail = @()
+
+      # --- Layer 1: filesystem ---
+      $fsForbidden = @(
+        &#39;C:\msys64&#39;, &#39;C:\tools\msys64&#39;, &#39;C:\msys32&#39;,</code></pre>
+    <p>Fix: check the inherited PATH as-is, and correct both comments.</p>
+      <pre><code class="language-diff">-      # This process inherited PATH before the scrub above; refresh it from
+-      # the scrubbed Machine + User values so Layer 2 reflects what later
+-      # steps inherit.
+-      $machine = [Environment]::GetEnvironmentVariable(&#39;Path&#39;,&#39;Machine&#39;)
+-      $user = [Environment]::GetEnvironmentVariable(&#39;Path&#39;,&#39;User&#39;)
+-      $env:PATH = (@($machine, $user) | Where-Object { $_ }) -join &#39;;&#39;</code></pre>
+    </div>
+    <div class="card card-important" data-file=".github/actions/windows_wsl2_setup/action.yml">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> The 1-minute bound on the WSL2 distro import is gone <span class="pill pill-claude">Claude Opus 5</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/actions/windows_wsl2_setup/action.yml#L24-L36">.github/actions/windows_wsl2_setup/action.yml</a></div>
+      <pre data-start="24" data-line="29-31"><code class="language-yaml">      # --version / --list --online below.
+      wsl --update
+      wsl --status
+      wsl --version
+      wsl --list --online
+  - name: Install dummy WSL2 distro
+    shell: pwsh
+    run: |
+      $ErrorActionPreference = &#39;Stop&#39;
+      # Write the scratch tarball under $RUNNER_TEMP so the action stays
+      # idempotent for local re-runs and leaves no untracked files in
+      # the checked-out workspace.
+      $scratch = Join-Path $env:RUNNER_TEMP &#39;wsl2-dummy&#39;</code></pre>
+    <p>At the merge-base this same work carried <code>timeout-minutes: 1</code>, bounding a <code>wsl --import</code> hang. GitHub supports <code>timeout-minutes</code> only on job-level steps, never inside a composite action, so the extraction silently drops it. A hang now burns the job&#39;s full 30 minutes, and in two jobs rather than one.</p>
+    <p>Fix: keep the import as a job-level step in both jobs, or bound it in-script with <code>Start-Job</code> plus <code>Wait-Job -Timeout 60</code>.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file=".github/workflows/test.yml">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> The two new jobs pin <code>setup-go</code> three releases behind the rest of the repo <span class="pill pill-claude">Claude Opus 5</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/workflows/test.yml#L222-L232">.github/workflows/test.yml</a></div>
+      <pre data-start="222" data-line="227"><code class="language-yaml">        git config --global core.autocrlf false
+        git config --global core.eol lf
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c  # v6.4.0
+      with:
+        go-version: stable
+        cache: false
+    - uses: ./.github/actions/windows_wsl2_setup
+    - uses: ./.github/actions/windows_plain_host</code></pre>
+    <p>Every other <code>setup-go</code> in <code>test.yml</code>, <code>release.yml</code>, and <code>codeql.yaml</code> is <code>b7ad1dad31e06c5925ef5d2fc7ad053ef454303e  # v7.0.0</code>. The plain jobs reintroduce a pin the repo already moved past, at line 227 and again at line 254.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/workflows/test.yml#L249-L259">.github/workflows/test.yml</a></div>
+      <pre data-start="249" data-line="254"><code class="language-yaml">        git config --global core.autocrlf false
+        git config --global core.eol lf
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c  # v6.4.0
+      with:
+        go-version: stable
+        cache: false
+    - uses: ./.github/actions/windows_qemu_install
+    - uses: ./.github/actions/windows_plain_templates</code></pre>
+    <p>Fix: use the v7.0.0 SHA at both sites.</p>
+    </div>
+    <div class="card card-suggestion" data-file=".github/workflows/test.yml">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> The commit message asks for a branch-protection edit that is not needed <span class="pill pill-claude">Claude Opus 5</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/workflows/test.yml#L143-L154">.github/workflows/test.yml</a></div>
+      <pre data-start="143" data-line="148-149"><code class="language-yaml">        find templates -name &#39;*.yaml&#39; -exec limactl edit --set &#39;del(.nothing)&#39; {} \;
+        git diff-index --exit-code HEAD
+    - name: Uninstall
+      run: sudo make uninstall
+
+  windows-wsl2:
+    name: &quot;Windows tests (WSL2)&quot;
+    runs-on: windows-2025
+    timeout-minutes: 30
+    steps:
+    - name: Set gitconfig
+      run: |</code></pre>
+    <p>Required status checks match the check-run name, which comes from <code>name:</code>, and <code>name:</code> is unchanged. The GitHub API reports <code>Windows tests (WSL2)</code> for both master&#39;s <code>windows</code> job and this branch&#39;s <code>windows-wsl2</code> job. No <code>needs:</code> references the job id either.</p>
+    <p>Fix: drop the &quot;update any branch-protection required checks&quot; paragraph, so nobody edits protection rules unnecessarily.</p>
+    </div>
+    <div class="card card-suggestion" data-file=".github/actions/windows_plain_host/action.yml">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> The plain-host action verifies only absence, never that native OpenSSH is present <span class="pill pill-claude">Claude Opus 5</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/actions/windows_plain_host/action.yml#L119-L133">.github/actions/windows_plain_host/action.yml</a></div>
+      <pre data-start="119" data-line="124-128"><code class="language-powershell">
+      # --- Layer 3: smoking-gun binaries ---
+      # Any of these resolving on PATH means a toolchain is still reachable.
+      # bash is special: WSL ships %SystemRoot%\System32\bash.exe which is
+      # legitimately present on the wsl2 plain job, so allow only that path.
+      $forbiddenCmds = @(&#39;cygpath&#39;,&#39;pacman&#39;,&#39;mintty&#39;,&#39;git&#39;,&#39;git-bash&#39;,&#39;git-cmd&#39;)
+      foreach ($cmd in $forbiddenCmds) {
+        $g = Get-Command $cmd -ErrorAction SilentlyContinue
+        if ($g) { $fail += (&quot;binary: {0} -&gt; {1}&quot; -f $cmd, $g.Source) }
+      }
+      $allowedBash = Join-Path $env:SystemRoot &#39;System32\bash.exe&#39;
+      $bash = Get-Command bash -ErrorAction SilentlyContinue
+      if ($bash -and ($bash.Source -ne $allowedBash)) {
+        $fail += &quot;binary: bash -&gt; $($bash.Source) (only $allowedBash is allowed)&quot;
+      }</code></pre>
+    <p>The job&#39;s premise is that Lima falls back to <code>%SystemRoot%\System32\OpenSSH</code>. Nothing asserts that directory exists. A runner image that ever ships without the OpenSSH client fails later with an opaque <code>exec: &quot;ssh&quot;: executable file not found</code>, not the loud prerequisite error the action promises. The same gap let C1 through on the MSYS2 side: no job asserts which ssh it selected.</p>
+    <p>Fix: add a positive layer asserting <code>ssh.exe</code>, <code>scp.exe</code>, <code>ssh-keygen.exe</code>, and <code>sftp-server.exe</code> under <code>Join-Path $env:SystemRoot &#39;System32\OpenSSH&#39;</code>.</p>
+    </div>
+    <div class="card card-suggestion" data-file="website/content/en/docs/config/environment-variables.md">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> A documented environment variable disappears with no <code>breaking.md</code> entry <span class="pill pill-claude">Claude Opus 5</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+    <p><code>website/content/en/docs/releases/breaking.md</code> has an open <code>## v2.2.0</code> section. <code>_LIMA_WINDOWS_EXTRA_PATH</code> was the only knob for pointing <code>limactl</code> at tools outside PATH, and C1 shows it was load-bearing rather than vestigial. <code>SSH</code> replaces it for the ssh binary alone; <code>rsync</code> and <code>cygpath</code> still resolve from the bare PATH.</p>
+    <p>Fix: add a v2.2.0 bullet naming the removal and the replacement.</p>
+    </div>
+    <div class="card card-suggestion" data-file=".github/actions/windows_wsl2_setup/action.yml">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> <code>wsl --list --online</code> gates the step that calls it informational <span class="pill pill-claude">Claude Opus 5</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/actions/windows_wsl2_setup/action.yml#L17-L33">.github/actions/windows_wsl2_setup/action.yml</a></div>
+      <pre data-start="17" data-line="22-28"><code class="language-powershell">      # gates the runner state.
+      wsl --set-default-version 2
+      if ($LASTEXITCODE -ne 0) { throw &quot;wsl --set-default-version failed: $LASTEXITCODE&quot; }
+      wsl --shutdown
+      if ($LASTEXITCODE -ne 0) { throw &quot;wsl --shutdown failed: $LASTEXITCODE&quot; }
+      # --update reaches a Microsoft update service that returns
+      # transient 403s; treat it as informational, like --status /
+      # --version / --list --online below.
+      wsl --update
+      wsl --status
+      wsl --version
+      wsl --list --online
+  - name: Install dummy WSL2 distro
+    shell: pwsh
+    run: |
+      $ErrorActionPreference = &#39;Stop&#39;
+      # Write the scratch tarball under $RUNNER_TEMP so the action stays</code></pre>
+    <p>The runner appends <code>exit $LASTEXITCODE</code> to every <code>pwsh</code> script, so the last command&#39;s exit code becomes the step&#39;s. <code>wsl --list --online</code> queries the same Microsoft service the comment calls flaky, and unlike <code>--update</code> it does gate the step. The ordering predates this PR; the new comment is what asserts otherwise.</p>
+    <p>Fix: append <code>exit 0</code>, or move an unchecked command off the end.</p>
+    </div>
+    <div class="card card-suggestion" data-file=".github/actions/windows_msys2_prep/action.yml">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> Adding rsync introduces a pacman error that the exit-code guard misses<a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/actions/windows_msys2_prep/action.yml#L15-L21">.github/actions/windows_msys2_prep/action.yml</a></div>
+      <pre data-start="15" data-line="20-21"><code class="language-yaml">    run: | # zizmor: ignore[github-env]
+      $ErrorActionPreference = &#39;Stop&#39;
+      Add-Content -Path $env:GITHUB_PATH -Value &#39;C:\msys64\usr\bin&#39;
+      # Without rsync the copy test skips its rsync backend instead of failing,
+      # so the Windows path conversion for that backend goes unexercised.
+      &amp; &#39;C:\msys64\usr\bin\pacman.exe&#39; -Sy --noconfirm openbsd-netcat diffutils rsync socat w3m
+      if ($LASTEXITCODE -ne 0) { throw &quot;pacman failed: $LASTEXITCODE&quot; }</code></pre>
+    <p>In run <code>30243838085</code> this prints <code>error: command failed to execute correctly</code> from the <code>Updating the info directory file</code> post-transaction hook, which the new <code>rsync</code> package triggers. Master&#39;s run <code>30236908109</code> installs the same list without rsync and logs no error. pacman still exits 0, so the guard does not fire and the error rides along in every future Windows job log.</p>
+    <p>Fix: install <code>texinfo</code> alongside, or pass <code>--noscriptlet</code>, so the log stays clean.</p>
+    </div>
+    <div class="card card-suggestion" data-file=".github/workflows/test.yml">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> A <code>zizmor: ignore</code> comment in <code>test.yml</code> suppresses nothing<a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/workflows/test.yml#L264-L274">.github/workflows/test.yml</a></div>
+      <pre data-start="264" data-line="269"><code class="language-yaml">    # once $GITHUB_ENV defines PATH, so prepend the QEMU install dir
+    # through $GITHUB_ENV too, so the smoke test resolves
+    # qemu-system-x86_64.
+    - name: Add QEMU to PATH
+      shell: pwsh
+      # zizmor: ignore[github-env]
+      run: |
+        Add-Content -Path $env:GITHUB_ENV -Value &quot;PATH=C:\Program Files\QEMU;$env:PATH&quot;
+    - uses: ./.github/actions/windows_plain_build
+    - uses: ./.github/actions/windows_plain_smoke_test
+      with:</code></pre>
+    <p>zizmor 1.28 reports no <code>github-env</code> finding for <code>test.yml</code> at any persona, because the workflow triggers on <code>push</code> and <code>pull_request</code> rather than a dangerous trigger. Removing the line changes nothing. The two inline <code>run: | # zizmor: ignore[github-env]</code> comments in the composite actions do carry weight: each suppresses a real finding, since an action has no trigger context. CI pins zizmor through <code>zizmor-action</code> v0.6.0, whose version I did not check.</p>
+    <p>Fix: drop the <code>test.yml</code> comment, keep the two in the actions.</p>
+    </div>
+    <div class="card card-suggestion" data-file=".github/actions/windows_plain_host/action.yml">
+      <div class="finding-title" id="S8">
+        <span class="finding-num">S8.</span> The Git uninstaller wait does not cover the forked worker <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S8" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/actions/windows_plain_host/action.yml#L16-L29">.github/actions/windows_plain_host/action.yml</a></div>
+      <pre data-start="16" data-line="21-24"><code class="language-powershell">    run: |
+      $ErrorActionPreference = &#39;Stop&#39;
+      $uninstaller = &#39;C:\Program Files\Git\unins000.exe&#39;
+      if (Test-Path $uninstaller) {
+        Write-Host &quot;Running Git for Windows Inno Setup uninstaller...&quot;
+        &amp; $uninstaller /VERYSILENT /NORESTART /SUPPRESSMSGBOXES
+        # The uninstaller forks and the parent exits immediately; wait for
+        # the worker process to finish before we wipe the leftover dir.
+        Wait-Process -Name unins000 -Timeout 120 -ErrorAction SilentlyContinue
+      } else {
+        Write-Host &quot;No Git for Windows uninstaller at $uninstaller; skipping.&quot;
+      }
+      foreach ($d in &#39;C:\Program Files\Git&#39;, &#39;C:\Program Files (x86)\Git&#39;) {
+        if (Test-Path $d) {</code></pre>
+    <p>Inno Setup copies itself to a randomly named <code>_iu*.tmp</code> in the temp directory, so <code>-Name unins000</code> never matches the worker. Job <code>89906470794</code> shows the wait returning after 5 seconds with <code>C:\Program Files\Git</code> still present, and the <code>Remove-Item</code> fallback doing the real work. It succeeded there, but the fallback runs with <code>-ErrorAction SilentlyContinue</code>, so a worker still holding a lock would leave remnants and fail Layer 1.</p>
+    <p>Fix: poll <code>Get-Process</code> for any name matching <code>unins000</code> or <code>_iu*</code> until it clears.</p>
+    </div>
+    <div class="card card-suggestion" data-file=".github/actions/windows_wsl2_setup/action.yml">
+      <div class="finding-title" id="S9">
+        <span class="finding-num">S9.</span> <code>wsl --import dummy</code> is not idempotent, though the action says it is <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-claude">Claude Opus 5</span><a href="#S9" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/actions/windows_wsl2_setup/action.yml#L37-L44">.github/actions/windows_wsl2_setup/action.yml</a></div>
+      <pre data-start="37" data-line="42"><code class="language-powershell">      New-Item -ItemType Directory -Force -Path &quot;$scratch\bin&quot;,&quot;$scratch\etc&quot; | Out-Null
+      Set-Content -Path &quot;$scratch\bin\sh&quot; -Value &#39;&#39;
+      $tarball = Join-Path $env:RUNNER_TEMP &#39;wsl2-dummy.tar&#39;
+      tar -cf $tarball --format ustar -C $scratch .
+      if ($LASTEXITCODE -ne 0) { throw &quot;tar -cf $tarball failed: $LASTEXITCODE&quot; }
+      wsl --import dummy $env:TEMP $tarball
+      if ($LASTEXITCODE -ne 0) { throw &quot;wsl --import dummy failed: $LASTEXITCODE&quot; }
+      wsl --list --verbose</code></pre>
+    <p>A second run fails with &quot;The distribution name is already in use&quot; and line 43 throws. The action&#39;s own description claims it &quot;stays idempotent for local re-runs&quot;, but only the tarball creation is. Importing into the <code>$env:TEMP</code> root rather than a subdirectory also drops an <code>ext4.vhdx</code> beside everything else there.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/actions/windows_wsl2_setup/action.yml#L38-L44">.github/actions/windows_wsl2_setup/action.yml</a></div>
+      <pre data-start="38" data-line="43"><code class="language-yaml">      Set-Content -Path &quot;$scratch\bin\sh&quot; -Value &#39;&#39;
+      $tarball = Join-Path $env:RUNNER_TEMP &#39;wsl2-dummy.tar&#39;
+      tar -cf $tarball --format ustar -C $scratch .
+      if ($LASTEXITCODE -ne 0) { throw &quot;tar -cf $tarball failed: $LASTEXITCODE&quot; }
+      wsl --import dummy $env:TEMP $tarball
+      if ($LASTEXITCODE -ne 0) { throw &quot;wsl --import dummy failed: $LASTEXITCODE&quot; }
+      wsl --list --verbose</code></pre>
+    <p>Fix: narrow the idempotency claim, or unregister an existing <code>dummy</code> first and import into a dedicated subdirectory.</p>
+    </div>
+    <div class="card card-suggestion" data-file=".github/actions/windows_plain_smoke_test/action.yml">
+      <div class="finding-title" id="S10">
+        <span class="finding-num">S10.</span> An empty round-trip file raises a null-method error instead of the mismatch message <span class="pill pill-claude">Claude Opus 5</span><a href="#S10" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/actions/windows_plain_smoke_test/action.yml#L56-L69">.github/actions/windows_plain_smoke_test/action.yml</a></div>
+      <pre data-start="56" data-line="61-64"><code class="language-powershell">      Invoke-Limactl copy &quot;$env:LIMA_HOME\rt.txt&quot; &quot;${env:INSTANCE}:/tmp/rt.txt&quot;
+      Invoke-Limactl shell --tty=false $env:INSTANCE -- cat /tmp/rt.txt
+      # Cover the guest -&gt; host direction too: it runs through different
+      # parseCopyPaths plumbing than the upload above.
+      Invoke-Limactl copy &quot;${env:INSTANCE}:/tmp/rt.txt&quot; &quot;$env:LIMA_HOME\rt-back.txt&quot;
+      $back = (Get-Content &quot;$env:LIMA_HOME\rt-back.txt&quot; -Raw).Trim()
+      if ($back -ne &#39;roundtrip&#39;) {
+        throw &quot;round-trip mismatch: expected &#39;roundtrip&#39;, got &#39;$back&#39;&quot;
+      }
+      Invoke-Limactl stop $env:INSTANCE
+      Invoke-Limactl delete --force $env:INSTANCE
+
+  - name: Dump Lima logs on failure
+    if: failure()</code></pre>
+    <p><code>Get-Content -Raw</code> returns <code>$null</code> for a zero-byte file, and <code>$null.Trim()</code> throws under the <code>$ErrorActionPreference = &#39;Stop&#39;</code> at line 39. A copy defect that creates the file but transfers nothing is exactly the case this check exists for, and it is the case that loses the diagnostic. I did not run this: no PowerShell on the review host.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/actions/windows_plain_smoke_test/action.yml#L34-L44">.github/actions/windows_plain_smoke_test/action.yml</a></div>
+      <pre data-start="34" data-line="39"><code class="language-yaml">      LIMA_HOME: ${{ runner.temp }}\lima-${{ inputs.lima-home-suffix }}
+      INSTANCE: ${{ inputs.instance-name }}
+      TEMPLATE: ${{ inputs.template }}
+      VM_TYPE: ${{ inputs.vm-type }}
+    run: |
+      $ErrorActionPreference = &#39;Stop&#39;
+      # $ErrorActionPreference does not propagate to native commands; wrap
+      # limactl so a non-zero exit aborts the whole script instead of
+      # silently continuing past the failure.
+      function Invoke-Limactl {
+        &amp; .\_output\bin\limactl.exe --debug @args</code></pre>
+    <p>Fix: <code>$back = &quot;$(Get-Content &quot;$env:LIMA_HOME\rt-back.txt&quot; -Raw)&quot;.Trim()</code>.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>The rsync addition and the toolchain switch pull against each other</strong> <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span>. Adding rsync to <code>windows_msys2_prep</code> exists to un-skip <a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/hack/test-templates.sh#L284"><code>hack/test-templates.sh:284</code></a>. Removing <code>_LIMA_WINDOWS_EXTRA_PATH</code> in the same commit means that block would run MSYS2 rsync against native ssh. <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="open" data-type="pr">#5299</a> does key the local path form to the sibling <code>cygpath</code> of the rsync it runs, so this is not broken by construction, but it is a third host configuration tested nowhere, arriving as a side effect of two independent edits. Landing <code>openssh</code> alongside <code>rsync</code> makes the two changes reinforce each other.</li>
+      <li><em></em><code>windows_msys2_prep</code> widens the environment for steps that previously ran without MSYS2<em></em> <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span>. The merge-base prepended <code>C:\msys64\usr\bin</code> inside the integration-test step alone. <code>$GITHUB_PATH</code> now puts it ahead of the runner PATH for <code>Unit tests</code> and <code>Make</code> as well. Both passed at this SHA, and <code>pkg/sshutil/sshutil_windows_test.go</code> sets PATH per test, so nothing breaks today. But <code>make</code> resolves its tools from a different install than before, and the commit message does not say so.</li>
+      <li><strong>The verified state is not the state the smoke test runs under</strong> <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span>. In <code>windows-plain-qemu</code> the verify step runs at <a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/workflows/test.yml#L260"><code>test.yml:260</code></a>, then <code>Add QEMU to PATH</code> republishes <code>$env:PATH</code> wholesale at line 271, including <code>$GITHUB_PATH</code> entries nothing inspected. Moving verification after all PATH manipulation closes the window and pairs with the I2 fix.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Reading symlink targets from git&#39;s object store</strong> <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span>. <code>windows_plain_templates</code> resolves targets through <code>git ls-tree</code> and <code>git cat-file</code> instead of trusting the working-tree representation, which varies with <code>core.symlinks</code>. The loop-depth and containment guards are cheap here and expensive to retrofit. The plain-qemu log shows every chain resolving, including the two-hop <code>opensuse.yaml</code>.</li>
+      <li><em></em>The <code>Invoke-Limactl</code> wrapper<em></em> <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span>. <code>$ErrorActionPreference</code> does not reach native commands, and the runner&#39;s appended <code>exit $LASTEXITCODE</code> catches only the final one. The wrapper closes that gap for every intermediate call, and its comment says why.</li>
+      <li><em></em>Four independent verification layers with one aggregated <code>$fail</code> list<em></em> <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span>. A dirty runner produces one report naming every remnant rather than aborting on the first.</li>
+      <li><strong>Covering both copy directions</strong> <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span>. <code>windows_plain_smoke_test</code> runs guest-to-host as well as host-to-guest, with the stated reason that the two take different <code>parseCopyPaths</code> plumbing. That is exactly what <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="open" data-type="pr">#5299</a> needs.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Ranked by risk:</p>
+    <ol>
+      <li><strong>The rsync backend on Windows is still unexercised.</strong> Both MSYS2 jobs die at the auto-backend copy before reaching the rsync block, so the PR&#39;s headline reason for adding rsync has no evidence behind it yet.</li>
+      <li><strong>The Cygwin path form loses its last exercise</strong> (I1). After <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="open" data-type="pr">#5299</a>, no job would drive <code>PathForSSH</code>&#39;s Cygwin branch or <code>fsutil.WindowsSubsystemPathWithCygpath</code> against a real <code>cygpath.exe</code>.</li>
+      <li><strong>One of the four advertised verification layers is inert</strong> (I2). The <code>Process</code> arm checks a value the same step just wrote.</li>
+      <li><em></em><code>windows-plain-wsl2</code> skips <code>windows_plain_templates</code>.<em></em> Correct today, since <code>templates/experimental/wsl2.yaml</code> carries no <code>base:</code> while <a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/templates/default.yaml#L352"><code>templates/default.yaml:352</code></a> does. Nothing pins that, so adding a <code>base:</code> to the wsl2 template would break the job with an unclear error.</li>
+      <li><strong>The plain jobs run no unit tests.</strong> <code>go test ./...</code> on a host with no MSYS2 would exercise the native branch of every toolchain-detection test that reads the ambient PATH, and the plain jobs are the only place that host exists.</li>
+      <li><strong>The smoke test covers single-file copies only.</strong> <code>limactl copy -r</code>, <code>limactl shell --sync</code>, and mount round-trips stay untouched, though the plain-qemu log shows reverse-sshfs and <code>sftp-server.exe</code> engaging during <code>start</code>.</li>
+    </ol>
+    <p>Executed during consolidation: <code>go build ./cmd/limactl</code> and <code>go vet ./cmd/limactl</code> at the review SHA, both clean, confirming the removed block left no unused imports. zizmor 1.28 over <code>test.yml</code> and the two <code>$GITHUB_ENV</code>-writing actions at the <code>regular</code>, <code>pedantic</code>, and <code>auditor</code> personas, plus a control run with the <code>test.yml</code> ignore comment deleted (S7). No Windows host was available, so every runtime claim above rests on the CI logs of runs <code>30243838085</code> and <code>30236908109</code>.</p>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The <code>_LIMA_WINDOWS_EXTRA_PATH</code> removal is clean and leaves no dangling reference anywhere in the tree; the missing <code>breaking.md</code> bullet is S4. Three comments state things the evidence contradicts: <a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/actions/windows_plain_host/action.yml#L69"><code>windows_plain_host/action.yml:69</code></a> and <a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/workflows/test.yml#L263-L264"><code>test.yml:263-264</code></a> on <code>$GITHUB_PATH</code> suppression (I2), <a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/actions/windows_plain_host/action.yml#L89-L91"><code>windows_plain_host/action.yml:89-91</code></a> on what this process inherited (I2), and <a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/actions/windows_wsl2_setup/action.yml#L22-L24"><code>windows_wsl2_setup/action.yml:22-24</code></a> on the last command being informational (S5). All three read as freshly verified and will be copied forward.</p>
+    <p><code>windows_plain_templates/action.yml</code> states a real ordering contract, that it must run before <code>windows_plain_host</code> because it shells out to git. Nothing enforces it mechanically, and <code>windows-plain-qemu</code> is the only job that gets the order right by construction.</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>One self-contained commit, DCO-signed, with a message that describes the mechanics accurately. Two claims in it are wrong, both covered above: &quot;back when Lima required a Cygwin toolchain&quot; (C1) and the branch-protection paragraph (S2). Nothing to squash or split.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>PR description:</strong> &quot;expect them to fail until [#5299] lands.&quot; Confirmed at this SHA. Jobs <code>89906470794</code> and <code>89906470658</code> complete create, start, shell, and on qemu the reverse-sshfs mount, then exit 255 at <code>limactl copy</code>. The rationale holds. It covers the two <em>new</em> jobs only; C1 concerns the two pre-existing ones.</li>
+      <li><em></em><a href="https://github.com/lima-vm/lima/blob/fac4aebbb3278bf098a71c9f9dc55539717972fc/.github/actions/windows_wsl2_setup/action.yml#L22-L24"><code>windows_wsl2_setup/action.yml:22-24</code></a>:<em></em> treating <code>wsl --update</code> as informational is deliberate and correct for that command. S5 concerns only the trailing one.</li>
+      <li><em></em><code>windows_plain_templates/action.yml</code>:<em></em> the author flags that the <code>..</code> handling can underflow and adds a containment check for it. No template in the tree exercises that path.</li>
+      <li><em></em><code>windows_plain_host/action.yml</code>:<em></em> <code>-ErrorAction SilentlyContinue</code> on the <code>Remove-Item</code> calls is deliberate. Removal failures surface as the loud four-layer verification failure instead of an unclear <code>Remove-Item</code> error, which is what job <code>89906470794</code> shows happening.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5"><span class="pill pill-claude">Claude Opus 5</span> <a href="#claude-opus-5" class="pilcrow">&#182;</a></h3>
+    <p>Found the regression and, alone among the four, its durable half: after <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="open" data-type="pr">#5299</a> the MSYS2 jobs go green again while testing the wrong toolchain (I1). It was also the only reviewer to read the merge-base for the lost <code>timeout-minutes</code>, to compare the new <code>setup-go</code> pin against every other pin in the repo, and to test the branch-protection warning against the actual check-run names, all three of which held up. Its I2 cited runner source files by line, which I could not verify and did not carry into the report; the conclusion survives on the CI evidence instead. Several suggestions rest on documented behaviour rather than a run, and it said so each time.</p>
+    <h3 id="codex-gpt-5-6-sol"><span class="pill pill-codex">Codex GPT 5.6 Sol</span> <a href="#codex-gpt-5-6-sol" class="pilcrow">&#182;</a></h3>
+    <p>Reached the same regression from the same two CI runs, with the right job ids, and rated it Important. Consolidation raised it to Critical: two green jobs going red is a merge blocker whatever the eventual fix costs. Its S1 anticipated the <code>$GITHUB_PATH</code> behaviour correctly, though the supporting detail (&quot;the log shows setup-go&#39;s path absent during verification but available to the later build&quot;) reads more into the logs than they show. The <code>go.mod</code> and <code>GOTOOLCHAIN</code> argument is what settles that question. Terse and accurate throughout.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Split evenly: one confirmed critical with the right one-package fix, and one false positive that CI refutes outright. It asserted a GitHub Actions semantic (&quot;setting <code>PATH</code> via <code>$GITHUB_ENV</code> completely overrides the <code>$GITHUB_PATH</code> values&quot;) with no evidence, then built a critical on top predicting a build failure the PR&#39;s own run shows did not happen. That is the pattern to watch: a confident platform-behaviour claim, unsourced, load-bearing for the severity.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Raised the identical false positive from the identical unverified premise. The two Gemini models share a family, so their agreement here is one opinion, not two, and it was wrong. Its unique contribution, the Inno Setup worker-name mismatch, survived as S8 once I checked the log and found the wait returning after five seconds with <code>C:\Program Files\Git</code> still on disk. It marked <code>windows_msys2_prep</code> &quot;Reviewed, no issues&quot;, which is the file the critical fix goes into.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5</span></th><th><span class="pill pill-codex">Codex GPT 5.6 Sol</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>21m 04s</td><td>16m 40s</td><td>5m 49s</td><td>4m 22s</td></tr>
+        <tr><td>Findings</td><td>1C 3I 7S</td><td>1C 1I</td><td>1C 1S</td><td>2S</td></tr>
+        <tr><td>Tool calls</td><td>82 (Bash 71, Read 10, ToolSearch 1)</td><td>42 (shell 37, plan 5)</td><td>10 (run<em>shell</em>command 10)</td><td>24 (grep<em>search 10, read</em>file 10, glob 2)</td></tr>
+        <tr><td>Design observations</td><td>7</td><td>3</td><td>0</td><td>3</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+        <tr><td>Unique insights</td><td>7</td><td>0</td><td>0</td><td>1</td></tr>
+        <tr><td>Files reviewed</td><td>10</td><td>10</td><td>10</td><td>10</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>1C 3I 7S</strong></td><td><strong>1C 1I</strong></td><td><strong>1C 1S</strong></td><td><strong>2S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>0</td><td>1 (I→S)</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Reconciliation.</strong> Codex P1 native-OpenSSH regression: important → critical C1. Gemini 3.5 Flash P1 Inno Setup uninstaller race: important → suggestion S8. Gemini 3.1 Pro P1 and Gemini 3.5 Flash P1 &quot;PATH scrub drops setup-go&quot;: rejected as false positives, since <code>windows_plain_build</code> succeeded in both plain jobs. Gemini 3.1 Pro P1 WSL2 temp-directory nit folded into S9. Gemini 3.5 Flash P1 &quot;copy templates for plain-wsl2 completeness&quot; dropped; the asymmetry is correct, and the real point (nothing pins it) appears as testing item 4.</p>
+    <p>Claude carried this review. It produced every finding the other three missed and was the only reviewer whose platform claims all survived checking. Codex was the reliable second opinion and reached the central regression independently, which matters more than the count. The two Gemini models between them contributed one confirmed critical and one unique suggestion, against two false positives drawn from the same unsourced premise.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>When the target has a completed CI run, read it before rating any finding whose severity depends on runtime behaviour: which binary a step resolved, whether a build or test step passed, what a tool printed. A finished run is primary evidence and outranks reasoning from documented platform semantics. A prediction that a step will fail is refuted by that step passing in the run under review. Compare against the base branch&#39;s most recent green run to separate a failure this change introduced from a pre-existing one.</li>
+      <li>A diff that deletes a configuration knob (an environment variable, a PATH entry, a wrapper that changes lookup order) shows the deletion but never what the knob was doing at runtime. Before accepting such a removal as inert, work out what the value selected while it was set, and confirm something still selects the same thing. Removals justified as &quot;this had no remaining users&quot; deserve the most scrutiny, because the remaining user is often a runtime lookup rather than a textual reference a grep would find.</li>
+      <li>When a change moves steps or settings into a more constrained container (a composite action, a shared template, a helper with a fixed signature), list the attributes the original carried and check each against what the container can express. An attribute the container cannot represent disappears without a syntax error, so the loss shows up only as behaviour missing later.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>[repo] GitHub&#39;s <code>windows-2025</code> runner image ships MSYS2 without the <code>openssh</code> package, so <code>C:\msys64\usr\bin</code> supplies <code>cygpath</code> and (once installed) <code>rsync</code>, but no <code>ssh.exe</code> or <code>scp.exe</code>. A Windows CI job that needs Lima to select a Cygwin/MSYS ssh must put one on PATH deliberately. Otherwise Lima falls back to <code>%SystemRoot%\System32\OpenSSH</code> and the job exercises the native path, whatever its name suggests. When reviewing a change to PATH handling in the Windows jobs, work out which <code>ssh.exe</code> <code>limactl</code> will resolve.</li>
+      <li>[repo] <code>.github/workflows/test.yml</code> sets <code>GOTOOLCHAIN: local</code> at workflow level. Any job whose Go ends up older than <code>go.mod</code>&#39;s <code>go</code> directive fails outright instead of downloading a matching toolchain, so a successful build is proof that the intended Go was on PATH. Use that when judging a claim that some step lost the <code>setup-go</code> entry.</li>
+      <li>[repo] Required status checks match a job&#39;s check-run name, which comes from its <code>name:</code> key, not its YAML job id. Lima&#39;s jobs give the two different values, so renaming a job id while leaving <code>name:</code> unchanged does not affect branch protection, and a PR doing only that needs no protection edit.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+!function(e){var t="\\b(?:BASH|BASHOPTS|BASH_ALIASES|BASH_ARGC|BASH_ARGV|BASH_CMDS|BASH_COMPLETION_COMPAT_DIR|BASH_LINENO|BASH_REMATCH|BASH_SOURCE|BASH_VERSINFO|BASH_VERSION|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|EUID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_ADDRESS|LC_ALL|LC_IDENTIFICATION|LC_MEASUREMENT|LC_MONETARY|LC_NAME|LC_NUMERIC|LC_PAPER|LC_TELEPHONE|LC_TIME|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS1|PS2|PS3|PS4|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UID|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_CONFIG_DIRS|XDG_CURRENT_DESKTOP|XDG_DATA_DIRS|XDG_GREETER_DATA_DIR|XDG_MENU_PREFIX|XDG_RUNTIME_DIR|XDG_SEAT|XDG_SEAT_PATH|XDG_SESSION_DESKTOP|XDG_SESSION_ID|XDG_SESSION_PATH|XDG_SESSION_TYPE|XDG_VTNR|XMODIFIERS)\\b",a={pattern:/(^(["']?)\w+\2)[ \t]+\S.*/,lookbehind:!0,alias:"punctuation",inside:null},n={bash:a,environment:{pattern:RegExp("\\$"+t),alias:"constant"},variable:[{pattern:/\$?\(\([\s\S]+?\)\)/,greedy:!0,inside:{variable:[{pattern:/(^\$\(\([\s\S]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,operator:/--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,greedy:!0,inside:{variable:/^\$\(|^`|\)$|`$/}},{pattern:/\$\{[^}]+\}/,greedy:!0,inside:{operator:/:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,punctuation:/[\[\]]/,environment:{pattern:RegExp("(\\{)"+t),lookbehind:!0,alias:"constant"}}},/\$(?:\w+|[#?*!@$])/],entity:/\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/};e.languages.bash={shebang:{pattern:/^#!\s*\/.*/,alias:"important"},comment:{pattern:/(^|[^"{\\$])#.*/,lookbehind:!0},"function-name":[{pattern:/(\bfunction\s+)[\w-]+(?=(?:\s*\(?:\s*\))?\s*\{)/,lookbehind:!0,alias:"function"},{pattern:/\b[\w-]+(?=\s*\(\s*\)\s*\{)/,alias:"function"}],"for-or-select":{pattern:/(\b(?:for|select)\s+)\w+(?=\s+in\s)/,alias:"variable",lookbehind:!0},"assign-left":{pattern:/(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,inside:{environment:{pattern:RegExp("(^|[\\s;|&]|[<>]\\()"+t),lookbehind:!0,alias:"constant"}},alias:"variable",lookbehind:!0},parameter:{pattern:/(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,alias:"variable",lookbehind:!0},string:[{pattern:/((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?(?:\r?\n|\r)\2/,lookbehind:!0,greedy:!0,inside:n},{pattern:/((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?(?:\r?\n|\r)\3/,lookbehind:!0,greedy:!0,inside:{bash:a}},{pattern:/(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,lookbehind:!0,greedy:!0,inside:n},{pattern:/(^|[^$\\])'[^']*'/,lookbehind:!0,greedy:!0},{pattern:/\$'(?:[^'\\]|\\[\s\S])*'/,greedy:!0,inside:{entity:n.entity}}],environment:{pattern:RegExp("\\$?"+t),alias:"constant"},variable:n.variable,function:{pattern:/(^|[\s;|&]|[<>]\()(?:add|apropos|apt|apt-cache|apt-get|aptitude|aspell|automysqlbackup|awk|basename|bash|bc|bconsole|bg|bzip2|cal|cargo|cat|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clear|cmp|column|comm|composer|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|debootstrap|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|docker|docker-compose|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|git|gparted|grep|groupadd|groupdel|groupmod|groups|grub-mkconfig|gzip|halt|head|hg|history|host|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|ip|java|jobs|join|kill|killall|less|link|ln|locate|logname|logrotate|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|make|man|mc|mdadm|mkconfig|mkdir|mke2fs|mkfifo|mkfs|mkisofs|mknod|mkswap|mmv|more|most|mount|mtools|mtr|mutt|mv|nano|nc|netstat|nice|nl|node|nohup|notify-send|npm|nslookup|op|open|parted|passwd|paste|pathchk|ping|pkill|pnpm|podman|podman-compose|popd|pr|printcap|printenv|ps|pushd|pv|quota|quotacheck|quotactl|ram|rar|rcp|reboot|remsync|rename|renice|rev|rm|rmdir|rpm|rsync|scp|screen|sdiff|sed|sendmail|seq|service|sftp|sh|shellcheck|shuf|shutdown|sleep|slocate|sort|split|ssh|stat|strace|su|sudo|sum|suspend|swapon|sync|sysctl|tac|tail|tar|tee|time|timeout|top|touch|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|update-grub|uptime|useradd|userdel|usermod|users|uudecode|uuencode|v|vcpkg|vdir|vi|vim|virsh|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yarn|yes|zenity|zip|zsh|zypper)(?=$|[)\s;|&])/,lookbehind:!0},keyword:{pattern:/(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)(?=$|[)\s;|&])/,lookbehind:!0},builtin:{pattern:/(^|[\s;|&]|[<>]\()(?:\.|:|alias|bind|break|builtin|caller|cd|command|continue|declare|echo|enable|eval|exec|exit|export|getopts|hash|help|let|local|logout|mapfile|printf|pwd|read|readarray|readonly|return|set|shift|shopt|source|test|times|trap|type|typeset|ulimit|umask|unalias|unset)(?=$|[)\s;|&])/,lookbehind:!0,alias:"class-name"},boolean:{pattern:/(^|[\s;|&]|[<>]\()(?:false|true)(?=$|[)\s;|&])/,lookbehind:!0},"file-descriptor":{pattern:/\B&\d\b/,alias:"important"},operator:{pattern:/\d?<>|>\||\+=|=[=~]?|!=?|<<[<-]?|[&\d]?>>|\d[<>]&?|[<>][&=]?|&[>&]?|\|[&|]?/,inside:{"file-descriptor":{pattern:/^\d/,alias:"important"}}},punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,number:{pattern:/(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,lookbehind:!0}},a.inside=e.languages.bash;for(var s=["comment","function-name","for-or-select","assign-left","parameter","string","environment","function","keyword","builtin","boolean","file-descriptor","operator","punctuation","number"],o=n.variable[1].inside,i=0;i<s.length;i++)o[s[i]]=e.languages.bash[s[i]];e.languages.sh=e.languages.bash,e.languages.shell=e.languages.bash}(Prism);
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+!function(e){var n=/[*&][^\s[\]{},]+/,r=/!(?:<[\w\-%#;/?:@&=+$,.!~*'()[\]]+>|(?:[a-zA-Z\d-]*!)?[\w\-%#;/?:@&=+$.~*'()]+)?/,t="(?:"+r.source+"(?:[ \t]+"+n.source+")?|"+n.source+"(?:[ \t]+"+r.source+")?)",a="(?:[^\\s\\x00-\\x08\\x0e-\\x1f!\"#%&'*,\\-:>?@[\\]`{|}\\x7f-\\x84\\x86-\\x9f\\ud800-\\udfff\\ufffe\\uffff]|[?:-]<PLAIN>)(?:[ \t]*(?:(?![#:])<PLAIN>|:<PLAIN>))*".replace(/<PLAIN>/g,(function(){return"[^\\s\\x00-\\x08\\x0e-\\x1f,[\\]{}\\x7f-\\x84\\x86-\\x9f\\ud800-\\udfff\\ufffe\\uffff]"})),d="\"(?:[^\"\\\\\r\n]|\\\\.)*\"|'(?:[^'\\\\\r\n]|\\\\.)*'";function o(e,n){n=(n||"").replace(/m/g,"")+"m";var r="([:\\-,[{]\\s*(?:\\s<<prop>>[ \t]+)?)(?:<<value>>)(?=[ \t]*(?:$|,|\\]|\\}|(?:[\r\n]\\s*)?#))".replace(/<<prop>>/g,(function(){return t})).replace(/<<value>>/g,(function(){return e}));return RegExp(r,n)}e.languages.yaml={scalar:{pattern:RegExp("([\\-:]\\s*(?:\\s<<prop>>[ \t]+)?[|>])[ \t]*(?:((?:\r?\n|\r)[ \t]+)\\S[^\r\n]*(?:\\2[^\r\n]+)*)".replace(/<<prop>>/g,(function(){return t}))),lookbehind:!0,alias:"string"},comment:/#.*/,key:{pattern:RegExp("((?:^|[:\\-,[{\r\n?])[ \t]*(?:<<prop>>[ \t]+)?)<<key>>(?=\\s*:\\s)".replace(/<<prop>>/g,(function(){return t})).replace(/<<key>>/g,(function(){return"(?:"+a+"|"+d+")"}))),lookbehind:!0,greedy:!0,alias:"atrule"},directive:{pattern:/(^[ \t]*)%.+/m,lookbehind:!0,alias:"important"},datetime:{pattern:o("\\d{4}-\\d\\d?-\\d\\d?(?:[tT]|[ \t]+)\\d\\d?:\\d{2}:\\d{2}(?:\\.\\d*)?(?:[ \t]*(?:Z|[-+]\\d\\d?(?::\\d{2})?))?|\\d{4}-\\d{2}-\\d{2}|\\d\\d?:\\d{2}(?::\\d{2}(?:\\.\\d*)?)?"),lookbehind:!0,alias:"number"},boolean:{pattern:o("false|true","i"),lookbehind:!0,alias:"important"},null:{pattern:o("null|~","i"),lookbehind:!0,alias:"important"},string:{pattern:o(d),lookbehind:!0,greedy:!0},number:{pattern:o("[+-]?(?:0x[\\da-f]+|0o[0-7]+|(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:e[+-]?\\d+)?|\\.inf|\\.nan)","i"),lookbehind:!0},tag:r,important:n,punctuation:/---|[:[\]{}\-,|>?]|\.\.\./},e.languages.yml=e.languages.yaml}(Prism);
+!function(e){var i=e.languages.powershell={comment:[{pattern:/(^|[^`])<#[\s\S]*?#>/,lookbehind:!0},{pattern:/(^|[^`])#.*/,lookbehind:!0}],string:[{pattern:/"(?:`[\s\S]|[^`"])*"/,greedy:!0,inside:null},{pattern:/'(?:[^']|'')*'/,greedy:!0}],namespace:/\[[a-z](?:\[(?:\[[^\]]*\]|[^\[\]])*\]|[^\[\]])*\]/i,boolean:/\$(?:false|true)\b/i,variable:/\$\w+\b/,function:[/\b(?:Add|Approve|Assert|Backup|Block|Checkpoint|Clear|Close|Compare|Complete|Compress|Confirm|Connect|Convert|ConvertFrom|ConvertTo|Copy|Debug|Deny|Disable|Disconnect|Dismount|Edit|Enable|Enter|Exit|Expand|Export|Find|ForEach|Format|Get|Grant|Group|Hide|Import|Initialize|Install|Invoke|Join|Limit|Lock|Measure|Merge|Move|New|Open|Optimize|Out|Ping|Pop|Protect|Publish|Push|Read|Receive|Redo|Register|Remove|Rename|Repair|Request|Reset|Resize|Resolve|Restart|Restore|Resume|Revoke|Save|Search|Select|Send|Set|Show|Skip|Sort|Split|Start|Step|Stop|Submit|Suspend|Switch|Sync|Tee|Test|Trace|Unblock|Undo|Uninstall|Unlock|Unprotect|Unpublish|Unregister|Update|Use|Wait|Watch|Where|Write)-[a-z]+\b/i,/\b(?:ac|cat|chdir|clc|cli|clp|clv|compare|copy|cp|cpi|cpp|cvpa|dbp|del|diff|dir|ebp|echo|epal|epcsv|epsn|erase|fc|fl|ft|fw|gal|gbp|gc|gci|gcs|gdr|gi|gl|gm|gp|gps|group|gsv|gu|gv|gwmi|iex|ii|ipal|ipcsv|ipsn|irm|iwmi|iwr|kill|lp|ls|measure|mi|mount|move|mp|mv|nal|ndr|ni|nv|ogv|popd|ps|pushd|pwd|rbp|rd|rdr|ren|ri|rm|rmdir|rni|rnp|rp|rv|rvpa|rwmi|sal|saps|sasv|sbp|sc|select|set|shcm|si|sl|sleep|sls|sort|sp|spps|spsv|start|sv|swmi|tee|trcm|type|write)\b/i],keyword:/\b(?:Begin|Break|Catch|Class|Continue|Data|Define|Do|DynamicParam|Else|ElseIf|End|Exit|Filter|Finally|For|ForEach|From|Function|If|InlineScript|Parallel|Param|Process|Return|Sequence|Switch|Throw|Trap|Try|Until|Using|Var|While|Workflow)\b/i,operator:{pattern:/(^|\W)(?:!|-(?:b?(?:and|x?or)|as|(?:Not)?(?:Contains|In|Like|Match)|eq|ge|gt|is(?:Not)?|Join|le|lt|ne|not|Replace|sh[lr])\b|-[-=]?|\+[+=]?|[*\/%]=?)/i,lookbehind:!0},punctuation:/[|{}[\];(),.]/};i.string[0].inside={function:{pattern:/(^|[^`])\$\((?:\$\([^\r\n()]*\)|(?!\$\()[^\r\n)])*\)/,lookbehind:!0,inside:i},boolean:i.boolean,variable:i.variable}}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
