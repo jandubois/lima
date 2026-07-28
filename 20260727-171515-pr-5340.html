@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260727-171515-pr-5340</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260727-171515-pr-5340</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-07-27 17:15</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>4 (of pr-5340)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/jandubois">@jandubois</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5340" class="gh-ref" data-title="shell: measure the --sync directory depth on the host&#39;s own path" data-state="open" data-type="pr">#5340</a> — shell: measure the --sync directory depth on the host&#39;s own path</td></tr>
+      <tr><td>Branch</td><td><code>shell-sync-depth</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/174f386b"><code>174f386b</code></a> shell: measure the --sync directory depth on the host&#39;s own path</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/174f386b4c605f62c0731a5b8698eb72da3b37f2"><code>174f386b4c605f62c0731a5b8698eb72da3b37f2</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5</span> (effort: xhigh), <span class="pill pill-codex">Codex GPT 5.6 Sol</span> (effort: xhigh), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge as-is</span> &mdash; the round-3 defect is fixed and regression-tested; what remains is comment and error-message polish</td></tr>
+      <tr><td>Wall-clock time</td><td><code>25 min 27 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The backslash defect that survived three rounds is fixed and pinned by two regression rows. I re-derived both equivalence claims myself: over 1,000,000 generated strings the Windows mode never differs from the round-3 helper, and the Unix mode never scores higher than the merge-base guard, with 0 disagreements across 82,701 real directories. No agent found a correctness defect. What remains is comment and error-message polish.</p>
+    <p>All four reviewers ran this round. Gemini 3.1 Pro was quota-exhausted on launch for the third round running, but its reset was 7m22s rather than round 3&#39;s 4h27m, so a retry inside the review window restored it. Claude raised five of the six suggestions; Codex raised the one nobody else saw and corrected a stale entry in the repo context file. Gemini 3.1 Pro&#39;s single finding rests on a branch that does not do what it says, and I dropped it. I ran the suite, the vet, the Windows cross-build, and my own differential at the review SHA in a clean tree.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> A wsl2 instance with mounts is told to run <code>--mount-none</code>, which cannot help <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/cmd/limactl/shell.go#L208-L220">cmd/limactl/shell.go</a></div>
+      <pre data-start="208" data-line="213-215"><code class="language-go">	syncDirVal, err := flags.GetString(&quot;sync&quot;)
+	if err != nil {
+		return fmt.Errorf(&quot;failed to get sync flag: %w&quot;, err)
+	}
+	syncHostWorkdir := syncDirVal != &quot;&quot;
+	if syncHostWorkdir &amp;&amp; len(inst.Config.Mounts) &gt; 0 {
+		return errors.New(&quot;cannot use `--sync` when the instance has host mounts configured, start the instance with `--mount-none` to disable mounts&quot;)
+	}
+	// A wsl2 guest already reaches the host directory through the /mnt automount,
+	// so `--sync` cannot isolate it from host files the way it does elsewhere.
+	if syncHostWorkdir &amp;&amp; inst.VMType == limatype.WSL2 {
+		return errors.New(&quot;cannot use `--sync` with a wsl2 instance, the host directory is already visible in the guest&quot;)
+	}</code></pre>
+    <p>The new wsl2 refusal sits directly below this check, so a wsl2 instance that has mounts configured hits the mounts error first. Following its remedy costs an instance recreate and then produces the second error, which no flag can clear. The mounts check is remediable and conditional; the wsl2 check is neither.</p>
+    <p><a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/templates/default.yaml#L58"><code>templates/default.yaml:58</code></a> sets <code>mounts: []</code>, so the common case reaches the wsl2 error directly. That keeps this a diagnostic gap rather than a defect.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/templates/default.yaml#L53-L63">templates/default.yaml</a></div>
+      <pre data-start="53" data-line="58"><code class="language-yaml"># {{.GlobalTempDir}}, and {{.TempDir}}. The global temp dir is always &quot;/tmp&quot; on Unix.
+# &quot;mountPoint&quot; can use these template variables: {{.Home}}, {{.Name}}, {{.Hostname}}, {{.UID}}, {{.User}}, and {{.Param.Key}}.
+# 🟢 Builtin default: [] (Mount nothing)
+# 🔵 This file: Mount the home as read-only (inherited via the `base` mechanism later in this file)
+#    Until Lima v1.2, /tmp/lima was mounted too as writable.
+mounts: []
+# - location: &quot;~&quot;
+#  # Configure the mountPoint inside the guest.
+#  # 🟢 Builtin default: value of location
+#  mountPoint: null
+#  # Setting `writable` to true is discouraged when mountType is set to &quot;reverse-sshfs&quot;.</code></pre>
+    <p>Fix: move the wsl2 check and its comment above the mounts check, so the unconditional refusal is reported first.</p>
+    </div>
+    <div class="card card-suggestion" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> The converted-path guard cannot fire off Windows, and nothing says so <span class="pill pill-claude">Claude Opus 5</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/cmd/limactl/shell.go#L260-L273">cmd/limactl/shell.go</a></div>
+      <pre data-start="260" data-line="265-268"><code class="language-go">				hostCurrentDirNative, rsyncMinimumSrcDirDepth, srcWdDepth, &quot;cd to a deeper directory&quot;)
+		}
+		// rsync acts on hostCurrentDir, so measure that too: cygpath can report
+		// success without writing a path, and an fstab can map a deep directory
+		// onto a shallow one. It is always POSIX form, even on Windows.
+		if dstWdDepth := pathDepth(hostCurrentDir, false); dstWdDepth &lt; rsyncMinimumSrcDirDepth {
+			return fmt.Errorf(&quot;expected the depth of the converted host working directory (%#q) to be at least %d, only got %d&quot;,
+				hostCurrentDir, rsyncMinimumSrcDirDepth, dstWdDepth)
+		}
+	}
+
+	var destRsyncDir string
+	workDir, err := cmd.Flags().GetString(&quot;workdir&quot;)
+	if err != nil {</code></pre>
+    <p><code>hostCurrentDir</code> is reassigned only inside <code>if runtime.GOOS == &quot;windows&quot;</code> (<a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/cmd/limactl/shell.go#L237"><code>shell.go:237</code></a>), so elsewhere it holds the same string as <code>hostCurrentDirNative</code>, and line 257 already passes <code>false</code> for the mode there. Both calls then compute the same number, and this check cannot fail after line 258 passed. On macOS and Linux, the only platforms where <code>--sync</code> has integration coverage, it reads as an independent second guard while being inert.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/cmd/limactl/shell.go#L232-L242">cmd/limactl/shell.go</a></div>
+      <pre data-start="232" data-line="237"><code class="language-go">	} else {
+		hostCurrentDirNative, err = os.Getwd()
+	}
+	if err == nil {
+		hostCurrentDir = hostCurrentDirNative
+		if runtime.GOOS == &quot;windows&quot; {
+			hostCurrentDir, err = mountDirFromWindowsDir(ctx, inst, hostCurrentDirNative)
+		}
+	}
+
+	if err != nil {</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/cmd/limactl/shell.go#L252-L263">cmd/limactl/shell.go</a></div>
+      <pre data-start="252" data-line="257-258"><code class="language-go">			return fmt.Errorf(&quot;rsync is required for `--sync` but not found: %w&quot;, err)
+		}
+
+		// Measure the host&#39;s own path. The form hostCurrentDir carries on Windows
+		// adds one component (/c/...) or two (/cygdrive/c/...).
+		srcWdDepth := pathDepth(hostCurrentDirNative, runtime.GOOS == &quot;windows&quot;)
+		if srcWdDepth &lt; rsyncMinimumSrcDirDepth {
+			return fmt.Errorf(&quot;expected the depth of the host working directory (%#q) to be at least %d, only got %d (Hint: %s)&quot;,
+				hostCurrentDirNative, rsyncMinimumSrcDirDepth, srcWdDepth, &quot;cd to a deeper directory&quot;)
+		}
+		// rsync acts on hostCurrentDir, so measure that too: cygpath can report
+		// success without writing a path, and an fstab can map a deep directory</code></pre>
+    <p>Fix: open the comment with &quot;On Windows&quot; so the scope is stated. Claude proposed gating the condition on <code>runtime.GOOS == &quot;windows&quot;</code>; I would not, since the unconditional form costs one string comparison and keeps the guard if <code>hostCurrentDir</code> ever diverges on another platform.</p>
+    </div>
+    <div class="card card-suggestion" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> The converted-path error names only a path the user never typed <span class="pill pill-claude">Claude Opus 5</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/cmd/limactl/shell.go#L261-L272">cmd/limactl/shell.go</a></div>
+      <pre data-start="261" data-line="266-267"><code class="language-go">		}
+		// rsync acts on hostCurrentDir, so measure that too: cygpath can report
+		// success without writing a path, and an fstab can map a deep directory
+		// onto a shallow one. It is always POSIX form, even on Windows.
+		if dstWdDepth := pathDepth(hostCurrentDir, false); dstWdDepth &lt; rsyncMinimumSrcDirDepth {
+			return fmt.Errorf(&quot;expected the depth of the converted host working directory (%#q) to be at least %d, only got %d&quot;,
+				hostCurrentDir, rsyncMinimumSrcDirDepth, dstWdDepth)
+		}
+	}
+
+	var destRsyncDir string
+	workDir, err := cmd.Flags().GetString(&quot;workdir&quot;)</code></pre>
+    <p>This fires on a Windows host whose <code>cygpath</code> prints nothing or whose fstab remaps the drive. The user ran <code>limactl shell --sync C:\Users\jan\proj</code> and is told about <code>/proj</code> or about an empty string, with no sign that a conversion happened or which tool performed it. The sibling error two lines above ends with <code>(Hint: cd to a deeper directory)</code>; this one offers nothing, and here that hint would be wrong anyway, since going deeper cannot fix a conversion.</p>
+    <p>Fix: name both forms, and point the hint at the conversion rather than at the directory.</p>
+    </div>
+    <div class="card card-suggestion" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> The <code>pathDepth</code> docstring omits the two contracts its callers depend on <span class="pill pill-claude">Claude Opus 5</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/cmd/limactl/shell.go#L766-L780">cmd/limactl/shell.go</a></div>
+      <pre data-start="766" data-line="771-775"><code class="language-go">		return err
+	}
+	return nil
+}
+
+// pathDepth counts the separator-delimited fields of an absolute path,
+// collapsing repeated separators. A trailing separator adds no field unless the
+// path is a bare root. Pass windows for a path in Windows form: elsewhere a
+// backslash is an ordinary filename character, and counting it as a separator
+// would score a directory just below the root deep enough to pass the guard.
+func pathDepth(path string, windows bool) int {
+	slashed := path
+	if windows {
+		slashed = strings.ReplaceAll(path, `\`, &quot;/&quot;)
+		// An extended-length or device prefix spells a path the plain form also</code></pre>
+    <p>Two properties live only in the test table. A drive letter occupies the root field, so <code>C:\Users\jan</code> and <code>/Users/jan</code> both score 3, and that equivalence is the reason one threshold is portable at all, which is this change&#39;s headline claim. An empty path returns 1, and <a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/cmd/limactl/shell.go#L265"><code>shell.go:265</code></a> relies on that to refuse a cygpath result that came back empty; the docstring instead scopes itself to &quot;an absolute path&quot; and so disclaims the case the guard needs.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/cmd/limactl/shell.go#L260-L270">cmd/limactl/shell.go</a></div>
+      <pre data-start="260" data-line="265"><code class="language-go">				hostCurrentDirNative, rsyncMinimumSrcDirDepth, srcWdDepth, &quot;cd to a deeper directory&quot;)
+		}
+		// rsync acts on hostCurrentDir, so measure that too: cygpath can report
+		// success without writing a path, and an fstab can map a deep directory
+		// onto a shallow one. It is always POSIX form, even on Windows.
+		if dstWdDepth := pathDepth(hostCurrentDir, false); dstWdDepth &lt; rsyncMinimumSrcDirDepth {
+			return fmt.Errorf(&quot;expected the depth of the converted host working directory (%#q) to be at least %d, only got %d&quot;,
+				hostCurrentDir, rsyncMinimumSrcDirDepth, dstWdDepth)
+		}
+	}
+</code></pre>
+    <p>Fix: state the drive-letter equivalence and the empty-path result.</p>
+    </div>
+    <div class="card card-suggestion" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> The comment justifying the native measurement does not hold for a UNC source <span class="pill pill-claude">Claude Opus 5</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/cmd/limactl/shell.go#L250-L261">cmd/limactl/shell.go</a></div>
+      <pre data-start="250" data-line="255-256"><code class="language-go">	if syncHostWorkdir {
+		if _, err := exec.LookPath(string(copytool.BackendRsync)); err != nil {
+			return fmt.Errorf(&quot;rsync is required for `--sync` but not found: %w&quot;, err)
+		}
+
+		// Measure the host&#39;s own path. The form hostCurrentDir carries on Windows
+		// adds one component (/c/...) or two (/cygdrive/c/...).
+		srcWdDepth := pathDepth(hostCurrentDirNative, runtime.GOOS == &quot;windows&quot;)
+		if srcWdDepth &lt; rsyncMinimumSrcDirDepth {
+			return fmt.Errorf(&quot;expected the depth of the host working directory (%#q) to be at least %d, only got %d (Hint: %s)&quot;,
+				hostCurrentDirNative, rsyncMinimumSrcDirDepth, srcWdDepth, &quot;cd to a deeper directory&quot;)
+		}</code></pre>
+    <p>This is the stated reason for measuring <code>hostCurrentDirNative</code> at line 257: the converted form scores higher, so measuring it would be too generous. A UNC source adds nothing. I measured <code>\\server\share\proj</code> at 4 in Windows mode and cygpath&#39;s <code>//server/share/proj</code> at 4 in POSIX mode, because the collapse loop at line 790 folds the two leading separators into one. The guard stays correct, since equal is not more generous; only the justification is narrower than written.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/cmd/limactl/shell.go#L252-L262">cmd/limactl/shell.go</a></div>
+      <pre data-start="252" data-line="257"><code class="language-go">			return fmt.Errorf(&quot;rsync is required for `--sync` but not found: %w&quot;, err)
+		}
+
+		// Measure the host&#39;s own path. The form hostCurrentDir carries on Windows
+		// adds one component (/c/...) or two (/cygdrive/c/...).
+		srcWdDepth := pathDepth(hostCurrentDirNative, runtime.GOOS == &quot;windows&quot;)
+		if srcWdDepth &lt; rsyncMinimumSrcDirDepth {
+			return fmt.Errorf(&quot;expected the depth of the host working directory (%#q) to be at least %d, only got %d (Hint: %s)&quot;,
+				hostCurrentDirNative, rsyncMinimumSrcDirDepth, srcWdDepth, &quot;cd to a deeper directory&quot;)
+		}
+		// rsync acts on hostCurrentDir, so measure that too: cygpath can report</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/cmd/limactl/shell.go#L785-L795">cmd/limactl/shell.go</a></div>
+      <pre data-start="785" data-line="790"><code class="language-go">		}
+	}
+	// A separator run delimits one field. The two leading separators of a UNC
+	// path enclose one root, so counting both would clear the minimum depth for
+	// a share root.
+	for strings.Contains(slashed, &quot;//&quot;) {
+		slashed = strings.ReplaceAll(slashed, &quot;//&quot;, &quot;/&quot;)
+	}
+	// filepath.Clean keeps the trailing separator of a root, so `\\server\share`
+	// and `\\server\share\` both reach here. Trim one that leaves a separator
+	// behind, which spares the bare roots &quot;/&quot; and `C:\`.</code></pre>
+    <p>Fix: bound the claim to drive-letter paths and say a UNC path converts to the same depth.</p>
+    </div>
+    <div class="card card-suggestion" data-file="">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> The commit body does not account for two hunks <span class="pill pill-claude">Claude Opus 5</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <pre><code class="language-go">			return fmt.Errorf(&quot;expected the depth of the host working directory (%#q) to be at least %d, only got %d (Hint: %s)&quot;,</code></pre>
+    <p>The merge-base spells this &quot;to be more than %d&quot; (<code>acdea753:cmd/limactl/shell.go</code>, line 243). Correcting it to &quot;at least&quot; fixes prose that contradicted the <code>srcWdDepth &lt; rsyncMinimumSrcDirDepth</code> test, which accepts 4. The change is user-visible and the body does not mention it. Neither does the body mention the <code>website/content/en/docs/examples/ai.md</code> bullet.</p>
+    <p>Round 2 asked for a body that accounts for every hunk, and round 3 confirmed it did. Two hunks now fall outside it.</p>
+    <p>Fix: add one clause covering the error-wording correction and the docs bullet.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em>(future) <code>fsutil.WindowsSubsystemPathWithCygpath</code> hands unvalidated subprocess output to five callers, and only this call site compensates.<em></em> <a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/pkg/fsutil/fsutil_windows.go#L33-L36"><code>pkg/fsutil/fsutil_windows.go:33-36</code></a> returns <code>strings.TrimSpace(string(out)), nil</code> whenever cygpath exits 0: no emptiness check, no leading-separator check, and <code>CombinedOutput</code> merges stderr into the value. The new guard at <code>shell.go:265</code> catches the empty case for <code>--sync</code> alone, and it would not catch a cygpath that exits 0 after writing a warning line ahead of the path, which would score deep and pass. <a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/pkg/copytool/copytool.go#L122"><code>pkg/copytool/copytool.go:122</code></a>, <code>shell.go:284</code>, <code>pkg/hostagent/mount.go</code>, and <code>pkg/limayaml/defaults.go</code> have no guard at all. Validating once inside the helper would close the class in one place. Round 3 recorded this as its own follow-up PR. <span class="pill pill-claude">Claude Opus 5</span></li>
+      <li><em></em>(in-scope) Both <code>--sync</code> compatibility refusals run after <code>--start</code> has already booted the instance.<em></em> <code>instance.Start</code> is called at <code>shell.go:166</code>, and the mounts and wsl2 checks sit at lines 213 and 218. A user running <code>limactl shell --start --sync . &lt;wsl2-instance&gt;</code> boots a distro and is then told the combination is impossible. The commit body&#39;s &quot;up front&quot; is accurate about the path conversion and rsync work, less so about instance startup. The mounts check has the same placement and predates this PR. <span class="pill pill-codex">Codex GPT 5.6 Sol</span></li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>(in-scope) Measuring the native path makes one constant mean the same thing on both platforms.</strong> <code>C:\Users\jan</code> and <code>/Users/jan</code> both score 3; <code>C:\Users\jan\proj</code> and <code>/Users/jan/proj</code> both score 4. The merge-base threshold&#39;s meaning depended on which toolchain had converted the path. <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
+      <li><em></em>(in-scope) Passing the separator convention as a parameter, rather than inferring it from <code>runtime.GOOS</code> inside the helper, is the right split.<em></em> The caller knows which form it holds, and the table can then exercise both modes from any host. <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span></li>
+      <li><strong>(in-scope) The two Unix-backslash rows are the smallest regression test for a defect that survived three rounds.</strong> I confirmed they fail without the gate: the round-3 helper scores <code>/x\y\z</code> at 4 and <code>/foo\..\..\..\bar</code> at 6, both above the minimum of 4. <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span></li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>I ran everything below myself from the lead worktree at <a href="https://github.com/lima-vm/lima/commit/174f386b"><code>174f386b</code></a> with a clean tree. <code>go test ./cmd/limactl/</code> passes, <code>go vet ./cmd/limactl/</code> exits 0, and <code>GOOS=windows GOARCH=amd64 go build ./cmd/limactl/</code> succeeds. <code>TestPathDepth</code> runs 20 subtests and all pass. All four agents report the same, and Codex also ran <code>go test ./... -count=1</code>.</p>
+    <p>I wrote my own differential rather than inheriting round 3&#39;s numbers. Over 1,000,000 generated strings drawn from <code>/ \ ? . : C U a b</code> and space: <code>pathDepth(p, true)</code> never differs from the round-3 helper (0 mismatches), and <code>pathDepth(p, false)</code> never scores higher than the merge-base <code>len(strings.Split(p, &quot;/&quot;))</code> (0 cases). The second result is stronger than round 3 claimed and provable rather than sampled: collapsing separator runs and trimming one trailing separator can only lower the count, so the Unix mode is uniformly at least as strict as the guard it replaces. Across 82,701 real directories reached through <code>filepath.Abs</code> there were 0 disagreements with the merge-base.</p>
+    <p>Gaps, in rough risk order. All were declined in earlier rounds and are listed for completeness, not raised again.</p>
+    <ol>
+      <li><strong>The call site is unpinned.</strong> Nothing fails if line 257 reverts to <code>pathDepth(hostCurrentDir, ...)</code> or if the mode hard-codes <code>true</code>. <code>TestPathDepth</code> proves the formula and pins nothing about which variable it measures, which is the exact defect this PR fixes.</li>
+      <li><strong>The converted-path guard at line 265 is unreached by any test</strong>, and on the platforms CI runs <code>--sync</code> on it cannot fire at all (S2).</li>
+      <li><strong>The wsl2 refusal and the conversion-failure branch have no coverage.</strong> <code>hack/bats/helpers/limactl.bash</code> hard-codes the template per instance name with no vm-type hook.</li>
+      <li><strong>No BATS test asserts a depth rejection</strong>, and the <code>bats</code> job is <code>runs-on: ubuntu-24.04</code> (<a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/.github/workflows/test.yml#L358"><code>.github/workflows/test.yml:358</code></a>).</li>
+      <li><em></em>No Windows end-to-end <code>--sync</code>.<em></em> I confirmed <code>hack/test-templates.sh</code> contains no <code>--sync</code> invocation at all.</li>
+      <li><em></em><code>pathDepth(&quot;&quot;, true)</code> is uncovered.<em></em> The table exercises the empty path only in Unix mode. Both modes return 1, so this is a one-row gap.</li>
+    </ol>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The new <code>ai.md</code> bullet records the wsl2 restriction and matches the code at <code>shell.go:218</code>. The docstring gained the trailing-separator rule and the <code>UNC</code> token note that round 3 asked for; S4 covers what it still omits.</p>
+    <p>Every other factual claim in the commit body checks out. The merge-base split the converted path on <code>os.PathSeparator</code> and scored every Windows path at 1; the empty string scored 1 and was the only thing refusing a failed conversion; an empty path reaches rsync as <code>/</code> through <a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/pkg/copytool/rsync.go#L166"><code>pkg/copytool/rsync.go:166</code></a>; <code>--tty</code> defaults to whether stdout is a terminal (<a href="https://github.com/lima-vm/lima/blob/174f386b4c605f62c0731a5b8698eb72da3b37f2/cmd/limactl/main.go#L127"><code>cmd/limactl/main.go:127</code></a>) and <code>shell.go:569</code> calls <code>rsyncBack()</code> unprompted when it is false, with <code>--delete</code> set at <code>shell.go:451</code>. S6 covers the two hunks the body omits.</p>
+    <p>The <code>--sync</code> flag help at <code>shell.go:76</code> still describes only the copy behaviour, with no pointer to the mounts, depth, or wsl2 restrictions. Pre-existing.</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>One commit, DCO signed off, subject matching the diff. The body explains intent rather than mechanics and justifies bundling the wsl2 refusal, which would otherwise read as an unrelated behaviour change: without it the depth fix would newly admit a configuration that cannot work. Splitting the two would ship a window in which Windows <code>--sync</code> reaches rsync with a <code>/mnt/c/...</code> path. S6 is the only accuracy gap.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>No Windows host was available</strong> to any reviewer, so <code>GetFullPathNameW</code> normalization stays unmeasured for a fourth round. I treated this as a claim to re-check rather than inherited fact; it still holds, and all three cloud reviewers reported it independently. The collapse loop makes the guard independent of the answer, which is why nothing here rests on it. Claude narrowed one sub-question by reading <code>internal/filepathlite/path_windows.go</code> instead: Go&#39;s own <code>Clean</code> collapses <code>..</code> inside a <code>\\?\</code> path before <code>pathDepth</code> sees it.</li>
+      <li><strong>cygpath and wslpath output was reasoned about, never executed</strong>, for the same reason.</li>
+      <li><strong>Deferred Windows BATS coverage.</strong> End-to-end coverage needs submodules, an rsync install, and a vm-type hook in <code>ensure_instance</code>.</li>
+    </ul>
+    <h3 id="declined-in-prior-rounds">Declined in prior rounds <a href="#declined-in-prior-rounds" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em><code>askUserForRsyncBack</code> and <code>getRsyncStats</code> apply host <code>filepath</code> semantics to a converted guest path<em></em> (<code>shell.go:540</code>, <code>:572</code>, <code>:604</code>) — declined round 1: pre-existing, its own PR. Code unchanged.</li>
+      <li><em></em><code>mountsContainPath</code> receives the converted path<em></em> (<code>shell.go:294</code>) — declined round 1: different code path. Unchanged.</li>
+      <li><em></em><code>diff</code> receives one converted path and one native path<em></em> (<code>shell.go:630</code>) — declined round 1. Unchanged.</li>
+      <li><em></em><code>pkg/limayaml/defaults.go</code> stores an empty <code>MountPoint</code><em></em> — declined round 1: unrelated file. Outside this diff.</li>
+      <li><em></em>A symlinked <code>--sync</code> target clears the depth guard<em></em> — declined round 2: pre-existing, its own PR. Unchanged.</li>
+      <li><em></em><code>rsyncVersion</code> orphans the guest directory when it fails<em></em> (<code>shell.go:435</code>) — declined round 2: pre-existing and platform-independent.</li>
+      <li><em></em><code>\??\</code> and <code>\\?\GLOBALROOT\</code> stay unstripped<em></em> — declined rounds 1 and 2. <code>filepath.Abs</code> cannot produce either form.</li>
+      <li><em></em><code>pkg/copytool/copytool.go</code> tests <code>filepath.IsAbs</code> before splitting on <code>:</code><em></em> — recorded round 2 as a future observation about <code>limactl copy</code>.</li>
+      <li><em></em>Testing gaps: unpinned call site, unreached conversion-failure and wsl2 branches, no BATS depth rejection, no Windows end-to-end <code>--sync</code><em></em> — declined rounds 1, 2, and 3. Listed above as gaps 1 through 5.</li>
+      <li><em></em>The <code>ai.md</code> depth example sits one level deeper than the minimum and gives no Windows example<em></em> — declined round 3: pre-existing, untouched here.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><strong>[Claude Opus 5]</strong> — It raised five of the six suggestions, and every one survived verification. Its strongest work came from reading the comments against the code rather than reading the code alone: S2, S4, and S5 each name a sentence that is true of the case its author had in mind and false of a neighbouring one. It was also the only reviewer to diff the commit body against the diff hunks and notice the error-wording correction goes unmentioned. I declined its proposed fix for S2, which gates the check on <code>runtime.GOOS == &quot;windows&quot;</code> and trades a free guard for clarity a comment buys more cheaply. It left an untracked <code>limactl.exe</code> in its worktree from the Windows cross-build; no tracked file was modified.</p>
+    <p><strong>[Codex GPT 5.6 Sol]</strong> — One finding, and it is the only one this round that no other reviewer reached: a wsl2 instance with mounts is handed a remedy that cannot work. Reaching it needed the two guard clauses read in order and then the user&#39;s next step imagined, which is a different move from checking either clause alone. It was also the only agent to contradict its own injected context, and it was right to: the repo context file claims both Windows jobs run <code>go test</code>, and only <code>Windows tests (WSL2)</code> does. Its per-change verdict table answered the round-4 prompt directly, and its observation that <code>--start</code> boots the instance before either refusal became a design observation.</p>
+    <p><strong>[Gemini 3.1 Pro]</strong> — Quota-exhausted on launch for the third consecutive round, but the reset was 7m22s rather than round 3&#39;s 4h27m, so a retry inside the review window recovered it. Its one finding does not hold: it calls <code>changeDirCmd = &quot;false&quot;</code> dead because the switch at line 291 overwrites the variable &quot;in every branch, including the <code>default:</code> branch&quot;, and that branch only calls <code>logrus.Debug</code>. The line is also pre-existing and reaches the diff as context. The assignment is arguably redundant, though for a reason the finding never names, the <code>if changeDirCmd == &quot;&quot;</code> fallback at lines 307 to 309. Its per-change verification section is accurate but restates the prompt without measuring anything.</p>
+    <p><strong>[Gemini 3.5 Flash]</strong> — It returned in about two minutes with one suggestion that restates a testing gap the prompt listed as declined in all three prior rounds, so it cost a slot and added nothing. It gave no verdict on the five named changes, which the prompt required of every agent. For the third round running it leaked tool narration above its header, this time two lines. Because both Gemini reviewers share a model family, their agreement would count as one opinion; here neither produced a surviving finding, so the question does not arise.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5</span></th><th><span class="pill pill-codex">Codex GPT 5.6 Sol</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>13m 25s</td><td>13m 55s</td><td>5m 43s</td><td>2m 24s</td></tr>
+        <tr><td>Findings</td><td>5S</td><td>1S</td><td>none</td><td>none</td></tr>
+        <tr><td>Tool calls</td><td>29 (Bash 21, Read 8)</td><td>41 (shell 32, stdin 6, plan 3)</td><td>10 (run<em>shell</em>command 10)</td><td>16 (read<em>file 7, grep</em>search 4, run<em>shell</em>command 2)</td></tr>
+        <tr><td>Design observations</td><td>4</td><td>4</td><td>2</td><td>3</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>5</td><td>2</td><td>0</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>5S</strong></td><td><strong>1S</strong></td><td><strong>none</strong></td><td><strong>none</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p>Codex gave the most value per token: one finding, unique, plus the only challenge to the injected repo context that turned out to be correct. Claude gave the most value overall, supplying five of six suggestions and the only reading of the comments as claims to be checked. Gemini 3.1 Pro&#39;s recovered run was worth the retry mainly as evidence that the quota rule can be relaxed, not for its output. Flash cost little and added nothing for the second round running.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Retry a quota-exhausted agent when its reported reset fits inside the review window.</strong> Agent CLIs commonly report a quota error together with an explicit reset interval. Treat that interval as data: compare it against the wall-clock the remaining agents still need, and relaunch when it fits, rather than dropping the agent for the run. A blanket &quot;quota errors never recover&quot; rule discards a reviewer over a wait shorter than the review itself, and an agent that misses several consecutive rounds stops being an independent voice in the cross-round record.</li>
+      <li><strong>When a change adds a refusal to an existing chain of guard clauses, judge its position, not just its text.</strong> A remediable error that precedes an unconditional one sends the user through a fix that cannot work. Read the chain in order, ask what each error tells the user to do next, and require that the refusal no flag can clear be reported first. This is invisible when a reviewer reads the added lines alone, because the defect lives in the order rather than in either clause.</li>
+      <li><strong>Require a verdict on prior-round deltas to be a judgement, not a restatement.</strong> When a prompt names what a round changed and asks each agent to rule on it, an agent can satisfy the letter by paraphrasing the change back with an approving adjective. Ask each verdict to name the evidence it rests on, a measurement, a file read, or a counterexample tried, and treat a verdict carrying none as unverified in the retro rather than as agreement.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>[repo] UPDATE</strong>: the &quot;What Windows CI actually runs&quot; entry says both Windows jobs run <code>go test -v ./...</code> on <code>windows-2025</code>. Only <code>Windows tests (WSL2)</code> does, in a step named <code>Unit tests</code> before its integration work. <code>Windows tests (QEMU)</code> runs gitconfig, checkout, setup-go, <code>make</code>, a QEMU install, and its integration script, with no <code>go test</code> step at all. The conclusion the entry draws still holds through the WSL2 job, so amend the job count rather than removing the entry.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){var n=/[*&][^\s[\]{},]+/,r=/!(?:<[\w\-%#;/?:@&=+$,.!~*'()[\]]+>|(?:[a-zA-Z\d-]*!)?[\w\-%#;/?:@&=+$.~*'()]+)?/,t="(?:"+r.source+"(?:[ \t]+"+n.source+")?|"+n.source+"(?:[ \t]+"+r.source+")?)",a="(?:[^\\s\\x00-\\x08\\x0e-\\x1f!\"#%&'*,\\-:>?@[\\]`{|}\\x7f-\\x84\\x86-\\x9f\\ud800-\\udfff\\ufffe\\uffff]|[?:-]<PLAIN>)(?:[ \t]*(?:(?![#:])<PLAIN>|:<PLAIN>))*".replace(/<PLAIN>/g,(function(){return"[^\\s\\x00-\\x08\\x0e-\\x1f,[\\]{}\\x7f-\\x84\\x86-\\x9f\\ud800-\\udfff\\ufffe\\uffff]"})),d="\"(?:[^\"\\\\\r\n]|\\\\.)*\"|'(?:[^'\\\\\r\n]|\\\\.)*'";function o(e,n){n=(n||"").replace(/m/g,"")+"m";var r="([:\\-,[{]\\s*(?:\\s<<prop>>[ \t]+)?)(?:<<value>>)(?=[ \t]*(?:$|,|\\]|\\}|(?:[\r\n]\\s*)?#))".replace(/<<prop>>/g,(function(){return t})).replace(/<<value>>/g,(function(){return e}));return RegExp(r,n)}e.languages.yaml={scalar:{pattern:RegExp("([\\-:]\\s*(?:\\s<<prop>>[ \t]+)?[|>])[ \t]*(?:((?:\r?\n|\r)[ \t]+)\\S[^\r\n]*(?:\\2[^\r\n]+)*)".replace(/<<prop>>/g,(function(){return t}))),lookbehind:!0,alias:"string"},comment:/#.*/,key:{pattern:RegExp("((?:^|[:\\-,[{\r\n?])[ \t]*(?:<<prop>>[ \t]+)?)<<key>>(?=\\s*:\\s)".replace(/<<prop>>/g,(function(){return t})).replace(/<<key>>/g,(function(){return"(?:"+a+"|"+d+")"}))),lookbehind:!0,greedy:!0,alias:"atrule"},directive:{pattern:/(^[ \t]*)%.+/m,lookbehind:!0,alias:"important"},datetime:{pattern:o("\\d{4}-\\d\\d?-\\d\\d?(?:[tT]|[ \t]+)\\d\\d?:\\d{2}:\\d{2}(?:\\.\\d*)?(?:[ \t]*(?:Z|[-+]\\d\\d?(?::\\d{2})?))?|\\d{4}-\\d{2}-\\d{2}|\\d\\d?:\\d{2}(?::\\d{2}(?:\\.\\d*)?)?"),lookbehind:!0,alias:"number"},boolean:{pattern:o("false|true","i"),lookbehind:!0,alias:"important"},null:{pattern:o("null|~","i"),lookbehind:!0,alias:"important"},string:{pattern:o(d),lookbehind:!0,greedy:!0},number:{pattern:o("[+-]?(?:0x[\\da-f]+|0o[0-7]+|(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:e[+-]?\\d+)?|\\.inf|\\.nan)","i"),lookbehind:!0},tag:r,important:n,punctuation:/---|[:[\]{}\-,|>?]|\.\.\./},e.languages.yml=e.languages.yaml}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
