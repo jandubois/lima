@@ -216,7 +216,7 @@ summary { cursor: pointer; font-weight: 600; }
       <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
       <tr><td>Round</td><td>1 (of target)</td></tr>
       <tr><td>Author</td><td><a href="https://github.com/jandubois">@jandubois</a></td></tr>
-      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5341" class="gh-ref" data-title="docs: document plain Windows support in wsl2.md" data-state="open" data-type="pr">#5341</a> — docs: document plain Windows support in wsl2.md</td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5341" class="gh-ref" data-title="docs: document the Windows host SSH toolchain" data-state="open" data-type="pr">#5341</a> — docs: document plain Windows support in wsl2.md</td></tr>
       <tr><td>Branch</td><td><code>docs-plain-windows-wsl2</code></td></tr>
       <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/2c07ada9"><code>2c07ada9</code></a> docs: document plain Windows support in wsl2.md</td></tr>
       <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/2c07ada918ddfd012f685ee603fd297e50ebc370"><code>2c07ada918ddfd012f685ee603fd297e50ebc370</code></a></td></tr>
@@ -233,6 +233,12 @@ summary { cursor: pointer; font-weight: 600; }
     <div class="card card-neutral">
     <p>This PR replaces a stale MinGit bullet in <code>wsl2.md</code> with a Windows toolchain section. The prose is clear and the scoping is right, but most of the behavior it describes is not on master yet. The sftp-server pairing lives in the still-open PRs <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="open" data-type="pr">#5299</a> and <a href="https://github.com/lima-vm/lima/issues/5300" class="gh-ref" data-title="hostagent: support reverse-sshfs on plain Windows" data-state="open" data-type="pr">#5300</a>. The rewrite also drops the PATH instruction that made the old Git for Windows advice work, and states a Windows build number Microsoft&#39;s own docs contradict.</p>
     <p>Three of four reviewers produced output; Gemini 3.1 Pro hit a hard quota wall before its first tool call. Findings cluster into three groups: the docs run ahead of the code (I1), the rewrite loses actionable guidance the old bullet carried (I2, S6), and six factual claims disagree with the code or with Microsoft&#39;s documentation (S1 to S5, and S7).</p>
+    </div>
+    <hr>
+    <h2 id="status-addressed">Status: addressed <a href="#status-addressed" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Every finding below has been acted on, so the cited lines no longer match the branch. The PR was also rescoped: it now describes the state after <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="open" data-type="pr">#5299</a> and <a href="https://github.com/lima-vm/lima/issues/5300" class="gh-ref" data-title="hostagent: support reverse-sshfs on plain Windows" data-state="open" data-type="pr">#5300</a> merge, which retires I1 as a doc edit and turns it into a merge-order dependency recorded in the PR description. Each finding ends with a <strong>Resolved</strong> line naming what happened; commit <a href="https://github.com/lima-vm/lima/commit/f452a603"><code>f452a603</code></a> carries the changes.</p>
     </div>
     <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
@@ -325,6 +331,7 @@ env:
 
 permissions:</code></pre>
     <p>Fix: merge <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="open" data-type="pr">#5299</a> and <a href="https://github.com/lima-vm/lima/issues/5300" class="gh-ref" data-title="hostagent: support reverse-sshfs on plain Windows" data-state="open" data-type="pr">#5300</a> first, or keep only the binary inventory here and move lines 96-111 into <a href="https://github.com/lima-vm/lima/issues/5300" class="gh-ref" data-title="hostagent: support reverse-sshfs on plain Windows" data-state="open" data-type="pr">#5300</a>.</p>
+    <p><strong>Resolved:</strong> Declined as a doc edit. The page deliberately describes the post-merge state; the merge-order dependency is recorded in the PR description instead.</p>
     </div>
     <div class="card card-important" data-file="website/content/en/docs/config/vmtype/wsl2.md">
       <div class="finding-title" id="I2">
@@ -374,6 +381,7 @@ func pickCompleteSSHOnWindows() string {
 
 ### `QEMU_SYSTEM_AARCH64`</code></pre>
     <p>Fix: restore the PATH sentence, and state the selection rule so a reader can predict which toolchain wins.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/f452a603"><code>f452a603</code></a>. The PATH instruction is back, with the selection rule and the <code>SSH</code> alternative.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
@@ -398,6 +406,7 @@ on disk. On such a host, do not swap toolchains between `limactl create`
 and `limactl start` on a QEMU instance with a reverse-sshfs mount,</code></pre>
     <p>On <code>origin/hostagent-reverse-sshfs-plain-windows</code> (<a href="https://github.com/lima-vm/lima/issues/5300" class="gh-ref" data-title="hostagent: support reverse-sshfs on plain Windows" data-state="open" data-type="pr">#5300</a>, tip 2026-07-27 00:11, newer than the integration branch) the message goes out through <code>logrus.Infof</code>, and its wording is &quot;falling back to a generic search&quot; rather than a PATH search. A user told to watch for a warning will not see one at the default log level.</p>
     <p>Fix: say &quot;logs an info message&quot;, or change <a href="https://github.com/lima-vm/lima/issues/5300" class="gh-ref" data-title="hostagent: support reverse-sshfs on plain Windows" data-state="open" data-type="pr">#5300</a> to <code>Warnf</code> and keep the doc as written. Drop &quot;from <code>PATH</code>&quot; in favour of sshocker&#39;s own detection.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/f452a603"><code>f452a603</code></a>. The doc now says the hostagent logs an info message and falls back to sshocker&#39;s own detection.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/config/vmtype/wsl2.md">
       <div class="finding-title" id="S2">
@@ -442,6 +451,7 @@ func validateConfig(_ context.Context, cfg *limatype.LimaYAML) error {
 	if cfg.VMType != nil {
 		if unknown := reflectutil.UnknownNonEmptyFields(cfg, knownYamlProperties...); len(unknown) &gt; 0 {</code></pre>
     <p>Fix: say the external server is preferred and the built-in driver takes over when none is found, and mention <code>sftpDriver: builtin</code> as the way to skip the install.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/f452a603"><code>f452a603</code></a>. The doc now calls the external server a preference and names <code>sftpDriver: builtin</code> under a mount&#39;s <code>sshfs</code>.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/config/vmtype/wsl2.md">
       <div class="finding-title" id="S3">
@@ -464,6 +474,7 @@ toolchain, so the path and the server that reads it match:
 </code></pre>
     <p>The bullet is headed &quot;Cygwin-based&quot; but gives only the MSYS2 form. Stock Cygwin maps <code>C:\</code> to <code>/cygdrive/c/</code>, and <code>cygpathForSSH</code> accepts it just as readily, since it only looks for a <code>cygpath.exe</code> next to <code>ssh.exe</code>. Line 114 repeats the same loose &quot;Cygwin&#39;s <code>/c/...</code>&quot;.</p>
     <p>Fix: &quot;a POSIX form, <code>/c/Users/USER</code> under MSYS2 and Git for Windows, <code>/cygdrive/c/Users/USER</code> under stock Cygwin&quot;.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/f452a603"><code>f452a603</code></a>. Both drive forms are now given, and stock Cygwin is named in the bullet heading.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/config/vmtype/wsl2.md">
       <div class="finding-title" id="S4">
@@ -506,6 +517,7 @@ swap. Default installs without `fstab` overrides are unaffected.</code></pre>
 		}</code></pre>
     <p>The divergence therefore recurs between any two starts whose cygpath differs. A user who only avoids swapping across create-then-start is still exposed.</p>
     <p>Fix: reword to &quot;do not change ssh toolchains between starts of an existing instance&quot;.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/f452a603"><code>f452a603</code></a>. The caveat now warns against changing toolchains between starts of an existing instance.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/config/vmtype/wsl2.md">
       <div class="finding-title" id="S5">
@@ -551,6 +563,7 @@ Installing [Git for Windows](https://gitforwindows.org/)</code></pre>
 
 An example configuration:</code></pre>
     <p>Fix: drop the build number and say &quot;ships by default on Windows 10 and Windows 11&quot;.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/f452a603"><code>f452a603</code></a>. The build number is gone.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/config/vmtype/wsl2.md">
       <div class="finding-title" id="S6">
@@ -595,6 +608,7 @@ WSL2 does not run a standard virtual machine disk image directly. Instead, `wsl.
 		}
 </code></pre>
     <p>Fix: add a bullet saying <code>.tar.gz</code> decompresses in-process while <code>.xz</code>, <code>.bz2</code>, and <code>.zst</code> need the matching binary on PATH.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/f452a603"><code>f452a603</code></a>. A Known Issues bullet now names the external decompressors.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/config/vmtype/wsl2.md">
       <div class="finding-title" id="S7">
@@ -615,6 +629,7 @@ OpenSSH.Server install on a native-only host typically shows up there.
 </code></pre>
     <p><code>SftpServerForSSH</code> builds the candidate as <code>filepath.Join(filepath.Dir(path), &quot;sftp-server.exe&quot;)</code>, so it looks in <code>ssh.exe</code>&#39;s own directory. &quot;Sibling directory&quot; names a different place. The Cygwin branch above genuinely does cross directories, since <code>cygpath -w /usr/lib/ssh/sftp-server</code> leaves <code>usr/bin</code>, which may be where the phrasing came from.</p>
     <p>Fix: &quot;picked from the same directory as <code>ssh.exe</code>&quot;.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/f452a603"><code>f452a603</code></a>.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/config/vmtype/wsl2.md">
       <div class="finding-title" id="S8">
@@ -656,6 +671,7 @@ Installing [Git for Windows](https://gitforwindows.org/)
 to the native binaries. Use the full Git for Windows installer, not
 MinGit. MinGit omits `scp.exe`, `ssh-keygen.exe`, and `cygpath.exe`,</code></pre>
     <p>Fix: move the toolchain section under <code>docs/installation/</code> or a new <code>docs/config/windows.md</code>, and leave a one-line pointer in <code>wsl2.md</code> and <code>qemu.md</code>.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/f452a603"><code>f452a603</code></a> by the cheaper route: a cross-reference in <code>qemu.md</code>, with the section left in <code>wsl2.md</code>.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/config/vmtype/wsl2.md">
       <div class="finding-title" id="S9">
@@ -687,6 +703,7 @@ func NewSSHExe() (SSHExe, error) {
 			sshExe.Exe = exe
 			return sshExe, nil</code></pre>
     <p>Fix: mention the override here, and add an <code>SSH</code> entry to the environment-variables page.</p>
+    <p><strong>Resolved:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/f452a603"><code>f452a603</code></a>. The override is noted here and documented as an <code>SSH</code> entry on the environment-variables page.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
