@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260728-180750-pr-5342</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260728-180750-pr-5342</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-07-28 18:07</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>3 (of PR 5342)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/jandubois">@jandubois</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5342" class="gh-ref" data-title="CI: factor Windows setup into composite actions; add plain-Windows jobs" data-state="open" data-type="pr">#5342</a> — CI: factor Windows setup into composite actions; add plain-Windows jobs</td></tr>
+      <tr><td>Branch</td><td><code>ci-plain-windows-jobs</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/244c0ca0"><code>244c0ca0</code></a> CI: factor Windows setup into composite actions; add plain-Windows jobs</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/244c0ca03969f4729469612d6af5f5d202241d4c"><code>244c0ca03969f4729469612d6af5f5d202241d4c</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5</span> (effort: xhigh), <span class="pill pill-codex">Codex GPT 5.6 Sol</span> (effort: xhigh), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge as-is</span> &mdash; no Critical or Important findings; merge after <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="open" data-type="pr">#5299</a>, per the PR&#39;s own ordering note</td></tr>
+      <tr><td>Wall-clock time</td><td><code>32 min 0 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Round 3 closes every round-2 finding, and the delta holds up under checking. Both new <code>sshutil</code> tests ran and passed on <code>windows-2025</code> at this SHA, the verification round 2 could not run. Four suggestions remain, none blocking. Round 3 is where this PR converged, so the suggestions below are optional.</p>
+    <p>Four reviewers ran against <a href="https://github.com/lima-vm/lima/commit/244c0ca0"><code>244c0ca0</code></a>. Codex found the one hole in the plain-host verification layers; Claude found the other three suggestions; both Gemini models returned near-clean. During consolidation I fetched this SHA&#39;s own CI job logs, reproduced the registry regex miss, read Git for Windows&#39; installer source to settle it, counted the template symlinks in the tree, and compile-checked the Windows test file. The two plain jobs still fail at <code>limactl copy</code>, exactly as the PR description predicts.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file=".github/actions/windows_plain_host/action.yml">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> Layer 4 cannot see Git for Windows <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/.github/actions/windows_plain_host/action.yml#L153-L164">.github/actions/windows_plain_host/action.yml</a></div>
+      <pre data-start="153" data-line="158-159"><code class="language-powershell">      foreach ($root in $uninstallRoots) {
+        if (-not (Test-Path $root)) { continue }
+        $keys = Get-ChildItem $root -ErrorAction SilentlyContinue
+        foreach ($k in $keys) {
+          $props = Get-ItemProperty $k.PSPath -ErrorAction SilentlyContinue
+          if ($props -and $props.DisplayName -and
+              ($props.DisplayName -match &#39;(?i)(msys|git for windows|cygwin|mingw)&#39;)) {
+            $fail += (&quot;registry: {0} -&gt; DisplayName=&#39;{1}&#39;&quot; -f $k.PSPath, $props.DisplayName)
+          }
+        }
+      }
+</code></pre>
+    <p>Git for Windows registers its uninstall entry with <code>DisplayName</code> set to the bare string <code>Git</code>. Its installer defines <code>#define APP_NAME &#39;Git&#39;</code> and <code>UninstallDisplayName={#APP_NAME}</code>, and no <code>[Registry]</code> section overrides that. I ran the pattern against both strings: <code>Git</code> does not match, <code>MSYS2 64bit</code> does. So the layer added to catch a stale registration cannot catch the one product this action uninstalls by name.</p>
+    <p>The installer&#39;s own <code>QueryUninstallValues</code> probes four roots for <code>Microsoft\Windows\CurrentVersion\Uninstall\Git_is1</code>; <a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/.github/actions/windows_plain_host/action.yml#L148-L151"><code>action.yml:148-151</code></a> lists three, omitting the <code>HKCU</code> WOW6432Node one.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/.github/actions/windows_plain_host/action.yml#L143-L156">.github/actions/windows_plain_host/action.yml</a></div>
+      <pre data-start="143" data-line="148-151"><code class="language-yaml">      }
+      $sh = Get-Command sh -ErrorAction SilentlyContinue
+      if ($sh) { $fail += &quot;binary: sh -&gt; $($sh.Source)&quot; }
+
+      # --- Layer 4: registry uninstall keys ---
+      $uninstallRoots = @(
+        &#39;HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&#39;,
+        &#39;HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall&#39;,
+        &#39;HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&#39;
+      )
+      foreach ($root in $uninstallRoots) {
+        if (-not (Test-Path $root)) { continue }
+        $keys = Get-ChildItem $root -ErrorAction SilentlyContinue
+        foreach ($k in $keys) {</code></pre>
+    <p>Impact stays low. Layers 1 and 3 already fail on a leftover <code>C:\Program Files\Git</code> or a <code>git</code> on PATH, so Layer 4 is the backstop.</p>
+    <p>Fix:</p>
+      <pre><code class="language-diff">         &#39;HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall&#39;,
++        &#39;HKCU:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall&#39;,
+         &#39;HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&#39;
+-              ($props.DisplayName -match &#39;(?i)(msys|git for windows|cygwin|mingw)&#39;)) {
++              ($props.DisplayName -match &#39;(?i)(msys|^git$|git for windows|cygwin|mingw)&#39;)) {</code></pre>
+    </div>
+    <div class="card card-suggestion" data-file=".github/actions/windows_msys2_prep/action.yml">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> The MSYS2 jobs assert nothing about the Cygwin ssh they install <span class="pill pill-claude">Claude Opus 5</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/.github/actions/windows_msys2_prep/action.yml#L16-L24">.github/actions/windows_msys2_prep/action.yml</a></div>
+      <pre data-start="16" data-line="21-23"><code class="language-yaml">    run: | # zizmor: ignore[github-env]
+      $ErrorActionPreference = &#39;Stop&#39;
+      Add-Content -Path $env:GITHUB_PATH -Value &#39;C:\msys64\usr\bin&#39;
+      # rsync: without it the copy test skips its rsync backend, so the Windows
+      # path conversion that backend performs goes unexercised.
+      # openssh: keeps a Cygwin ssh ahead of %SystemRoot%\System32\OpenSSH, so
+      # these jobs cover the Cygwin toolchain and the plain jobs the native one.
+      &amp; &#39;C:\msys64\usr\bin\pacman.exe&#39; -Sy --noconfirm openbsd-netcat diffutils openssh rsync socat w3m
+      if ($LASTEXITCODE -ne 0) { throw &quot;pacman failed: $LASTEXITCODE&quot; }</code></pre>
+    <p>This comment states a two-sided coverage split, and only the native side is enforced: <a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/.github/actions/windows_plain_host/action.yml#L172-L175"><code>windows_plain_host/action.yml:172-175</code></a> fails the job when any of the four native binaries is missing.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/.github/actions/windows_plain_host/action.yml#L167-L180">.github/actions/windows_plain_host/action.yml</a></div>
+      <pre data-start="167" data-line="172-175"><code class="language-yaml">      # file not found`; missing scp.exe or ssh-keygen.exe makes Lima fall
+      # back to a bare ssh lookup and fail later elsewhere; missing
+      # sftp-server.exe drops reverse-sshfs to the builtin driver, so the job
+      # stops covering what it was added to cover.
+      $opensshDir = Join-Path $env:SystemRoot &#39;System32\OpenSSH&#39;
+      foreach ($exe in &#39;ssh.exe&#39;, &#39;scp.exe&#39;, &#39;ssh-keygen.exe&#39;, &#39;sftp-server.exe&#39;) {
+        $exePath = Join-Path $opensshDir $exe
+        if (-not (Test-Path $exePath)) { $fail += &quot;missing: $exePath&quot; }
+      }
+
+      if ($fail.Count -gt 0) {
+        Write-Host &quot;Plain-Windows verification FAILED:&quot; -ForegroundColor Red
+        $fail | ForEach-Object { Write-Host &quot;  $_&quot; }
+        Write-Error &quot;Runner is not in the expected plain-Windows state; see the list above.&quot;</code></pre>
+    <p><code>pickCompleteSSHOnWindows</code> skips a PATH directory that lacks <code>scp.exe</code> or <code>ssh-keygen.exe</code> (<a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/pkg/sshutil/sshutil.go#L95"><code>pkg/sshutil/sshutil.go:95</code></a>), then falls back to <code>%SystemRoot%\System32\OpenSSH</code>. So if MSYS2 ever splits its <code>openssh</code> package, <code>C:\msys64\usr\bin</code> stops qualifying, Lima selects the native ssh, and <code>Windows tests (WSL2)</code> stays green while covering the toolchain the plain jobs already own. The integration step runs <code>limactl</code> without <code>--debug</code>, so no log line names the binary it picked.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/pkg/sshutil/sshutil.go#L90-L100">pkg/sshutil/sshutil.go</a></div>
+      <pre data-start="90" data-line="95"><code class="language-go">		}
+		sshPath := filepath.Join(dir, &quot;ssh.exe&quot;)
+		if _, err := os.Stat(sshPath); err != nil {
+			continue
+		}
+		if missing := missingSiblings(dir, &quot;scp.exe&quot;, &quot;ssh-keygen.exe&quot;); len(missing) &gt; 0 {
+			logrus.Debugf(&quot;skipping ssh at %#q: missing %v in same directory (likely MinGit or another partial install)&quot;, sshPath, missing)
+			continue
+		}
+		return sshPath
+	}</code></pre>
+    <p>Fix: mirror Layer 5 after the pacman call, asserting <code>ssh.exe</code>, <code>scp.exe</code> and <code>ssh-keygen.exe</code> under <code>C:\msys64\usr\bin</code>.</p>
+    </div>
+    <div class="card card-suggestion" data-file=".github/workflows/test.yml">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> <code>Add QEMU to PATH</code> re-bakes the whole PATH through <code>$GITHUB_ENV</code> <span class="pill pill-claude">Claude Opus 5</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/.github/workflows/test.yml#L266-L276">.github/workflows/test.yml</a></div>
+      <pre data-start="266" data-line="271"><code class="language-yaml">    # install dir here, extending the scrubbed PATH= that windows_plain_host
+    # published through $GITHUB_ENV.
+    - name: Add QEMU to PATH
+      shell: pwsh
+      run: |
+        Add-Content -Path $env:GITHUB_ENV -Value &quot;PATH=C:\Program Files\QEMU;$env:PATH&quot;
+    - uses: ./.github/actions/windows_plain_build
+    - uses: ./.github/actions/windows_plain_smoke_test
+      with:
+        template: .\templates\default.yaml
+        lima-home-suffix: plain-qemu</code></pre>
+    <p><code>$env:PATH</code> in this step already carries the <code>$GITHUB_PATH</code> entries setup-go registered, and the runner prepends that list again on top of whatever <code>$GITHUB_ENV</code> sets. Later steps therefore see each of those entries twice. The sibling action does the same job in one line through <code>$GITHUB_PATH</code> (<a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/.github/actions/windows_msys2_prep/action.yml#L18"><code>windows_msys2_prep/action.yml:18</code></a>).</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/.github/actions/windows_msys2_prep/action.yml#L13-L23">.github/actions/windows_msys2_prep/action.yml</a></div>
+      <pre data-start="13" data-line="18"><code class="language-yaml">    # The value written to $GITHUB_PATH is the static literal C:\msys64\usr\bin,
+    # which is the canonical pattern for adding a directory to subsequent
+    # steps&#39; PATH. No PR-controlled data reaches the env file.
+    run: | # zizmor: ignore[github-env]
+      $ErrorActionPreference = &#39;Stop&#39;
+      Add-Content -Path $env:GITHUB_PATH -Value &#39;C:\msys64\usr\bin&#39;
+      # rsync: without it the copy test skips its rsync backend, so the Windows
+      # path conversion that backend performs goes unexercised.
+      # openssh: keeps a Cygwin ssh ahead of %SystemRoot%\System32\OpenSSH, so
+      # these jobs cover the Cygwin toolchain and the plain jobs the native one.
+      &amp; &#39;C:\msys64\usr\bin\pacman.exe&#39; -Sy --noconfirm openbsd-netcat diffutils openssh rsync socat w3m</code></pre>
+    <p>I could not measure the duplication. The <code>PATH:</code> dumps in job <code>90453290927</code> show the <code>$GITHUB_ENV</code> value rather than the effective PATH, and they list setup-go&#39;s directory once. The cost is a repeated entry, with no functional effect either way, so this is a consistency fix.</p>
+    <p>Fix, which also lets the three-line comment above it shrink:</p>
+      <pre><code class="language-diff">-        Add-Content -Path $env:GITHUB_ENV -Value &quot;PATH=C:\Program Files\QEMU;$env:PATH&quot;
++        Add-Content -Path $env:GITHUB_PATH -Value &#39;C:\Program Files\QEMU&#39;</code></pre>
+    </div>
+    <div class="card card-suggestion" data-file="website/content/en/docs/releases/breaking.md">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> The migration advice names no Windows recipe <span class="pill pill-claude">Claude Opus 5</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/website/content/en/docs/releases/breaking.md#L2-L14">website/content/en/docs/releases/breaking.md</a></div>
+      <pre data-start="2" data-line="7-9"><code class="language-markdown">title: Breaking changes
+weight: 20
+---
+
+## v2.3.0
+- The experimental `_LIMA_WINDOWS_EXTRA_PATH` environment variable was removed. It prepended directories to
+  `limactl.exe`&#39;s own PATH on Windows hosts, leaving the calling shell&#39;s PATH untouched. Put them on `PATH`
+  instead, or set `PATH` for the single call if you need to keep them out of your shell.
+
+## v2.2.0
+- The default [`socket_vmnet` group](../config/network/vmnet.md) in `networks.yaml` was changed from `everyone` to
+  `admin`. A non-admin user must set `group` to a group they belong to (e.g. `staff`).
+- The default VM driver on Windows hosts was changed from `wsl2` to `qemu`,</code></pre>
+    <p>Neither Windows shell scopes a <code>PATH</code> assignment to one command. In PowerShell <code>$env:PATH = ...</code> is process-wide and outlives the call; <code>cmd.exe</code>&#39;s <code>set</code> behaves the same. A reader following the last clause literally changes the session PATH, which is the outcome the same sentence offers to avoid. The deleted docs sold the variable on exactly this property.</p>
+    <p>Fix: name a child process, the only form that scopes the change.</p>
+      <pre><code class="language-diff">-  instead, or set `PATH` for the single call if you need to keep them out of your shell.
++  instead, or run limactl in a child shell to keep them out of your own:
++  `pwsh -Command &quot;$env:PATH = &#39;C:\...;&#39; + $env:PATH; limactl start&quot;`.</code></pre>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em><code>pacman -Sy</code> without <code>-u</code> is a partial upgrade, and this PR widens it<em></em> <em>(future)</em> <span class="pill pill-claude">Claude Opus 5</span>. <a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/.github/actions/windows_msys2_prep/action.yml#L23"><code>windows_msys2_prep/action.yml:23</code></a> refreshes the package database, then installs against the runner image&#39;s frozen local packages. Adding <code>openssh</code> pulled in 15 transitive packages (<code>heimdal</code>, <code>libbsd</code>, <code>libcbor</code>, <code>libedit</code>, <code>libfido2</code>, <code>libmd</code>, and others), each of which has to satisfy its dependencies against those stale locals. Every added package widens the window in which an upstream soname bump breaks the step. The merge-base already used <code>-Sy</code>, so this is not a regression.</li>
+      <li><strong>The plain-host action verifies presence, never selection</strong> <em>(future)</em> <span class="pill pill-claude">Claude Opus 5</span>. Layer 5 checks that the four native binaries exist; nothing asserts that <code>Get-Command ssh</code> resolves to <code>%SystemRoot%\System32\OpenSSH</code>. A runner image shipping a complete OpenSSH under a directory Layer 2&#39;s deny-list does not match would win <code>pickCompleteSSHOnWindows</code>&#39;s PATH walk with the job still green. The new test&#39;s doc comment at <a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/pkg/sshutil/sshutil_windows_test.go#L68-L71"><code>pkg/sshutil/sshutil_windows_test.go:68-71</code></a> states this limitation outright, which is why it sits here rather than under Suggestions.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Five layers asserting state rather than steps</strong> <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span>. The action fails both when the Cygwin toolchain reappears and when the native one disappears, so a runner-image change in either direction is loud.</li>
+      <li><strong>Reading symlink targets from git&#39;s object store</strong> <em>(in-scope)</em> [all four]. This sidesteps the <code>core.symlinks</code> and Developer Mode matrix entirely. The tree holds 24 mode-120000 entries at this SHA and the plain-qemu job logged 25 <code>Resolving symlink:</code> lines, with <code>templates/opensuse.yaml</code> resolving straight to <code>templates/opensuse-leap-16.yaml</code>.</li>
+      <li><em></em>Scratch files moved under <code>$RUNNER_TEMP</code><em></em> <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span>. The reordering matters more than it looks: at the merge-base the WSL2 setup ran before <code>actions/checkout</code>, so its <code>dummy.tar</code> was written to the workspace and then wiped harmlessly. Checkout now runs first, so the same writes would leave untracked files in the checked-out tree. <code>$RUNNER_TEMP</code> is what keeps that from happening.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Ranked by risk:</p>
+    <ol>
+      <li><em></em>Which <code>ssh.exe</code> each job selects is asserted nowhere.<em></em> S2 covers the MSYS2 half. The plain half is acknowledged in the new test&#39;s own doc comment. The Go-level selection rules are now well covered; the CI-level configuration is not.</li>
+      <li><em></em>Both plain jobs still fail at <code>limactl copy</code><em></em> pending <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="open" data-type="pr">#5299</a>, which the PR description predicts and round 1 declined. At this SHA both are <code>completed/failure</code> while every other Windows job passes.</li>
+      <li><em></em><code>TestNewSSHExeFallsBackToPATH</code> carries one inert assertion<em></em> <span class="pill pill-claude">Claude Opus 5</span>. <code>got.Exe</code> equals <code>sshExe</code> whether <code>NewSSHExe</code> fell through to <code>exec.LookPath</code> or <code>pickCompleteSSHOnWindows</code> wrongly returned the partial install, since both read the same <code>PATH</code>. The preceding <code>pickCompleteSSHOnWindows() == &quot;&quot;</code> assertion is what pins the behaviour, and it does so correctly, so the test is sound.</li>
+      <li><em></em><code>windows_plain_templates</code>&#39; guards and the <code>$null</code> guards remain unexercised<em></em>, both declined in prior rounds.</li>
+    </ol>
+    <p>The round&#39;s largest gain closes a round-2 limitation. Round 2 could not run <code>sshutil_windows_test.go</code> at all, because the file builds only on Windows. At this SHA job <code>90453290796</code> step 7 (<code>go test -v ./...</code>) reports <code>completed/success</code>, and its log shows <code>--- PASS: TestPickCompleteSSHOnWindows/incomplete_native_install_disqualifies_it_too</code> and <code>--- PASS: TestNewSSHExeFallsBackToPATH</code> at lines 6048 and 6050. Neither test carries a skip that fires on <code>windows-2025</code>.</p>
+    <p>Executed during consolidation, all at the review SHA: <code>GOOS=windows go vet ./pkg/sshutil</code> and <code>GOOS=windows go test -c ./pkg/sshutil</code>, both clean; <code>go build ./cmd/limactl</code>, clean. I fetched the raw job logs for <code>90453290796</code> and <code>90453290927</code>, read per-step conclusions through the jobs API while the run was still going, reproduced the Layer 4 regex against <code>Git</code> and <code>MSYS2 64bit</code>, downloaded Git for Windows&#39; <code>install.iss</code>, counted the template symlinks at both review SHAs, and read the pinned <code>sshocker@v0.3.11</code> source. <code>git status</code> in all four agent worktrees showed only the supplied <code>.scratch/</code>, plus a <code>sshutil.test.exe</code> in Flash&#39;s, which corroborates its cross-compile claim.</p>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>All three description additions from this round hold up. <a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/.github/actions/windows_plain_build/action.yml#L9-L11"><code>windows_plain_build/action.yml:9-11</code></a> claims the unversioned build passes <code>default.yaml</code>&#39;s <code>minimumLimaVersion</code>, and the chain checks out end to end: <a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/pkg/version/version.go#L7"><code>pkg/version/version.go:7</code></a> defaults <code>Version</code> to <code>&quot;&lt;unknown&gt;&quot;</code>, <code>versionutil.compare</code> returns <code>1</code> when <code>Parse</code> fails on it, <code>GreaterEqual</code> at <a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/pkg/limayaml/validate.go#L46"><code>pkg/limayaml/validate.go:46</code></a> therefore passes, and <a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/templates/default.yaml#L340"><code>templates/default.yaml:340</code></a> is the only one of the two plain-job templates carrying the key at all. <code>windows_msys2_prep</code>&#39;s new sentence about the <code>Make</code> step matches <code>Makefile:223</code>. Layer 5&#39;s rewritten comment is accurate on all three arms, which I traced through <code>pickCompleteSSHOnWindows</code> and <code>NewSSHExe</code>.</p>
+    <p>The narrowed <code>windows-plain-qemu</code> header is the most improved of the four. Its claim that sshocker treats the failed mount confirmation as non-fatal is exactly what <code>reversesshfs.go:252-255</code> does: a <code>// not a fatal error</code> comment, a warning, then <code>return nil</code>.</p>
+    <p><code>breaking.md</code>&#39;s new <code>## v2.3.0</code> heading is placed correctly. <code>v2.2.0</code> is the newest tag, no <code>v2.3.0</code> tag exists, and the heading sits above <code>## v2.2.0</code> in the file&#39;s newest-first order. The wording is S4. The removal from <code>environment-variables.md</code> leaves no dangling reference anywhere in the tree.</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>One commit, DCO-signed, amending the round-2 SHA rather than stacking a fixup. The message still matches the tree, and <code>name: &quot;Windows tests (WSL2)&quot;</code> remains byte-identical to the merge-base, so the job-id rename leaves required status checks alone. Nothing to squash or split.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><em></em><code>[Environment]::SetEnvironmentVariable</code> converts the registry PATH to <code>REG_SZ</code><em></em> [Gemini 3.5 Flash, rounds 2 and 3]. The author addressed this in round 3 with the &quot;Destructive and irreversible&quot; line at <a href="https://github.com/lima-vm/lima/blob/244c0ca03969f4729469612d6af5f5d202241d4c/.github/actions/windows_plain_host/action.yml#L9-L11"><code>windows_plain_host/action.yml:9-11</code></a> rather than a mechanism change, which fits an ephemeral runner. The fix proposed this round does not achieve what it claims: it writes <code>$cleaned</code> back as <code>ExpandString</code>, but <code>$cleaned</code> derives from a value the finding itself says was read fully expanded, so the type is restored while the expanded paths stay baked in. Preserving the indirection would need a <code>DoNotExpandEnvironmentNames</code> read as well.</li>
+      <li><em></em><code>windows_plain_templates</code>&#39;s <code>..</code> handling can underflow<em></em>, guarded by the containment check that follows it.</li>
+      <li><em></em><code>-ErrorAction SilentlyContinue</code> on the <code>Remove-Item</code> calls is deliberate<em></em>, so removal failures surface as a verification failure instead.</li>
+    </ul>
+    <h3 id="declined-in-prior-rounds">Declined in prior rounds <a href="#declined-in-prior-rounds" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>The plain jobs build limactl without the version ldflag</strong> — commented round 2: a cross-step version handoff is not worth it for a smoke test. I re-derived the reason rather than inheriting it, and every link holds (see Documentation Assessment). The decline stands.</li>
+      <li><strong>Neither new job can pass until <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="open" data-type="pr">#5299</a> merges</strong> — skipped round 2: the merge-ordering dependency is already stated in the PR description.</li>
+      <li><em></em>Nothing exercises <code>windows_plain_templates</code>&#39; failure paths<em></em> — skipped round 2: the guards cannot fire against the current tree, and testing them needs synthetic symlink fixtures.</li>
+      <li><em></em>The new <code>$null</code> guards are unreachable in CI<em></em> — skipped round 2: CI always copies non-empty content and every symlink blob is non-empty.</li>
+      <li><strong>Adding rsync introduces a pacman error the exit-code guard misses</strong> — declined round 1 and re-derived round 2 by isolating the variable: jobs installing no rsync emit the same error.</li>
+      <li><strong>The plain jobs run no unit tests</strong> — declined round 1 as its own PR. Windows unit tests still run only in the MSYS2-prepared job.</li>
+      <li><strong>The smoke test covers single-file copies only</strong> — declined round 1: it is deliberately a smoke test.</li>
+      <li><em></em><code>windows-plain-wsl2</code> skips <code>windows_plain_templates</code><em></em> — resolved round 1 by a comment. <code>templates/experimental/wsl2.yaml</code> still carries no <code>base:</code>, so the stated reason holds.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5"><span class="pill pill-claude">Claude Opus 5</span> <a href="#claude-opus-5" class="pilcrow">&#182;</a></h3>
+    <p>Produced three of the four surviving suggestions and both design concerns, and its delta table cited exact CI log lines rather than summarising them. One of those citations mattered: it quoted <code>--- PASS</code> for both new tests at specific line numbers, and when my own grep of the same log came back empty I nearly recorded the quote as unsupported. GitHub serves that log as binary, so <code>grep</code> needs <code>-a</code>; the lines are exactly where Claude said. Two of its factual claims are wrong, both in Strengths rather than in findings. It reported 27 template symlinks where the tree holds 24 and the log prints 25 resolution lines, and it described a two-hop <code>opensuse.yaml → opensuse-leap.yaml → opensuse-leap-16.yaml</code> chain that the tree does not contain. Its <code>$RUNNER_TEMP</code> observation framed a harmless pre-checkout write as a latent bug.</p>
+    <h3 id="codex-gpt-5-6-sol"><span class="pill pill-codex">Codex GPT 5.6 Sol</span> <a href="#codex-gpt-5-6-sol" class="pilcrow">&#182;</a></h3>
+    <p>One finding, and no other reviewer reached it. It got to the Layer 4 regex gap by fetching Git for Windows&#39; installer source instead of reasoning about what the pattern looks like it covers, which is the same move that won it round 2&#39;s only Important finding. Both halves survived checking, including the omitted <code>HKCU</code> WOW6432Node root: the installer&#39;s own <code>QueryUninstallValues</code> probes exactly four locations and the action lists three. It marked three files clean that turned out to hold suggestions, the same cost its brevity carried last round.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Clean at every severity for the second round running. Unlike round 2 it attached real evidence to its verdicts, tracing <code>compare()</code> through <code>versionutil.go</code> and checking Layer 5&#39;s three arms against <code>sshutil.go</code>, and both conclusions match what I derived independently. Its Acknowledged Limitations section still restates the injected decline list item for item with no measurement attached, which is the one pattern the round-3 prompt asked agents to avoid.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Re-raised its round-2 <code>REG_EXPAND_SZ</code> claim, this time as a standalone suggestion with a patch. The patch is self-defeating: it restores the registry value kind while writing back a string its own premise says was read fully expanded, so the expanded paths it objects to survive the fix. Flash did do work the others skipped, cross-compiling the Windows test binary and leaving <code>sshutil.test.exe</code> in its worktree as evidence. Against that, its delta table marked the registry row PASS on the strength of unnamed &quot;Registry/API research&quot;.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5</span></th><th><span class="pill pill-codex">Codex GPT 5.6 Sol</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>20m 41s</td><td>14m 34s</td><td>2m 53s</td><td>3m 13s</td></tr>
+        <tr><td>Findings</td><td>3S</td><td>1S</td><td>none</td><td>none</td></tr>
+        <tr><td>Tool calls</td><td>73 (Bash 62, Read 11)</td><td>39 (shell 36, plan 2, run 1)</td><td>12 (run<em>shell</em>command 12)</td><td>25 (read<em>file 11, run</em>shell<em>command 6, grep</em>search 4)</td></tr>
+        <tr><td>Design observations</td><td>6</td><td>3</td><td>1</td><td>3</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>3</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>12</td><td>12</td><td>12</td><td>12</td></tr>
+        <tr><td>Coverage misses</td><td>1</td><td>3</td><td>4</td><td>4</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>3S</strong></td><td><strong>1S</strong></td><td><strong>none</strong></td><td><strong>none</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Reconciliation.</strong> Gemini 3.5 Flash S1 <code>REG_EXPAND_SZ</code>: suggestion → Acknowledged Limitations. Round 3 already addressed the underlying concern with the destructive-runner warning the author added for it, and the patch offered this round does not preserve what it claims to preserve. No other severities changed.</p>
+    <p>The two Gemini models share a family, so their converging on a near-clean result is one opinion rather than two. Between them they produced nothing that survived as a finding. Claude and Codex split the round the same way they split round 2: Claude on volume, with three suggestions and the design concerns but two loose facts in its supporting prose, and Codex on a single finding reached by reading a primary source. Codex&#39;s is the one a reviewer could not have derived from the diff alone.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>Before concluding that a quoted log line does not exist, confirm the search tool read the file as text. A CI provider commonly serves a job log as a byte stream that <code>file</code> reports as <code>data</code>, and GNU and BSD <code>grep</code> then suppress every match silently until given <code>-a</code>; a tool writing UTF-16 produces the same empty result by a different route. Re-run with <code>-a</code>, and check for interleaved NULs, before recording a quote as unsupported. The failure mode is expensive in both directions: it marks an accurate reviewer as fabricating, and it hides the evidence the round most needed.</li>
+      <li>Fetch a completed job&#39;s log directly rather than waiting for its workflow run. <code>gh api repos/{owner}/{repo}/actions/jobs/{id}/logs</code> returns the log as soon as that job finishes, while <code>gh run view --log</code> still refuses for a run with jobs outstanding. Falling back to the workflow definition plus the job&#39;s status gives up evidence that is already available, and a run whose slowest jobs take another hour would otherwise push a verifiable claim into the unverifiable column.</li>
+      <li>When a finding arrives with a patch, check the patch against the finding&#39;s own stated mechanism before checking it against the code. A patch that contradicts the premise its own finding argues from is refutable without opening the repository at all, and that inconsistency is the cheapest signal that the reviewer matched a familiar remedy onto a mechanism it does not address. Read the finding&#39;s description of what goes wrong, then ask whether applying the diff changes that specific thing.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>[repo] Git for Windows registers its uninstall entry with <code>DisplayName</code> set to the bare string <code>Git</code>, from <code>UninstallDisplayName={#APP_NAME}</code> with <code>#define APP_NAME &#39;Git&#39;</code> in the installer, so a pattern looking for a display name containing &quot;git for windows&quot; never matches it. The installer&#39;s <code>QueryUninstallValues</code> probes four roots for <code>Microsoft\Windows\CurrentVersion\Uninstall\Git_is1</code>: HKLM and HKCU, each both with and without the <code>Software\Wow6432Node</code> prefix. Any check that hunts for a Git for Windows installation in the registry has to match that display name and cover all four roots.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+!function(e){var n=/[*&][^\s[\]{},]+/,r=/!(?:<[\w\-%#;/?:@&=+$,.!~*'()[\]]+>|(?:[a-zA-Z\d-]*!)?[\w\-%#;/?:@&=+$.~*'()]+)?/,t="(?:"+r.source+"(?:[ \t]+"+n.source+")?|"+n.source+"(?:[ \t]+"+r.source+")?)",a="(?:[^\\s\\x00-\\x08\\x0e-\\x1f!\"#%&'*,\\-:>?@[\\]`{|}\\x7f-\\x84\\x86-\\x9f\\ud800-\\udfff\\ufffe\\uffff]|[?:-]<PLAIN>)(?:[ \t]*(?:(?![#:])<PLAIN>|:<PLAIN>))*".replace(/<PLAIN>/g,(function(){return"[^\\s\\x00-\\x08\\x0e-\\x1f,[\\]{}\\x7f-\\x84\\x86-\\x9f\\ud800-\\udfff\\ufffe\\uffff]"})),d="\"(?:[^\"\\\\\r\n]|\\\\.)*\"|'(?:[^'\\\\\r\n]|\\\\.)*'";function o(e,n){n=(n||"").replace(/m/g,"")+"m";var r="([:\\-,[{]\\s*(?:\\s<<prop>>[ \t]+)?)(?:<<value>>)(?=[ \t]*(?:$|,|\\]|\\}|(?:[\r\n]\\s*)?#))".replace(/<<prop>>/g,(function(){return t})).replace(/<<value>>/g,(function(){return e}));return RegExp(r,n)}e.languages.yaml={scalar:{pattern:RegExp("([\\-:]\\s*(?:\\s<<prop>>[ \t]+)?[|>])[ \t]*(?:((?:\r?\n|\r)[ \t]+)\\S[^\r\n]*(?:\\2[^\r\n]+)*)".replace(/<<prop>>/g,(function(){return t}))),lookbehind:!0,alias:"string"},comment:/#.*/,key:{pattern:RegExp("((?:^|[:\\-,[{\r\n?])[ \t]*(?:<<prop>>[ \t]+)?)<<key>>(?=\\s*:\\s)".replace(/<<prop>>/g,(function(){return t})).replace(/<<key>>/g,(function(){return"(?:"+a+"|"+d+")"}))),lookbehind:!0,greedy:!0,alias:"atrule"},directive:{pattern:/(^[ \t]*)%.+/m,lookbehind:!0,alias:"important"},datetime:{pattern:o("\\d{4}-\\d\\d?-\\d\\d?(?:[tT]|[ \t]+)\\d\\d?:\\d{2}:\\d{2}(?:\\.\\d*)?(?:[ \t]*(?:Z|[-+]\\d\\d?(?::\\d{2})?))?|\\d{4}-\\d{2}-\\d{2}|\\d\\d?:\\d{2}(?::\\d{2}(?:\\.\\d*)?)?"),lookbehind:!0,alias:"number"},boolean:{pattern:o("false|true","i"),lookbehind:!0,alias:"important"},null:{pattern:o("null|~","i"),lookbehind:!0,alias:"important"},string:{pattern:o(d),lookbehind:!0,greedy:!0},number:{pattern:o("[+-]?(?:0x[\\da-f]+|0o[0-7]+|(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:e[+-]?\\d+)?|\\.inf|\\.nan)","i"),lookbehind:!0},tag:r,important:n,punctuation:/---|[:[\]{}\-,|>?]|\.\.\./},e.languages.yml=e.languages.yaml}(Prism);
+!function(e){var i=e.languages.powershell={comment:[{pattern:/(^|[^`])<#[\s\S]*?#>/,lookbehind:!0},{pattern:/(^|[^`])#.*/,lookbehind:!0}],string:[{pattern:/"(?:`[\s\S]|[^`"])*"/,greedy:!0,inside:null},{pattern:/'(?:[^']|'')*'/,greedy:!0}],namespace:/\[[a-z](?:\[(?:\[[^\]]*\]|[^\[\]])*\]|[^\[\]])*\]/i,boolean:/\$(?:false|true)\b/i,variable:/\$\w+\b/,function:[/\b(?:Add|Approve|Assert|Backup|Block|Checkpoint|Clear|Close|Compare|Complete|Compress|Confirm|Connect|Convert|ConvertFrom|ConvertTo|Copy|Debug|Deny|Disable|Disconnect|Dismount|Edit|Enable|Enter|Exit|Expand|Export|Find|ForEach|Format|Get|Grant|Group|Hide|Import|Initialize|Install|Invoke|Join|Limit|Lock|Measure|Merge|Move|New|Open|Optimize|Out|Ping|Pop|Protect|Publish|Push|Read|Receive|Redo|Register|Remove|Rename|Repair|Request|Reset|Resize|Resolve|Restart|Restore|Resume|Revoke|Save|Search|Select|Send|Set|Show|Skip|Sort|Split|Start|Step|Stop|Submit|Suspend|Switch|Sync|Tee|Test|Trace|Unblock|Undo|Uninstall|Unlock|Unprotect|Unpublish|Unregister|Update|Use|Wait|Watch|Where|Write)-[a-z]+\b/i,/\b(?:ac|cat|chdir|clc|cli|clp|clv|compare|copy|cp|cpi|cpp|cvpa|dbp|del|diff|dir|ebp|echo|epal|epcsv|epsn|erase|fc|fl|ft|fw|gal|gbp|gc|gci|gcs|gdr|gi|gl|gm|gp|gps|group|gsv|gu|gv|gwmi|iex|ii|ipal|ipcsv|ipsn|irm|iwmi|iwr|kill|lp|ls|measure|mi|mount|move|mp|mv|nal|ndr|ni|nv|ogv|popd|ps|pushd|pwd|rbp|rd|rdr|ren|ri|rm|rmdir|rni|rnp|rp|rv|rvpa|rwmi|sal|saps|sasv|sbp|sc|select|set|shcm|si|sl|sleep|sls|sort|sp|spps|spsv|start|sv|swmi|tee|trcm|type|write)\b/i],keyword:/\b(?:Begin|Break|Catch|Class|Continue|Data|Define|Do|DynamicParam|Else|ElseIf|End|Exit|Filter|Finally|For|ForEach|From|Function|If|InlineScript|Parallel|Param|Process|Return|Sequence|Switch|Throw|Trap|Try|Until|Using|Var|While|Workflow)\b/i,operator:{pattern:/(^|\W)(?:!|-(?:b?(?:and|x?or)|as|(?:Not)?(?:Contains|In|Like|Match)|eq|ge|gt|is(?:Not)?|Join|le|lt|ne|not|Replace|sh[lr])\b|-[-=]?|\+[+=]?|[*\/%]=?)/i,lookbehind:!0},punctuation:/[|{}[\];(),.]/};i.string[0].inside={function:{pattern:/(^|[^`])\$\((?:\$\([^\r\n()]*\)|(?!\$\()[^\r\n)])*\)/,lookbehind:!0,inside:i},boolean:i.boolean,variable:i.variable}}(Prism);
+!function(n){function e(n){return n=n.replace(/<inner>/g,(function(){return"(?:\\\\.|[^\\\\\n\r]|(?:\n|\r\n?)(?![\r\n]))"})),RegExp("((?:^|[^\\\\])(?:\\\\{2})*)(?:"+n+")")}var t="(?:\\\\.|``(?:[^`\r\n]|`(?!`))+``|`[^`\r\n]+`|[^\\\\|\r\n`])+",a="\\|?__(?:\\|__)+\\|?(?:(?:\n|\r\n?)|(?![^]))".replace(/__/g,(function(){return t})),i="\\|?[ \t]*:?-{3,}:?[ \t]*(?:\\|[ \t]*:?-{3,}:?[ \t]*)+\\|?(?:\n|\r\n?)";n.languages.markdown=n.languages.extend("markup",{}),n.languages.insertBefore("markdown","prolog",{"front-matter-block":{pattern:/(^(?:\s*[\r\n])?)---(?!.)[\s\S]*?[\r\n]---(?!.)/,lookbehind:!0,greedy:!0,inside:{punctuation:/^---|---$/,"front-matter":{pattern:/\S+(?:\s+\S+)*/,alias:["yaml","language-yaml"],inside:n.languages.yaml}}},blockquote:{pattern:/^>(?:[\t ]*>)*/m,alias:"punctuation"},table:{pattern:RegExp("^"+a+i+"(?:"+a+")*","m"),inside:{"table-data-rows":{pattern:RegExp("^("+a+i+")(?:"+a+")*$"),lookbehind:!0,inside:{"table-data":{pattern:RegExp(t),inside:n.languages.markdown},punctuation:/\|/}},"table-line":{pattern:RegExp("^("+a+")"+i+"$"),lookbehind:!0,inside:{punctuation:/\||:?-{3,}:?/}},"table-header-row":{pattern:RegExp("^"+a+"$"),inside:{"table-header":{pattern:RegExp(t),alias:"important",inside:n.languages.markdown},punctuation:/\|/}}}},code:[{pattern:/((?:^|\n)[ \t]*\n|(?:^|\r\n?)[ \t]*\r\n?)(?: {4}|\t).+(?:(?:\n|\r\n?)(?: {4}|\t).+)*/,lookbehind:!0,alias:"keyword"},{pattern:/^```[\s\S]*?^```$/m,greedy:!0,inside:{"code-block":{pattern:/^(```.*(?:\n|\r\n?))[\s\S]+?(?=(?:\n|\r\n?)^```$)/m,lookbehind:!0},"code-language":{pattern:/^(```).+/,lookbehind:!0},punctuation:/```/}}],title:[{pattern:/\S.*(?:\n|\r\n?)(?:==+|--+)(?=[ \t]*$)/m,alias:"important",inside:{punctuation:/==+$|--+$/}},{pattern:/(^\s*)#.+/m,lookbehind:!0,alias:"important",inside:{punctuation:/^#+|#+$/}}],hr:{pattern:/(^\s*)([*-])(?:[\t ]*\2){2,}(?=\s*$)/m,lookbehind:!0,alias:"punctuation"},list:{pattern:/(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,lookbehind:!0,alias:"punctuation"},"url-reference":{pattern:/!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/,inside:{variable:{pattern:/^(!?\[)[^\]]+/,lookbehind:!0},string:/(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,punctuation:/^[\[\]!:]|[<>]/},alias:"url"},bold:{pattern:e("\\b__(?:(?!_)<inner>|_(?:(?!_)<inner>)+_)+__\\b|\\*\\*(?:(?!\\*)<inner>|\\*(?:(?!\\*)<inner>)+\\*)+\\*\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^..)[\s\S]+(?=..$)/,lookbehind:!0,inside:{}},punctuation:/\*\*|__/}},italic:{pattern:e("\\b_(?:(?!_)<inner>|__(?:(?!_)<inner>)+__)+_\\b|\\*(?:(?!\\*)<inner>|\\*\\*(?:(?!\\*)<inner>)+\\*\\*)+\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^.)[\s\S]+(?=.$)/,lookbehind:!0,inside:{}},punctuation:/[*_]/}},strike:{pattern:e("(~~?)(?:(?!~)<inner>)+\\2"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^~~?)[\s\S]+(?=\1$)/,lookbehind:!0,inside:{}},punctuation:/~~?/}},"code-snippet":{pattern:/(^|[^\\`])(?:``[^`\r\n]+(?:`[^`\r\n]+)*``(?!`)|`[^`\r\n]+`(?!`))/,lookbehind:!0,greedy:!0,alias:["code","keyword"]},url:{pattern:e('!?\\[(?:(?!\\])<inner>)+\\](?:\\([^\\s)]+(?:[\t ]+"(?:\\\\.|[^"\\\\])*")?\\)|[ \t]?\\[(?:(?!\\])<inner>)+\\])'),lookbehind:!0,greedy:!0,inside:{operator:/^!/,content:{pattern:/(^\[)[^\]]+(?=\])/,lookbehind:!0,inside:{}},variable:{pattern:/(^\][ \t]?\[)[^\]]+(?=\]$)/,lookbehind:!0},url:{pattern:/(^\]\()[^\s)]+/,lookbehind:!0},string:{pattern:/(^[ \t]+)"(?:\\.|[^"\\])*"(?=\)$)/,lookbehind:!0}}}}),["url","bold","italic","strike"].forEach((function(e){["url","bold","italic","strike","code-snippet"].forEach((function(t){e!==t&&(n.languages.markdown[e].inside.content.inside[t]=n.languages.markdown[t])}))})),n.hooks.add("after-tokenize",(function(n){"markdown"!==n.language&&"md"!==n.language||function n(e){if(e&&"string"!=typeof e)for(var t=0,a=e.length;t<a;t++){var i=e[t];if("code"===i.type){var r=i.content[1],o=i.content[3];if(r&&o&&"code-language"===r.type&&"code-block"===o.type&&"string"==typeof r.content){var l=r.content.replace(/\b#/g,"sharp").replace(/\b\+\+/g,"pp"),s="language-"+(l=(/[a-z][\w-]*/i.exec(l)||[""])[0].toLowerCase());o.alias?"string"==typeof o.alias?o.alias=[o.alias,s]:o.alias.push(s):o.alias=[s]}}else n(i.content)}}(n.tokens)})),n.hooks.add("wrap",(function(e){if("code-block"===e.type){for(var t="",a=0,i=e.classes.length;a<i;a++){var s=e.classes[a],d=/language-(.+)/.exec(s);if(d){t=d[1];break}}var p=n.languages[t];if(p)e.content=n.highlight(e.content.replace(r,"").replace(/&(\w{1,8}|#x?[\da-f]{1,8});/gi,(function(n,e){var t;return"#"===(e=e.toLowerCase())[0]?(t="x"===e[1]?parseInt(e.slice(2),16):Number(e.slice(1)),l(t)):o[e]||n})),p,t);else if(t&&"none"!==t&&n.plugins.autoloader){var u="md-"+(new Date).valueOf()+"-"+Math.floor(1e16*Math.random());e.attributes.id=u,n.plugins.autoloader.loadLanguages(t,(function(){var e=document.getElementById(u);e&&(e.innerHTML=n.highlight(e.textContent,n.languages[t],t))}))}}}));var r=RegExp(n.languages.markup.tag.pattern.source,"gi"),o={amp:"&",lt:"<",gt:">",quot:'"'},l=String.fromCodePoint||String.fromCharCode;n.languages.md=n.languages.markdown}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
