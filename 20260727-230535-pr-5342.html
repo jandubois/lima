@@ -235,6 +235,14 @@ summary { cursor: pointer; font-weight: 600; }
     <p>Four reviewers ran against <a href="https://github.com/lima-vm/lima/commit/c7e9fb93"><code>c7e9fb93</code></a>. Two Gemini models returned near-clean; Claude and Codex carried the round. Three completed CI runs settled most questions: the PR&#39;s own <code>30324334118</code>, the stacked integration branch&#39;s <code>30324782032</code>, and master&#39;s <code>30236908109</code>. I re-ran zizmor locally, rebuilt and vetted the Go tree at the review SHA, and re-derived every round-1 decline from the logs rather than inheriting it. No PowerShell interpreter exists on this host, so PowerShell claims rest on CI log lines and are labelled where they do not.</p>
     </div>
     <hr>
+    <h2 id="status-findings-addressed">Status: findings addressed <a href="#status-findings-addressed" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The code this review cites has changed. Every finding below was walked with the author and resolved in commit <a href="https://github.com/lima-vm/lima/commit/244c0ca0"><code>244c0ca0</code></a>, which amends the reviewed <a href="https://github.com/lima-vm/lima/commit/c7e9fb93"><code>c7e9fb93</code></a>, so line numbers and snippets here describe the reviewed SHA rather than the current branch.</p>
+    <p>Seven findings were fixed, one got an explanatory comment, and three testing gaps were declined. Adversarial verification of the fixes raised eight concerns, four of which were errors in the fixes themselves: the <code>breaking.md</code> singular, the <code>windows_plain_build</code> version mechanism, and two wrong claims in the <code>test.yml</code> comment. All four were corrected before the commit.</p>
+    <p>Verification also surfaced a gap this review missed. Layer 5 asserts the four OpenSSH binaries with <code>Test-Path</code>, but <code>scp</code> and <code>sftp-server</code> resolve through <code>exec.LookPath</code>, so a runner keeping the files while dropping the directory from PATH would degrade silently. Two attempts at a CI-side check each drew a fresh structural objection, so the check was reverted and the ssh-selection rules were pinned in <code>pkg/sshutil</code>&#39;s own tests instead.</p>
+    </div>
+    <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-critical">
@@ -286,6 +294,7 @@ weight: 20
   as `wsl2` is not compatible with most templates.
 - The experimental `_LIMA_WINDOWS_EXTRA_PATH` environment variable was removed. It prepended a directory to</code></pre>
     <p>Fix: open a heading for the next release and file the bullet there. Dropping the bullet is also defensible, since the removed docs called the variable experimental with no promotion guarantee.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/244c0ca0"><code>244c0ca0</code></a>. A <code>## v2.3.0</code> heading now carries the bullet.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
@@ -308,6 +317,7 @@ weight: 20
       # -ArgumentList joins its elements unquoted, so quote the two paths.</code></pre>
     <p><code>wsl.exe</code> writes this diagnostic to stdout, so the redirection is inert. In job <code>90166439559</code> at 02:54:12.338Z the log still carries <code>There is no distribution with the supplied name.</code> and <code>Error code: Wsl/Service/WSL_E_DISTRO_NOT_FOUND</code>, UTF-16LE encoded like every other <code>wsl.exe</code> line. What keeps the failure harmless is the missing <code>$LASTEXITCODE</code> check on line 47, which the comment above it does not mention.</p>
     <p>Fix: drop the redirection and let the comment carry the intent.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/244c0ca0"><code>244c0ca0</code></a>. The redirection is gone and the comment names the missing <code>$LASTEXITCODE</code> check as what makes the failure harmless.</p>
       <pre><code class="language-diff">-      wsl --unregister dummy 2&gt;$null
 +      # No $LASTEXITCODE check: wsl reports the missing distro and exits
 +      # non-zero, which is the expected state on a fresh runner.
@@ -332,6 +342,7 @@ weight: 20
     <p>At the merge-base this prepend lived inside the integration-test step. As a <code>$GITHUB_PATH</code> entry it now reaches <code>Unit tests</code> and <code>Make</code> too. I counted <code>File not found - *_test.go</code>, which is <code>C:\Windows\System32\FIND.EXE</code> talking: 6 occurrences in each master Windows job (<code>89886334216</code>, <code>89886334212</code>), 0 in each of this PR&#39;s (<code>90166439599</code>, <code>90166439643</code>). So <code>$(shell find …)</code> now resolves GNU <code>find</code> and returns a real list.</p>
     <p>That populates <code>FILES_IN_PKG</code> and <code>dependencies_for_cmd</code> where both were empty before. Harmless on a fresh workspace, and unstated.</p>
     <p>Fix: say so in the action description.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/244c0ca0"><code>244c0ca0</code></a>. Narrowed to the <code>Make</code> step after verification showed <a href="https://github.com/lima-vm/lima/blob/c7e9fb938150e39aa2011b5046204f5c3e1c0df0/.github/workflows/test.yml#L172"><code>test.yml:172</code></a> and <code>:201</code> prepend other directories ahead of the MSYS2 entry.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/releases/breaking.md">
       <div class="finding-title" id="S3">
@@ -351,6 +362,7 @@ weight: 20
     to the instance directory (`~/.lima/&lt;instance&gt;/lima-driver-&lt;name&gt;.sock`).</code></pre>
     <p>The deleted docs entry motivated the variable by leaving the user&#39;s shell alone: &quot;prevent collisions between binaries available in active shell and ones used by <code>limactl.exe</code> - injecting them only for the running process w/o altering PATH observed by user shell&quot;. A reader following this line does the one thing the variable avoided.</p>
     <p>Fix: point at the per-invocation form, which keeps that property.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/244c0ca0"><code>244c0ca0</code></a>, and corrected to the plural: the removed code prepended its value verbatim, so a <code>;</code>-separated list worked.</p>
       <pre><code class="language-diff">-  `limactl.exe`&#39;s own PATH on Windows hosts; put the directory on PATH instead.
 +  `limactl.exe`&#39;s own PATH on Windows hosts. Prepend the directory for the single
 +  invocation instead: `$env:PATH = &#39;C:\…;&#39; + $env:PATH; limactl …`.</code></pre>
@@ -373,6 +385,7 @@ weight: 20
       $env:GOARCH = &#39;amd64&#39;</code></pre>
     <p><code>Makefile:98</code> passes <code>-X $(PACKAGE)/pkg/version.Version=$(VERSION)</code>; a bare <code>go build</code> leaves it empty. Job <code>90166439597</code> logs <code>treating lima version `&lt;unknown&gt;` … as very latest release</code> four times, so every version-keyed branch takes its &quot;very latest&quot; arm on these two jobs alone.</p>
     <p>Fix: pass the ldflag. Note that <code>git describe</code> cannot supply it in <code>windows-plain-wsl2</code>, where this action runs after <code>windows_plain_host</code> has uninstalled git; either move the build earlier there or read the version from another source.</p>
+    <p><strong>Resolved:</strong> commented in <a href="https://github.com/lima-vm/lima/commit/244c0ca0"><code>244c0ca0</code></a>. The first draft stated the mechanism backwards; <code>version.Version</code> defaults to <code>&quot;&lt;unknown&gt;&quot;</code>, and the builds pass because that string is unparsable, which <code>validate.go:44-46</code> documents.</p>
     </div>
     <div class="card card-suggestion" data-file=".github/actions/windows_plain_host/action.yml">
       <div class="finding-title" id="S5">
@@ -417,6 +430,7 @@ weight: 20
       # stale entries (C:\mingw64\bin stays registered). Rewrite both scopes
       # so the verify step sees a clean host, then publish the combined PATH</code></pre>
     <p>Fix: name <code>ssh.exe</code> for the opaque failure and describe the silent fallback for the other two.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/244c0ca0"><code>244c0ca0</code></a>.</p>
     </div>
     <div class="card card-suggestion" data-file=".github/workflows/test.yml">
       <div class="finding-title" id="S6">
@@ -452,6 +466,7 @@ case &quot;$NAME&quot; in
 &quot;alpine&quot;*)
 	WARNING &quot;Alpine does not support systemd&quot;</code></pre>
     <p>Fix: narrow the comment to what the job proves, and consider asserting the two log lines instead.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/244c0ca0"><code>244c0ca0</code></a>. The cross-reference to <code>hack/test-templates.sh</code> was dropped: that clear is scoped to the <code>default</code> template, not to Msys hosts. The comment now names sshocker&#39;s non-fatal confirmation step instead.</p>
     </div>
     <div class="card card-suggestion" data-file=".github/actions/windows_plain_host/action.yml">
       <div class="finding-title" id="S7">
@@ -469,6 +484,7 @@ description: &gt;
 </code></pre>
     <p>The action uninstalls Git for Windows, deletes five directories, and rewrites both registry PATH scopes. That is right for a GitHub-hosted runner, and the description reads like ordinary setup. A fork moving these jobs to a self-hosted Windows box would wipe that machine.</p>
     <p>Fix: add one line to the description saying the action is destructive and irreversible, for ephemeral runners only.</p>
+    <p><strong>Resolved:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/244c0ca0"><code>244c0ca0</code></a>.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
