@@ -273,10 +273,32 @@ details.repro .code-file-header { margin-top: 0; border-radius: 0; }
     <p><code>make bats</code> globs <code>./hack/bats/tests</code> (<code>Makefile:614</code>), so the new file joins this job with no opt-in. The PR raised both Windows jobs from 30 to 45 minutes for their second VM boot but left this one alone, and this is the job with the least room. The port-forwarding section took 96s of the Linux run (16:40:21 to 16:41:57 in the job log). Master&#39;s slowest recent run was 28m05s, so the same run with this suite added would sit near 29m40s. A <code>timeout-minutes</code> kill ends the job mid-suite: no TAP output, no <code>failure-logs</code> artifact, and the run concludes <code>cancelled</code> rather than <code>failure</code>, so a failure sweep never sees it.</p>
       <details class="repro">
         <summary>Reproducer</summary>
-      <pre><code class="language-bash">bash /tmp/deep-review-4uznDN/probe-bats-duration.sh</code></pre>
-      <pre><code class="language-text">PR 5192 (run 32872238864): 22m27s
-master, 10 most recent runs:
-19m06s 19m10s 19m57s 19m58s 19m59s 20m14s 20m25s 21m11s 23m51s 28m05s</code></pre>
+      <pre><code class="language-bash">#!/usr/bin/env bash
+# Duration of the &quot;Integration tests (BATS)&quot; job: this PR against recent master.
+# Needs gh and python3.
+set -eu
+REPO=lima-vm/lima
+JOB=&quot;Integration tests (BATS)&quot;
+mins() { python3 -c &#39;import sys,datetime as d
+f=&quot;%Y-%m-%dT%H:%M:%SZ&quot;
+for line in sys.stdin:
+    a,b=line.split()
+    s=(d.datetime.strptime(b,f)-d.datetime.strptime(a,f)).total_seconds()
+    print(&quot;%dm%02ds&quot;%(s//60,s%60))&#39;; }
+
+runs() { # runs &lt;ref&gt; &lt;count&gt; -&gt; &quot;started completed&quot; per successful matching job
+    for id in $(gh run list --repo &quot;$REPO&quot; --workflow test.yml --branch &quot;$1&quot; \
+        --limit &quot;$2&quot; --json databaseId --jq &#39;.[].databaseId&#39;); do
+        gh api &quot;repos/$REPO/actions/runs/$id/jobs&quot; --paginate \
+            --jq &quot;.jobs[] | select(.name == \&quot;$JOB\&quot; and .conclusion == \&quot;success\&quot;) |
+                  \&quot;\(.started_at) \(.completed_at)\&quot;&quot;
+    done
+}
+
+echo -n &quot;PR 5192 (branch fix-4389): &quot;; runs fix-4389 1 | mins
+echo -n &quot;master, 10 most recent runs: &quot;; runs master 10 | mins | sort -n | tr &#39;\n&#39; &#39; &#39;; echo</code></pre>
+      <pre><code class="language-text">PR 5192 (branch fix-4389): 22m27s
+master, 10 most recent runs: 19m06s 19m10s 19m57s 19m58s 19m59s 20m14s 20m25s 21m11s 23m51s 28m05s</code></pre>
       </details>
     <p>Fix:</p>
       <pre><code class="language-diff">   bats:
@@ -329,16 +351,52 @@ func comparePorts(old, neww []*api.IPPort) (added, removed []*api.IPPort) {
 		k := f.String()</code></pre>
       <details class="repro">
         <summary>Reproducer</summary>
-      <pre><code class="language-bash"># Listener A stands in for the previous run; the watcher starts after it, as in setup_file.
-bash /tmp/deep-review-4uznDN/probe-rebind.sh        # kill and rebind in one guest command
-bash /tmp/deep-review-4uznDN/probe-rebind-sleep.sh  # same, with 5s between kill and rebind</code></pre>
-      <pre><code class="language-text"># probe-rebind.sh (no gap)
---- events mentioning 38888 ---
-(none)
---- total portForward events recorded in this window ---
-       0
-# probe-rebind-sleep.sh (5s gap)
---- events mentioning 38888 ---
+      <pre><code class="language-bash">#!/usr/bin/env bash
+# Does closing and rebinding a guest port inside one guestagent poll tick
+# produce a new port-forwarding event?  Models what setup_file does under
+# LIMA_BATS_REUSE_INSTANCE: pkill the leftover listeners, then let the first
+# test rebind the same address.  Needs jq and any running Linux instance
+# that has python3 (the default template does).
+#
+# Usage: probe-rebind.sh &lt;instance&gt; [seconds between kill and rebind]
+#   0s (the default) is the shipped behaviour; 5s is the proposed fix.
+set -u
+INST=${1:?usage: probe-rebind.sh &lt;instance&gt; [gap-seconds]}
+GAP=${2:-0}
+PORT=38888
+W=$(mktemp -d)
+trap &#39;rm -rf &quot;$W&quot;&#39; EXIT
+
+listen() { # background TCP listener in the guest; prints its pid
+    limactl shell &quot;$INST&quot; -- sh -c \
+        &quot;nohup python3 -c \&quot;import socket,time;s=socket.socket();s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1);s.bind((&#39;127.0.0.1&#39;,$PORT));s.listen(1);time.sleep(600)\&quot; &gt;/dev/null 2&gt;&amp;1 &lt;/dev/null &amp; echo \$!&quot;
+}
+
+# The previous run&#39;s listener, forwarded before the watcher starts.
+PID_A=$(listen)
+sleep 6
+
+# setup_file starts &quot;limactl watch&quot; here, so only later events are visible.
+limactl watch --json &quot;$INST&quot; &gt;&quot;$W/events&quot; 2&gt;&quot;$W/watch.log&quot; &amp;
+WATCH_PID=$!
+for _ in $(seq 1 50); do grep -q &#39;Watching for events&#39; &quot;$W/watch.log&quot; &amp;&amp; break; sleep 0.2; done
+
+limactl shell &quot;$INST&quot; -- sh -c &quot;kill $PID_A&quot;
+sleep &quot;$GAP&quot;
+PID_B=$(listen)
+
+sleep 20
+kill &quot;$WATCH_PID&quot; 2&gt;/dev/null
+limactl shell &quot;$INST&quot; -- sh -c &quot;kill $PID_B&quot; 2&gt;/dev/null
+echo &quot;gap=${GAP}s: events for 127.0.0.1:$PORT after the rebind:&quot;
+jq -c &#39;select(.event.status.portForward != null) | .event.status.portForward&#39; &quot;$W/events&quot; |
+    grep &quot;$PORT&quot; || echo &quot;  (none - wait_for_port_forwarding_event would time out)&quot;</code></pre>
+      <pre><code class="language-text">$ probe-rebind.sh default 0
+gap=0s: events for 127.0.0.1:38888 after the rebind:
+  (none - wait_for_port_forwarding_event would time out)
+
+$ probe-rebind.sh default 5
+gap=5s: events for 127.0.0.1:38888 after the rebind:
 {&quot;type&quot;:&quot;stopping&quot;,&quot;protocol&quot;:&quot;tcp&quot;,&quot;guestAddr&quot;:&quot;127.0.0.1:38888&quot;,&quot;hostAddr&quot;:&quot;127.0.0.1:38888&quot;}
 {&quot;type&quot;:&quot;forwarding&quot;,&quot;protocol&quot;:&quot;tcp&quot;,&quot;guestAddr&quot;:&quot;127.0.0.1:38888&quot;,&quot;hostAddr&quot;:&quot;127.0.0.1:38888&quot;}</code></pre>
       </details>
@@ -384,12 +442,47 @@ func newPortForwarder(sshConfig *ssh.SSHConfig, sshAddressPort func() (string, i
 		sshConfig:      sshConfig,</code></pre>
       <details class="repro">
         <summary>Reproducer</summary>
-      <pre><code class="language-go">// pkg/portfwd/zz_probe_test.go, rules = the injected 8888 rule + hostagent&#39;s catch-all
-host, _ := fw.forwardingAddresses(&amp;api.IPPort{Ip: guestIP, Port: 8888, Protocol: &quot;tcp&quot;})
-t.Logf(&quot;guest listener %-9s -&gt; host %s&quot;, guestIP, host)</code></pre>
+      <pre><code class="language-go">// Save as pkg/portfwd/zz_probe_test.go (forwardingAddresses is unexported),
+// then: go test ./pkg/portfwd/ -run TestProbe8888 -v
+package portfwd
+
+import (
+	&quot;net&quot;
+	&quot;testing&quot;
+
+	&quot;github.com/lima-vm/lima/v2/pkg/guestagent/api&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/limatype&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/limayaml&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/ptr&quot;
+)
+
+// The rule set hack/test-templates.sh produces: the injected &quot;guest port 8888
+// bound to 0.0.0.0&quot; rule, then the catch-all that pkg/hostagent/port.go
+// appends for every instance.
+func rulesUnderTest(t *testing.T) []limatype.PortForward {
+	t.Helper()
+	user := limatype.User{Home: ptr.Of(&quot;/home/lima&quot;)}
+	injected := limatype.PortForward{
+		GuestIPMustBeZero: ptr.Of(true),
+		GuestPort:         8888,
+		HostIP:            net.IPv4zero,
+	}
+	limayaml.FillPortForwardDefaults(&amp;injected, &quot;/tmp/inst&quot;, user, nil)
+	catchAll := limatype.PortForward{}
+	limayaml.FillPortForwardDefaults(&amp;catchAll, &quot;/tmp/inst&quot;, user, nil)
+	return []limatype.PortForward{injected, catchAll}
+}
+
+func TestProbe8888(t *testing.T) {
+	fw := NewPortForwarder(rulesUnderTest(t), false, false, nil)
+	for _, guestIP := range []string{&quot;0.0.0.0&quot;, &quot;127.0.0.1&quot;} {
+		host, _ := fw.forwardingAddresses(&amp;api.IPPort{Ip: guestIP, Port: 8888, Protocol: &quot;tcp&quot;})
+		t.Logf(&quot;guest listener %-9s -&gt; host %s&quot;, guestIP, host)
+	}
+}</code></pre>
       <pre><code class="language-text">=== RUN   TestProbe8888
-    zz_probe_test.go:34: guest listener 0.0.0.0   -&gt; host 0.0.0.0:8888
-    zz_probe_test.go:34: guest listener 127.0.0.1 -&gt; host 127.0.0.1:8888
+    zz_probe_test.go:36: guest listener 0.0.0.0   -&gt; host 0.0.0.0:8888
+    zz_probe_test.go:36: guest listener 127.0.0.1 -&gt; host 127.0.0.1:8888
 --- PASS: TestProbe8888 (0.00s)</code></pre>
       </details>
     <p>Fix: keep the warning, but skip the assertion rather than weakening it.</p>
@@ -427,7 +520,7 @@ assert_guest_received() {
     </div>
     <div class="card card-suggestion" data-file="hack/test-templates.sh">
       <div class="finding-title" id="S2">
-        <span class="finding-num">S2.</span> The <code>.yaml</code>-extension requirement is enforced only by a comment <span class="pill pill-claude">Claude Opus 5</span><a href="#S2" class="pilcrow">&#182;</a>
+        <span class="finding-num">S2.</span> The intermediate file&#39;s extension is enforced only by a comment <span class="pill pill-claude">Claude Opus 5</span><a href="#S2" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/hack/test-templates.sh#L145-L155">hack/test-templates.sh</a></div>
       <pre data-start="145" data-line="150"><code class="language-bash">	if [ &quot;${OS_HOST}&quot; = &quot;Msys&quot; ]; then
@@ -441,7 +534,7 @@ assert_guest_received() {
 	if [ &quot;${OS_HOST}&quot; = &quot;Msys&quot; ]; then
 		FILE_HOST=&quot;$(cygpath -w &quot;$FILE&quot;)&quot;
 	fi</code></pre>
-    <p>The comment above it is correct, but the failure it guards against is silent. With a non-<code>.yaml</code> intermediate, <code>limactl tmpl copy --embed</code> exits 0 and writes a five-line stub whose <code>images[0].location</code> is the intermediate file, discarding the template and the 8888 rule. <code>limactl validate</code> accepts the stub and the embed round-trip check at line 161 compares it against itself, so the first symptom is a VM booting the wrong image.</p>
+    <p>The <code>.raw.yaml</code> name above is chosen carefully, and the failure it avoids is silent. A <code>base:</code> reference ending in a disk-image extension is read as an image: <code>limactl tmpl copy --embed</code> exits 0 and writes a five-line stub whose <code>images[0].location</code> is the intermediate file, discarding the template and the 8888 rule. <code>limactl validate</code> accepts the stub, and the round-trip check at line 161 compares it against itself, so the first symptom is a VM booting the wrong image. The trigger is the image extension, not the absence of <code>.yaml</code>: dropping to a bare <code>${NAME}.raw</code>, the obvious name, would hit it.</p>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/hack/test-templates.sh#L156-L166">hack/test-templates.sh</a></div>
       <pre data-start="156" data-line="161"><code class="language-bash">	INFO &quot;Validating \&quot;$FILE_HOST\&quot;&quot;
 	limactl validate &quot;$FILE_HOST&quot;
@@ -456,13 +549,24 @@ function diagnose() {
 	tail &quot;$HOME_HOST/.lima/${NAME}&quot;/*.log</code></pre>
       <details class="repro">
         <summary>Reproducer</summary>
-      <pre><code class="language-text">$ echo -n &quot;base: $P/default.raw&quot; | limactl tmpl copy --embed - -
-os: &quot;Linux&quot;
-arch: &quot;aarch64&quot;
-images:
-- location: &quot;/tmp/deep-review-4uznDN/probe/default.raw&quot;
-  arch: &quot;aarch64&quot;
-rc=0</code></pre>
+      <pre><code class="language-bash">#!/usr/bin/env bash
+# Which intermediate-file extensions survive the embed round-trip?
+set -eu
+T=$(mktemp -d); trap &#39;rm -rf &quot;$T&quot;&#39; EXIT
+limactl yq &#39;.portForwards = [{&quot;guestIPMustBeZero&quot;: true, &quot;guestPort&quot;: 8888, &quot;hostIP&quot;: &quot;0.0.0.0&quot;}]&#39; \
+    &lt;templates/default.yaml &gt;&quot;$T/src&quot;
+for ext in yaml yml raw img qcow2 txt &quot;&quot;; do
+    f=&quot;$T/t${ext:+.$ext}&quot;; cp &quot;$T/src&quot; &quot;$f&quot;
+    n=$(echo -n &quot;base: $f&quot; | limactl tmpl copy --embed - - 2&gt;/dev/null | grep -c &#39;^portForwards:&#39; || true)
+    printf &#39;%-8s rule survived: %s\n&#39; &quot;${ext:-&lt;none&gt;}&quot; &quot;$n&quot;
+done</code></pre>
+      <pre><code class="language-text">yaml     rule survived: 1
+yml      rule survived: 1
+raw      rule survived: 0
+img      rule survived: 0
+qcow2    rule survived: 0
+txt      rule survived: 1
+&lt;none&gt;   rule survived: 1</code></pre>
       </details>
     <p>Fix: assert the rule survived, right after line 150.</p>
       <pre><code class="language-diff"> 	echo -n &quot;base: $rawfile_host&quot; | limactl tmpl copy --embed - - &gt;&quot;$tmpfile&quot;
