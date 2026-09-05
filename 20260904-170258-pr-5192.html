@@ -274,6 +274,7 @@ details.repro .code-file-header { margin-top: 0; border-radius: 0; }
       <details class="repro">
         <summary>Reproducer</summary>
       <pre><code class="language-bash">#!/usr/bin/env bash
+# Save as bats-job-duration.sh; run: bash bats-job-duration.sh
 # Duration of the &quot;Integration tests (BATS)&quot; job: this PR against recent master.
 # Needs gh and python3.
 set -eu
@@ -297,7 +298,8 @@ runs() { # runs &lt;ref&gt; &lt;count&gt; -&gt; &quot;started completed&quot; pe
 
 echo -n &quot;PR 5192 (branch fix-4389): &quot;; runs fix-4389 1 | mins
 echo -n &quot;master, 10 most recent runs: &quot;; runs master 10 | mins | sort -n | tr &#39;\n&#39; &#39; &#39;; echo</code></pre>
-      <pre><code class="language-text">PR 5192 (branch fix-4389): 22m27s
+      <pre><code class="language-text">$ bash bats-job-duration.sh
+PR 5192 (branch fix-4389): 22m27s
 master, 10 most recent runs: 19m06s 19m10s 19m57s 19m58s 19m59s 20m14s 20m25s 21m11s 23m51s 28m05s</code></pre>
       </details>
     <p>Fix:</p>
@@ -352,14 +354,14 @@ func comparePorts(old, neww []*api.IPPort) (added, removed []*api.IPPort) {
       <details class="repro">
         <summary>Reproducer</summary>
       <pre><code class="language-bash">#!/usr/bin/env bash
+# Save as probe-rebind.sh; run: bash probe-rebind.sh &lt;instance&gt; [gap-seconds]
 # Does closing and rebinding a guest port inside one guestagent poll tick
 # produce a new port-forwarding event?  Models what setup_file does under
 # LIMA_BATS_REUSE_INSTANCE: pkill the leftover listeners, then let the first
 # test rebind the same address.  Needs jq and any running Linux instance
 # that has python3 (the default template does).
-#
-# Usage: probe-rebind.sh &lt;instance&gt; [seconds between kill and rebind]
-#   0s (the default) is the shipped behaviour; 5s is the proposed fix.
+# The gap is the seconds between kill and rebind: 0 (the default) is the
+# shipped behaviour, 5 is the proposed fix.
 set -u
 INST=${1:?usage: probe-rebind.sh &lt;instance&gt; [gap-seconds]}
 GAP=${2:-0}
@@ -391,11 +393,11 @@ limactl shell &quot;$INST&quot; -- sh -c &quot;kill $PID_B&quot; 2&gt;/dev/null
 echo &quot;gap=${GAP}s: events for 127.0.0.1:$PORT after the rebind:&quot;
 jq -c &#39;select(.event.status.portForward != null) | .event.status.portForward&#39; &quot;$W/events&quot; |
     grep &quot;$PORT&quot; || echo &quot;  (none - wait_for_port_forwarding_event would time out)&quot;</code></pre>
-      <pre><code class="language-text">$ probe-rebind.sh default 0
+      <pre><code class="language-text">$ bash probe-rebind.sh default 0
 gap=0s: events for 127.0.0.1:38888 after the rebind:
   (none - wait_for_port_forwarding_event would time out)
 
-$ probe-rebind.sh default 5
+$ bash probe-rebind.sh default 5
 gap=5s: events for 127.0.0.1:38888 after the rebind:
 {&quot;type&quot;:&quot;stopping&quot;,&quot;protocol&quot;:&quot;tcp&quot;,&quot;guestAddr&quot;:&quot;127.0.0.1:38888&quot;,&quot;hostAddr&quot;:&quot;127.0.0.1:38888&quot;}
 {&quot;type&quot;:&quot;forwarding&quot;,&quot;protocol&quot;:&quot;tcp&quot;,&quot;guestAddr&quot;:&quot;127.0.0.1:38888&quot;,&quot;hostAddr&quot;:&quot;127.0.0.1:38888&quot;}</code></pre>
@@ -550,6 +552,7 @@ function diagnose() {
       <details class="repro">
         <summary>Reproducer</summary>
       <pre><code class="language-bash">#!/usr/bin/env bash
+# Save as embed-extensions.sh; run from the repo root: bash embed-extensions.sh
 # Which intermediate-file extensions survive the embed round-trip?
 set -eu
 T=$(mktemp -d); trap &#39;rm -rf &quot;$T&quot;&#39; EXIT
@@ -560,7 +563,8 @@ for ext in yaml yml raw img qcow2 txt &quot;&quot;; do
     n=$(echo -n &quot;base: $f&quot; | limactl tmpl copy --embed - - 2&gt;/dev/null | grep -c &#39;^portForwards:&#39; || true)
     printf &#39;%-8s rule survived: %s\n&#39; &quot;${ext:-&lt;none&gt;}&quot; &quot;$n&quot;
 done</code></pre>
-      <pre><code class="language-text">yaml     rule survived: 1
+      <pre><code class="language-text">$ bash embed-extensions.sh
+yaml     rule survived: 1
 yml      rule survived: 1
 raw      rule survived: 0
 img      rule survived: 0
