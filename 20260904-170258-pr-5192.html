@@ -236,9 +236,22 @@ details.repro .code-file-header { margin-top: 0; border-radius: 0; }
     <hr>
 
     <hr>
-    <h2 id="consolidated-review">Consolidated Review <a href="#consolidated-review" class="pilcrow">&#182;</a></h2>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
 
-    <div class="card card-neutral" data-file=".github/workflows/test.yml">
+    <div class="card card-neutral">
+    <p>The rewrite is faithful: the rule matrix is transcribed from the Perl <code>__DATA__</code> block in order, and all 56 tests pass on every platform at this SHA. Both problems from the previous round are fixed. Three issues remain: the Linux BATS job kept its 30-minute timeout after gaining a VM boot, the instance-reuse path loses the first port event, and the loopback fallback in <code>test-templates.sh</code> makes its own check vacuous.</p>
+    <p>Four reviewers, one pass each. Both Gemini models reported the same non-existent bug, an undefined <code>assert_socket_not_exists</code>, which the pinned <code>bats-file</code> submodule and the CI logs both refute; their worktrees had no submodules checked out. Codex and Claude each contributed one confirmed finding, and I reproduced all three Important findings against live code.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file=".github/workflows/test.yml">
       <div class="finding-title" id="I1">
         <span class="finding-num">I1.</span> <code>Integration tests (BATS)</code> keeps its 30-minute timeout after gaining a VM boot <span class="pill pill-claude">Claude Opus 5</span><a href="#I1" class="pilcrow">&#182;</a>
       </div>
@@ -272,7 +285,7 @@ master, 10 most recent runs:
 -    timeout-minutes: 30
 +    timeout-minutes: 45</code></pre>
     </div>
-    <div class="card card-neutral" data-file="hack/bats/tests/port-forwarding.bats">
+    <div class="card card-important" data-file="hack/bats/tests/port-forwarding.bats">
       <div class="finding-title" id="I2">
         <span class="finding-num">I2.</span> Instance reuse loses the first port-forwarding event <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#I2" class="pilcrow">&#182;</a>
       </div>
@@ -334,7 +347,7 @@ bash /tmp/deep-review-4uznDN/probe-rebind-sleep.sh  # same, with 5s between kill
 +    # Let the guestagent&#39;s 3s poll observe the removals before the first test rebinds.
 +    [[ -z ${LIMA_BATS_REUSE_INSTANCE:-} ]] || sleep 5</code></pre>
     </div>
-    <div class="card card-neutral" data-file="hack/test-templates.sh">
+    <div class="card card-important" data-file="hack/test-templates.sh">
       <div class="finding-title" id="I3">
         <span class="finding-num">I3.</span> The loopback fallback makes the 0.0.0.0 binding check pass unconditionally <span class="pill pill-gemini">Gemini 3.1 Pro</span><a href="#I3" class="pilcrow">&#182;</a>
       </div>
@@ -389,7 +402,10 @@ t.Logf(&quot;guest listener %-9s -&gt; host %s&quot;, guestIP, host)</code></pre
 +		fi</code></pre>
     <p>(and wrap the <code>curl</code> at line 512 in <code>if [ -n &quot;${hostip}&quot; ]</code>, as the merge-base did.)</p>
     </div>
-    <div class="card card-neutral" data-file="hack/bats/tests/port-forwarding.bats">
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="hack/bats/tests/port-forwarding.bats">
       <div class="finding-title" id="S1">
         <span class="finding-num">S1.</span> The ignore assertions read the guest file with no settle window <span class="pill pill-claude">Claude Opus 5</span><a href="#S1" class="pilcrow">&#182;</a>
       </div>
@@ -409,7 +425,7 @@ assert_guest_received() {
     <p>The loop polls only while <code>$expected</code> is non-empty, so <code>assert_guest_received &quot;$port&quot; &quot;&quot;</code> does one <code>cat</code> immediately after <code>send_from_host</code> returns. If an <code>ignore:</code> rule regressed into a forward, the payload could still be in flight and the assertion would pass. The <code>wait_for_port_forwarding_event not-forwarding</code> call above it is the real check, so nothing goes unnoticed; the second half of the assertion just cannot catch what it exists to catch.</p>
     <p>Fix: give the empty case a fixed settle window with a separate helper, e.g. an <code>assert_guest_received_nothing</code> that sleeps <code>RECEIVE_TIMEOUT</code> once and then asserts the file is empty.</p>
     </div>
-    <div class="card card-neutral" data-file="hack/test-templates.sh">
+    <div class="card card-suggestion" data-file="hack/test-templates.sh">
       <div class="finding-title" id="S2">
         <span class="finding-num">S2.</span> The <code>.yaml</code>-extension requirement is enforced only by a comment <span class="pill pill-claude">Claude Opus 5</span><a href="#S2" class="pilcrow">&#182;</a>
       </div>
@@ -453,7 +469,7 @@ rc=0</code></pre>
 +	# Guard the .yaml requirement above: a stub would silently drop the rule.
 +	[ &quot;$(limactl yq &#39;.portForwards[0].guestPort&#39; &lt;&quot;$tmpfile&quot;)&quot; = &quot;8888&quot; ]</code></pre>
     </div>
-    <div class="card card-neutral" data-file="hack/bats/tests/port-forwarding.bats">
+    <div class="card card-suggestion" data-file="hack/bats/tests/port-forwarding.bats">
       <div class="finding-title" id="S3">
         <span class="finding-num">S3.</span> The watch-readiness gate passes even when nothing attached <span class="pill pill-claude">Claude Opus 5</span><a href="#S3" class="pilcrow">&#182;</a>
       </div>
@@ -505,7 +521,7 @@ rc=0</code></pre>
 +        return 1
 +    fi</code></pre>
     </div>
-    <div class="card card-neutral" data-file="hack/bats/tests/port-forwarding.bats">
+    <div class="card card-suggestion" data-file="hack/bats/tests/port-forwarding.bats">
       <div class="finding-title" id="S4">
         <span class="finding-num">S4.</span> <code>skip_if_wsl2</code> re-runs <code>limactl list</code> on every call while its siblings cache <span class="pill pill-claude">Claude Opus 5</span><a href="#S4" class="pilcrow">&#182;</a>
       </div>
@@ -528,7 +544,7 @@ skip_if_windows_host() {
     <p><code>host_lan_ip</code> and <code>instance_dir</code> both cache their lookups in <code>$BATS_FILE_TMPDIR</code>; this one does not, and eleven tests call it. <code>limactl list</code> goes through <code>store.Inspect</code>, which opens the hostagent socket. In the WSL2 job log those eleven skips cost 374ms to 1022ms each, against roughly 45ms for the <code>$OSTYPE</code>-based skips.</p>
     <p>Fix: cache the VM type the way <code>instance_dir</code> caches the directory.</p>
     </div>
-    <div class="card card-neutral" data-file=".github/workflows/test.yml">
+    <div class="card card-suggestion" data-file=".github/workflows/test.yml">
       <div class="finding-title" id="S5">
         <span class="finding-num">S5.</span> A pre-existing comment now reads as describing the new step <span class="pill pill-claude">Claude Opus 5</span><a href="#S5" class="pilcrow">&#182;</a>
       </div>
