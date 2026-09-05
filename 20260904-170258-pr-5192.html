@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260904-170258-pr-5192</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers — collapsed, so a long proof keeps the next finding on screen */
+details.repro { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.repro > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.repro > summary:hover { background: #eef1f4; }
+details.repro[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.repro pre { border-radius: 0 !important; }
+details.repro .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260904-170258-pr-5192</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-09-04 17:02</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1 (of PR 5192)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/AkihiroSuda">@AkihiroSuda</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5192" class="gh-ref" data-title="Rewrite test-port-forwarding.pl in BATS" data-state="open" data-type="pr">#5192</a> — Rewrite test-port-forwarding.pl in BATS</td></tr>
+      <tr><td>Branch</td><td><code>fix-4389</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/ca636e8f"><code>ca636e8f</code></a> Rewrite test-port-forwarding.pl in BATS</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/ca636e8f0063817fd088559bbd5960cd9b03473d"><code>ca636e8f0063817fd088559bbd5960cd9b03473d</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5</span> (effort: xhigh), <span class="pill pill-codex">Codex GPT 5.6 Sol</span> (effort: xhigh), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; the rewrite is faithful and green on every platform; three test-harness defects need a decision first</td></tr>
+      <tr><td>Wall-clock time</td><td><code>30 min 2 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="consolidated-review">Consolidated Review <a href="#consolidated-review" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral" data-file=".github/workflows/test.yml">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> <code>Integration tests (BATS)</code> keeps its 30-minute timeout after gaining a VM boot <span class="pill pill-claude">Claude Opus 5</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/.github/workflows/test.yml#L376-L389">.github/workflows/test.yml</a></div>
+      <pre data-start="376" data-line="381-384"><code class="language-yaml">      with:
+        suffix: ${{ matrix.template }}
+    - name: &quot;Show cache&quot;
+      run: ./hack/debug-cache.sh
+
+  bats:
+    name: &quot;Integration tests (BATS)&quot;
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      with:
+        # BATS tests don&#39;t expect lima version warnings like:
+        # msg=&quot;treating lima version \&quot;ea336ae\&quot; from \&quot;/Users/runner/.lima-bats/dummy/lima-version\&quot; as very latest release&quot;</code></pre>
+    <p><code>make bats</code> globs <code>./hack/bats/tests</code> (<code>Makefile:614</code>), so the new file joins this job with no opt-in. The PR raised both Windows jobs from 30 to 45 minutes for their second VM boot but left this one alone, and this is the job with the least room. The port-forwarding section took 96s of the Linux run (16:40:21 to 16:41:57 in the job log). Master&#39;s slowest recent run was 28m05s, so the same run with this suite added would sit near 29m40s. A <code>timeout-minutes</code> kill ends the job mid-suite: no TAP output, no <code>failure-logs</code> artifact, and the run concludes <code>cancelled</code> rather than <code>failure</code>, so a failure sweep never sees it.</p>
+      <details class="repro">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash">bash /tmp/deep-review-4uznDN/probe-bats-duration.sh</code></pre>
+      <pre><code class="language-text">PR 5192 (run 32872238864): 22m27s
+master, 10 most recent runs:
+19m06s 19m10s 19m57s 19m58s 19m59s 20m14s 20m25s 21m11s 23m51s 28m05s</code></pre>
+      </details>
+    <p>Fix:</p>
+      <pre><code class="language-diff">   bats:
+     name: &quot;Integration tests (BATS)&quot;
+     runs-on: ubuntu-24.04
+-    timeout-minutes: 30
++    timeout-minutes: 45</code></pre>
+    </div>
+    <div class="card card-neutral" data-file="hack/bats/tests/port-forwarding.bats">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> Instance reuse loses the first port-forwarding event <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/hack/bats/tests/port-forwarding.bats#L155-L166">hack/bats/tests/port-forwarding.bats</a></div>
+      <pre data-start="155" data-line="160-161"><code class="language-bash">    fi
+
+    # The listeners for the tests run inside the guest, but the guest image may
+    # not include socat.
+    install_socat_in_guest
+    # Kill listeners left over from a previous run (only relevant with LIMA_BATS_REUSE_INSTANCE).
+    limactl shell &quot;$NAME&quot; -- sh -c &#39;sudo pkill -x socat; rm -f /tmp/port-forwarding.*.out; true&#39;
+
+    # Record hostagent events for wait_for_port_forwarding_event.
+    limactl watch --json &quot;$NAME&quot; &gt;&quot;$BATS_FILE_TMPDIR/events&quot; 2&gt;&quot;$BATS_FILE_TMPDIR/watch.log&quot; 3&gt;&amp;- 4&gt;&amp;- &amp;
+    echo $! &gt;&quot;$BATS_FILE_TMPDIR/watch.pid&quot;
+</code></pre>
+    <p>Under <code>LIMA_BATS_REUSE_INSTANCE</code> the ignored listeners survive teardown, so this line kills them and the first test rebinds the same address a second or two later. The guestagent polls every 3s (<a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/cmd/lima-guestagent/daemon_linux.go#L57"><code>cmd/lima-guestagent/daemon_linux.go:57</code></a>) and diffs snapshots (<code>comparePorts</code>, <a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/pkg/guestagent/guestagent_linux.go#L64"><code>pkg/guestagent/guestagent_linux.go:64</code></a>), so a close and rebind inside one tick is invisible: no event reaches the hostagent, and <code>wait_for_port_forwarding_event</code> fails after <code>EVENT_TIMEOUT</code>. The eBPF ticker traces <code>sys_exit_bind</code> only, so it fires on the rebind, when the snapshot already matches. The merge-base Perl runner slept 5s after its own <code>pkill</code> for exactly this reason.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/cmd/lima-guestagent/daemon_linux.go#L52-L62">cmd/lima-guestagent/daemon_linux.go</a></div>
+      <pre data-start="52" data-line="57"><code class="language-go">		Use:   &quot;daemon&quot;,
+		Short: &quot;Run the daemon&quot;,
+		RunE:  daemonAction,
+	}
+	daemonCommand.Flags().String(&quot;runtime-dir&quot;, &quot;/run/lima-guestagent&quot;, &quot;Directory to store runtime state&quot;)
+	daemonCommand.Flags().Duration(&quot;tick&quot;, 3*time.Second, &quot;Tick for polling events&quot;)
+	daemonCommand.Flags().Int(&quot;vsock-port&quot;, 0, &quot;Use vsock server instead a UNIX socket&quot;)
+	daemonCommand.Flags().String(&quot;virtio-port&quot;, &quot;&quot;, &quot;Use virtio server instead a UNIX socket&quot;)
+	daemonCommand.Flags().Int(&quot;socket-owner&quot;, 0, &quot;UID of the main user that owns the UNIX socket (0 for root)&quot;)
+	return daemonCommand
+}</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/pkg/guestagent/guestagent_linux.go#L59-L69">pkg/guestagent/guestagent_linux.go</a></div>
+      <pre data-start="59" data-line="64"><code class="language-go">
+type eventState struct {
+	Ports []*api.IPPort `json:&quot;ports,omitempty&quot;`
+}
+
+func comparePorts(old, neww []*api.IPPort) (added, removed []*api.IPPort) {
+	mRaw := make(map[string]*api.IPPort, len(old))
+	mStillExist := make(map[string]bool, len(old))
+
+	for _, f := range old {
+		k := f.String()</code></pre>
+      <details class="repro">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Listener A stands in for the previous run; the watcher starts after it, as in setup_file.
+bash /tmp/deep-review-4uznDN/probe-rebind.sh        # kill and rebind in one guest command
+bash /tmp/deep-review-4uznDN/probe-rebind-sleep.sh  # same, with 5s between kill and rebind</code></pre>
+      <pre><code class="language-text"># probe-rebind.sh (no gap)
+--- events mentioning 38888 ---
+(none)
+--- total portForward events recorded in this window ---
+       0
+# probe-rebind-sleep.sh (5s gap)
+--- events mentioning 38888 ---
+{&quot;type&quot;:&quot;stopping&quot;,&quot;protocol&quot;:&quot;tcp&quot;,&quot;guestAddr&quot;:&quot;127.0.0.1:38888&quot;,&quot;hostAddr&quot;:&quot;127.0.0.1:38888&quot;}
+{&quot;type&quot;:&quot;forwarding&quot;,&quot;protocol&quot;:&quot;tcp&quot;,&quot;guestAddr&quot;:&quot;127.0.0.1:38888&quot;,&quot;hostAddr&quot;:&quot;127.0.0.1:38888&quot;}</code></pre>
+      </details>
+    <p>Fix:</p>
+      <pre><code class="language-diff">     limactl shell &quot;$NAME&quot; -- sh -c &#39;sudo pkill -x socat; rm -f /tmp/port-forwarding.*.out; true&#39;
++    # Let the guestagent&#39;s 3s poll observe the removals before the first test rebinds.
++    [[ -z ${LIMA_BATS_REUSE_INSTANCE:-} ]] || sleep 5</code></pre>
+    </div>
+    <div class="card card-neutral" data-file="hack/test-templates.sh">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> The loopback fallback makes the 0.0.0.0 binding check pass unconditionally <span class="pill pill-gemini">Gemini 3.1 Pro</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/hack/test-templates.sh#L484-L497">hack/test-templates.sh</a></div>
+      <pre data-start="484" data-line="489-492"><code class="language-bash">			# jq prints &quot;null&quot; when no interface reports an ip_address
+			[ &quot;${hostip}&quot; = &quot;null&quot; ] &amp;&amp; hostip=&quot;&quot;
+		else
+			hostip=$(getent ahostsv4 &quot;$(hostname)&quot; | awk &#39;{print $1; exit}&#39; || true)
+		fi
+		if [ -z &quot;${hostip}&quot; ]; then
+			WARNING &quot;Could not determine the host LAN IP; falling back to 127.0.0.1, which cannot verify the binding to the external interface&quot;
+			hostip=&quot;127.0.0.1&quot;
+		fi
+		sudo=&quot;&quot;
+		if [[ ${NAME} == &quot;alpine&quot;* ]]; then
+			arch=$(limactl info | jq -r .defaultTemplate.arch)
+			nerdctl=$(limactl info | jq -r &quot;.defaultTemplate.containerd.archives[] | select(.arch==\&quot;$arch\&quot;).location&quot;)
+			curl -Lso nerdctl-full.tgz &quot;${nerdctl}&quot;</code></pre>
+    <p>The check exists to prove that a container port bound to <code>0.0.0.0</code> in the guest reaches the host&#39;s external address. With <code>hostip=127.0.0.1</code> it proves nothing, because the hostagent appends a catch-all rule for 127.0.0.1 after the template&#39;s rules (<a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/pkg/hostagent/port.go#L47-L50"><code>pkg/hostagent/port.go:47-50</code></a>). A guest listener on 127.0.0.1:8888 misses the injected <code>guestIPMustBeZero: true</code> rule and matches the catch-all instead, so <code>curl 127.0.0.1:8888</code> answers either way. Before this PR the whole block was skipped when <code>hostip</code> was empty. The warning is printed, but the step still reports success. No CI runner triggers it today: <code>getent ahostsv4</code> works on the MSYS2 runners.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/pkg/hostagent/port.go#L42-L55">pkg/hostagent/port.go</a></div>
+      <pre data-start="42" data-line="47-50"><code class="language-go">		rule := limatype.PortForward{GuestIP: net.IPv4zero, GuestIPMustBeZero: ptr.Of(false), GuestPort: port, Ignore: true}
+		limayaml.FillPortForwardDefaults(&amp;rule, instDir, user, param)
+		rules = append(rules, rule)
+	}
+	rules = append(rules, instRules...)
+	// Default forwards for all non-privileged ports from &quot;127.0.0.1&quot; and &quot;::1&quot;
+	rule := limatype.PortForward{}
+	limayaml.FillPortForwardDefaults(&amp;rule, instDir, user, param)
+	return append(rules, rule)
+}
+
+func newPortForwarder(sshConfig *ssh.SSHConfig, sshAddressPort func() (string, int), rules []limatype.PortForward, ignore bool, vmType limatype.VMType, onEvent func(*events.PortForwardEvent)) *portForwarder {
+	return &amp;portForwarder{
+		sshConfig:      sshConfig,</code></pre>
+      <details class="repro">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// pkg/portfwd/zz_probe_test.go, rules = the injected 8888 rule + hostagent&#39;s catch-all
+host, _ := fw.forwardingAddresses(&amp;api.IPPort{Ip: guestIP, Port: 8888, Protocol: &quot;tcp&quot;})
+t.Logf(&quot;guest listener %-9s -&gt; host %s&quot;, guestIP, host)</code></pre>
+      <pre><code class="language-text">=== RUN   TestProbe8888
+    zz_probe_test.go:34: guest listener 0.0.0.0   -&gt; host 0.0.0.0:8888
+    zz_probe_test.go:34: guest listener 127.0.0.1 -&gt; host 127.0.0.1:8888
+--- PASS: TestProbe8888 (0.00s)</code></pre>
+      </details>
+    <p>Fix: keep the warning, but skip the assertion rather than weakening it.</p>
+      <pre><code class="language-diff">-		if [ -z &quot;${hostip}&quot; ]; then
+-			WARNING &quot;Could not determine the host LAN IP; falling back to 127.0.0.1, which cannot verify the binding to the external interface&quot;
+-			hostip=&quot;127.0.0.1&quot;
+-		fi
++		if [ -z &quot;${hostip}&quot; ]; then
++			WARNING &quot;Could not determine the host LAN IP; skipping the external-interface binding check&quot;
++		fi</code></pre>
+    <p>(and wrap the <code>curl</code> at line 512 in <code>if [ -n &quot;${hostip}&quot; ]</code>, as the merge-base did.)</p>
+    </div>
+    <div class="card card-neutral" data-file="hack/bats/tests/port-forwarding.bats">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> The ignore assertions read the guest file with no settle window <span class="pill pill-claude">Claude Opus 5</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/hack/bats/tests/port-forwarding.bats#L338-L349">hack/bats/tests/port-forwarding.bats</a></div>
+      <pre data-start="338" data-line="343-344"><code class="language-bash"># expected message. A non-empty message travels asynchronously, so keep polling
+# while the listener output file is still empty.
+assert_guest_received() {
+    local port=$1 expected=$2 received
+    local deadline=$((SECONDS + RECEIVE_TIMEOUT))
+    received=$(read_guest_outfile &quot;$port&quot;)
+    while [[ -n $expected &amp;&amp; -z $received ]] &amp;&amp; ((SECONDS &lt; deadline)); do
+        sleep 0.5
+        received=$(read_guest_outfile &quot;$port&quot;)
+    done
+    assert_equal &quot;$received&quot; &quot;$expected&quot;
+}</code></pre>
+    <p>The loop polls only while <code>$expected</code> is non-empty, so <code>assert_guest_received &quot;$port&quot; &quot;&quot;</code> does one <code>cat</code> immediately after <code>send_from_host</code> returns. If an <code>ignore:</code> rule regressed into a forward, the payload could still be in flight and the assertion would pass. The <code>wait_for_port_forwarding_event not-forwarding</code> call above it is the real check, so nothing goes unnoticed; the second half of the assertion just cannot catch what it exists to catch.</p>
+    <p>Fix: give the empty case a fixed settle window with a separate helper, e.g. an <code>assert_guest_received_nothing</code> that sleeps <code>RECEIVE_TIMEOUT</code> once and then asserts the file is empty.</p>
+    </div>
+    <div class="card card-neutral" data-file="hack/test-templates.sh">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> The <code>.yaml</code>-extension requirement is enforced only by a comment <span class="pill pill-claude">Claude Opus 5</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/hack/test-templates.sh#L145-L155">hack/test-templates.sh</a></div>
+      <pre data-start="145" data-line="150"><code class="language-bash">	if [ &quot;${OS_HOST}&quot; = &quot;Msys&quot; ]; then
+		rawfile_host=&quot;$(cygpath -w &quot;$rawfile_host&quot;)&quot;
+	fi
+	# Round-trip through the embed encoder: limactl yq indents sequences differently,
+	# which would fail the &quot;template embedding copies exactly&quot; check below.
+	echo -n &quot;base: $rawfile_host&quot; | limactl tmpl copy --embed - - &gt;&quot;$tmpfile&quot;
+	FILE=&quot;${tmpfile}&quot;
+	FILE_HOST=$FILE
+	if [ &quot;${OS_HOST}&quot; = &quot;Msys&quot; ]; then
+		FILE_HOST=&quot;$(cygpath -w &quot;$FILE&quot;)&quot;
+	fi</code></pre>
+    <p>The comment above it is correct, but the failure it guards against is silent. With a non-<code>.yaml</code> intermediate, <code>limactl tmpl copy --embed</code> exits 0 and writes a five-line stub whose <code>images[0].location</code> is the intermediate file, discarding the template and the 8888 rule. <code>limactl validate</code> accepts the stub and the embed round-trip check at line 161 compares it against itself, so the first symptom is a VM booting the wrong image.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/hack/test-templates.sh#L156-L166">hack/test-templates.sh</a></div>
+      <pre data-start="156" data-line="161"><code class="language-bash">	INFO &quot;Validating \&quot;$FILE_HOST\&quot;&quot;
+	limactl validate &quot;$FILE_HOST&quot;
+fi
+
+INFO &quot;Make sure template embedding copies \&quot;$FILE_HOST\&quot; exactly&quot;
+diff -u &lt;(echo -n &quot;base: $FILE_HOST&quot; | limactl tmpl copy --embed - -) &quot;$FILE_HOST&quot;
+
+function diagnose() {
+	NAME=&quot;$1&quot;
+	set -x +e
+	tail &quot;$HOME_HOST/.lima/${NAME}&quot;/*.log</code></pre>
+      <details class="repro">
+        <summary>Reproducer</summary>
+      <pre><code class="language-text">$ echo -n &quot;base: $P/default.raw&quot; | limactl tmpl copy --embed - -
+os: &quot;Linux&quot;
+arch: &quot;aarch64&quot;
+images:
+- location: &quot;/tmp/deep-review-4uznDN/probe/default.raw&quot;
+  arch: &quot;aarch64&quot;
+rc=0</code></pre>
+      </details>
+    <p>Fix: assert the rule survived, right after line 150.</p>
+      <pre><code class="language-diff"> 	echo -n &quot;base: $rawfile_host&quot; | limactl tmpl copy --embed - - &gt;&quot;$tmpfile&quot;
++	# Guard the .yaml requirement above: a stub would silently drop the rule.
++	[ &quot;$(limactl yq &#39;.portForwards[0].guestPort&#39; &lt;&quot;$tmpfile&quot;)&quot; = &quot;8888&quot; ]</code></pre>
+    </div>
+    <div class="card card-neutral" data-file="hack/bats/tests/port-forwarding.bats">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> The watch-readiness gate passes even when nothing attached <span class="pill pill-claude">Claude Opus 5</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/hack/bats/tests/port-forwarding.bats#L166-L176">hack/bats/tests/port-forwarding.bats</a></div>
+      <pre data-start="166" data-line="171"><code class="language-bash">
+    # The watcher discards events recorded before its own startup timestamp, so
+    # don&#39;t let the first test start a listener until the watcher is ready, or
+    # the resulting forwarding event could be discarded as historical.
+    local deadline=$((SECONDS + 30))
+    until grep -q &#39;Watching for events&#39; &quot;$BATS_FILE_TMPDIR/watch.log&quot;; do
+        if ! kill -0 &quot;$(cat &quot;$BATS_FILE_TMPDIR/watch.pid&quot;)&quot; 2&gt;/dev/null; then
+            echo &quot;&#39;limactl watch&#39; exited prematurely:&quot; &gt;&amp;2
+            cat &quot;$BATS_FILE_TMPDIR/watch.log&quot; &gt;&amp;2
+            return 1
+        fi</code></pre>
+    <p><code>watchAction</code> prints <code>Watching for events...</code> after the <code>startInstance</code> loop (<a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/cmd/limactl/watch.go#L167"><code>cmd/limactl/watch.go:167</code></a>), and <code>startInstance</code> gives up on a failed <code>store.Inspect</code> by logging a warning and returning (<a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/cmd/limactl/watch.go#L82-L86"><code>cmd/limactl/watch.go:82-86</code></a>). The process then blocks forever with nothing tailing the hostagent log. The gate is satisfied, every test waits out <code>EVENT_TIMEOUT</code>, and 40 executing tests at 30s each is 20 minutes of pure timeout, which with I1 turns a one-line diagnosis into a job kill.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/cmd/limactl/watch.go#L77-L91">cmd/limactl/watch.go</a></div>
+      <pre data-start="77" data-line="82-86"><code class="language-go">func (w *eventWatcher) startInstance(instName string) {
+	if _, loaded := w.watching.LoadOrStore(instName, true); loaded {
+		return
+	}
+
+	inst, err := store.Inspect(w.ctx, instName)
+	if err != nil {
+		logrus.WithError(err).Warnf(&quot;Failed to inspect instance %#q&quot;, instName)
+		w.watching.Delete(instName)
+		return
+	}
+
+	haStdoutPath := filepath.Join(inst.Dir, filenames.HostAgentStdoutLog)
+	haStderrPath := filepath.Join(inst.Dir, filenames.HostAgentStderrLog)
+</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/cmd/limactl/watch.go#L162-L172">cmd/limactl/watch.go</a></div>
+      <pre data-start="162" data-line="167"><code class="language-go">
+	if watchAll {
+		go watchLimaDir(ctx, newInstanceCh)
+	}
+
+	printStatus(stderr, &quot;Watching for events...&quot;)
+
+	for {
+		select {
+		case &lt;-ctx.Done():
+			return nil</code></pre>
+    <p>Fix: fail setup when the warning is present, since it precedes the readiness line.</p>
+      <pre><code class="language-diff">     done
++    if grep -q &#39;Failed to inspect instance&#39; &quot;$BATS_FILE_TMPDIR/watch.log&quot;; then
++        cat &quot;$BATS_FILE_TMPDIR/watch.log&quot; &gt;&amp;2
++        return 1
++    fi</code></pre>
+    </div>
+    <div class="card card-neutral" data-file="hack/bats/tests/port-forwarding.bats">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> <code>skip_if_wsl2</code> re-runs <code>limactl list</code> on every call while its siblings cache <span class="pill pill-claude">Claude Opus 5</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/hack/bats/tests/port-forwarding.bats#L247-L261">hack/bats/tests/port-forwarding.bats</a></div>
+      <pre data-start="247" data-line="252-256"><code class="language-bash">    if [[ $OSTYPE != darwin* ]]; then
+        skip &quot;the hostagent cannot bind host ports below 1024 on this host OS&quot;
+    fi
+}
+
+skip_if_wsl2() {
+    if [[ $(limactl list --format &#39;{{.VMType}}&#39; &quot;$NAME&quot;) == wsl2 ]]; then
+        skip &quot;$1&quot;
+    fi
+}
+
+skip_if_windows_host() {
+    case $OSTYPE in
+    cygwin | msys) skip &quot;UNIX sockets are not supported on Windows hosts&quot; ;;
+    esac</code></pre>
+    <p><code>host_lan_ip</code> and <code>instance_dir</code> both cache their lookups in <code>$BATS_FILE_TMPDIR</code>; this one does not, and eleven tests call it. <code>limactl list</code> goes through <code>store.Inspect</code>, which opens the hostagent socket. In the WSL2 job log those eleven skips cost 374ms to 1022ms each, against roughly 45ms for the <code>$OSTYPE</code>-based skips.</p>
+    <p>Fix: cache the VM type the way <code>instance_dir</code> caches the directory.</p>
+    </div>
+    <div class="card card-neutral" data-file=".github/workflows/test.yml">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> A pre-existing comment now reads as describing the new step <span class="pill pill-claude">Claude Opus 5</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/.github/workflows/test.yml#L301-L315">.github/workflows/test.yml</a></div>
+      <pre data-start="301" data-line="306-310"><code class="language-yaml">      uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60  # v4.0.0
+      with:
+        timeout_minutes: 30
+        retry_on: error
+        max_attempts: 3
+        command: ./hack/test-templates.sh templates/default.yaml
+    # GHA macOS is slow and flaky, so we only test default.yaml here.
+    # Other yamls are tested on Linux instances.
+    #
+    - name: &quot;Run BATS port-forwarding test (QEMU, macOS host)&quot;
+      run: ./hack/bats/lib/bats-core/bin/bats --timing ./hack/bats/tests/port-forwarding.bats
+      env:
+        LIMA_BATS_ALL_TESTS_RETRIES: &quot;2&quot;
+    - if: always()
+      uses: ./.github/actions/upload_failure_logs_if_exists</code></pre>
+    <p>The comment trailed the <code>Test default.yaml</code> step and explained the template choice for that step. The new step sits directly below it and takes no template argument.</p>
+    <p>Fix: move the three lines above the <code>Test default.yaml</code> step, or below the new step.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Bind failures lost their diagnostic path</strong> <em>(future)</em> <span class="pill pill-claude">Claude Opus 5</span>. The Perl script scanned the hostagent log for <code>failed to listen tcp</code> and dumped <code>lsof</code> / <code>ss</code> / <code>netstat</code> for the conflicting address. The BATS suite has no equivalent, and both emitters send the <code>forwarding</code> event before the bind (<a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/pkg/hostagent/port.go#L158"><code>pkg/hostagent/port.go:158</code></a>, <a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/pkg/portfwd/forward.go#L77"><code>pkg/portfwd/forward.go:77</code></a>), so a host-port conflict now shows up only as <code>retry 5 send_from_host</code> exhausting its attempts. The <code>local_teardown</code> dump does include <code>failed</code> events in its last-25 window, which covers most cases. This matters because the matrix binds fixed host ports (2000-2039, 300-319, 4000-4049) that a developer machine may already be using.</li>
+      <li><strong>BATS failures produce no CI artifact</strong> <em>(future, pre-existing)</em> <span class="pill pill-claude">Claude Opus 5</span>. All four new BATS steps sit immediately before <code>upload_failure_logs_if_exists</code>, which only uploads a <code>failure-logs/</code> directory that <code>test-templates.sh</code>&#39;s <code>diagnose()</code> writes. The adjacency reads as coverage that does not exist. This affects every BATS suite; the new steps just make it look intentional.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>Event waits on <code>limactl watch --json</code> replace the Perl script&#39;s fixed <code>sleep 5</code> barriers, which is what <a href="https://github.com/lima-vm/lima/issues/4388" class="gh-ref" data-title="Test scripts shouldn&#39;t grep log strings" data-state="closed" data-type="issue">#4388</a> asked for, and the readiness handshake before the first test closes the window that <code>begin = time.Now()</code> opens in <code>watchAction</code> <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <em>(in-scope)</em>.</li>
+      <li>The rule block is transcribed from the Perl <code>__DATA__</code> section in order, with the tests in matching order. The 305-309 correction is a real coverage gain: the Perl script probed 325-329, which no rule matched <span class="pill pill-claude">Claude Opus 5</span> <em>(in-scope)</em>.</li>
+      <li>Editing the template with <code>limactl yq &#39;.portForwards = [...]&#39;</code> is structurally correct where the old Perl flip-flop regex deleted everything from <code>^portForwards:</code> to the next lowercase-initial line <span class="pill pill-claude">Claude Opus 5</span> <em>(in-scope)</em>.</li>
+      <li>Replacing rather than appending the rules preserves the merge-base semantics and avoids a host-port collision with a concurrently running instance from the same template <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-claude">Claude Opus 5</span> <em>(in-scope)</em>.</li>
+      <li>Each Windows workaround is documented where it is needed: ASCII test names, the <code>sh -c</code> command string for guest paths, and <code>MSYS2_ENV_CONV_EXCL</code> for the <code>template:</code>-valued environment variable <span class="pill pill-claude">Claude Opus 5</span> <em>(in-scope)</em>.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The suite is the deliverable, so what it covers matters more than usual. All 56 tests pass at this SHA on every platform CI runs. Skip counts, read from the job logs: macOS vz 0, macOS QEMU 0, Linux 16, Windows QEMU 20, Windows WSL2 31. The macOS jobs are the only ones that exercise the privileged-port rules and the UNIX-socket rules together.</p>
+    <p>Untested scenarios, highest risk first:</p>
+    <ol>
+      <li>A second run under <code>LIMA_BATS_REUSE_INSTANCE</code>, which is what I2 breaks.</li>
+      <li>Host-side bind failure of a forward rule. Nothing asserts the absence of <code>PortForwardEventFailed</code>; a hostagent that emits <code>forwarding</code> and then fails to bind shows up only as a socat connection error.</li>
+      <li>The data half of the ignore assertions (S1).</li>
+      <li>That <code>sshLocalPort</code> is never forwarded. Acknowledged in the file header and inherited from the Perl script.</li>
+      <li>Connecting to a <code>hostIP: 0.0.0.0</code> forward from a non-loopback host interface. Also acknowledged; the 310-319 rules are verified through 127.0.0.1 only.</li>
+      <li>UDP forwarding. The Perl matrix did not cover it either.</li>
+    </ol>
+    <p>What I executed, beyond the agents&#39; own work:</p>
+    <ul>
+      <li>Built <code>limactl</code> at the review SHA and ran the <code>test-templates.sh</code> template pipeline against <code>templates/default.yaml</code>. The embed round-trip passes, and the naive form without the normalization fails, so the CI failure Jan reported in the previous round is fixed.</li>
+      <li>Reproduced I2 and its counter-case on a live vz instance, and I3 with a Go probe in <code>pkg/portfwd</code>. Both probes are deleted; <code>git status</code> in the lead worktree is clean.</li>
+      <li>Reproduced S2&#39;s stub degradation, and corrected the guard Claude proposed: <code>limactl tmpl yq</code> re-resolves the <code>base: template:_images/ubuntu</code> reference and dies without an installed template store, so the guard has to use plain <code>limactl yq</code> on the file.</li>
+      <li>Confirmed both <code>set -e</code> interactions the agents flagged as suspicious are safe. <code>[ &quot;${hostip}&quot; = &quot;null&quot; ] &amp;&amp; hostip=&quot;&quot;</code> as the last command of an <code>if</code> branch does not exit, while a bare <code>false</code> in the same position does.</li>
+      <li>Fetched the CI logs for this SHA. All 27 <code>test</code> jobs succeeded, <code>getent ahostsv4</code> returned <code>10.1.0.150</code> on the Windows QEMU runner, and the LAN-IP fallback warning appears in no job.</li>
+      <li>Grepped the tree for <code>test-port-forwarding</code>: nothing remains after the deletion. <code>perl</code>, <code>nc</code> and <code>socat</code> are gone from <code>hack/</code>, which makes the <code>pacman</code> and <code>brew</code> removals safe; the <code>vz</code> job still installs <code>socat</code>, which it needs.</li>
+      <li>Confirmed <code>assert_socket_not_exists</code> is defined at <code>hack/bats/lib/bats-file/src/file.bash:783</code>, and that tests 119 and 121, the two that call it, passed on Linux and macOS.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><code>website/content/en/docs/dev/testing/_index.md</code> is accurate. &quot;Some tests require additional tools on the host, e.g. <code>socat</code> and <code>jq</code>&quot; understates the consequence: <code>local_setup_file</code> returns 1, so <code>make bats</code> fails rather than skipping. Saying so would help. Dropping &quot;and partially in Perl&quot; is right; <code>hack/gogenerate/protoc.sh</code> still uses perl, but that is code generation, not a template test.</p>
+    <p>The in-code documentation is unusually good. The rule matrix carries a header explaining that order matters, each divergence from the Perl script is justified where it occurs, and the &quot;Untestable here&quot; note names the two gaps instead of leaving them implicit.</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>One squashed commit with a <code>Signed-off-by</code> line and a <code>Co-Authored-By</code> trailer, which the contributing guide accepts. The message explains why the 8888 rule moved into <code>test-templates.sh</code>, why replace-not-append matters, and what each Windows workaround is for. It matches the diff.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/hack/bats/tests/port-forwarding.bats#L39-L41"><code>hack/bats/tests/port-forwarding.bats:39-41</code></a> names the two coverage gaps it cannot close: the <code>sshLocalPort</code> suppression, whose event predates the recorder, and connecting to a <code>0.0.0.0</code> forward from a non-loopback interface. Both are inherited from the Perl script&#39;s own &quot;Things we can&#39;t test&quot; note.</li>
+      <li><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/hack/bats/tests/port-forwarding.bats#L138-L143"><code>hack/bats/tests/port-forwarding.bats:138-143</code></a> explains the loopback fallback in <code>host_lan_ip</code> and prints a warning when it fires. This one degrades honestly, because <code>HOST_LAN_IP</code> is substituted into the rule as well as the connect address, so the test still checks that the rule&#39;s <code>hostIP</code> is what the hostagent binds. I3 is the other case, where only the connect address changes.</li>
+      <li><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/hack/bats/tests/port-forwarding.bats#L365-L366"><code>hack/bats/tests/port-forwarding.bats:365-366</code></a> notes that the <code>forwarding</code> event precedes the bind. Confirmed against <a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/pkg/hostagent/port.go#L158"><code>pkg/hostagent/port.go:158</code></a> and <a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/pkg/portfwd/forward.go#L77"><code>pkg/portfwd/forward.go:77</code></a>; <code>retry 5</code> is the compensation.</li>
+      <li><a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/hack/test-templates.sh#L136-L138"><code>hack/test-templates.sh:136-138</code></a> explains the replace-not-append choice. Confirmed: <code>test-plain-static-port-forward.sh</code> starts its own instance from the unmodified <code>test-misc.yaml</code> and asserts that host port 29080 is <em>not</em> forwarded, which the still-running main instance would answer if its template rules were kept.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>On <code>hack/test-templates.sh</code>, a reviewer suggested falling back to 127.0.0.1 and the author replied &quot;Contradicts the intent of the test&quot; (<a href="https://github.com/lima-vm/lima/pull/5192#discussion_r3545667424">discussion</a>). The shipped code contains that fallback. The author&#39;s newer reply about the same pattern in the BATS file argues that a warned fallback is acceptable, so the two positions may have converged, but the <code>test-templates.sh</code> case is the one where the fallback removes the assertion&#39;s meaning. See I3.</li>
+      <li>On <a href="https://github.com/lima-vm/lima/blob/ca636e8f0063817fd088559bbd5960cd9b03473d/hack/bats/tests/port-forwarding.bats#L414"><code>hack/bats/tests/port-forwarding.bats:414</code></a>, a reviewer claimed <code>assert_socket_not_exists</code> is undefined and the author replied &quot;Disinformation&quot; (<a href="https://github.com/lima-vm/lima/pull/5192#discussion_r3545662380">discussion</a>). The author is right, and the thread can be closed.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5"><span class="pill pill-claude">Claude Opus 5</span> <a href="#claude-opus-5" class="pilcrow">&#182;</a></h3>
+    <p>Claude did the most complete job by a wide margin and was the only reviewer to look outside the diff at the CI wiring&#39;s consequences, which produced I1. It cloned both <code>bats-file</code> and <code>bats-support</code> at their pinned submodule commits to settle the <code>assert_socket_not_exists</code> question, ran the template pipeline against all eleven CI templates, and tested the two <code>set -e</code> interactions rather than guessing at them. Its numbers were mostly sound but not all: it reported 30 WSL2 skips broken down as 20 privileged plus 4 user-network, where the log shows 31 broken down as 16 plus 8. The one substantive miss is I3: it saw the semantic change, described it correctly in the coverage summary, and then read the author&#39;s dismissal charitably enough to conclude &quot;no action needed&quot; without testing whether the weakened check still tests anything.</p>
+    <h3 id="codex-gpt-5-6-sol"><span class="pill pill-codex">Codex GPT 5.6 Sol</span> <a href="#codex-gpt-5-6-sol" class="pilcrow">&#182;</a></h3>
+    <p>Codex found the single hardest defect in the PR, I2, by tracing the guestagent&#39;s poll and diff logic rather than reading the BATS file alone, and it marked the finding <code>Unproven:</code> with an honest account of why it could not run a live VM. It also independently refuted the <code>assert_socket_not_exists</code> claim. Against that, it reported only one finding and marked three of five files clean, including the workflow file that carries I1 and the script that carries I3. Its &quot;missing <code>getent</code> reduces these cases to loopback&quot; claim about MSYS is wrong: <code>getent ahostsv4</code> works there, and the Windows job log shows the LAN IP in use.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Gemini Pro contributed I3, which no other reviewer raised as a finding, and it reached it the right way: by reading the PR discussion, noticing that the shipped code contradicts the author&#39;s own stated position, and then reasoning about what the check can still detect. That is the most valuable single move in this round. It also filed the <code>assert_socket_not_exists</code> false positive as Critical, and its proposed fix there would have replaced a working assertion with a weaker one.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Flash produced the shortest review, and its one finding was the same false positive. It stated that a &quot;global search confirms there is no definition&quot; of <code>assert_socket_not_exists</code>, which is what an empty submodule directory looks like; the search was real, the conclusion was not. It also repeated the author&#39;s &quot;Disinformation&quot; reply back as evidence that the author was wrong, without checking the code-search link in that reply. Its design observations were generic.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5</span></th><th><span class="pill pill-codex">Codex GPT 5.6 Sol</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>22m 22s</td><td>18m 43s</td><td>9m 14s</td><td>4m 32s</td></tr>
+        <tr><td>Findings</td><td>1I 5S</td><td>1I</td><td>1I</td><td>none</td></tr>
+        <tr><td>Tool calls</td><td>90 (Bash 87, Read 3)</td><td>—</td><td>32 (run<em>shell</em>command 32)</td><td>29 (grep<em>search 12, read</em>file 6, google<em>web</em>search 4)</td></tr>
+        <tr><td>Design observations</td><td>6</td><td>3</td><td>0</td><td>3</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+        <tr><td>Unique insights</td><td>6</td><td>1</td><td>1</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>5</td><td>5</td><td>5</td><td>5</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>2</td><td>1</td><td>2</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>1I 5S</strong></td><td><strong>1I</strong></td><td><strong>1I</strong></td><td><strong>none</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p>Both Gemini models converge on the same false positive, so treat that agreement as one opinion rather than two. The pattern behind it is mechanical: agent worktrees have no submodules checked out, so <code>hack/bats/lib/*</code> is empty and any vendored helper looks undefined. Codex and Claude both hit the same empty directories and both cloned the libraries to check; the two Gemini models did not.</p>
+    <p>Claude and Codex each earned their slot this round, and each found something the other missed. Gemini Pro earned its slot on one finding. Flash added nothing.</p>
+    <p>Reconciliation: Gemini 3.1 Pro&#39;s C1 and Gemini 3.5 Flash&#39;s I1 (<code>assert_socket_not_exists</code>) were both dropped as false positives. Gemini 3.1 Pro&#39;s I1 was kept at the same severity as I3.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>Before reporting a symbol, helper, or function as undefined, confirm the directories where it would be defined are actually populated. A review worktree may not have git submodules or vendored dependencies checked out, so a library directory can be empty while the definition exists upstream and at the pinned revision. An empty directory is evidence about the checkout, not about the symbol. Clone the dependency at its pinned revision, or check the main checkout, before filing the finding.</li>
+      <li>When a finding contradicts an explicit reply the author already gave on the PR, quote that reply and say which of the two the code matches. An author&#39;s dismissal is not proof the concern is wrong, and a concern that survives a dismissal is worth more than a fresh one, but only when the report shows the reader both sides.</li>
+      <li><code>gh api repos/{owner}/{repo}/actions/jobs/{id}/logs</code> refuses to emit a log containing terminal escape sequences and prints a diagnostic instead of the log, which reads as an empty log if stderr is discarded. Pass <code>--allow-escape-sequences</code>, then grep with <code>-a</code>.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><code>[repo]</code> The hostagent appends a catch-all rule after the template&#39;s <code>portForwards</code>, forwarding non-privileged guest ports on 127.0.0.1 and ::1 to the same host port on 127.0.0.1 (<code>pkg/hostagent/port.go</code>). A test that connects to a host loopback address therefore cannot distinguish a wildcard guest binding from a loopback one; only a non-loopback host address can.</li>
+      <li><code>[repo]</code> The BATS helper libraries (<code>bats-core</code>, <code>bats-file</code>, <code>bats-assert</code>, <code>bats-support</code>) are git submodules under <code>hack/bats/lib/</code>. They are empty in a freshly created worktree, so grepping the worktree cannot answer whether a helper such as <code>assert_socket_not_exists</code> exists. <code>bats-file</code> in particular provides a full set of <code>assert_*_exists</code> / <code>assert_*_not_exists</code> predicates for every file type.</li>
+      <li><code>[repo]</code> <code>make shellcheck</code> and <code>make shfmt</code> glob <code>*.sh</code>, so <code>.bats</code> files are linted by neither. A shellcheck directive in a <code>.bats</code> file has no effect, and style problems there are caught only by review.</li>
+      <li><code>[repo]</code> The <code>Integration tests (BATS)</code> job runs <code>make bats</code>, which globs <code>hack/bats/tests</code>. A new file in that directory joins CI with no workflow change, so a PR adding one should check the job&#39;s <code>timeout-minutes</code> against its recent durations.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){var t="\\b(?:BASH|BASHOPTS|BASH_ALIASES|BASH_ARGC|BASH_ARGV|BASH_CMDS|BASH_COMPLETION_COMPAT_DIR|BASH_LINENO|BASH_REMATCH|BASH_SOURCE|BASH_VERSINFO|BASH_VERSION|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|EUID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_ADDRESS|LC_ALL|LC_IDENTIFICATION|LC_MEASUREMENT|LC_MONETARY|LC_NAME|LC_NUMERIC|LC_PAPER|LC_TELEPHONE|LC_TIME|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS1|PS2|PS3|PS4|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UID|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_CONFIG_DIRS|XDG_CURRENT_DESKTOP|XDG_DATA_DIRS|XDG_GREETER_DATA_DIR|XDG_MENU_PREFIX|XDG_RUNTIME_DIR|XDG_SEAT|XDG_SEAT_PATH|XDG_SESSION_DESKTOP|XDG_SESSION_ID|XDG_SESSION_PATH|XDG_SESSION_TYPE|XDG_VTNR|XMODIFIERS)\\b",a={pattern:/(^(["']?)\w+\2)[ \t]+\S.*/,lookbehind:!0,alias:"punctuation",inside:null},n={bash:a,environment:{pattern:RegExp("\\$"+t),alias:"constant"},variable:[{pattern:/\$?\(\([\s\S]+?\)\)/,greedy:!0,inside:{variable:[{pattern:/(^\$\(\([\s\S]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,operator:/--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,greedy:!0,inside:{variable:/^\$\(|^`|\)$|`$/}},{pattern:/\$\{[^}]+\}/,greedy:!0,inside:{operator:/:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,punctuation:/[\[\]]/,environment:{pattern:RegExp("(\\{)"+t),lookbehind:!0,alias:"constant"}}},/\$(?:\w+|[#?*!@$])/],entity:/\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/};e.languages.bash={shebang:{pattern:/^#!\s*\/.*/,alias:"important"},comment:{pattern:/(^|[^"{\\$])#.*/,lookbehind:!0},"function-name":[{pattern:/(\bfunction\s+)[\w-]+(?=(?:\s*\(?:\s*\))?\s*\{)/,lookbehind:!0,alias:"function"},{pattern:/\b[\w-]+(?=\s*\(\s*\)\s*\{)/,alias:"function"}],"for-or-select":{pattern:/(\b(?:for|select)\s+)\w+(?=\s+in\s)/,alias:"variable",lookbehind:!0},"assign-left":{pattern:/(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,inside:{environment:{pattern:RegExp("(^|[\\s;|&]|[<>]\\()"+t),lookbehind:!0,alias:"constant"}},alias:"variable",lookbehind:!0},parameter:{pattern:/(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,alias:"variable",lookbehind:!0},string:[{pattern:/((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?(?:\r?\n|\r)\2/,lookbehind:!0,greedy:!0,inside:n},{pattern:/((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?(?:\r?\n|\r)\3/,lookbehind:!0,greedy:!0,inside:{bash:a}},{pattern:/(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,lookbehind:!0,greedy:!0,inside:n},{pattern:/(^|[^$\\])'[^']*'/,lookbehind:!0,greedy:!0},{pattern:/\$'(?:[^'\\]|\\[\s\S])*'/,greedy:!0,inside:{entity:n.entity}}],environment:{pattern:RegExp("\\$?"+t),alias:"constant"},variable:n.variable,function:{pattern:/(^|[\s;|&]|[<>]\()(?:add|apropos|apt|apt-cache|apt-get|aptitude|aspell|automysqlbackup|awk|basename|bash|bc|bconsole|bg|bzip2|cal|cargo|cat|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clear|cmp|column|comm|composer|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|debootstrap|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|docker|docker-compose|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|git|gparted|grep|groupadd|groupdel|groupmod|groups|grub-mkconfig|gzip|halt|head|hg|history|host|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|ip|java|jobs|join|kill|killall|less|link|ln|locate|logname|logrotate|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|make|man|mc|mdadm|mkconfig|mkdir|mke2fs|mkfifo|mkfs|mkisofs|mknod|mkswap|mmv|more|most|mount|mtools|mtr|mutt|mv|nano|nc|netstat|nice|nl|node|nohup|notify-send|npm|nslookup|op|open|parted|passwd|paste|pathchk|ping|pkill|pnpm|podman|podman-compose|popd|pr|printcap|printenv|ps|pushd|pv|quota|quotacheck|quotactl|ram|rar|rcp|reboot|remsync|rename|renice|rev|rm|rmdir|rpm|rsync|scp|screen|sdiff|sed|sendmail|seq|service|sftp|sh|shellcheck|shuf|shutdown|sleep|slocate|sort|split|ssh|stat|strace|su|sudo|sum|suspend|swapon|sync|sysctl|tac|tail|tar|tee|time|timeout|top|touch|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|update-grub|uptime|useradd|userdel|usermod|users|uudecode|uuencode|v|vcpkg|vdir|vi|vim|virsh|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yarn|yes|zenity|zip|zsh|zypper)(?=$|[)\s;|&])/,lookbehind:!0},keyword:{pattern:/(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)(?=$|[)\s;|&])/,lookbehind:!0},builtin:{pattern:/(^|[\s;|&]|[<>]\()(?:\.|:|alias|bind|break|builtin|caller|cd|command|continue|declare|echo|enable|eval|exec|exit|export|getopts|hash|help|let|local|logout|mapfile|printf|pwd|read|readarray|readonly|return|set|shift|shopt|source|test|times|trap|type|typeset|ulimit|umask|unalias|unset)(?=$|[)\s;|&])/,lookbehind:!0,alias:"class-name"},boolean:{pattern:/(^|[\s;|&]|[<>]\()(?:false|true)(?=$|[)\s;|&])/,lookbehind:!0},"file-descriptor":{pattern:/\B&\d\b/,alias:"important"},operator:{pattern:/\d?<>|>\||\+=|=[=~]?|!=?|<<[<-]?|[&\d]?>>|\d[<>]&?|[<>][&=]?|&[>&]?|\|[&|]?/,inside:{"file-descriptor":{pattern:/^\d/,alias:"important"}}},punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,number:{pattern:/(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,lookbehind:!0}},a.inside=e.languages.bash;for(var s=["comment","function-name","for-or-select","assign-left","parameter","string","environment","function","keyword","builtin","boolean","file-descriptor","operator","punctuation","number"],o=n.variable[1].inside,i=0;i<s.length;i++)o[s[i]]=e.languages.bash[s[i]];e.languages.sh=e.languages.bash,e.languages.shell=e.languages.bash}(Prism);
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+!function(e){var n=/[*&][^\s[\]{},]+/,r=/!(?:<[\w\-%#;/?:@&=+$,.!~*'()[\]]+>|(?:[a-zA-Z\d-]*!)?[\w\-%#;/?:@&=+$.~*'()]+)?/,t="(?:"+r.source+"(?:[ \t]+"+n.source+")?|"+n.source+"(?:[ \t]+"+r.source+")?)",a="(?:[^\\s\\x00-\\x08\\x0e-\\x1f!\"#%&'*,\\-:>?@[\\]`{|}\\x7f-\\x84\\x86-\\x9f\\ud800-\\udfff\\ufffe\\uffff]|[?:-]<PLAIN>)(?:[ \t]*(?:(?![#:])<PLAIN>|:<PLAIN>))*".replace(/<PLAIN>/g,(function(){return"[^\\s\\x00-\\x08\\x0e-\\x1f,[\\]{}\\x7f-\\x84\\x86-\\x9f\\ud800-\\udfff\\ufffe\\uffff]"})),d="\"(?:[^\"\\\\\r\n]|\\\\.)*\"|'(?:[^'\\\\\r\n]|\\\\.)*'";function o(e,n){n=(n||"").replace(/m/g,"")+"m";var r="([:\\-,[{]\\s*(?:\\s<<prop>>[ \t]+)?)(?:<<value>>)(?=[ \t]*(?:$|,|\\]|\\}|(?:[\r\n]\\s*)?#))".replace(/<<prop>>/g,(function(){return t})).replace(/<<value>>/g,(function(){return e}));return RegExp(r,n)}e.languages.yaml={scalar:{pattern:RegExp("([\\-:]\\s*(?:\\s<<prop>>[ \t]+)?[|>])[ \t]*(?:((?:\r?\n|\r)[ \t]+)\\S[^\r\n]*(?:\\2[^\r\n]+)*)".replace(/<<prop>>/g,(function(){return t}))),lookbehind:!0,alias:"string"},comment:/#.*/,key:{pattern:RegExp("((?:^|[:\\-,[{\r\n?])[ \t]*(?:<<prop>>[ \t]+)?)<<key>>(?=\\s*:\\s)".replace(/<<prop>>/g,(function(){return t})).replace(/<<key>>/g,(function(){return"(?:"+a+"|"+d+")"}))),lookbehind:!0,greedy:!0,alias:"atrule"},directive:{pattern:/(^[ \t]*)%.+/m,lookbehind:!0,alias:"important"},datetime:{pattern:o("\\d{4}-\\d\\d?-\\d\\d?(?:[tT]|[ \t]+)\\d\\d?:\\d{2}:\\d{2}(?:\\.\\d*)?(?:[ \t]*(?:Z|[-+]\\d\\d?(?::\\d{2})?))?|\\d{4}-\\d{2}-\\d{2}|\\d\\d?:\\d{2}(?::\\d{2}(?:\\.\\d*)?)?"),lookbehind:!0,alias:"number"},boolean:{pattern:o("false|true","i"),lookbehind:!0,alias:"important"},null:{pattern:o("null|~","i"),lookbehind:!0,alias:"important"},string:{pattern:o(d),lookbehind:!0,greedy:!0},number:{pattern:o("[+-]?(?:0x[\\da-f]+|0o[0-7]+|(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:e[+-]?\\d+)?|\\.inf|\\.nan)","i"),lookbehind:!0},tag:r,important:n,punctuation:/---|[:[\]{}\-,|>?]|\.\.\./},e.languages.yml=e.languages.yaml}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
