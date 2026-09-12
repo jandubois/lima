@@ -267,7 +267,7 @@ details.fold .code-file-header { margin-top: 0; border-radius: 0; }
 	if numEntries == 0 || uint64(numEntries)*uint64(entrySize) &gt; gptMaxTableSize {
 		return 0, fmt.Errorf(&quot;GPT partition table of %d entries of %d bytes out of range&quot;, numEntries, entrySize)
 	}</code></pre>
-    <p>The commit body says the PR bounds &quot;the entry size to the UEFI 128*2^n range&quot;. Line 148 accepts every size from 128 to 4096, so it takes 200, which is not 128·2ⁿ, and refuses 8192, which is. The merge-base had no size check and read an 8192-byte entry, so that refusal is new.</p>
+    <p>The commit body says the PR bounds &quot;the entry size to the UEFI 128*2^n range&quot;. Line 148 accepts every size from 128 to 4096, so it takes 200, which is not 128·2ⁿ, and refuses 8192, which is. The merge-base read an 8192-byte entry, so that refusal is new.</p>
     <p>The constants&#39; comment at <a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L111-L115"><code>pkg/apfs/chown.go:111-115</code></a> says the header fields are bounded &quot;before they are used to size allocations&quot;.</p>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L106-L120">pkg/apfs/chown.go</a></div>
       <pre data-start="106" data-line="111-115"><code class="language-go">
@@ -354,7 +354,7 @@ FAIL
 FAIL	github.com/lima-vm/lima/v2/pkg/apfs	0.360s
 FAIL</code></pre>
       </details>
-    <p>Fix: require a power of two of at least 128 and drop <code>gptMaxEntrySize</code>, since the non-empty 4 MiB table bound then caps <code>entryBuf</code> too. The probe and the package suite pass with this patch. The smaller alternative rewords the commit body to &quot;[128, 4096]&quot; and corrects the comment.</p>
+    <p>Fix: reword the commit body to &quot;[128, 4096]&quot; and correct the comment. Linux accepts only 128-byte entries, so the cap refuses no table Linux reads, and UEFI §5.3.2 says earlier versions allowed any multiple of 8. The patch implements the alternative, a power-of-two check without <code>gptMaxEntrySize</code>; the probe and suite pass with it.</p>
       <details class="fold">
         <summary>Patch</summary>
       <pre><code class="language-diff">diff --git a/pkg/apfs/chown.go b/pkg/apfs/chown.go
@@ -583,7 +583,7 @@ index b5822f8d..bc1b2f36 100644
 }
 
 func (c *container) close() {</code></pre>
-    <p>An unused GPT entry has an all-zero type GUID and can sit between used ones, for example after a partition is deleted. <code>findAPFSPartitionGPT</code> stops at the first such entry and reports &quot;no APFS partition found in GPT&quot; even when APFS comes later.</p>
+    <p>UEFI marks an entry unused by a zero type GUID (Table 5.6) and says &quot;Zero or more GPT Partition Entries may be in use&quot; (§5.3.1), with no rule that used entries come first. <code>findAPFSPartitionGPT</code> stops at the first such entry and reports &quot;no APFS partition found in GPT&quot; even when APFS comes later.</p>
     <p>The PR&#39;s own test works around this: <a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown_test.go#L66-L67"><code>pkg/apfs/chown_test.go:66-67</code></a> fills the leading entries so the scan does not stop early.</p>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown_test.go#L61-L72">pkg/apfs/chown_test.go</a></div>
       <pre data-start="61" data-line="66-67"><code class="language-go">	// UEFI sets no maximum on the entry count (128 is only the default), so a
@@ -800,7 +800,7 @@ FAIL</code></pre>
       <li>The commit body&#39;s &quot;UEFI 128*2^n range&quot; and the constants&#39; comment both misstate the code (I1).</li>
       <li>Item 1 of the PR description says <code>numEntries</code> sizes the entry buffer; only <code>entrySize</code> does. Its closing claim that a crafted image &quot;should fail with an error instead of a panic&quot; holds only for the fields this PR bounds (S2). <span class="pill pill-claude">Claude Opus 5</span></li>
       <li>The <code>nxMaxBlockSize</code> comment (<a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/types.go#L70-L74"><code>pkg/apfs/types.go:70-74</code></a>) is accurate. Claude found <code>NX_MAXIMUM_BLOCK_SIZE 65536</code> in both Apple&#39;s File System Reference and linux-apfs-rw&#39;s <code>apfs_raw.h</code>.</li>
-      <li>Nobody read the UEFI text this round, because uefi.org returned HTTP 403 to Claude. I1 rests on the 128·2ⁿ rule as the PR itself states it.</li>
+      <li><a href="https://uefi.org/specs/UEFI/2.10/05_GUID_Partition_Table_Format.html">UEFI §5.3.2</a>, Table 5.5, says <code>SizeOfPartitionEntry</code> &quot;shall be set to a value of 128 x 2^n where n is an integer greater than or equal to zero&quot;, and adds &quot;NOTE: Previous versions of this specification allowed any multiple of 8&quot;. Linux rejects every entry size but 128 ([<code>efi.c</code>](https://github.com/torvalds/linux/blob/5225b8eec4c9bb21aecff6295fab6346a3c3738e/block/partitions/efi.c#L414-L418)), as go-diskfs does.</li>
     </ul>
     </div>
     <hr>
@@ -808,7 +808,7 @@ FAIL</code></pre>
 
     <div class="card card-neutral">
     <ul>
-      <li><em></em>No power-of-two check on <code>nx_block_size</code>.<em></em> Copilot asked for one, and the author <a href="https://github.com/lima-vm/lima/pull/5480#discussion_r3962542806">declined</a> because the Apple reference sets only a minimum and a maximum, a non-power value in range cannot panic or oversize an allocation, and a misaddressed read fails the Fletcher checksum. The code matches that rationale, and a later reviewer should not re-suggest the check. The reasoning does not carry over to I1. UEFI states 128·2ⁿ for GPT entries, so the author&#39;s own principle (&quot;I&#39;d rather not add a constraint the spec doesn&#39;t&quot;) supports that check and argues against the 4096 cap, which no spec states.</li>
+      <li><em></em>No power-of-two check on <code>nx_block_size</code>.<em></em> Copilot asked for one, and the author <a href="https://github.com/lima-vm/lima/pull/5480#discussion_r3962542806">declined</a> because the Apple reference sets only a minimum and a maximum, a non-power value in range cannot panic or oversize an allocation, and a misaddressed read fails the Fletcher checksum. The code matches that rationale, and a later reviewer should not re-suggest the check. For I1 the author&#39;s principle (&quot;I&#39;d rather not add a constraint the spec doesn&#39;t&quot;) cuts both ways. UEFI does state 128·2ⁿ, but it also notes that earlier versions allowed any multiple of 8, and Linux accepts only 128, so a documented 4096 cap is a reasonable sanity bound.</li>
     </ul>
     </div>
     <hr>
@@ -825,7 +825,7 @@ FAIL</code></pre>
 
     <div class="card card-neutral">
     <h3 id="claude-opus-5"><span class="pill pill-claude">Claude Opus 5</span> <a href="#claude-opus-5" class="pilcrow">&#182;</a></h3>
-    <p>Claude wrote the most complete review. It proved I2 differentially, running the PR&#39;s test against the merge-base parser, and it wrote the crafted-node probe behind S2. It found both prose errors behind I1, but it filed the commit-body mismatch as a documentation note and recommended rewording the body instead of checking the spec&#39;s rule. This review rates a commit message the code contradicts as Important, and the author&#39;s own reasoning on the block size favors following the spec. Its proposal to drop the <code>numEntries == 0</code> check is right at the review SHA but would reopen a multi-gigabyte allocation under I1&#39;s fix. It also credited the no-overflow property at line 151 to the order of the checks, though a product of two <code>uint32</code> values cannot overflow <code>uint64</code> in any order.</p>
+    <p>Claude wrote the most complete review. It proved I2 differentially, running the PR&#39;s test against the merge-base parser, and it wrote the crafted-node probe behind S2. It found both prose errors behind I1 but filed the commit-body mismatch as a documentation note, while this review rates a commit message the code contradicts as Important. Its advice to reword the body rather than add a spec check turned out to be the better fix, once the UEFI text and Linux&#39;s 128-only check were read. Its proposal to drop the <code>numEntries == 0</code> check is right at the review SHA but would reopen a multi-gigabyte allocation under I1&#39;s patch. It also credited the no-overflow property at line 151 to the order of the checks, though a product of two <code>uint32</code> values cannot overflow <code>uint64</code> in any order.</p>
     <h3 id="codex-gpt-5-6-sol"><span class="pill pill-codex">Codex GPT 5.6 Sol</span> <a href="#codex-gpt-5-6-sol" class="pilcrow">&#182;</a></h3>
     <p>Codex returned no review. OpenAI&#39;s cybersecurity filter stopped it twice, right after it wrote a program that rewrites a real <code>hdiutil</code> image&#39;s GPT to hold one 8192-byte entry. Its session log shows two findings already formed. One is the 8192 refusal behind I1, which that real-image probe confirmed; the other is the worry that the rejection fixtures pass by &quot;merely hitting EOF&quot;, which is I2. Both are credited to it. It was not retried, because the retry rule covers transient errors and stalls, and a parser-hardening review invites the same probing on a rerun.</p>
     <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
@@ -849,7 +849,7 @@ FAIL</code></pre>
         <tr><td>Dropped</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
       </tbody>
     </table>
-    <p>Reconciliation: Gemini 3.1 Pro I1 (early exit on an unused GPT entry): important → suggestion S1, because it predates the PR, production never reaches the GPT branch, and the failure is a clean error. Claude Opus 5 I2 (the comment says the count sizes an allocation): merged into I1. Claude Opus 5&#39;s documentation note on the commit body: raised into I1 as an Important prose finding. Claude Opus 5 S1 (drop the <code>numEntries == 0</code> check): dropped, because I1&#39;s fix makes it the only guard against a 2 GiB allocation (see Design Observations). Gemini 3.5 Flash S1 (int64 overflow): rejected as a false positive.</p>
+    <p>Reconciliation: Gemini 3.1 Pro I1 (early exit on an unused GPT entry): important → suggestion S1, because it predates the PR, production never reaches the GPT branch, and the failure is a clean error. Claude Opus 5 I2 (the comment says the count sizes an allocation): merged into I1. Claude Opus 5&#39;s documentation note on the commit body: raised into I1 as an Important prose finding. Claude Opus 5 S1 (drop the <code>numEntries == 0</code> check): dropped, because the check costs nothing and I1&#39;s patch would make it the only guard against a 2 GiB allocation (see Design Observations). Gemini 3.5 Flash S1 (int64 overflow): rejected as a false positive.</p>
     <p>Claude provided the most value. Three of the four surviving findings trace to it, and its verification record kept what it ran apart from what it reasoned. Codex&#39;s recovered log supplied the one behavioral fact nobody else ran, the 8192 refusal on a real image. Gemini 3.1 Pro contributed the only other unique finding, and Flash contributed nothing that survived.</p>
     </div>
     <hr>
