@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260911-231817-pr-5480</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260911-231817-pr-5480</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-09-11 23:18</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/SABITHSAHEB">@SABITHSAHEB</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5480" class="gh-ref" data-title="apfs: bound GPT partition entry size and count before use" data-state="open" data-type="pr">#5480</a> — apfs: bound GPT partition entry size and count before use</td></tr>
+      <tr><td>Branch</td><td><code>apfs-gpt-header-bounds</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/2d657a2a"><code>2d657a2a</code></a> apfs: bound GPT partition entry size and count before use</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/2d657a2a911178810282a2ca44a1c556d33d7cea"><code>2d657a2a911178810282a2ca44a1c556d33d7cea</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5</span> (effort: xhigh), <span class="pill pill-codex">Codex GPT 5.6 Sol</span> (effort: xhigh), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; the bounds stop the panic, but the entry-size rule contradicts the commit message, and the new test pins only one of the three GPT bounds</td></tr>
+      <tr><td>Wall-clock time</td><td><code>41 min 47 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR turns a reproducible GPT-header panic into an error and caps <code>nx_block_size</code>; CI is green. Two findings need fixing before merge. The entry-size check accepts 200 and refuses 8192, while the commit message says it enforces UEFI&#39;s 128·2ⁿ rule, and the new comment says the entry count sizes an allocation, which it never does. And four of the six new rejection cases pass with the guard removed, so two of the three GPT bounds are untested.</p>
+    <p>Four reviewers ran. Codex produced no review, because OpenAI&#39;s cybersecurity filter stopped it after it wrote a program that crafts a malformed GPT header; its two findings come from its session log. Both Important findings carry a reproducer and a tested patch. The two Suggestions are older gaps in the same parser. The scan stops at the first unused GPT entry, and a crafted B-tree node with valid checksums still panics <code>Chown</code>. Production never reaches the GPT branch, because the only caller (<a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/guestpatch/macos/macos_darwin.go#L107"><code>pkg/guestpatch/macos/macos_darwin.go:107</code></a>) passes the APFS container device, whose block 0 is the superblock. There only the block-size cap applies.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file="pkg/apfs/chown.go">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> The entry-size check enforces neither UEFI&#39;s rule nor the commit message <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-claude">Claude Opus 5</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L143-L153">pkg/apfs/chown.go</a></div>
+      <pre data-start="143" data-line="148"><code class="language-go">
+	partEntryLBA := le.Uint64(gptHdr[72:])
+	numEntries := le.Uint32(gptHdr[80:])
+	entrySize := le.Uint32(gptHdr[84:])
+
+	if entrySize &lt; gptMinEntrySize || entrySize &gt; gptMaxEntrySize {
+		return 0, fmt.Errorf(&quot;GPT partition entry size %d out of range&quot;, entrySize)
+	}
+	if numEntries == 0 || uint64(numEntries)*uint64(entrySize) &gt; gptMaxTableSize {
+		return 0, fmt.Errorf(&quot;GPT partition table of %d entries of %d bytes out of range&quot;, numEntries, entrySize)
+	}</code></pre>
+    <p>The commit body says the PR bounds &quot;the entry size to the UEFI 128*2^n range&quot;. Line 148 accepts every size from 128 to 4096, so it takes 200, which is not 128·2ⁿ, and refuses 8192, which is. The merge-base had no size check and read an 8192-byte entry, so that refusal is new.</p>
+    <p>The constants&#39; comment at <a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L111-L115"><code>pkg/apfs/chown.go:111-115</code></a> says the header fields are bounded &quot;before they are used to size allocations&quot;.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L106-L120">pkg/apfs/chown.go</a></div>
+      <pre data-start="106" data-line="111-115"><code class="language-go">
+// GPT constants.
+const (
+	gptHeaderSignature = &quot;EFI PART&quot;
+	gptLBASectorSize   = 512
+	// gptMinEntrySize, gptMaxEntrySize and gptMaxTableSize bound the
+	// partition-array header fields before they are used to size allocations
+	// and index the entry buffer. UEFI defines the entry size as 128*2^n and
+	// sets no maximum on the entry count (128 is only the default), so the
+	// count is bounded through the total table size instead.
+	gptMinEntrySize = 128
+	gptMaxEntrySize = 4096
+	gptMaxTableSize = 4 &lt;&lt; 20 // numEntries * entrySize
+)
+</code></pre>
+    <p>But <code>make([]byte, entrySize)</code> at <a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L155"><code>pkg/apfs/chown.go:155</code></a> is the only allocation. The entry count only bounds the loop, so the table cap limits how many entries the scan reads.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L150-L160">pkg/apfs/chown.go</a></div>
+      <pre data-start="150" data-line="155"><code class="language-go">	}
+	if numEntries == 0 || uint64(numEntries)*uint64(entrySize) &gt; gptMaxTableSize {
+		return 0, fmt.Errorf(&quot;GPT partition table of %d entries of %d bytes out of range&quot;, numEntries, entrySize)
+	}
+
+	entryBuf := make([]byte, entrySize)
+	for i := range numEntries {
+		off := int64(partEntryLBA)*gptLBASectorSize + int64(i)*int64(entrySize)
+		if _, err := f.ReadAt(entryBuf, off); err != nil {
+			return 0, fmt.Errorf(&quot;reading GPT entry %d: %w&quot;, i, err)
+		}</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as pkg/apfs/gpt_entry_size_probe_test.go; run: go test -count=1 -v -run TestProbeGPTEntrySize ./pkg/apfs/
+package apfs
+
+import (
+	&quot;strconv&quot;
+	&quot;testing&quot;
+
+	&quot;gotest.tools/v3/assert&quot;
+)
+
+// UEFI requires SizeOfPartitionEntry to be 128*2^n. A one-entry table holding
+// the APFS partition should be found at every such size and refused otherwise.
+func TestProbeGPTEntrySize(t *testing.T) {
+	for _, tc := range []struct {
+		entrySize uint32
+		ok        bool
+	}{
+		{128, true},
+		{256, true},
+		{8192, true},
+		{200, false},
+	} {
+		t.Run(strconv.FormatUint(uint64(tc.entrySize), 10), func(t *testing.T) {
+			entry := make([]byte, tc.entrySize)
+			copy(entry[0:16], apfsPartTypeGUID[:])
+			le.PutUint64(entry[32:], 40) // firstLBA
+			f := writeGPTImage(t, 2, 1, tc.entrySize, entry)
+			off, err := findAPFSPartitionGPT(f)
+			if !tc.ok {
+				assert.ErrorContains(t, err, &quot;out of range&quot;)
+				return
+			}
+			assert.NilError(t, err)
+			assert.Equal(t, off, int64(40)*gptLBASectorSize)
+		})
+	}
+}</code></pre>
+      <pre><code class="language-text">$ go test -count=1 -v -run TestProbeGPTEntrySize ./pkg/apfs/
+=== RUN   TestProbeGPTEntrySize
+=== RUN   TestProbeGPTEntrySize/128
+=== RUN   TestProbeGPTEntrySize/256
+=== RUN   TestProbeGPTEntrySize/8192
+    gpt_entry_size_probe_test.go:33: assertion failed: error is not nil: GPT partition entry size 8192 out of range
+=== RUN   TestProbeGPTEntrySize/200
+    gpt_entry_size_probe_test.go:30: assertion failed: expected an error, got nil
+--- FAIL: TestProbeGPTEntrySize (0.01s)
+    --- PASS: TestProbeGPTEntrySize/128 (0.00s)
+    --- PASS: TestProbeGPTEntrySize/256 (0.00s)
+    --- FAIL: TestProbeGPTEntrySize/8192 (0.00s)
+    --- FAIL: TestProbeGPTEntrySize/200 (0.00s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/apfs	0.360s
+FAIL</code></pre>
+      </details>
+    <p>Fix: require a power of two of at least 128 and drop <code>gptMaxEntrySize</code>, since the non-empty 4 MiB table bound then caps <code>entryBuf</code> too. The probe and the package suite pass with this patch. The smaller alternative rewords the commit body to &quot;[128, 4096]&quot; and corrects the comment.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/apfs/chown.go b/pkg/apfs/chown.go
+index 051d6584..85512df1 100644
+--- a/pkg/apfs/chown.go
++++ b/pkg/apfs/chown.go
+@@ -108,13 +108,11 @@ func openContainer(path string) (*container, error) {
+ const (
+ 	gptHeaderSignature = &quot;EFI PART&quot;
+ 	gptLBASectorSize   = 512
+-	// gptMinEntrySize, gptMaxEntrySize and gptMaxTableSize bound the
+-	// partition-array header fields before they are used to size allocations
+-	// and index the entry buffer. UEFI defines the entry size as 128*2^n and
+-	// sets no maximum on the entry count (128 is only the default), so the
+-	// count is bounded through the total table size instead.
++	// gptMinEntrySize and gptMaxTableSize bound the partition-array fields
++	// read from the GPT header. UEFI requires 128*2^n-byte entries with no
++	// maximum size or count, so a non-empty table of at most gptMaxTableSize
++	// bounds both the entry buffer and the number of entries scanned.
+ 	gptMinEntrySize = 128
+-	gptMaxEntrySize = 4096
+ 	gptMaxTableSize = 4 &lt;&lt; 20 // numEntries * entrySize
+ )
+ 
+@@ -145,7 +143,7 @@ func findAPFSPartitionGPT(f *os.File) (int64, error) {
+ 	numEntries := le.Uint32(gptHdr[80:])
+ 	entrySize := le.Uint32(gptHdr[84:])
+ 
+-	if entrySize &lt; gptMinEntrySize || entrySize &gt; gptMaxEntrySize {
++	if entrySize &lt; gptMinEntrySize || entrySize&amp;(entrySize-1) != 0 {
+ 		return 0, fmt.Errorf(&quot;GPT partition entry size %d out of range&quot;, entrySize)
+ 	}
+ 	if numEntries == 0 || uint64(numEntries)*uint64(entrySize) &gt; gptMaxTableSize {
+diff --git a/pkg/apfs/chown_test.go b/pkg/apfs/chown_test.go
+index b5822f8d..3992535d 100644
+--- a/pkg/apfs/chown_test.go
++++ b/pkg/apfs/chown_test.go
+@@ -44,9 +44,10 @@ func TestFindAPFSPartitionGPTRejectsBadHeader(t *testing.T) {
+ 	}{
+ 		{&quot;entry-size-too-small&quot;, 4, 8},
+ 		{&quot;entry-size-zero&quot;, 4, 0},
+-		{&quot;entry-size-too-large&quot;, 4, gptMaxEntrySize + 1},
++		{&quot;entry-size-not-power-of-two&quot;, 4, 200},
++		{&quot;entry-size-too-large&quot;, 1, gptMaxTableSize * 2},
+ 		{&quot;table-too-large&quot;, gptMaxTableSize/gptMinEntrySize + 1, gptMinEntrySize},
+-		{&quot;table-too-large-max-entry-size&quot;, gptMaxTableSize/gptMaxEntrySize + 1, gptMaxEntrySize},
++		{&quot;table-too-large-8192-byte-entries&quot;, gptMaxTableSize/8192 + 1, 8192},
+ 		{&quot;entry-count-zero&quot;, 0, gptMinEntrySize},
+ 	} {
+ 		t.Run(tc.name, func(t *testing.T) {</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/apfs/chown_test.go">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> Four of the six rejection cases pass with the guard removed <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown_test.go#L50-L60">pkg/apfs/chown_test.go</a></div>
+      <pre data-start="50" data-line="55"><code class="language-go">		{&quot;entry-count-zero&quot;, 0, gptMinEntrySize},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			f := writeGPTImage(t, 2, tc.numEntries, tc.entrySize, nil)
+			_, err := findAPFSPartitionGPT(f)
+			assert.Assert(t, err != nil, &quot;expected error for out-of-range GPT header fields&quot;)
+		})
+	}
+}
+
+func TestFindAPFSPartitionGPTFindsAPFS(t *testing.T) {</code></pre>
+    <p>The assertion accepts any error. The fixture passes no entry bytes (<a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown_test.go#L53"><code>pkg/apfs/chown_test.go:53</code></a>), so a parser without the guard still fails four cases for unrelated reasons.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown_test.go#L48-L58">pkg/apfs/chown_test.go</a></div>
+      <pre data-start="48" data-line="53"><code class="language-go">		{&quot;table-too-large&quot;, gptMaxTableSize/gptMinEntrySize + 1, gptMinEntrySize},
+		{&quot;table-too-large-max-entry-size&quot;, gptMaxTableSize/gptMaxEntrySize + 1, gptMaxEntrySize},
+		{&quot;entry-count-zero&quot;, 0, gptMinEntrySize},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			f := writeGPTImage(t, 2, tc.numEntries, tc.entrySize, nil)
+			_, err := findAPFSPartitionGPT(f)
+			assert.Assert(t, err != nil, &quot;expected error for out-of-range GPT header fields&quot;)
+		})
+	}
+}</code></pre>
+    <p><code>entry-size-too-large</code> and <code>table-too-large-max-entry-size</code> hit EOF on the first entry read at <a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L158"><code>pkg/apfs/chown.go:158</code></a>.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L153-L163">pkg/apfs/chown.go</a></div>
+      <pre data-start="153" data-line="158"><code class="language-go">	}
+
+	entryBuf := make([]byte, entrySize)
+	for i := range numEntries {
+		off := int64(partEntryLBA)*gptLBASectorSize + int64(i)*int64(entrySize)
+		if _, err := f.ReadAt(entryBuf, off); err != nil {
+			return 0, fmt.Errorf(&quot;reading GPT entry %d: %w&quot;, i, err)
+		}
+
+		var typeGUID [16]byte
+		copy(typeGUID[:], entryBuf[0:16])</code></pre>
+    <p><code>table-too-large</code> stops at the all-zero first entry (<a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L177-L179"><code>pkg/apfs/chown.go:177-179</code></a>), and <code>entry-count-zero</code> never enters the loop. Both return &quot;no APFS partition found in GPT&quot;.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L172-L184">pkg/apfs/chown.go</a></div>
+      <pre data-start="172" data-line="177-179"><code class="language-go">			if b != 0 {
+				allZero = false
+				break
+			}
+		}
+		if allZero {
+			break
+		}
+	}
+	return 0, errors.New(&quot;no APFS partition found in GPT&quot;)
+}
+
+func (c *container) close() {</code></pre>
+    <p>Only the two small-entry-size cases pin the guard. Without the table-size bound or the entry-size upper bound all six cases stay green, while removing the lower bound panics, which is the control. Claude ran the PR&#39;s test against the merge-base parser and got the same four passes.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-guard-mutations.sh; run from the repo root: bash probe-guard-mutations.sh
+# Removes one GPT bound at a time and runs the PR&#39;s rejection test against it,
+# first with the PR&#39;s assertion, then with the proposed one. Restores both files.
+set -u
+run() {
+	go test -count=1 -v -run TestFindAPFSPartitionGPTRejectsBadHeader ./pkg/apfs/ 2&gt;&amp;1 |
+		grep -E -- &#39;--- (PASS|FAIL): .*/|^panic:|chown_test.go:[0-9]+&#39;
+}
+mutate() {
+	perl -0pi -e &quot;$1&quot; pkg/apfs/chown.go
+	echo &quot;=== $2&quot;
+	run
+	git checkout -- pkg/apfs/chown.go
+}
+table=&#39;s/numEntries == 0 \|\| uint64\(numEntries\)\*uint64\(entrySize\) &gt; gptMaxTableSize/false/&#39;
+upper=&#39;s/ \|\| entrySize &gt; gptMaxEntrySize//&#39;
+lower=&#39;s/entrySize &lt; gptMinEntrySize \|\| //&#39;
+
+echo &#39;##### assertion: err != nil&#39;
+mutate &quot;$table&quot; &#39;table-size bound removed&#39;
+mutate &quot;$upper&quot; &#39;entry-size upper bound removed&#39;
+mutate &quot;$lower&quot; &#39;entry-size lower bound removed (control)&#39;
+
+perl -0pi -e &#39;s/assert\.Assert\(t, err != nil, &quot;expected error for out-of-range GPT header fields&quot;\)/assert.ErrorContains(t, err, &quot;out of range&quot;)/&#39; pkg/apfs/chown_test.go
+echo &#39;##### assertion: ErrorContains &quot;out of range&quot;&#39;
+echo &#39;=== no bound removed&#39;
+run
+mutate &quot;$table&quot; &#39;table-size bound removed&#39;
+mutate &quot;$upper&quot; &#39;entry-size upper bound removed&#39;
+git checkout -- pkg/apfs/chown_test.go</code></pre>
+      <pre><code class="language-text">$ bash probe-guard-mutations.sh
+##### assertion: err != nil
+=== table-size bound removed
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-size-too-small (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-size-zero (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-size-too-large (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/table-too-large (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/table-too-large-max-entry-size (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-count-zero (0.00s)
+=== entry-size upper bound removed
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-size-too-small (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-size-zero (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-size-too-large (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/table-too-large (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/table-too-large-max-entry-size (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-count-zero (0.00s)
+=== entry-size lower bound removed (control)
+    --- FAIL: TestFindAPFSPartitionGPTRejectsBadHeader/entry-size-too-small (0.00s)
+panic: runtime error: slice bounds out of range [:16] with capacity 8 [recovered, repanicked]
+	/var/folders/s2/9q03h0c11_s4fdw169wqz3qc0000gn/T/review-lead-4075179965/pkg/apfs/chown_test.go:54 +0x38
+##### assertion: ErrorContains &quot;out of range&quot;
+=== no bound removed
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-size-too-small (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-size-zero (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-size-too-large (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/table-too-large (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/table-too-large-max-entry-size (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-count-zero (0.00s)
+=== table-size bound removed
+    chown_test.go:55: assertion failed: expected error to contain &quot;out of range&quot;, got &quot;no APFS partition found in GPT&quot;
+    chown_test.go:55: assertion failed: expected error to contain &quot;out of range&quot;, got &quot;reading GPT entry 0: EOF&quot;
+    chown_test.go:55: assertion failed: expected error to contain &quot;out of range&quot;, got &quot;no APFS partition found in GPT&quot;
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-size-too-small (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-size-zero (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-size-too-large (0.00s)
+    --- FAIL: TestFindAPFSPartitionGPTRejectsBadHeader/table-too-large (0.00s)
+    --- FAIL: TestFindAPFSPartitionGPTRejectsBadHeader/table-too-large-max-entry-size (0.00s)
+    --- FAIL: TestFindAPFSPartitionGPTRejectsBadHeader/entry-count-zero (0.00s)
+=== entry-size upper bound removed
+    chown_test.go:55: assertion failed: expected error to contain &quot;out of range&quot;, got &quot;reading GPT entry 0: EOF&quot;
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-size-too-small (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-size-zero (0.00s)
+    --- FAIL: TestFindAPFSPartitionGPTRejectsBadHeader/entry-size-too-large (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/table-too-large (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/table-too-large-max-entry-size (0.00s)
+    --- PASS: TestFindAPFSPartitionGPTRejectsBadHeader/entry-count-zero (0.00s)</code></pre>
+      </details>
+    <p>Fix: assert the guard&#39;s own error. The new assertion fails both surviving mutations and passes the unmutated code, and it also holds for the cases I1&#39;s patch adds.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/apfs/chown_test.go b/pkg/apfs/chown_test.go
+index b5822f8d..bc1b2f36 100644
+--- a/pkg/apfs/chown_test.go
++++ b/pkg/apfs/chown_test.go
+@@ -52,7 +52,7 @@ func TestFindAPFSPartitionGPTRejectsBadHeader(t *testing.T) {
+ 		t.Run(tc.name, func(t *testing.T) {
+ 			f := writeGPTImage(t, 2, tc.numEntries, tc.entrySize, nil)
+ 			_, err := findAPFSPartitionGPT(f)
+-			assert.Assert(t, err != nil, &quot;expected error for out-of-range GPT header fields&quot;)
++			assert.ErrorContains(t, err, &quot;out of range&quot;)
+ 		})
+ 	}
+ }</code></pre>
+      </details>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="pkg/apfs/chown.go">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> The GPT scan stops at the first unused entry <span class="pill pill-gemini">Gemini 3.1 Pro</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L172-L184">pkg/apfs/chown.go</a></div>
+      <pre data-start="172" data-line="177-179"><code class="language-go">			if b != 0 {
+				allZero = false
+				break
+			}
+		}
+		if allZero {
+			break
+		}
+	}
+	return 0, errors.New(&quot;no APFS partition found in GPT&quot;)
+}
+
+func (c *container) close() {</code></pre>
+    <p>An unused GPT entry has an all-zero type GUID and can sit between used ones, for example after a partition is deleted. <code>findAPFSPartitionGPT</code> stops at the first such entry and reports &quot;no APFS partition found in GPT&quot; even when APFS comes later.</p>
+    <p>The PR&#39;s own test works around this: <a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown_test.go#L66-L67"><code>pkg/apfs/chown_test.go:66-67</code></a> fills the leading entries so the scan does not stop early.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown_test.go#L61-L72">pkg/apfs/chown_test.go</a></div>
+      <pre data-start="61" data-line="66-67"><code class="language-go">	// UEFI sets no maximum on the entry count (128 is only the default), so a
+	// larger table must still be scanned through to its last entry.
+	for _, numEntries := range []uint32{1, 256} {
+		t.Run(strconv.Itoa(int(numEntries))+&quot;-entries&quot;, func(t *testing.T) {
+			entries := make([]byte, int(numEntries)*gptMinEntrySize)
+			// Fill the leading entries with a non-empty, non-APFS type so the
+			// scan does not stop early at an unused entry.
+			for i := range int(numEntries) - 1 {
+				entries[i*gptMinEntrySize] = 1
+			}
+			last := entries[(int(numEntries)-1)*gptMinEntrySize:]
+			copy(last[0:16], apfsPartTypeGUID[:])</code></pre>
+    <p>The loop predates the PR, production never reaches the GPT branch, and the failure is a clean error, so this is a Suggestion. The new table bound keeps a full scan cheap, at most 32768 entries of 128 bytes.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as pkg/apfs/sparse_gpt_probe_test.go; run: go test -count=1 -v -run TestProbeSparseGPT ./pkg/apfs/
+package apfs
+
+import (
+	&quot;testing&quot;
+
+	&quot;gotest.tools/v3/assert&quot;
+)
+
+// A two-entry table with one unused slot. The APFS entry after the unused slot
+// is the sparse case; the APFS entry before it is the control.
+func TestProbeSparseGPT(t *testing.T) {
+	for _, tc := range []struct {
+		name     string
+		apfsSlot int
+	}{
+		{&quot;apfs-after-unused-slot&quot;, 1},
+		{&quot;apfs-before-unused-slot&quot;, 0},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			entries := make([]byte, 2*gptMinEntrySize)
+			slot := entries[tc.apfsSlot*gptMinEntrySize:]
+			copy(slot[0:16], apfsPartTypeGUID[:])
+			le.PutUint64(slot[32:], 40) // firstLBA
+			f := writeGPTImage(t, 2, 2, gptMinEntrySize, entries)
+			off, err := findAPFSPartitionGPT(f)
+			assert.NilError(t, err)
+			assert.Equal(t, off, int64(40)*gptLBASectorSize)
+		})
+	}
+}</code></pre>
+      <pre><code class="language-text">$ go test -count=1 -v -run TestProbeSparseGPT ./pkg/apfs/
+=== RUN   TestProbeSparseGPT
+=== RUN   TestProbeSparseGPT/apfs-after-unused-slot
+    sparse_gpt_probe_test.go:27: assertion failed: error is not nil: no APFS partition found in GPT
+=== RUN   TestProbeSparseGPT/apfs-before-unused-slot
+--- FAIL: TestProbeSparseGPT (0.00s)
+    --- FAIL: TestProbeSparseGPT/apfs-after-unused-slot (0.00s)
+    --- PASS: TestProbeSparseGPT/apfs-before-unused-slot (0.00s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/apfs	0.318s
+FAIL</code></pre>
+      </details>
+    <p>Fix: replace <code>break</code> with <code>continue</code>. The probe and the package suite pass with that change.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/apfs/chown.go">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> A crafted B-tree node with valid checksums still panics <code>Chown</code> <span class="pill pill-claude">Claude Opus 5</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L320-L331">pkg/apfs/chown.go</a></div>
+      <pre data-start="320" data-line="325-326"><code class="language-go">		flags := le.Uint16(blk[btnFlagsOff:])
+		nkeys := le.Uint32(blk[btnNKeysOff:])
+		tspOff := le.Uint16(blk[btnTableSpaceOff:])
+		tspLen := le.Uint16(blk[btnTableSpaceOff+2:])
+
+		tocStart := btnDataOff + uint32(tspOff)
+		keyAreaStart := tocStart + uint32(tspLen)
+
+		isLeaf := flags&amp;btnodeLeaf != 0
+		isFixedKV := flags&amp;btnodeFixedKVSize != 0
+		isRoot := flags&amp;btnodeRoot != 0
+</code></pre>
+    <p>The PR description says a corrupt or crafted image &quot;should fail with an error instead of a panic&quot;. After this PR that holds for the GPT header and the block size only. The three B-tree walkers still take table-space, key and value offsets straight from the node (see also <a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L544-L545"><code>pkg/apfs/chown.go:544-545</code></a> and <a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L668-L669"><code>pkg/apfs/chown.go:668-669</code></a>), and <code>valueAreaEnd - vOff</code> can wrap (<a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L351"><code>pkg/apfs/chown.go:351</code></a>). Fletcher-64 rejects random corruption, so only a deliberately crafted image reaches these sites, and they predate the PR.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L346-L356">pkg/apfs/chown.go</a></div>
+      <pre data-start="346" data-line="351"><code class="language-go">				entryOID := le.Uint64(blk[keyStart:])
+				entryXID := le.Uint64(blk[keyStart+8:])
+
+				if entryOID == oid &amp;&amp; entryXID &lt;= maxXID {
+					// Value: ov_flags(4) + ov_size(4) + ov_paddr(8).
+					valStart := valueAreaEnd - vOff
+					physAddr := le.Uint64(blk[valStart+8:])
+					if !found || entryXID &gt; bestXID {
+						bestPhysAddr = physAddr
+						bestXID = entryXID
+						found = true</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L539-L550">pkg/apfs/chown.go</a></div>
+      <pre data-start="539" data-line="544-545"><code class="language-go">		flags := le.Uint16(blk[btnFlagsOff:])
+		nkeys := le.Uint32(blk[btnNKeysOff:])
+		tspOff := le.Uint16(blk[btnTableSpaceOff:])
+		tspLen := le.Uint16(blk[btnTableSpaceOff+2:])
+
+		tocStart := btnDataOff + uint32(tspOff)
+		keyAreaStart := tocStart + uint32(tspLen)
+
+		isLeaf := flags&amp;btnodeLeaf != 0
+		isFixedKV := flags&amp;btnodeFixedKVSize != 0
+		isRoot := flags&amp;btnodeRoot != 0
+</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L663-L674">pkg/apfs/chown.go</a></div>
+      <pre data-start="663" data-line="668-669"><code class="language-go">		flags := le.Uint16(blk[btnFlagsOff:])
+		nkeys := le.Uint32(blk[btnNKeysOff:])
+		tspOff := le.Uint16(blk[btnTableSpaceOff:])
+		tspLen := le.Uint16(blk[btnTableSpaceOff+2:])
+
+		tocStart := btnDataOff + uint32(tspOff)
+		keyAreaStart := tocStart + uint32(tspLen)
+
+		isLeaf := flags&amp;btnodeLeaf != 0
+		isFixedKV := flags&amp;btnodeFixedKVSize != 0
+		isRoot := flags&amp;btnodeRoot != 0
+</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as pkg/apfs/crafted_node_probe_test.go; run: go test -count=1 -v -run TestProbeCraftedOmapNode ./pkg/apfs/
+package apfs
+
+import (
+	&quot;os&quot;
+	&quot;path/filepath&quot;
+	&quot;testing&quot;
+)
+
+// A four-block raw container with valid checksums: two superblocks, a container
+// omap, and one omap root/leaf node. tspOff 0 is the control; 0xFFFF puts the
+// ToC past the end of the block.
+func TestProbeCraftedOmapNode(t *testing.T) {
+	for _, tspOff := range []uint16{0, 0xFFFF} {
+		const bs = 4096
+		img := make([]byte, 4*bs)
+		blk := func(n int) []byte { return img[n*bs : (n+1)*bs] }
+		for _, n := range []int{0, 1} {
+			b := blk(n)
+			le.PutUint64(b[objXIDOff:], 1)
+			le.PutUint32(b[objTypeOff:], objectTypeNXSuperblock)
+			le.PutUint32(b[nxMagicOff:], nxMagic)
+			le.PutUint32(b[nxBlockSizeOff:], bs)
+			le.PutUint32(b[nxXPDescBlocksOff:], 1)
+			le.PutUint64(b[nxXPDescBaseOff:], 1)
+			le.PutUint64(b[nxOmapOIDOff:], 2)
+			le.PutUint64(b[nxFSOIDOff:], 1026)
+			updateChecksum(b)
+		}
+		le.PutUint64(blk(2)[omapTreeOIDOff:], 3)
+		b := blk(3)
+		le.PutUint32(b[objTypeOff:], 0x02)
+		le.PutUint16(b[btnFlagsOff:], btnodeRoot|btnodeLeaf)
+		le.PutUint32(b[btnNKeysOff:], 1)
+		le.PutUint16(b[btnTableSpaceOff:], tspOff)
+		updateChecksum(b)
+		path := filepath.Join(t.TempDir(), &quot;crafted.img&quot;)
+		if err := os.WriteFile(path, img, 0o600); err != nil {
+			t.Fatal(err)
+		}
+		func() {
+			defer func() {
+				if r := recover(); r != nil {
+					t.Errorf(&quot;tspOff=%#x: Chown panicked: %v&quot;, tspOff, r)
+				}
+			}()
+			t.Logf(&quot;tspOff=%#x: Chown returned: %v&quot;, tspOff, Chown(path, VolRoleData, 0, 0, &quot;x&quot;))
+		}()
+	}
+}</code></pre>
+      <pre><code class="language-text">$ go test -count=1 -v -run TestProbeCraftedOmapNode ./pkg/apfs/
+=== RUN   TestProbeCraftedOmapNode
+    crafted_node_probe_test.go:47: tspOff=0x0: Chown returned: no volume with role 0x40 found
+    crafted_node_probe_test.go:44: tspOff=0xffff: Chown panicked: runtime error: slice bounds out of range [65591:4096]
+--- FAIL: TestProbeCraftedOmapNode (0.00s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/apfs	0.321s
+FAIL</code></pre>
+      </details>
+    <p>Fix: bound the node offsets in a follow-up (see the first concern under Design Observations), and scope the PR description to the two fields it bounds.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Parse B-tree node headers once, through one bounds-checked helper</strong> (future) <span class="pill pill-claude">Claude Opus 5</span>. <code>omapLookup</code>, <code>lookupDirEntry</code> and <code>chownInode</code> repeat the same header decode (<a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L320-L335"><code>pkg/apfs/chown.go:320-335</code></a>, again at 539-554 and 663-678). One helper that checks the ToC and every key and value offset against the block would remove most of S2&#39;s panic sites and two copies of the decode. The three descents also have no depth limit, so a node whose child resolves to itself would loop forever; Claude reasoned this and did not run it.</li>
+      <li><em></em>Keep the <code>numEntries == 0</code> check<em></em> (in-scope) <span class="pill pill-claude">Claude Opus 5</span>. It guards nothing at the review SHA, and Claude proposed removing it. Under I1&#39;s patch it becomes the only thing that stops a zero-count header from passing any power-of-two entry size up to 2 GiB to <code>make</code>, which is why the patch comment says &quot;non-empty table&quot;. A later reviewer should not re-suggest removing it.</li>
+      <li><strong>Verify the GPT header CRC</strong> (future) <span class="pill pill-claude">Claude Opus 5</span>. <code>findAPFSPartitionGPT</code> trusts LBA 1 with no integrity check, while every APFS node it reaches is Fletcher-64 checked. A CRC32 check would turn random header corruption into a clear error. The bounds stay necessary, since a crafted header can carry a valid CRC.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Bounding the table size keeps large tables working</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5</span>. Tables with more than the default 128 entries still parse, and the 256-entry case with APFS in the last slot pins that.</li>
+      <li><em></em><code>TestOpenContainerBlockSize</code> is a differential test<em></em> (in-scope) <span class="pill pill-claude">Claude Opus 5</span>. Its 65537 and 0xFFFFFFFF cases fail against the merge-base check, which had only a lower bound, and 4096 and 65536 pin both accepted edges.</li>
+      <li><strong>Keeping the hand-rolled GPT reader is right</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5</span>. go-diskfs v1.9.4, already a dependency, sizes its entry-array read from the same unbounded header fields and refuses every entry size but 128.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ol>
+      <li><strong>Two GPT bounds are unpinned</strong> (I2). Claude also notes that no case uses a table of exactly 4 MiB, so changing <code>&gt;</code> to <code>&gt;=</code> at <a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/chown.go#L151"><code>pkg/apfs/chown.go:151</code></a> would fail nothing; it reasoned this and did not run it. With I1&#39;s patch, add the probe&#39;s 8192 case as an accept test, plus a table of exactly 4 MiB.</li>
+      <li><strong>The parser&#39;s older paths have no hostile-input coverage</strong> <span class="pill pill-claude">Claude Opus 5</span>. The sparse table (S1) and crafted B-tree nodes (S2) are untested, and a <code>FuzzChown</code> target seeded with S2&#39;s image would reach the walkers quickly.</li>
+      <li><strong>Executed this round.</strong> <code>go test ./pkg/apfs</code> passes at the review SHA on macOS, <code>TestChownIntegration</code> included, which builds a real <code>hdiutil</code> image. <code>go vet</code> is clean for linux and windows. CI shows 34 checks passing and 2 Netlify checks skipped, and the <code>Unit tests (stable)</code> and <code>Windows tests (WSL2)</code> job logs show the new tests running at <a href="https://github.com/lima-vm/lima/commit/2d657a2a"><code>2d657a2a</code></a>.</li>
+    </ol>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>The commit body&#39;s &quot;UEFI 128*2^n range&quot; and the constants&#39; comment both misstate the code (I1).</li>
+      <li>Item 1 of the PR description says <code>numEntries</code> sizes the entry buffer; only <code>entrySize</code> does. Its closing claim that a crafted image &quot;should fail with an error instead of a panic&quot; holds only for the fields this PR bounds (S2). <span class="pill pill-claude">Claude Opus 5</span></li>
+      <li>The <code>nxMaxBlockSize</code> comment (<a href="https://github.com/lima-vm/lima/blob/2d657a2a911178810282a2ca44a1c556d33d7cea/pkg/apfs/types.go#L70-L74"><code>pkg/apfs/types.go:70-74</code></a>) is accurate. Claude found <code>NX_MAXIMUM_BLOCK_SIZE 65536</code> in both Apple&#39;s File System Reference and linux-apfs-rw&#39;s <code>apfs_raw.h</code>.</li>
+      <li>Nobody read the UEFI text this round, because uefi.org returned HTTP 403 to Claude. I1 rests on the 128·2ⁿ rule as the PR itself states it.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><em></em>No power-of-two check on <code>nx_block_size</code>.<em></em> Copilot asked for one, and the author <a href="https://github.com/lima-vm/lima/pull/5480#discussion_r3962542806">declined</a> because the Apple reference sets only a minimum and a maximum, a non-power value in range cannot panic or oversize an allocation, and a misaddressed read fails the Fletcher checksum. The code matches that rationale, and a later reviewer should not re-suggest the check. The reasoning does not carry over to I1. UEFI states 128·2ⁿ for GPT entries, so the author&#39;s own principle (&quot;I&#39;d rather not add a constraint the spec doesn&#39;t&quot;) supports that check and argues against the 4096 cap, which no spec states.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>Which issue the PR solves.</strong> AkihiroSuda asked &quot;What issue does this PR solve?&quot;, and the author explained and offered to open one. No issue is linked and no maintainer has replied. Lima&#39;s contributing guide asks non-maintainers to open an issue first unless a PR is very small (&quot;fewer than 2 files with about 10 lines of change&quot;), and this one touches 3 files and adds 135 lines. <span class="pill pill-claude">Claude Opus 5</span></li>
+      <li>Copilot&#39;s other two points are resolved. The count cap became a table-size bound, and <code>TestOpenContainerBlockSize</code> covers the block-size cap.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5"><span class="pill pill-claude">Claude Opus 5</span> <a href="#claude-opus-5" class="pilcrow">&#182;</a></h3>
+    <p>Claude wrote the most complete review. It proved I2 differentially, running the PR&#39;s test against the merge-base parser, and it wrote the crafted-node probe behind S2. It found both prose errors behind I1, but it filed the commit-body mismatch as a documentation note and recommended rewording the body instead of checking the spec&#39;s rule. This review rates a commit message the code contradicts as Important, and the author&#39;s own reasoning on the block size favors following the spec. Its proposal to drop the <code>numEntries == 0</code> check is right at the review SHA but would reopen a multi-gigabyte allocation under I1&#39;s fix. It also credited the no-overflow property at line 151 to the order of the checks, though a product of two <code>uint32</code> values cannot overflow <code>uint64</code> in any order.</p>
+    <h3 id="codex-gpt-5-6-sol"><span class="pill pill-codex">Codex GPT 5.6 Sol</span> <a href="#codex-gpt-5-6-sol" class="pilcrow">&#182;</a></h3>
+    <p>Codex returned no review. OpenAI&#39;s cybersecurity filter stopped it twice, right after it wrote a program that rewrites a real <code>hdiutil</code> image&#39;s GPT to hold one 8192-byte entry. Its session log shows two findings already formed. One is the 8192 refusal behind I1, which that real-image probe confirmed; the other is the worry that the rejection fixtures pass by &quot;merely hitting EOF&quot;, which is I2. Both are credited to it. It was not retried, because the retry rule covers transient errors and stalls, and a parser-hardening review invites the same probing on a rerun.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Gemini&#39;s one finding, the scan stopping at the first unused entry (S1), is real, predates the PR, was raised by no other reviewer, and came with a working reproducer. Gemini rated it Important, although production never reaches the GPT branch and the failure is a clean error. It marked <code>chown_test.go</code> as having no issues and so missed I2, and it added its reproducer to <code>chown_test.go</code> in its own worktree without mentioning the edit.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Flash&#39;s single suggestion, an int64 overflow in the LBA multiplications, did not survive. The wraparound is real, but a crafted header can already name any in-range LBA, so the overflow gives an attacker nothing new. Flash called the rejection test &quot;highly thorough&quot; and said it &quot;fully exercises all validation limits&quot;, which the mutation run contradicts. Both Gemini models missed I1 and I2, and since they share a model family, their agreement on the test file is one opinion.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5</span></th><th><span class="pill pill-codex">Codex GPT 5.6 Sol</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>17m 40s</td><td>4m 37s</td><td>3m 22s</td><td>2m 05s</td></tr>
+        <tr><td>Findings</td><td>2I 1S</td><td>2I</td><td>1S</td><td>none</td></tr>
+        <tr><td>Tool calls</td><td>37 (Bash 24, Read 9, WebFetch 3)</td><td>11 (shell 10, apply_patch 1)</td><td>17 (run<em>shell</em>command 15, read_file 2)</td><td>17 (read<em>file 7, grep</em>search 5, run<em>shell</em>command 2)</td></tr>
+        <tr><td>Design observations</td><td>5</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+        <tr><td>Unique insights</td><td>3</td><td>1</td><td>1</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>2I 1S</strong></td><td><strong>2I</strong></td><td><strong>1S</strong></td><td><strong>none</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>1 (I→S)</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p>Reconciliation: Gemini 3.1 Pro I1 (early exit on an unused GPT entry): important → suggestion S1, because it predates the PR, production never reaches the GPT branch, and the failure is a clean error. Claude Opus 5 I2 (the comment says the count sizes an allocation): merged into I1. Claude Opus 5&#39;s documentation note on the commit body: raised into I1 as an Important prose finding. Claude Opus 5 S1 (drop the <code>numEntries == 0</code> check): dropped, because I1&#39;s fix makes it the only guard against a 2 GiB allocation (see Design Observations). Gemini 3.5 Flash S1 (int64 overflow): rejected as a false positive.</p>
+    <p>Claude provided the most value. Three of the four surviving findings trace to it, and its verification record kept what it ran apart from what it reasoned. Codex&#39;s recovered log supplied the one behavioral fact nobody else ran, the 8192 refusal on a real image. Gemini 3.1 Pro contributed the only other unique finding, and Flash contributed nothing that survived.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><strong>Skill improvements</strong></p>
+    <ul>
+      <li>Add a provider content-filter refusal to the agent failure modes in Step 4. An agent can end with empty output after its provider flags its own work, for example &quot;This content was flagged for possible cybersecurity risk&quot; while it probes a parser with malformed input. Treat it like a reached deadline: record empty output, recover the findings its session log had formed, and do not retry, because a review of input-validation code invites the same probing on a rerun.</li>
+      <li>Fetch job logs with <code>gh api --allow-escape-sequences repos/{owner}/{repo}/actions/jobs/{id}/logs</code>. Without the flag, the installed <code>gh</code> refuses a log that contains terminal escape sequences, exits 1 and writes nothing, and a grep over that empty output suggests the test never ran.</li>
+      <li>When a new test&#39;s fixture works around a behavior of the code under test (a comment such as &quot;so the scan does not stop early&quot;), check whether that behavior is itself a defect. The author already hit it while writing the test.</li>
+    </ul>
+    <p><strong>Repo context updates</strong></p>
+    <ul>
+      <li><code>[repo]</code> ADD: <code>apfs.Chown</code> has one caller, the macOS guest patcher, and it passes the raw APFS container device, whose block 0 is the NX superblock. The GPT branch therefore runs only on raw image files, today only in tests. Every B-tree node is Fletcher-64 checked before use, so a malformed-field defect there needs a deliberately crafted image. Rate <code>pkg/apfs</code> parsing findings by that reach.</li>
+      <li><code>[repo]</code> ADD: Lima&#39;s contributing guide asks non-maintainers to open an issue before a PR unless it is very small (&quot;fewer than 2 files with about 10 lines of change&quot;). Report a non-maintainer PR above that size with no linked issue under Unresolved Feedback.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){var t="\\b(?:BASH|BASHOPTS|BASH_ALIASES|BASH_ARGC|BASH_ARGV|BASH_CMDS|BASH_COMPLETION_COMPAT_DIR|BASH_LINENO|BASH_REMATCH|BASH_SOURCE|BASH_VERSINFO|BASH_VERSION|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|EUID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_ADDRESS|LC_ALL|LC_IDENTIFICATION|LC_MEASUREMENT|LC_MONETARY|LC_NAME|LC_NUMERIC|LC_PAPER|LC_TELEPHONE|LC_TIME|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS1|PS2|PS3|PS4|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UID|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_CONFIG_DIRS|XDG_CURRENT_DESKTOP|XDG_DATA_DIRS|XDG_GREETER_DATA_DIR|XDG_MENU_PREFIX|XDG_RUNTIME_DIR|XDG_SEAT|XDG_SEAT_PATH|XDG_SESSION_DESKTOP|XDG_SESSION_ID|XDG_SESSION_PATH|XDG_SESSION_TYPE|XDG_VTNR|XMODIFIERS)\\b",a={pattern:/(^(["']?)\w+\2)[ \t]+\S.*/,lookbehind:!0,alias:"punctuation",inside:null},n={bash:a,environment:{pattern:RegExp("\\$"+t),alias:"constant"},variable:[{pattern:/\$?\(\([\s\S]+?\)\)/,greedy:!0,inside:{variable:[{pattern:/(^\$\(\([\s\S]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,operator:/--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,greedy:!0,inside:{variable:/^\$\(|^`|\)$|`$/}},{pattern:/\$\{[^}]+\}/,greedy:!0,inside:{operator:/:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,punctuation:/[\[\]]/,environment:{pattern:RegExp("(\\{)"+t),lookbehind:!0,alias:"constant"}}},/\$(?:\w+|[#?*!@$])/],entity:/\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/};e.languages.bash={shebang:{pattern:/^#!\s*\/.*/,alias:"important"},comment:{pattern:/(^|[^"{\\$])#.*/,lookbehind:!0},"function-name":[{pattern:/(\bfunction\s+)[\w-]+(?=(?:\s*\(?:\s*\))?\s*\{)/,lookbehind:!0,alias:"function"},{pattern:/\b[\w-]+(?=\s*\(\s*\)\s*\{)/,alias:"function"}],"for-or-select":{pattern:/(\b(?:for|select)\s+)\w+(?=\s+in\s)/,alias:"variable",lookbehind:!0},"assign-left":{pattern:/(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,inside:{environment:{pattern:RegExp("(^|[\\s;|&]|[<>]\\()"+t),lookbehind:!0,alias:"constant"}},alias:"variable",lookbehind:!0},parameter:{pattern:/(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,alias:"variable",lookbehind:!0},string:[{pattern:/((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?(?:\r?\n|\r)\2/,lookbehind:!0,greedy:!0,inside:n},{pattern:/((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?(?:\r?\n|\r)\3/,lookbehind:!0,greedy:!0,inside:{bash:a}},{pattern:/(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,lookbehind:!0,greedy:!0,inside:n},{pattern:/(^|[^$\\])'[^']*'/,lookbehind:!0,greedy:!0},{pattern:/\$'(?:[^'\\]|\\[\s\S])*'/,greedy:!0,inside:{entity:n.entity}}],environment:{pattern:RegExp("\\$?"+t),alias:"constant"},variable:n.variable,function:{pattern:/(^|[\s;|&]|[<>]\()(?:add|apropos|apt|apt-cache|apt-get|aptitude|aspell|automysqlbackup|awk|basename|bash|bc|bconsole|bg|bzip2|cal|cargo|cat|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clear|cmp|column|comm|composer|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|debootstrap|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|docker|docker-compose|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|git|gparted|grep|groupadd|groupdel|groupmod|groups|grub-mkconfig|gzip|halt|head|hg|history|host|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|ip|java|jobs|join|kill|killall|less|link|ln|locate|logname|logrotate|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|make|man|mc|mdadm|mkconfig|mkdir|mke2fs|mkfifo|mkfs|mkisofs|mknod|mkswap|mmv|more|most|mount|mtools|mtr|mutt|mv|nano|nc|netstat|nice|nl|node|nohup|notify-send|npm|nslookup|op|open|parted|passwd|paste|pathchk|ping|pkill|pnpm|podman|podman-compose|popd|pr|printcap|printenv|ps|pushd|pv|quota|quotacheck|quotactl|ram|rar|rcp|reboot|remsync|rename|renice|rev|rm|rmdir|rpm|rsync|scp|screen|sdiff|sed|sendmail|seq|service|sftp|sh|shellcheck|shuf|shutdown|sleep|slocate|sort|split|ssh|stat|strace|su|sudo|sum|suspend|swapon|sync|sysctl|tac|tail|tar|tee|time|timeout|top|touch|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|update-grub|uptime|useradd|userdel|usermod|users|uudecode|uuencode|v|vcpkg|vdir|vi|vim|virsh|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yarn|yes|zenity|zip|zsh|zypper)(?=$|[)\s;|&])/,lookbehind:!0},keyword:{pattern:/(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)(?=$|[)\s;|&])/,lookbehind:!0},builtin:{pattern:/(^|[\s;|&]|[<>]\()(?:\.|:|alias|bind|break|builtin|caller|cd|command|continue|declare|echo|enable|eval|exec|exit|export|getopts|hash|help|let|local|logout|mapfile|printf|pwd|read|readarray|readonly|return|set|shift|shopt|source|test|times|trap|type|typeset|ulimit|umask|unalias|unset)(?=$|[)\s;|&])/,lookbehind:!0,alias:"class-name"},boolean:{pattern:/(^|[\s;|&]|[<>]\()(?:false|true)(?=$|[)\s;|&])/,lookbehind:!0},"file-descriptor":{pattern:/\B&\d\b/,alias:"important"},operator:{pattern:/\d?<>|>\||\+=|=[=~]?|!=?|<<[<-]?|[&\d]?>>|\d[<>]&?|[<>][&=]?|&[>&]?|\|[&|]?/,inside:{"file-descriptor":{pattern:/^\d/,alias:"important"}}},punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,number:{pattern:/(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,lookbehind:!0}},a.inside=e.languages.bash;for(var s=["comment","function-name","for-or-select","assign-left","parameter","string","environment","function","keyword","builtin","boolean","file-descriptor","operator","punctuation","number"],o=n.variable[1].inside,i=0;i<s.length;i++)o[s[i]]=e.languages.bash[s[i]];e.languages.sh=e.languages.bash,e.languages.shell=e.languages.bash}(Prism);
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
