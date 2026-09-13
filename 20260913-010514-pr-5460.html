@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260913-010514-pr-5460</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260913-010514-pr-5460</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-09-13 01:05</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/bcollard">@bcollard</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5460" class="gh-ref" data-title="Do not identify additional disks by filesystem label" data-state="open" data-type="pr">#5460</a> — Do not identify additional disks by filesystem label</td></tr>
+      <tr><td>Branch</td><td><code>fix/additional-disks-label-truncation</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/2e1cb730"><code>2e1cb730</code></a> Do not identify additional disks by filesystem label</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/2e1cb730f0bc26517b4439e66b7a9062177a2237"><code>2e1cb730f0bc26517b4439e66b7a9062177a2237</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5</span> (effort: xhigh), <span class="pill pill-codex">Codex GPT 5.6 Sol</span> (effort: xhigh), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; identifying the disk by its filesystem is the right design, but the script no longer parses on Alpine guests, and its <code>blkid</code> guard reads an exit status that stays 0 for a partition without a filesystem</td></tr>
+      <tr><td>Wall-clock time</td><td><code>54 min 31 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR stops identifying additional disks by label and tests for a filesystem on the partition instead. That fixes the reformat-on-every-boot bug, and the test-misc CI job&#39;s restart check passes on Ubuntu. Two defects break Alpine guests. Bash arrays make <code>05-lima-disks.sh</code> unparseable under the ash that Lima runs as <code>/bin/bash</code>, so no additional disk mounts. And the <code>blkid</code> guard tests an exit status that stays 0 for a partition without a filesystem.</p>
+    <p>Four reviewers ran and all finished. Claude found both Critical defects, and Gemini 3.5 Flash pointed at the second with the wrong mechanism. This review reproduced both by booting Alpine guests with a fresh disk, and with both patches applied the same boots mounted the disk and kept it across a restart. The four Important findings are smaller. A warning fires for disks Lima never labels, a new test passes against the merge-base, comments and the commit message misstate how <code>mkfs.xfs</code> treats long labels, and a drift test skips the ext arm.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical" data-file="pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh">
+      <div class="finding-title" id="C1">
+        <span class="finding-num">C1.</span> Bash arrays make the disk script unparseable on Alpine, so no additional disk is set up <span class="pill pill-claude">Claude Opus 5</span><a href="#C1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh#L46-L59">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh</a></div>
+      <pre data-start="46" data-line="51-54"><code class="language-bash">	FSLABEL=&quot;&quot;
+	if [ &quot;$FSLABEL_MAX&quot; -gt 0 ]; then
+		FSLABEL=&quot;lima-${DISK_NAME}&quot;
+		FSLABEL=&quot;${FSLABEL:0:FSLABEL_MAX}&quot;
+	fi
+	LABEL_ARGS=()
+	if [ -n &quot;$FSLABEL&quot; ]; then
+		LABEL_ARGS=(-L &quot;$FSLABEL&quot;)
+	fi
+
+	# Do not identify the disk by its filesystem label. mkfs silently truncates
+	# labels to a filesystem-dependent length (16 bytes on ext4, 12 on xfs), so
+	# a sufficiently long DISK_NAME is formatted with a label that can never
+	# match the &quot;lima-${DISK_NAME}&quot; the guard looks for. The guard would then be</code></pre>
+    <p>On Alpine, <code>/bin/bash</code> is a shim that execs BusyBox <code>ash</code> whenever GNU bash is missing, and neither pinned Alpine image ships bash. Ash has no arrays, so it rejects the whole script at line 51.</p>
+    <p>See <a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.essential.Linux/01-alpine-ash-as-bash.sh#L11-L20"><code>pkg/cidata/cidata.TEMPLATE.d/boot.essential.Linux/01-alpine-ash-as-bash.sh:11-20</code></a> for the shim.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.essential.Linux/01-alpine-ash-as-bash.sh#L6-L20">pkg/cidata/cidata.TEMPLATE.d/boot.essential.Linux/01-alpine-ash-as-bash.sh</a></div>
+      <pre data-start="6" data-line="11-20"><code class="language-bash"># This script pretends that /bin/ash can be used as /bin/bash, so all following
+# cloud-init scripts can use `#!/bin/bash` and `set -o pipefail`.
+test -f /etc/alpine-release || exit 0
+
+# If bash already exists, do nothing.
+test -x /bin/bash &amp;&amp; exit 0
+
+# Redirect bash to ash (built with CONFIG_ASH_BASH_COMPAT) and hope for the best :)
+# It does support `set -o pipefail`, but not `[[`.
+# /bin/bash can&#39;t be a symlink because /bin/ash is a symlink to /bin/busybox
+cat &gt;/bin/bash &lt;&lt;&#39;EOF&#39;
+#!/bin/sh
+exec /bin/ash &quot;$@&quot;
+EOF
+chmod +x /bin/bash</code></pre>
+    <p><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.sh#L62-L64"><code>pkg/cidata/cidata.TEMPLATE.d/boot.sh:62-64</code></a> logs a warning and keeps booting, so <code>limactl start</code> still reports READY while no additional disk is partitioned, formatted, mounted or enabled as swap. Disks an older Lima formatted stop mounting too.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.sh#L57-L69">pkg/cidata/cidata.TEMPLATE.d/boot.sh</a></div>
+      <pre data-start="57" data-line="62-64"><code class="language-bash">run_boot_scripts() {
+	boot=&quot;$1&quot;
+	if [ -e &quot;${boot}&quot; ]; then
+		for f in &quot;${boot}&quot;/*.sh; do
+			INFO &quot;Executing $f&quot;
+			if ! &quot;$f&quot;; then
+				WARNING &quot;Failed to execute $f&quot;
+				CODE=1
+			fi
+		done
+	fi
+}
+</code></pre>
+    <p>Shellcheck follows the <code>#!/bin/bash</code> shebang, and no CI job attaches a disk to an Alpine template, so CI stays green. The probe boots <code>template:alpine-iso</code>. A hand-run boot of <code>template:alpine</code> logs the same syntax error, and on both the merge-base script mounts the disk.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash">#!/bin/bash
+# Save as probe-alpine-disk.sh; run from the lima checkout:
+#   bash probe-alpine-disk.sh [template]   # default: alpine-iso
+# Builds limactl from the checkout, boots the template with one fresh
+# additionalDisk in a throwaway LIMA_HOME, restarts it once, and reports whether
+# the disk is mounted and keeps its filesystem across the restart.
+set -eu
+tmpl=${1:-alpine-iso}
+make limactl native-guestagent templates &gt;/dev/null
+L=$PWD/_output/bin/limactl
+export LIMA_HOME=$(mktemp -d /tmp/lh-XXXXXX)
+trap &#39;&quot;$L&quot; delete -f probe &gt;/dev/null 2&gt;&amp;1; rm -rf &quot;$LIMA_HOME&quot;&#39; EXIT
+&quot;$L&quot; disk create probedisk --size 1G &gt;/dev/null 2&gt;&amp;1
+report() {
+	echo &quot;== $1 ==&quot;
+	&quot;$L&quot; shell probe sudo sh -c &#39;
+		mount | grep &quot; /mnt/lima-probedisk &quot; || echo &quot;/mnt/lima-probedisk: NOT MOUNTED&quot;
+		out=$(blkid /dev/vdb1 2&gt;/dev/null) || true; echo &quot;${out:-/dev/vdb1: no filesystem}&quot;
+		log=$(ls /var/log/lima-init.log /var/log/cloud-init-output.log 2&gt;/dev/null | head -n 1)
+		grep -E &quot;05-lima-disks.sh: |Failed to execute .*05-lima-disks|mount: .*lima-probedisk&quot; &quot;$log&quot; || true&#39;
+}
+&quot;$L&quot; start --tty=false --name=probe --set &#39;.additionalDisks=[&quot;probedisk&quot;]&#39; &quot;template:$tmpl&quot; &gt;/dev/null 2&gt;&amp;1
+report &quot;first boot&quot;
+&quot;$L&quot; shell probe sudo touch /mnt/lima-probedisk/marker 2&gt;/dev/null || true
+&quot;$L&quot; stop probe &gt;/dev/null 2&gt;&amp;1
+&quot;$L&quot; start --tty=false probe &gt;/dev/null 2&gt;&amp;1
+report &quot;after restart&quot;
+&quot;$L&quot; shell probe sh -c &#39;ls /mnt/lima-probedisk/marker 2&gt;/dev/null || echo &quot;marker: MISSING&quot;&#39;</code></pre>
+      <pre><code class="language-text">$ bash probe-alpine-disk.sh
+# github.com/lima-vm/lima/v2/cmd/limactl
+ld: warning: ignoring duplicate libraries: &#39;-lobjc&#39;
+_output/bin/limactl: replacing existing signature
+_output/bin/limactl: signed Mach-O thin (arm64) [limactl-55554944a5981640087034a48a5365ab3fdec5c5]
++ gzip -n _output/share/lima/lima-guestagent.Linux-aarch64
++ gzip -n _output/share/lima/lima-guestagent.Darwin-aarch64
+== first boot ==
+/mnt/lima-probedisk: NOT MOUNTED
+/dev/vdb1: no filesystem
+/mnt/lima-cidata/boot.Linux/05-lima-disks.sh: line 51: syntax error: unexpected &quot;(&quot; (expecting &quot;done&quot;)
+LIMA 2026-09-13T01:24:53-07:00| WARNING: Failed to execute /mnt/lima-cidata/boot.Linux/05-lima-disks.sh
+== after restart ==
+/mnt/lima-probedisk: NOT MOUNTED
+/dev/vdb1: no filesystem
+/mnt/lima-cidata/boot.Linux/05-lima-disks.sh: line 51: syntax error: unexpected &quot;(&quot; (expecting &quot;done&quot;)
+LIMA 2026-09-13T01:25:35-07:00| WARNING: Failed to execute /mnt/lima-cidata/boot.Linux/05-lima-disks.sh
+marker: MISSING
+$ git show 87c24e9575a602b8de5e97265fbac464704ad2f4:pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh &gt;pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh
+$ bash probe-alpine-disk.sh
++ gunzip -f _output/share/lima/lima-guestagent.Linux-aarch64.gz
++ gunzip -f _output/share/lima/lima-guestagent.Darwin-aarch64.gz
+# github.com/lima-vm/lima/v2/cmd/limactl
+ld: warning: ignoring duplicate libraries: &#39;-lobjc&#39;
+_output/bin/limactl: replacing existing signature
+_output/bin/limactl: signed Mach-O thin (arm64) [limactl-55554944c89b4b93ffe83f7face5571e626a3239]
++ gzip -n _output/share/lima/lima-guestagent.Linux-aarch64
++ gzip -n _output/share/lima/lima-guestagent.Darwin-aarch64
+== first boot ==
+/dev/vdb1 on /mnt/lima-probedisk type ext4 (rw,relatime)
+/dev/vdb1: LABEL=&quot;lima-probedisk&quot; UUID=&quot;8da5bb40-506b-4f81-99fc-c7bf5b1d8da6&quot; TYPE=&quot;ext4&quot;
+== after restart ==
+/dev/vdb1 on /mnt/lima-probedisk type ext4 (rw,relatime)
+/dev/vdb1: LABEL=&quot;lima-probedisk&quot; UUID=&quot;8da5bb40-506b-4f81-99fc-c7bf5b1d8da6&quot; TYPE=&quot;ext4&quot;
+/mnt/lima-probedisk/marker</code></pre>
+      </details>
+    <p>Fix: drop the array and pass <code>${FSLABEL:+-L &quot;$FSLABEL&quot;}</code>, which ash and bash both expand to <code>-L lima-…</code> or to nothing. C2 shows this probe with both patches applied.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh b/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh
+index 43595e21..ce046804 100644
+--- a/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh
++++ b/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh
+@@ -48,10 +48,6 @@ for i in $(seq 0 $((LIMA_CIDATA_DISKS - 1))); do
+ 		FSLABEL=&quot;lima-${DISK_NAME}&quot;
+ 		FSLABEL=&quot;${FSLABEL:0:FSLABEL_MAX}&quot;
+ 	fi
+-	LABEL_ARGS=()
+-	if [ -n &quot;$FSLABEL&quot; ]; then
+-		LABEL_ARGS=(-L &quot;$FSLABEL&quot;)
+-	fi
+ 
+ 	# Do not identify the disk by its filesystem label. mkfs silently truncates
+ 	# labels to a filesystem-dependent length (16 bytes on ext4, 12 on xfs), so
+@@ -82,13 +78,13 @@ for i in $(seq 0 $((LIMA_CIDATA_DISKS - 1))); do
+ 				# failure: a missing udevadm must not kill boot under set -e.
+ 				udevadm settle || true
+ 				# shellcheck disable=SC2086
+-				mkswap $FORMAT_FSARGS &quot;${LABEL_ARGS[@]}&quot; &quot;$PARTITION&quot;
++				mkswap $FORMAT_FSARGS ${FSLABEL:+-L &quot;$FSLABEL&quot;} &quot;$PARTITION&quot;
+ 			else
+ 				echo &quot;type=linux,name=${PARTLABEL}&quot; | sfdisk --label gpt &quot;/dev/${DEVICE_NAME}&quot;
+ 				# As above: let the partition node appear before mkfs opens it.
+ 				udevadm settle || true
+ 				# shellcheck disable=SC2086
+-				mkfs.$FORMAT_FSTYPE $FORMAT_FSARGS &quot;${LABEL_ARGS[@]}&quot; &quot;$PARTITION&quot;
++				mkfs.$FORMAT_FSTYPE $FORMAT_FSARGS ${FSLABEL:+-L &quot;$FSLABEL&quot;} &quot;$PARTITION&quot;
+ 			fi
+ 		fi
+ 	fi</code></pre>
+      </details>
+    </div>
+    <div class="card card-critical" data-file="pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh">
+      <div class="finding-title" id="C2">
+        <span class="finding-num">C2.</span> The guard reads <code>blkid</code>&#39;s exit status, which is 0 for a partition without a filesystem <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#C2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh#L70-L80">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh</a></div>
+      <pre data-start="70" data-line="75"><code class="language-bash">	# The TYPE tag is queried specifically, not just whether blkid recognizes
+	# the partition at all: on GPT, blkid reports PARTUUID/PARTLABEL for a bare
+	# partition-table entry before it ever has a filesystem, so testing for any
+	# blkid output would treat a boot interrupted between sfdisk and mkfs as
+	# already formatted -- and then fail at mount/swapon on every later boot.
+	if ! blkid -o value -s TYPE &quot;$PARTITION&quot; &gt;/dev/null 2&gt;&amp;1; then
+		# first time setup
+		if $FORMAT_DISK; then
+			if [ &quot;$FORMAT_FSTYPE&quot; == &quot;swap&quot; ]; then
+				echo &quot;type=swap,name=${PARTLABEL}&quot; | sfdisk --label gpt &quot;/dev/${DEVICE_NAME}&quot;
+				# sfdisk&#39;s BLKRRPART emits a uevent for the new partition; settle</code></pre>
+    <p><code>-s TYPE</code> filters what <code>blkid</code> prints but not its exit status.</p>
+    <p>BusyBox <code>blkid</code>, alpine-iso&#39;s <code>/sbin/blkid</code>, ignores <code>-o</code> and <code>-s</code> and exits 0 for a missing device. With C1 fixed, first-time setup never runs there and the <code>mount</code> fails on every boot, so this patch must land with C1&#39;s.</p>
+    <p>util-linux <code>blkid</code> exits 0 for a GPT partition without a filesystem. So the script never formats such a partition, though lines 70-74 say the TYPE query handles it. At the merge-base, the next boot retried. An interrupted boot or a failed <code>mkfs</code> leaves that state, and so does the merge-base for every xfs disk with a name over 7 characters, since <code>mkfs.xfs</code> rejects its unclamped label after <code>sfdisk</code> has run (I3).</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh#L65-L79">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh</a></div>
+      <pre data-start="65" data-line="70-74"><code class="language-bash">	# by older Lima versions, which must never be reformatted on upgrade.
+	#
+	# blkid is probed rather than tested through /dev/disk/by-*: those symlinks
+	# depend on udev having probed the device, and can be absent or stale.
+	#
+	# The TYPE tag is queried specifically, not just whether blkid recognizes
+	# the partition at all: on GPT, blkid reports PARTUUID/PARTLABEL for a bare
+	# partition-table entry before it ever has a filesystem, so testing for any
+	# blkid output would treat a boot interrupted between sfdisk and mkfs as
+	# already formatted -- and then fail at mount/swapon on every later boot.
+	if ! blkid -o value -s TYPE &quot;$PARTITION&quot; &gt;/dev/null 2&gt;&amp;1; then
+		# first time setup
+		if $FORMAT_DISK; then
+			if [ &quot;$FORMAT_FSTYPE&quot; == &quot;swap&quot; ]; then
+				echo &quot;type=swap,name=${PARTLABEL}&quot; | sfdisk --label gpt &quot;/dev/${DEVICE_NAME}&quot;</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash">#!/bin/bash
+# Save as probe-blkid-guard.sh; run from the lima checkout: bash probe-blkid-guard.sh
+# Needs docker and --privileged (loop devices). Evaluates the first-time-setup
+# guard line of 05-lima-disks.sh against four partition states, once with
+# BusyBox blkid (Alpine&#39;s default) and once with util-linux blkid.
+set -eu
+guard=$(sed -n &#39;s/^[[:space:]]*if \(.*blkid.*\); then$/\1/p&#39; pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh)
+echo &quot;guard under test: $guard&quot;
+docker run -i --rm --privileged -e GUARD=&quot;$guard&quot; alpine:3.22 sh -s &lt;&lt;&#39;EOF&#39;
+set -eu
+apk add -q sfdisk e2fsprogs losetup &gt;/dev/null
+truncate -s 64M /tmp/disk.img
+dev=$(losetup -fP --show /tmp/disk.img)
+name=$(basename &quot;$dev&quot;)
+PARTITION=&quot;${dev}p1&quot;
+check() { if eval &quot;$GUARD&quot;; then echo &quot;  $1 FORMAT&quot;; else echo &quot;  $1 skip&quot;; fi; }
+run() {
+	echo &quot;== $1 (want: FORMAT FORMAT skip skip) ==&quot;
+	check &quot;fresh disk, no partition table:&quot;
+	echo &#39;type=linux,name=lima-data&#39; | sfdisk -q --label gpt &quot;$dev&quot;
+	[ -b &quot;$PARTITION&quot; ] || mknod &quot;$PARTITION&quot; b $(tr &#39;:&#39; &#39; &#39; &lt;&quot;/sys/block/$name/${name}p1/dev&quot;)
+	check &quot;GPT partition, no filesystem:  &quot;
+	mkfs.ext4 -q &quot;$PARTITION&quot;
+	check &quot;ext4 filesystem:               &quot;
+	dd if=/dev/zero of=&quot;$PARTITION&quot; bs=1M count=1 status=none
+	mkswap &quot;$PARTITION&quot; &gt;/dev/null
+	check &quot;swap signature:                &quot;
+	dd if=/dev/zero of=&quot;$dev&quot; bs=1M count=4 status=none
+	blockdev --rereadpt &quot;$dev&quot; 2&gt;/dev/null || true
+	rm -f &quot;$PARTITION&quot;
+}
+run &quot;BusyBox blkid&quot;
+apk add -q blkid &gt;/dev/null
+run &quot;util-linux blkid&quot;
+losetup -d &quot;$dev&quot;
+EOF</code></pre>
+      <pre><code class="language-text">$ bash probe-blkid-guard.sh        # at the review SHA
+guard under test: ! blkid -o value -s TYPE &quot;$PARTITION&quot; &gt;/dev/null 2&gt;&amp;1
+== BusyBox blkid (want: FORMAT FORMAT skip skip) ==
+  fresh disk, no partition table: skip
+  GPT partition, no filesystem:   skip
+  ext4 filesystem:                skip
+  swap signature:                 skip
+== util-linux blkid (want: FORMAT FORMAT skip skip) ==
+  fresh disk, no partition table: FORMAT
+  GPT partition, no filesystem:   skip
+  ext4 filesystem:                skip
+  swap signature:                 skip
+$ bash probe-blkid-guard.sh        # with the patch block below applied
+guard under test: [ -z &quot;$(blkid -o value -s TYPE &quot;$PARTITION&quot; 2&gt;/dev/null)&quot; ]
+== BusyBox blkid (want: FORMAT FORMAT skip skip) ==
+  fresh disk, no partition table: FORMAT
+  GPT partition, no filesystem:   FORMAT
+  ext4 filesystem:                skip
+  swap signature:                 skip
+== util-linux blkid (want: FORMAT FORMAT skip skip) ==
+  fresh disk, no partition table: FORMAT
+  GPT partition, no filesystem:   FORMAT
+  ext4 filesystem:                skip
+  swap signature:                 skip</code></pre>
+      </details>
+    <p>The C1 probe, with C1&#39;s patch and then with both:</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-text">$ git apply c1.patch        # C1&#39;s patch block
+$ bash probe-alpine-disk.sh
++ gunzip -f _output/share/lima/lima-guestagent.Linux-aarch64.gz
++ gunzip -f _output/share/lima/lima-guestagent.Darwin-aarch64.gz
+# github.com/lima-vm/lima/v2/cmd/limactl
+ld: warning: ignoring duplicate libraries: &#39;-lobjc&#39;
+_output/bin/limactl: replacing existing signature
+_output/bin/limactl: signed Mach-O thin (arm64) [limactl-5555494488e79e5ea0c43442be1cbf99c94f44a9]
++ gzip -n _output/share/lima/lima-guestagent.Linux-aarch64
++ gzip -n _output/share/lima/lima-guestagent.Darwin-aarch64
+== first boot ==
+/mnt/lima-probedisk: NOT MOUNTED
+/dev/vdb1: no filesystem
+mount: mounting /dev/vdb1 on /mnt/lima-probedisk failed: No such file or directory
+LIMA 2026-09-13T01:25:50-07:00| WARNING: Failed to execute /mnt/lima-cidata/boot.Linux/05-lima-disks.sh
+== after restart ==
+/mnt/lima-probedisk: NOT MOUNTED
+/dev/vdb1: no filesystem
+mount: mounting /dev/vdb1 on /mnt/lima-probedisk failed: No such file or directory
+LIMA 2026-09-13T01:26:29-07:00| WARNING: Failed to execute /mnt/lima-cidata/boot.Linux/05-lima-disks.sh
+marker: MISSING
+$ git apply c2.patch        # the patch block below
+$ bash probe-alpine-disk.sh
+# github.com/lima-vm/lima/v2/cmd/limactl
+ld: warning: ignoring duplicate libraries: &#39;-lobjc&#39;
+_output/bin/limactl: replacing existing signature
+_output/bin/limactl: signed Mach-O thin (arm64) [limactl-5555494448af4292a1473d54bb554c5e0aea8bfb]
++ gzip -n _output/share/lima/lima-guestagent.Linux-aarch64
++ gzip -n _output/share/lima/lima-guestagent.Darwin-aarch64
+== first boot ==
+/dev/vdb1 on /mnt/lima-probedisk type ext4 (rw,relatime)
+/dev/vdb1: LABEL=&quot;lima-probedisk&quot; UUID=&quot;dd1d6411-dce2-4fe0-b245-d1797352de3a&quot; TYPE=&quot;ext4&quot;
+== after restart ==
+/dev/vdb1 on /mnt/lima-probedisk type ext4 (rw,relatime)
+/dev/vdb1: LABEL=&quot;lima-probedisk&quot; UUID=&quot;dd1d6411-dce2-4fe0-b245-d1797352de3a&quot; TYPE=&quot;ext4&quot;
+/mnt/lima-probedisk/marker</code></pre>
+      </details>
+    <p>Fix: test the output, which both implementations leave empty for a missing device or a bare partition.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh b/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh
+index 43595e21..1b432d0b 100644
+--- a/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh
++++ b/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh
+@@ -72,7 +72,10 @@ for i in $(seq 0 $((LIMA_CIDATA_DISKS - 1))); do
+ 	# partition-table entry before it ever has a filesystem, so testing for any
+ 	# blkid output would treat a boot interrupted between sfdisk and mkfs as
+ 	# already formatted -- and then fail at mount/swapon on every later boot.
+-	if ! blkid -o value -s TYPE &quot;$PARTITION&quot; &gt;/dev/null 2&gt;&amp;1; then
++	# Test the output instead of the exit status. util-linux blkid exits 0
++	# for such a bare entry even with -s TYPE. BusyBox blkid ignores -o and -s
++	# and always exits 0, but prints a line only when it finds a filesystem.
++	if [ -z &quot;$(blkid -o value -s TYPE &quot;$PARTITION&quot; 2&gt;/dev/null)&quot; ]; then
+ 		# first time setup
+ 		if $FORMAT_DISK; then
+ 			if [ &quot;$FORMAT_FSTYPE&quot; == &quot;swap&quot; ]; then</code></pre>
+      </details>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file="pkg/limayaml/validate.go">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> The label warning fires for disks Lima never labels <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-claude">Claude Opus 5</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/limayaml/validate.go#L117-L128">pkg/limayaml/validate.go</a></div>
+      <pre data-start="117" data-line="122-123"><code class="language-go">
+	for i, disk := range y.AdditionalDisks {
+		if err := identifiers.Validate(disk.Name); err != nil {
+			errs = errors.Join(errs, fmt.Errorf(&quot;field `additionalDisks[%d].name is invalid`: %w&quot;, i, err))
+		}
+		if warn {
+			fsType := DefaultDiskFSType
+			if disk.FSType != nil &amp;&amp; *disk.FSType != &quot;&quot; {
+				fsType = *disk.FSType
+			}
+			// A maxLen of 0 means Lima does not know the label limit for fsType;
+			// the boot script omits the label rather than guess, so there is</code></pre>
+    <p>The warning says &quot;the label will be truncated&quot;, but only the Linux boot script writes a label, and only when it formats the disk.</p>
+    <p>See <a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh#L77"><code>pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh:77</code></a> for the format check.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh#L72-L82">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh</a></div>
+      <pre data-start="72" data-line="77"><code class="language-bash">	# partition-table entry before it ever has a filesystem, so testing for any
+	# blkid output would treat a boot interrupted between sfdisk and mkfs as
+	# already formatted -- and then fail at mount/swapon on every later boot.
+	if ! blkid -o value -s TYPE &quot;$PARTITION&quot; &gt;/dev/null 2&gt;&amp;1; then
+		# first time setup
+		if $FORMAT_DISK; then
+			if [ &quot;$FORMAT_FSTYPE&quot; == &quot;swap&quot; ]; then
+				echo &quot;type=swap,name=${PARTLABEL}&quot; | sfdisk --label gpt &quot;/dev/${DEVICE_NAME}&quot;
+				# sfdisk&#39;s BLKRRPART emits a uevent for the new partition; settle
+				# so the device node exists before mkswap opens it. Tolerate
+				# failure: a missing udevadm must not kill boot under set -e.</code></pre>
+    <p>With <code>format: false</code> the script never runs <code>mkfs</code>. And no Darwin or FreeBSD guest has a disk script, because only <code>boot.Linux/05-lima-disks.sh</code> reads <code>LIMA_CIDATA_DISK_*</code>. Both configurations get a warning about a truncation that never happens.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as pkg/limayaml/probe_format_false_test.go; run:
+//   go test ./pkg/limayaml/ -run TestProbeUnlabeledDiskWarning -count=1 -v
+package limayaml
+
+import (
+	&quot;strings&quot;
+	&quot;testing&quot;
+
+	logrustest &quot;github.com/sirupsen/logrus/hooks/test&quot;
+	&quot;gotest.tools/v3/assert&quot;
+)
+
+// Lima writes a filesystem label only when the Linux boot script formats the
+// disk, so neither of these configurations should warn about truncating one.
+func TestProbeUnlabeledDiskWarning(t *testing.T) {
+	for name, yml := range map[string]string{
+		&quot;format: false&quot;: &quot;additionalDisks: [{name: preformatted-disk, format: false}]&quot;,
+		&quot;darwin guest&quot;:  &quot;os: Darwin\nadditionalDisks: [{name: preformatted-disk}]&quot;,
+	} {
+		t.Run(name, func(t *testing.T) {
+			y, err := Load(t.Context(), []byte(&quot;mountType: reverse-sshfs\nimages: [{location: /}]\n&quot;+yml), &quot;lima.yaml&quot;)
+			assert.NilError(t, err)
+			hook := logrustest.NewGlobal()
+			_ = Validate(y, true)
+			for _, e := range hook.AllEntries() {
+				if strings.Contains(e.Message, &quot;too long for a&quot;) {
+					t.Errorf(&quot;warning for a disk Lima never labels: %s&quot;, e.Message)
+				}
+			}
+		})
+	}
+}</code></pre>
+      <pre><code class="language-text">$ go test ./pkg/limayaml/ -run TestProbeUnlabeledDiskWarning -count=1 -v 2&gt;&amp;1 | grep -v &#39;^time=&#39;        # at the review SHA
+=== RUN   TestProbeUnlabeledDiskWarning
+=== RUN   TestProbeUnlabeledDiskWarning/format:_false
+    probe_format_false_test.go:27: warning for a disk Lima never labels: field `additionalDisks[0].name`: `preformatted-disk` is too long for a ext4 filesystem label; the label will be truncated to `lima-preformatte`. The disk itself is unaffected: Lima does not identify it by label.
+=== RUN   TestProbeUnlabeledDiskWarning/darwin_guest
+    probe_format_false_test.go:27: warning for a disk Lima never labels: field `additionalDisks[0].name`: `preformatted-disk` is too long for a ext4 filesystem label; the label will be truncated to `lima-preformatte`. The disk itself is unaffected: Lima does not identify it by label.
+--- FAIL: TestProbeUnlabeledDiskWarning (0.00s)
+    --- FAIL: TestProbeUnlabeledDiskWarning/format:_false (0.00s)
+    --- FAIL: TestProbeUnlabeledDiskWarning/darwin_guest (0.00s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/limayaml	0.464s
+FAIL
+$ go test ./pkg/limayaml/ -run TestProbeUnlabeledDiskWarning -count=1 -v 2&gt;&amp;1 | grep -v &#39;^time=&#39;        # with the patch block below applied
+=== RUN   TestProbeUnlabeledDiskWarning
+=== RUN   TestProbeUnlabeledDiskWarning/format:_false
+=== RUN   TestProbeUnlabeledDiskWarning/darwin_guest
+--- PASS: TestProbeUnlabeledDiskWarning (0.01s)
+    --- PASS: TestProbeUnlabeledDiskWarning/format:_false (0.01s)
+    --- PASS: TestProbeUnlabeledDiskWarning/darwin_guest (0.00s)
+PASS
+ok  	github.com/lima-vm/lima/v2/pkg/limayaml	0.423s</code></pre>
+      </details>
+    <p>Fix: warn only for Linux guests and for disks Lima formats.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/limayaml/validate.go b/pkg/limayaml/validate.go
+index a794e611..38e07bfa 100644
+--- a/pkg/limayaml/validate.go
++++ b/pkg/limayaml/validate.go
+@@ -119,7 +119,8 @@ func Validate(y *limatype.LimaYAML, warn bool) error {
+ 		if err := identifiers.Validate(disk.Name); err != nil {
+ 			errs = errors.Join(errs, fmt.Errorf(&quot;field `additionalDisks[%d].name is invalid`: %w&quot;, i, err))
+ 		}
+-		if warn {
++		// Only the Linux boot script labels a disk, and only when it formats it.
++		if warn &amp;&amp; *y.OS == limatype.LINUX &amp;&amp; (disk.Format == nil || *disk.Format) {
+ 			fsType := DefaultDiskFSType
+ 			if disk.FSType != nil &amp;&amp; *disk.FSType != &quot;&quot; {
+ 				fsType = *disk.FSType</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/limayaml/validate_test.go">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> The new validation test never runs the warning, and it passes against the merge-base <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/limayaml/validate_test.go#L313-L324">pkg/limayaml/validate_test.go</a></div>
+      <pre data-start="313" data-line="318-319"><code class="language-go">    fsType: &quot;xfs&quot;
+`
+	y, err = Load(t.Context(), []byte(longDisks+&quot;\n&quot;+images), &quot;lima.yaml&quot;)
+	assert.NilError(t, err)
+
+	err = Validate(y, false)
+	assert.NilError(t, err)
+}
+
+func TestValidateParamName(t *testing.T) {
+	images := `images: [{&quot;location&quot;: &quot;/&quot;}]`
+	validProvision := `provision: [{&quot;script&quot;: &quot;echo $PARAM_name $PARAM_NAME $PARAM_Name_123&quot;}]`</code></pre>
+    <p>The warning is under <code>if warn</code>, and this case passes <code>false</code>, so the new branch never runs. Validation accepted these names before the PR as well, so the whole test passes against the merge-base <code>validate.go</code>. That makes the &quot;Regression test&quot; comment at line 307 false, and with it the PR description&#39;s &quot;unit tests for … the validation warning&quot;. The xfs entry is not even over-long, since <code>lima-project</code> is exactly the 12 bytes xfs allows.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/limayaml/validate_test.go#L302-L312">pkg/limayaml/validate_test.go</a></div>
+      <pre data-start="302" data-line="307"><code class="language-go">	assert.Error(t, err, &quot;field `additionalDisks[0].name is invalid`: identifier must not be empty&quot;)
+
+	// A name too long to fit in the filesystem label is still valid: the label
+	// is truncated, but Lima does not identify the disk by its label. Rejecting
+	// these would break configurations that work correctly.
+	// Regression test: such disks used to be reformatted on every boot.
+	longDisks := `
+additionalDisks:
+  - name: &quot;myproject-images&quot;
+    fsType: &quot;ext4&quot;
+  - name: &quot;project&quot;</code></pre>
+    <p>See <a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/limayaml/validate.go#L122"><code>pkg/limayaml/validate.go:122</code></a> for the <code>warn</code> branch.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/limayaml/validate.go#L117-L127">pkg/limayaml/validate.go</a></div>
+      <pre data-start="117" data-line="122"><code class="language-go">
+	for i, disk := range y.AdditionalDisks {
+		if err := identifiers.Validate(disk.Name); err != nil {
+			errs = errors.Join(errs, fmt.Errorf(&quot;field `additionalDisks[%d].name is invalid`: %w&quot;, i, err))
+		}
+		if warn {
+			fsType := DefaultDiskFSType
+			if disk.FSType != nil &amp;&amp; *disk.FSType != &quot;&quot; {
+				fsType = *disk.FSType
+			}
+			// A maxLen of 0 means Lima does not know the label limit for fsType;</code></pre>
+    <p>A fixture for <code>Validate(y, true)</code> needs a <code>mountType</code>. <code>Load</code> leaves it nil until the driver fills it in, and <code>warnExperimental</code> dereferences it.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash">#!/bin/bash
+# Save as probe-validate-test.sh; run from the lima checkout: bash probe-validate-test.sh
+# Runs TestValidateAdditionalDisks against validate.go from the merge-base,
+# which has no label-length warning at all.
+set -eu
+f=pkg/limayaml/validate.go
+cp &quot;$f&quot; &quot;$f.pr&quot;
+trap &#39;mv &quot;$f.pr&quot; &quot;$f&quot;&#39; EXIT
+git show 87c24e9575a602b8de5e97265fbac464704ad2f4:&quot;$f&quot; &gt;&quot;$f&quot;
+go test ./pkg/limayaml/ -run &#39;TestValidateAdditionalDisks$&#39; -count=1 -v 2&gt;&amp;1 | grep -E &#39;^(--- |ok|FAIL)&#39;</code></pre>
+      <pre><code class="language-text">$ bash probe-validate-test.sh        # at the review SHA
+--- PASS: TestValidateAdditionalDisks (0.01s)
+ok  	github.com/lima-vm/lima/v2/pkg/limayaml	0.423s
+$ bash probe-validate-test.sh        # with the patch block below applied
+--- FAIL: TestValidateAdditionalDisks (0.01s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/limayaml	0.415s
+FAIL</code></pre>
+      </details>
+    <p>Fix: capture logrus, validate with <code>warn</code> set, and expect one warning per over-long name. Against the merge-base the patched test fails with <code>assertion failed: 0 (int) != 2 (int)</code>.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/limayaml/validate_test.go b/pkg/limayaml/validate_test.go
+index c2bc7b3d..83df79b0 100644
+--- a/pkg/limayaml/validate_test.go
++++ b/pkg/limayaml/validate_test.go
+@@ -6,8 +6,10 @@ package limayaml
+ import (
+ 	&quot;fmt&quot;
+ 	&quot;runtime&quot;
++	&quot;strings&quot;
+ 	&quot;testing&quot;
+ 
++	logrustest &quot;github.com/sirupsen/logrus/hooks/test&quot;
+ 	&quot;gotest.tools/v3/assert&quot;
+ 
+ 	&quot;github.com/lima-vm/lima/v2/pkg/limatype&quot;
+@@ -303,20 +305,32 @@ additionalDisks:
+ 
+ 	// A name too long to fit in the filesystem label is still valid: the label
+ 	// is truncated, but Lima does not identify the disk by its label. Rejecting
+-	// these would break configurations that work correctly.
+-	// Regression test: such disks used to be reformatted on every boot.
++	// these would break configurations that work correctly. Validate warns
++	// instead, once for each such disk. Validate(y, true) also runs
++	// warnExperimental, which needs mountType; Load leaves it unset.
+ 	longDisks := `
++mountType: &quot;reverse-sshfs&quot;
+ additionalDisks:
+   - name: &quot;myproject-images&quot;
+     fsType: &quot;ext4&quot;
+-  - name: &quot;project&quot;
++  - name: &quot;project1&quot;
+     fsType: &quot;xfs&quot;
+ `
+ 	y, err = Load(t.Context(), []byte(longDisks+&quot;\n&quot;+images), &quot;lima.yaml&quot;)
+ 	assert.NilError(t, err)
+ 
+-	err = Validate(y, false)
++	hook := logrustest.NewGlobal()
++	err = Validate(y, true)
+ 	assert.NilError(t, err)
++	var warnings []string
++	for _, e := range hook.AllEntries() {
++		if strings.Contains(e.Message, &quot;too long for a&quot;) {
++			warnings = append(warnings, e.Message)
++		}
++	}
++	assert.Equal(t, len(warnings), 2)
++	assert.Assert(t, strings.Contains(warnings[0], &quot;`lima-myproject-i`&quot;), warnings[0])
++	assert.Assert(t, strings.Contains(warnings[1], &quot;`lima-project`&quot;), warnings[1])
+ }
+ 
+ func TestValidateParamName(t *testing.T) {</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> The comments and the commit message misstate the label limits <span class="pill pill-claude">Claude Opus 5</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh#L51-L63">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh</a></div>
+      <pre data-start="51" data-line="56-58"><code class="language-bash">	LABEL_ARGS=()
+	if [ -n &quot;$FSLABEL&quot; ]; then
+		LABEL_ARGS=(-L &quot;$FSLABEL&quot;)
+	fi
+
+	# Do not identify the disk by its filesystem label. mkfs silently truncates
+	# labels to a filesystem-dependent length (16 bytes on ext4, 12 on xfs), so
+	# a sufficiently long DISK_NAME is formatted with a label that can never
+	# match the &quot;lima-${DISK_NAME}&quot; the guard looks for. The guard would then be
+	# true on every boot and mkfs would run again, destroying the contents of
+	# the very disk the user created to persist data.
+	#
+	# A partition that already carries a filesystem has been through first-time</code></pre>
+    <p><code>mkfs.xfs</code> refuses an over-long label and exits 1, as lines 33-35 of the same file say. So at the merge-base a long xfs name was never formatted at all, rather than reformatted on each boot, and C2 covers the unformatted partition this left behind. The commit message repeats the &quot;12 on xfs&quot; truncation claim, then contradicts it two paragraphs later.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh#L28-L40">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh</a></div>
+      <pre data-start="28" data-line="33-35"><code class="language-bash">	# convenience for the user (/dev/disk/by-partlabel/), never the signal
+	# tested below, so truncating an over-long name here is harmless.
+	PARTLABEL=&quot;lima-${DISK_NAME}&quot;
+	PARTLABEL=&quot;${PARTLABEL:0:36}&quot;
+
+	# Clamp the filesystem label to what the filesystem accepts: mkfs.ext4
+	# truncates an over-long label silently, but mkfs.xfs treats it as an error
+	# and would abort the boot. Like PARTLABEL this is now only a convenience
+	# for the user, so truncation costs nothing. For an fsType not listed here,
+	# the limit (and even whether mkfs.$FORMAT_FSTYPE accepts a label at all)
+	# is unknown, so no label is set rather than guess and risk aborting boot.
+	case &quot;$FORMAT_FSTYPE&quot; in
+	ext2 | ext3 | ext4) FSLABEL_MAX=16 ;;</code></pre>
+    <p><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/hack/test-templates/test-misc.yaml#L110"><code>hack/test-templates/test-misc.yaml:110</code></a> and <a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/hack/test-templates.sh#L177-L178"><code>hack/test-templates.sh:177-178</code></a> give the ext4 limit as <code>(&quot;lima-&quot; + 16 bytes)</code>. The 16 bytes include the prefix, so any name over 11 characters overflows.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/hack/test-templates/test-misc.yaml#L105-L115">hack/test-templates/test-misc.yaml</a></div>
+      <pre data-start="105" data-line="110"><code class="language-yaml">additionalDisks:
+- &quot;data&quot;
+- name: &quot;swap&quot;
+  format: true
+  fsType: swap
+# The name does not fit in an ext4 filesystem label (&quot;lima-&quot; + 16 bytes), so the
+# label is truncated. The disk must still be recognised as already formatted on
+# the next boot, rather than reformatted.
+- name: &quot;data-with-a-long-name&quot;
+
+user:</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/hack/test-templates.sh#L172-L183">hack/test-templates.sh</a></div>
+      <pre data-start="172" data-line="177-178"><code class="language-bash">	fi
+	if ! limactl disk ls | grep -q &quot;^swap\s&quot;; then
+		defer &quot;limactl disk delete swap&quot;
+		limactl disk create swap --size 2G
+	fi
+	# The name is deliberately longer than an ext4 label can hold
+	# (&quot;lima-&quot; + 16 bytes): such a disk used to be reformatted on every boot.
+	if [[ -z &quot;$(limactl disk ls data-with-a-long-name --json 2&gt;/dev/null)&quot; ]]; then
+		defer &quot;limactl disk delete data-with-a-long-name&quot;
+		limactl disk create data-with-a-long-name --size 1G
+	fi
+fi</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash">#!/bin/bash
+# Save as probe-xfs-label.sh; run: bash probe-xfs-label.sh   (needs docker)
+# Formats an image file with mkfs.xfs, once with a 13-byte label and once
+# with a 12-byte one.
+docker run -i --rm alpine:3.22 sh -s &lt;&lt;&#39;EOF&#39;
+apk add -q xfsprogs &gt;/dev/null
+truncate -s 300M /tmp/x.img
+for label in lima-data-lon lima-data-lo; do
+	mkfs.xfs -q -f -L &quot;$label&quot; /tmp/x.img 2&gt;/tmp/err
+	echo &quot;${#label}-byte label: exit=$?$(head -n 1 /tmp/err | sed &#39;s/^/, /&#39;)&quot;
+done
+mkfs.xfs -V
+EOF</code></pre>
+      <pre><code class="language-text">$ bash probe-xfs-label.sh
+13-byte label: exit=1, Invalid value lima-data-lon for -L option
+12-byte label: exit=0
+mkfs.xfs version 6.14.0</code></pre>
+      </details>
+    <p>Fix: correct the three comments as below, and the commit message to match.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/hack/test-templates.sh b/hack/test-templates.sh
+index 8e424303..9289cc58 100755
+--- a/hack/test-templates.sh
++++ b/hack/test-templates.sh
+@@ -174,8 +174,8 @@ if [[ -n ${CHECKS[&quot;disk&quot;]} ]]; then
+ 		defer &quot;limactl disk delete swap&quot;
+ 		limactl disk create swap --size 2G
+ 	fi
+-	# The name is deliberately longer than an ext4 label can hold
+-	# (&quot;lima-&quot; + 16 bytes): such a disk used to be reformatted on every boot.
++	# The name is deliberately longer than an ext4 label can hold (16 bytes,
++	# including &quot;lima-&quot;): such a disk used to be reformatted on every boot.
+ 	if [[ -z &quot;$(limactl disk ls data-with-a-long-name --json 2&gt;/dev/null)&quot; ]]; then
+ 		defer &quot;limactl disk delete data-with-a-long-name&quot;
+ 		limactl disk create data-with-a-long-name --size 1G
+diff --git a/hack/test-templates/test-misc.yaml b/hack/test-templates/test-misc.yaml
+index fb75f1dc..34b4512d 100644
+--- a/hack/test-templates/test-misc.yaml
++++ b/hack/test-templates/test-misc.yaml
+@@ -107,9 +107,9 @@ additionalDisks:
+ - name: &quot;swap&quot;
+   format: true
+   fsType: swap
+-# The name does not fit in an ext4 filesystem label (&quot;lima-&quot; + 16 bytes), so the
+-# label is truncated. The disk must still be recognised as already formatted on
+-# the next boot, rather than reformatted.
++# The name does not fit in an ext4 filesystem label (16 bytes, including
++# &quot;lima-&quot;), so the label is truncated. The disk must still be recognised as
++# already formatted on the next boot, rather than reformatted.
+ - name: &quot;data-with-a-long-name&quot;
+ 
+ user:
+diff --git a/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh b/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh
+index 43595e21..8957abe2 100644
+--- a/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh
++++ b/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh
+@@ -53,12 +53,12 @@ for i in $(seq 0 $((LIMA_CIDATA_DISKS - 1))); do
+ 		LABEL_ARGS=(-L &quot;$FSLABEL&quot;)
+ 	fi
+ 
+-	# Do not identify the disk by its filesystem label. mkfs silently truncates
+-	# labels to a filesystem-dependent length (16 bytes on ext4, 12 on xfs), so
+-	# a sufficiently long DISK_NAME is formatted with a label that can never
+-	# match the &quot;lima-${DISK_NAME}&quot; the guard looks for. The guard would then be
+-	# true on every boot and mkfs would run again, destroying the contents of
+-	# the very disk the user created to persist data.
++	# Do not identify the disk by its filesystem label. mkfs.ext4 silently
++	# truncates the label to 16 bytes, so a DISK_NAME longer than 11 characters
++	# is formatted with a label that can never match the &quot;lima-${DISK_NAME}&quot; the
++	# guard looks for. The guard would then be true on every boot and mkfs would
++	# run again, destroying the contents of the very disk the user created to
++	# persist data.
+ 	#
+ 	# A partition that already carries a filesystem has been through first-time
+ 	# setup, whatever label it ended up with. That also covers disks formatted</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/limayaml/disklabel_test.go">
+      <div class="finding-title" id="I4">
+        <span class="finding-num">I4.</span> The drift test skips the <code>ext2 | ext3 | ext4</code> arm <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#I4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/limayaml/disklabel_test.go#L47-L57">pkg/limayaml/disklabel_test.go</a></div>
+      <pre data-start="47" data-line="52"><code class="language-go">	script := filepath.Join(&quot;..&quot;, &quot;cidata&quot;, &quot;cidata.TEMPLATE.d&quot;, &quot;boot.Linux&quot;, &quot;05-lima-disks.sh&quot;)
+	b, err := os.ReadFile(script)
+	assert.NilError(t, err, &quot;%s should exist; update this test if the boot script moved&quot;, script)
+
+	// Matches the case arms of the form `xfs) FSLABEL_MAX=12 ;;`.
+	re := regexp.MustCompile(`(?m)^\s*([a-z0-9]+)\)\s*FSLABEL_MAX=(\d+)\s*;;`)
+	matches := re.FindAllStringSubmatch(string(b), -1)
+	assert.Assert(t, len(matches) &gt; 0, &quot;no FSLABEL_MAX case arms found in %s&quot;, script)
+
+	for _, m := range matches {
+		fsType, want := m[1], m[2]</code></pre>
+    <p><code>[a-z0-9]+\)</code> cannot match a case head that lists several filesystems, so the test compares only the xfs, btrfs and swap arms. Its doc comment says it keeps the two copies from drifting apart, yet the limit for ext4, the default filesystem, can change in either file with the test still green. It also checks only from script to Go, so an arm that exists only in Go goes unchecked.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash">#!/bin/bash
+# Save as probe-drift-guard.sh; run from the lima checkout: bash probe-drift-guard.sh
+# Changes one FSLABEL_MAX case arm of the boot script at a time and reports
+# whether TestFSLabelMaxLenMatchesBootScript notices the drift.
+set -eu
+f=pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh
+cp &quot;$f&quot; &quot;$f.orig&quot;
+trap &#39;mv &quot;$f.orig&quot; &quot;$f&quot;&#39; EXIT
+for arm in &#39;ext2 | ext3 | ext4&#39; &#39;xfs&#39; &#39;btrfs&#39; &#39;swap&#39;; do
+	sed &quot;s/^\([[:space:]]*\)$arm) FSLABEL_MAX=[0-9]* ;;/\1$arm) FSLABEL_MAX=99 ;;/&quot; &quot;$f.orig&quot; &gt;&quot;$f&quot;
+	printf &#39;%-20s -&gt; 99: &#39; &quot;$arm&quot;
+	if go test ./pkg/limayaml/ -run &#39;TestFSLabelMaxLenMatchesBootScript$&#39; -count=1 &gt;/dev/null 2&gt;&amp;1; then
+		echo &quot;test PASSES (drift not caught)&quot;
+	else
+		echo &quot;test FAILS (drift caught)&quot;
+	fi
+done</code></pre>
+      <pre><code class="language-text">$ bash probe-drift-guard.sh        # at the review SHA
+ext2 | ext3 | ext4   -&gt; 99: test PASSES (drift not caught)
+xfs                  -&gt; 99: test FAILS (drift caught)
+btrfs                -&gt; 99: test FAILS (drift caught)
+swap                 -&gt; 99: test FAILS (drift caught)
+$ bash probe-drift-guard.sh        # with the patch block below applied
+ext2 | ext3 | ext4   -&gt; 99: test FAILS (drift caught)
+xfs                  -&gt; 99: test FAILS (drift caught)
+btrfs                -&gt; 99: test FAILS (drift caught)
+swap                 -&gt; 99: test FAILS (drift caught)</code></pre>
+      </details>
+    <p>Fix: match the whole case head and check each filesystem it lists.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/limayaml/disklabel_test.go b/pkg/limayaml/disklabel_test.go
+index c6e8e91d..b3cd0f87 100644
+--- a/pkg/limayaml/disklabel_test.go
++++ b/pkg/limayaml/disklabel_test.go
+@@ -8,6 +8,7 @@ import (
+ 	&quot;path/filepath&quot;
+ 	&quot;regexp&quot;
+ 	&quot;strconv&quot;
++	&quot;strings&quot;
+ 	&quot;testing&quot;
+ 
+ 	&quot;gotest.tools/v3/assert&quot;
+@@ -48,14 +49,18 @@ func TestFSLabelMaxLenMatchesBootScript(t *testing.T) {
+ 	b, err := os.ReadFile(script)
+ 	assert.NilError(t, err, &quot;%s should exist; update this test if the boot script moved&quot;, script)
+ 
+-	// Matches the case arms of the form `xfs) FSLABEL_MAX=12 ;;`.
+-	re := regexp.MustCompile(`(?m)^\s*([a-z0-9]+)\)\s*FSLABEL_MAX=(\d+)\s*;;`)
++	// Matches the case arms of the form `xfs) FSLABEL_MAX=12 ;;`, including
++	// arms that list several filesystems, like `ext2 | ext3 | ext4)`.
++	re := regexp.MustCompile(`(?m)^\s*([a-z0-9| ]+)\)\s*FSLABEL_MAX=(\d+)\s*;;`)
+ 	matches := re.FindAllStringSubmatch(string(b), -1)
+ 	assert.Assert(t, len(matches) &gt; 0, &quot;no FSLABEL_MAX case arms found in %s&quot;, script)
+ 
+ 	for _, m := range matches {
+-		fsType, want := m[1], m[2]
+-		got := strconv.Itoa(FSLabelMaxLen(fsType))
+-		assert.Equal(t, got, want, &quot;FSLabelMaxLen(%q) disagrees with %s&quot;, fsType, script)
++		want := m[2]
++		for fsType := range strings.SplitSeq(m[1], &quot;|&quot;) {
++			fsType = strings.TrimSpace(fsType)
++			got := strconv.Itoa(FSLabelMaxLen(fsType))
++			assert.Equal(t, got, want, &quot;FSLabelMaxLen(%q) disagrees with %s&quot;, fsType, script)
++		}
+ 	}
+ }</code></pre>
+      </details>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> First-time setup fails open when <code>blkid</code> is missing or fails <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-claude">Claude Opus 5</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+    <p>The guard treats a missing <code>blkid</code> (exit 127) or a probe error as &quot;no filesystem&quot;, so the script runs <code>sfdisk</code> and <code>mkfs</code> over whatever the disk holds. C2&#39;s patch keeps that behavior, since empty output means the same thing. Every image this review checked ships a <code>blkid</code> (util-linux on Ubuntu and the Alpine nocloud image, BusyBox on alpine-iso), but nothing in Lima enforces that. The merge-base guard depended on udev instead and failed in the same direction.</p>
+    <p><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh#L105-L117"><code>pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh:105-117</code></a> already leaves alone any disk with a partition, a filesystem signature or a mount. A <code>command -v blkid</code> check that skips setup with a warning would make this guard fail closed too.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh#L100-L122">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh</a></div>
+      <pre data-start="100" data-line="105-117"><code class="language-bash">	# TODO there are probably others that should be updated as well
+else
+	# Find an unpartitioned disk and create data-volume
+	DISKS=$(lsblk --list --noheadings --output name,type | awk &#39;$2 == &quot;disk&quot; {print $1}&#39;)
+	for DISK in ${DISKS}; do
+		# A disk is in use if it has any partitions, carries a filesystem
+		# signature directly, or is mounted. Check lsblk for partitions
+		# and filesystem types, not just /proc/mounts; an unmounted but
+		# partitioned or raw-formatted disk (e.g. the data volume after
+		# a failed boot) must not be reformatted.
+		if lsblk --list --noheadings --output fstype /dev/&quot;${DISK}&quot; | grep -q &quot;[^[:space:]]&quot;; then
+			continue
+		fi
+		if lsblk --list --noheadings --output type /dev/&quot;${DISK}&quot; | grep -q &quot;part&quot;; then
+			continue
+		fi
+		if awk &#39;/^\/dev\// {sub(&quot;^/dev/&quot;, &quot;&quot;, $1); print $1}&#39; /proc/mounts | grep -q &quot;^${DISK}$&quot;; then
+			continue
+		fi
+		echo &#39;type=83&#39; | sfdisk --label dos /dev/&quot;${DISK}&quot;
+		# sfdisk&#39;s BLKRRPART emits a uevent for the new partition; settle
+		# before lsblk so its libudev query sees that partition rather
+		# than stale pre-sfdisk state. Tolerate failure as above.</code></pre>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/limayaml/validate.go">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> The warning repeats on every command and asks nothing of the user <span class="pill pill-claude">Claude Opus 5</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/limayaml/validate.go#L127-L139">pkg/limayaml/validate.go</a></div>
+      <pre data-start="127" data-line="132-134"><code class="language-go">			// A maxLen of 0 means Lima does not know the label limit for fsType;
+			// the boot script omits the label rather than guess, so there is
+			// nothing to warn about.
+			if maxLen := FSLabelMaxLen(fsType); maxLen &gt; 0 {
+				if label := DiskFSLabel(disk.Name); len(label) &gt; maxLen {
+					logrus.Warnf(&quot;field `additionalDisks[%d].name`: %#q is too long for a %s filesystem label; &quot;+
+						&quot;the label will be truncated to %#q. The disk itself is unaffected: Lima does not identify it by label.&quot;,
+						i, disk.Name, fsType, label[:maxLen])
+				}
+			}
+		}
+	}
+</code></pre>
+    <p>The warning fires on every warn-enabled validation, and the test-misc CI job at the review SHA (job 102728394823) logs it 24 times for one disk. The message itself says the disk is unaffected, and the user&#39;s only remedy is a new disk with a shorter name. Consider logging it at info level, or dropping it along with the Go copy of the limits in <code>pkg/limayaml/disklabel.go</code>. It also reads &quot;a ext4&quot;.</p>
+    </div>
+    <div class="card card-suggestion" data-file="templates/default.yaml">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> <code>templates/default.yaml</code> still promises a <code>lima-&lt;name&gt;</code> label <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/templates/default.yaml#L118-L131">templates/default.yaml</a></div>
+      <pre data-start="118" data-line="123-126"><code class="language-yaml">
+# ===================================================================== #
+# ADVANCED CONFIGURATION
+# ===================================================================== #
+
+# Lima disks to attach to the instance. The disks will be accessible from inside the
+# instance, labeled by name. (e.g. if the disk is named &quot;data&quot;, it will be labeled
+# &quot;lima-data&quot; inside the instance). The disk will be mounted inside the instance at
+# `/mnt/lima-${VOLUME}`.
+# 🟢 Builtin default: []
+additionalDisks:
+# disks should either be a list of disk name strings, for example:
+# - &quot;data&quot;
+# or a list of disk objects with extra parameters, for example:</code></pre>
+    <p>The filesystem label is now clamped per fsType and left off for fsTypes outside the list, while the GPT partition label keeps names of up to 31 characters whole. A provisioning script that follows this comment and opens <code>/dev/disk/by-label/lima-&lt;name&gt;</code> already failed for long names, and now fails for unlisted fsTypes too. Documenting <code>/dev/disk/by-partlabel/lima-&lt;name&gt;</code> would give users a path that works for every fsType and for any name up to 31 characters.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>The &quot;healthy state&quot; check never runs fsck</strong> (future) <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-claude">Claude Opus 5</span>. <a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh#L108"><code>pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh:108</code></a> is <code>command -v &quot;fsck.$FORMAT_FSTYPE&quot; -f -p &quot;$PARTITION&quot;</code>, which prints the fsck path and returns 0 without running it; this review ran it under bash with <code>fsck.ext4</code> installed. A real fsck at that point would also find the filesystem already mounted at line 100. The PR changed only the path argument. Gemini 3.1 Pro adds that the enclosing check requires <code>resize2fs</code> even to grow an xfs filesystem.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>The filesystem is the right signal</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span>. It removes the length limit and the dependence on udev&#39;s by-label links, and it keeps disks an older Lima formatted. With both patches, an alpine-iso disk kept its filesystem UUID across a restart (C2).</li>
+      <li><strong>Resize addresses the partition</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5</span>. At the merge-base, <code>resize2fs /dev/disk/by-label/lima-&lt;name&gt;</code> named a link that never existed for a long name.</li>
+      <li><strong>The restart test compares filesystem UUIDs</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span>, so a silent reformat now fails CI. The test-misc job at the review SHA logged the UUID and passed.</li>
+      <li><strong>Clamping the xfs label</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5</span> lets an xfs disk with a name over 7 characters format at all.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ol>
+      <li><strong>No CI job attaches a disk to an Alpine template</strong> (C1, C2). The <code>disk</code> check runs only for test-misc, which boots Ubuntu 22.04. A <code>busybox sh -n</code> pass over <code>boot.Linux/*.sh</code> and <code>boot.essential.Linux/*.sh</code> would catch C1&#39;s class of defect, and every other boot script passes it today. <span class="pill pill-claude">Claude Opus 5</span></li>
+      <li><strong>A partition without a filesystem, and an upgrade with a disk attached, are untested</strong> (C2). <code>hack/test-upgrade.sh</code> attaches no disk. <span class="pill pill-claude">Claude Opus 5</span></li>
+      <li><strong>The warning and the drift test</strong> (I1, I2, I4). The patches above add or repair the tests.</li>
+      <li><strong>Executed this round.</strong> <code>go test ./pkg/limayaml</code> passes at the review SHA. The VM probe booted <code>alpine-iso</code> at the review SHA, with C1&#39;s patch, with both patches, and with the merge-base script. Hand-run boots of <code>template:alpine</code> reproduced C1 and the merge-base&#39;s success. The <code>blkid</code> probe ran both implementations on a loop device. CI job 102728394823 (test-misc on QEMU) passed at the review SHA.</li>
+    </ol>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><code>templates/default.yaml</code> still describes a <code>lima-&lt;name&gt;</code> filesystem label (S3).</li>
+      <li>The comments at <a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh#L56-L58"><code>pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh:56-58</code></a> and 70-74, the two <code>(&quot;lima-&quot; + 16 bytes)</code> parentheticals, and the commit message need the corrections in C2 and I3.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR is one commit, squashed as AkihiroSuda asked. Its message needs the corrections C2 and I3 make to the comments. It also ends with a <code>Claude-Session:</code> trailer pointing at a private claude.ai session that no reviewer can open; the <code>Assisted-by:</code> trailer already meets contributing.md&#39;s disclosure rule.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>No label for fsTypes outside the list.</strong> The author chose this in <a href="https://github.com/lima-vm/lima/pull/5460#discussion_r3907733223">r3907733223</a>, and the script and Go agree. A later reviewer should not re-suggest guessing labels for unlisted fsTypes. Claude reasoned, without running it, that after a downgrade an older Lima finds no <code>lima-&lt;name&gt;</code> label on such a disk and reformats it on every boot.</li>
+      <li><strong>PARTLABEL truncation.</strong> Names over 31 characters lose their tail in the partition label, and <a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh#L27-L29"><code>pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh:27-29</code></a> explains why that is harmless.</li>
+      <li><em></em><code>udevadm settle || true</code><em></em> at <a href="https://github.com/lima-vm/lima/blob/2e1cb730f0bc26517b4439e66b7a9062177a2237/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh#L80-L83"><code>pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-lima-disks.sh:80-83</code></a> is deliberate, since a missing <code>udevadm</code> must not stop the boot.</li>
+      <li><strong>test-misc on macOS.</strong> The PR description names two pre-existing failures, a nerdctl port-80 conflict and vz snapshots, and leaves them out of scope.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>Copilot&#39;s bare-GPT thread</strong> (<a href="https://github.com/lima-vm/lima/pull/5460#discussion_r3907000735">r3907000735</a>). The author confirmed the gap and replied &quot;Fixed in c8a666d1&quot; (<a href="https://github.com/lima-vm/lima/pull/5460#discussion_r3907734718">r3907734718</a>), switching to the TYPE tag. But <code>-s TYPE</code> leaves <code>blkid</code>&#39;s exit status unchanged, so the guard still treats a bare partition as formatted (C2). The thread is marked fixed and is not.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5"><span class="pill pill-claude">Claude Opus 5</span> <a href="#claude-opus-5" class="pilcrow">&#182;</a></h3>
+    <p>Claude wrote the strongest review. It alone found C1, and it proved both Alpine defects by reading the pinned images&#39; package lists and running the script under the ash shim with the disk tools stubbed. It found the xfs rejection behind I3 and the upgrade path that turns C2&#39;s util-linux half into a state real users reach. It underrated C2 as Important and the drift test as a Suggestion. Its verification record kept executed claims apart from reasoned ones, and its CI-log count of 24 warnings checked out.</p>
+    <h3 id="codex-gpt-5-6-sol"><span class="pill pill-codex">Codex GPT 5.6 Sol</span> <a href="#codex-gpt-5-6-sol" class="pilcrow">&#182;</a></h3>
+    <p>Codex raised I1 at the right severity with a working fix, and its tri-state probe is the fullest answer to S1. It rated S1 itself Important, on a hypothetical guest with udev but no <code>blkid</code> binary. It missed both Critical findings. It checked the script only with <code>bash -n</code>, which GNU bash passes. And it filed the unfixed bare-GPT reply under Acknowledged Limitations as &quot;consistently&quot; implemented, applying the author-dismissed gate to a reply that claimed a fix.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>The only Gemini 3.1 Pro finding this review kept is I4, at the Important severity it chose. Its I1 bundled three pre-existing claims about the resize block. The <code>command -v</code> and <code>resize2fs</code> points hold, but the <code>xfs_growfs</code> one is false, since xfsprogs 6.17 grew a mounted filesystem given its device path. It praised the TYPE-tag query as an elegant fix for interrupted boots, the claim C2 disproves, and it marked <code>validate.go</code> and <code>validate_test.go</code> clean.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Flash pointed at C2&#39;s line and at BusyBox, the right implementation, but with the opposite mechanism. It claimed BusyBox exits non-zero and reformats on every boot; BusyBox exits 0 and never formats. Its grep-for-TYPE fix would have worked anyway. It also found I2&#39;s untested warning and I4. Its <code>xfs_growfs</code> suggestion repeats Gemini 3.1 Pro&#39;s false claim, and its backtick typo is on an unchanged line. The two Gemini models share a family, so their agreement on I4 counts as one opinion.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5</span></th><th><span class="pill pill-codex">Codex GPT 5.6 Sol</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>30m 10s</td><td>33m 32s</td><td>7m 25s</td><td>4m 51s</td></tr>
+        <tr><td>Findings</td><td>2C 4I 3S</td><td>3I 2S</td><td>1I</td><td>1C 2I</td></tr>
+        <tr><td>Tool calls</td><td>89 (Bash 77, Read 6, Write 4)</td><td>30 (shell 25, apply_patch 4, stdin 1)</td><td>42 (run<em>shell</em>command 41, read_file 1)</td><td>28 (grep<em>search 10, read</em>file 6, run<em>shell</em>command 5)</td></tr>
+        <tr><td>Design observations</td><td>7</td><td>3</td><td>2</td><td>2</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+        <tr><td>Unique insights</td><td>3</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>7</td><td>7</td><td>7</td><td>7</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>2</td><td>4</td><td>2</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>2C 4I 3S</strong></td><td><strong>3I 2S</strong></td><td><strong>1I</strong></td><td><strong>1C 2I</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>1 (I→S)</td><td>0</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>1</td><td>2</td></tr>
+      </tbody>
+    </table>
+    <p>Reconciliation: Claude Opus 5 I1 (<code>blkid</code> exit status): important → critical C2. Gemini 3.5 Flash I1 (BusyBox <code>blkid</code>): important → critical C2, mechanism corrected. Claude Opus 5 S1 and Codex GPT 5.6 Sol S1 (drift test): suggestion → important I4. Claude Opus 5 S4 (ext4 parenthetical): suggestion → merged into important I3. Claude Opus 5 S2 (warning noise): its <code>format: false</code> and non-Linux part → important I1, and the rest stays S2. Codex GPT 5.6 Sol I1 (fail open): important → suggestion S1, because every image checked ships a <code>blkid</code>. Gemini 3.5 Flash I3 (untested warning): merged into I2. Gemini 3.1 Pro I1 (resize block): moved to Design Observations as pre-existing, and its <code>xfs_growfs</code> claim rejected as a false positive. Gemini 3.5 Flash S1 (fsck): moved to Design Observations; S2 (<code>xfs_growfs</code>): rejected as a false positive; S3 (backtick typo): dropped, since the line is unchanged.</p>
+    <p>Claude provided most of the value. Both Critical findings trace to it, and it shares credit for all four Important ones. Codex contributed I1 at the right severity and the design behind S1. The Gemini models agreed on I4, and Flash also pointed at C2, with the wrong mechanism, and at I2&#39;s untested warning. The rest of what they raised predated the PR or was false.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><strong>Skill improvements</strong></p>
+    <ul>
+      <li>When a reply claims a fix, verify the fix against the original concern; the author-dismissed gate covers only replies that dismiss, explain, or defer a finding. Report a fix that leaves the defect in place as a finding, never as an Acknowledged Limitation, because the thread&#39;s resolved status otherwise hides the defect from every later reader.</li>
+      <li>When a changed script runs on several targets (guest distributions, container base images, CI runners), parse and run it under each target&#39;s interpreter and core tools, not only under the interpreter its shebang names. A target can map the shebang&#39;s path to another shell or ship BusyBox versions of the tools, and a linter checks only the shebang&#39;s dialect.</li>
+    </ul>
+    <p><strong>Repo context updates</strong></p>
+    <ul>
+      <li><code>[repo]</code> ADD: On Alpine guests, <code>boot.essential.Linux/01-alpine-ash-as-bash.sh</code> makes <code>/bin/bash</code> exec BusyBox <code>ash</code> whenever GNU bash is missing, and neither pinned Alpine image (alpine-iso, nocloud) ships bash. Every <code>#!/bin/bash</code> boot script must therefore parse and run under ash, which has no arrays; <code>[[</code>, <code>${var:off:len}</code> and <code>set -o pipefail</code> do work, although the shim&#39;s own comment says <code>[[</code> does not. Check with <code>busybox sh -n</code>; shellcheck follows the shebang and cannot see this. No CI job attaches an additional disk to an Alpine template, so a broken disk script there stays green.</li>
+      <li><code>[repo]</code> ADD: <code>/sbin/blkid</code> is BusyBox on the alpine-iso image and util-linux on the Alpine nocloud and Ubuntu images. BusyBox <code>blkid</code> ignores <code>-o</code> and <code>-s</code>, prints its default line, and always exits 0; util-linux <code>blkid -s TAG</code> exits 0 whenever the device has any tag, TAG or not. A guard built on <code>blkid</code> must test its output, not its exit status.</li>
+      <li><code>[repo]</code> ADD: Only <code>boot.Linux/05-lima-disks.sh</code> reads <code>LIMA_CIDATA_DISK_*</code>. Darwin and FreeBSD guests get their additional disks attached, but nothing formats, labels or mounts them, so a host-side warning or default about disk formatting applies to Linux guests only.</li>
+      <li><code>[repo]</code> ADD: <code>limayaml.Validate(y, true)</code> runs <code>warnExperimental</code>, which dereferences <code>mountType</code>, and <code>Load</code> leaves <code>mountType</code> nil until the driver resolves it. A unit test that validates with <code>warn</code> set must give its fixture a <code>mountType</code>, or it panics. <code>github.com/sirupsen/logrus/hooks/test</code> captures the warnings through the existing logrus dependency.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){var t="\\b(?:BASH|BASHOPTS|BASH_ALIASES|BASH_ARGC|BASH_ARGV|BASH_CMDS|BASH_COMPLETION_COMPAT_DIR|BASH_LINENO|BASH_REMATCH|BASH_SOURCE|BASH_VERSINFO|BASH_VERSION|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|EUID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_ADDRESS|LC_ALL|LC_IDENTIFICATION|LC_MEASUREMENT|LC_MONETARY|LC_NAME|LC_NUMERIC|LC_PAPER|LC_TELEPHONE|LC_TIME|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS1|PS2|PS3|PS4|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UID|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_CONFIG_DIRS|XDG_CURRENT_DESKTOP|XDG_DATA_DIRS|XDG_GREETER_DATA_DIR|XDG_MENU_PREFIX|XDG_RUNTIME_DIR|XDG_SEAT|XDG_SEAT_PATH|XDG_SESSION_DESKTOP|XDG_SESSION_ID|XDG_SESSION_PATH|XDG_SESSION_TYPE|XDG_VTNR|XMODIFIERS)\\b",a={pattern:/(^(["']?)\w+\2)[ \t]+\S.*/,lookbehind:!0,alias:"punctuation",inside:null},n={bash:a,environment:{pattern:RegExp("\\$"+t),alias:"constant"},variable:[{pattern:/\$?\(\([\s\S]+?\)\)/,greedy:!0,inside:{variable:[{pattern:/(^\$\(\([\s\S]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,operator:/--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,greedy:!0,inside:{variable:/^\$\(|^`|\)$|`$/}},{pattern:/\$\{[^}]+\}/,greedy:!0,inside:{operator:/:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,punctuation:/[\[\]]/,environment:{pattern:RegExp("(\\{)"+t),lookbehind:!0,alias:"constant"}}},/\$(?:\w+|[#?*!@$])/],entity:/\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/};e.languages.bash={shebang:{pattern:/^#!\s*\/.*/,alias:"important"},comment:{pattern:/(^|[^"{\\$])#.*/,lookbehind:!0},"function-name":[{pattern:/(\bfunction\s+)[\w-]+(?=(?:\s*\(?:\s*\))?\s*\{)/,lookbehind:!0,alias:"function"},{pattern:/\b[\w-]+(?=\s*\(\s*\)\s*\{)/,alias:"function"}],"for-or-select":{pattern:/(\b(?:for|select)\s+)\w+(?=\s+in\s)/,alias:"variable",lookbehind:!0},"assign-left":{pattern:/(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,inside:{environment:{pattern:RegExp("(^|[\\s;|&]|[<>]\\()"+t),lookbehind:!0,alias:"constant"}},alias:"variable",lookbehind:!0},parameter:{pattern:/(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,alias:"variable",lookbehind:!0},string:[{pattern:/((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?(?:\r?\n|\r)\2/,lookbehind:!0,greedy:!0,inside:n},{pattern:/((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?(?:\r?\n|\r)\3/,lookbehind:!0,greedy:!0,inside:{bash:a}},{pattern:/(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,lookbehind:!0,greedy:!0,inside:n},{pattern:/(^|[^$\\])'[^']*'/,lookbehind:!0,greedy:!0},{pattern:/\$'(?:[^'\\]|\\[\s\S])*'/,greedy:!0,inside:{entity:n.entity}}],environment:{pattern:RegExp("\\$?"+t),alias:"constant"},variable:n.variable,function:{pattern:/(^|[\s;|&]|[<>]\()(?:add|apropos|apt|apt-cache|apt-get|aptitude|aspell|automysqlbackup|awk|basename|bash|bc|bconsole|bg|bzip2|cal|cargo|cat|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clear|cmp|column|comm|composer|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|debootstrap|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|docker|docker-compose|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|git|gparted|grep|groupadd|groupdel|groupmod|groups|grub-mkconfig|gzip|halt|head|hg|history|host|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|ip|java|jobs|join|kill|killall|less|link|ln|locate|logname|logrotate|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|make|man|mc|mdadm|mkconfig|mkdir|mke2fs|mkfifo|mkfs|mkisofs|mknod|mkswap|mmv|more|most|mount|mtools|mtr|mutt|mv|nano|nc|netstat|nice|nl|node|nohup|notify-send|npm|nslookup|op|open|parted|passwd|paste|pathchk|ping|pkill|pnpm|podman|podman-compose|popd|pr|printcap|printenv|ps|pushd|pv|quota|quotacheck|quotactl|ram|rar|rcp|reboot|remsync|rename|renice|rev|rm|rmdir|rpm|rsync|scp|screen|sdiff|sed|sendmail|seq|service|sftp|sh|shellcheck|shuf|shutdown|sleep|slocate|sort|split|ssh|stat|strace|su|sudo|sum|suspend|swapon|sync|sysctl|tac|tail|tar|tee|time|timeout|top|touch|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|update-grub|uptime|useradd|userdel|usermod|users|uudecode|uuencode|v|vcpkg|vdir|vi|vim|virsh|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yarn|yes|zenity|zip|zsh|zypper)(?=$|[)\s;|&])/,lookbehind:!0},keyword:{pattern:/(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)(?=$|[)\s;|&])/,lookbehind:!0},builtin:{pattern:/(^|[\s;|&]|[<>]\()(?:\.|:|alias|bind|break|builtin|caller|cd|command|continue|declare|echo|enable|eval|exec|exit|export|getopts|hash|help|let|local|logout|mapfile|printf|pwd|read|readarray|readonly|return|set|shift|shopt|source|test|times|trap|type|typeset|ulimit|umask|unalias|unset)(?=$|[)\s;|&])/,lookbehind:!0,alias:"class-name"},boolean:{pattern:/(^|[\s;|&]|[<>]\()(?:false|true)(?=$|[)\s;|&])/,lookbehind:!0},"file-descriptor":{pattern:/\B&\d\b/,alias:"important"},operator:{pattern:/\d?<>|>\||\+=|=[=~]?|!=?|<<[<-]?|[&\d]?>>|\d[<>]&?|[<>][&=]?|&[>&]?|\|[&|]?/,inside:{"file-descriptor":{pattern:/^\d/,alias:"important"}}},punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,number:{pattern:/(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,lookbehind:!0}},a.inside=e.languages.bash;for(var s=["comment","function-name","for-or-select","assign-left","parameter","string","environment","function","keyword","builtin","boolean","file-descriptor","operator","punctuation","number"],o=n.variable[1].inside,i=0;i<s.length;i++)o[s[i]]=e.languages.bash[s[i]];e.languages.sh=e.languages.bash,e.languages.shell=e.languages.bash}(Prism);
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+!function(e){var n=/[*&][^\s[\]{},]+/,r=/!(?:<[\w\-%#;/?:@&=+$,.!~*'()[\]]+>|(?:[a-zA-Z\d-]*!)?[\w\-%#;/?:@&=+$.~*'()]+)?/,t="(?:"+r.source+"(?:[ \t]+"+n.source+")?|"+n.source+"(?:[ \t]+"+r.source+")?)",a="(?:[^\\s\\x00-\\x08\\x0e-\\x1f!\"#%&'*,\\-:>?@[\\]`{|}\\x7f-\\x84\\x86-\\x9f\\ud800-\\udfff\\ufffe\\uffff]|[?:-]<PLAIN>)(?:[ \t]*(?:(?![#:])<PLAIN>|:<PLAIN>))*".replace(/<PLAIN>/g,(function(){return"[^\\s\\x00-\\x08\\x0e-\\x1f,[\\]{}\\x7f-\\x84\\x86-\\x9f\\ud800-\\udfff\\ufffe\\uffff]"})),d="\"(?:[^\"\\\\\r\n]|\\\\.)*\"|'(?:[^'\\\\\r\n]|\\\\.)*'";function o(e,n){n=(n||"").replace(/m/g,"")+"m";var r="([:\\-,[{]\\s*(?:\\s<<prop>>[ \t]+)?)(?:<<value>>)(?=[ \t]*(?:$|,|\\]|\\}|(?:[\r\n]\\s*)?#))".replace(/<<prop>>/g,(function(){return t})).replace(/<<value>>/g,(function(){return e}));return RegExp(r,n)}e.languages.yaml={scalar:{pattern:RegExp("([\\-:]\\s*(?:\\s<<prop>>[ \t]+)?[|>])[ \t]*(?:((?:\r?\n|\r)[ \t]+)\\S[^\r\n]*(?:\\2[^\r\n]+)*)".replace(/<<prop>>/g,(function(){return t}))),lookbehind:!0,alias:"string"},comment:/#.*/,key:{pattern:RegExp("((?:^|[:\\-,[{\r\n?])[ \t]*(?:<<prop>>[ \t]+)?)<<key>>(?=\\s*:\\s)".replace(/<<prop>>/g,(function(){return t})).replace(/<<key>>/g,(function(){return"(?:"+a+"|"+d+")"}))),lookbehind:!0,greedy:!0,alias:"atrule"},directive:{pattern:/(^[ \t]*)%.+/m,lookbehind:!0,alias:"important"},datetime:{pattern:o("\\d{4}-\\d\\d?-\\d\\d?(?:[tT]|[ \t]+)\\d\\d?:\\d{2}:\\d{2}(?:\\.\\d*)?(?:[ \t]*(?:Z|[-+]\\d\\d?(?::\\d{2})?))?|\\d{4}-\\d{2}-\\d{2}|\\d\\d?:\\d{2}(?::\\d{2}(?:\\.\\d*)?)?"),lookbehind:!0,alias:"number"},boolean:{pattern:o("false|true","i"),lookbehind:!0,alias:"important"},null:{pattern:o("null|~","i"),lookbehind:!0,alias:"important"},string:{pattern:o(d),lookbehind:!0,greedy:!0},number:{pattern:o("[+-]?(?:0x[\\da-f]+|0o[0-7]+|(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:e[+-]?\\d+)?|\\.inf|\\.nan)","i"),lookbehind:!0},tag:r,important:n,punctuation:/---|[:[\]{}\-,|>?]|\.\.\./},e.languages.yml=e.languages.yaml}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
