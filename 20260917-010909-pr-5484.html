@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260917-010909-pr-5484</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260917-010909-pr-5484</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-09-17 01:09</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1 (of PR <a href="https://github.com/lima-vm/lima/issues/5484" class="gh-ref" data-title="networks: add the `lima-privileged-net` daemon and tap device naming" data-state="open" data-type="pr">#5484</a>)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/unsuman">@unsuman</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5484" class="gh-ref" data-title="networks: add the `lima-privileged-net` daemon and tap device naming" data-state="open" data-type="pr">#5484</a> — networks: add the <code>lima-privileged-net</code> daemon and tap device naming</td></tr>
+      <tr><td>Branch</td><td><code>net/pr2-lima-net-daemon</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/2db0e593"><code>2db0e593</code></a> networks: add the lima-privileged-net daemon and tap device naming</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/2db0e593658527cfc81dbda8e69b6d0598258526"><code>2db0e593658527cfc81dbda8e69b6d0598258526</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5</span> (effort: xhigh), <span class="pill pill-codex">Codex GPT 5.6 Sol</span> (effort: xhigh), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; seven Important findings, all local to this package; the approach is sound</td></tr>
+      <tr><td>Wall-clock time</td><td><code>30 min 38 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>This PR generalizes <code>pkg/networks</code> over the daemon name and adds the Linux helper&#39;s command rendering, tap naming and sudoers wildcard. Argument injection comes out clean: every interpolated value is either a <code>net.IP</code> or an identifier. The helper path itself is the exception. It reaches a root command line with none of the checks <code>validatePath</code> applies to every other path, and its &quot;not installed&quot; case returns success. The maintainer already asked for that second fix twice.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file="pkg/networks/config.go">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> <code>limaPrivilegedNetPath()</code> reports &quot;not installed&quot; as success, so <code>TapCmd</code> renders an empty program path <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/config.go#L188-L199">pkg/networks/config.go</a></div>
+      <pre data-start="188" data-line="193-199"><code class="language-go">		return false
+	}
+	return isUsernet
+}
+
+func limaPrivilegedNetPath() (string, error) {
+	dirs, err := usrlocal.LibexecLima()
+	if err != nil || len(dirs) == 0 {
+		return &quot;&quot;, err
+	}
+	return filepath.Join(dirs[0], privilegedSubdir, LimaPrivilegedNet), nil
+}</code></pre>
+    <p><code>usrlocal.LibexecLima()</code> has a single return statement, <code>return candidates, nil</code> (<a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/usrlocal/usrlocal.go#L216"><code>pkg/usrlocal/usrlocal.go:216</code></a>), so <code>err</code> is never non-nil. The <code>err != nil</code> arm is unreachable, and with it both <code>panic</code> calls that guard it. The reachable failure, an empty <code>dirs</code>, returns <code>(&quot;&quot;, nil)</code>. <code>StartCmd</code> survives only by accident, through the <code>IsDaemonInstalled</code> guard at <a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands.go#L160"><code>commands.go:160</code></a>; <code>TapCmd</code> has no guard and emits a command whose first token is empty. <code>reconcile.startDaemon</code> splits that on <code>&quot; &quot;</code> (<a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/reconcile/reconcile.go#L144"><code>reconcile/reconcile.go:144</code></a>), and <a href="https://github.com/lima-vm/lima/issues/5485" class="gh-ref" data-title="networks: generate Linux defaults, validation and sudoers rules" data-state="open" data-type="pr">#5485</a> writes it into <code>/etc/sudoers.d/lima</code>, where sudo requires a fully-qualified command.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/usrlocal/usrlocal.go#L211-L217">pkg/usrlocal/usrlocal.go</a></div>
+      <pre data-start="211" data-line="216"><code class="language-go">			if ents, err := os.ReadDir(candidate); err == nil &amp;&amp; len(ents) &gt; 0 {
+				candidates = append(candidates, candidate)
+			}
+		}
+	}
+	return candidates, nil
+}</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands.go#L155-L165">pkg/networks/commands.go</a></div>
+      <pre data-start="155" data-line="160"><code class="language-go">
+func (c *Config) MkdirCmd() string {
+	return fmt.Sprintf(&quot;/bin/mkdir -m 775 -p %s&quot;, c.Paths.VarRun)
+}
+
+func (c *Config) StartCmd(name, daemon string) string {
+	if ok, _ := c.IsDaemonInstalled(daemon); !ok {
+		panic(fmt.Errorf(&quot;daemon %#q is not available&quot;, daemon))
+	}
+	var cmd string
+	switch daemon {</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/reconcile/reconcile.go#L139-L149">pkg/networks/reconcile/reconcile.go</a></div>
+      <pre data-start="139" data-line="144"><code class="language-go">	if err != nil {
+		return nil, err
+	}
+
+	args := []string{&quot;--user&quot;, user.User, &quot;--group&quot;, user.Group, &quot;--non-interactive&quot;}
+	args = append(args, strings.Split(cfg.StartCmd(name, daemon), &quot; &quot;)...)
+	cmd := exec.CommandContext(ctx, &quot;sudo&quot;, args...)
+	// set directory to a path the daemon user has read access to because vde_switch calls getcwd() which
+	// can fail when called from directories like ~/Downloads, which has 700 permissions
+	cmd.Dir = cfg.Paths.VarRun
+</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-empty-path.sh; run: bash probe-empty-path.sh
+# Needs: go, and the lima repo checkout as the working directory.
+set -eu
+probe=$(mktemp -d)
+trap &#39;rm -rf &quot;$probe&quot;; rm -f pkg/networks/zz_probe_test.go&#39; EXIT
+
+cat &gt; pkg/networks/zz_probe_test.go &lt;&lt;&#39;EOF&#39;
+package networks
+
+import &quot;testing&quot;
+
+func TestProbe(t *testing.T) {
+	cfg, err := DefaultConfig()
+	if err != nil {
+		t.Fatal(err)
+	}
+	path, err := cfg.DaemonPath(LimaPrivilegedNet)
+	t.Logf(&quot;DaemonPath -&gt; %q err=%v&quot;, path, err)
+	t.Logf(&quot;TapCmd     -&gt; %q&quot;, cfg.TapCmd(&quot;shared&quot;, TapNamePattern()))
+}
+EOF
+go test -c -o &quot;$probe/networks.test&quot; ./pkg/networks/
+
+mkdir -p &quot;$probe/no-helper/bin&quot;
+cp &quot;$probe/networks.test&quot; &quot;$probe/no-helper/bin/&quot;
+echo &quot;--- limactl prefix with no libexec/lima:&quot;
+&quot;$probe/no-helper/bin/networks.test&quot; -test.run TestProbe -test.v | grep -- &#39;-&gt;&#39;
+
+mkdir -p &quot;$probe/installed/bin&quot; &quot;$probe/installed/libexec/lima/privileged&quot;
+: &gt; &quot;$probe/installed/libexec/lima/privileged/lima-privileged-net&quot;
+cp &quot;$probe/networks.test&quot; &quot;$probe/installed/bin/&quot;
+echo &quot;--- limactl prefix with the helper installed:&quot;
+&quot;$probe/installed/bin/networks.test&quot; -test.run TestProbe -test.v | grep -- &#39;-&gt;&#39;</code></pre>
+      <pre><code class="language-text">$ bash probe-empty-path.sh
+--- limactl prefix with no libexec/lima:
+    zz_probe_test.go:11: DaemonPath -&gt; &quot;&quot; err=&lt;nil&gt;
+    zz_probe_test.go:12: TapCmd     -&gt; &quot; tap --bridge=lima-shared limatap[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]&quot;
+--- limactl prefix with the helper installed:
+    zz_probe_test.go:11: DaemonPath -&gt; &quot;/var/folders/s2/.../tmp.s4zvkiExT9/installed/libexec/lima/privileged/lima-privileged-net&quot; err=&lt;nil&gt;
+    zz_probe_test.go:12: TapCmd     -&gt; &quot;/var/folders/s2/.../tmp.s4zvkiExT9/installed/libexec/lima/privileged/lima-privileged-net tap --bridge=lima-shared limatap[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]&quot;</code></pre>
+      </details>
+    <p>Fix: return a real error when <code>dirs</code> is empty, which is what @AkihiroSuda asked for in <a href="https://github.com/lima-vm/lima/pull/5484#discussion_r4003956456">r4003956456</a>. With the patch below the reproducer&#39;s first case turns into a loud <code>panic: failed to get lima-privileged-net path: ...</code> from <a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands.go#L232"><code>commands.go:232</code></a> instead of a malformed command, and <code>DaemonPath</code> returns the error. Giving <code>TapCmd</code> an error return in place of the panic would finish the job.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/networks/config.go b/pkg/networks/config.go
+index f0946cc5..2ca06872 100644
+--- a/pkg/networks/config.go
++++ b/pkg/networks/config.go
+@@ -192,8 +192,11 @@ func IsUsernet(name string) bool {
+ 
+ func limaPrivilegedNetPath() (string, error) {
+ 	dirs, err := usrlocal.LibexecLima()
+-	if err != nil || len(dirs) == 0 {
++	if err != nil {
+ 		return &quot;&quot;, err
+ 	}
++	if len(dirs) == 0 {
++		return &quot;&quot;, fmt.Errorf(&quot;%#q is not installed: no libexec/lima directory next to the limactl executable&quot;, LimaPrivilegedNet)
++	}
+ 	return filepath.Join(dirs[0], privilegedSubdir, LimaPrivilegedNet), nil
+ }</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/networks/config.go">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> The helper path reaches a root command line with none of the checks <code>validatePath</code> applies to every other path <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-claude">Claude Opus 5</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/config.go#L193-L199">pkg/networks/config.go</a></div>
+      <pre data-start="193" data-line="198"><code class="language-go">func limaPrivilegedNetPath() (string, error) {
+	dirs, err := usrlocal.LibexecLima()
+	if err != nil || len(dirs) == 0 {
+		return &quot;&quot;, err
+	}
+	return filepath.Join(dirs[0], privilegedSubdir, LimaPrivilegedNet), nil
+}</code></pre>
+    <p>Every <code>paths.*</code> entry goes through <code>validatePath</code> (<a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/validate.go#L146"><code>validate.go:146</code></a>): absolute, no whitespace, no symlink, root-owned, not group-writable. Dropping the <code>networks.yaml</code> field was sound, but it also took the helper out of <code>Validate()</code>&#39;s reach, while the file&#39;s header comment still states the invariant: *&quot;<code>cfg.Paths.*</code> entries must not include any whitespace!&quot;* A prefix containing a space splits the command at the wrong token, so the first argument <code>reconcile</code> hands <code>sudo</code> is not the helper.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/validate.go#L141-L151">pkg/networks/validate.go</a></div>
+      <pre data-start="141" data-line="146"><code class="language-go">		}
+	}
+	return nil
+}
+
+func validatePath(path string, allowDaemonGroupWritable bool) error {
+	if path == &quot;&quot; {
+		return nil
+	}
+	if path[0] != &#39;/&#39; {
+		return fmt.Errorf(&quot;path %#q is not an absolute path&quot;, path)</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-helper-path.sh; run: bash probe-helper-path.sh
+# Needs: go, and the lima repo checkout as the working directory.
+set -eu
+
+probe_dir=$(mktemp -d)
+trap &#39;rm -rf &quot;$probe_dir&quot;; rm -f pkg/networks/zz_probe_test.go&#39; EXIT
+
+cat &gt; pkg/networks/zz_probe_test.go &lt;&lt;&#39;EOF&#39;
+package networks
+
+import &quot;testing&quot;
+
+func TestProbeTapCmd(t *testing.T) {
+	cfg, err := DefaultConfig()
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Logf(&quot;TapCmd -&gt; %q&quot;, cfg.TapCmd(&quot;shared&quot;, TapNamePattern()))
+}
+EOF
+
+go test -c -o &quot;$probe_dir/networks.test&quot; ./pkg/networks/
+
+for prefix in &quot;plain&quot; &quot;my lima&quot;; do
+	mkdir -p &quot;$probe_dir/$prefix/bin&quot; &quot;$probe_dir/$prefix/libexec/lima/privileged&quot;
+	: &gt; &quot;$probe_dir/$prefix/libexec/lima/privileged/lima-privileged-net&quot;
+	cp &quot;$probe_dir/networks.test&quot; &quot;$probe_dir/$prefix/bin/networks.test&quot;
+	echo &quot;--- limactl prefix: .../$prefix&quot;
+	&quot;$probe_dir/$prefix/bin/networks.test&quot; -test.run TestProbeTapCmd -test.v 2&gt;&amp;1 | grep -- &quot;TapCmd -&gt;&quot;
+done</code></pre>
+      <pre><code class="language-text">$ bash probe-helper-path.sh
+--- limactl prefix: .../plain
+    zz_probe_test.go:10: TapCmd -&gt; &quot;/var/folders/s2/.../tmp.p6oxJRor0u/plain/libexec/lima/privileged/lima-privileged-net tap --bridge=lima-shared limatap[0-9a-f]...&quot;
+--- limactl prefix: .../my lima
+    zz_probe_test.go:10: TapCmd -&gt; &quot;/var/folders/s2/.../tmp.p6oxJRor0u/my lima/libexec/lima/privileged/lima-privileged-net tap --bridge=lima-shared limatap[0-9a-f]...&quot;</code></pre>
+      </details>
+    <p>Fix: run the resolved path through the same whitespace and absoluteness checks inside <code>limaPrivilegedNetPath()</code>, keeping it non-configurable.</p>
+    <p>Gemini 3.1 Pro rated this Critical, arguing root code execution. The sudoers rule <a href="https://github.com/lima-vm/lima/issues/5485" class="gh-ref" data-title="networks: generate Linux defaults, validation and sudoers rules" data-state="open" data-type="pr">#5485</a> generates pins a <code>Digest_Spec</code> over the full correct path, so sudo applies that digest to the command it matches, finds a mismatch, and denies. The proven consequence is a broken privileged command line; if a generated rule ever omits the digest, the escalation reading revives.</p>
+    </div>
+    <div class="card card-important" data-file="pkg/networks/commands.go">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> <code>TapNamePattern</code>&#39;s character ranges are locale-sensitive, and its comment claims an exactness it does not have <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-claude">Claude Opus 5</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands.go#L242-L252">pkg/networks/commands.go</a></div>
+      <pre data-start="242" data-line="247-252"><code class="language-go">func TapName(instName, netName string) string {
+	sum := sha256.Sum256(fmt.Appendf(nil, &quot;%d/%s/%s&quot;, os.Getuid(), instName, netName))
+	return fmt.Sprintf(&quot;%s%x&quot;, tapPrefix, sum)[:len(tapPrefix)+tapDigits]
+}
+
+// TapNamePattern is the sudoers wildcard matching exactly the names generated by
+// TapName. Character classes are used instead of &quot;*&quot; because &quot;*&quot; would also
+// match whitespace, which would allow smuggling extra arguments into the command.
+func TapNamePattern() string {
+	return tapPrefix + strings.Repeat(&quot;[0-9a-f]&quot;, tapDigits)
+}</code></pre>
+    <p>The second sentence is right and well founded. The first is wrong twice over. The pattern authorises all 2³² names rather than the one <code>TapName</code> derives (see I7), and <code>fnmatch</code> range expressions follow <code>LC_COLLATE</code>, so outside the C locale the range also matches <code>A</code> and <code>é</code>. Two independent guards keep this closed: <code>sudoers_locale</code> &quot;Defaults to &#39;C&#39;&quot; (sudoers(5)), and <code>IsTapName</code> is case- sensitive. So the security impact is nil and the comment is the defect.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-fnmatch-locale.sh; run: bash probe-fnmatch-locale.sh
+# Needs: a C compiler. No repo checkout required.
+set -eu
+d=$(mktemp -d); trap &#39;rm -rf &quot;$d&quot;&#39; EXIT
+cat &gt; &quot;$d/p.c&quot; &lt;&lt;&#39;EOF&#39;
+#include &lt;fnmatch.h&gt;
+#include &lt;locale.h&gt;
+#include &lt;stdio.h&gt;
+
+static void try(const char *loc, const char *pat, const char *label) {
+	setlocale(LC_ALL, loc);
+	printf(&quot;%-12s %-6s upper=%d accented=%d valid=%d\n&quot;, loc, label,
+	    fnmatch(pat, &quot;limatapA123abcd&quot;, 0) == 0,
+	    fnmatch(pat, &quot;limatap\xc3\xa9&quot; &quot;aaaaaaa&quot;, 0) == 0,
+	    fnmatch(pat, &quot;limatapdeadbeef&quot;, 0) == 0);
+}
+
+int main(void) {
+	const char *range = &quot;limatap[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]&quot;;
+	const char *enumd = &quot;limatap[0123456789abcdef][0123456789abcdef][0123456789abcdef][0123456789abcdef]&quot;
+	                    &quot;[0123456789abcdef][0123456789abcdef][0123456789abcdef][0123456789abcdef]&quot;;
+	const char *locs[] = {&quot;C&quot;, &quot;en_US.UTF-8&quot;, &quot;fr_FR.UTF-8&quot;, &quot;da_DK.UTF-8&quot;};
+	for (int i = 0; i &lt; 4; i++) { try(locs[i], range, &quot;range&quot;); try(locs[i], enumd, &quot;enum&quot;); }
+	return 0;
+}
+EOF
+cc -o &quot;$d/p&quot; &quot;$d/p.c&quot; &amp;&amp; &quot;$d/p&quot;</code></pre>
+      <pre><code class="language-text">$ bash probe-fnmatch-locale.sh
+C            range  upper=0 accented=0 valid=1
+C            enum   upper=0 accented=0 valid=1
+en_US.UTF-8  range  upper=1 accented=1 valid=1
+en_US.UTF-8  enum   upper=0 accented=0 valid=1
+fr_FR.UTF-8  range  upper=1 accented=1 valid=1
+fr_FR.UTF-8  enum   upper=0 accented=0 valid=1
+da_DK.UTF-8  range  upper=1 accented=1 valid=1
+da_DK.UTF-8  enum   upper=0 accented=0 valid=1</code></pre>
+      </details>
+    <p>Fix: correct the comment to claim the <em>shape</em> of the names, and spell the class out so the pattern stops depending on collation. The patch below makes the <code>enum</code> row above the live behaviour in every locale. Note that it also breaks the assertion at <a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands_test.go#L106"><code>commands_test.go:106</code></a>, which I5 shows never runs.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/networks/commands.go b/pkg/networks/commands.go
+index d083ce84..72d745fc 100644
+--- a/pkg/networks/commands.go
++++ b/pkg/networks/commands.go
+@@ -248,5 +248,5 @@ func TapName(instName, netName string) string {
+ // TapName. Character classes are used instead of &quot;*&quot; because &quot;*&quot; would also
+ // match whitespace, which would allow smuggling extra arguments into the command.
+ func TapNamePattern() string {
+-	return tapPrefix + strings.Repeat(&quot;[0-9a-f]&quot;, tapDigits)
++	return tapPrefix + strings.Repeat(&quot;[0123456789abcdef]&quot;, tapDigits)
+ }</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/networks/commands.go">
+      <div class="finding-title" id="I4">
+        <span class="finding-num">I4.</span> <code>DigestSpec</code>&#39;s comment credits validate.go with an ownership check that never sees this binary <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#I4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands.go#L86-L99">pkg/networks/commands.go</a></div>
+      <pre data-start="86" data-line="91-94"><code class="language-go">	}
+}
+
+// DigestSpec returns the sudoers `Digest_Spec` pinning the contents of the daemon
+// binary. sudo (&gt;= 1.8.7) hashes the file immediately before executing it and
+// refuses to run it when the digest no longer matches, so an attacker who manages
+// to replace the helper cannot get the replacement executed as root. Unlike the
+// ownership checks in validate.go, this is enforced inside sudo itself and is
+// therefore not subject to a time-of-check/time-of-use race with limactl.
+func (c *Config) DigestSpec(daemon string) (string, error) {
+	path, err := c.DaemonPath(daemon)
+	if err != nil {
+		return &quot;&quot;, err
+	}</code></pre>
+    <p>&quot;Unlike the ownership checks in validate.go&quot; contrasts two checks as though both covered this binary. Only one does. <code>Validate()</code> walks <code>c.Paths</code> (<a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/validate.go#L59"><code>validate.go:59</code></a>), and the helper is not a <code>Paths</code> field, so nothing on the limactl side checks its ownership. What does enforce root ownership is <code>verifySelf()</code> in the merged helper (<a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/cmd/lima-privileged-net/sys_linux.go#L209"><code>cmd/lima-privileged-net/sys_linux.go:209</code></a>). The narrower claim, that no race with limactl exists, is accurate, and sudoers(5)&#39;s own TOCTOU warning concerns a different window.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/validate.go#L54-L64">pkg/networks/validate.go</a></div>
+      <pre data-start="54" data-line="59"><code class="language-go">				return fmt.Errorf(&quot;invalid interface %#q for network %#q: %w&quot;, nw.Interface, name, err)
+			}
+		}
+	}
+
+	// validate all paths.* values
+	paths := reflect.ValueOf(&amp;c.Paths).Elem()
+	pathsMap := make(map[string]string, paths.NumField())
+	var socketVMNetNotFound bool
+	for i := range paths.NumField() {
+		// extract YAML name from struct tag; strip options like &quot;omitempty&quot;</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/cmd/lima-privileged-net/sys_linux.go#L204-L214">cmd/lima-privileged-net/sys_linux.go</a></div>
+      <pre data-start="204" data-line="209"><code class="language-go">// verifySelf refuses to run when this executable, or any directory leading to
+// it, is writable by anyone but root. This helper runs as root, so a writable path
+// hands root to whoever can write there. The sudoers file additionally pins the
+// SHA-256 of the binary, but that only covers hosts that use it: a host with
+// blanket password-less sudo has no sudoers entry to pin.
+func verifySelf() error {
+	// On Linux this reads /proc/self/exe, which is the path of the running inode
+	// (already fully resolved), not something the caller can influence.
+	exe, err := os.Executable()
+	if err != nil {
+		return err</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-digest-provenance.sh; run: bash probe-digest-provenance.sh
+# Needs: go, and the lima repo checkout as the working directory.
+set -eu
+trap &#39;rm -f pkg/networks/zz_probe_test.go&#39; EXIT
+cat &gt; pkg/networks/zz_probe_test.go &lt;&lt;&#39;EOF&#39;
+package networks
+
+import (
+	&quot;os&quot;
+	&quot;path/filepath&quot;
+	&quot;testing&quot;
+
+	&quot;github.com/lima-vm/lima/v2/pkg/usrlocal&quot;
+)
+
+func TestProbeDigestProvenance(t *testing.T) {
+	prefix := t.TempDir()
+	helper := filepath.Join(prefix, &quot;libexec&quot;, &quot;lima&quot;, privilegedSubdir, LimaPrivilegedNet)
+	if err := os.MkdirAll(filepath.Dir(helper), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(helper, []byte(&quot;#!/bin/sh\nid\n&quot;), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	usrlocal.ExecutableViaArgs0 = func() (string, error) {
+		return filepath.Join(prefix, &quot;bin&quot;, &quot;limactl&quot;), nil
+	}
+	spec, err := (&amp;Config{}).DigestSpec(LimaPrivilegedNet)
+	t.Logf(&quot;DigestSpec on a helper owned by uid %d -&gt; %q err=%v&quot;, os.Getuid(), spec, err)
+	t.Logf(&quot;validatePath on the same file        -&gt; %v&quot;, validatePath(helper, false))
+}
+EOF
+go test -count=1 ./pkg/networks/ -run TestProbeDigestProvenance -v 2&gt;&amp;1 | grep -- &#39;-&gt;&#39;</code></pre>
+      <pre><code class="language-text">$ bash probe-digest-provenance.sh
+    zz_probe_test.go:24: DigestSpec on a helper owned by uid 501 -&gt; &quot;sha256:d7ac283f0efbed24578bd65e51cadae8102f93a9b6b367fbffdb3dbf154af941&quot; err=&lt;nil&gt;
+    zz_probe_test.go:25: validatePath on the same file        -&gt; file `/var/folders/s2/.../libexec/lima/privileged/lima-privileged-net` is not owned by `root` (uid: 0), but by uid 501</code></pre>
+      </details>
+    <p><code>validatePath</code> rejects the very file <code>DigestSpec</code> accepted, on the same call.</p>
+    <p>Fix: name <code>verifySelf()</code> as the thing that enforces ownership, and drop the validate.go contrast.</p>
+    </div>
+    <div class="card card-important" data-file="pkg/networks/commands_test.go">
+      <div class="finding-title" id="I5">
+        <span class="finding-num">I5.</span> The new <code>lima-privileged-net</code> subtest has never run anywhere <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#I5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands_test.go#L86-L99">pkg/networks/commands_test.go</a></div>
+      <pre data-start="86" data-line="91-94"><code class="language-go">		cmd = config.StartCmd(&quot;bridged&quot;, SocketVMNet)
+		assert.Equal(t, cmd, &quot;/opt/socket_vmnet/bin/socket_vmnet --pidfile=&quot;+filepath.Join(varRunDir, &quot;bridged_socket_vmnet.pid&quot;)+&quot; --socket-group=admin --vmnet-mode=bridged &quot;+
+			&quot;--vmnet-interface=en0 &quot;+filepath.Join(varRunDir, &quot;socket_vmnet.bridged&quot;))
+	})
+
+	t.Run(&quot;lima-privileged-net&quot;, func(t *testing.T) {
+		if ok, _ := config.IsDaemonInstalled(LimaPrivilegedNet); !ok {
+			t.Skip(&quot;lima-privileged-net is not installed&quot;)
+		}
+		helper, err := limaPrivilegedNetPath()
+		assert.NilError(t, err)
+
+		cmd := config.StartCmd(&quot;shared&quot;, LimaPrivilegedNet)
+		assert.Equal(t, cmd, helper+&quot; start --pidfile=&quot;+filepath.Join(varRunDir, &quot;shared_lima-privileged-net.pid&quot;)+&quot; --mode=shared --bridge=lima-shared &quot;+</code></pre>
+    <p><code>IsDaemonInstalled</code> resolves through <code>SelfDirs()</code>, which derives the prefix from the running executable. Under <code>go test</code> that is the test binary in the build cache, so the skip fires however lima is installed, and CI runs <code>go test</code> before <code>make install</code> anyway. Forcing the subtest to run does not help either: its assertion at line 103 expects <code>--bridge=br0</code>, while the shared <code>networks.TEMPLATE.yaml</code> sets <code>bridged.interface: en0</code>. Required, by the where-it-runs check: this renders a root command line, and the test that appears to cover it cannot execute.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands_test.go#L98-L108">pkg/networks/commands_test.go</a></div>
+      <pre data-start="98" data-line="103"><code class="language-go">		cmd := config.StartCmd(&quot;shared&quot;, LimaPrivilegedNet)
+		assert.Equal(t, cmd, helper+&quot; start --pidfile=&quot;+filepath.Join(varRunDir, &quot;shared_lima-privileged-net.pid&quot;)+&quot; --mode=shared --bridge=lima-shared &quot;+
+			&quot;--gateway=192.168.105.1 --dhcp-end=192.168.105.254 --netmask=255.255.255.0&quot;)
+
+		cmd = config.StartCmd(&quot;bridged&quot;, LimaPrivilegedNet)
+		assert.Equal(t, cmd, helper+&quot; start --pidfile=&quot;+filepath.Join(varRunDir, &quot;bridged_lima-privileged-net.pid&quot;)+&quot; --mode=bridged --bridge=br0&quot;)
+
+		assert.Equal(t, config.TapCmd(&quot;shared&quot;, TapNamePattern()),
+			helper+&quot; tap --bridge=lima-shared limatap[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]&quot;)
+	})
+}</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-subtest-skips.sh; run: bash probe-subtest-skips.sh
+# Needs: go, and the lima repo checkout as the working directory.
+set -eu
+echo &quot;--- lima IS installed on this host:&quot;
+ls -d /usr/local/libexec/lima
+echo &quot;--- yet only the socket_vmnet sibling runs:&quot;
+go test -count=1 ./pkg/networks/ -run TestStartCmd -v 2&gt;&amp;1 | grep -E &#39;SKIP|PASS: TestStartCmd&#39;
+echo &quot;--- because CI runs the unit tests before installing anything:&quot;
+sed -n &#39;137,142p&#39; .github/workflows/test.yml</code></pre>
+      <pre><code class="language-text">$ bash probe-subtest-skips.sh
+--- lima IS installed on this host:
+/usr/local/libexec/lima
+--- yet only the socket_vmnet sibling runs:
+--- PASS: TestStartCmd (0.00s)
+    --- PASS: TestStartCmd/socket_vmnet (0.00s)
+    --- SKIP: TestStartCmd/lima-privileged-net (0.00s)
+--- because CI runs the unit tests before installing anything:
+    - name: Unit tests
+      run: go test -v ./...
+    - name: Make
+      run: make
+    - name: Install
+      run: sudo make install</code></pre>
+      </details>
+    <p>Applying I3&#39;s patch leaves the suite green, because the one assertion that pins the pattern sits inside this subtest.</p>
+    <p>Fix: take the resolved path as a parameter and assert on that with a fixture path, leaving <code>StartCmd</code> and <code>TapCmd</code> as thin wrappers. Correct the <code>br0</code> expectation in the same pass.</p>
+    </div>
+    <div class="card card-important" data-file="">
+      <div class="finding-title" id="I6">
+        <span class="finding-num">I6.</span> The commit message and PR description describe a <code>paths.limaPrivilegedNet</code> field that does not exist <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I6" class="pilcrow">&#182;</a>
+      </div>
+    <p>The second bullet of both texts reads &quot;paths.limaPrivilegedNet holds the path of the Linux helper, mirroring paths.socketVMNet.&quot; After the thread on configurability, the path is computed by <code>limaPrivilegedNetPath()</code> and no such field was added. Lima squashes each PR to one commit, so this becomes the permanent record of a design the branch abandoned, and it sends a future reader looking for a knob in <code>networks.yaml</code>.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-paths-field.sh; run: bash probe-paths-field.sh
+# Needs: git, and the lima repo checkout as the working directory.
+set -eu
+echo &quot;--- what the commit body claims:&quot;
+git show -s --format=%B 2db0e593 | grep &#39;paths\.&#39;
+echo &quot;--- every field the Paths struct has:&quot;
+sed -n &#39;/^type Paths struct/,/^}/p&#39; pkg/networks/networks.go</code></pre>
+      <pre><code class="language-text">$ bash probe-paths-field.sh
+--- what the commit body claims:
+- paths.limaPrivilegedNet holds the path of the Linux helper, mirroring
+  paths.socketVMNet.
+--- every field the Paths struct has:
+type Paths struct {
+	SocketVMNet string `yaml:&quot;socketVMNet&quot; json:&quot;socketVMNet&quot;`
+	VarRun      string `yaml:&quot;varRun&quot; json:&quot;varRun&quot;`
+	Sudoers     string `yaml:&quot;sudoers,omitempty&quot; json:&quot;sudoers,omitempty&quot;`
+}</code></pre>
+      </details>
+    <p>Fix: replace the bullet with what the code does, for example &quot;the helper is located at <code>&lt;libexec&gt;/lima/privileged/lima-privileged-net</code>, next to the other libexec helpers, and is deliberately not configurable.&quot; Update the PR description to match.</p>
+    </div>
+    <div class="card card-important" data-file="pkg/networks/commands.go">
+      <div class="finding-title" id="I7">
+        <span class="finding-num">I7.</span> Any sudoers-group member can pre-create another user&#39;s tap device <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-claude">Claude Opus 5</span><a href="#I7" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands.go#L235-L250">pkg/networks/commands.go</a></div>
+      <pre data-start="235" data-line="240-245"><code class="language-go">}
+
+// TapName returns the name of the tap device connecting an instance to a
+// network. A hash keeps the name within the maxIfNameLen limit and within the
+// fixed shape that TapNamePattern pins down in the sudoers file. The uid is part
+// of the hash because the bridges are shared between all users of the sudoers
+// group, and a tap device may only ever be used by its owner.
+func TapName(instName, netName string) string {
+	sum := sha256.Sum256(fmt.Appendf(nil, &quot;%d/%s/%s&quot;, os.Getuid(), instName, netName))
+	return fmt.Sprintf(&quot;%s%x&quot;, tapPrefix, sum)[:len(tapPrefix)+tapDigits]
+}
+
+// TapNamePattern is the sudoers wildcard matching exactly the names generated by
+// TapName. Character classes are used instead of &quot;*&quot; because &quot;*&quot; would also
+// match whitespace, which would allow smuggling extra arguments into the command.
+func TapNamePattern() string {</code></pre>
+    <p>The comment presents the uid as a security property. It is namespace separation. <code>TapName</code> is a pure public function of three guessable values, and <code>TapNamePattern</code> authorises every result for the whole group, so a member can compute a victim&#39;s name and create it first. <code>tapUp</code> then refuses the device to its owner (<a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/cmd/lima-privileged-net/network_linux.go#L426"><code>cmd/lima-privileged-net/network_linux.go:426</code></a>), blocking that instance from starting. Ownership holds, availability does not.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/cmd/lima-privileged-net/network_linux.go#L421-L431">cmd/lima-privileged-net/network_linux.go</a></div>
+      <pre data-start="421" data-line="426"><code class="language-go">		// caller, and never take it away from its owner.
+		owner, err := tapOwner(tap)
+		if err != nil {
+			return err
+		}
+		if owner != int64(uid) {
+			return fmt.Errorf(&quot;tap device %#q is owned by uid %d, not by uid %d&quot;, tap, owner, uid)
+		}
+	} else if err := createTap(ctx, tap, uid); err != nil {
+		return err
+	}</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-tapname-public.sh; run: bash probe-tapname-public.sh
+# Needs: go, and the lima repo checkout as the working directory.
+set -eu
+trap &#39;rm -f pkg/networks/zz_probe_test.go&#39; EXIT
+cat &gt; pkg/networks/zz_probe_test.go &lt;&lt;&#39;EOF&#39;
+package networks
+
+import (
+	&quot;crypto/sha256&quot;
+	&quot;fmt&quot;
+	&quot;os&quot;
+	&quot;path/filepath&quot;
+	&quot;testing&quot;
+)
+
+func TestProbeTapNameIsPublic(t *testing.T) {
+	// Re-derive TapName&#39;s formula for accounts this process has no access to.
+	for _, uid := range []int{os.Getuid(), 1001, 1002} {
+		sum := sha256.Sum256(fmt.Appendf(nil, &quot;%d/%s/%s&quot;, uid, &quot;default&quot;, &quot;shared&quot;))
+		name := fmt.Sprintf(&quot;%s%x&quot;, tapPrefix, sum)[:len(tapPrefix)+tapDigits]
+		ok, _ := filepath.Match(TapNamePattern(), name)
+		t.Logf(&quot;uid=%-5d default/shared -&gt; %s  sudoersPatternAuthorizes=%v&quot;, uid, name, ok)
+	}
+	t.Logf(&quot;TapName(\&quot;default\&quot;, \&quot;shared\&quot;) running as uid %d = %s&quot;, os.Getuid(), TapName(&quot;default&quot;, &quot;shared&quot;))
+}
+EOF
+go test -count=1 ./pkg/networks/ -run TestProbeTapNameIsPublic -v 2&gt;&amp;1 | grep -E &#39;uid=|TapName\(&#39;</code></pre>
+      <pre><code class="language-text">$ bash probe-tapname-public.sh
+    zz_probe_test.go:17: uid=501   default/shared -&gt; limatap4751748a  sudoersPatternAuthorizes=true
+    zz_probe_test.go:17: uid=1001  default/shared -&gt; limatape77b2444  sudoersPatternAuthorizes=true
+    zz_probe_test.go:17: uid=1002  default/shared -&gt; limatap74da3ae5  sudoersPatternAuthorizes=true
+    zz_probe_test.go:19: TapName(&quot;default&quot;, &quot;shared&quot;) running as uid 501 = limatap4751748a</code></pre>
+      </details>
+    <p>Unproven: the end-to-end denial of service needs a Linux host with the helper installed and two sudoers-group accounts, which no in-process test reaches.</p>
+    <p>Fix: pass <code>--instance</code> and <code>--network</code> and let the helper derive the tap name from <code>SUDO_UID</code>, so a caller can only name its own device. That loosens the wildcard to an instance name, which the helper would validate. Settling this before <a href="https://github.com/lima-vm/lima/issues/5485" class="gh-ref" data-title="networks: generate Linux defaults, validation and sudoers rules" data-state="open" data-type="pr">#5485</a> writes the rules is cheaper than changing them after.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="pkg/networks/config.go">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> <code>limaPrivilegedNetPath</code> takes <code>dirs[0]</code> without checking the helper is in it <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+    <p>Every other consumer of these directories iterates the whole list and picks the one that contains the file: see <a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/plugins/plugins.go#L61"><code>pkg/plugins/plugins.go:61</code></a>, <a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/registry/registry.go#L122"><code>pkg/registry/registry.go:122</code></a>, and <code>usrlocal.GuestAgentBinary</code> itself (<a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/usrlocal/usrlocal.go#L141"><code>pkg/usrlocal/usrlocal.go:141</code></a>). Taking the first entry means a prefix whose <code>libexec/lima</code> exists but has no <code>privileged/</code> shadows a later prefix that does have the helper.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/plugins/plugins.go#L56-L66">pkg/plugins/plugins.go</a></div>
+      <pre data-start="56" data-line="61"><code class="language-go">	pathEnv := os.Getenv(&quot;PATH&quot;)
+	if pathEnv != &quot;&quot; {
+		pathDirs := filepath.SplitList(pathEnv)
+		dirs = append(dirs, pathDirs...)
+	}
+
+	libexecDirs, err := usrlocal.LibexecLima()
+	if err == nil {
+		dirs = append(dirs, libexecDirs...)
+	}
+</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/registry/registry.go#L117-L127">pkg/registry/registry.go</a></div>
+      <pre data-start="117" data-line="122"><code class="language-go">				registerDriverFile(path)
+			}
+		}
+	}
+
+	stdDriverDirs, err := usrlocal.LibexecLima()
+	if err != nil {
+		return err
+	}
+
+	logrus.Debugf(&quot;Discovering external drivers in %v&quot;, stdDriverDirs)</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/usrlocal/usrlocal.go#L136-L146">pkg/usrlocal/usrlocal.go</a></div>
+      <pre data-start="136" data-line="141"><code class="language-go">	}
+	shareLimaDirs, err := ShareLima()
+	if err != nil {
+		return &quot;&quot;, err
+	}
+	for _, dir := range shareLimaDirs {
+		uncomp := filepath.Join(dir, &quot;lima-guestagent.&quot;+ostype+&quot;-&quot;+arch)
+		comp := uncomp + &quot;.gz&quot;
+		var res string
+		res, err = chooseGABinary([]string{comp, uncomp})
+		if err != nil {</code></pre>
+    <p>Fix: iterate <code>dirs</code> and return the first that contains an executable helper, folding the I1 error into the same &quot;none found&quot; branch.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/networks/commands.go">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> <code>StartCmd</code> and <code>TapCmd</code> re-resolve the path instead of calling <code>c.DaemonPath</code> <span class="pill pill-claude">Claude Opus 5</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+    <p><code>DaemonPath</code> already maps <code>LimaPrivilegedNet</code> to <code>limaPrivilegedNetPath()</code> at line 82, and both call sites have <code>daemon</code> in hand. Going straight to the package-level helper duplicates the mapping.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands.go#L77-L87">pkg/networks/commands.go</a></div>
+      <pre data-start="77" data-line="82"><code class="language-go">// DaemonPath returns the daemon path.
+func (c *Config) DaemonPath(daemon string) (string, error) {
+	switch daemon {
+	case SocketVMNet:
+		return c.Paths.SocketVMNet, nil
+	case LimaPrivilegedNet:
+		return limaPrivilegedNetPath()
+	default:
+		return &quot;&quot;, fmt.Errorf(&quot;unknown daemon type %#q&quot;, daemon)
+	}
+}</code></pre>
+    <p>Fix: use <code>c.DaemonPath(daemon)</code> in both. The I1 fix then lands in one place.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/networks/commands.go">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> Address arguments render for every non-bridged mode, unlike the socket_vmnet arm <span class="pill pill-claude">Claude Opus 5</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands.go#L184-L197">pkg/networks/commands.go</a></div>
+      <pre data-start="184" data-line="189-192"><code class="language-go">		if err != nil {
+			panic(fmt.Errorf(&quot;failed to get lima-privileged-net path: %w&quot;, err))
+		}
+		cmd = fmt.Sprintf(&quot;%s start --pidfile=%s --mode=%s --bridge=%s&quot;,
+			privilegedNetPath, c.PIDFile(name, LimaPrivilegedNet), nw.Mode, c.BridgeName(name))
+		if nw.Mode != ModeBridged {
+			cmd += fmt.Sprintf(&quot; --gateway=%s --dhcp-end=%s --netmask=%s&quot;,
+				nw.Gateway, nw.DHCPEnd, nw.NetMask)
+		}
+	default:
+		panic(fmt.Errorf(&quot;unexpected daemon %#q&quot;, daemon))
+	}
+	return cmd
+}</code></pre>
+    <p>The socket_vmnet arm eleven lines above switches on <code>ModeHost, ModeShared</code>, so an unrecognised mode renders no address arguments there. <code>Validate()</code> only checks that the mode is a valid identifier, never its membership in <code>Modes</code>, so <code>mode: shred</code> yields <code>--gateway=&lt;nil&gt; --dhcp-end=&lt;nil&gt; --netmask=&lt;nil&gt;</code>. The helper rejects it, so nothing breaks; the asymmetry is what to remove.</p>
+    <p>Fix: mirror the sibling with <code>switch nw.Mode { case ModeHost, ModeShared: ... }</code>.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/networks/commands.go">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> <code>RequiredDaemons</code>&#39;s comment claims the rest of the package is generic over the daemon name <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands.go#L42-L52">pkg/networks/commands.go</a></div>
+      <pre data-start="42" data-line="47"><code class="language-go">	privilegedSubdir = &quot;privileged&quot;
+)
+
+// RequiredDaemons returns the privileged helpers needed by the non-usernet
+// networks on this host: socket_vmnet on macOS, lima-privileged-net on Linux.
+// Everything else in this package is generic over the daemon name.
+func RequiredDaemons() []string {
+	switch runtime.GOOS {
+	case &quot;darwin&quot;:
+		return []string{SocketVMNet}
+	case &quot;linux&quot;:</code></pre>
+    <p><code>Sock()</code> returns <code>socket_vmnet.&lt;name&gt;</code> and says so in its own comment (<a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands.go#L130"><code>commands.go:130</code></a>), and <a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/sudoers.go#L40"><code>sudoers.go:40</code></a>, <a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/sudoers.go#L68"><code>sudoers.go:68</code></a> and <a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/reconcile/reconcile.go#L219"><code>reconcile/reconcile.go:219</code></a> still hardcode <code>SocketVMNet</code>. The sentence describes where the series is going.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands.go#L125-L135">pkg/networks/commands.go</a></div>
+      <pre data-start="125" data-line="130"><code class="language-go">		return false, err
+	}
+	return true, nil
+}
+
+// Sock returns a socket_vmnet socket.
+func (c *Config) Sock(name string) string {
+	return filepath.Join(c.Paths.VarRun, fmt.Sprintf(&quot;socket_vmnet.%s&quot;, name))
+}
+
+func (c *Config) PIDFile(name, daemon string) string {</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/sudoers.go#L35-L45">pkg/networks/sudoers.go</a></div>
+      <pre data-start="35" data-line="40"><code class="language-go">	slices.Sort(names)
+
+	for _, name := range names {
+		sb.WriteRune(&#39;\n&#39;)
+		fmt.Fprintf(&amp;sb, &quot;# Manage %q network daemons\n&quot;, name)
+		for _, daemon := range []string{SocketVMNet} {
+			if ok, err := cfg.IsDaemonInstalled(daemon); err != nil {
+				return &quot;&quot;, err
+			} else if !ok {
+				continue
+			}</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/sudoers.go#L63-L73">pkg/networks/sudoers.go</a></div>
+      <pre data-start="63" data-line="68"><code class="language-go">	if err := cmd.Run(); err != nil {
+		return fmt.Errorf(&quot;failed to run %v: %w&quot;, cmd.Args, err)
+	}
+	// Verify that user/groups for both daemons work without a password, e.g.
+	// %admin ALL = (ALL:ALL) NOPASSWD: ALL
+	for _, daemon := range []string{SocketVMNet} {
+		if ok, err := c.IsDaemonInstalled(daemon); err != nil {
+			return err
+		} else if !ok {
+			continue
+		}</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/reconcile/reconcile.go#L214-L224">pkg/networks/reconcile/reconcile.go</a></div>
+      <pre data-start="214" data-line="219"><code class="language-go">	}
+
+	if err := validateConfig(ctx, cfg); err != nil {
+		return err
+	}
+	var daemons []string
+	ok, err := cfg.IsDaemonInstalled(networks.SocketVMNet)
+	if err != nil {
+		return err
+	}
+	if ok {</code></pre>
+    <p>Fix: drop the sentence, or land it with the consumer conversions in <a href="https://github.com/lima-vm/lima/issues/5485" class="gh-ref" data-title="networks: generate Linux defaults, validation and sudoers rules" data-state="open" data-type="pr">#5485</a>.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/networks/commands.go">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> Hand-rolled SHA-256 where <code>go-digest</code> is already a direct dependency <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+    <p><code>github.com/opencontainers/go-digest v1.0.0</code> is a direct requirement at <a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/go.mod#L50"><code>go.mod:50</code></a>, and <code>digest.FromReader(f).String()</code> produces the same <code>sha256:&lt;hex&gt;</code> string. This is @AkihiroSuda&#39;s open nit at <a href="https://github.com/lima-vm/lima/pull/5484#discussion_r4020752794">r4020752794</a>.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/go.mod#L45-L55">go.mod</a></div>
+      <pre data-start="45" data-line="50"><code class="language-plaintext">	github.com/mdlayher/vsock v1.3.0 // gomodjail:unconfined
+	github.com/miekg/dns v1.1.73 // gomodjail:unconfined
+	github.com/mikefarah/yq/v4 v4.53.6 // gomodjail:unconfined
+	github.com/modelcontextprotocol/go-sdk v1.7.0 // gomodjail:unconfined
+	github.com/nxadm/tail v1.4.11 // gomodjail:unconfined
+	github.com/opencontainers/go-digest v1.0.0
+	github.com/pb33f/ordered-map/v2 v2.3.1
+	github.com/pbnjay/memory v0.0.0-20210728143218-7b4eea64cf58 // gomodjail:unconfined
+	github.com/pkg/sftp v1.13.11 // gomodjail:unconfined
+	github.com/rjeczalik/notify v0.9.3 // gomodjail:unconfined
+	github.com/santhosh-tekuri/jsonschema/v6 v6.0.3 // gomodjail:unconfined</code></pre>
+    <p>Fix: replace the <code>sha256.New()</code>/<code>io.Copy</code> pair with <code>digest.FromReader(f)</code>.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/networks/commands.go">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> <code>TapCmd(name, tap)</code> accepts a tap name derived from a different network <span class="pill pill-claude">Claude Opus 5</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+    <p>The two parameters have to agree, <code>tap</code> being either <code>TapName(instName, name)</code> or <code>TapNamePattern()</code>, but nothing in the signature or the comment says so, and the root-side helper cannot check it. A caller in <a href="https://github.com/lima-vm/lima/issues/5486" class="gh-ref" data-title="networks: enable `lima:shared`, `lima:host` and `lima:bridged` on Linux" data-state="open" data-type="pr">#5486</a> looping over an instance&#39;s networks can pair the wrong two values and attach a tap to another network&#39;s bridge. <code>BridgeName</code> compounds this by returning <code>bridgePrefix+name</code> for a network absent from <code>c.Networks</code>, so a typo yields a plausible bridge name.</p>
+    <p>Fix: split into <code>TapCmd(instName, netName string)</code>, which derives the tap itself, and a separate pattern renderer for the sudoers entry.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/networks/commands_test.go">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> <code>TestMkdirCmd</code> and <code>TestStopCmd</code> now assert against the value they test <span class="pill pill-claude">Claude Opus 5</span><a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands_test.go#L63-L73">pkg/networks/commands_test.go</a></div>
+      <pre data-start="63" data-line="68"><code class="language-go">func TestMkdirCmd(t *testing.T) {
+	config, err := DefaultConfig()
+	assert.NilError(t, err)
+
+	cmd := config.MkdirCmd()
+	assert.Equal(t, cmd, &quot;/bin/mkdir -m 775 -p &quot;+config.Paths.VarRun)
+}
+
+func TestStartCmd(t *testing.T) {
+	config, err := DefaultConfig()
+	assert.NilError(t, err)</code></pre>
+    <p><code>MkdirCmd()</code> is <code>fmt.Sprintf(&quot;/bin/mkdir -m 775 -p %s&quot;, c.Paths.VarRun)</code>, so the assertion now pins only the literal prefix. The previous <code>&quot;/private/var/run/lima&quot;</code> also pinned the default <code>varRun</code>, which is the value interpolated into the sudoers file and the sudo command line. The same applies at line 124.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands_test.go#L119-L129">pkg/networks/commands_test.go</a></div>
+      <pre data-start="119" data-line="124"><code class="language-go">func TestStopCmd(t *testing.T) {
+	config, err := DefaultConfig()
+	assert.NilError(t, err)
+
+	cmd := config.StopCmd(&quot;name&quot;, &quot;daemon&quot;)
+	assert.Equal(t, cmd, &quot;/usr/bin/pkill -F &quot;+filepath.Join(config.Paths.VarRun, &quot;name_daemon.pid&quot;))
+}
+
+func TestIsManagedBridge(t *testing.T) {
+	assert.Assert(t, IsManagedBridge(&quot;lima-shared&quot;))
+	assert.Assert(t, !IsManagedBridge(&quot;br0&quot;))</code></pre>
+    <p>Fix: keep the literal expectation and branch on <code>runtime.GOOS</code> once <a href="https://github.com/lima-vm/lima/issues/5485" class="gh-ref" data-title="networks: generate Linux defaults, validation and sudoers rules" data-state="open" data-type="pr">#5485</a> adds a platform-specific default.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/networks/commands.go">
+      <div class="finding-title" id="S8">
+        <span class="finding-num">S8.</span> <code>DigestSpec</code> has no test <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#S8" class="pilcrow">&#182;</a>
+      </div>
+    <p>Nothing asserts the <code>sha256:&lt;hex&gt;</code> shape that sudoers requires. Optional by the where-it-runs check: a wrong format is rejected loudly by <code>visudo</code> rather than reaching a user, and the test is a few lines over a temporary file.</p>
+    <p>Fix: hash a fixture file through <code>DigestSpec</code> and compare against a literal.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em><code>Config.Validate()</code> cannot succeed on Linux yet (in-scope for the series).<em></em> Every value this PR interpolates into a root command line is safe <em>because</em> <code>identifiers.Validate</code> constrains it to <code>[A-Za-z0-9]+([._-][A-Za-z0-9]+)*</code>, which admits no whitespace and no sudoers or <code>fnmatch</code> metacharacter. But <code>validatePath</code> returns <code>errors.New(&quot;vmnet code must not be called on non-Darwin&quot;)</code> at <a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/validate.go#L174"><code>validate.go:174</code></a> for any non-empty <code>Paths</code> entry, and the shared template always sets <code>socketVMNet</code> and <code>varRun</code>. So <code>Validate()</code> errors out on every Linux host today, and the identifier checks plus the Linux bridge-length check at <a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/validate.go#L42"><code>validate.go:42</code></a> are unreachable on the platform they were written for. <a href="https://github.com/lima-vm/lima/issues/5485" class="gh-ref" data-title="networks: generate Linux defaults, validation and sudoers rules" data-state="open" data-type="pr">#5485</a> has to port that gate. <span class="pill pill-claude">Claude Opus 5</span></li>
+      <li><strong>The digest invalidates the sudoers file on every lima upgrade (future).</strong> Today only a socket_vmnet upgrade forces a regeneration, and <a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/sudoers.go#L117"><code>sudoers.go:117</code></a> already reports that as &quot;out of sync and must be regenerated&quot;. Pinning the helper&#39;s own bytes extends that to every lima release. Worth deciding deliberately rather than discovering it in a bug report. <span class="pill pill-gemini">Gemini 3.1 Pro</span></li>
+      <li><strong>One string serves two grammars (in-scope).</strong> <code>StartCmd</code> and <code>TapCmd</code> produce a single string that is both split into argv by <code>reconcile</code> and embedded in sudoers. A typed specification holding a path plus an argument slice, with separate renderers for the two consumers, would put validation in one place and remove the whitespace coupling behind I2. <span class="pill pill-codex">Codex GPT 5.6 Sol</span></li>
+      <li><strong>The helper path varies with how limactl was invoked (in-scope for <a href="https://github.com/lima-vm/lima/issues/5485" class="gh-ref" data-title="networks: generate Linux defaults, validation and sudoers rules" data-state="open" data-type="pr">#5485</a>).</strong> <code>SelfDirs()</code> starts from <code>exec.LookPath(os.Args[0])</code>. Since <code>VerifySudoAccess</code> compares the whole generated text against the installed file, a user whose limactl resolves through a different prefix gets &quot;out of sync&quot; rather than a working network. <span class="pill pill-claude">Claude Opus 5</span></li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>Character classes instead of <code>*</code> is the right call, and the comment&#39;s reasoning matches sudoers(5): command arguments are matched as one concatenated string, so <code>*</code> crosses word boundaries. <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
+      <li><code>tapPrefix</code>, <code>tapDigits</code> and <code>IsTapName</code> are shared between the rendering side and the root-side helper, so the name the sudoers rule permits and the name the helper accepts cannot drift. <span class="pill pill-claude">Claude Opus 5</span></li>
+      <li><code>tapUp</code> checks the existing device&#39;s owner before reusing it, so a collision, deliberate or accidental, fails closed instead of transferring a tap. <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
+      <li>Adding a <code>Digest_Spec</code> at all is real hardening over the ownership-check-only model, I4&#39;s comment notwithstanding. <span class="pill pill-claude">Claude Opus 5</span></li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><strong>Required</strong></p>
+    <ul>
+      <li>The <code>lima-privileged-net</code> rendering has no executable coverage (I5). The subtest that appears to provide it skips everywhere, and would fail on its <code>br0</code> expectation if forced to run. A permanently-skipping test is worse than none, because it reads as coverage.</li>
+    </ul>
+    <p><strong>Optional</strong></p>
+    <ul>
+      <li><code>TapNamePattern()</code> matches every <code>TapName()</code> output. Both derive from <code>tapPrefix</code>/<code>tapDigits</code>, so they cannot drift today, but a change to the hash encoding would break the sudoers rule silently. One <code>filepath.Match</code> call pins it.</li>
+      <li><code>DigestSpec</code>&#39;s output format (S8).</li>
+    </ul>
+    <p><strong>Already covered</strong></p>
+    <ul>
+      <li><code>IsTapName</code>&#39;s accept and reject behaviour, by <code>TestIsTapName</code>.</li>
+      <li>Whitespace and metacharacter injection through network names, interfaces, modes and groups, by <code>TestValidateRejectsInjectableNetworkDefinitions</code> (<a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/validate_test.go#L12"><code>validate_test.go:12</code></a>).</li>
+      <li>The socket_vmnet rendering, by <code>TestStartCmd/socket_vmnet</code>, which does run.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Four doc comments need correcting, each filed above: <code>DigestSpec</code> (I4), <code>TapNamePattern</code> (I3), <code>TapName</code> (I7) and <code>RequiredDaemons</code> (S4). <code>DaemonPath</code>&#39;s comment is still the bare &quot;DaemonPath returns the daemon path&quot; and now hides that one arm reads a config field while the other does a filesystem lookup that can fail.</p>
+    <p>No user-facing documentation for <code>lima-privileged-net</code> exists under <code>website/</code> at this SHA. <a href="https://github.com/lima-vm/lima/issues/5486" class="gh-ref" data-title="networks: enable `lima:shared`, `lima:host` and `lima:bridged` on Linux" data-state="open" data-type="pr">#5486</a> promises it; noting it so the series split does not lose it.</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>One commit, signed off, scoped to a single concept, with an accurate subject. The body&#39;s second bullet is wrong (I6). The PR carries the <code>Assisted-by: Claude Opus 5</code> trailer the contributing guide asks for, and the split into <a href="https://github.com/lima-vm/lima/issues/5483" class="gh-ref" data-title="`lima-privileged-net`: add the privileged network helper for Linux hosts" data-state="merged" data-type="pr">#5483</a>/#5484/#5485/ <a href="https://github.com/lima-vm/lima/issues/5486" class="gh-ref" data-title="networks: enable `lima:shared`, `lima:host` and `lima:bridged` on Linux" data-state="open" data-type="pr">#5486</a> matches the guide&#39;s one-fix-per-PR rule.</p>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><a href="https://github.com/lima-vm/lima/pull/5484#discussion_r4003956456">r4003956456</a> — @AkihiroSuda: *&quot;return an error, otherwise the called may proceed to use an empty path (potentially resolves into <code>/</code>)&quot;<em>, repeated at [r4020757289](https://github.com/lima-vm/lima/pull/5484#discussion_r4020757289) and answered by @unsuman with *&quot;No, we need to add a check at the function call&quot;</em> (<a href="https://github.com/lima-vm/lima/pull/5484#discussion_r4033575157">r4033575157</a>). No check exists at this SHA. See I1.</li>
+      <li><a href="https://github.com/lima-vm/lima/pull/5484#discussion_r4020752794">r4020752794</a> — @AkihiroSuda&#39;s <code>go-digest#FromReader</code> nit. See S5.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5"><span class="pill pill-claude">Claude Opus 5</span> <a href="#claude-opus-5" class="pilcrow">&#182;</a></h3>
+    <p>The broadest and best-calibrated run. It was the only agent to notice that <code>LibexecLima()</code> has a single return statement, which is what makes the <code>err != nil</code> guard and both panics unreachable, and the only one to reach I5&#39;s root cause rather than its symptom. Its four suggestions that no other agent raised (S2, S3, S6, S7) are all real. It filed the whitespace defect accurately but buried it in Design Observations while Gemini made it a Critical, which cost it the headline; the mechanism it described was the same one. Its <code>go-digest</code> equivalence claim came with a byte-identical hash it had computed, which I did not need to redo.</p>
+    <h3 id="codex-gpt-5-6-sol"><span class="pill pill-codex">Codex GPT 5.6 Sol</span> <a href="#codex-gpt-5-6-sol" class="pilcrow">&#182;</a></h3>
+    <p>Contributed the one finding nobody else could have guessed at: that <code>fnmatch</code> range expressions follow <code>LC_COLLATE</code>, with a C reproducer that runs, and a proposed fix whose behaviour I confirmed across four locales. Its reproducer for the digest-provenance claim reassigns <code>usrlocal.ExecutableViaArgs0</code>, which works only because that identifier is a package-level <code>var</code> rather than a function; I checked before trusting the quoted output, and it held. It was also the only agent to name <code>TestValidateRejectsInjectableNetworkDefinitions</code> as existing coverage instead of asking for a test that is already there. Its severity calibration was the closest to what survived.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Found the whitespace defect and rated it Critical, which put it at the top of the report where it belonged, though the rating did not survive: the <code>Digest_Spec</code> this same PR adds would make sudo deny the mismatched command rather than run it. It reasoned the <code>DigestSpec</code> TOCTOU question more carefully than Claude or Codex did and reached the right answer on the narrow claim, which stopped me filing an overstated finding of my own. Against that, its Testing Assessment called <code>TapCmd</code>, <code>TapName</code> and <code>StartCmd</code> &quot;well-covered by the new subtests&quot; — the exact opposite of I5, and the one place where an agent&#39;s assessment would have misdirected the author.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Leaked six lines of tool narration above its header table again, and its section headings ran a level deeper than the format asks. It reached I1 independently with a working reproducer, and it was the first agent whose output I read to surface the maintainer&#39;s unresolved comment thread, which reframed I1 from a fresh discovery into ignored feedback. Its I2 claimed <code>StartCmd</code> leaks the empty path the same way <code>TapCmd</code> does; it attached no reproducer to that half, and the <code>IsDaemonInstalled</code> guard refutes it. Both Gemini models share a family, so their agreement on the wildcard being a strength counts as one opinion, not two.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5</span></th><th><span class="pill pill-codex">Codex GPT 5.6 Sol</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>18m 38s</td><td>18m 03s</td><td>7m 29s</td><td>4m 42s</td></tr>
+        <tr><td>Findings</td><td>7I 7S</td><td>7I 3S</td><td>3I 2S</td><td>2I</td></tr>
+        <tr><td>Tool calls</td><td>53 (Bash 49, Read 4)</td><td>52 (shell 35, apply<em>patch 12, web_</em>run 5)</td><td>28 (run<em>shell</em>command 28)</td><td>36 (read<em>file 16, grep</em>search 10, run<em>shell</em>command 4)</td></tr>
+        <tr><td>Design observations</td><td>5</td><td>3</td><td>2</td><td>2</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+        <tr><td>Unique insights</td><td>6</td><td>2</td><td>1</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>7I 7S</strong></td><td><strong>7I 3S</strong></td><td><strong>3I 2S</strong></td><td><strong>2I</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p>Claude and Codex were worth the most this round and complement each other cleanly: Claude for breadth and for the unreachable-error-path insight, Codex for the one platform fact no amount of code reading would surface. Gemini Pro earned its slot on C1 alone even after the downgrade, since it put the right defect first. Flash&#39;s contribution was a single finding three other agents also made, plus one refuted claim.</p>
+    <p><strong>Reconciliation.</strong> Gemini 3.1 Pro C1 whitespace in the helper path: critical → important I2, because the digest pinning makes sudo deny rather than execute the mismatched command. Gemini 3.1 Pro I2 tap-name denial of service: kept at important as I7. Gemini 3.5 Flash I2 <code>StartCmd</code> empty path: dropped as a false positive, refuted by the <code>IsDaemonInstalled</code> guard at <a href="https://github.com/lima-vm/lima/blob/2db0e593658527cfc81dbda8e69b6d0598258526/pkg/networks/commands.go#L160"><code>commands.go:160</code></a>. Gemini 3.5 Flash S1 <code>DigestSpec</code> opaque error: folded into I1. Claude&#39;s whitespace design observation and Codex&#39;s I1 were merged into I2; Codex&#39;s S2 and Claude&#39;s I3 were merged into I5.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>When a finding&#39;s severity depends on a mechanism that a companion PR introduces, state which of the two outcomes the mechanism produces before assigning the severity. A defect that renders an invalid privileged command and one that renders a valid but wrong one read identically in a diff, and they differ by an order of magnitude in consequence.</li>
+      <li>Before crediting a wildcard, glob, or character class in a generated configuration file as a safety property, identify which library evaluates it at runtime and whether its behaviour depends on locale, case folding, or path separators. A pattern that is exact under the C locale is not exact under every locale, and the tool&#39;s own default is what settles it.</li>
+      <li>When a test guards itself with a runtime capability check, run the suite and confirm the guarded body executes before crediting it as coverage. A test that skips on every platform reads as coverage in a diff and in a coverage summary.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>[repo] <code>usrlocal.LibexecLima()</code> never returns a non-nil error; its only return statement is <code>return candidates, nil</code>. A caller that writes <code>if err != nil || len(dirs) == 0 { return &quot;&quot;, err }</code> therefore reports &quot;not found&quot; as success. Flag that shape wherever it appears.</li>
+      <li>[repo] <code>pkg/networks/validate.go</code> applies its path safety checks (absolute, no whitespace, no symlink, root-owned, not group-writable) only to fields of the <code>Paths</code> struct. Any other path that reaches a sudoers file or a <code>sudo</code> command line gets none of them. The file-level comment in <code>commands.go</code> states the no-whitespace invariant as though it were global.</li>
+      <li>[repo] <code>pkg/networks/reconcile/reconcile.go</code> splits the rendered command string on a single space before handing it to <code>sudo</code>, so whitespace anywhere in an interpolated value shifts every later argument.</li>
+      <li>[repo] REMOVE nothing from <code>deep-review-context.md</code> this round; no entry was contradicted by the code under review.</li>
+    </ul>
+    <h3 id="deliberate-divergences">Deliberate divergences <a href="#deliberate-divergences" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>I6 cites commit <a href="https://github.com/lima-vm/lima/commit/2db0e593"><code>2db0e593</code></a> rather than a file, because the finding is about the commit message. The citation lint accepts it, counting it among the six findings with no leading block; inventing a file reference would point the reader at code the finding is not about.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){var t="\\b(?:BASH|BASHOPTS|BASH_ALIASES|BASH_ARGC|BASH_ARGV|BASH_CMDS|BASH_COMPLETION_COMPAT_DIR|BASH_LINENO|BASH_REMATCH|BASH_SOURCE|BASH_VERSINFO|BASH_VERSION|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|EUID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_ADDRESS|LC_ALL|LC_IDENTIFICATION|LC_MEASUREMENT|LC_MONETARY|LC_NAME|LC_NUMERIC|LC_PAPER|LC_TELEPHONE|LC_TIME|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS1|PS2|PS3|PS4|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UID|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_CONFIG_DIRS|XDG_CURRENT_DESKTOP|XDG_DATA_DIRS|XDG_GREETER_DATA_DIR|XDG_MENU_PREFIX|XDG_RUNTIME_DIR|XDG_SEAT|XDG_SEAT_PATH|XDG_SESSION_DESKTOP|XDG_SESSION_ID|XDG_SESSION_PATH|XDG_SESSION_TYPE|XDG_VTNR|XMODIFIERS)\\b",a={pattern:/(^(["']?)\w+\2)[ \t]+\S.*/,lookbehind:!0,alias:"punctuation",inside:null},n={bash:a,environment:{pattern:RegExp("\\$"+t),alias:"constant"},variable:[{pattern:/\$?\(\([\s\S]+?\)\)/,greedy:!0,inside:{variable:[{pattern:/(^\$\(\([\s\S]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,operator:/--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,greedy:!0,inside:{variable:/^\$\(|^`|\)$|`$/}},{pattern:/\$\{[^}]+\}/,greedy:!0,inside:{operator:/:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,punctuation:/[\[\]]/,environment:{pattern:RegExp("(\\{)"+t),lookbehind:!0,alias:"constant"}}},/\$(?:\w+|[#?*!@$])/],entity:/\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/};e.languages.bash={shebang:{pattern:/^#!\s*\/.*/,alias:"important"},comment:{pattern:/(^|[^"{\\$])#.*/,lookbehind:!0},"function-name":[{pattern:/(\bfunction\s+)[\w-]+(?=(?:\s*\(?:\s*\))?\s*\{)/,lookbehind:!0,alias:"function"},{pattern:/\b[\w-]+(?=\s*\(\s*\)\s*\{)/,alias:"function"}],"for-or-select":{pattern:/(\b(?:for|select)\s+)\w+(?=\s+in\s)/,alias:"variable",lookbehind:!0},"assign-left":{pattern:/(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,inside:{environment:{pattern:RegExp("(^|[\\s;|&]|[<>]\\()"+t),lookbehind:!0,alias:"constant"}},alias:"variable",lookbehind:!0},parameter:{pattern:/(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,alias:"variable",lookbehind:!0},string:[{pattern:/((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?(?:\r?\n|\r)\2/,lookbehind:!0,greedy:!0,inside:n},{pattern:/((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?(?:\r?\n|\r)\3/,lookbehind:!0,greedy:!0,inside:{bash:a}},{pattern:/(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,lookbehind:!0,greedy:!0,inside:n},{pattern:/(^|[^$\\])'[^']*'/,lookbehind:!0,greedy:!0},{pattern:/\$'(?:[^'\\]|\\[\s\S])*'/,greedy:!0,inside:{entity:n.entity}}],environment:{pattern:RegExp("\\$?"+t),alias:"constant"},variable:n.variable,function:{pattern:/(^|[\s;|&]|[<>]\()(?:add|apropos|apt|apt-cache|apt-get|aptitude|aspell|automysqlbackup|awk|basename|bash|bc|bconsole|bg|bzip2|cal|cargo|cat|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clear|cmp|column|comm|composer|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|debootstrap|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|docker|docker-compose|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|git|gparted|grep|groupadd|groupdel|groupmod|groups|grub-mkconfig|gzip|halt|head|hg|history|host|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|ip|java|jobs|join|kill|killall|less|link|ln|locate|logname|logrotate|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|make|man|mc|mdadm|mkconfig|mkdir|mke2fs|mkfifo|mkfs|mkisofs|mknod|mkswap|mmv|more|most|mount|mtools|mtr|mutt|mv|nano|nc|netstat|nice|nl|node|nohup|notify-send|npm|nslookup|op|open|parted|passwd|paste|pathchk|ping|pkill|pnpm|podman|podman-compose|popd|pr|printcap|printenv|ps|pushd|pv|quota|quotacheck|quotactl|ram|rar|rcp|reboot|remsync|rename|renice|rev|rm|rmdir|rpm|rsync|scp|screen|sdiff|sed|sendmail|seq|service|sftp|sh|shellcheck|shuf|shutdown|sleep|slocate|sort|split|ssh|stat|strace|su|sudo|sum|suspend|swapon|sync|sysctl|tac|tail|tar|tee|time|timeout|top|touch|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|update-grub|uptime|useradd|userdel|usermod|users|uudecode|uuencode|v|vcpkg|vdir|vi|vim|virsh|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yarn|yes|zenity|zip|zsh|zypper)(?=$|[)\s;|&])/,lookbehind:!0},keyword:{pattern:/(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)(?=$|[)\s;|&])/,lookbehind:!0},builtin:{pattern:/(^|[\s;|&]|[<>]\()(?:\.|:|alias|bind|break|builtin|caller|cd|command|continue|declare|echo|enable|eval|exec|exit|export|getopts|hash|help|let|local|logout|mapfile|printf|pwd|read|readarray|readonly|return|set|shift|shopt|source|test|times|trap|type|typeset|ulimit|umask|unalias|unset)(?=$|[)\s;|&])/,lookbehind:!0,alias:"class-name"},boolean:{pattern:/(^|[\s;|&]|[<>]\()(?:false|true)(?=$|[)\s;|&])/,lookbehind:!0},"file-descriptor":{pattern:/\B&\d\b/,alias:"important"},operator:{pattern:/\d?<>|>\||\+=|=[=~]?|!=?|<<[<-]?|[&\d]?>>|\d[<>]&?|[<>][&=]?|&[>&]?|\|[&|]?/,inside:{"file-descriptor":{pattern:/^\d/,alias:"important"}}},punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,number:{pattern:/(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,lookbehind:!0}},a.inside=e.languages.bash;for(var s=["comment","function-name","for-or-select","assign-left","parameter","string","environment","function","keyword","builtin","boolean","file-descriptor","operator","punctuation","number"],o=n.variable[1].inside,i=0;i<s.length;i++)o[s[i]]=e.languages.bash[s[i]];e.languages.sh=e.languages.bash,e.languages.shell=e.languages.bash}(Prism);
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
