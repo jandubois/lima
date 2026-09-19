@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20260918-211054-pr-5117</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20260918-211054-pr-5117</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-09-18 21:10</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>5 (of target)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/pirate">@pirate</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5117" class="gh-ref" data-title="Secure macOS VZ block-device attachment" data-state="open" data-type="pr">#5117</a> — Secure macOS VZ block-device attachment</td></tr>
+      <tr><td>Branch</td><td><code>secure-vz-block-devices</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/5e07bfd6"><code>5e07bfd6</code></a> Support secure host block-device attachment on macOS VZ</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/5e07bfd643e0afdc17ef74d2309649bac0959baf"><code>5e07bfd643e0afdc17ef74d2309649bac0959baf</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5</span> (effort: xhigh), <span class="pill pill-codex">Codex GPT 5.6 Sol</span> (effort: xhigh), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; every round-4 finding is answered and the privilege boundary still holds, but three of this round&#39;s own fixes introduced regressions</td></tr>
+      <tr><td>Wall-clock time</td><td><code>41 min 10 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Round 5 answers every round-4 finding, and the privilege boundary still holds under probing. Three defects the round introduced do not. The newly documented sudoers install mode leaves the file unreadable to Lima, breaking <code>limactl start</code> and <code>--check</code>. The helper-install preflight moved onto a code path <code>limactl delete</code> also takes, so an instance with <code>blockDevices</code> can no longer be removed. And the same-VM lock reuse now lets one VM attach the same disk twice.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    <p>The trust boundary held everywhere I pushed on it. The socket handoff still authenticates in both directions before the nonce is written, <code>validateDiskDeviceIdentity</code> still compares <code>st_rdev</code>, and the recursive ownership/symlink/ACL walk over the helper path and its ancestors is unchanged. Nothing below lets a local user reach a device they were not granted; the three Important findings all cost availability, not confinement.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file="website/content/en/docs/config/disk.md">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> The newly documented <code>0440 root:wheel</code> install mode leaves <code>/etc/sudoers.d/lima</code> unreadable to Lima <span class="pill pill-claude">Claude Opus 5</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/website/content/en/docs/config/disk.md#L122-L132">website/content/en/docs/config/disk.md</a></div>
+      <pre data-start="122" data-line="127"><code class="language-sh">
+```sh
+limactl sudoers --block-device=/dev/disk4 &gt;etc_sudoers.d_lima
+less etc_sudoers.d_lima
+visudo -cf etc_sudoers.d_lima
+sudo install -o root -g wheel -m 0440 etc_sudoers.d_lima /etc/sudoers.d/lima
+rm etc_sudoers.d_lima
+```
+
+The block-device entry is scoped to the current user. Do not run `limactl sudoers` as root.
+The helper only accepts real macOS disk device nodes such as `/dev/disk4` and `/dev/rdisk4s1`.</code></pre>
+    <p><code>wheel</code> contains only <code>root</code> on macOS, so this mode denies read to the invoking user. Lima reads that file unprivileged in two places and falls back only on <code>os.ErrNotExist</code>: <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/cmd/limactl/sudoers_darwin.go#L109"><code>cmd/limactl/sudoers_darwin.go:109</code></a>, reached by the <code>limactl sudoers --check</code> recipe four lines above this one in the same help text, and <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/networks/sudoers.go#L91"><code>pkg/networks/sudoers.go:91</code></a>, reached from <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/networks/reconcile/reconcile.go#L186"><code>pkg/networks/reconcile/reconcile.go:186</code></a> on every <code>limactl start</code> that has a non-usernet network. Round 4 documented <code>sudo install -o root</code>, which yields 0755. The suite already works around it: <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/hack/bats/extras/vz-block-device.bats#L305"><code>vz-block-device.bats:305</code></a> must <code>sudo cat</code> the fragment into a temp copy before <code>--check</code> can read it.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/cmd/limactl/sudoers_darwin.go#L104-L114">cmd/limactl/sudoers_darwin.go</a></div>
+      <pre data-start="104" data-line="109"><code class="language-go">	return nil
+}
+
+func verifySudoersFile(ctx context.Context, nwCfg networks.Config, file string, blockDevices []string, includeNetwork bool) error {
+	hint := sudoersCheckHint(os.Args[0], file, blockDevices)
+	b, err := os.ReadFile(file)
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			if err := nwCfg.VerifySudoAccess(ctx, &quot;&quot;); err == nil {
+				if err := sudoers.Run(ctx, &quot;root&quot;, &quot;wheel&quot;, nil, nil, nil, &quot;&quot;, &quot;true&quot;); err == nil {
+					return nil</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/networks/sudoers.go#L86-L96">pkg/networks/sudoers.go</a></div>
+      <pre data-start="86" data-line="91"><code class="language-go">		}
+		return fmt.Errorf(&quot;passwordLessSudo error: %w&quot;, err)
+	}
+	hint := fmt.Sprintf(&quot;run `%s sudoers &gt;etc_sudoers.d_lima &amp;&amp; sudo install -o root etc_sudoers.d_lima %q`; %s&quot;,
+		os.Args[0], sudoersFile, sudoers.RegenerateGrantWarning)
+	b, err := os.ReadFile(sudoersFile)
+	if err != nil {
+		// Default networks.yaml specifies /etc/sudoers.d/lima file. Don&#39;t throw an error when the
+		// file doesn&#39;t exist, as long as password-less sudo still works.
+		if errors.Is(err, os.ErrNotExist) {
+			err = c.passwordLessSudo(ctx)</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/networks/reconcile/reconcile.go#L181-L191">pkg/networks/reconcile/reconcile.go</a></div>
+      <pre data-start="181" data-line="186"><code class="language-go">func validateConfig(ctx context.Context, cfg *networks.Config) error {
+	validation.Do(func() {
+		// make sure all cfg.Paths.* are secure
+		validation.err = cfg.Validate()
+		if validation.err == nil {
+			validation.err = cfg.VerifySudoAccess(ctx, cfg.Paths.Sudoers)
+		}
+	})
+	return validation.err
+}
+</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/hack/bats/extras/vz-block-device.bats#L300-L310">hack/bats/extras/vz-block-device.bats</a></div>
+      <pre data-start="300" data-line="305"><code class="language-bash">	configured_block_device=&quot;${disk},${disk/\/dev\/disk/\/dev\/rdisk}&quot;
+	install_block_device_sudoers
+	local readable=&quot;${BATS_TEST_TMPDIR}/installed.sudoers&quot;
+	# Read the root-only fragment into a file owned by the unprivileged checker.
+	# shellcheck disable=SC2024
+	sudo cat &quot;${sudoers_file}&quot; &gt;&quot;${readable}&quot;
+	limactl sudoers --check --block-device=&quot;${configured_block_device}&quot; &quot;${readable}&quot;
+	limactl sudoers --check --block-device=&quot;${disk/\/dev\/disk/\/dev\/rdisk},${disk},${disk}&quot; &quot;${readable}&quot;
+	run limactl sudoers --check --block-device=&quot;${disk}&quot; &quot;${readable}&quot;
+	[[ ${status} -ne 0 ]]
+	[[ ${output} == *&quot;every --block-device entry you still need&quot;* ]]</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-sudoers-mode.sh; run from a lima checkout on macOS: bash probe-sudoers-mode.sh
+# Needs a Go toolchain. Uses the machine&#39;s own /etc/sudoers, which macOS ships
+# with the 0440 root:wheel mode that disk.md now prescribes for /etc/sudoers.d/lima.
+set -u
+echo &quot;wheel members: $(dscl . -read /Groups/wheel GroupMembership 2&gt;/dev/null | cut -d: -f2-)&quot;
+echo &quot;current user in wheel: $(id -Gn | tr &#39; &#39; &#39;\n&#39; | grep -c &#39;^wheel$&#39;)&quot;
+ls -l /etc/sudoers
+mkdir -p probe-mode
+cat &gt;probe-mode/main_test.go &lt;&lt;&#39;EOF&#39;
+package probemode
+
+import (
+	&quot;errors&quot;
+	&quot;os&quot;
+	&quot;path/filepath&quot;
+	&quot;testing&quot;
+
+	&quot;github.com/lima-vm/lima/v2/pkg/networks&quot;
+)
+
+func TestSudoersFileMode(t *testing.T) {
+	var cfg networks.Config
+
+	// A file installed with the mode disk.md:127 prescribes.
+	_, err := os.ReadFile(&quot;/etc/sudoers&quot;)
+	t.Logf(&quot;os.ReadFile(0440 root:wheel)         -&gt; %v&quot;, err)
+	t.Logf(&quot;errors.Is(err, os.ErrNotExist)       -&gt; %v&quot;, errors.Is(err, os.ErrNotExist))
+	t.Logf(&quot;VerifySudoAccess(0440 root:wheel)    -&gt; %v&quot;, cfg.VerifySudoAccess(t.Context(), &quot;/etc/sudoers&quot;))
+
+	// The same call on a readable file gets past the read to the comparison.
+	readable := filepath.Join(t.TempDir(), &quot;lima&quot;)
+	if err := os.WriteFile(readable, []byte(&quot;# installed by `limactl sudoers | sudo tee`\n&quot;), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	t.Logf(&quot;VerifySudoAccess(0644)               -&gt; %v&quot;, cfg.VerifySudoAccess(t.Context(), readable))
+}
+EOF
+go test ./probe-mode/ -run TestSudoersFileMode -v 2&gt;&amp;1 | grep -v &#39;^ld: warning&#39;
+rm -rf probe-mode</code></pre>
+      <pre><code class="language-text">$ bash probe-sudoers-mode.sh
+wheel members:  root
+current user in wheel: 0
+-r--r-----  1 root  wheel  1709 Sep  2 23:29 /etc/sudoers
+=== RUN   TestSudoersFileMode
+    main_test.go:17: os.ReadFile(0440 root:wheel)         -&gt; open /etc/sudoers: permission denied
+    main_test.go:18: errors.Is(err, os.ErrNotExist)       -&gt; false
+    main_test.go:19: VerifySudoAccess(0440 root:wheel)    -&gt; can&#39;t read `/etc/sudoers`: open /etc/sudoers: permission denied: (Hint: run `…probe-mode.test sudoers &gt;etc_sudoers.d_lima &amp;&amp; sudo install -o root etc_sudoers.d_lima &quot;/etc/sudoers&quot;`; include every --block-device entry you still need, if any; regenerating the file revokes omitted grants)
+    main_test.go:26: VerifySudoAccess(0644)               -&gt; sudoers file `…/lima` is out of sync and must be regenerated (Hint: …)
+--- PASS: TestSudoersFileMode (0.00s)
+PASS</code></pre>
+      </details>
+    <p>The 0644 case reaches the content comparison, so the read is what fails. The hint the binary prints still names <code>sudo install -o root</code>, so the program and its new documentation disagree about the install.</p>
+    <p>Fix: use a mode the invoking user can read, in all three places that now say 0440.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/cmd/limactl/sudoers.go b/cmd/limactl/sudoers.go
+index c9d7858c..16dddea7 100644
+--- a/cmd/limactl/sudoers.go
++++ b/cmd/limactl/sudoers.go
+@@ -30,7 +30,7 @@ To authorize a host block device (include every device grant you want to keep):
+ $ limactl sudoers --block-device=/dev/disk4 &gt;etc_sudoers.d_lima
+ $ less etc_sudoers.d_lima
+ $ visudo -cf etc_sudoers.d_lima
+-$ sudo install -o root -g wheel -m 0440 etc_sudoers.d_lima /etc/sudoers.d/lima
++$ sudo install -o root -g wheel -m 0644 etc_sudoers.d_lima /etc/sudoers.d/lima
+ `,
+ 		Short: &quot;Generate the content of the /etc/sudoers.d/lima file&quot;,
+ 		Long: fmt.Sprintf(`Generate the content of the /etc/sudoers.d/lima file for macOS host helpers that require privilege escalation.
+diff --git a/hack/bats/extras/vz-block-device.bats b/hack/bats/extras/vz-block-device.bats
+index 0cb010db..91225598 100644
+--- a/hack/bats/extras/vz-block-device.bats
++++ b/hack/bats/extras/vz-block-device.bats
+@@ -72,7 +72,7 @@ install_block_device_sudoers() {
+ 	# A separate, uniquely named fragment preserves all existing Lima grants.
+ 	# Record its name before installing so teardown also handles install failures.
+ 	sudoers_file=$(sudo mktemp /etc/sudoers.d/lima-block-device-test-XXXXXX)
+-	sudo install -o root -g wheel -m 0440 &quot;${generated}&quot; &quot;${sudoers_file}&quot;
++	sudo install -o root -g wheel -m 0644 &quot;${generated}&quot; &quot;${sudoers_file}&quot;
+ }
+ 
+ remove_block_device_sudoers() {
+diff --git a/website/content/en/docs/config/disk.md b/website/content/en/docs/config/disk.md
+index 1fc9a2ae..62cefed8 100644
+--- a/website/content/en/docs/config/disk.md
++++ b/website/content/en/docs/config/disk.md
+@@ -124,7 +124,7 @@ you want to retain:
+ limactl sudoers --block-device=/dev/disk4 &gt;etc_sudoers.d_lima
+ less etc_sudoers.d_lima
+ visudo -cf etc_sudoers.d_lima
+-sudo install -o root -g wheel -m 0440 etc_sudoers.d_lima /etc/sudoers.d/lima
++sudo install -o root -g wheel -m 0644 etc_sudoers.d_lima /etc/sudoers.d/lima
+ rm etc_sudoers.d_lima
+ ```
+ </code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/driver/vz/vz_driver_darwin.go">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> <code>limactl delete</code> refuses an instance with <code>blockDevices</code> unless the protected helper is installed <span class="pill pill-claude">Claude Opus 5</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/driver/vz/vz_driver_darwin.go#L262-L280">pkg/driver/vz/vz_driver_darwin.go</a></div>
+      <pre data-start="262" data-line="267-275"><code class="language-go">
+func validateConfig(cfg *limatype.LimaYAML) error {
+	if cfg == nil {
+		return errors.New(&quot;configuration is nil&quot;)
+	}
+	if len(cfg.BlockDevices) &gt; 0 {
+		exe, err := os.Executable()
+		if err != nil {
+			return err
+		}
+		if _, err := blockdevice.PrivilegedHelperPath(exe); err != nil {
+			return err
+		}
+	}
+	macOSProductVersion, err := osutil.ProductVersion()
+	if err != nil {
+		return err
+	}
+	if macOSProductVersion.LessThan(*semver.New(&quot;13.0.0&quot;)) {</code></pre>
+    <p>Round 5 replaced <code>ValidateExecutable(exe)</code> here with <code>PrivilegedHelperPath(exe)</code>, which additionally demands a root-owned, ACL-free helper beside the running binary. But <code>validateConfig</code> is called from <code>fillConfig</code> (<code>:226</code>) and so from <code>Configure</code> (<code>:124</code>), which <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/instance/delete.go#L40"><code>pkg/instance/delete.go:40</code></a> reaches through <code>driverutil.CreateConfiguredDriver</code>. The error propagates out of <code>unregister</code>, so <code>os.RemoveAll(inst.Dir)</code> at <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/instance/delete.go#L32"><code>delete.go:32</code></a> never runs and <code>--force</code> does not help — it only relaxes the status check. The documentation makes this easy to hit: it tells the user to invoke <code>/opt/lima/bin/limactl</code> for setup, leaving routine commands on the Homebrew binary. <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/snapshot/snapshot.go#L50"><code>pkg/snapshot/snapshot.go:50</code></a> and <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/cmd/limactl/factory-reset.go#L74"><code>cmd/limactl/factory-reset.go:74</code></a> take the same path.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/instance/delete.go#L35-L45">pkg/instance/delete.go</a></div>
+      <pre data-start="35" data-line="40"><code class="language-go">
+	return nil
+}
+
+func unregister(ctx context.Context, inst *limatype.Instance) error {
+	limaDriver, err := driverutil.CreateConfiguredDriver(ctx, inst, 0)
+	if err != nil {
+		return fmt.Errorf(&quot;failed to create driver instance: %w&quot;, err)
+	}
+
+	if err := limaDriver.Delete(ctx); err != nil {</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/instance/delete.go#L27-L37">pkg/instance/delete.go</a></div>
+      <pre data-start="27" data-line="32"><code class="language-go">	if len(inst.Errors) == 0 {
+		if err := unregister(ctx, inst); err != nil {
+			return fmt.Errorf(&quot;failed to unregister %#q: %w&quot;, inst.Dir, err)
+		}
+	}
+	if err := os.RemoveAll(inst.Dir); err != nil {
+		return fmt.Errorf(&quot;failed to remove %#q: %w&quot;, inst.Dir, err)
+	}
+
+	return nil
+}</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/snapshot/snapshot.go#L45-L55">pkg/snapshot/snapshot.go</a></div>
+      <pre data-start="45" data-line="50"><code class="language-go">	}
+	return limaDriver.ListSnapshots(ctx)
+}
+
+func createConfiguredDriver(ctx context.Context, inst *limatype.Instance) (*driver.ConfiguredDriver, error) {
+	limaDriver, err := driverutil.CreateConfiguredDriver(ctx, inst, 0)
+	if err != nil {
+		return nil, fmt.Errorf(&quot;failed to create driver instance: %w&quot;, err)
+	}
+	if err := limayaml.Validate(inst.Config, true); err != nil {
+		return nil, fmt.Errorf(&quot;failed to validate the instance YAML after filling defaults: %w&quot;, err)</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/cmd/limactl/factory-reset.go#L69-L79">cmd/limactl/factory-reset.go</a></div>
+      <pre data-start="69" data-line="74"><code class="language-go">			if err := os.Remove(path); err != nil {
+				logrus.Error(err)
+			}
+		}
+	}
+	if _, err := driverutil.CreateConfiguredDriver(ctx, inst, 0); err != nil {
+		logrus.WithError(err).Error(&quot;failed to configure driver for regenerating cloud-config&quot;)
+	}
+	// Regenerate the cloud-config.yaml, to reflect any changes to the global _config
+	if err := cidata.GenerateCloudConfig(ctx, inst.Dir, instName, inst.Config); err != nil {
+		logrus.Error(err)</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-delete.sh; run from a lima checkout on macOS: bash probe-delete.sh
+# Needs a Go toolchain. Builds a binary named limactl so that os.Executable()
+# passes blockdevice.ValidateExecutable, then deletes an instance with
+# blockDevices and, as a control, one without.
+set -u
+mkdir -p probe-delete/bin
+cat &gt;probe-delete/main.go &lt;&lt;&#39;EOF&#39;
+package main
+
+import (
+	&quot;context&quot;
+	&quot;fmt&quot;
+	&quot;os&quot;
+	&quot;path/filepath&quot;
+
+	_ &quot;github.com/lima-vm/lima/v2/pkg/driver/vz&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/driverutil&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/instance&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/limatype&quot;
+)
+
+func main() {
+	exe, _ := os.Executable()
+	fmt.Printf(&quot;running as %q\n&quot;, filepath.Base(exe))
+
+	vmType, osName, arch, mt := limatype.VZ, limatype.LINUX, limatype.AARCH64, limatype.VIRTIOFS
+	legacyBIOS, audioDevice, videoDisplay := false, &quot;&quot;, &quot;none&quot;
+	inst := &amp;limatype.Instance{
+		Name: &quot;probe&quot;, Status: limatype.StatusStopped,
+		Config: &amp;limatype.LimaYAML{
+			VMType: &amp;vmType, OS: &amp;osName, Arch: &amp;arch, MountType: &amp;mt,
+			Firmware:     limatype.Firmware{LegacyBIOS: &amp;legacyBIOS},
+			Audio:        limatype.Audio{Device: &amp;audioDevice},
+			Video:        limatype.Video{Display: &amp;videoDisplay},
+			BlockDevices: []string{&quot;/dev/disk4&quot;},
+		},
+	}
+	report := func(label string, devices []string) {
+		dir, err := os.MkdirTemp(&quot;&quot;, &quot;lima-probe-&quot;)
+		if err != nil {
+			panic(err)
+		}
+		inst.Dir, inst.Config.BlockDevices = dir, devices
+		err = instance.Delete(context.Background(), inst, true) // --force
+		fmt.Printf(&quot;%s: limactl delete --force -&gt; %v\n&quot;, label, err)
+		if _, statErr := os.Stat(dir); statErr == nil {
+			fmt.Printf(&quot;%s: instance directory still present\n&quot;, label)
+		} else {
+			fmt.Printf(&quot;%s: instance directory removed\n&quot;, label)
+		}
+		os.RemoveAll(dir)
+	}
+	inst.Dir, _ = os.MkdirTemp(&quot;&quot;, &quot;lima-probe-&quot;)
+	if drv, err := driverutil.CreateConfiguredDriver(context.Background(), inst, 0); err == nil {
+		fmt.Printf(&quot;start path (driver.Validate) -&gt; %v\n&quot;, drv.Validate(context.Background()))
+	} else {
+		fmt.Printf(&quot;start path (Configure)       -&gt; %v\n&quot;, err)
+	}
+	os.RemoveAll(inst.Dir)
+	report(&quot;with blockDevices   &quot;, []string{&quot;/dev/disk4&quot;})
+	report(&quot;without blockDevices&quot;, nil)
+}
+EOF
+go build -o probe-delete/bin/limactl ./probe-delete &amp;&amp; ./probe-delete/bin/limactl
+rm -rf probe-delete</code></pre>
+      <pre><code class="language-text">$ bash probe-delete.sh
+running as &quot;limactl&quot;
+start path (Configure)       -&gt; block-device helper is missing or not securely installed: lstat …/probe-delete/libexec/lima/privileged/lima-privileged-block-device: no such file or directory
+Install a Lima binary release in a root-owned, non-user-writable prefix such as /opt/lima, then use /opt/lima/bin/limactl directly. No source build is required.
+Setup instructions: https://lima-vm.io/docs/config/disk/#sudoers-setup
+with blockDevices   : limactl delete --force -&gt; failed to unregister `…/lima-probe-1686302362`: failed to create driver instance: block-device helper is missing or not securely installed: lstat …: no such file or directory
+with blockDevices   : instance directory still present
+without blockDevices: limactl delete --force -&gt; &lt;nil&gt;
+without blockDevices: instance directory removed
+
+$ cd &lt;worktree at 685d7f37&gt; &amp;&amp; bash probe-delete.sh
+running as &quot;limactl&quot;
+with blockDevices   : limactl delete --force -&gt; &lt;nil&gt;
+with blockDevices   : instance directory removed
+without blockDevices: limactl delete --force -&gt; &lt;nil&gt;
+without blockDevices: instance directory removed</code></pre>
+      </details>
+    <p>Fix: keep the cheap <code>ValidateExecutable</code> check in <code>validateConfig</code> and move the installation check into <code>LimaVzDriver.Validate</code>, which <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/instance/start.go#L82"><code>pkg/instance/start.go:82</code></a>, <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/cmd/limactl/start.go#L398"><code>cmd/limactl/start.go:398</code></a>, <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/cmd/limactl/edit.go#L154"><code>edit.go:154</code></a>, <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/instance/restart.go#L102"><code>restart.go:102</code></a> and <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/instance/clone.go#L116"><code>clone.go:116</code></a> call and <code>delete.go</code> does not. The hostagent still fails loudly at <code>blockdevice.Open</code>, which calls <code>PrivilegedHelperPath</code> on every attach.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/driver/vz/vz_driver_darwin.go b/pkg/driver/vz/vz_driver_darwin.go
+index edccd8bd..10e48eaf 100644
+--- a/pkg/driver/vz/vz_driver_darwin.go
++++ b/pkg/driver/vz/vz_driver_darwin.go
+@@ -257,6 +257,17 @@ func (l *LimaVzDriver) BootScripts(_ context.Context) (map[string][]byte, error)
+ }
+ 
+ func (l *LimaVzDriver) Validate(_ context.Context) error {
++	// The protected helper is required to open a device, not to describe or
++	// tear down an instance, so this check stays off the Configure path.
++	if len(l.Instance.Config.BlockDevices) &gt; 0 {
++		exe, err := os.Executable()
++		if err != nil {
++			return err
++		}
++		if _, err := blockdevice.PrivilegedHelperPath(exe); err != nil {
++			return err
++		}
++	}
+ 	return validateConfig(l.Instance.Config)
+ }
+ 
+@@ -269,7 +280,7 @@ func validateConfig(cfg *limatype.LimaYAML) error {
+ 		if err != nil {
+ 			return err
+ 		}
+-		if _, err := blockdevice.PrivilegedHelperPath(exe); err != nil {
++		if err := blockdevice.ValidateExecutable(exe); err != nil {
+ 			return err
+ 		}
+ 	}</code></pre>
+      </details>
+    <p>With that patch the probe&#39;s start path still refuses, both deletes succeed, and the affected package tests stay green.</p>
+    </div>
+    <div class="card card-important" data-file="pkg/driver/vz/block_device_darwin.go">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> One VM can now attach the same storage twice <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/driver/vz/block_device_darwin.go#L64-L78">pkg/driver/vz/block_device_darwin.go</a></div>
+      <pre data-start="64" data-line="69-73"><code class="language-go">	}
+	// Raw/block aliases and partitions share a whole-disk lock. Keep the file
+	// after unlocking: unlinking it could let another VM lock a different inode.
+	disk := diskPartitionSuffix.ReplaceAllString(strings.TrimPrefix(filepath.Base(devicePath), &quot;r&quot;), &quot;&quot;)
+	lockPath := filepath.Join(limaDir, fmt.Sprintf(filenames.BlockDeviceLock, disk))
+	// Configuration attaches devices sequentially; partitions in this VM
+	// reuse its whole-disk lock rather than competing with each other.
+	if retainedFDs.Holds(lockPath) {
+		return nil
+	}
+	file, err := os.OpenFile(lockPath, os.O_CREATE|os.O_RDWR|unix.O_NOFOLLOW, 0o600)
+	if err != nil {
+		return err
+	}
+	if err := lockutil.Flock(file, unix.LOCK_EX|unix.LOCK_NB); err != nil {</code></pre>
+    <p>This is the round-4 I1 fix, and it does let two disjoint partitions attach. It also removed the only guard against overlap: <code>validateBlockDevices</code> rejects byte-identical strings only (<a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/limayaml/validate.go#L506"><code>pkg/limayaml/validate.go:506</code></a>), so <code>/dev/disk4</code> with <code>/dev/rdisk4</code>, or a whole disk with its own partition, now passes validation and then shares the lock instead of colliding on it. The guest sees two writable virtio devices backed by one extent. Round 4 refused both pairs; it simply refused the legitimate pair too.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/limayaml/validate.go#L501-L511">pkg/limayaml/validate.go</a></div>
+      <pre data-start="501" data-line="506"><code class="language-go">func validateBlockDevices(blockDevices []string) error {
+	var errs error
+
+	for i, blockDevice := range blockDevices {
+		field := fmt.Sprintf(&quot;blockDevices[%d]&quot;, i)
+		if slices.Contains(blockDevices[:i], blockDevice) {
+			errs = errors.Join(errs, fmt.Errorf(&quot;field `%s` is a duplicate block device %q&quot;, field, blockDevice))
+		}
+		if err := blockdevice.ValidateDiskDevicePath(blockDevice); err != nil {
+			errs = errors.Join(errs, fmt.Errorf(&quot;field `%s`: %w&quot;, field, err))
+		}</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-blockdev-overlap.sh; run from a lima checkout: bash probe-blockdev-overlap.sh
+# Needs a Go toolchain and a macOS host (the vz probe is darwin-only).
+set -u
+cat &gt;pkg/limayaml/zz_probe_test.go &lt;&lt;&#39;EOF&#39;
+package limayaml
+
+import &quot;testing&quot;
+
+// One VM configured with two device paths that address the same storage.
+func TestProbeOverlappingBlockDevices(t *testing.T) {
+	for _, tc := range [][]string{
+		{&quot;/dev/disk4&quot;, &quot;/dev/rdisk4&quot;},   // buffered and raw alias of one node
+		{&quot;/dev/disk4&quot;, &quot;/dev/disk4s1&quot;},  // whole disk and its own partition
+	} {
+		if err := validateBlockDevices(tc); err != nil {
+			t.Logf(&quot;%v rejected: %v&quot;, tc, err)
+		} else {
+			t.Errorf(&quot;%v accepted for one VM&quot;, tc)
+		}
+	}
+	// The case round 4 asked for must keep working.
+	if err := validateBlockDevices([]string{&quot;/dev/disk4s1&quot;, &quot;/dev/disk4s2&quot;}); err != nil {
+		t.Errorf(&quot;two disjoint partitions rejected: %v&quot;, err)
+	}
+}
+EOF
+cat &gt;pkg/driver/vz/zz_probe_test.go &lt;&lt;&#39;EOF&#39;
+//go:build darwin &amp;&amp; !no_vz
+
+package vz
+
+import &quot;testing&quot;
+
+// The whole-disk lock used to be the guard that stopped one VM from attaching
+// the same storage twice.
+func TestProbeLockGuard(t *testing.T) {
+	dir := t.TempDir()
+	vm := newRetainedFileDescriptors()
+	t.Cleanup(vm.CloseAll)
+	if err := lockHostBlockDevice(dir, &quot;/dev/disk4&quot;, vm); err != nil {
+		t.Fatal(err)
+	}
+	if err := lockHostBlockDevice(dir, &quot;/dev/rdisk4&quot;, vm); err != nil {
+		t.Logf(&quot;/dev/rdisk4 rejected: %v&quot;, err)
+	} else {
+		t.Error(&quot;/dev/rdisk4 locked alongside /dev/disk4 in the same VM&quot;)
+	}
+}
+EOF
+go test ./pkg/limayaml/ ./pkg/driver/vz/ -run TestProbe -v 2&gt;&amp;1 | grep -v &#39;^ld: warning&#39;
+rm -f pkg/limayaml/zz_probe_test.go pkg/driver/vz/zz_probe_test.go</code></pre>
+      <pre><code class="language-text">$ bash probe-blockdev-overlap.sh   # at 5e07bfd6
+=== RUN   TestProbeOverlappingBlockDevices
+    zz_probe_test.go:14: [/dev/disk4 /dev/rdisk4] accepted for one VM
+    zz_probe_test.go:14: [/dev/disk4 /dev/disk4s1] accepted for one VM
+--- FAIL: TestProbeOverlappingBlockDevices (0.00s)
+=== RUN   TestProbeLockGuard
+    zz_probe_test.go:19: /dev/rdisk4 locked alongside /dev/disk4 in the same VM
+--- FAIL: TestProbeLockGuard (0.00s)
+
+$ bash probe-blockdev-overlap.sh   # at 685d7f37 (round 4)
+=== RUN   TestProbeOverlappingBlockDevices
+    zz_probe_test.go:14: [/dev/disk4 /dev/rdisk4] accepted for one VM
+    zz_probe_test.go:14: [/dev/disk4 /dev/disk4s1] accepted for one VM
+--- FAIL: TestProbeOverlappingBlockDevices (0.00s)
+=== RUN   TestProbeLockGuard
+    zz_probe_test.go:17: /dev/rdisk4 rejected: host block device &quot;/dev/rdisk4&quot; is already in use or cannot be locked: resource temporarily unavailable
+--- PASS: TestProbeLockGuard (0.00s)</code></pre>
+      </details>
+    <p>Fix: reject overlapping paths where the duplicate check already lives, so the lock stays the sharing mechanism rather than the guard.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/blockdevice/path.go b/pkg/blockdevice/path.go
+index 22fdcf66..847142e3 100644
+--- a/pkg/blockdevice/path.go
++++ b/pkg/blockdevice/path.go
+@@ -8,6 +8,7 @@ import (
+ 	&quot;fmt&quot;
+ 	&quot;path&quot;
+ 	&quot;regexp&quot;
++	&quot;strings&quot;
+ )
+ 
+ var macOSDiskDevicePathRE = regexp.MustCompile(`^/dev/r?disk\d+(s\d+)*$`)
+@@ -29,3 +30,15 @@ func ValidateDiskDevicePath(devicePath string) error {
+ 	}
+ 	return nil
+ }
++
++// DevicesOverlap reports whether two macOS disk device paths address the same
++// storage: the raw and buffered alias of one node, or a whole disk and one of
++// its own partitions. Two distinct partitions of one disk do not overlap.
++func DevicesOverlap(a, b string) bool {
++	a, b = wholeDiskRelativeName(a), wholeDiskRelativeName(b)
++	return a == b || strings.HasPrefix(a, b+&quot;s&quot;) || strings.HasPrefix(b, a+&quot;s&quot;)
++}
++
++func wholeDiskRelativeName(devicePath string) string {
++	return strings.TrimPrefix(path.Base(devicePath), &quot;r&quot;)
++}
+diff --git a/pkg/limayaml/validate.go b/pkg/limayaml/validate.go
+index 2091b922..dc265097 100644
+--- a/pkg/limayaml/validate.go
++++ b/pkg/limayaml/validate.go
+@@ -508,6 +508,12 @@ func validateBlockDevices(blockDevices []string) error {
+ 		}
+ 		if err := blockdevice.ValidateDiskDevicePath(blockDevice); err != nil {
+ 			errs = errors.Join(errs, fmt.Errorf(&quot;field `%s`: %w&quot;, field, err))
++			continue
++		}
++		for _, earlier := range blockDevices[:i] {
++			if earlier != blockDevice &amp;&amp; blockdevice.DevicesOverlap(earlier, blockDevice) {
++				errs = errors.Join(errs, fmt.Errorf(&quot;field `%s` addresses the same disk as %q&quot;, field, earlier))
++			}
+ 		}
+ 	}</code></pre>
+      </details>
+    <p>With the patch the two overlapping pairs are rejected (<code>field \</code>blockDevices[1]\<code> addresses the same disk as &quot;/dev/disk4&quot;</code>), the disjoint pair still passes, and <code>pkg/limayaml</code>, <code>pkg/driver/vz</code> and <code>pkg/blockdevice</code> stay green — including <code>TestHostBlockDeviceLockSharedWithinVM</code>, which is about lock sharing and is unaffected. The lock-layer probe still reports acceptance under this fix, by design.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="pkg/driver/vz/vz_driver_darwin.go">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> The helper-install demand is reported before the macOS 14 refusal that no install can clear <span class="pill pill-codex">Codex GPT 5.6 Sol</span> <span class="pill pill-claude">Claude Opus 5</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/driver/vz/vz_driver_darwin.go#L365-L377">pkg/driver/vz/vz_driver_darwin.go</a></div>
+      <pre data-start="365" data-line="370-372"><code class="language-go">			return fmt.Errorf(&quot;vmOpts.vz.diskImageFormat=%#q requires macOS 26 or higher to run, got %#q&quot;, asif.Type, macOSProductVersion)
+		}
+	default:
+		return fmt.Errorf(&quot;field `vmOpts.vz.diskImageFormat` must be %#q or %#q, got %#q&quot;, raw.Type, asif.Type, *vzOpts.DiskImageFormat)
+	}
+	if len(cfg.BlockDevices) &gt; 0 &amp;&amp; macOSProductVersion.LessThan(*semver.New(&quot;14.0.0&quot;)) {
+		return fmt.Errorf(&quot;field `blockDevices` requires macOS 14 or higher to run, got %q&quot;, macOSProductVersion)
+	}
+	return nil
+}
+
+func (l *LimaVzDriver) Create(_ context.Context) error {
+	identifierFile := filepath.Join(l.Instance.Dir, filenames.VzIdentifier)</code></pre>
+    <p><code>validateConfig</code> checks the helper installation at <code>:267</code> and this floor at <code>:370</code>. On macOS 13 the user is told to download a release, create a root-owned prefix and re-invoke <code>limactl</code> from there, and only then learns the feature needs macOS 14. Round 4&#39;s check at the same spot was a basename comparison, so the wasted work is new.</p>
+    <p>Fix: move the version check above the helper check, reusing the <code>macOSProductVersion</code> already fetched at <code>:276</code>.</p>
+    </div>
+    <div class="card card-suggestion" data-file=".github/workflows/test.yml">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> The retry added this round masks a transient teardown failure, leaving a root grant installed <span class="pill pill-claude">Claude Opus 5</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/.github/workflows/test.yml#L625-L636">.github/workflows/test.yml</a></div>
+      <pre data-start="625" data-line="630-631"><code class="language-yaml">      env:
+        LIMA_BATS_ALL_TESTS_RETRIES: &quot;2&quot;
+    - name: Run BATS VZ block-device tests
+      if: matrix.template == &#39;default.yaml&#39;
+      run: ./hack/bats/lib/bats-core/bin/bats --timing ./hack/bats/extras/vz-block-device.bats
+      env:
+        LIMA_BATS_ALL_TESTS_RETRIES: &quot;2&quot;
+    - if: failure()
+      uses: $/.github/actions/upload_failure_logs_if_exists
+      with:
+        suffix: ${{ matrix.template }}
+</code></pre>
+    <p><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/hack/bats/helpers/load.bash#L13"><code>hack/bats/helpers/load.bash:13</code></a> maps this onto <code>BATS_TEST_RETRIES</code>. The suite&#39;s <code>teardown</code> deliberately returns 1 without detaching when the grant cannot be revoked (<a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/hack/bats/extras/vz-block-device.bats#L25-L28"><code>vz-block-device.bats:25-28</code></a>) — the same round added that to make the leak loud. File-scope variables reset between attempts, so a later attempt cannot clean the earlier one&#39;s fragment or RAM disk.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/hack/bats/helpers/load.bash#L8-L18">hack/bats/helpers/load.bash</a></div>
+      <pre data-start="8" data-line="13"><code class="language-bash"># The upstream PR https://github.com/bats-core/bats-core/pull/1118 is still open, so our submodule points to the PR commit.
+export BATS_RUN_ERREXIT=1
+
+# BATS_TEST_RETRIES must be set for the individual test and cannot be imported from the
+# parent environment because the BATS test runner sets it to 0 before running the test.
+BATS_TEST_RETRIES=${LIMA_BATS_ALL_TESTS_RETRIES:-0}
+
+# Known flaky tests should call `flaky` inside the @test to allow retries up to
+# LIMA_BATS_FLAKY_TESTS_RETRIES even when the LIMA_BATS_ALL_TESTS_RETRIES is lower.
+flaky() {
+    BATS_TEST_RETRIES=${LIMA_BATS_FLAKY_TESTS_RETRIES:-$BATS_TEST_RETRIES}</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/hack/bats/extras/vz-block-device.bats#L20-L33">hack/bats/extras/vz-block-device.bats</a></div>
+      <pre data-start="20" data-line="25-28"><code class="language-bash">	if [[ -n ${instance_name} ]]; then
+		limactl unprotect &quot;${instance_name}&quot; || :
+		limactl delete --force &quot;${instance_name}&quot; || :
+	fi
+	# Revoke the grant before detaching: macOS can reuse this device number.
+	if ! remove_block_device_sudoers; then
+		echo &quot;# WARNING: ${sudoers_file} still installed; ${host_disk_device} left attached until the grant is removed&quot; &gt;&amp;2
+		return 1
+	fi
+	if [[ -n ${host_partition} ]]; then
+		sudo diskutil unmount force &quot;${host_partition}&quot; &gt;/dev/null 2&gt;&amp;1 || :
+	fi
+	if [[ -n ${host_disk_device} ]]; then
+		sudo diskutil unmountDisk force &quot;${host_disk_device}&quot; &gt;/dev/null 2&gt;&amp;1 || :</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-bats-retry.sh; run from a lima checkout with submodules:
+#   bash probe-bats-retry.sh
+# Does a failing teardown trigger BATS_TEST_RETRIES, and do file-scope variables
+# reset between attempts (so the previous attempt&#39;s state becomes unreachable)?
+set -u
+T=$(mktemp -d)
+cat &gt;&quot;$T/probe.bats&quot; &lt;&lt;&#39;EOF&#39;
+BATS_TEST_RETRIES=${LIMA_BATS_ALL_TESTS_RETRIES:-0}
+
+leaked_resource=&quot;&quot;
+
+@test &quot;teardown fails&quot; {
+	echo &quot;body ran; leaked_resource on entry = &#39;${leaked_resource}&#39;&quot; &gt;&gt;&quot;${PROBE_LOG}&quot;
+	leaked_resource=&quot;/dev/disk9&quot;
+}
+
+teardown() {
+	echo &quot;teardown ran; leaked_resource = &#39;${leaked_resource}&#39;&quot; &gt;&gt;&quot;${PROBE_LOG}&quot;
+	return 1
+}
+EOF
+export PROBE_LOG=&quot;$T/log&quot;
+: &gt;&quot;$PROBE_LOG&quot;
+echo &quot;--- LIMA_BATS_ALL_TESTS_RETRIES unset ---&quot;
+./hack/bats/lib/bats-core/bin/bats &quot;$T/probe.bats&quot; &gt;/dev/null 2&gt;&amp;1 || true
+cat &quot;$PROBE_LOG&quot;
+: &gt;&quot;$PROBE_LOG&quot;
+echo &quot;--- LIMA_BATS_ALL_TESTS_RETRIES=2 (the value test.yml now sets) ---&quot;
+LIMA_BATS_ALL_TESTS_RETRIES=2 ./hack/bats/lib/bats-core/bin/bats &quot;$T/probe.bats&quot; &gt;&quot;$T/out&quot; 2&gt;&amp;1 || true
+cat &quot;$PROBE_LOG&quot;
+echo &quot;--- suite result ---&quot;
+tail -3 &quot;$T/out&quot;
+
+# Now the case that matters: teardown fails on the FIRST attempt only.
+cat &gt;&quot;$T/transient.bats&quot; &lt;&lt;&#39;EOF&#39;
+BATS_TEST_RETRIES=${LIMA_BATS_ALL_TESTS_RETRIES:-0}
+
+leaked_resource=&quot;&quot;
+
+@test &quot;teardown fails once&quot; {
+	leaked_resource=&quot;grant-$(date +%s%N)&quot;
+	echo &quot;body ran; this attempt owns ${leaked_resource}&quot; &gt;&gt;&quot;${PROBE_LOG}&quot;
+}
+
+teardown() {
+	if [[ ! -e ${PROBE_FLAG} ]]; then
+		touch &quot;${PROBE_FLAG}&quot;
+		echo &quot;teardown FAILED, leaking ${leaked_resource}&quot; &gt;&gt;&quot;${PROBE_LOG}&quot;
+		return 1
+	fi
+	echo &quot;teardown ok, cleaned ${leaked_resource}&quot; &gt;&gt;&quot;${PROBE_LOG}&quot;
+}
+EOF
+export PROBE_FLAG=&quot;$T/flag&quot;
+: &gt;&quot;$PROBE_LOG&quot;
+echo &quot;--- transient teardown failure, LIMA_BATS_ALL_TESTS_RETRIES=2 ---&quot;
+LIMA_BATS_ALL_TESTS_RETRIES=2 ./hack/bats/lib/bats-core/bin/bats &quot;$T/transient.bats&quot; &gt;&quot;$T/out2&quot; 2&gt;&amp;1 || true
+cat &quot;$PROBE_LOG&quot;
+echo &quot;--- suite result ---&quot;
+tail -3 &quot;$T/out2&quot;
+rm -rf &quot;$T&quot;</code></pre>
+      <pre><code class="language-text">$ bash probe-bats-retry.sh
+--- LIMA_BATS_ALL_TESTS_RETRIES unset ---
+body ran; leaked_resource on entry = &#39;&#39;
+teardown ran; leaked_resource = &#39;/dev/disk9&#39;
+--- LIMA_BATS_ALL_TESTS_RETRIES=2 (the value test.yml now sets) ---
+body ran; leaked_resource on entry = &#39;&#39;
+teardown ran; leaked_resource = &#39;/dev/disk9&#39;
+body ran; leaked_resource on entry = &#39;&#39;
+teardown ran; leaked_resource = &#39;/dev/disk9&#39;
+body ran; leaked_resource on entry = &#39;&#39;
+teardown ran; leaked_resource = &#39;/dev/disk9&#39;
+--- suite result ---
+not ok 1 teardown fails
+--- transient teardown failure, LIMA_BATS_ALL_TESTS_RETRIES=2 ---
+body ran; this attempt owns grant-1789793119005236000
+teardown FAILED, leaking grant-1789793119005236000
+body ran; this attempt owns grant-1789793119038932000
+teardown ok, cleaned grant-1789793119038932000
+--- suite result ---
+1..1
+ok 1 teardown fails once</code></pre>
+      </details>
+    <p>A persistent failure still reports <code>not ok</code>; a transient one reports <code>ok</code> with the first attempt&#39;s grant still installed. On a GitHub runner the residue dies with the runner, which is why this is a Suggestion rather than an Important, but <code>hack/bats/extras/</code> is outside <code>make bats</code> and is run by hand on developer machines, where it persists.</p>
+    <p>Fix: sweep stale fragments in <code>local_setup_file</code> (<code>sudo rm -f /etc/sudoers.d/lima-block-device-test-* || :</code>) so a leak cannot survive into the next attempt, or drop the retry for this suite.</p>
+    </div>
+    <div class="card card-suggestion" data-file="website/content/en/docs/config/disk.md">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> <code>disk.md</code> promises a grant-retention procedure that cannot be followed across users <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/website/content/en/docs/config/disk.md#L115-L126">website/content/en/docs/config/disk.md</a></div>
+      <pre data-start="115" data-line="120-121"><code class="language-markdown">Use `/opt/lima/bin/limactl` directly for the commands below and for starting the VM
+if you installed this copy. The helper is found relative to the invoked executable;
+a symlink in another prefix does not select the protected installation.
+
+Generate the grant as your regular user, inspect it, check its syntax, then install it.
+Replace `/dev/disk4` with the intended device and include every existing device grant
+you want to retain:
+
+```sh
+limactl sudoers --block-device=/dev/disk4 &gt;etc_sudoers.d_lima
+less etc_sudoers.d_lima
+visudo -cf etc_sudoers.d_lima</code></pre>
+    <p><code>blockdevice.Sudoers</code> renders every named path under <code>user.Current()</code>, so naming another user&#39;s devices does not preserve their grant — it re-issues those devices to the invoking user and drops the original line when the regenerated file replaces the old one. Network grants in the same file are group-scoped (<code>%admin</code>), so a shared <code>/etc/sudoers.d/lima</code> is a supported shape.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as pkg/blockdevice/zz_probe_test.go; run: go test ./pkg/blockdevice/ -run TestProbeMultiUser -v
+//go:build darwin
+
+package blockdevice
+
+import (
+	&quot;fmt&quot;
+	&quot;strings&quot;
+	&quot;testing&quot;
+)
+
+func TestProbeMultiUserGrantPreservation(t *testing.T) {
+	helper := &quot;/opt/lima/libexec/lima/privileged/&quot; + PrivilegedHelperName
+	aliceInstalled := sudoersForUserAndHelpers(&quot;alice&quot;, []string{helper, &quot;/dev/disk4&quot;})
+	// Bob follows the documented procedure and names both devices.
+	bobRegenerated := sudoersForUserAndHelpers(&quot;bob&quot;,
+		[]string{helper, &quot;/dev/disk4&quot;}, []string{helper, &quot;/dev/disk5&quot;})
+	fmt.Printf(&quot;installed by alice:\n%s\nbob regenerates naming both devices:\n%s\n&quot;, aliceInstalled, bobRegenerated)
+	if strings.Contains(bobRegenerated, strings.TrimSpace(aliceInstalled)) {
+		t.Log(&quot;alice&#39;s grant survives&quot;)
+	} else {
+		t.Error(&quot;alice&#39;s grant is gone from the file bob installs&quot;)
+	}
+}</code></pre>
+      <pre><code class="language-text">$ go test ./pkg/blockdevice/ -run TestProbeMultiUser -v
+=== RUN   TestProbeMultiUserGrantPreservation
+installed by alice:
+alice ALL=(root:wheel) NOPASSWD:NOSETENV: /opt/lima/libexec/lima/privileged/lima-privileged-block-device /dev/disk4
+
+bob regenerates naming both devices:
+bob ALL=(root:wheel) NOPASSWD:NOSETENV: \
+    /opt/lima/libexec/lima/privileged/lima-privileged-block-device /dev/disk4, \
+    /opt/lima/libexec/lima/privileged/lima-privileged-block-device /dev/disk5
+
+    zz_probe_test.go:25: alice&#39;s grant is gone from the file bob installs
+--- FAIL: TestProbeMultiUserGrantPreservation (0.00s)</code></pre>
+      </details>
+    <p>Fix: say the regenerated file contains only the invoking user&#39;s device grants, and that another user&#39;s lines must be re-added by hand. Codex rated this Important; I did not, because the revocation surfaces loudly on the other user&#39;s next start and the remedy is one sentence.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/blockdevice/block_device_darwin.go">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> The helper preflight accepts a directory or a non-executable file <span class="pill pill-codex">Codex GPT 5.6 Sol</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/blockdevice/block_device_darwin.go#L437-L451">pkg/blockdevice/block_device_darwin.go</a></div>
+      <pre data-start="437" data-line="442-446"><code class="language-go">		return validateSecurePath(filepath.Dir(path), rootUID, rootGID)
+	}
+	return nil
+}
+
+func validateSecurePathElement(path string, fi os.FileInfo, rootUID, rootGID uint32) error {
+	file := &quot;file&quot;
+	if fi.Mode().IsDir() {
+		file = &quot;dir&quot;
+	}
+	if fi.Mode()&amp;fs.ModeSymlink != 0 {
+		return fmt.Errorf(&quot;%s %q is a symlink&quot;, file, path)
+	}
+	stat, ok := fi.Sys().(*syscall.Stat_t)
+	if !ok || stat == nil {</code></pre>
+    <p>The recursion checks ownership, writability, symlinks and ACLs for every component but never requires the leaf to be a regular file with an executable bit, so a root-owned directory or a mode-0644 file satisfies <code>PrivilegedHelperPath</code> — whose doc comment, added this round, says setup errors reach the CLI rather than the hostagent log.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as pkg/blockdevice/zz_probe_test.go; run: go test ./pkg/blockdevice/ -run TestProbeHelperLeaf -v
+//go:build darwin
+
+package blockdevice
+
+import (
+	&quot;os&quot;
+	&quot;path/filepath&quot;
+	&quot;testing&quot;
+)
+
+// rootUID/rootGID are parameters so the per-component check runs without root.
+func TestProbeHelperLeafTypeAndMode(t *testing.T) {
+	uid, gid := uint32(os.Getuid()), uint32(os.Getgid())
+	dir := t.TempDir()
+
+	for _, tc := range []struct{ name, kind string }{
+		{&quot;helper-as-directory&quot;, &quot;dir&quot;},
+		{&quot;helper-not-executable&quot;, &quot;file&quot;},
+	} {
+		p := filepath.Join(dir, tc.name)
+		var err error
+		if tc.kind == &quot;dir&quot; {
+			err = os.Mkdir(p, 0o755)
+		} else {
+			err = os.WriteFile(p, []byte(&quot;#!/bin/sh\n&quot;), 0o644)
+		}
+		if err != nil {
+			t.Fatal(err)
+		}
+		fi, err := os.Lstat(p)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := validateSecurePathElement(p, fi, uid, gid); err != nil {
+			t.Logf(&quot;%s rejected: %v&quot;, tc.name, err)
+		} else {
+			t.Errorf(&quot;%s accepted as the privileged helper&quot;, tc.name)
+		}
+	}
+}</code></pre>
+      <pre><code class="language-text">$ go test ./pkg/blockdevice/ -run TestProbeHelperLeaf -v
+=== RUN   TestProbeHelperLeafTypeAndMode
+    zz_probe_test.go:39: helper-as-directory accepted as the privileged helper
+    zz_probe_test.go:39: helper-not-executable accepted as the privileged helper
+--- FAIL: TestProbeHelperLeafTypeAndMode (0.00s)</code></pre>
+      </details>
+    <p>Fix: require the leaf to be a regular file with an executable bit, outside the recursive ancestor walk. Codex rated this Important; the later failure is deterministic and carries no privilege consequence, so I kept it at Suggestion.</p>
+    </div>
+    <div class="card card-suggestion" data-file="cmd/limactl/sudoers_darwin.go">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> <code>--check</code> no longer says why the network grants were dropped from the comparison <span class="pill pill-claude">Claude Opus 5</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/cmd/limactl/sudoers_darwin.go#L37-L48">cmd/limactl/sudoers_darwin.go</a></div>
+      <pre data-start="37" data-line="42-43"><code class="language-go">	if err := nwCfg.Validate(); err != nil {
+		if len(blockDevices) == 0 {
+			logrus.Infof(&quot;Please check %s for more information.&quot;, socketVMNetURL)
+			return err
+		}
+		logrus.WithError(err).Debug(&quot;Network entries unavailable&quot;)
+		includeNetwork = false
+	}
+	if check {
+		return verifySudoAccess(ctx, nwCfg, args, blockDevices, includeNetwork, cmd.OutOrStdout())
+	}
+	switch len(args) {</code></pre>
+    <p>Round 4&#39;s S6 asked for the generation warning to move below the <code>if check</code> return, and it did (<code>:60-62</code>). But the failure reason went to <code>Debug</code> at the same time, and the <code>--check</code> path returns at <code>:46</code>, so it prints nothing. <code>networks.Config.Validate</code> fails whenever socket_vmnet is not installed, so <code>--check --block-device=X</code> against a file that does contain network grants reports only &quot;out of sync and must be regenerated&quot;, and the hint it offers would drop them.</p>
+    <p>Fix: keep a warning on the check path naming the validation error, or include it in the out-of-sync message.</p>
+    </div>
+    <div class="card card-suggestion" data-file="website/content/en/docs/config/disk.md">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> The documented manual revocation leaves a file <code>--check</code> then calls out of sync <span class="pill pill-claude">Claude Opus 5</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/website/content/en/docs/config/disk.md#L137-L148">website/content/en/docs/config/disk.md</a></div>
+      <pre data-start="137" data-line="142-143"><code class="language-markdown">If network validation fails, the generated file omits network grants; installing it over
+an existing file removes those grants. Review the output before replacing it.
+Device grants persist until removed from sudoers and allow root read-write access to the
+device slot, not a particular physical disk. macOS may reuse `/dev/diskN` for another disk.
+Never grant your boot/system disk; raw write access can compromise the host.
+To revoke a device grant, stop the VM, remove that device&#39;s helper command using
+`sudo visudo -f /etc/sudoers.d/lima`, and preserve the other grants in the file.
+
+Example configuration:
+{{&lt; tabpane text=true &gt;}}
+{{% tab header=&quot;CLI&quot; %}}
+```bash</code></pre>
+    <p><code>sudoers.NOPASSWD</code> renders several commands as one rule with <code>\</code> continuations and collapses to a single line when one remains, so deleting a line from a two-device file yields text no <code>limactl sudoers</code> invocation produces. <code>verifySudoersFile</code>&#39;s byte comparison at <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/cmd/limactl/sudoers_darwin.go#L124"><code>cmd/limactl/sudoers_darwin.go:124</code></a> then reports the file as out of sync although sudo still honours it — measured against the real renderer, the hand-edited and regenerated forms differ only in the whitespace the continuation leaves behind, and <code>ContainsActiveFragment</code> rejects it too.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/cmd/limactl/sudoers_darwin.go#L119-L129">cmd/limactl/sudoers_darwin.go</a></div>
+      <pre data-start="119" data-line="124"><code class="language-go">	}
+	content, err := renderSudoers(nwCfg, blockDevices, includeNetwork)
+	if err != nil {
+		return err
+	}
+	if string(b) == content {
+		return nil
+	}
+	if len(blockDevices) == 0 {
+		networkSudoers, err := nwCfg.Sudoers()
+		if err != nil {</code></pre>
+    <p>Fix: say a manual edit will make <code>--check</code> report the file as out of sync, or recommend regenerating with the remaining <code>--block-device</code> values.</p>
+    </div>
+    <div class="card card-suggestion" data-file="cmd/limactl/editflags/editflags.go">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> The <code>// []</code> guard in the block-device yq expression is a no-op, and its test comment states a yq behaviour that does not exist <span class="pill pill-claude">Claude Opus 5</span><a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/cmd/limactl/editflags/editflags.go#L374-L384">cmd/limactl/editflags/editflags.go</a></div>
+      <pre data-start="374" data-line="379"><code class="language-go">					if path == &quot;&quot; {
+						return nil, errors.New(&quot;block device path must not be empty&quot;)
+					}
+					devices[i] = strconv.Quote(path)
+				}
+				return []string{fmt.Sprintf(&quot;.blockDevices = ((.blockDevices // []) + [%s]) | .blockDevices |= unique&quot;, strings.Join(devices, &quot;,&quot;))}, nil
+			},
+			false,
+			false,
+		},
+		{&quot;set&quot;, func(v *flag.Flag) ([]string, error) {</code></pre>
+    <p><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/cmd/limactl/editflags/editflags_test.go#L112-L113"><code>editflags_test.go:112-113</code></a> says the expression &quot;must create a list instead of relying on yq&#39;s <code>+=</code> behavior for null&quot;. Run through <code>yqutil.EvaluateExpression</code>, the plain <code>+=</code> form produces byte-identical output for a missing key, <code>blockDevices: null</code> and <code>blockDevices: []</code> (verified for all three). The sibling list flags <code>portForwards</code> (<code>:183</code>), <code>dns</code> (<code>:252</code>) and <code>networks</code> (<code>:345</code>) all use the plain form.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/cmd/limactl/editflags/editflags_test.go#L107-L118">cmd/limactl/editflags/editflags_test.go</a></div>
+      <pre data-start="107" data-line="112-113"><code class="language-go">		&quot;missing&quot;: &quot;vmType: vz\n&quot;,
+		&quot;null&quot;:    &quot;vmType: vz\nblockDevices: null\n&quot;,
+	}
+	for name, input := range tests {
+		t.Run(name, func(t *testing.T) {
+			// Older instance YAML may not have blockDevices yet. Applying the edit
+			// must create a list instead of relying on yq&#39;s += behavior for null.
+			out, err := yqutil.EvaluateExpression(t.Context(), yqutil.Join(exprs), []byte(input))
+			assert.NilError(t, err)
+			assert.Equal(t, string(out), &quot;vmType: vz\nblockDevices:\n- /dev/disk4\n&quot;)
+		})
+	}</code></pre>
+    <p>Fix: use <code>.blockDevices += [%s] | .blockDevices |= unique</code> and drop the comment.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/blockdevice/block_device_darwin.go">
+      <div class="finding-title" id="S8">
+        <span class="finding-num">S8.</span> <code>sudoersForUserAndHelper</code> has no production caller <span class="pill pill-claude">Claude Opus 5</span><a href="#S8" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/blockdevice/block_device_darwin.go#L157-L169">pkg/blockdevice/block_device_darwin.go</a></div>
+      <pre data-start="157" data-line="162-164"><code class="language-go">		helperCommands = append(helperCommands, helperArgs)
+	}
+	return sudoersForUserAndHelpers(userName, helperCommands...), nil
+}
+
+func sudoersForUserAndHelper(userName string, helperArgs []string) string {
+	return sudoers.NOPASSWD(userName, &quot;root&quot;, &quot;wheel&quot;, strings.Join(helperArgs, &quot; &quot;))
+}
+
+func sudoersForUserAndHelpers(userName string, helperArgs ...[]string) string {
+	helperCommands := make([]string, 0, len(helperArgs))
+	for _, args := range helperArgs {
+		helperCommands = append(helperCommands, strings.Join(args, &quot; &quot;))</code></pre>
+    <p><code>SudoersForUser</code> calls only the plural form; the singular one&#39;s sole reference is <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/blockdevice/block_device_darwin_test.go#L28"><code>block_device_darwin_test.go:28</code></a>, which is why <code>unused</code> stays quiet. <code>ValidateExecutable</code> is in the same position on the export side: after this round it is called only from <code>PrivilegedHelperPath</code> and the package&#39;s own tests.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/blockdevice/block_device_darwin_test.go#L23-L33">pkg/blockdevice/block_device_darwin_test.go</a></div>
+      <pre data-start="23" data-line="28"><code class="language-go">
+	&quot;github.com/lima-vm/lima/v2/pkg/osutil&quot;
+)
+
+func TestSudoersForUserAndHelper(t *testing.T) {
+	sudoers := sudoersForUserAndHelper(&quot;alice&quot;, []string{&quot;/usr/local/libexec/lima/privileged/&quot; + PrivilegedHelperName, &quot;/dev/rdisk2&quot;})
+	assert.Equal(t, sudoers, &quot;alice ALL=(root:wheel) NOPASSWD:NOSETENV: /usr/local/libexec/lima/privileged/&quot;+PrivilegedHelperName+&quot; /dev/rdisk2\n&quot;)
+	assert.Assert(t, !contains(sudoers, &quot;%everyone&quot;))
+}
+
+func TestSudoersForUserAndHelpers(t *testing.T) {</code></pre>
+    <p>Fix: delete the singular helper and fold its assertion into <code>TestSudoersForUserAndHelpers</code> with a single-element list, which covers the same <code>len(commands) == 1</code> branch; unexport <code>ValidateExecutable</code> unless the I2 fix reinstates an outside caller.</p>
+    </div>
+    <div class="card card-suggestion" data-file="Makefile">
+      <div class="finding-title" id="S9">
+        <span class="finding-num">S9.</span> <code>ARTIFACT_DES</code> also starts shipping <code>lima-privileged-net</code> in Linux release archives <span class="pill pill-claude">Claude Opus 5</span><a href="#S9" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/Makefile#L819-L830">Makefile</a></div>
+      <pre data-start="819" data-line="824-825"><code class="language-make">ARTIFACT_ADDITIONAL_GUESTAGENTS_PATH_COMMON = _artifacts/lima-additional-guestagents-$(VERSION_TRIMMED)-$(ARTIFACT_OS)-$(ARTIFACT_UNAME_M)
+
+artifact: $(addprefix $(ARTIFACT_PATH_COMMON),$(ARTIFACT_FILE_EXTENSIONS)) \
+	$(addprefix $(ARTIFACT_ADDITIONAL_GUESTAGENTS_PATH_COMMON),$(ARTIFACT_FILE_EXTENSIONS))
+
+ARTIFACT_DES =  _output/bin/limactl$(exe) limactl-plugins $(LIMA_DEPS) $(HELPERS_DEPS) \
+	lima-privileged-net lima-privileged-block-device \
+	$(NATIVE_GUESTAGENT) \
+	$(TEMPLATES) $(TEMPLATE_IMAGES) $(TEMPLATE_DEFAULTS) $(TEMPLATE_EXPERIMENTALS) \
+	additional-drivers \
+	$(DOCUMENTATION) _output/share/doc/lima/templates \
+	_output/share/man/man1/limactl.1</code></pre>
+    <p>Round-4 I4 was about the block-device helper. At the merge-base <code>ARTIFACT_DES</code> listed neither helper and <code>LIMA_DEPS</code>/<code>HELPERS_DEPS</code> are <code>_output/bin/</code>-prefixed while the helpers build into <code>_output/libexec/lima/privileged/</code>, so released Linux tarballs lack <code>lima-privileged-net</code> today and this PR silently changes that. It is plausibly a real fix, but it is unrelated to macOS block devices.</p>
+    <p>Fix: split it out or name it in the PR description, and add a <code>must_contain</code> assertion for both helpers to <code>hack/validate-artifact.sh</code>, which today checks only guestagent names — the gap that let the net helper go missing.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/driver/vz/block_device_darwin.go">
+      <div class="finding-title" id="S10">
+        <span class="finding-num">S10.</span> The VZ handoff socket is the only new instance-dir file not declared in <code>filenames</code> <span class="pill pill-claude">Claude Opus 5</span><a href="#S10" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/driver/vz/block_device_darwin.go#L85-L95">pkg/driver/vz/block_device_darwin.go</a></div>
+      <pre data-start="85" data-line="90"><code class="language-go">
+// openHostBlockDevice bridges the generic host helper into the VZ lifecycle by
+// choosing a VZ-local socket path and retaining the returned descriptor until
+// the VM stops.
+func openHostBlockDevice(ctx context.Context, inst *limatype.Instance, devicePath string, index int, retainedFDs *retainedFileDescriptors) (*os.File, error) {
+	socketPath := filepath.Join(inst.Dir, fmt.Sprintf(&quot;vz-block-device.%d.sock&quot;, index))
+	deviceFile, err := blockdevice.Open(ctx, devicePath, socketPath)
+	if err != nil {
+		return nil, err
+	}
+	if retainedFDs != nil {</code></pre>
+    <p>Round-4 S2 moved the lock file into <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/limatype/filenames/filenames.go#L13"><code>pkg/limatype/filenames/filenames.go:13</code></a>, but this socket stayed a bare literal even though the package doc says it defines the names of the files under an instance dir, and the identically shaped <code>VhostSock = &quot;virtiofsd-%d.sock&quot;</code> already lives there.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/limatype/filenames/filenames.go#L8-L18">pkg/limatype/filenames/filenames.go</a></div>
+      <pre data-start="8" data-line="13"><code class="language-go">package filenames
+
+// Instance names starting with an underscore are reserved for lima internal usage
+
+const (
+	BlockDeviceLock = &quot;_block-device-%s.lock&quot; // whole host disk lock, shared across instances
+	CacheDir        = &quot;_cache&quot;                // not yet implemented
+	ConfigDir       = &quot;_config&quot;
+	DisksDir        = &quot;_disks&quot;     // disks are stored here
+	NetworksDir     = &quot;_networks&quot;  // network log files are stored here
+	TemplatesDir    = &quot;_templates&quot; // user templates are stored here</code></pre>
+    <p>Fix: add <code>VZBlockDeviceSock = &quot;vz-block-device.%d.sock&quot;</code> beside <code>VhostSock</code> and format from it.</p>
+    </div>
+    <div class="card card-suggestion" data-file="hack/bats/extras/vz-block-device.bats">
+      <div class="finding-title" id="S11">
+        <span class="finding-num">S11.</span> <code>create_ramdisk</code>&#39;s new anchored pattern dropped the single-line guarantee <span class="pill pill-claude">Claude Opus 5</span><a href="#S11" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/hack/bats/extras/vz-block-device.bats#L45-L55">hack/bats/extras/vz-block-device.bats</a></div>
+      <pre data-start="45" data-line="50"><code class="language-bash">		limactl shell &quot;${instance_name}&quot; -- sudo cat /var/log/cloud-init-output.log || :
+	fi
+}
+
+create_ramdisk() {
+	host_disk_device=$(sudo hdiutil attach -nomount ram://65536 | awk &#39;$1 ~ /^\/dev\/disk[0-9]+$/ {print $1}&#39;)
+	[[ -n ${host_disk_device} ]]
+}
+
+configure_block_device_path() {
+	case &quot;$1&quot; in</code></pre>
+    <p>The anchoring is an improvement over <code>NR==1</code>, but <code>NR==1</code> also guaranteed one line. The new form prints every match, so a multi-match output makes <code>host_disk_device</code> a two-line value that still passes the <code>[[ -n ]]</code> check on the next line and then feeds a wrong path to the sudoers grant and to <code>hdiutil detach</code>, whose failure is swallowed by <code>|| :</code>. The suite already uses the safe idiom at <code>:201</code>.</p>
+    <p>Fix: append <code>; exit</code> to the awk action.</p>
+    </div>
+    <div class="card card-suggestion" data-file="hack/bats/extras/vz-block-device.bats">
+      <div class="finding-title" id="S12">
+        <span class="finding-num">S12.</span> The BATS suite installs into <code>/etc/sudoers.d</code> without the <code>visudo -c</code> its own documentation mandates <span class="pill pill-claude">Claude Opus 5</span><a href="#S12" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/hack/bats/extras/vz-block-device.bats#L69-L80">hack/bats/extras/vz-block-device.bats</a></div>
+      <pre data-start="69" data-line="74-75"><code class="language-bash">install_block_device_sudoers() {
+	local generated=&quot;${BATS_TEST_TMPDIR}/block-device.sudoers&quot;
+	limactl sudoers --block-device=&quot;${configured_block_device}&quot; &gt;&quot;${generated}&quot;
+	# A separate, uniquely named fragment preserves all existing Lima grants.
+	# Record its name before installing so teardown also handles install failures.
+	sudoers_file=$(sudo mktemp /etc/sudoers.d/lima-block-device-test-XXXXXX)
+	sudo install -o root -g wheel -m 0440 &quot;${generated}&quot; &quot;${sudoers_file}&quot;
+}
+
+remove_block_device_sudoers() {
+	if [[ -n ${sudoers_file} ]]; then
+		sudo rm -f &quot;${sudoers_file}&quot; || return</code></pre>
+    <p><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/website/content/en/docs/config/disk.md#L126"><code>disk.md:126</code></a> documents <code>visudo -cf</code> before the install, so that a malformed fragment cannot break <code>sudo</code> machine-wide. If it ever did, the suite&#39;s own <code>sudo rm</code> would fail too and teardown would take the leak path in S2.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/website/content/en/docs/config/disk.md#L121-L131">website/content/en/docs/config/disk.md</a></div>
+      <pre data-start="121" data-line="126"><code class="language-markdown">you want to retain:
+
+```sh
+limactl sudoers --block-device=/dev/disk4 &gt;etc_sudoers.d_lima
+less etc_sudoers.d_lima
+visudo -cf etc_sudoers.d_lima
+sudo install -o root -g wheel -m 0440 etc_sudoers.d_lima /etc/sudoers.d/lima
+rm etc_sudoers.d_lima
+```
+
+The block-device entry is scoped to the current user. Do not run `limactl sudoers` as root.</code></pre>
+    <p>Fix: add <code>sudo visudo -cf &quot;${generated}&quot;</code> before the install.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/blockdevice/path.go">
+      <div class="finding-title" id="S13">
+        <span class="finding-num">S13.</span> A Linux or Windows host now rejects <code>blockDevices</code> with a macOS-specific grammar error <span class="pill pill-claude">Claude Opus 5</span><a href="#S13" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/blockdevice/path.go#L22-L31">pkg/blockdevice/path.go</a></div>
+      <pre data-start="22" data-line="27-29"><code class="language-go">		return fmt.Errorf(&quot;devicePath %q must be an absolute path&quot;, devicePath)
+	}
+	if path.Clean(devicePath) != devicePath {
+		return fmt.Errorf(&quot;devicePath %q must be normalized&quot;, devicePath)
+	}
+	if !macOSDiskDevicePathRE.MatchString(devicePath) {
+		return fmt.Errorf(&quot;devicePath %q must be a macOS disk device path like /dev/disk4 or /dev/rdisk4s1&quot;, devicePath)
+	}
+	return nil
+}</code></pre>
+    <p>Moving the check into <code>limayaml.Validate</code> makes the macOS device grammar a cross-platform config rule: a Linux user writing <code>blockDevices: [/dev/sdb]</code> is told the path &quot;must be a macOS disk device path&quot; rather than that the field is unsupported for their <code>vmType</code>. The rejection is right, the message is not, and the new <code>limayaml → blockdevice</code> edge pulls <code>pkg/sudoers</code> and <code>github.com/balajiv113/fd</code> into every darwin consumer of <code>pkg/limayaml</code>.</p>
+    <p>Fix: keep absoluteness and normalization in <code>limayaml</code> and leave the node grammar to the vz driver and the helper, which enforce it three times over.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/driver/vz/vm_darwin.go">
+      <div class="finding-title" id="S14">
+        <span class="finding-num">S14.</span> The unbuffered stop send strands the state-change goroutine whenever a signal wins the race <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span><a href="#S14" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/driver/vz/vm_darwin.go#L203-L215">pkg/driver/vz/vm_darwin.go</a></div>
+      <pre data-start="203" data-line="208-210"><code class="language-go">					if stopUsernet != nil {
+						stopUsernet()
+					}
+					// Release descriptors before notifying the hostagent, which may
+					// exit immediately upon receiving the stopped state.
+					retainedFDs.CloseAll()
+					sendErrCh &lt;- errors.New(&quot;vz driver state stopped&quot;)
+					return
+				default:
+					logrus.Debugf(&quot;[VZ] - vm state change: %#q&quot;, newState)
+				}
+			}
+		}</code></pre>
+    <p><code>startRoutinesAndWait</code> (<a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/hostagent/hostagent.go#L525-L530"><code>pkg/hostagent/hostagent.go:525-530</code></a>) selects once on <code>errCh</code> or <code>signalCh</code>. On the signal path nobody reads <code>errCh</code> again, so this send blocks forever and the <code>return</code> below it never runs. It is benign because <code>LimaVzDriver.Stop</code> polls <code>wrapper.stopped</code>, which is set before the send, and the process exits moments later — and because round 5 moved <code>CloseAll</code> above the send for exactly this reason. Codex credited the send as &quot;consumed by the hostagent&#39;s active wait&quot;; that holds only when the driver error wins the select.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/hostagent/hostagent.go#L520-L535">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="520" data-line="525-530"><code class="language-go">			stRunning.Errors = append(stRunning.Errors, haErr.Error())
+		}
+		stRunning.Running = true
+		a.emitEvent(ctx, events.Event{Status: stRunning})
+	}()
+	// wait for either the driver to stop or a signal to shut down
+	select {
+	case driverErr := &lt;-errCh:
+		logrus.Infof(&quot;Driver stopped due to error: %#q&quot;, driverErr)
+	case sig := &lt;-a.signalCh:
+		logrus.Infof(&quot;Received %s, shutting down the host agent&quot;, osutil.SignalName(sig))
+	}
+	// close the host agent routines before cancelling the context
+	if closeErr := a.close(); closeErr != nil {
+		logrus.WithError(closeErr).Warn(&quot;an error during shutting down the host agent&quot;)
+	}</code></pre>
+    <p>Fix: <code>sendErrCh := make(chan error, 1)</code>, or wrap the send in a <code>select</code> with a <code>default</code>.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <p><strong>Block-device grants are per-user inside a file every user rewrites</strong> <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span>. <code>renderSudoers</code> emits only the invoking user&#39;s grants and <code>verifySudoersFile</code> compares the whole file byte-for-byte whenever <code>--block-device</code> is passed, so two users on one machine cannot both hold device grants and neither can <code>--check</code> the combined file. S3 fixes the documentation; the model itself is the decision. A <code>--block-device</code> check that used <code>ContainsActiveFragment</code> on the block fragment — the containment the network path already uses at <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/networks/sudoers.go#L112"><code>pkg/networks/sudoers.go:112</code></a> — would tolerate other users&#39; grants, at the cost of no longer detecting stale extra device grants.</p>
+    <p><strong>The grant names a device slot, not a disk</strong> <em>(future)</em> <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span>. Unchanged from round 4 and documented at <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/website/content/en/docs/config/disk.md#L139-L141"><code>disk.md:139-141</code></a>. Keying the grant on a <code>diskutil</code> UUID resolved at open time remains the durable answer, which the sudoers argv form cannot express.</p>
+    <p><strong>Receive-to-dup close-on-exec window</strong> <em>(future)</em> <span class="pill pill-codex">Codex GPT 5.6 Sol</span>. The pinned <code>github.com/balajiv113/fd</code> receives descriptors with <code>syscall.Recvmsg</code> and returns them without <code>FD_CLOEXEC</code>; Lima sets it on the later duplicate at <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/blockdevice/block_device_darwin.go#L681"><code>pkg/blockdevice/block_device_darwin.go:681</code></a>. No competing in-process <code>exec</code> exists during that window today. If VM startup ever becomes parallel, the receiver must hold <code>syscall.ForkLock</code> across it.</p>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>The release-archive install recipe is correct end to end</strong> <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span>. <code>make artifact</code> tars <code>_output/</code> wholesale, the GOOS-guarded phony target builds the helper into <code>_output/libexec/lima/privileged/</code>, and extracting into <code>/opt/lima</code> puts it exactly where <code>privilegedHelperPathForExecutable</code> looks. <code>--no-same-owner</code> is load-bearing: the archive stores the builder&#39;s uid, which <code>validateSecurePathElement</code> would reject.</li>
+      <li><strong>All four round-4 strengths survive</strong> <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span>. The single argv pin with the <code>Lstat</code> → <code>O_NOFOLLOW</code> → post-open <code>Stat</code> chain, ACL detection on directories as well as files, per-VM retention with <code>processRetainedFDs</code> still serving krunkit&#39;s exported entry points, and a network fragment byte-identical to the merge-base after the <code>sudoers.NOPASSWD</code> extraction.</li>
+      <li><strong>The stopped branch now reaches cleanup</strong> <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span> <span class="pill pill-codex">Codex GPT 5.6 Sol</span>. This answers round 4&#39;s unreachable-defer observation, and the <code>return</code> strands no sender: <code>Code-Hex/vz</code> delivers state changes over an unbounded channel.</li>
+      <li><em></em><code>attachDisks</code> unlocks every additional disk it acquired on the error path<em></em> <em>(in-scope)</em> <span class="pill pill-claude">Claude Opus 5</span>. <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/driver/vz/vm_darwin.go#L623-L630"><code>vm_darwin.go:623-630</code></a> closes a stranded-lock class beyond this PR&#39;s own feature.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>I ran, in a clean worktree at <a href="https://github.com/lima-vm/lima/commit/5e07bfd6"><code>5e07bfd6</code></a>: <code>go build ./...</code> and <code>go test ./...</code> (both exit 0, no failures); <code>GOOS=linux</code> and <code>GOOS=windows</code> cross-builds of <code>./...</code>; and <code>go vet</code> over <code>pkg/driver/wsl2</code>, <code>pkg/driver/hcs</code> and <code>pkg/limayaml</code> for <code>GOOS=windows</code>, which type-checks the new Windows driver tests. <code>TestContainsActiveFragmentLineContinuations</code> really executes its <code>visudo</code> subtests here rather than skipping, so the round-4 I3 fix is pinned against the real parser.</p>
+    <p>Required:</p>
+    <ol>
+      <li><strong>Overlapping device paths (I3).</strong> <code>TestHostBlockDeviceLockSharedWithinVM</code> covers lock sharing; nothing covers the configuration that should never reach it. The I3 reproducer is the test — reject <code>/dev/disk4</code> with <code>/dev/rdisk4</code> and with <code>/dev/disk4s1</code>, accept <code>/dev/disk4s1</code> with <code>/dev/disk4s2</code>.</li>
+      <li><em></em><code>limactl delete</code> on an instance with <code>blockDevices</code> (I2).<em></em> No test exercises <code>Configure</code> on a teardown path, and the failure tells users to install software in order to remove a VM.</li>
+      <li><em></em><code>limactl sudoers --check</code> against the file as installed (I1).<em></em> <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/hack/bats/extras/vz-block-device.bats#L305"><code>vz-block-device.bats:305</code></a> routes around the real path with <code>sudo cat</code>; passing <code>${sudoers_file}</code> directly would have caught the mode.</li>
+    </ol>
+    <p>Optional: a <code>PrivilegedHelperPath</code> case rejecting a directory and a non-executable leaf (S4), and flag-order preservation for two <code>--block-device</code> values (S7&#39;s expression is pinned as a string, and the null-handling test uses one device).</p>
+    <p>Already covered, do not re-add: grant ordering and de-duplication, cross-instance lock aliases and release, sudoers continuations against real <code>visudo</code>, peer-UID ordering, socket symlink rejection, descriptor identity, <code>FD_CLOEXEC</code> on the dup, per-driver <code>blockDevices</code> rejection in all four non-VZ drivers, and the real guest-to-host round trip.</p>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><code>disk.md</code>&#39;s rewritten setup section is accurate about the protected-prefix requirement, the release-archive layout, <code>visudo -cf</code>, slot reuse, boot-disk risk, the lock&#39;s scope and the 20-byte identifier cap. Three defects: the install mode (I1), the cross-user retention claim (S3) and the revocation procedure&#39;s interaction with <code>--check</code> (S6). <code>internals.md</code> correctly documents the new lock files and why they are kept after unlock.</p>
+    <p>Two smaller items. <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/AGENTS.md#L18"><code>AGENTS.md:18</code></a> still says <code>make minimal</code> builds &quot;just limactl + native guestagent + default template&quot;, but <code>Makefile:193</code> now also builds <code>lima-privileged-block-device</code>. <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/website/content/en/docs/config/disk.md#L110"><code>disk.md:110</code></a> says &quot;Replace VERSION and ARCH with the filename of the downloaded release archive&quot; — the reader replaces them with the version and architecture, not the filename.</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>One squashed, signed-off commit with a subject that describes the change and the issues linked — correct for this repo. One scope note: the <code>lima-privileged-net</code> addition to <code>ARTIFACT_DES</code> (S9) changes what Linux release archives contain and is unrelated to macOS block devices; the PR body does not mention it.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><em></em><code>--check --block-device</code> on a subset of installed grants is deliberate.<em></em> Re-confirmed: the negative BATS assertion is now at <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/hack/bats/extras/vz-block-device.bats#L310"><code>vz-block-device.bats:310</code></a>. Do not re-suggest making that branch tolerant.</li>
+      <li><em></em>BATS <code>teardown</code> aborting before detach is deliberate.<em></em> The comment at <code>.bats:24</code> still matches the code. S2 is about the retry that was added beside it, not about the ordering.</li>
+      <li><strong>The non-blocking drain after a sudo failure is deliberate.</strong> The comment at <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/driver/vz/block_device_darwin.go#L664-L665"><code>block_device_darwin.go:664-665</code></a> still matches; the recorded residual stands.</li>
+      <li><em></em>Guest device naming is not a <code>/dev</code>-node guarantee.<em></em> The comment at <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/driver/vz/block_device_darwin.go#L101-L106"><code>block_device_darwin.go:101-106</code></a> and the 20-byte cap match <code>disk.md</code>&#39;s new sentence.</li>
+      <li><em></em><code>pkg/networks</code> ACL rejection is deferred by agreement with @unsuman.<em></em> Confirmed still deferred: <code>git diff 70f8f524..5e07bfd6 -- pkg/networks/validate.go</code> is empty.</li>
+      <li><strong>The device path is validated three times per helper request, by design.</strong></li>
+      <li><em></em><code>withoutCommentLines</code> is not a sudoers parser.<em></em> Its doc comment still scopes it to Lima-generated fragments, and the round-5 change to emit an empty line per comment is what makes the continuation handling correct.</li>
+      <li><em></em><code>ValidateExecutable</code> keys on the basename, so a renamed or symlinked <code>limactl</code> is rejected.<em></em> Round-4 S3, answered this round by message rather than behaviour. <code>os.Executable()</code> on macOS does return the symlink path (probed), so the premise holds, but <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/website/content/en/docs/config/disk.md#L114-L115"><code>disk.md:114-115</code></a> and the rewritten error now both say so. Gemini 3.1 Pro re-raised it; declined, because the diagnosis no longer misleads and <code>filepath.EvalSymlinks</code> would change which installation the helper lookup selects.</li>
+      <li><em></em>The <code>limactl start</code> hint&#39;s literal command still omits <code>--block-device</code>.<em></em> Round-4 I2, answered by attaching <code>RegenerateGrantWarning</code> rather than by making the command self-preserving. The constant&#39;s doc comment documents the reduced scope deliberately. Gemini 3.1 Pro rated the residual Important; declined at that severity, since the warning beside the command names the flag the command lacks.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><em></em>@unsuman on <a href="https://github.com/lima-vm/lima/blob/5e07bfd643e0afdc17ef74d2309649bac0959baf/pkg/blockdevice/block_device_darwin.go#L448"><code>pkg/blockdevice/block_device_darwin.go:448</code></a><em></em>: &quot;A root-owned binary writable via a macOS ACL might still pass?&quot; The block-device half is closed and tested; the <code>pkg/networks</code> half stays open by mutual agreement and deserves its own issue so it is not lost when this PR merges.</li>
+      <li><em></em>@unsuman on <code>.github/workflows/test.yml</code><em></em>: &quot;Why do we need this change?&quot; Answered in the code — the <code>Install</code>/<code>PREFIX=/opt/lima</code> step exists because <code>validateSecurePath</code> recurses to <code>/</code> demanding root ownership of every ancestor, and Homebrew owns <code>/usr/local</code> on the runners. The thread still needs a reply.</li>
+      <li><em></em>@unsuman on <code>website/content/en/docs/config/disk.md</code><em></em>: &quot;Maybe this should come first.&quot; Addressed — the sudoers-setup section now precedes the usage examples. Listed only because no reply closed the thread.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5"><span class="pill pill-claude">Claude Opus 5</span> <a href="#claude-opus-5" class="pilcrow">&#182;</a></h3>
+    <p>Claude carried the round: both blocking regressions are its work, and neither is visible in the diff alone — each needed a call chain traced out of the changed lines into <code>pkg/instance</code> and <code>pkg/networks</code>. Its delta table names a file read or a command run for every row, including two reaches into pinned dependency source (<code>Code-Hex/vz</code> for the macOS-14 gate and the unbounded state channel, <code>balajiv113/fd</code> for the SCM_RIGHTS shape). It marked the BATS retry finding <code>Unproven</code> because its worktree had an uninitialized submodule, and named the exact experiment to run; that experiment confirmed the mechanism and corrected the framing — retries mask a transient teardown failure, not the persistent one Claude described. It missed the overlapping-attachment regression entirely, crediting the <code>Holds</code> shortcut as a clean fix.</p>
+    <h3 id="codex-gpt-5-6-sol"><span class="pill pill-codex">Codex GPT 5.6 Sol</span> <a href="#codex-gpt-5-6-sol" class="pilcrow">&#182;</a></h3>
+    <p>Codex was the only agent to catch the overlap that the round-4 I1 fix opened, and it named the exact shapes (<code>/dev/disk4</code> with <code>/dev/disk4s1</code>, <code>/dev/disk4s1</code> with <code>/dev/rdisk4s1</code>) and that the new test asserts the opposite. It used <code>Unproven live:</code> honestly twice where a real device or a multi-user <code>/etc/sudoers.d</code> was needed, and both turned out reproducible at unit level. Two calibration notes: it rated the multi-user doc claim and the helper-leaf type check Important where the consequences are a loud revocation and a deterministic later failure, and its strengths list asserts the unbuffered stop send &quot;is consumed by the hostagent&#39;s active wait&quot;, which holds only when the driver error wins the select against a signal.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Pro produced the only full 41-file coverage summary among the two Gemini runs and re-verified each round-4 item with a file and line. Its one Important is a residual of round-4 I2 that the author deliberately answered with a warning rather than a command change, and its fix suggestion — stop printing the redirect at all — is worse than what is there. Its symlink finding rests on a correct premise: <code>os.Executable()</code> on macOS really does return the symlink path, which I probed. Both of its findings were named in the prompt&#39;s own re-verification list, so neither is an independent discovery.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Flash returned the shortest review and the narrowest scope: its coverage summary lists only the fifteen files in the round-5 delta plus the four upstream ones, leaving twenty-two of the PR&#39;s files unaccounted for. Its single finding is the unbuffered channel send, which is real and which Pro raised too — the two share a family, so treat that as one opinion rather than two. Its delta table marks every row PASS with an evidence column that paraphrases the change and names no command or counterexample, so those verdicts are recorded as unverified; one of them credits the whole-disk lock as coordinating partitions &quot;safely&quot;, which is the finding this round turned on.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5</span></th><th><span class="pill pill-codex">Codex GPT 5.6 Sol</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>23m 29s</td><td>17m 59s</td><td>12m 37s</td><td>5m 11s</td></tr>
+        <tr><td>Findings</td><td>2I 11S</td><td>1I 3S</td><td>1S</td><td>1S</td></tr>
+        <tr><td>Tool calls</td><td>79 (Bash 68, Read 9, Agent 2)</td><td>42 (shell 42)</td><td>63 (run<em>shell</em>command 62, update_topic 1)</td><td>71 (run<em>shell</em>command 36, read<em>file 20, grep</em>search 14)</td></tr>
+        <tr><td>Design observations</td><td>5</td><td>6</td><td>3</td><td>3</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>12</td><td>3</td><td>0</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>41</td><td>41</td><td>41</td><td>19</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>1</td><td>1</td><td>27</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>2I 11S</strong></td><td><strong>1I 3S</strong></td><td><strong>1S</strong></td><td><strong>1S</strong></td></tr>
+        <tr><td>Downgraded</td><td>1</td><td>2</td><td>0</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>2</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p>Reconciliation: three severity changes. Codex&#39;s I2 (multi-user grant retention) was downgraded to S3 and Codex&#39;s I3 (helper leaf type) to S4, both because the failure is loud and recoverable. Claude&#39;s I3 (BATS retry) was downgraded to S2 after the experiment it named showed the masking applies only to a transient teardown failure, and because the residue lands on an ephemeral CI runner. Gemini 3.1 Pro&#39;s I1 (network hint) was declined into Acknowledged Limitations, the reduced scope being documented in <code>RegenerateGrantWarning</code>&#39;s own comment.</p>
+    <p>The pairing that worked was Claude and Codex again, and this round they covered different ground: Claude found the two regressions reachable only by leaving the diff, Codex found the one hiding inside the fix that closed round-4 I1. Neither would have produced this round alone.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>When a fix moves a check from a cheap predicate to an expensive one, enumerate every caller of the enclosing function before accepting it.</strong> A stricter check is usually evaluated against the path the fix was written for. Find the other callers — teardown, inspection, listing and repair paths often share a configuration or validation entry point — and ask what the new predicate costs a user on each. A check that is correct for the start path can make an instance impossible to remove.</li>
+      <li><strong>When a round adds a retry, a timeout or another tolerance to a test harness, re-read the failure modes that harness deliberately makes loud.</strong> Tolerance and loudness are added for opposite reasons and frequently land in the same round, each justified on its own. Ask which deliberate failure the new tolerance now absorbs, and whether state from the absorbed attempt is still reachable to the cleanup that runs after it.</li>
+      <li><strong>A documented command is code; check it against every consumer of the artifact it produces.</strong> When a change prescribes ownership, mode or location for a file the program itself reads, find the read sites and check what error the prescribed form produces there. Fallbacks written for &quot;file absent&quot; rarely cover &quot;file present but unreadable&quot;, and the two are one octal digit apart.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em>[repo] <code>wheel</code> contains only <code>root</code> on macOS, so a <code>0440 root:wheel</code> file is unreadable to the invoking user.<em></em> Lima reads <code>/etc/sudoers.d/lima</code> unprivileged in <code>cmd/limactl</code> and <code>pkg/networks</code>, and both fall back only on <code>os.ErrNotExist</code>. Any change that prescribes or installs a mode for that file has to keep it readable by the user running <code>limactl</code>.</li>
+      <li><em></em>[repo] <code>Configure</code> is on the teardown path, not just the startup path.<em></em> <code>pkg/instance/delete.go</code>, <code>pkg/snapshot</code> and <code>cmd/limactl/factory-reset.go</code> all reach a driver&#39;s <code>validateConfig</code> through <code>driverutil.CreateConfiguredDriver</code>. A refusal added there blocks removing an instance, and <code>--force</code> does not bypass it. Checks that describe what a running VM needs belong in the driver&#39;s <code>Validate</code>, which only start, edit, restart and clone call.</li>
+      <li><strong>[repo] macOS device paths that differ textually can address the same storage.</strong> <code>/dev/diskN</code> and <code>/dev/rdiskN</code> are aliases, and <code>/dev/diskNsM</code> is a slice of <code>/dev/diskN</code>. Any check that compares configured device paths for equality — duplicate rejection, lock keying, retention accounting — has to normalize the leading <code>r</code> and the partition suffix first, and distinguish &quot;same extent&quot; from &quot;sibling partitions of one disk&quot;, which are legal together.</li>
+      <li><em></em>[repo] <code>hack/bats/extras/</code> is not part of <code>make bats</code>.<em></em> The <code>bats</code> target runs <code>./hack/bats/tests</code> only; the <code>extras/</code> suites run from explicit workflow steps. When judging who a defect in an <code>extras/</code> suite reaches, the primary consumer is an ephemeral CI runner, not a developer machine.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){var t="\\b(?:BASH|BASHOPTS|BASH_ALIASES|BASH_ARGC|BASH_ARGV|BASH_CMDS|BASH_COMPLETION_COMPAT_DIR|BASH_LINENO|BASH_REMATCH|BASH_SOURCE|BASH_VERSINFO|BASH_VERSION|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|EUID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_ADDRESS|LC_ALL|LC_IDENTIFICATION|LC_MEASUREMENT|LC_MONETARY|LC_NAME|LC_NUMERIC|LC_PAPER|LC_TELEPHONE|LC_TIME|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS1|PS2|PS3|PS4|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UID|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_CONFIG_DIRS|XDG_CURRENT_DESKTOP|XDG_DATA_DIRS|XDG_GREETER_DATA_DIR|XDG_MENU_PREFIX|XDG_RUNTIME_DIR|XDG_SEAT|XDG_SEAT_PATH|XDG_SESSION_DESKTOP|XDG_SESSION_ID|XDG_SESSION_PATH|XDG_SESSION_TYPE|XDG_VTNR|XMODIFIERS)\\b",a={pattern:/(^(["']?)\w+\2)[ \t]+\S.*/,lookbehind:!0,alias:"punctuation",inside:null},n={bash:a,environment:{pattern:RegExp("\\$"+t),alias:"constant"},variable:[{pattern:/\$?\(\([\s\S]+?\)\)/,greedy:!0,inside:{variable:[{pattern:/(^\$\(\([\s\S]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,operator:/--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,greedy:!0,inside:{variable:/^\$\(|^`|\)$|`$/}},{pattern:/\$\{[^}]+\}/,greedy:!0,inside:{operator:/:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,punctuation:/[\[\]]/,environment:{pattern:RegExp("(\\{)"+t),lookbehind:!0,alias:"constant"}}},/\$(?:\w+|[#?*!@$])/],entity:/\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/};e.languages.bash={shebang:{pattern:/^#!\s*\/.*/,alias:"important"},comment:{pattern:/(^|[^"{\\$])#.*/,lookbehind:!0},"function-name":[{pattern:/(\bfunction\s+)[\w-]+(?=(?:\s*\(?:\s*\))?\s*\{)/,lookbehind:!0,alias:"function"},{pattern:/\b[\w-]+(?=\s*\(\s*\)\s*\{)/,alias:"function"}],"for-or-select":{pattern:/(\b(?:for|select)\s+)\w+(?=\s+in\s)/,alias:"variable",lookbehind:!0},"assign-left":{pattern:/(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,inside:{environment:{pattern:RegExp("(^|[\\s;|&]|[<>]\\()"+t),lookbehind:!0,alias:"constant"}},alias:"variable",lookbehind:!0},parameter:{pattern:/(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,alias:"variable",lookbehind:!0},string:[{pattern:/((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?(?:\r?\n|\r)\2/,lookbehind:!0,greedy:!0,inside:n},{pattern:/((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?(?:\r?\n|\r)\3/,lookbehind:!0,greedy:!0,inside:{bash:a}},{pattern:/(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,lookbehind:!0,greedy:!0,inside:n},{pattern:/(^|[^$\\])'[^']*'/,lookbehind:!0,greedy:!0},{pattern:/\$'(?:[^'\\]|\\[\s\S])*'/,greedy:!0,inside:{entity:n.entity}}],environment:{pattern:RegExp("\\$?"+t),alias:"constant"},variable:n.variable,function:{pattern:/(^|[\s;|&]|[<>]\()(?:add|apropos|apt|apt-cache|apt-get|aptitude|aspell|automysqlbackup|awk|basename|bash|bc|bconsole|bg|bzip2|cal|cargo|cat|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clear|cmp|column|comm|composer|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|debootstrap|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|docker|docker-compose|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|git|gparted|grep|groupadd|groupdel|groupmod|groups|grub-mkconfig|gzip|halt|head|hg|history|host|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|ip|java|jobs|join|kill|killall|less|link|ln|locate|logname|logrotate|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|make|man|mc|mdadm|mkconfig|mkdir|mke2fs|mkfifo|mkfs|mkisofs|mknod|mkswap|mmv|more|most|mount|mtools|mtr|mutt|mv|nano|nc|netstat|nice|nl|node|nohup|notify-send|npm|nslookup|op|open|parted|passwd|paste|pathchk|ping|pkill|pnpm|podman|podman-compose|popd|pr|printcap|printenv|ps|pushd|pv|quota|quotacheck|quotactl|ram|rar|rcp|reboot|remsync|rename|renice|rev|rm|rmdir|rpm|rsync|scp|screen|sdiff|sed|sendmail|seq|service|sftp|sh|shellcheck|shuf|shutdown|sleep|slocate|sort|split|ssh|stat|strace|su|sudo|sum|suspend|swapon|sync|sysctl|tac|tail|tar|tee|time|timeout|top|touch|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|update-grub|uptime|useradd|userdel|usermod|users|uudecode|uuencode|v|vcpkg|vdir|vi|vim|virsh|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yarn|yes|zenity|zip|zsh|zypper)(?=$|[)\s;|&])/,lookbehind:!0},keyword:{pattern:/(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)(?=$|[)\s;|&])/,lookbehind:!0},builtin:{pattern:/(^|[\s;|&]|[<>]\()(?:\.|:|alias|bind|break|builtin|caller|cd|command|continue|declare|echo|enable|eval|exec|exit|export|getopts|hash|help|let|local|logout|mapfile|printf|pwd|read|readarray|readonly|return|set|shift|shopt|source|test|times|trap|type|typeset|ulimit|umask|unalias|unset)(?=$|[)\s;|&])/,lookbehind:!0,alias:"class-name"},boolean:{pattern:/(^|[\s;|&]|[<>]\()(?:false|true)(?=$|[)\s;|&])/,lookbehind:!0},"file-descriptor":{pattern:/\B&\d\b/,alias:"important"},operator:{pattern:/\d?<>|>\||\+=|=[=~]?|!=?|<<[<-]?|[&\d]?>>|\d[<>]&?|[<>][&=]?|&[>&]?|\|[&|]?/,inside:{"file-descriptor":{pattern:/^\d/,alias:"important"}}},punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,number:{pattern:/(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,lookbehind:!0}},a.inside=e.languages.bash;for(var s=["comment","function-name","for-or-select","assign-left","parameter","string","environment","function","keyword","builtin","boolean","file-descriptor","operator","punctuation","number"],o=n.variable[1].inside,i=0;i<s.length;i++)o[s[i]]=e.languages.bash[s[i]];e.languages.sh=e.languages.bash,e.languages.shell=e.languages.bash}(Prism);
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+!function(e){var n=/[*&][^\s[\]{},]+/,r=/!(?:<[\w\-%#;/?:@&=+$,.!~*'()[\]]+>|(?:[a-zA-Z\d-]*!)?[\w\-%#;/?:@&=+$.~*'()]+)?/,t="(?:"+r.source+"(?:[ \t]+"+n.source+")?|"+n.source+"(?:[ \t]+"+r.source+")?)",a="(?:[^\\s\\x00-\\x08\\x0e-\\x1f!\"#%&'*,\\-:>?@[\\]`{|}\\x7f-\\x84\\x86-\\x9f\\ud800-\\udfff\\ufffe\\uffff]|[?:-]<PLAIN>)(?:[ \t]*(?:(?![#:])<PLAIN>|:<PLAIN>))*".replace(/<PLAIN>/g,(function(){return"[^\\s\\x00-\\x08\\x0e-\\x1f,[\\]{}\\x7f-\\x84\\x86-\\x9f\\ud800-\\udfff\\ufffe\\uffff]"})),d="\"(?:[^\"\\\\\r\n]|\\\\.)*\"|'(?:[^'\\\\\r\n]|\\\\.)*'";function o(e,n){n=(n||"").replace(/m/g,"")+"m";var r="([:\\-,[{]\\s*(?:\\s<<prop>>[ \t]+)?)(?:<<value>>)(?=[ \t]*(?:$|,|\\]|\\}|(?:[\r\n]\\s*)?#))".replace(/<<prop>>/g,(function(){return t})).replace(/<<value>>/g,(function(){return e}));return RegExp(r,n)}e.languages.yaml={scalar:{pattern:RegExp("([\\-:]\\s*(?:\\s<<prop>>[ \t]+)?[|>])[ \t]*(?:((?:\r?\n|\r)[ \t]+)\\S[^\r\n]*(?:\\2[^\r\n]+)*)".replace(/<<prop>>/g,(function(){return t}))),lookbehind:!0,alias:"string"},comment:/#.*/,key:{pattern:RegExp("((?:^|[:\\-,[{\r\n?])[ \t]*(?:<<prop>>[ \t]+)?)<<key>>(?=\\s*:\\s)".replace(/<<prop>>/g,(function(){return t})).replace(/<<key>>/g,(function(){return"(?:"+a+"|"+d+")"}))),lookbehind:!0,greedy:!0,alias:"atrule"},directive:{pattern:/(^[ \t]*)%.+/m,lookbehind:!0,alias:"important"},datetime:{pattern:o("\\d{4}-\\d\\d?-\\d\\d?(?:[tT]|[ \t]+)\\d\\d?:\\d{2}:\\d{2}(?:\\.\\d*)?(?:[ \t]*(?:Z|[-+]\\d\\d?(?::\\d{2})?))?|\\d{4}-\\d{2}-\\d{2}|\\d\\d?:\\d{2}(?::\\d{2}(?:\\.\\d*)?)?"),lookbehind:!0,alias:"number"},boolean:{pattern:o("false|true","i"),lookbehind:!0,alias:"important"},null:{pattern:o("null|~","i"),lookbehind:!0,alias:"important"},string:{pattern:o(d),lookbehind:!0,greedy:!0},number:{pattern:o("[+-]?(?:0x[\\da-f]+|0o[0-7]+|(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:e[+-]?\\d+)?|\\.inf|\\.nan)","i"),lookbehind:!0},tag:r,important:n,punctuation:/---|[:[\]{}\-,|>?]|\.\.\./},e.languages.yml=e.languages.yaml}(Prism);
+!function(n){function e(n){return n=n.replace(/<inner>/g,(function(){return"(?:\\\\.|[^\\\\\n\r]|(?:\n|\r\n?)(?![\r\n]))"})),RegExp("((?:^|[^\\\\])(?:\\\\{2})*)(?:"+n+")")}var t="(?:\\\\.|``(?:[^`\r\n]|`(?!`))+``|`[^`\r\n]+`|[^\\\\|\r\n`])+",a="\\|?__(?:\\|__)+\\|?(?:(?:\n|\r\n?)|(?![^]))".replace(/__/g,(function(){return t})),i="\\|?[ \t]*:?-{3,}:?[ \t]*(?:\\|[ \t]*:?-{3,}:?[ \t]*)+\\|?(?:\n|\r\n?)";n.languages.markdown=n.languages.extend("markup",{}),n.languages.insertBefore("markdown","prolog",{"front-matter-block":{pattern:/(^(?:\s*[\r\n])?)---(?!.)[\s\S]*?[\r\n]---(?!.)/,lookbehind:!0,greedy:!0,inside:{punctuation:/^---|---$/,"front-matter":{pattern:/\S+(?:\s+\S+)*/,alias:["yaml","language-yaml"],inside:n.languages.yaml}}},blockquote:{pattern:/^>(?:[\t ]*>)*/m,alias:"punctuation"},table:{pattern:RegExp("^"+a+i+"(?:"+a+")*","m"),inside:{"table-data-rows":{pattern:RegExp("^("+a+i+")(?:"+a+")*$"),lookbehind:!0,inside:{"table-data":{pattern:RegExp(t),inside:n.languages.markdown},punctuation:/\|/}},"table-line":{pattern:RegExp("^("+a+")"+i+"$"),lookbehind:!0,inside:{punctuation:/\||:?-{3,}:?/}},"table-header-row":{pattern:RegExp("^"+a+"$"),inside:{"table-header":{pattern:RegExp(t),alias:"important",inside:n.languages.markdown},punctuation:/\|/}}}},code:[{pattern:/((?:^|\n)[ \t]*\n|(?:^|\r\n?)[ \t]*\r\n?)(?: {4}|\t).+(?:(?:\n|\r\n?)(?: {4}|\t).+)*/,lookbehind:!0,alias:"keyword"},{pattern:/^```[\s\S]*?^```$/m,greedy:!0,inside:{"code-block":{pattern:/^(```.*(?:\n|\r\n?))[\s\S]+?(?=(?:\n|\r\n?)^```$)/m,lookbehind:!0},"code-language":{pattern:/^(```).+/,lookbehind:!0},punctuation:/```/}}],title:[{pattern:/\S.*(?:\n|\r\n?)(?:==+|--+)(?=[ \t]*$)/m,alias:"important",inside:{punctuation:/==+$|--+$/}},{pattern:/(^\s*)#.+/m,lookbehind:!0,alias:"important",inside:{punctuation:/^#+|#+$/}}],hr:{pattern:/(^\s*)([*-])(?:[\t ]*\2){2,}(?=\s*$)/m,lookbehind:!0,alias:"punctuation"},list:{pattern:/(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,lookbehind:!0,alias:"punctuation"},"url-reference":{pattern:/!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/,inside:{variable:{pattern:/^(!?\[)[^\]]+/,lookbehind:!0},string:/(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,punctuation:/^[\[\]!:]|[<>]/},alias:"url"},bold:{pattern:e("\\b__(?:(?!_)<inner>|_(?:(?!_)<inner>)+_)+__\\b|\\*\\*(?:(?!\\*)<inner>|\\*(?:(?!\\*)<inner>)+\\*)+\\*\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^..)[\s\S]+(?=..$)/,lookbehind:!0,inside:{}},punctuation:/\*\*|__/}},italic:{pattern:e("\\b_(?:(?!_)<inner>|__(?:(?!_)<inner>)+__)+_\\b|\\*(?:(?!\\*)<inner>|\\*\\*(?:(?!\\*)<inner>)+\\*\\*)+\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^.)[\s\S]+(?=.$)/,lookbehind:!0,inside:{}},punctuation:/[*_]/}},strike:{pattern:e("(~~?)(?:(?!~)<inner>)+\\2"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^~~?)[\s\S]+(?=\1$)/,lookbehind:!0,inside:{}},punctuation:/~~?/}},"code-snippet":{pattern:/(^|[^\\`])(?:``[^`\r\n]+(?:`[^`\r\n]+)*``(?!`)|`[^`\r\n]+`(?!`))/,lookbehind:!0,greedy:!0,alias:["code","keyword"]},url:{pattern:e('!?\\[(?:(?!\\])<inner>)+\\](?:\\([^\\s)]+(?:[\t ]+"(?:\\\\.|[^"\\\\])*")?\\)|[ \t]?\\[(?:(?!\\])<inner>)+\\])'),lookbehind:!0,greedy:!0,inside:{operator:/^!/,content:{pattern:/(^\[)[^\]]+(?=\])/,lookbehind:!0,inside:{}},variable:{pattern:/(^\][ \t]?\[)[^\]]+(?=\]$)/,lookbehind:!0},url:{pattern:/(^\]\()[^\s)]+/,lookbehind:!0},string:{pattern:/(^[ \t]+)"(?:\\.|[^"\\])*"(?=\)$)/,lookbehind:!0}}}}),["url","bold","italic","strike"].forEach((function(e){["url","bold","italic","strike","code-snippet"].forEach((function(t){e!==t&&(n.languages.markdown[e].inside.content.inside[t]=n.languages.markdown[t])}))})),n.hooks.add("after-tokenize",(function(n){"markdown"!==n.language&&"md"!==n.language||function n(e){if(e&&"string"!=typeof e)for(var t=0,a=e.length;t<a;t++){var i=e[t];if("code"===i.type){var r=i.content[1],o=i.content[3];if(r&&o&&"code-language"===r.type&&"code-block"===o.type&&"string"==typeof r.content){var l=r.content.replace(/\b#/g,"sharp").replace(/\b\+\+/g,"pp"),s="language-"+(l=(/[a-z][\w-]*/i.exec(l)||[""])[0].toLowerCase());o.alias?"string"==typeof o.alias?o.alias=[o.alias,s]:o.alias.push(s):o.alias=[s]}}else n(i.content)}}(n.tokens)})),n.hooks.add("wrap",(function(e){if("code-block"===e.type){for(var t="",a=0,i=e.classes.length;a<i;a++){var s=e.classes[a],d=/language-(.+)/.exec(s);if(d){t=d[1];break}}var p=n.languages[t];if(p)e.content=n.highlight(e.content.replace(r,"").replace(/&(\w{1,8}|#x?[\da-f]{1,8});/gi,(function(n,e){var t;return"#"===(e=e.toLowerCase())[0]?(t="x"===e[1]?parseInt(e.slice(2),16):Number(e.slice(1)),l(t)):o[e]||n})),p,t);else if(t&&"none"!==t&&n.plugins.autoloader){var u="md-"+(new Date).valueOf()+"-"+Math.floor(1e16*Math.random());e.attributes.id=u,n.plugins.autoloader.loadLanguages(t,(function(){var e=document.getElementById(u);e&&(e.innerHTML=n.highlight(e.textContent,n.languages[t],t))}))}}}));var r=RegExp(n.languages.markup.tag.pattern.source,"gi"),o={amp:"&",lt:"<",gt:">",quot:'"'},l=String.fromCodePoint||String.fromCharCode;n.languages.md=n.languages.markdown}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
