@@ -243,6 +243,12 @@ details.fold .code-file-header { margin-top: 0; border-radius: 0; }
     <p>The PR is now rebased onto a master that has <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="merged" data-type="pr">#5299</a>, limactl&#39;s own PATH append for QEMU and MSYS2, and a new rsync unit test. One problem came out of that: <code>windows_msys2_prep</code> runs before <code>Unit tests</code> and installs rsync, so <code>TestRsyncCommandPaths</code> runs on Windows for the first time and fails. Its expectations predate <a href="https://github.com/lima-vm/lima/issues/5299" class="gh-ref" data-title="copytool: support native Windows OpenSSH" data-state="merged" data-type="pr">#5299</a>&#39;s path conversion. The code is right and the test needs fixing. Six suggestions remain, three carried from round 3.</p>
     </div>
     <hr>
+    <h2 id="status">Status <a href="#status" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>This review was addressed on 2026-10-02 in <a href="https://github.com/lima-vm/lima/commit/2eb603cf"><code>2eb603cf</code></a> and <a href="https://github.com/lima-vm/lima/commit/fee349ad"><code>fee349ad</code></a>. The code it cites has changed since it ran, so each finding ends with its outcome.</p>
+    </div>
+    <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-critical" data-file=".github/workflows/test.yml">
@@ -329,6 +335,7 @@ index e94d3194..1e1242e8 100644
  	}
  }</code></pre>
       </details>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/2eb603cf"><code>2eb603cf</code></a>, a new first commit, with this patch plus an assertion that rsync reads no operand as <code>host:path</code>. Without it, a cygpath-branch bug that emits <code>C:/...</code> passed every unit test.</p>
     </div>
     <hr>
     <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
@@ -347,6 +354,7 @@ index e94d3194..1e1242e8 100644
 _LIMA_WINDOWS_EXTRA_PATH and now install MSYS2&#39;s openssh instead.</code></pre>
     <p>The round-3 message named the rsync addition, the job-id rename and the new <code>sshutil</code> selection tests; this one names none of them. Neither message says that MSYS2 setup now runs before <code>Unit tests</code> and <code>Make</code>. Those two changes produced C1, so a reader of <code>git log</code> cannot trace the unit-test environment change to this commit.</p>
     <p>Fix: add a sentence on rsync and the step order, and one on the job-id rename.</p>
+    <p><strong>Outcome:</strong> fixed; <a href="https://github.com/lima-vm/lima/commit/fee349ad"><code>fee349ad</code></a>&#39;s message names the rsync install, the step order and the job-id rename.</p>
     </div>
     <div class="card card-suggestion" data-file=".github/actions/windows_msys2_prep/action.yml">
       <div class="finding-title" id="S2">
@@ -401,6 +409,7 @@ func DefaultNonNativeArchDriver() VMType {
 	return QEMU
 }</code></pre>
     <p>Fix: name <code>Unit tests</code> and <code>Make</code> in the description, and restore a one-line <code>wsl2.yaml has no base:</code> note.</p>
+    <p><strong>Outcome:</strong> fixed in a few words each, since the comments were shortened on purpose to meet the comment rules; do not re-suggest restoring the long forms.</p>
     </div>
     <div class="card card-suggestion" data-file=".github/workflows/test.yml">
       <div class="finding-title" id="S3">
@@ -421,6 +430,7 @@ func DefaultNonNativeArchDriver() VMType {
         vm-type: qemu</code></pre>
     <p>The claim holds at this SHA. In the plain-QEMU job, the PATH that <code>windows_plain_host</code> publishes has 66 entries and none names QEMU, and every limactl call logs <code>Temporarily add the common tool (QEMU etc.) directories to PATH</code>. With <code>C:\msys64</code> deleted, only the QEMU directory can trigger that line. But if a winget manifest registered a PATH entry, the job would stay green and stop testing the append.</p>
     <p>Fix: before the build, throw if <code>Get-Command qemu-system-x86_64</code> resolves.</p>
+    <p><strong>Outcome:</strong> fixed; a step after <code>windows_plain_host</code> throws if QEMU resolves on PATH.</p>
     </div>
     <div class="card card-suggestion" data-file=".github/actions/windows_plain_host/action.yml">
       <div class="finding-title" id="S4">
@@ -455,6 +465,7 @@ func DefaultNonNativeArchDriver() VMType {
         $keys = Get-ChildItem $root -ErrorAction SilentlyContinue
         foreach ($k in $keys) {</code></pre>
     <p>Fix: add <code>^git$</code> to the pattern and add the fourth root.</p>
+    <p><strong>Outcome:</strong> <code>^git$</code> added. The fourth root was declined: Microsoft lists <code>HKEY_CURRENT_USER\SOFTWARE</code> as shared under WOW64, so a 32-bit per-user installer writes the HKCU key Layer 4 already scans. Do not re-suggest it.</p>
     </div>
     <div class="card card-suggestion" data-file=".github/actions/windows_msys2_prep/action.yml">
       <div class="finding-title" id="S5">
@@ -510,6 +521,7 @@ func pickCompleteSSHOnWindows() string {
 func systemRoot() string {
 	if r := os.Getenv(&quot;SystemRoot&quot;); r != &quot;&quot; {</code></pre>
     <p>Fix: after <code>pacman</code>, throw if any of those three files is missing; a check without <code>ssh-keygen.exe</code> misses one of the conditions.</p>
+    <p><strong>Outcome:</strong> fixed, and the check also covers <code>usr\lib\ssh\sftp-server.exe</code>, which reverse-sshfs takes from the same install.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/releases/breaking.md">
       <div class="finding-title" id="S6">
@@ -529,6 +541,7 @@ func systemRoot() string {
 - The default VM driver on Windows hosts was changed from `wsl2` to `qemu`,</code></pre>
     <p>Every user of the removed variable runs Windows, and neither PowerShell nor <code>cmd.exe</code> scopes a <code>PATH</code> assignment to one command. <code>$env:PATH = ...</code> lasts for the whole session, which is what this sentence offers to avoid.</p>
     <p>Fix: give a recipe that runs limactl in a child process, such as <code>cmd /c</code>, or that restores <code>$env:PATH</code> in a <code>finally</code> block.</p>
+    <p><strong>Outcome:</strong> fixed by dropping the per-call clause, which three rounds had flagged; the entry already says the variable left the shell&#39;s PATH untouched. Do not re-suggest a per-call recipe.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
@@ -539,6 +552,7 @@ func systemRoot() string {
       <li><em></em><code>pacman -Sy</code> without <code>-u</code> is a partial upgrade, and the PR widens it with <code>openssh</code> and <code>rsync</code><em></em> <em>(future)</em> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span>. Carried from round 3; the merge-base already used <code>-Sy</code>.</li>
       <li><strong>The plain-host action checks that the native OpenSSH binaries exist, never which ssh Lima selects</strong> <em>(future)</em> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span>. Carried from round 3. The <code>sshutil</code> tests pin the selection rules, and the smoke test does not log the ssh it ran.</li>
     </ul>
+    <p><strong>Outcome:</strong> both skipped as future work and tracked in lima&#39;s pending-work.</p>
     <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
     <ul>
       <li><strong>Deleting the toolchains rather than only scrubbing PATH</strong> <em>(in-scope)</em> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-claude">Claude Opus 5.5</span>. Since <a href="https://github.com/lima-vm/lima/commit/20f7306b"><code>20f7306b</code></a>, limactl appends <code>C:\msys64\usr\bin</code> to its own PATH whenever the directory exists (<a href="https://github.com/lima-vm/lima/blob/170983dccea8038dd29ffb09b64a116eedf4d2dd/pkg/envutil/envutil_windows.go#L12-L15"><code>pkg/envutil/envutil_windows.go:12-15</code></a>). A PATH scrub alone would no longer keep MSYS2 out of the plain jobs, so Layer 1&#39;s <code>C:\msys64</code> check now guards that too.</li>
@@ -556,6 +570,7 @@ func systemRoot() string {
       <li><strong>Earlier rounds&#39; fixes inside the composite actions</strong> (the <code>$null</code> guards, the <code>ls-tree</code> exit check, the import timeout, the <code>pacman</code> exit check) are pinned only by the jobs passing, which prior rounds accepted. The two <code>sshutil</code> tests are pinned by name, and the comment fixes were deleted (S2).</li>
     </ol>
     <p>Executed during consolidation: fetched the head run&#39;s Windows job logs (WSL2, both plain jobs, MSYS2 QEMU) and master run 36954729088&#39;s WSL2 log; ran the C1 probe as pasted; applied three fix variants (Claude&#39;s, Codex&#39;s relative fixtures, and the convert-with-slash form Flash proposed) and ran <code>go test -run TestRsyncCommand ./pkg/copytool</code> plus <code>GOOS=windows go vet ./pkg/copytool</code> on each; read branch protection through <code>gh api</code>; counted the Claude reviewer&#39;s 49 tool calls in its session log. Nothing ran on Windows: the review host is macOS, with no <code>pwsh</code>.</p>
+    <p><strong>Outcome:</strong> #1 is C1&#39;s fix. #3&#39;s assertions went in with S3 and S5. #2 and #4 need no action.</p>
     </div>
     <hr>
     <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
@@ -568,6 +583,7 @@ func systemRoot() string {
 
     <div class="card card-neutral">
     <p>One commit, signed off, amended in place. S1 covers its message. C1&#39;s test fix goes in as a new first commit on this PR. In a PR of its own its CI would pass with or without the fix: master&#39;s Windows jobs skip the test for lack of rsync, and off Windows <code>pathForRsync</code> returns the path unchanged. Only this PR&#39;s WSL2 job exercises it. The PR then merges as two commits, unsquashed, and its body says why.</p>
+    <p><strong>Outcome:</strong> done: <a href="https://github.com/lima-vm/lima/commit/2eb603cf"><code>2eb603cf</code></a> (the test fix), then <a href="https://github.com/lima-vm/lima/commit/fee349ad"><code>fee349ad</code></a>.</p>
     </div>
     <hr>
     <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
@@ -598,6 +614,7 @@ func systemRoot() string {
     <ul>
       <li>The PR comment &quot;The current CI failures are expected; they go away once all the prerequisite PRs have been merged (see <a href="https://github.com/lima-vm/lima/issues/5343" class="gh-ref" data-title="DO NOT MERGE: plain-Windows integration check" data-state="open" data-type="pr">#5343</a>)&quot; no longer describes the PR. All five prerequisites have merged and both plain jobs pass; the remaining failure is C1.</li>
     </ul>
+    <p><strong>Outcome:</strong> open; a replacement comment goes to Jan for approval after the force-push.</p>
     </div>
     <hr>
     <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
