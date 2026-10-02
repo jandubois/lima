@@ -567,7 +567,7 @@ func systemRoot() string {
     <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-neutral">
-    <p>One commit, signed off, amended in place. S1 covers its message. C1&#39;s test fix leaves master green on its own, so lima&#39;s one-fix-per-PR rule puts it in a separate PR merged before this one.</p>
+    <p>One commit, signed off, amended in place. S1 covers its message. C1&#39;s test fix goes in as a new first commit on this PR. In a PR of its own its CI would pass with or without the fix: master&#39;s Windows jobs skip the test for lack of rsync, and off Windows <code>pathForRsync</code> returns the path unchanged. Only this PR&#39;s WSL2 job exercises it.</p>
     </div>
     <hr>
     <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
