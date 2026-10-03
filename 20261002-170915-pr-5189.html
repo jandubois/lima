@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20261002-170915-pr-5189</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+.pass-tag, .title-note { font-weight: 400; color: #6b7280; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20261002-170915-pr-5189</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-10-02 17:09</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1 (of target)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/Nachiket-Roy">@Nachiket-Roy</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5189" class="gh-ref" data-title="feat: implement WSL2 native mount support via path translation and boot-time bind mounting" data-state="open" data-type="pr">#5189</a> — feat: implement WSL2 native mount support via path translation and boot-time bind mounting</td></tr>
+      <tr><td>Branch</td><td><code>feature/wsl2-mount-semantics</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/aae7d808"><code>aae7d808</code></a> feat(wsl2): implement WSL2 native mount support via path translation and boot-time bind mounting</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/aae7d80866505ac33a1ddf3376d72395b2b73122"><code>aae7d80866505ac33a1ddf3376d72395b2b73122</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5.5</span> (effort: high), <span class="pill pill-codex">Codex GPT 6 Astra</span> (effort: high), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; the approach holds; fix the <code>FillDefault</code> panic, drop the <code>wsl.conf</code> rewrite, mount nested writable entries and correct the driver&#39;s mount warning, then rebase</td></tr>
+      <tr><td>Wall-clock time</td><td><code>27 min 48 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR maps Lima <code>mounts</code> onto WSL2: it translates a Windows location to its <code>/mnt/&lt;drive&gt;</code> path for the default mount point, and a guest boot script bind-mounts each entry, remounts read-only ones, and edits <code>/etc/wsl.conf</code>. A location the translator rejects, such as a UNC path, now panics <code>FillDefault</code> instead of reaching the new validation error. The boot script also overwrites existing automount options and leaves a writable mount nested under a read-only one read-only.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file="pkg/limayaml/defaults.go">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> A location the WSL translator rejects panics <code>FillDefault</code> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/limayaml/defaults.go#L723-L735">pkg/limayaml/defaults.go</a></div>
+      <pre data-start="723" data-line="728-730"><code class="language-go">					if err != nil {
+						logrus.WithError(err).Warnf(&quot;Couldn&#39;t convert location %#q into mount target&quot;, mount.Location)
+					}
+				}
+			}
+			if mountLocation != &quot;&quot; {
+				mount.MountPoint = ptr.Of(mountLocation)
+			}
+		} else {
+			if out, err := executeGuestTemplate(*mount.MountPoint, instDir, y.User, y.Param); err == nil {
+				mount.MountPoint = ptr.Of(out.String())
+			} else {
+				logrus.WithError(err).Warnf(&quot;Couldn&#39;t process mount point %#q as a template&quot;, *mount.MountPoint)</code></pre>
+    <p>The PR says a location <code>TranslateWindowsToWSLPath</code> rejects (a UNC path, <code>C:foo</code>, a relative path) now ends in a validation error. Instead, line 719 empties <code>mountLocation</code>, this guard leaves <code>MountPoint</code> nil, and line 738 dereferences it, so <code>limactl</code> panics before <code>Validate</code> runs and the new check at <a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/limayaml/validate.go#L115-L118"><code>pkg/limayaml/validate.go:115-118</code></a> never fires.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/limayaml/validate.go#L110-L123">pkg/limayaml/validate.go</a></div>
+      <pre data-start="110" data-line="115-118"><code class="language-go">			errs = errors.Join(errs, fmt.Errorf(&quot;field `additionalDisks[%d].name is invalid`: %w&quot;, i, err))
+		}
+	}
+
+	for i, f := range y.Mounts {
+		if f.MountPoint == nil {
+			errs = errors.Join(errs, fmt.Errorf(&quot;field `mounts[%d].mountPoint` must be specified explicitly (failed to automatically determine default mount point)&quot;, i))
+			continue
+		}
+		if !filepath.IsAbs(f.Location) &amp;&amp; !strings.HasPrefix(f.Location, &quot;~&quot;) {
+			errs = errors.Join(errs, fmt.Errorf(&quot;field `mounts[%d].location` must be an absolute path, got %#q&quot;,
+				i, f.Location))
+		}
+		// f.Location has already been expanded in FillDefaults(), but that function cannot return errors.</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/limayaml/defaults.go#L714-L743">pkg/limayaml/defaults.go</a></div>
+      <pre data-start="714" data-line="719-738"><code class="language-go">			if runtime.GOOS == &quot;windows&quot; {
+				if y.VMType != nil &amp;&amp; *y.VMType == limatype.WSL2 {
+					mountLocation, err = ioutilx.TranslateWindowsToWSLPath(mountLocation)
+					if err != nil {
+						logrus.WithError(err).Warnf(&quot;Couldn&#39;t convert location %#q into WSL mount target&quot;, mount.Location)
+						mountLocation = &quot;&quot;
+					}
+				} else {
+					mountLocation, err = ioutilx.WindowsSubsystemPath(ctx, mountLocation)
+					if err != nil {
+						logrus.WithError(err).Warnf(&quot;Couldn&#39;t convert location %#q into mount target&quot;, mount.Location)
+					}
+				}
+			}
+			if mountLocation != &quot;&quot; {
+				mount.MountPoint = ptr.Of(mountLocation)
+			}
+		} else {
+			if out, err := executeGuestTemplate(*mount.MountPoint, instDir, y.User, y.Param); err == nil {
+				mount.MountPoint = ptr.Of(out.String())
+			} else {
+				logrus.WithError(err).Warnf(&quot;Couldn&#39;t process mount point %#q as a template&quot;, *mount.MountPoint)
+			}
+		}
+		if i, ok := mountPoint[*mount.MountPoint]; ok {
+			if mount.SSHFS.Cache != nil {
+				mounts[i].SSHFS.Cache = mount.SSHFS.Cache
+			}
+			if mount.SSHFS.FollowSymlinks != nil {
+				mounts[i].SSHFS.FollowSymlinks = mount.SSHFS.FollowSymlinks</code></pre>
+    <p>The guard also catches the cygpath branch, because <code>WindowsSubsystemPath</code> returns <code>&quot;&quot;</code> on failure. Without cygpath on PATH, a mount with no <code>mountPoint</code> panics on any Windows instance not marked <code>vmType: wsl2</code>. Master&#39;s converter handles drive-letter paths without cygpath, so after a rebase that arm narrows to paths it cannot convert. At the merge-base both cases kept a non-nil mount point and loaded.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-nil-mountpoint.sh; run from the repo root: bash probe-nil-mountpoint.sh
+# Needs go, perl and git; run it on macOS or Linux. It forces the
+# `runtime.GOOS == &quot;windows&quot;` gate in FillDefault&#39;s mount-point defaulting,
+# then restores pkg/limayaml/defaults.go from the index.
+set -eu
+perl -0pi -e &#39;s/if runtime\.GOOS == &quot;windows&quot; \{(\s+if y\.VMType != nil &amp;&amp; \*y\.VMType == limatype\.WSL2)/if true {$1/&#39; pkg/limayaml/defaults.go
+cat &gt;pkg/limayaml/probe_nil_mountpoint_test.go &lt;&lt;&#39;GO&#39;
+package limayaml
+
+import (
+	&quot;path/filepath&quot;
+	&quot;testing&quot;
+
+	&quot;github.com/lima-vm/lima/v2/pkg/limatype&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/ptr&quot;
+)
+
+func TestProbeNilMountPoint(t *testing.T) {
+	for _, tc := range []struct {
+		name, loc string
+		vmType    *limatype.VMType
+	}{
+		{&quot;wsl2 drive letter&quot;, `C:\Users\probe`, ptr.Of(limatype.WSL2)},
+		{&quot;wsl2 UNC&quot;, `\\server\share\probe`, ptr.Of(limatype.WSL2)},
+		{&quot;vmType unset, no cygpath&quot;, `C:\Users\probe`, nil},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			t.Setenv(&quot;PATH&quot;, t.TempDir()) // no cygpath on PATH
+			y := limatype.LimaYAML{VMType: tc.vmType, Mounts: []limatype.Mount{{Location: tc.loc}}}
+			defer func() {
+				if r := recover(); r != nil {
+					t.Fatalf(&quot;FillDefault panicked: %v&quot;, r)
+				}
+			}()
+			FillDefault(t.Context(), &amp;y, &amp;limatype.LimaYAML{}, &amp;limatype.LimaYAML{}, filepath.Join(t.TempDir(), &quot;lima.yaml&quot;), false)
+			if mp := y.Mounts[0].MountPoint; mp != nil {
+				t.Logf(&quot;mountPoint=%q&quot;, *mp)
+			} else {
+				t.Logf(&quot;mountPoint=&lt;nil&gt;; Validate: %v&quot;, Validate(&amp;y, false))
+			}
+		})
+	}
+}
+GO
+go test -run TestProbeNilMountPoint -v ./pkg/limayaml 2&gt;&amp;1 | grep -E &#39;^(=== RUN|--- |    |ok|FAIL)|mountPoint&#39; || true
+rm -f pkg/limayaml/probe_nil_mountpoint_test.go
+git checkout -- pkg/limayaml/defaults.go</code></pre>
+      <pre><code class="language-text">$ bash probe-nil-mountpoint.sh
+=== RUN   TestProbeNilMountPoint
+=== RUN   TestProbeNilMountPoint/wsl2_drive_letter
+    probe_nil_mountpoint_test.go:30: mountPoint=&quot;/mnt/c/Users/probe&quot;
+=== RUN   TestProbeNilMountPoint/wsl2_UNC
+    probe_nil_mountpoint_test.go:25: FillDefault panicked: runtime error: invalid memory address or nil pointer dereference
+=== RUN   TestProbeNilMountPoint/vmType_unset,_no_cygpath
+    probe_nil_mountpoint_test.go:25: FillDefault panicked: runtime error: invalid memory address or nil pointer dereference
+--- FAIL: TestProbeNilMountPoint (0.01s)
+    --- PASS: TestProbeNilMountPoint/wsl2_drive_letter (0.00s)
+    --- FAIL: TestProbeNilMountPoint/wsl2_UNC (0.00s)
+    --- FAIL: TestProbeNilMountPoint/vmType_unset,_no_cygpath (0.00s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/limayaml	0.512s
+FAIL</code></pre>
+      </details>
+    <p>Fix: keep the entry and skip the merge map when no mount point was derived, so <code>Validate</code> reports it. With this patch, the probe&#39;s two failing cases return <code>field `mounts[0].mountPoint` must be specified explicitly</code>.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/limayaml/defaults.go b/pkg/limayaml/defaults.go
+index 50078128..928297d5 100644
+--- a/pkg/limayaml/defaults.go
++++ b/pkg/limayaml/defaults.go
+@@ -735,6 +735,11 @@ func FillDefault(ctx context.Context, y, d, o *limatype.LimaYAML, filePath strin
+ 				logrus.WithError(err).Warnf(&quot;Couldn&#39;t process mount point %#q as a template&quot;, *mount.MountPoint)
+ 			}
+ 		}
++		if mount.MountPoint == nil {
++			// Validate rejects a mount whose mount point could not be defaulted.
++			mounts = append(mounts, mount)
++			continue
++		}
+ 		if i, ok := mountPoint[*mount.MountPoint]; ok {
+ 			if mount.SSHFS.Cache != nil {
+ 				mounts[i].SSHFS.Cache = mount.SSHFS.Cache</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> The boot script replaces existing <code>[automount]</code> options in <code>/etc/wsl.conf</code> on every boot <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh#L100-L111">pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh</a></div>
+      <pre data-start="100" data-line="105-106"><code class="language-sh">done
+
+# Step 3: Merge [automount] options = &quot;metadata&quot; into /etc/wsl.conf
+if grep -q &#39;^\[automount\]&#39; /etc/wsl.conf 2&gt;/dev/null; then
+	# section exists — patch or insert the options= line within it
+	if awk &#39;/^\[automount\]/{f=1;next} /^\[/{f=0} f&amp;&amp;/^options/{print; exit}&#39; /etc/wsl.conf | grep -q .; then
+		sed -i &#39;/^\[automount\]/,/^\[/ s|^options.*|options = &quot;metadata&quot;|&#39; /etc/wsl.conf
+	else
+		sed -i &#39;/^\[automount\]/a options = &quot;metadata&quot;&#39; /etc/wsl.conf
+	fi
+else
+	printf &#39;\n[automount]\noptions = &quot;metadata&quot;\n&#39; &gt;&gt;/etc/wsl.conf</code></pre>
+    <p>Step 3 rewrites any <code>options</code> line under <code>[automount]</code> to <code>options = &quot;metadata&quot;</code>, which drops <code>uid</code>, <code>gid</code>, <code>umask</code> and anything else a rootfs or user set. It runs on every boot, so the user cannot restore them. The finch rootfs that <code>templates/experimental/wsl2.yaml</code> uses ships only a <code>[boot]</code> section, so the stock template appends a new section instead.</p>
+    <p>Nothing in the mount loop needs <code>metadata</code>. WSL reads <code>wsl.conf</code> only when the distro starts, so the option first applies after a restart. From then on it changes permission handling for every <code>/mnt/&lt;drive&gt;</code> path, whether Lima mounted it or not.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-sh"># Save as probe-wslconf.sh; run from the repo root: sh probe-wslconf.sh
+# Applies the boot script&#39;s own options rewrite (without -i) to two
+# wsl.conf files; the grep fails the probe if the copy drifts from the script.
+expr=&#39;/^\[automount\]/,/^\[/ s|^options.*|options = &quot;metadata&quot;|&#39;
+grep -qF &quot;sed -i &#39;$expr&#39; /etc/wsl.conf&quot; pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh || { echo &quot;expression not in script&quot;; exit 1; }
+for conf in &#39;[boot]\nsystemd=true\n&#39; &#39;[automount]\noptions = &quot;metadata,uid=1000,gid=1000,umask=077&quot;\n[interop]\nenabled = false\n&#39;; do
+	echo &quot;## input&quot;; printf &quot;$conf&quot;
+	if printf &quot;$conf&quot; | awk &#39;/^\[automount\]/{f=1;next} /^\[/{f=0} f&amp;&amp;/^options/{print; exit}&#39; | grep -q .; then
+		echo &quot;## rewritten&quot;; printf &quot;$conf&quot; | sed &quot;$expr&quot;
+	else
+		echo &quot;## no options line: script appends [automount] instead&quot;
+	fi
+done</code></pre>
+      <pre><code class="language-text">$ sh probe-wslconf.sh
+## input
+[boot]
+systemd=true
+## no options line: script appends [automount] instead
+## input
+[automount]
+options = &quot;metadata,uid=1000,gid=1000,umask=077&quot;
+[interop]
+enabled = false
+## rewritten
+[automount]
+options = &quot;metadata&quot;
+[interop]
+enabled = false</code></pre>
+      </details>
+    <p>Fix: drop Step 3. If a later change needs <code>metadata</code>, it should append the flag to the existing value only when it is missing, and say in the script why.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh b/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh
+index 231d5441..01407bdb 100644
+--- a/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh
++++ b/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh
+@@ -98,16 +98,3 @@ for i in $(seq 0 $((LIMA_CIDATA_MOUNTS - 1))); do
+ 		fi
+ 	fi
+ done
+-
+-# Step 3: Merge [automount] options = &quot;metadata&quot; into /etc/wsl.conf
+-if grep -q &#39;^\[automount\]&#39; /etc/wsl.conf 2&gt;/dev/null; then
+-	# section exists — patch or insert the options= line within it
+-	if awk &#39;/^\[automount\]/{f=1;next} /^\[/{f=0} f&amp;&amp;/^options/{print; exit}&#39; /etc/wsl.conf | grep -q .; then
+-		sed -i &#39;/^\[automount\]/,/^\[/ s|^options.*|options = &quot;metadata&quot;|&#39; /etc/wsl.conf
+-	else
+-		sed -i &#39;/^\[automount\]/a options = &quot;metadata&quot;&#39; /etc/wsl.conf
+-	fi
+-else
+-	printf &#39;\n[automount]\noptions = &quot;metadata&quot;\n&#39; &gt;&gt;/etc/wsl.conf
+-fi
+-INFO &quot;wsl.conf automount metadata options verified/merged&quot;</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> A writable mount under a read-only native mount stays read-only <span class="pill pill-codex">Codex GPT 6 Astra</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh#L55-L68">pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh</a></div>
+      <pre data-start="55" data-line="60-63"><code class="language-sh">			# to enforce writable:false without affecting the parent native mount.
+			INFO &quot;Enforcing read-only on native automount at $mountpoint&quot;
+			if ! mount --bind &quot;$mountpoint&quot; &quot;$mountpoint&quot; 2&gt;/dev/null || ! mount -o remount,ro,bind &quot;$mountpoint&quot; 2&gt;/dev/null; then
+				WARNING &quot;Path $location is natively read-write; cannot enforce writable:false on $mountpoint&quot;
+			fi
+		else
+			INFO &quot;Path $location is already available at $mountpoint via WSL automount&quot;
+		fi
+		continue
+	fi
+
+	# Step 2: Idempotent Mount Check
+	if mountpoint -q &quot;$mountpoint&quot;; then
+		INFO &quot;$mountpoint is already mounted, skipping&quot;</code></pre>
+    <p>When a mount&#39;s point equals its automount path, a read-only entry gets a bind mount onto itself, remounted read-only (line 57), and a writable entry gets nothing. With <code>~</code> read-only and <code>~/project</code> writable, the project resolves through the home&#39;s read-only bind, so writes to it fail, although the user asked for a writable mount. Before this PR both paths were writable, because the driver ignored mount fields.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh#L52-L62">pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh</a></div>
+      <pre data-start="52" data-line="57"><code class="language-bash">	if [ &quot;$wsl_path&quot; = &quot;$mountpoint&quot; ]; then
+		if [ &quot;$writable&quot; = &quot;0&quot; ]; then
+			# If the user requested read-only, we must bind-mount it onto itself and remount as read-only
+			# to enforce writable:false without affecting the parent native mount.
+			INFO &quot;Enforcing read-only on native automount at $mountpoint&quot;
+			if ! mount --bind &quot;$mountpoint&quot; &quot;$mountpoint&quot; 2&gt;/dev/null || ! mount -o remount,ro,bind &quot;$mountpoint&quot; 2&gt;/dev/null; then
+				WARNING &quot;Path $location is natively read-write; cannot enforce writable:false on $mountpoint&quot;
+			fi
+		else
+			INFO &quot;Path $location is already available at $mountpoint via WSL automount&quot;
+		fi</code></pre>
+    <p>The custom-target branch only remounts when <code>writable</code> is 0 (line 73), so a writable custom target bound from inside a read-only parent probably stays read-only as well; I have not run that on Linux.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh#L68-L78">pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh</a></div>
+      <pre data-start="68" data-line="73"><code class="language-bash">		INFO &quot;$mountpoint is already mounted, skipping&quot;
+	else
+		mkdir -p &quot;$mountpoint&quot;
+		INFO &quot;Mounting $wsl_path to $mountpoint (writable: $writable)&quot;
+		if mount --bind &quot;$wsl_path&quot; &quot;$mountpoint&quot;; then
+			if [ &quot;$writable&quot; = &quot;0&quot; ]; then
+				if ! mount -o remount,ro,bind &quot;$mountpoint&quot;; then
+					WARNING &quot;Failed to remount $mountpoint as read-only. Unmounting for safety.&quot;
+					umount &quot;$mountpoint&quot;
+					# Cleanup leaf directory and create symlink fallback
+					# Note: intermediate parent directories created by mkdir -p are left behind (harmless in practice)</code></pre>
+    <p>The probe ran outside a WSL guest; it shows the missing mount call.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-sh"># Save as probe-nested-writable.sh; run from the repo root: sh probe-nested-writable.sh
+# Runs the script&#39;s mount loop (everything before &quot;# Step 3:&quot;) with mount,
+# mkdir, ln and friends stubbed to print what they would do.
+loop=$(sed &#39;/^# Step 3:/,$d&#39; pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh)
+for parent_writable in 0 1; do
+	echo &quot;## home writable=$parent_writable, project writable=1&quot;
+	sh -c &quot;
+date() { printf T; }
+wslpath() { printf &#39;/mnt/c%s\n&#39; \&quot;\${2#C:}\&quot;; }
+mountpoint() { return 1; }
+mount() { echo \&quot;MOUNT \$*\&quot;; }
+mkdir() { :; }; umount() { :; }; rmdir() { :; }; ln() { :; }
+LIMA_CIDATA_VMTYPE=wsl2 LIMA_CIDATA_MOUNTS=2
+LIMA_CIDATA_MOUNTS_0_LOCATION=C:/Users/alice LIMA_CIDATA_MOUNTS_0_MOUNTPOINT=/mnt/c/Users/alice LIMA_CIDATA_MOUNTS_0_WRITABLE=$parent_writable
+LIMA_CIDATA_MOUNTS_1_LOCATION=C:/Users/alice/project LIMA_CIDATA_MOUNTS_1_MOUNTPOINT=/mnt/c/Users/alice/project LIMA_CIDATA_MOUNTS_1_WRITABLE=1
+$loop&quot; 2&gt;&amp;1
+done</code></pre>
+      <pre><code class="language-text">$ sh probe-nested-writable.sh
+## home writable=0, project writable=1
+LIMA T| mounts: Enforcing read-only on native automount at /mnt/c/Users/alice
+MOUNT --bind /mnt/c/Users/alice /mnt/c/Users/alice
+MOUNT -o remount,ro,bind /mnt/c/Users/alice
+LIMA T| mounts: Path C:/Users/alice/project is already available at /mnt/c/Users/alice/project via WSL automount
+## home writable=1, project writable=1
+LIMA T| mounts: Path C:/Users/alice is already available at /mnt/c/Users/alice via WSL automount
+LIMA T| mounts: Path C:/Users/alice/project is already available at /mnt/c/Users/alice/project via WSL automount</code></pre>
+      </details>
+    <p>Fix: for a writable entry, check whether an earlier entry made an ancestor read-only, and if so bind the path onto itself and remount it <code>rw</code>; do the same after a custom-target bind.</p>
+    </div>
+    <div class="card card-important" data-file="pkg/driver/wsl2/wsl_driver_windows.go">
+      <div class="finding-title" id="I4">
+        <span class="finding-num">I4.</span> The wsl2 driver still warns that every mount field is ignored <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/driver/wsl2/wsl_driver_windows.go#L145-L156">pkg/driver/wsl2/wsl_driver_windows.go</a></div>
+      <pre data-start="145" data-line="150-151"><code class="language-go">			}
+		}
+
+		if cfg.Mounts != nil {
+			for i, mount := range cfg.Mounts {
+				if unknown := reflectutil.UnknownNonEmptyFields(mount); len(unknown) &gt; 0 {
+					logrus.Warnf(&quot;Ignoring: vmType %s: mounts[%d]: %+v&quot;, *cfg.VMType, i, unknown)
+				}
+			}
+		}
+
+		if cfg.Networks != nil {</code></pre>
+    <p><code>validateConfig</code> does not pass any known field names, so every WSL2 mount prints <code>Ignoring: vmType wsl2: mounts[0]: [Location MountPoint Writable SSHFS NineP]</code> on each load. The warning was true before this PR. Now the driver honors <code>location</code>, <code>mountPoint</code> and <code>writable</code>, and the warning tells users their mounts do nothing. The PR leaves this file unchanged.</p>
+    <p>Both reviewers who raised this proposed listing only those three fields. That still warns <code>[SSHFS NineP]</code> on every mount, because <code>FillDefault</code> fills both structs with defaults; the vz driver lists all five for that reason (<a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/driver/vz/vz_driver_darwin.go#L307-L312"><code>pkg/driver/vz/vz_driver_darwin.go:307-312</code></a>).</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/driver/vz/vz_driver_darwin.go#L302-L317">pkg/driver/vz/vz_driver_darwin.go</a></div>
+      <pre data-start="302" data-line="307-312"><code class="language-go">		if unknown := reflectutil.UnknownNonEmptyFields(image, &quot;File&quot;, &quot;Kernel&quot;, &quot;Initrd&quot;); len(unknown) &gt; 0 {
+			logrus.Warnf(&quot;vmType %s: ignoring images[%d]: %+v&quot;, *cfg.VMType, i, unknown)
+		}
+	}
+
+	for i, mount := range cfg.Mounts {
+		if unknown := reflectutil.UnknownNonEmptyFields(mount, &quot;Location&quot;,
+			&quot;MountPoint&quot;,
+			&quot;Writable&quot;,
+			&quot;SSHFS&quot;,
+			&quot;NineP&quot;,
+		); len(unknown) &gt; 0 {
+			logrus.Warnf(&quot;vmType %s: ignoring mounts[%d]: %+v&quot;, *cfg.VMType, i, unknown)
+		}
+	}
+</code></pre>
+    <p>The file builds only on Windows, so the probe makes the same <code>reflectutil</code> call on a mount that <code>FillDefault</code> filled.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-mount-warning.sh; run from the repo root: bash probe-mount-warning.sh
+# Fills a wsl2 mount the way limayaml.Load does, then makes the same
+# reflectutil call as validateConfig in pkg/driver/wsl2/wsl_driver_windows.go:150.
+set -eu
+cat &gt;pkg/limayaml/probe_mount_warning_test.go &lt;&lt;&#39;GO&#39;
+package limayaml
+
+import (
+	&quot;path/filepath&quot;
+	&quot;testing&quot;
+
+	&quot;github.com/lima-vm/lima/v2/pkg/limatype&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/ptr&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/reflectutil&quot;
+)
+
+func TestProbeMountWarning(t *testing.T) {
+	y := limatype.LimaYAML{
+		VMType: ptr.Of(limatype.WSL2),
+		Mounts: []limatype.Mount{{Location: &quot;/tmp/probe&quot;, MountPoint: ptr.Of(&quot;/work&quot;), Writable: ptr.Of(true)}},
+	}
+	FillDefault(t.Context(), &amp;y, &amp;limatype.LimaYAML{}, &amp;limatype.LimaYAML{}, filepath.Join(t.TempDir(), &quot;lima.yaml&quot;), false)
+	m := y.Mounts[0]
+	t.Logf(&quot;wsl2 today:          Ignoring %v&quot;, reflectutil.UnknownNonEmptyFields(m))
+	t.Logf(&quot;three known names:   Ignoring %v&quot;, reflectutil.UnknownNonEmptyFields(m, &quot;Location&quot;, &quot;MountPoint&quot;, &quot;Writable&quot;))
+	t.Logf(&quot;vz&#39;s known names:    Ignoring %v&quot;, reflectutil.UnknownNonEmptyFields(m, &quot;Location&quot;, &quot;MountPoint&quot;, &quot;Writable&quot;, &quot;SSHFS&quot;, &quot;NineP&quot;))
+}
+GO
+go test -run TestProbeMountWarning -v ./pkg/limayaml 2&gt;&amp;1 | grep -E &#39;Ignoring|^(ok|FAIL)&#39; || true
+rm -f pkg/limayaml/probe_mount_warning_test.go</code></pre>
+      <pre><code class="language-text">$ bash probe-mount-warning.sh
+    probe_mount_warning_test.go:19: wsl2 today:          Ignoring [Location MountPoint Writable SSHFS NineP]
+    probe_mount_warning_test.go:20: three known names:   Ignoring [SSHFS NineP]
+    probe_mount_warning_test.go:21: vz&#39;s known names:    Ignoring []
+ok  	github.com/lima-vm/lima/v2/pkg/limayaml	(cached)</code></pre>
+      </details>
+    <p>Fix: list the same five fields as vz. The patch passes <code>GOOS=windows go vet ./pkg/driver/wsl2/</code>.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/driver/wsl2/wsl_driver_windows.go b/pkg/driver/wsl2/wsl_driver_windows.go
+index 13737e0b..7a71bc14 100644
+--- a/pkg/driver/wsl2/wsl_driver_windows.go
++++ b/pkg/driver/wsl2/wsl_driver_windows.go
+@@ -147,7 +147,12 @@ func validateConfig(_ context.Context, cfg *limatype.LimaYAML) error {
+ 
+ 		if cfg.Mounts != nil {
+ 			for i, mount := range cfg.Mounts {
+-				if unknown := reflectutil.UnknownNonEmptyFields(mount); len(unknown) &gt; 0 {
++				if unknown := reflectutil.UnknownNonEmptyFields(mount, &quot;Location&quot;,
++					&quot;MountPoint&quot;,
++					&quot;Writable&quot;,
++					&quot;SSHFS&quot;,
++					&quot;NineP&quot;,
++				); len(unknown) &gt; 0 {
+ 					logrus.Warnf(&quot;Ignoring: vmType %s: mounts[%d]: %+v&quot;, *cfg.VMType, i, unknown)
+ 				}
+ 			}</code></pre>
+      </details>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="pkg/limayaml/defaults.go">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> The WSL2 mount-point default needs <code>vmType: wsl2</code> written out <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/limayaml/defaults.go#L710-L720">pkg/limayaml/defaults.go</a></div>
+      <pre data-start="710" data-line="715"><code class="language-go">		}
+		if mount.MountPoint == nil {
+			mountLocation := mount.Location
+			var err error
+			if runtime.GOOS == &quot;windows&quot; {
+				if y.VMType != nil &amp;&amp; *y.VMType == limatype.WSL2 {
+					mountLocation, err = ioutilx.TranslateWindowsToWSLPath(mountLocation)
+					if err != nil {
+						logrus.WithError(err).Warnf(&quot;Couldn&#39;t convert location %#q into WSL mount target&quot;, mount.Location)
+						mountLocation = &quot;&quot;
+					}</code></pre>
+    <p><code>Load</code> runs <code>FillDefault</code> before <code>driverutil.ResolveVMType</code> picks the platform default, and <code>pkg/instance/create.go</code> saves the template unresolved. So a Windows template that relies on the default wsl2 driver takes the cygpath branch on every load, and its mounts end up at <code>/c/Users/...</code> where the same template with <code>vmType: wsl2</code> gets <code>/mnt/c/Users/...</code>. Without cygpath it hits I1. Few templates reach this branch, because a wsl2 instance needs a tar rootfs, and both <code>templates/experimental/wsl2.yaml</code> and <code>--vm-type=wsl2</code> set the field.</p>
+    <p>Fix: when <code>y.VMType</code> is nil, resolve it as <code>ResolveVMType</code> does (<code>limatype.DefaultDriver()</code>, or <code>DefaultNonNativeArchDriver()</code> for a foreign <code>arch</code>) before picking the converter.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> The read-only fallback ends writable and still reports success <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh#L69-L86">pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh</a></div>
+      <pre data-start="69" data-line="74-81"><code class="language-sh">	else
+		mkdir -p &quot;$mountpoint&quot;
+		INFO &quot;Mounting $wsl_path to $mountpoint (writable: $writable)&quot;
+		if mount --bind &quot;$wsl_path&quot; &quot;$mountpoint&quot;; then
+			if [ &quot;$writable&quot; = &quot;0&quot; ]; then
+				if ! mount -o remount,ro,bind &quot;$mountpoint&quot;; then
+					WARNING &quot;Failed to remount $mountpoint as read-only. Unmounting for safety.&quot;
+					umount &quot;$mountpoint&quot;
+					# Cleanup leaf directory and create symlink fallback
+					# Note: intermediate parent directories created by mkdir -p are left behind (harmless in practice)
+					rmdir &quot;$mountpoint&quot; 2&gt;/dev/null || true
+					if [ ! -e &quot;$mountpoint&quot; ]; then
+						ln -sfn &quot;$wsl_path&quot; &quot;$mountpoint&quot;
+						WARNING &quot;Fell back to symlink for $mountpoint, but note that symlinks CANNOT enforce read-only status. Target is writable!&quot;
+					fi
+				fi
+			fi
+			INFO &quot;Successfully bind-mounted $wsl_path to $mountpoint&quot;</code></pre>
+    <p>When <code>remount,ro,bind</code> fails, the script unmounts &quot;for safety&quot; and then links the path to the same writable source, so the entry ends up writable either way. Line 86 still logs &quot;Successfully bind-mounted&quot;. Two reviewers rated this a broken security boundary, but <code>writable: false</code> isolates nothing on WSL2. The source stays writable under <code>/mnt/c</code>, the guest user has passwordless sudo, and interop runs Windows programs. So the cost is a misleading log and a pointless unmount.</p>
+    <p>Fix: keep the read-write bind and warn, or leave the path unmounted, and log success only on the success path.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> The shell fallback passes a location without a drive letter through unchanged <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh#L40-L52">pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh</a></div>
+      <pre data-start="40" data-line="45-47"><code class="language-sh">		[A-Za-z]:*)
+			drive=$(printf &quot;%s&quot; &quot;$cleaned_loc&quot; | cut -c1 | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)
+			rest=$(printf &quot;%s&quot; &quot;$cleaned_loc&quot; | cut -c3- | tr &quot;$BACKSLASH&quot; &#39;/&#39;)
+			wsl_path=&quot;/mnt/${drive}${rest}&quot;
+			;;
+		*)
+			wsl_path=&quot;$location&quot;
+			;;
+		esac
+	fi
+
+	# If the mountPoint is the same as the WSL path, it is already natively accessible via WSL automount
+	if [ &quot;$wsl_path&quot; = &quot;$mountpoint&quot; ]; then</code></pre>
+    <p>When <code>wslpath</code> fails, lines 34-48 repeat <code>TranslateWindowsToWSLPath</code> with <code>/mnt</code> hard-coded. Any other form, such as a UNC location with an explicit <code>mountPoint</code> (which <code>Validate</code> accepts on Windows), goes to <code>mount --bind</code> and then <code>ln -sfn</code> unchanged, and the script logs &quot;Successfully symlinked&quot; for a link to a Windows path.</p>
+    <p>Fix: on <code>wslpath</code> failure, warn and <code>continue</code>.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> The read-only self-bind stacks on a repeated boot <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh#L52-L62">pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh</a></div>
+      <pre data-start="52" data-line="57"><code class="language-sh">	if [ &quot;$wsl_path&quot; = &quot;$mountpoint&quot; ]; then
+		if [ &quot;$writable&quot; = &quot;0&quot; ]; then
+			# If the user requested read-only, we must bind-mount it onto itself and remount as read-only
+			# to enforce writable:false without affecting the parent native mount.
+			INFO &quot;Enforcing read-only on native automount at $mountpoint&quot;
+			if ! mount --bind &quot;$mountpoint&quot; &quot;$mountpoint&quot; 2&gt;/dev/null || ! mount -o remount,ro,bind &quot;$mountpoint&quot; 2&gt;/dev/null; then
+				WARNING &quot;Path $location is natively read-write; cannot enforce writable:false on $mountpoint&quot;
+			fi
+		else
+			INFO &quot;Path $location is already available at $mountpoint via WSL automount&quot;
+		fi</code></pre>
+    <p>Step 2 checks <code>mountpoint -q</code> first, but this branch adds another bind each time <code>boot.sh</code> runs without a distro restart in between. <code>limactl stop</code> runs <code>wsl --terminate</code>, which clears them, so stacking needs a start without a terminate, such as after <code>limactl stop --force</code>, which kills only Lima&#39;s own processes.</p>
+    <p>Fix: skip the bind when <code>findmnt</code> already shows a read-only mount at the path.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/cidata/cidata.TEMPLATE.d/lima.env">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> Three new <code>lima.env</code> variables are unused, and none of the five is documented <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/cidata/cidata.TEMPLATE.d/lima.env#L7-L22">pkg/cidata/cidata.TEMPLATE.d/lima.env</a></div>
+      <pre data-start="7" data-line="12-17"><code class="language-text">LIMA_CIDATA_HOME={{ .Home}}
+LIMA_CIDATA_SHELL={{ .Shell }}
+LIMA_CIDATA_HOSTHOME_MOUNTPOINT={{ .HostHomeMountPoint }}
+LIMA_CIDATA_MOUNTS={{ len .Mounts }}
+{{- range $i, $val := .Mounts}}
+LIMA_CIDATA_MOUNTS_{{$i}}_TAG={{$val.Tag}}
+LIMA_CIDATA_MOUNTS_{{$i}}_MOUNTPOINT={{$val.MountPoint}}
+LIMA_CIDATA_MOUNTS_{{$i}}_TYPE={{$val.Type}}
+LIMA_CIDATA_MOUNTS_{{$i}}_OPTIONS={{$val.Options}}
+LIMA_CIDATA_MOUNTS_{{$i}}_LOCATION={{$val.Location}}
+LIMA_CIDATA_MOUNTS_{{$i}}_WRITABLE={{if $val.Writable}}1{{else}}0{{end}}
+{{- end}}
+LIMA_CIDATA_MOUNTTYPE={{ .MountType }}
+LIMA_CIDATA_DISKS={{ len .Disks }}
+{{- range $i, $disk := .Disks}}
+LIMA_CIDATA_DISK_{{$i}}_NAME={{$disk.Name}}</code></pre>
+    <p>Nothing reads <code>_TAG</code>, <code>_TYPE</code> or <code>_OPTIONS</code>, and only the WSL2 script reads <code>_LOCATION</code> and <code>_WRITABLE</code>. <a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/website/content/en/docs/dev/internals.md#L191-L192"><code>website/content/en/docs/dev/internals.md:191-192</code></a> documents each <code>LIMA_CIDATA_*</code> variable and lists none of the five new ones.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/website/content/en/docs/dev/internals.md#L186-L197">website/content/en/docs/dev/internals.md</a></div>
+      <pre data-start="186" data-line="191-192"><code class="language-markdown">- `LIMA_CIDATA_UID`: the numeric UID.
+- `LIMA_CIDATA_COMMENT`: the full name or comment string.
+- `LIMA_CIDATA_HOME`: the guest home directory.
+- `LIMA_CIDATA_SHELL`: the guest login shell.
+- `LIMA_CIDATA_HOSTHOME_MOUNTPOINT`: the mount point of the host home directory, or empty if not mounted.
+- `LIMA_CIDATA_MOUNTS`: the number of the Lima mounts.
+- `LIMA_CIDATA_MOUNTS_%d_MOUNTPOINT`: the N-th mount point of Lima mounts (N=0, 1, ...).
+- `LIMA_CIDATA_MOUNTTYPE`: the type of the Lima mounts (&quot;reverse-sshfs&quot;, &quot;9p&quot;, ...).
+- `LIMA_CIDATA_DISKS`: the number of additional disks attached to the instance.
+- `LIMA_CIDATA_DISK_%d_NAME`: the name of the N-th additional disk (N=0, 1, ...).
+- `LIMA_CIDATA_DISK_%d_DEVICE`: the guest block device path of the N-th additional disk.
+- `LIMA_CIDATA_DISK_%d_FORMAT`: set to &quot;true&quot; when the N-th additional disk should be formatted on first boot.</code></pre>
+    <p>Fix: drop the three unused lines and document <code>_LOCATION</code> and <code>_WRITABLE</code>.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/cidata/cidata.TEMPLATE.d/lima.env">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> <code>_LOCATION</code> reaches every guest&#39;s OpenRC config <span class="pill pill-codex">Codex GPT 6 Astra</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/cidata/cidata.TEMPLATE.d/lima.env#L11-L21">pkg/cidata/cidata.TEMPLATE.d/lima.env</a></div>
+      <pre data-start="11" data-line="16"><code class="language-text">{{- range $i, $val := .Mounts}}
+LIMA_CIDATA_MOUNTS_{{$i}}_TAG={{$val.Tag}}
+LIMA_CIDATA_MOUNTS_{{$i}}_MOUNTPOINT={{$val.MountPoint}}
+LIMA_CIDATA_MOUNTS_{{$i}}_TYPE={{$val.Type}}
+LIMA_CIDATA_MOUNTS_{{$i}}_OPTIONS={{$val.Options}}
+LIMA_CIDATA_MOUNTS_{{$i}}_LOCATION={{$val.Location}}
+LIMA_CIDATA_MOUNTS_{{$i}}_WRITABLE={{if $val.Writable}}1{{else}}0{{end}}
+{{- end}}
+LIMA_CIDATA_MOUNTTYPE={{ .MountType }}
+LIMA_CIDATA_DISKS={{ len .Disks }}
+{{- range $i, $disk := .Disks}}</code></pre>
+    <p>The variable is emitted for every driver. On Alpine, <a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/25-guestagent-base.sh#L35"><code>pkg/cidata/cidata.TEMPLATE.d/boot.Linux/25-guestagent-base.sh:35</code></a> wraps each <code>lima.env</code> value in unescaped double quotes for the OpenRC service config, so a host directory containing <code>&quot;</code> produces a config the shell cannot parse. That serializer already fails for such a path at the merge-base, because <code>_MOUNTPOINT</code> defaults to the location on macOS and Linux hosts. The PR adds the case where <code>mountPoint</code> is set explicitly, which widens an existing gap.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/25-guestagent-base.sh#L30-L40">pkg/cidata/cidata.TEMPLATE.d/boot.Linux/25-guestagent-base.sh</a></div>
+      <pre data-start="30" data-line="35"><code class="language-bash"># Launch the guestagent service
+if [ -f /sbin/openrc-run ]; then
+	print_config() {
+		# Convert .env to conf.d by wrapping values in double quotes.
+		# Split the variable and value at the first &quot;=&quot; to handle cases where the value contains additional &quot;=&quot; characters.
+		sed -E &#39;s/^([^=]+)=(.*)/\1=&quot;\2&quot;/&#39; &quot;${LIMA_CIDATA_MNT}/lima.env&quot;
+	}
+	print_script() {
+		# the openrc lima-guestagent service script
+		cat &lt;&lt;-&#39;EOF&#39;
+			#!/sbin/openrc-run</code></pre>
+    <p>Fix: emit <code>_LOCATION</code> and <code>_WRITABLE</code> only when <code>.VMType</code> is <code>wsl2</code>.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/cidata/cidata.go">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> The <code>Writable</code> nil check cannot fire <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/cidata/cidata.go#L237-L250">pkg/cidata/cidata.go</a></div>
+      <pre data-start="237" data-line="242-245"><code class="language-go">				options += &quot;,nofail&quot;
+			case limatype.FREEBSD:
+				options += &quot;,failok&quot;
+			}
+		}
+		writable := false
+		if f.Writable != nil {
+			writable = *f.Writable
+		}
+		args.Mounts = append(args.Mounts, Mount{
+			Tag:        tag,
+			MountPoint: *f.MountPoint,
+			Type:       fstype,
+			Options:    options,</code></pre>
+    <p><code>FillDefault</code> always sets <code>Writable</code> (<a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/limayaml/defaults.go#L796-L798"><code>pkg/limayaml/defaults.go:796-798</code></a>), and line 221 of the same loop already dereferences it.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/limayaml/defaults.go#L791-L803">pkg/limayaml/defaults.go</a></div>
+      <pre data-start="791" data-line="796-798"><code class="language-go">			mounts[i].NineP.ProtocolVersion = ptr.Of(Default9pProtocolVersion)
+		}
+		if mount.NineP.Msize == nil {
+			mounts[i].NineP.Msize = ptr.Of(Default9pMsize)
+		}
+		if mount.Writable == nil {
+			mount.Writable = ptr.Of(false)
+		}
+		if mount.NineP.Cache == nil {
+			if *mount.Writable {
+				mounts[i].NineP.Cache = ptr.Of(Default9pCacheForRW)
+			} else {
+				mounts[i].NineP.Cache = ptr.Of(Default9pCacheForRO)</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/cidata/cidata.go#L216-L226">pkg/cidata/cidata.go</a></div>
+      <pre data-start="216" data-line="221"><code class="language-go">			options = &quot;defaults&quot;
+		}
+		switch fstype {
+		case &quot;9p&quot;, &quot;p9fs&quot;, &quot;virtiofs&quot;:
+			options = &quot;ro&quot;
+			if *f.Writable {
+				options = &quot;rw&quot;
+			}
+			if fstype == &quot;9p&quot; {
+				options += &quot;,trans=virtio&quot;
+				options += fmt.Sprintf(&quot;,version=%s&quot;, *f.NineP.ProtocolVersion)</code></pre>
+    <p>Fix: <code>Writable: *f.Writable</code>.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/ioutilx/ioutilx.go">
+      <div class="finding-title" id="S8">
+        <span class="finding-num">S8.</span> <code>TranslateWindowsToWSLPath</code> returns its input alongside an error <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S8" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/ioutilx/ioutilx.go#L75-L87">pkg/ioutilx/ioutilx.go</a></div>
+      <pre data-start="75" data-line="80-82"><code class="language-go">	for len(cleaned) &gt; 2 &amp;&amp; (cleaned[len(cleaned)-1] == &#39;/&#39; || cleaned[len(cleaned)-1] == &#39;\\&#39;) {
+		cleaned = cleaned[:len(cleaned)-1]
+	}
+
+	// UNC paths check
+	if strings.HasPrefix(cleaned, `\\`) || strings.HasPrefix(orig, `//`) {
+		return orig, fmt.Errorf(&quot;UNC paths are not supported for WSL translation: %q&quot;, orig)
+	}
+
+	// Recognizable drive letter paths like C: or C:\path or C:/path
+	if len(cleaned) &gt;= 2 &amp;&amp; cleaned[1] == &#39;:&#39; &amp;&amp; ((cleaned[0] &gt;= &#39;A&#39; &amp;&amp; cleaned[0] &lt;= &#39;Z&#39;) || (cleaned[0] &gt;= &#39;a&#39; &amp;&amp; cleaned[0] &lt;= &#39;z&#39;)) {
+		drive := strings.ToLower(string(cleaned[0]))
+		if len(cleaned) == 2 {</code></pre>
+    <p>Go callers expect a zero value beside an error. The only caller discards the value anyway, and the table test pins the echo with <code>assert.Equal</code> on its error rows. The UNC check also tests <code>cleaned</code> for one prefix and <code>orig</code> for the other.</p>
+    <p>Fix: return <code>&quot;&quot;</code> on error, test <code>cleaned</code> for both prefixes, and drop <code>expected</code> from the error rows.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em><code>writable: false</code> on WSL2 protects one path, usually the one <code>limactl shell</code> starts in<em></em> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span>. The source stays writable under <code>/mnt/c</code>, the guest user has passwordless sudo, and interop runs Windows programs, so the read-only bind guards against mistakes only. An instance with the usual <code>- location: &quot;~&quot;</code> (default <code>writable: false</code>) now gets a read-only <code>/mnt/c/Users/&lt;user&gt;</code>, and on wsl2 <code>limactl shell</code> changes into the host&#39;s working directory under that path (<a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/cmd/limactl/shell.go#L270"><code>cmd/limactl/shell.go:270</code></a>), so builds there fail. The maintainers should decide whether wsl2 mounts keep the automount&#39;s read-write default; either way, <code>mount.md</code> should say what the flag does on wsl2.</li>
+      <li><strong>Host and guest translate paths separately</strong> (in-scope) <span class="pill pill-gemini">Gemini 3.5 Flash</span>. The Go translator hard-codes <code>/mnt</code>, while the guest&#39;s <code>wslpath</code> follows <code>[automount] root</code>. With a custom root the two disagree, and the script bind-mounts the automount path onto a new <code>/mnt/&lt;drive&gt;/...</code> directory.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>Host-side translation is a pure string function, so <code>FillDefault</code> does not start a WSL distro during load, and the table test covers it directly. <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-claude">Claude Opus 5.5</span></li>
+      <li>The WSL2-only logic is a driver boot script embedded through <code>BootScripts</code>, which keeps it out of the shared <code>cidata.TEMPLATE.d</code>. <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span></li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>CI never runs the new boot script. The Windows WSL2 job uses <code>templates/experimental/wsl2.yaml</code>, which has no <code>mounts</code>, so the script exits at line 6, and the job&#39;s mount-home check reads the host file through WSL&#39;s automount. <code>boot.sh</code> turns a failing script into a warning, so a broken mount would go unnoticed.</p>
+    <ol>
+      <li><strong>Required:</strong> a <code>pkg/limayaml</code> test that runs <code>FillDefault</code> on a wsl2 mount the translator rejects. The Windows WSL2 job runs <code>go test ./...</code> on windows-2025, so a <code>defaults_windows_test.go</code> reaches the branch there (I1).</li>
+      <li><strong>Required:</strong> a mount in the WSL2 job, through <code>LIMACTL_CREATE_ARGS</code> or the template, with a guest-side check that a read-only mount refuses writes and a writable one beneath it accepts them (I3).</li>
+      <li><strong>Optional:</strong> a <code>wsl_driver_windows_test.go</code> case asserting that a filled mount does not produce a warning (I4).</li>
+      <li><strong>Covered:</strong> <code>TestTranslateWindowsToWSLPath</code> covers the translator&#39;s string cases.</li>
+    </ol>
+    <p>I ran <code>go test ./...</code> at the review SHA on macOS (every package passed), <code>GOOS=windows go vet</code> on the four touched packages, and <code>shellcheck</code> on the new script; all were clean.</p>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><code>website/content/en/docs/config/mount.md</code> (the <code>### wsl2</code> section, line 139 on) should describe <code>mountPoint</code> and <code>writable</code> on wsl2, what read-only means there, and that a location without a drive letter needs an explicit <code>mountPoint</code>.</li>
+      <li><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/website/content/en/docs/dev/internals.md#L191-L192"><code>website/content/en/docs/dev/internals.md:191-192</code></a> needs the new variables (S5).</li>
+      <li><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/templates/default.yaml#L58"><code>templates/default.yaml:58</code></a> says the mount point defaults to the location, which is untrue on any Windows host.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>One commit. It bundles the <code>/etc/wsl.conf</code> change (I2) with mount support, and its merge-base is 503 commits behind master.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>The warnings at <a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh#L82"><code>pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh:82</code></a> and <code>:88</code> state that a symlink fallback cannot enforce read-only status or act as a mount boundary. S2 covers the unmount and the success log around them.</li>
+      <li>The comments at lines 78 and 90 note that <code>mkdir -p</code> leaves parent directories behind.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>@AkihiroSuda, &quot;Needs rebasing&quot;: still open. Master moved the Windows path helpers to <code>pkg/fsutil</code> (<a href="https://github.com/lima-vm/lima/commit/cf7b44a7"><code>cf7b44a7</code></a>) and removed <code>pkg/ptr</code> (<a href="https://github.com/lima-vm/lima/commit/972c59c3"><code>972c59c3</code></a>), so the new translator belongs in <code>pkg/fsutil</code> and <code>ptr.Of</code> becomes <code>new(...)</code>.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5-5"><span class="pill pill-claude">Claude Opus 5.5</span> <a href="#claude-opus-5-5" class="pilcrow">&#182;</a></h3>
+    <p>Claude covered the most ground. It found both arms of the panic, shared the false-warning and <code>vmType</code> findings with Flash, and alone raised four suggestions plus the read-only-home concern. Its fix for the warning lists three fields, which would still warn about <code>SSHFS</code> and <code>NineP</code>. It rated the <code>vmType</code> gap Important, which this report lowers because wsl2 templates set the field. It also filed &quot;no test reaches the new code&quot; as a finding; that moved to the Testing Assessment.</p>
+    <h3 id="codex-gpt-6-astra"><span class="pill pill-codex">Codex GPT 6 Astra</span> <a href="#codex-gpt-6-astra" class="pilcrow">&#182;</a></h3>
+    <p>Codex alone found the nested writable mount (I3), with a stubbed run of the script&#39;s own loop that reproduced as stated. Its OpenRC finding overstated the regression: the merge-base already fails for a quoted path when the mount point defaults to the location, so it became S6. Like Claude and Flash, it proved the panic with a retyped copy of the logic, not the real <code>FillDefault</code>. It saw the false warning but listed it only under documentation, not as a finding.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Gemini 3.1 Pro raised the panic as Critical and the <code>wsl.conf</code> rewrite, and filed <code>metadata</code> not applying until the distro restarts as a finding of its own (folded into I2). Its quoted panic output did not come from a run. Its session executed only a generic nil-map program, and the test it quotes cannot panic on macOS, where the <code>runtime.GOOS</code> gate skips the WSL2 branch. Its fallback fix, letting <code>Validate</code> reject an empty mount point, would not work, because <code>Validate</code> never checks for one. It left ten scratch files in its worktree root, outside <code>.scratch/</code>.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Flash matched Claude on the <code>vmType</code> gap and the false warning, and called the symlink fallback a security breach, which this report lowers because <code>writable: false</code> isolates nothing on WSL2. Two suggestions were dropped. The <code>03-</code> ordering rule targets <code>04-persistent-data-volume.sh</code>, which acts only on an Alpine guest with a tmpfs root, and running Step 3 without mounts assumes <code>metadata</code> is wanted at all. It wrote probe files under <code>/tmp</code>, outside its worktree. The two Gemini models agree on the panic and the rewrite; treat that as one opinion.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5.5</span></th><th><span class="pill pill-codex">Codex GPT 6 Astra</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>7m 55s</td><td>6m 37s</td><td>9m 12s</td><td>7m 46s</td></tr>
+        <tr><td>Findings</td><td>3I 7S</td><td>3I 1S</td><td>2I 1S</td><td>3I 3S</td></tr>
+        <tr><td>Tool calls</td><td>36 (Bash 33, Read 3)</td><td>16 (shell 15, stdin 1)</td><td>40 (run<em>shell</em>command 40)</td><td>62 (run<em>shell</em>command 21, grep<em>search 19, read</em>file 14)</td></tr>
+        <tr><td>Design observations</td><td>4</td><td>2</td><td>2</td><td>4</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>2</td></tr>
+        <tr><td>Unique insights</td><td>4</td><td>2</td><td>0</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>9</td><td>8</td><td>8</td><td>8</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>3I 7S</strong></td><td><strong>3I 1S</strong></td><td><strong>2I 1S</strong></td><td><strong>3I 3S</strong></td></tr>
+        <tr><td>Downgraded</td><td>1</td><td>1</td><td>2</td><td>3</td></tr>
+        <tr><td>Dropped</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p>Codex contributed the one Important finding nobody else saw (I3), with a probe that held up. Claude gave the widest coverage and most of the suggestions. Every reviewer found the panic and the <code>wsl.conf</code> rewrite, but no reproducer ran the real <code>FillDefault</code> into the panic.</p>
+    <p><strong>Reconciliation.</strong> Gemini 3.1 Pro P1 C1 (panic): critical → important I1. Gemini 3.5 Flash P1 C1 (panic): critical → important I1. Claude P1 I3 (<code>vmType</code> default): important → suggestion S1. Gemini 3.5 Flash P1 I1 (<code>vmType</code> default): important → suggestion S1. Gemini 3.5 Flash P1 I2 (symlink fallback): important → suggestion S2. Gemini 3.1 Pro P1 I1 (read-only fails open): important → suggestion S2. Codex P1 I4 (OpenRC quoting): important → suggestion S6. Gemini 3.1 Pro P1 I3 (<code>metadata</code> on first boot): merged into I2. Claude P1 I5 (no test reaches the code): moved to the Testing Assessment. Gemini 3.5 Flash P1 S2 (script ordering) and S4 (<code>wsl.conf</code> skipped without mounts): dropped as false positives.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>When code applies a list of entries that each change the state of a path (a mount, a permission, an owner), check the pairs whose paths nest or overlap. An earlier entry&#39;s effect can override a later entry&#39;s request, and a reviewer reading one entry at a time misses it.</li>
+      <li>When the code a finding needs is gated by a platform constant such as <code>runtime.GOOS</code>, a probe can patch that one condition in a scratch copy and call the real function. A probe that retypes the gated logic proves only the copy.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>[repo] UPDATE &quot;Guest boot scripts: ordering and silent degradation&quot;: <code>04-persistent-data-volume.sh</code> acts only on Alpine guests whose root is tmpfs, so the rule that <code>/etc</code> and <code>/var/lib</code> changes sort after it binds those guests only. A driver boot script for another guest family, such as wsl2, may edit <code>/etc</code> earlier.</li>
+      <li>[repo] <code>FillDefault</code> runs inside <code>limayaml.Load</code>, before <code>driverutil.ResolveVMType</code> fills the platform default, so <code>y.VMType</code> is nil there whenever a template omits <code>vmType</code>. A <code>FillDefault</code> branch keyed on the VM type must resolve the default itself (<code>limatype.DefaultDriver()</code>, or <code>DefaultNonNativeArchDriver()</code> for a foreign arch).</li>
+      <li>[repo] Drivers warn about config they ignore through <code>reflectutil.UnknownNonEmptyFields</code> and a list of known field names. <code>FillDefault</code> fills <code>SSHFS</code> and <code>NineP</code> for every mount, so a driver&#39;s mount list must name both or it warns on every load. When a change makes a driver honor a field, check that the driver&#39;s list names it.</li>
+      <li>[repo] The Windows WSL2 CI job runs <code>templates/experimental/wsl2.yaml</code>, which does not define any mounts, and its mount-home check reads through WSL&#39;s automount. No CI job runs a wsl2 boot script gated on <code>LIMA_CIDATA_MOUNTS</code>, so a green run says nothing about wsl2 mount handling.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){var t="\\b(?:BASH|BASHOPTS|BASH_ALIASES|BASH_ARGC|BASH_ARGV|BASH_CMDS|BASH_COMPLETION_COMPAT_DIR|BASH_LINENO|BASH_REMATCH|BASH_SOURCE|BASH_VERSINFO|BASH_VERSION|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|EUID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_ADDRESS|LC_ALL|LC_IDENTIFICATION|LC_MEASUREMENT|LC_MONETARY|LC_NAME|LC_NUMERIC|LC_PAPER|LC_TELEPHONE|LC_TIME|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS1|PS2|PS3|PS4|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UID|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_CONFIG_DIRS|XDG_CURRENT_DESKTOP|XDG_DATA_DIRS|XDG_GREETER_DATA_DIR|XDG_MENU_PREFIX|XDG_RUNTIME_DIR|XDG_SEAT|XDG_SEAT_PATH|XDG_SESSION_DESKTOP|XDG_SESSION_ID|XDG_SESSION_PATH|XDG_SESSION_TYPE|XDG_VTNR|XMODIFIERS)\\b",a={pattern:/(^(["']?)\w+\2)[ \t]+\S.*/,lookbehind:!0,alias:"punctuation",inside:null},n={bash:a,environment:{pattern:RegExp("\\$"+t),alias:"constant"},variable:[{pattern:/\$?\(\([\s\S]+?\)\)/,greedy:!0,inside:{variable:[{pattern:/(^\$\(\([\s\S]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,operator:/--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,greedy:!0,inside:{variable:/^\$\(|^`|\)$|`$/}},{pattern:/\$\{[^}]+\}/,greedy:!0,inside:{operator:/:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,punctuation:/[\[\]]/,environment:{pattern:RegExp("(\\{)"+t),lookbehind:!0,alias:"constant"}}},/\$(?:\w+|[#?*!@$])/],entity:/\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/};e.languages.bash={shebang:{pattern:/^#!\s*\/.*/,alias:"important"},comment:{pattern:/(^|[^"{\\$])#.*/,lookbehind:!0},"function-name":[{pattern:/(\bfunction\s+)[\w-]+(?=(?:\s*\(?:\s*\))?\s*\{)/,lookbehind:!0,alias:"function"},{pattern:/\b[\w-]+(?=\s*\(\s*\)\s*\{)/,alias:"function"}],"for-or-select":{pattern:/(\b(?:for|select)\s+)\w+(?=\s+in\s)/,alias:"variable",lookbehind:!0},"assign-left":{pattern:/(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,inside:{environment:{pattern:RegExp("(^|[\\s;|&]|[<>]\\()"+t),lookbehind:!0,alias:"constant"}},alias:"variable",lookbehind:!0},parameter:{pattern:/(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,alias:"variable",lookbehind:!0},string:[{pattern:/((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?(?:\r?\n|\r)\2/,lookbehind:!0,greedy:!0,inside:n},{pattern:/((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?(?:\r?\n|\r)\3/,lookbehind:!0,greedy:!0,inside:{bash:a}},{pattern:/(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,lookbehind:!0,greedy:!0,inside:n},{pattern:/(^|[^$\\])'[^']*'/,lookbehind:!0,greedy:!0},{pattern:/\$'(?:[^'\\]|\\[\s\S])*'/,greedy:!0,inside:{entity:n.entity}}],environment:{pattern:RegExp("\\$?"+t),alias:"constant"},variable:n.variable,function:{pattern:/(^|[\s;|&]|[<>]\()(?:add|apropos|apt|apt-cache|apt-get|aptitude|aspell|automysqlbackup|awk|basename|bash|bc|bconsole|bg|bzip2|cal|cargo|cat|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clear|cmp|column|comm|composer|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|debootstrap|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|docker|docker-compose|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|git|gparted|grep|groupadd|groupdel|groupmod|groups|grub-mkconfig|gzip|halt|head|hg|history|host|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|ip|java|jobs|join|kill|killall|less|link|ln|locate|logname|logrotate|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|make|man|mc|mdadm|mkconfig|mkdir|mke2fs|mkfifo|mkfs|mkisofs|mknod|mkswap|mmv|more|most|mount|mtools|mtr|mutt|mv|nano|nc|netstat|nice|nl|node|nohup|notify-send|npm|nslookup|op|open|parted|passwd|paste|pathchk|ping|pkill|pnpm|podman|podman-compose|popd|pr|printcap|printenv|ps|pushd|pv|quota|quotacheck|quotactl|ram|rar|rcp|reboot|remsync|rename|renice|rev|rm|rmdir|rpm|rsync|scp|screen|sdiff|sed|sendmail|seq|service|sftp|sh|shellcheck|shuf|shutdown|sleep|slocate|sort|split|ssh|stat|strace|su|sudo|sum|suspend|swapon|sync|sysctl|tac|tail|tar|tee|time|timeout|top|touch|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|update-grub|uptime|useradd|userdel|usermod|users|uudecode|uuencode|v|vcpkg|vdir|vi|vim|virsh|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yarn|yes|zenity|zip|zsh|zypper)(?=$|[)\s;|&])/,lookbehind:!0},keyword:{pattern:/(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)(?=$|[)\s;|&])/,lookbehind:!0},builtin:{pattern:/(^|[\s;|&]|[<>]\()(?:\.|:|alias|bind|break|builtin|caller|cd|command|continue|declare|echo|enable|eval|exec|exit|export|getopts|hash|help|let|local|logout|mapfile|printf|pwd|read|readarray|readonly|return|set|shift|shopt|source|test|times|trap|type|typeset|ulimit|umask|unalias|unset)(?=$|[)\s;|&])/,lookbehind:!0,alias:"class-name"},boolean:{pattern:/(^|[\s;|&]|[<>]\()(?:false|true)(?=$|[)\s;|&])/,lookbehind:!0},"file-descriptor":{pattern:/\B&\d\b/,alias:"important"},operator:{pattern:/\d?<>|>\||\+=|=[=~]?|!=?|<<[<-]?|[&\d]?>>|\d[<>]&?|[<>][&=]?|&[>&]?|\|[&|]?/,inside:{"file-descriptor":{pattern:/^\d/,alias:"important"}}},punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,number:{pattern:/(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,lookbehind:!0}},a.inside=e.languages.bash;for(var s=["comment","function-name","for-or-select","assign-left","parameter","string","environment","function","keyword","builtin","boolean","file-descriptor","operator","punctuation","number"],o=n.variable[1].inside,i=0;i<s.length;i++)o[s[i]]=e.languages.bash[s[i]];e.languages.sh=e.languages.bash,e.languages.shell=e.languages.bash}(Prism);
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+!function(n){function e(n){return n=n.replace(/<inner>/g,(function(){return"(?:\\\\.|[^\\\\\n\r]|(?:\n|\r\n?)(?![\r\n]))"})),RegExp("((?:^|[^\\\\])(?:\\\\{2})*)(?:"+n+")")}var t="(?:\\\\.|``(?:[^`\r\n]|`(?!`))+``|`[^`\r\n]+`|[^\\\\|\r\n`])+",a="\\|?__(?:\\|__)+\\|?(?:(?:\n|\r\n?)|(?![^]))".replace(/__/g,(function(){return t})),i="\\|?[ \t]*:?-{3,}:?[ \t]*(?:\\|[ \t]*:?-{3,}:?[ \t]*)+\\|?(?:\n|\r\n?)";n.languages.markdown=n.languages.extend("markup",{}),n.languages.insertBefore("markdown","prolog",{"front-matter-block":{pattern:/(^(?:\s*[\r\n])?)---(?!.)[\s\S]*?[\r\n]---(?!.)/,lookbehind:!0,greedy:!0,inside:{punctuation:/^---|---$/,"front-matter":{pattern:/\S+(?:\s+\S+)*/,alias:["yaml","language-yaml"],inside:n.languages.yaml}}},blockquote:{pattern:/^>(?:[\t ]*>)*/m,alias:"punctuation"},table:{pattern:RegExp("^"+a+i+"(?:"+a+")*","m"),inside:{"table-data-rows":{pattern:RegExp("^("+a+i+")(?:"+a+")*$"),lookbehind:!0,inside:{"table-data":{pattern:RegExp(t),inside:n.languages.markdown},punctuation:/\|/}},"table-line":{pattern:RegExp("^("+a+")"+i+"$"),lookbehind:!0,inside:{punctuation:/\||:?-{3,}:?/}},"table-header-row":{pattern:RegExp("^"+a+"$"),inside:{"table-header":{pattern:RegExp(t),alias:"important",inside:n.languages.markdown},punctuation:/\|/}}}},code:[{pattern:/((?:^|\n)[ \t]*\n|(?:^|\r\n?)[ \t]*\r\n?)(?: {4}|\t).+(?:(?:\n|\r\n?)(?: {4}|\t).+)*/,lookbehind:!0,alias:"keyword"},{pattern:/^```[\s\S]*?^```$/m,greedy:!0,inside:{"code-block":{pattern:/^(```.*(?:\n|\r\n?))[\s\S]+?(?=(?:\n|\r\n?)^```$)/m,lookbehind:!0},"code-language":{pattern:/^(```).+/,lookbehind:!0},punctuation:/```/}}],title:[{pattern:/\S.*(?:\n|\r\n?)(?:==+|--+)(?=[ \t]*$)/m,alias:"important",inside:{punctuation:/==+$|--+$/}},{pattern:/(^\s*)#.+/m,lookbehind:!0,alias:"important",inside:{punctuation:/^#+|#+$/}}],hr:{pattern:/(^\s*)([*-])(?:[\t ]*\2){2,}(?=\s*$)/m,lookbehind:!0,alias:"punctuation"},list:{pattern:/(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,lookbehind:!0,alias:"punctuation"},"url-reference":{pattern:/!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/,inside:{variable:{pattern:/^(!?\[)[^\]]+/,lookbehind:!0},string:/(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,punctuation:/^[\[\]!:]|[<>]/},alias:"url"},bold:{pattern:e("\\b__(?:(?!_)<inner>|_(?:(?!_)<inner>)+_)+__\\b|\\*\\*(?:(?!\\*)<inner>|\\*(?:(?!\\*)<inner>)+\\*)+\\*\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^..)[\s\S]+(?=..$)/,lookbehind:!0,inside:{}},punctuation:/\*\*|__/}},italic:{pattern:e("\\b_(?:(?!_)<inner>|__(?:(?!_)<inner>)+__)+_\\b|\\*(?:(?!\\*)<inner>|\\*\\*(?:(?!\\*)<inner>)+\\*\\*)+\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^.)[\s\S]+(?=.$)/,lookbehind:!0,inside:{}},punctuation:/[*_]/}},strike:{pattern:e("(~~?)(?:(?!~)<inner>)+\\2"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^~~?)[\s\S]+(?=\1$)/,lookbehind:!0,inside:{}},punctuation:/~~?/}},"code-snippet":{pattern:/(^|[^\\`])(?:``[^`\r\n]+(?:`[^`\r\n]+)*``(?!`)|`[^`\r\n]+`(?!`))/,lookbehind:!0,greedy:!0,alias:["code","keyword"]},url:{pattern:e('!?\\[(?:(?!\\])<inner>)+\\](?:\\([^\\s)]+(?:[\t ]+"(?:\\\\.|[^"\\\\])*")?\\)|[ \t]?\\[(?:(?!\\])<inner>)+\\])'),lookbehind:!0,greedy:!0,inside:{operator:/^!/,content:{pattern:/(^\[)[^\]]+(?=\])/,lookbehind:!0,inside:{}},variable:{pattern:/(^\][ \t]?\[)[^\]]+(?=\]$)/,lookbehind:!0},url:{pattern:/(^\]\()[^\s)]+/,lookbehind:!0},string:{pattern:/(^[ \t]+)"(?:\\.|[^"\\])*"(?=\)$)/,lookbehind:!0}}}}),["url","bold","italic","strike"].forEach((function(e){["url","bold","italic","strike","code-snippet"].forEach((function(t){e!==t&&(n.languages.markdown[e].inside.content.inside[t]=n.languages.markdown[t])}))})),n.hooks.add("after-tokenize",(function(n){"markdown"!==n.language&&"md"!==n.language||function n(e){if(e&&"string"!=typeof e)for(var t=0,a=e.length;t<a;t++){var i=e[t];if("code"===i.type){var r=i.content[1],o=i.content[3];if(r&&o&&"code-language"===r.type&&"code-block"===o.type&&"string"==typeof r.content){var l=r.content.replace(/\b#/g,"sharp").replace(/\b\+\+/g,"pp"),s="language-"+(l=(/[a-z][\w-]*/i.exec(l)||[""])[0].toLowerCase());o.alias?"string"==typeof o.alias?o.alias=[o.alias,s]:o.alias.push(s):o.alias=[s]}}else n(i.content)}}(n.tokens)})),n.hooks.add("wrap",(function(e){if("code-block"===e.type){for(var t="",a=0,i=e.classes.length;a<i;a++){var s=e.classes[a],d=/language-(.+)/.exec(s);if(d){t=d[1];break}}var p=n.languages[t];if(p)e.content=n.highlight(e.content.replace(r,"").replace(/&(\w{1,8}|#x?[\da-f]{1,8});/gi,(function(n,e){var t;return"#"===(e=e.toLowerCase())[0]?(t="x"===e[1]?parseInt(e.slice(2),16):Number(e.slice(1)),l(t)):o[e]||n})),p,t);else if(t&&"none"!==t&&n.plugins.autoloader){var u="md-"+(new Date).valueOf()+"-"+Math.floor(1e16*Math.random());e.attributes.id=u,n.plugins.autoloader.loadLanguages(t,(function(){var e=document.getElementById(u);e&&(e.innerHTML=n.highlight(e.textContent,n.languages[t],t))}))}}}));var r=RegExp(n.languages.markup.tag.pattern.source,"gi"),o={amp:"&",lt:"<",gt:">",quot:'"'},l=String.fromCodePoint||String.fromCharCode;n.languages.md=n.languages.markdown}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
