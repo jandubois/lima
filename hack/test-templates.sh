@@ -171,6 +171,22 @@ function diagnose() {
 	limactl shell "$NAME" systemctl --no-pager
 	mkdir -p failure-logs
 	limactl shell "${NAME}" sudo sh -c 'cd /run/systemd && grep --devices=skip --with-filename . users/* sessions/*; systemctl list-jobs --no-pager; loginctl list-users --no-pager; loginctl list-sessions --no-pager' | tee failure-logs/logind-state.log
+	limactl shell "${NAME}" sudo sh -x <<-'EOF' 2>&1 | tee failure-logs/bus-probe.log
+		exec 2>&1
+		busctl --timeout=10 call org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus GetId
+		busctl --timeout=10 call org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus GetConnectionUnixProcessID s org.freedesktop.login1
+		for dest in org.freedesktop.systemd1 org.freedesktop.resolve1 org.freedesktop.login1; do
+			busctl --timeout=10 call "$dest" / org.freedesktop.DBus.Peer Ping
+		done
+		for unit in systemd-logind dbus; do
+			pid=$(systemctl show --property=MainPID --value "$unit.service")
+			grep -e ^State -e ctxt_switches "/proc/$pid/status"
+			cat "/proc/$pid/wchan"
+			echo
+			cat "/proc/$pid/syscall" "/proc/$pid/stack"
+		done
+		ss -xpn
+	EOF
 	cp -pf "$HOME_HOST/.lima/${NAME}"/*.log failure-logs/
 	limactl shell "$NAME" sudo cat /var/log/cloud-init-output.log | tee failure-logs/cloud-init-output.log
 	limactl shell "$NAME" sh -c "command -v journalctl >/dev/null && sudo journalctl --no-pager" >failure-logs/journal.log
