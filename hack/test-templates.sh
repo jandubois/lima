@@ -170,6 +170,7 @@ function diagnose() {
 	limactl shell "$NAME" systemctl --no-pager status
 	limactl shell "$NAME" systemctl --no-pager
 	mkdir -p failure-logs
+	limactl shell "${NAME}" sudo sh -c 'cd /run/systemd && grep --devices=skip --with-filename . users/* sessions/*; systemctl list-jobs --no-pager; loginctl list-users --no-pager; loginctl list-sessions --no-pager' | tee failure-logs/logind-state.log
 	cp -pf "$HOME_HOST/.lima/${NAME}"/*.log failure-logs/
 	limactl shell "$NAME" sudo cat /var/log/cloud-init-output.log | tee failure-logs/cloud-init-output.log
 	limactl shell "$NAME" sh -c "command -v journalctl >/dev/null && sudo journalctl --no-pager" >failure-logs/journal.log
