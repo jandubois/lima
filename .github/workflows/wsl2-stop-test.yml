@@ -1,0 +1,48 @@
+# Throwaway, do not merge: runs test.yml's windows-plain-wsl2 job three
+# times, to show the stop regression test fails without the fix.
+name: wsl2-stop-test
+
+on:
+  push:
+    branches:
+    - 'wsl2-stop-test-*'
+env:
+  LIMACTL_CREATE_ARGS: ""
+  GOTOOLCHAIN: local
+
+permissions:
+  contents: read
+
+jobs:
+  windows-plain-wsl2:
+    # Smoke test of Lima's WSL2 driver on a host with only what a default
+    # Windows 10/11 install ships (native OpenSSH, wsl.exe, tar). If a step
+    # ever needs MSYS2 or Git for Windows back to pass, Lima has gained a new
+    # external-binary dependency, and that needs review first.
+    name: "Windows tests (WSL2, plain Windows host)"
+    runs-on: windows-2025
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        run: [1, 2, 3]
+    steps:
+    - name: Set gitconfig
+      run: |
+        git config --global core.autocrlf false
+        git config --global core.eol lf
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e  # v7.0.0
+      with:
+        go-version: stable
+        cache: false
+    - uses: $/.github/actions/windows_wsl2_setup
+    # No windows_plain_templates: wsl2.yaml has no `base:`.
+    - uses: $/.github/actions/windows_plain_host
+    - uses: $/.github/actions/windows_plain_build
+    - uses: $/.github/actions/windows_plain_smoke_test
+      with:
+        template: .\templates\experimental\wsl2.yaml
+        launch-default-distro-during-stop: 'true'
