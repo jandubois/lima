@@ -17,6 +17,13 @@ inputs:
       the template or Lima's default decides.
     required: false
     default: ''
+  launch-default-distro-during-stop:
+    description: >
+      When 'true', run `wsl -u root -e ls`, which starts the default distro,
+      while `limactl stop` terminates the instance, as GitHub's runner agent
+      sometimes does. Only for the WSL2 driver.
+    required: false
+    default: 'false'
 runs:
   using: composite
   steps:
@@ -27,6 +34,7 @@ runs:
       INSTANCE: ${{ inputs.instance-name }}
       TEMPLATE: ${{ inputs.template }}
       VM_TYPE: ${{ inputs.vm-type }}
+      LAUNCH_DEFAULT_DISTRO_DURING_STOP: ${{ inputs.launch-default-distro-during-stop }}
     run: |
       $ErrorActionPreference = 'Stop'
       # $ErrorActionPreference does not stop on a native command's exit code.
@@ -53,7 +61,24 @@ runs:
       if ($back -ne 'roundtrip') {
         throw "round-trip mismatch: expected 'roundtrip', got '$back'"
       }
+      if ($env:LAUNCH_DEFAULT_DISTRO_DURING_STOP -eq 'true') {
+        $launcher = Start-Job -ScriptBlock {
+          while (-not (Get-CimInstance Win32_Process -Filter "Name='wsl.exe'" |
+              Where-Object { $_.CommandLine -like '*--terminate*' })) {
+            Start-Sleep -Milliseconds 100
+          }
+          # Launch while `wsl --terminate` is still running.
+          Start-Sleep -Milliseconds 200
+          wsl.exe -u root -e ls *> $null
+          'launched'
+        }
+      }
       Invoke-Limactl stop $env:INSTANCE
+      if ($launcher) {
+        $launched = Wait-Job $launcher -Timeout 30 | Receive-Job
+        Remove-Job $launcher -Force
+        if ($launched -ne 'launched') { throw 'default-distro launch did not run during limactl stop' }
+      }
       Invoke-Limactl delete --force $env:INSTANCE
 
   - name: Dump Lima logs on failure
