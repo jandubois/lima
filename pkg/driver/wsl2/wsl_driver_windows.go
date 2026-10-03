@@ -222,7 +222,11 @@ func (l *LimaWslDriver) InspectStatus(ctx context.Context, inst *limatype.Instan
 
 	inst.SSHLocalPort = 22
 
-	if inst.Status == limatype.StatusRunning {
+	// getSSHAddress runs `wsl -d`, which starts a stopped distro. So skip it
+	// while no host agent runs, as when `limactl stop` waits for the shutdown;
+	// otherwise, if another program launches the distro after the host agent
+	// terminates it, every poll keeps it running and the stop times out.
+	if inst.Status == limatype.StatusRunning && inst.HostAgentPID != 0 {
 		sshAddr, err := getSSHAddress(ctx, inst.Name)
 		if err == nil {
 			inst.SSHAddress = sshAddr
