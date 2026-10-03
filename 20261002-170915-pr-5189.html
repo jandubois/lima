@@ -231,7 +231,7 @@ details.fold .code-file-header { margin-top: 0; border-radius: 0; }
       <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/aae7d80866505ac33a1ddf3376d72395b2b73122"><code>aae7d80866505ac33a1ddf3376d72395b2b73122</code></a></td></tr>
       <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5.5</span> (effort: high), <span class="pill pill-codex">Codex GPT 6 Astra</span> (effort: high), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
       <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; the approach holds; fix the <code>FillDefault</code> panic, drop the <code>wsl.conf</code> rewrite, mount nested writable entries and correct the driver&#39;s mount warning, then rebase</td></tr>
-      <tr><td>Wall-clock time</td><td><code>27 min 48 s</code></td></tr>
+      <tr><td>Wall-clock time</td><td><code>41 min 28 s</code></td></tr>
     </table>
 
     <hr>
@@ -657,28 +657,9 @@ index 13737e0b..7a71bc14 100644
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
 
-    <div class="card card-suggestion" data-file="pkg/limayaml/defaults.go">
-      <div class="finding-title" id="S1">
-        <span class="finding-num">S1.</span> The WSL2 mount-point default needs <code>vmType: wsl2</code> written out <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S1" class="pilcrow">&#182;</a>
-      </div>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/limayaml/defaults.go#L710-L720">pkg/limayaml/defaults.go</a></div>
-      <pre data-start="710" data-line="715"><code class="language-go">		}
-		if mount.MountPoint == nil {
-			mountLocation := mount.Location
-			var err error
-			if runtime.GOOS == &quot;windows&quot; {
-				if y.VMType != nil &amp;&amp; *y.VMType == limatype.WSL2 {
-					mountLocation, err = ioutilx.TranslateWindowsToWSLPath(mountLocation)
-					if err != nil {
-						logrus.WithError(err).Warnf(&quot;Couldn&#39;t convert location %#q into WSL mount target&quot;, mount.Location)
-						mountLocation = &quot;&quot;
-					}</code></pre>
-    <p><code>Load</code> runs <code>FillDefault</code> before <code>driverutil.ResolveVMType</code> picks the platform default, and <code>pkg/instance/create.go</code> saves the template unresolved. So a Windows template that relies on the default wsl2 driver takes the cygpath branch on every load, and its mounts end up at <code>/c/Users/...</code> where the same template with <code>vmType: wsl2</code> gets <code>/mnt/c/Users/...</code>. Without cygpath it hits I1. Few templates reach this branch, because a wsl2 instance needs a tar rootfs, and both <code>templates/experimental/wsl2.yaml</code> and <code>--vm-type=wsl2</code> set the field.</p>
-    <p>Fix: when <code>y.VMType</code> is nil, resolve it as <code>ResolveVMType</code> does (<code>limatype.DefaultDriver()</code>, or <code>DefaultNonNativeArchDriver()</code> for a foreign <code>arch</code>) before picking the converter.</p>
-    </div>
     <div class="card card-suggestion" data-file="pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh">
-      <div class="finding-title" id="S2">
-        <span class="finding-num">S2.</span> The read-only fallback ends writable and still reports success <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S2" class="pilcrow">&#182;</a>
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> The read-only fallback ends writable and still reports success <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S1" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh#L69-L86">pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh</a></div>
       <pre data-start="69" data-line="74-81"><code class="language-sh">	else
@@ -703,8 +684,8 @@ index 13737e0b..7a71bc14 100644
     <p>Fix: keep the read-write bind and warn, or leave the path unmounted, and log success only on the success path.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh">
-      <div class="finding-title" id="S3">
-        <span class="finding-num">S3.</span> The shell fallback passes a location without a drive letter through unchanged <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S3" class="pilcrow">&#182;</a>
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> The shell fallback passes a location without a drive letter through unchanged <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S2" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh#L40-L52">pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh</a></div>
       <pre data-start="40" data-line="45-47"><code class="language-sh">		[A-Za-z]:*)
@@ -724,8 +705,8 @@ index 13737e0b..7a71bc14 100644
     <p>Fix: on <code>wslpath</code> failure, warn and <code>continue</code>.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh">
-      <div class="finding-title" id="S4">
-        <span class="finding-num">S4.</span> The read-only self-bind stacks on a repeated boot <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S4" class="pilcrow">&#182;</a>
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> The read-only self-bind stacks on a repeated boot <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S3" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh#L52-L62">pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh</a></div>
       <pre data-start="52" data-line="57"><code class="language-sh">	if [ &quot;$wsl_path&quot; = &quot;$mountpoint&quot; ]; then
@@ -743,8 +724,8 @@ index 13737e0b..7a71bc14 100644
     <p>Fix: skip the bind when <code>findmnt</code> already shows a read-only mount at the path.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/cidata/cidata.TEMPLATE.d/lima.env">
-      <div class="finding-title" id="S5">
-        <span class="finding-num">S5.</span> Three new <code>lima.env</code> variables are unused, and none of the five is documented <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S5" class="pilcrow">&#182;</a>
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> Three new <code>lima.env</code> variables are unused, and none of the five is documented <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S4" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/cidata/cidata.TEMPLATE.d/lima.env#L7-L22">pkg/cidata/cidata.TEMPLATE.d/lima.env</a></div>
       <pre data-start="7" data-line="12-17"><code class="language-text">LIMA_CIDATA_HOME={{ .Home}}
@@ -780,8 +761,8 @@ LIMA_CIDATA_DISK_{{$i}}_NAME={{$disk.Name}}</code></pre>
     <p>Fix: drop the three unused lines and document <code>_LOCATION</code> and <code>_WRITABLE</code>.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/cidata/cidata.TEMPLATE.d/lima.env">
-      <div class="finding-title" id="S6">
-        <span class="finding-num">S6.</span> <code>_LOCATION</code> reaches every guest&#39;s OpenRC config <span class="pill pill-codex">Codex GPT 6 Astra</span><a href="#S6" class="pilcrow">&#182;</a>
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> <code>_LOCATION</code> reaches every guest&#39;s OpenRC config <span class="pill pill-codex">Codex GPT 6 Astra</span><a href="#S5" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/cidata/cidata.TEMPLATE.d/lima.env#L11-L21">pkg/cidata/cidata.TEMPLATE.d/lima.env</a></div>
       <pre data-start="11" data-line="16"><code class="language-text">{{- range $i, $val := .Mounts}}
@@ -811,8 +792,8 @@ if [ -f /sbin/openrc-run ]; then
     <p>Fix: emit <code>_LOCATION</code> and <code>_WRITABLE</code> only when <code>.VMType</code> is <code>wsl2</code>.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/cidata/cidata.go">
-      <div class="finding-title" id="S7">
-        <span class="finding-num">S7.</span> The <code>Writable</code> nil check cannot fire <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S7" class="pilcrow">&#182;</a>
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> The <code>Writable</code> nil check cannot fire <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S6" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/cidata/cidata.go#L237-L250">pkg/cidata/cidata.go</a></div>
       <pre data-start="237" data-line="242-245"><code class="language-go">				options += &quot;,nofail&quot;
@@ -859,8 +840,8 @@ if [ -f /sbin/openrc-run ]; then
     <p>Fix: <code>Writable: *f.Writable</code>.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/ioutilx/ioutilx.go">
-      <div class="finding-title" id="S8">
-        <span class="finding-num">S8.</span> <code>TranslateWindowsToWSLPath</code> returns its input alongside an error <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S8" class="pilcrow">&#182;</a>
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> <code>TranslateWindowsToWSLPath</code> returns its input alongside an error <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S7" class="pilcrow">&#182;</a>
       </div>
       <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/ioutilx/ioutilx.go#L75-L87">pkg/ioutilx/ioutilx.go</a></div>
       <pre data-start="75" data-line="80-82"><code class="language-go">	for len(cleaned) &gt; 2 &amp;&amp; (cleaned[len(cleaned)-1] == &#39;/&#39; || cleaned[len(cleaned)-1] == &#39;\\&#39;) {
@@ -913,7 +894,7 @@ if [ -f /sbin/openrc-run ]; then
     <div class="card card-neutral">
     <ul>
       <li><code>website/content/en/docs/config/mount.md</code> (the <code>### wsl2</code> section, line 139 on) should describe <code>mountPoint</code> and <code>writable</code> on wsl2, what read-only means there, and that a location without a drive letter needs an explicit <code>mountPoint</code>.</li>
-      <li><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/website/content/en/docs/dev/internals.md#L191-L192"><code>website/content/en/docs/dev/internals.md:191-192</code></a> needs the new variables (S5).</li>
+      <li><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/website/content/en/docs/dev/internals.md#L191-L192"><code>website/content/en/docs/dev/internals.md:191-192</code></a> needs the new variables (S4).</li>
       <li><a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/templates/default.yaml#L58"><code>templates/default.yaml:58</code></a> says the mount point defaults to the location, which is untrue on any Windows host.</li>
     </ul>
     </div>
@@ -928,7 +909,7 @@ if [ -f /sbin/openrc-run ]; then
 
     <div class="card card-neutral">
     <ul>
-      <li>The warnings at <a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh#L82"><code>pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh:82</code></a> and <code>:88</code> state that a symlink fallback cannot enforce read-only status or act as a mount boundary. S2 covers the unmount and the success log around them.</li>
+      <li>The warnings at <a href="https://github.com/lima-vm/lima/blob/aae7d80866505ac33a1ddf3376d72395b2b73122/pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh#L82"><code>pkg/driver/wsl2/boot.Linux/03-wsl-mounts.sh:82</code></a> and <code>:88</code> state that a symlink fallback cannot enforce read-only status or act as a mount boundary. S1 covers the unmount and the success log around them.</li>
       <li>The comments at lines 78 and 90 note that <code>mkdir -p</code> leaves parent directories behind.</li>
     </ul>
     </div>
@@ -937,7 +918,7 @@ if [ -f /sbin/openrc-run ]; then
 
     <div class="card card-neutral">
     <ul>
-      <li>@AkihiroSuda, &quot;Needs rebasing&quot;: still open. Master moved the Windows path helpers to <code>pkg/fsutil</code> (<a href="https://github.com/lima-vm/lima/commit/cf7b44a7"><code>cf7b44a7</code></a>) and removed <code>pkg/ptr</code> (<a href="https://github.com/lima-vm/lima/commit/972c59c3"><code>972c59c3</code></a>), so the new translator belongs in <code>pkg/fsutil</code> and <code>ptr.Of</code> becomes <code>new(...)</code>.</li>
+      <li>@AkihiroSuda, &quot;Needs rebasing&quot;: still open. Master moved the Windows path helpers to <code>pkg/fsutil</code> (<a href="https://github.com/lima-vm/lima/commit/cf7b44a7"><code>cf7b44a7</code></a>) and removed <code>pkg/ptr</code> (<a href="https://github.com/lima-vm/lima/commit/972c59c3"><code>972c59c3</code></a>), so the new translator belongs in <code>pkg/fsutil</code> and <code>ptr.Of</code> becomes <code>new(...)</code>. Master also made qemu the Windows default driver (<a href="https://github.com/lima-vm/lima/commit/ee19ab64"><code>ee19ab64</code></a>), so after the rebase a template that omits <code>vmType</code> gets qemu and the cygpath branch, as it should.</li>
     </ul>
     </div>
     <hr>
@@ -945,9 +926,9 @@ if [ -f /sbin/openrc-run ]; then
 
     <div class="card card-neutral">
     <h3 id="claude-opus-5-5"><span class="pill pill-claude">Claude Opus 5.5</span> <a href="#claude-opus-5-5" class="pilcrow">&#182;</a></h3>
-    <p>Claude covered the most ground. It found both arms of the panic, shared the false-warning and <code>vmType</code> findings with Flash, and alone raised four suggestions plus the read-only-home concern. Its fix for the warning lists three fields, which would still warn about <code>SSHFS</code> and <code>NineP</code>. It rated the <code>vmType</code> gap Important, which this report lowers because wsl2 templates set the field. It also filed &quot;no test reaches the new code&quot; as a finding; that moved to the Testing Assessment.</p>
+    <p>Claude covered the most ground. It found both arms of the panic, shared the false-warning and <code>vmType</code> findings with Flash, and alone raised four suggestions plus the read-only-home concern. Its fix for the warning lists three fields, which would still warn about <code>SSHFS</code> and <code>NineP</code>. Its <code>vmType</code> finding holds at the PR&#39;s base, but master has since made qemu the Windows default (<a href="https://github.com/lima-vm/lima/commit/ee19ab64"><code>ee19ab64</code></a>), so the gap disappears with the rebase and the report drops it. It also filed &quot;no test reaches the new code&quot; as a finding; that moved to the Testing Assessment.</p>
     <h3 id="codex-gpt-6-astra"><span class="pill pill-codex">Codex GPT 6 Astra</span> <a href="#codex-gpt-6-astra" class="pilcrow">&#182;</a></h3>
-    <p>Codex alone found the nested writable mount (I3), with a stubbed run of the script&#39;s own loop that reproduced as stated. Its OpenRC finding overstated the regression: the merge-base already fails for a quoted path when the mount point defaults to the location, so it became S6. Like Claude and Flash, it proved the panic with a retyped copy of the logic, not the real <code>FillDefault</code>. It saw the false warning but listed it only under documentation, not as a finding.</p>
+    <p>Codex alone found the nested writable mount (I3), with a stubbed run of the script&#39;s own loop that reproduced as stated. Its OpenRC finding overstated the regression: the merge-base already fails for a quoted path when the mount point defaults to the location, so it became S5. Like Claude and Flash, it proved the panic with a retyped copy of the logic, not the real <code>FillDefault</code>. It saw the false warning but listed it only under documentation, not as a finding.</p>
     <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
     <p>Gemini 3.1 Pro raised the panic as Critical and the <code>wsl.conf</code> rewrite, and filed <code>metadata</code> not applying until the distro restarts as a finding of its own (folded into I2). Its quoted panic output did not come from a run. Its session executed only a generic nil-map program, and the test it quotes cannot panic on macOS, where the <code>runtime.GOOS</code> gate skips the WSL2 branch. Its fallback fix, letting <code>Validate</code> reject an empty mount point, would not work, because <code>Validate</code> never checks for one. It left ten scratch files in its worktree root, outside <code>.scratch/</code>.</p>
     <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
@@ -957,20 +938,20 @@ if [ -f /sbin/openrc-run ]; then
       <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5.5</span></th><th><span class="pill pill-codex">Codex GPT 6 Astra</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
       <tbody>
         <tr><td>Duration</td><td>7m 55s</td><td>6m 37s</td><td>9m 12s</td><td>7m 46s</td></tr>
-        <tr><td>Findings</td><td>3I 7S</td><td>3I 1S</td><td>2I 1S</td><td>3I 3S</td></tr>
+        <tr><td>Findings</td><td>3I 6S</td><td>3I 1S</td><td>2I 1S</td><td>3I 2S</td></tr>
         <tr><td>Tool calls</td><td>36 (Bash 33, Read 3)</td><td>16 (shell 15, stdin 1)</td><td>40 (run<em>shell</em>command 40)</td><td>62 (run<em>shell</em>command 21, grep<em>search 19, read</em>file 14)</td></tr>
         <tr><td>Design observations</td><td>4</td><td>2</td><td>2</td><td>4</td></tr>
         <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>2</td></tr>
         <tr><td>Unique insights</td><td>4</td><td>2</td><td>0</td><td>0</td></tr>
         <tr><td>Files reviewed</td><td>9</td><td>8</td><td>8</td><td>8</td></tr>
         <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-        <tr><td><strong>Totals</strong></td><td><strong>3I 7S</strong></td><td><strong>3I 1S</strong></td><td><strong>2I 1S</strong></td><td><strong>3I 3S</strong></td></tr>
-        <tr><td>Downgraded</td><td>1</td><td>1</td><td>2</td><td>3</td></tr>
-        <tr><td>Dropped</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>3I 6S</strong></td><td><strong>3I 1S</strong></td><td><strong>2I 1S</strong></td><td><strong>3I 2S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>1</td><td>2</td><td>2</td></tr>
+        <tr><td>Dropped</td><td>2</td><td>0</td><td>0</td><td>1</td></tr>
       </tbody>
     </table>
     <p>Codex contributed the one Important finding nobody else saw (I3), with a probe that held up. Claude gave the widest coverage and most of the suggestions. Every reviewer found the panic and the <code>wsl.conf</code> rewrite, but no reproducer ran the real <code>FillDefault</code> into the panic.</p>
-    <p><strong>Reconciliation.</strong> Gemini 3.1 Pro P1 C1 (panic): critical → important I1. Gemini 3.5 Flash P1 C1 (panic): critical → important I1. Claude P1 I3 (<code>vmType</code> default): important → suggestion S1. Gemini 3.5 Flash P1 I1 (<code>vmType</code> default): important → suggestion S1. Gemini 3.5 Flash P1 I2 (symlink fallback): important → suggestion S2. Gemini 3.1 Pro P1 I1 (read-only fails open): important → suggestion S2. Codex P1 I4 (OpenRC quoting): important → suggestion S6. Gemini 3.1 Pro P1 I3 (<code>metadata</code> on first boot): merged into I2. Claude P1 I5 (no test reaches the code): moved to the Testing Assessment. Gemini 3.5 Flash P1 S2 (script ordering) and S4 (<code>wsl.conf</code> skipped without mounts): dropped as false positives.</p>
+    <p><strong>Reconciliation.</strong> Gemini 3.1 Pro P1 C1 (panic): critical → important I1. Gemini 3.5 Flash P1 C1 (panic): critical → important I1. Claude P1 I3 and Gemini 3.5 Flash P1 I1 (<code>vmType</code> default): dropped, because master&#39;s <a href="https://github.com/lima-vm/lima/commit/ee19ab64"><code>ee19ab64</code></a> makes qemu the Windows default. Gemini 3.5 Flash P1 I2 (symlink fallback): important → suggestion S1. Gemini 3.1 Pro P1 I1 (read-only fails open): important → suggestion S1. Codex P1 I4 (OpenRC quoting): important → suggestion S5. Gemini 3.1 Pro P1 I3 (<code>metadata</code> on first boot): merged into I2. Claude P1 I5 (no test reaches the code): moved to the Testing Assessment. Gemini 3.5 Flash P1 S1 (script ordering) and S3 (<code>wsl.conf</code> skipped without mounts): dropped as false positives.</p>
     </div>
     <hr>
     <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
@@ -980,6 +961,7 @@ if [ -f /sbin/openrc-run ]; then
     <ul>
       <li>When code applies a list of entries that each change the state of a path (a mount, a permission, an owner), check the pairs whose paths nest or overlap. An earlier entry&#39;s effect can override a later entry&#39;s request, and a reviewer reading one entry at a time misses it.</li>
       <li>When the code a finding needs is gated by a platform constant such as <code>runtime.GOOS</code>, a probe can patch that one condition in a scratch copy and call the real function. A probe that retypes the gated logic proves only the copy.</li>
+      <li>When the PR&#39;s base lags the default branch, check every function a finding&#39;s mechanism depends on against the default branch, including files the PR does not touch. A finding can hold at the PR&#39;s base and vanish with the rebase the PR needs anyway.</li>
     </ul>
     <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
     <ul>
