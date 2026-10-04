@@ -234,6 +234,7 @@ if ! limactl start "$NAME"; then
 fi
 
 limactl shell "$NAME" uname -a
+limactl shell "$NAME" sudo sed -n '/^+ retry=0$/,/^+ loginctl terminate-user/p' /var/log/cloud-init-output.log | sed "s/^/guard-trace ${NAME}: /" || true
 
 limactl shell "$NAME" cat /etc/os-release
 set +x
@@ -686,6 +687,7 @@ if [[ -n ${CHECKS["user-v2"]} ]]; then
 		diagnose "$secondvm"
 		exit 1
 	fi
+	limactl shell "$secondvm" sudo sed -n '/^+ retry=0$/,/^+ loginctl terminate-user/p' /var/log/cloud-init-output.log | sed "s/^/guard-trace ${secondvm}: /" || true
 	secondvmDNS="lima-$secondvm.internal"
 	INFO "DNS of $secondvm is $secondvmDNS"
 	set -x
