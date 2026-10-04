@@ -1,0 +1,85 @@
+# Throwaway, do not merge: runs the plain-host WSL2 smoke test 20 times on
+# master and logs every wsl.exe start and exit, to see when the runner
+# agent's `wsl -u root -e ls` runs relative to `limactl stop`.
+name: wsl2-stop-rate
+
+on:
+  push:
+    branches:
+    - 'wsl2-stop-rate-*'
+env:
+  LIMACTL_CREATE_ARGS: ""
+  GOTOOLCHAIN: local
+
+permissions:
+  contents: read
+
+jobs:
+  windows-plain-wsl2:
+    name: "Windows tests (WSL2, plain Windows host) #${{ matrix.run }}"
+    runs-on: windows-2025
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        run: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    steps:
+    - name: Log wsl.exe starts and exits
+      run: |
+        $script = Join-Path $env:RUNNER_TEMP 'wsl-logger.ps1'
+        Set-Content -Path $script -Value @'
+        param($log)
+        function Describe($id) {
+          $p = Get-CimInstance Win32_Process -Filter "ProcessId=$id"
+          if ($p) { "$($p.Name) $($p.CommandLine)" } else { '(exited)' }
+        }
+        try {
+          Register-CimIndicationEvent -SourceIdentifier start -Query "SELECT * FROM Win32_ProcessStartTrace WHERE ProcessName='wsl.exe'"
+          Register-CimIndicationEvent -SourceIdentifier stop -Query "SELECT * FROM Win32_ProcessStopTrace WHERE ProcessName='wsl.exe'"
+          Add-Content -Path $log -Value "$([DateTime]::UtcNow.ToString('HH:mm:ss.fff')) logger ready"
+          while ($true) {
+            $e = Wait-Event
+            Remove-Event -EventIdentifier $e.EventIdentifier
+            $t = $e.SourceEventArgs.NewEvent
+            $when = $e.TimeGenerated.ToUniversalTime().ToString('HH:mm:ss.fff')
+            if ($e.SourceIdentifier -eq 'start') {
+              $line = "$when start $($t.ProcessID) parent $($t.ParentProcessID) $(Describe $t.ParentProcessID) | $(Describe $t.ProcessID)"
+            } else {
+              $line = "$when exit $($t.ProcessID) status $($t.ExitStatus)"
+            }
+            Add-Content -Path $log -Value $line
+          }
+        } catch {
+          Add-Content -Path $log -Value "logger failed: $_"
+        }
+        '@
+        $log = Join-Path $env:RUNNER_TEMP 'wsl-processes.log'
+        Start-Process pwsh -WindowStyle Hidden -ArgumentList '-NoProfile', '-File', $script, $log
+    - name: Set gitconfig
+      run: |
+        git config --global core.autocrlf false
+        git config --global core.eol lf
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e  # v7.0.0
+      with:
+        go-version: stable
+        cache: false
+    - uses: $/.github/actions/windows_wsl2_setup
+    - name: Show WSL version
+      env:
+        WSL_UTF8: "1"
+      run: wsl --version
+    # No windows_plain_templates: wsl2.yaml has no `base:`.
+    - uses: $/.github/actions/windows_plain_host
+    - uses: $/.github/actions/windows_plain_build
+    - uses: $/.github/actions/windows_plain_smoke_test
+      with:
+        template: .\templates\experimental\wsl2.yaml
+    - name: Dump the wsl.exe log
+      if: always()
+      run: |
+        # Wait so the log shows whether the agent runs wsl.exe again after the instance is deleted.
+        Start-Sleep -Seconds 90
+        Get-Content (Join-Path $env:RUNNER_TEMP 'wsl-processes.log')
