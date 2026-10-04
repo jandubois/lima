@@ -1,6 +1,7 @@
 name: logind-capture
 
-# test.yml's qemu-linux job, run 20 times on net-user-v2.yaml.
+# test.yml's qemu-linux job, run 30 times on net-user-v2.yaml for each ref.
+# The ref key comes last so that the jobs alternate between the two refs.
 on:
   push:
     branches:
@@ -23,9 +24,13 @@ jobs:
         template:
         - ../hack/test-templates/net-user-v2.yaml
         run: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+        ref:
+        - logind-capture-guard
+        - logind-capture-master
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
       with:
+        ref: ${{ matrix.ref }}
         persist-credentials: false
     - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e  # v7.0.0
       with:
@@ -60,6 +65,6 @@ jobs:
     - if: always()
       uses: $/.github/actions/upload_failure_logs_if_exists
       with:
-        suffix: ${{ matrix.template }}-${{ matrix.run }}
+        suffix: ${{ matrix.template }}-${{ matrix.run }}-${{ matrix.ref }}
     - name: "Show cache"
       run: ./hack/debug-cache.sh
