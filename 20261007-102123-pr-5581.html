@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20261007-102123-pr-5581</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+.pass-tag, .title-note { font-weight: 400; color: #6b7280; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20261007-102123-pr-5581</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-10-07 10:21</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>2</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/ranacseruet">@ranacseruet</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5581" class="gh-ref" data-title="vz: add hostLoopback option to block guest access to host loopback" data-state="open" data-type="pr">#5581</a> — vz: add hostLoopback option to block guest access to host loopback</td></tr>
+      <tr><td>Branch</td><td><code>feat/host-loopback-opt-out</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/46771eb0"><code>46771eb0</code></a> vz: add hostLoopback option to block guest access to host loopback</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/46771eb073d74fc53a5f7160aee6eb623c27c9bf"><code>46771eb073d74fc53a5f7160aee6eb623c27c9bf</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5.5</span> (effort: high), <span class="pill pill-codex">Codex GPT 6 Astra</span> (effort: high), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; every round-1 fix holds; two links that make the option work are still untested</td></tr>
+      <tr><td>Wall-clock time</td><td><code>20 min 42 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR adds <code>hostLoopback: false</code> for vz, which maps <code>host.lima.internal</code> and <code>0.0.0.0</code> to the unroutable <code>0.0.0.1</code>; every other driver refuses the setting in <code>Validate</code>. All five round-1 findings are fixed, and probes confirm that blocked connections now fail at once and <code>limactl delete</code> works again. One gap remains. No test covers the <code>natTable</code> call site or the krunkit refusal, and removing either silently turns the isolation off.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file="pkg/networks/usernet/gvproxy.go">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> No test covers the <code>natTable</code> call site or the krunkit refusal, so removing either silently turns <code>hostLoopback: false</code> off <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/pkg/networks/usernet/gvproxy.go#L78-L88">pkg/networks/usernet/gvproxy.go</a></div>
+      <pre data-start="78" data-line="83"><code class="language-go">		GatewayMacAddress: gatewayMacAddr,
+		DHCPStaticLeases:  leases,
+		Forwards:          map[string]string{},
+		DNS:               []types.Zone{},
+		DNSSearchDomains:  searchDomains(),
+		NAT:               natTable(gatewayIP, opts.DisableHostLoopback),
+		GatewayVirtualIPs: []string{gatewayIP},
+	}
+
+	groupErrs, ctx := errgroup.WithContext(ctx)
+	err = run(ctx, groupErrs, &amp;config)</code></pre>
+    <p><code>TestGVisorNetstackOptsHostLoopback</code> tests what vz passes in, and <code>TestNATTable</code> tests what <code>natTable</code> returns, but no test checks that <code>StartGVisorNetstack</code> hands the option over. Passing <code>false</code> here keeps the <code>127.0.0.1</code> mapping, and the suite stays green.</p>
+    <p>Nothing tests the krunkit refusal at <a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/pkg/driver/krunkit/krunkit_driver_darwin_arm64.go#L190-L192"><code>pkg/driver/krunkit/krunkit_driver_darwin_arm64.go:190-192</code></a> either.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/pkg/driver/krunkit/krunkit_driver_darwin_arm64.go#L185-L197">pkg/driver/krunkit/krunkit_driver_darwin_arm64.go</a></div>
+      <pre data-start="185" data-line="190-192"><code class="language-go">	}
+}
+
+func (l *LimaKrunkitDriver) Validate(_ context.Context) error {
+	// Configure, which deletion also uses, runs validateConfig, so this start-time check is here.
+	if cfg := l.Instance.Config; cfg != nil &amp;&amp; cfg.HostLoopback != nil &amp;&amp; !*cfg.HostLoopback {
+		return errors.New(&quot;`hostLoopback: false` is not supported in krunkit driver&quot;)
+	}
+	return validateConfig(l.Instance.Config)
+}
+
+func checkKrunkitVersion() error {
+	cmd := exec.CommandContext(context.Background(), vmType, &quot;--version&quot;)</code></pre>
+    <p>krunkit starts its own netstack without the option (<a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/pkg/driver/krunkit/krunkit_darwin_arm64.go#L195"><code>pkg/driver/krunkit/krunkit_darwin_arm64.go:195</code></a>), so without the refusal a krunkit guest keeps host loopback while the user believes it is blocked. Round 1 dropped this test because <code>validateConfig</code> looks up the krunkit binary first, but the refusal now returns before that lookup. CI only type-checks <code>_darwin_arm64_test.go</code> files, so the krunkit test runs only on Apple silicon developer machines.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/pkg/driver/krunkit/krunkit_darwin_arm64.go#L190-L200">pkg/driver/krunkit/krunkit_darwin_arm64.go</a></div>
+      <pre data-start="190" data-line="195"><code class="language-go">		return nil, nil, err
+	}
+	os.RemoveAll(endpointSock)
+	os.RemoveAll(krunkitSock)
+	ctx, cancel := context.WithCancel(ctx)
+	err = usernet.StartGVisorNetstack(ctx, &amp;usernet.GVisorNetstackOpts{
+		MTU:      1500,
+		Endpoint: endpointSock,
+		FdSocket: krunkitSock,
+		Async:    true,
+		DefaultLeases: map[string]string{</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-sh"># Save as mutate-links.sh; run on an Apple silicon Mac from the repo root: bash mutate-links.sh
+set -u
+f1=pkg/networks/usernet/gvproxy.go
+f2=pkg/driver/krunkit/krunkit_driver_darwin_arm64.go
+cp &quot;$f1&quot; &quot;$f1.orig&quot;
+cp &quot;$f2&quot; &quot;$f2.orig&quot;
+# 1: pass false at the call site, so hostLoopback: false keeps the 127.0.0.1 mapping
+perl -pi -e &#39;s/natTable\(gatewayIP, opts\.DisableHostLoopback\)/natTable(gatewayIP, false)/&#39; &quot;$f1&quot;
+# 2: delete the krunkit refusal
+perl -0pi -e &#39;s/\t\/\/ Configure, which deletion also uses.*?\n\tif cfg := .*?\n.*?\n\t\}\n//s&#39; &quot;$f2&quot;
+git diff --stat -- &quot;$f1&quot; &quot;$f2&quot;
+go test -count=1 ./pkg/networks/usernet/ ./pkg/driver/vz/ ./pkg/driver/krunkit/ 2&gt;&amp;1 | grep -E &#39;^(ok|FAIL|--- FAIL)&#39;
+mv &quot;$f1.orig&quot; &quot;$f1&quot;
+mv &quot;$f2.orig&quot; &quot;$f2&quot;</code></pre>
+      <pre><code class="language-text">$ bash mutate-links.sh
+ pkg/driver/krunkit/krunkit_driver_darwin_arm64.go | 4 ----
+ pkg/networks/usernet/gvproxy.go                   | 2 +-
+ 2 files changed, 1 insertion(+), 5 deletions(-)
+ok  	github.com/lima-vm/lima/v2/pkg/networks/usernet	0.535s
+ok  	github.com/lima-vm/lima/v2/pkg/driver/vz	2.651s
+ok  	github.com/lima-vm/lima/v2/pkg/driver/krunkit	0.821s
+$ git apply i1.patch &amp;&amp; bash mutate-links.sh
+ pkg/driver/krunkit/krunkit_driver_darwin_arm64.go |  4 ---
+ pkg/networks/usernet/gvproxy.go                   | 36 ++++++++++++++---------
+ 2 files changed, 22 insertions(+), 18 deletions(-)
+--- FAIL: TestNetstackConfigurationNAT (0.00s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/networks/usernet	0.483s
+ok  	github.com/lima-vm/lima/v2/pkg/driver/vz	2.843s
+--- FAIL: TestValidateRejectsHostLoopbackFalse (0.01s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/driver/krunkit	0.566s
+FAIL</code></pre>
+      </details>
+    <p>Fix: build the gvisor configuration in a helper and test its NAT table for both values of the option, and test the krunkit refusal through <code>Validate</code>.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/driver/krunkit/krunkit_driver_darwin_arm64_test.go b/pkg/driver/krunkit/krunkit_driver_darwin_arm64_test.go
+index bd1ce966..6635adce 100644
+--- a/pkg/driver/krunkit/krunkit_driver_darwin_arm64_test.go
++++ b/pkg/driver/krunkit/krunkit_driver_darwin_arm64_test.go
+@@ -17,6 +17,11 @@ func TestValidateConfigRejectsBlockDevices(t *testing.T) {
+ 	assert.ErrorContains(t, err, &quot;field `blockDevices` is not supported for vmType: krunkit&quot;)
+ }
+ 
++func TestValidateRejectsHostLoopbackFalse(t *testing.T) {
++	l := &amp;LimaKrunkitDriver{Instance: &amp;limatype.Instance{Config: &amp;limatype.LimaYAML{HostLoopback: new(false)}}}
++	assert.ErrorContains(t, l.Validate(t.Context()), &quot;`hostLoopback: false` is not supported in krunkit driver&quot;)
++}
++
+ func TestValidateSnapshotTag(t *testing.T) {
+ 	tests := []struct {
+ 		tag     string
+diff --git a/pkg/networks/usernet/gvproxy.go b/pkg/networks/usernet/gvproxy.go
+index 5f03b188..27849ba4 100644
+--- a/pkg/networks/usernet/gvproxy.go
++++ b/pkg/networks/usernet/gvproxy.go
+@@ -48,9 +48,27 @@ const gatewayMacAddr = &quot;5a:94:ef:e4:0c:dd&quot;
+ func StartGVisorNetstack(ctx context.Context, gVisorOpts *GVisorNetstackOpts) error {
+ 	opts = gVisorOpts
+ 
++	config, err := netstackConfiguration(opts)
++	if err != nil {
++		return err
++	}
++
++	groupErrs, ctx := errgroup.WithContext(ctx)
++	err = run(ctx, groupErrs, config)
++	if err != nil {
++		return err
++	}
++	if opts.Async {
++		return err
++	}
++	return groupErrs.Wait()
++}
++
++// netstackConfiguration returns the gvisor-tap-vsock configuration for opts.
++func netstackConfiguration(opts *GVisorNetstackOpts) (*types.Configuration, error) {
+ 	ip, ipNet, err := net.ParseCIDR(opts.Subnet)
+ 	if err != nil {
+-		return err
++		return nil, err
+ 	}
+ 	gatewayIP := GatewayIP(ip)
+ 
+@@ -70,7 +88,7 @@ func StartGVisorNetstack(ctx context.Context, gVisorOpts *GVisorNetstackOpts) er
+ 	// Comparing this with QEMU SLIRP,
+ 	// - DNS is equivalent to GatewayIP
+ 	// - GatewayIP is equivalent to NAT configuration
+-	config := types.Configuration{
++	return &amp;types.Configuration{
+ 		Debug:             false,
+ 		MTU:               opts.MTU,
+ 		Subnet:            opts.Subnet,
+@@ -82,17 +100,7 @@ func StartGVisorNetstack(ctx context.Context, gVisorOpts *GVisorNetstackOpts) er
+ 		DNSSearchDomains:  searchDomains(),
+ 		NAT:               natTable(gatewayIP, opts.DisableHostLoopback),
+ 		GatewayVirtualIPs: []string{gatewayIP},
+-	}
+-
+-	groupErrs, ctx := errgroup.WithContext(ctx)
+-	err = run(ctx, groupErrs, &amp;config)
+-	if err != nil {
+-		return err
+-	}
+-	if opts.Async {
+-		return err
+-	}
+-	return groupErrs.Wait()
++	}, nil
+ }
+ 
+ // natTable returns the gateway&#39;s NAT table. By default the gateway IP maps to the host&#39;s loopback,
+diff --git a/pkg/networks/usernet/gvproxy_test.go b/pkg/networks/usernet/gvproxy_test.go
+index 53c0a823..fc041a31 100644
+--- a/pkg/networks/usernet/gvproxy_test.go
++++ b/pkg/networks/usernet/gvproxy_test.go
+@@ -46,6 +46,14 @@ func TestNATTable(t *testing.T) {
+ 	})
+ }
+ 
++func TestNetstackConfigurationNAT(t *testing.T) {
++	for _, disable := range []bool{false, true} {
++		config, err := netstackConfiguration(&amp;GVisorNetstackOpts{Subnet: &quot;192.168.5.0/24&quot;, DisableHostLoopback: disable})
++		assert.NilError(t, err)
++		assert.DeepEqual(t, config.NAT, natTable(&quot;192.168.5.2&quot;, disable))
++	}
++}
++
+ func createResolveFile(t *testing.T, file, content string) {
+ 	f, err := os.Create(file)
+ 	assert.NilError(t, err)</code></pre>
+      </details>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="templates/default.yaml">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> The proxy caveat names only <code>propagateProxyEnv</code>, but the rewrite also takes proxies from the host&#39;s network settings and <code>env</code> <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/templates/default.yaml#L697-L708">templates/default.yaml</a></div>
+      <pre data-start="697" data-line="702-703"><code class="language-yaml"># DNS, outbound access to other hosts and `limactl shell` keep working.
+# Set this to false for a guest that runs untrusted code, such as a CI runner.
+# - Only supported with `vmType: vz`. Not supported with a `user-v2` network, which is shared by instances.
+# - Does not restrict the host&#39;s other addresses: a host service bound to all interfaces is still
+#   reachable through the host&#39;s LAN IP.
+# - A proxy on the host&#39;s loopback (e.g. `http_proxy=http://127.0.0.1:3128`, propagated by
+#   `propagateProxyEnv`) becomes unreachable from the guest.
+# 🟢 Builtin default: true
+hostLoopback: null
+
+# EXPERIMENTAL
+# When enabled, an emulated TPM 2.0 device is provided to the guest via swtpm.</code></pre>
+    <p><code>setupEnv</code> starts from <code>osutil.ProxySettings()</code>, which reads the macOS network proxy settings. It then adds <code>env</code> from <code>lima.yaml</code>, adds the <code>limactl</code> process environment only when <code>propagateProxyEnv</code> is true, and rewrites a loopback proxy from any of the three to the gateway. So a user who turns <code>propagateProxyEnv</code> off to avoid the unreachable proxy still gets a proxy the guest cannot reach. The warning does fire in that case.</p>
+    <p><a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/website/content/en/docs/config/network/user.md#L32"><code>website/content/en/docs/config/network/user.md:32</code></a> and the commit body say the same.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/website/content/en/docs/config/network/user.md#L27-L37">website/content/en/docs/config/network/user.md</a></div>
+      <pre data-start="27" data-line="32"><code class="language-markdown">hostLoopback: false
+```
+
+DNS, outbound connections to other hosts and `limactl shell` keep working. Connections to `host.lima.internal` are refused instead.
+A host service that listens on all interfaces is still reachable through the host&#39;s LAN address.
+A proxy on the host&#39;s loopback (for example `http_proxy=http://127.0.0.1:3128`, propagated by `propagateProxyEnv`) becomes unreachable from the guest.
+
+`hostLoopback: false` is only supported with `vmType: vz`, and not with a [`user-v2`]({{&lt; ref &quot;/docs/config/network/user-v2&quot; &gt;}}) network.
+
+## DNS (192.168.5.3)
+</code></pre>
+    <p>Fix: name all three sources, for example &quot;A proxy on the host&#39;s loopback, whether from the host&#39;s network settings, <code>env</code>, or <code>propagateProxyEnv</code>, becomes unreachable from the guest.&quot;</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/driver/vz/vz_driver_darwin_test.go">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> The vz <code>user-v2</code> test fails by panic, and it still passes when the refusal moves back into <code>validateConfig</code> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/pkg/driver/vz/vz_driver_darwin_test.go#L67-L73">pkg/driver/vz/vz_driver_darwin_test.go</a></div>
+      <pre data-start="67" data-line="72"><code class="language-go">		Firmware:     limatype.Firmware{LegacyBIOS: new(false)},
+		HostLoopback: new(false),
+		Networks:     []limatype.Network{{Lima: &quot;user-v2&quot;}},
+	}
+	l := &amp;LimaVzDriver{Instance: &amp;limatype.Instance{Config: cfg}}
+	assert.ErrorContains(t, l.Validate(t.Context()), &quot;not supported with a `user-v2` network&quot;)
+}</code></pre>
+    <p>Deleting the refusal at <a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/pkg/driver/vz/vz_driver_darwin.go#L262"><code>pkg/driver/vz/vz_driver_darwin.go:262</code></a> fails this test only through a nil-pointer panic in <code>validateConfig</code>, which dereferences fields the fixture leaves unset.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/pkg/driver/vz/vz_driver_darwin.go#L257-L267">pkg/driver/vz/vz_driver_darwin.go</a></div>
+      <pre data-start="257" data-line="262"><code class="language-go">	return scripts, nil
+}
+
+func (l *LimaVzDriver) Validate(_ context.Context) error {
+	// Configure, which deletion also uses, runs validateConfig, so this start-time check is here.
+	if cfg := l.Instance.Config; cfg != nil &amp;&amp; !limayaml.HostLoopbackEnabled(cfg) &amp;&amp; limayaml.FirstUsernetIndex(cfg) != -1 {
+		return errors.New(&quot;`hostLoopback: false` is not supported with a `user-v2` network, which is shared by instances&quot;)
+	}
+	if err := validateConfig(l.Instance.Config); err != nil {
+		return err
+	}</code></pre>
+    <p>Moving the refusal back into <code>validateConfig</code>, which <code>limactl delete</code> runs, leaves the test green. The qemu, WSL2 and HCS tests catch that by asserting that <code>validateConfig</code> accepts the config. The test is optional, because a misplaced refusal makes <code>limactl delete</code> fail with an error that names the field.</p>
+    <p>Fix: fill the config with <code>FillDefault</code> and run <code>Configure</code>, the path deletion uses, before <code>Validate</code>. This version passes, and fails once the refusal moves into <code>validateConfig</code>.</p>
+      <pre><code class="language-go">t.Setenv(&quot;LIMA_HOME&quot;, t.TempDir())
+y := limatype.LimaYAML{VMType: new(limatype.VZ), HostLoopback: new(false), Networks: []limatype.Network{{Lima: &quot;user-v2&quot;}}}
+limayaml.FillDefault(t.Context(), &amp;y, &amp;limatype.LimaYAML{}, &amp;limatype.LimaYAML{}, &quot;test.yaml&quot;, false)
+l := &amp;LimaVzDriver{}
+_, err := l.Configure(t.Context(), &amp;limatype.Instance{Dir: t.TempDir(), Config: &amp;y})
+assert.NilError(t, err)
+assert.ErrorContains(t, l.Validate(t.Context()), &quot;not supported with a `user-v2` network&quot;)</code></pre>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/cidata/cidata_test.go">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> No test runs <code>setupEnv</code> with <code>hostLoopback</code> false <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/pkg/cidata/cidata_test.go#L48-L58">pkg/cidata/cidata_test.go</a></div>
+      <pre data-start="48" data-line="53"><code class="language-go">
+	for _, httpProxy := range httpProxyCases {
+		t.Run(httpProxy.Host, func(t *testing.T) {
+			envKey := &quot;http_proxy&quot;
+			envValue := httpProxy.String()
+			envs, err := setupEnv(map[string]string{envKey: envValue}, false, true, networks.SlirpGateway)
+			assert.NilError(t, err)
+			assert.Equal(t, envs[envKey], strings.ReplaceAll(envValue, httpProxy.Hostname(), networks.SlirpGateway))
+		})
+	}
+}</code></pre>
+    <p>Every caller passes <code>true</code>, so neither the warning nor the round-1 <code>break</code> has a test; deleting the <code>break</code> leaves <code>go test ./pkg/cidata/</code> green. Round 1 rated this test optional, and it still is. A regression costs a missing or duplicated warning, and the guest&#39;s refused proxy connection still points at the cause.</p>
+    <p>Fix: stub <code>netLookupIP</code> to return <code>127.0.0.1</code> and <code>::1</code>, pass <code>false</code>, capture the logrus output, and assert one warning that quotes the original URL.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>(future) An older <code>limactl</code> reads <code>hostLoopback: false</code> as an unknown field, logs &quot;Non-strict YAML detected&quot; (<a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/pkg/limayaml/marshal.go#L81"><code>pkg/limayaml/marshal.go:81</code></a>), and starts the guest with host loopback reachable. For an option meant for untrusted guests, the docs could suggest setting <code>minimumLimaVersion</code> to the first release that has the field, so an older <code>limactl</code> refuses the template. <span class="pill pill-claude">Claude Opus 5.5</span></li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>Mapping to <code>0.0.0.1</code> fails at once on macOS. On this Mac a TCP dial gets &quot;no route to host&quot; in under a millisecond and a UDP write fails the same way. <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
+      <li>No other address reaches host loopback. gvisor drops packets from the guest addressed to <code>127/8</code>, the stack does not register IPv6, and macOS has no route to the other <code>0.0.0.x</code> addresses. No TCP or UDP frame to <code>127.0.0.1</code>, <code>0.0.0.0</code> or <code>0.0.0.2</code> reached a listener bound to <code>127.0.0.1</code>. <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span></li>
+      <li>The refusals in <code>Validate</code> keep <code>limactl delete</code> working. Round 1&#39;s delete probe now removes a qemu instance with <code>hostLoopback: false</code> in <code>_config/default.yaml</code>. <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>I ran <code>go test ./...</code> in the lead worktree at the review SHA: exit 0, 49 packages ok, none failed. <code>GOOS=windows go vet</code> is clean for <code>pkg/driver/hcs</code> and <code>pkg/driver/wsl2</code>, and both test binaries compile for Windows. On <a href="https://github.com/lima-vm/lima/commit/46771eb0"><code>46771eb0</code></a>, 35 CI checks pass and the three Netlify rule checks are skipped.</p>
+    <p>Each round-1 fix holds under its round-1 probe, re-run on this SHA. A closed port answers with an RST after 0.00 s, ten pending dials no longer block a new connection, UDP to <code>0.0.0.0</code> no longer arrives, and <code>instance.Delete</code> removes the instance.</p>
+    <p>I applied each mutation alone and ran the package&#39;s tests:</p>
+    <table>
+      <thead><tr><th>Mutation</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>vz drops the <code>!</code> before <code>limayaml.HostLoopbackEnabled</code></td><td><code>TestGVisorNetstackOptsHostLoopback</code> fails</td></tr>
+        <tr><td>vz <code>user-v2</code> refusal deleted</td><td><code>TestValidateRejectsHostLoopbackFalseWithUserV2</code> fails by panic</td></tr>
+        <tr><td>vz <code>user-v2</code> refusal added to <code>validateConfig</code></td><td>green (S2)</td></tr>
+        <tr><td>qemu refusal added to <code>validateConfig</code></td><td><code>TestValidateRejectsHostLoopbackFalse</code> fails</td></tr>
+        <tr><td><code>natTable</code> called with <code>false</code></td><td>green (I1)</td></tr>
+        <tr><td>krunkit refusal deleted</td><td>green (I1)</td></tr>
+        <tr><td><code>setupEnv</code> <code>break</code> deleted</td><td>green (S3)</td></tr>
+      </tbody>
+    </table>
+    <ol>
+      <li>Required: the <code>natTable</code> call site and the krunkit refusal (I1). A regression silently leaves host loopback reachable.</li>
+      <li>Optional: vz <code>Configure</code> accepting <code>hostLoopback: false</code> with <code>user-v2</code> (S2). The failure names the field.</li>
+      <li>Optional: <code>setupEnv</code> with <code>hostLoopback</code> false (S3).</li>
+      <li>Dropped: the frame probes as permanent tests. They depend on the host&#39;s routing table.</li>
+    </ol>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>The proxy caveat leaves out the host&#39;s network settings and <code>env</code> in <a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/templates/default.yaml#L702-L703"><code>templates/default.yaml:702-703</code></a>, <a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/website/content/en/docs/config/network/user.md#L32"><code>website/content/en/docs/config/network/user.md:32</code></a> and the commit body (S1).</li>
+      <li>&quot;Connections to <code>host.lima.internal</code> are refused&quot; now holds, as measured above, and so do the vz-only, <code>user-v2</code> and LAN-reachability statements.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>External drivers from the registry still ignore <code>hostLoopback: false</code>. The author agreed and deferred a driver feature flag to a follow-up.</li>
+      <li>krunkit, <code>user-v2</code> and QEMU&#39;s <code>disable_host_loopback</code> are deferred, and each rejects <code>false</code>.</li>
+      <li>A host service bound to all interfaces stays reachable through the host&#39;s LAN IP (<a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/templates/default.yaml#L700-L701"><code>templates/default.yaml:700-701</code></a>). The change does not make that worse.</li>
+      <li>With the refusals in <code>Validate</code>, <code>limactl create</code> on an unsupported driver writes the instance, and <code>limactl start</code> then refuses it; <code>limactl edit</code> can clear the setting. Round 1 accepted this as the cost of a deletable instance.</li>
+      <li>Do not re-suggest moving the refusals into <code>limayaml.Validate</code>. It runs on every load (<a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/pkg/store/store.go#L127"><code>pkg/store/store.go:127</code></a>), so the instance would become unlistable and undeletable.</li>
+      <li>Do not re-suggest remapping the gateway to <code>127.0.0.2</code> or <code>240.0.0.1</code>. On macOS both time out instead of failing at once (round 1 measured 75 s and over 5 s).</li>
+      <li>Do not re-suggest mapping <code>127.0.0.1</code> in <code>natTable</code>, or documenting a <code>route_localnet</code> bypass. gvisor drops packets from the guest addressed to <code>127/8</code> unless <code>AllowExternalLoopbackTraffic</code> is set (gvisor <code>pkg/tcpip/network/ipv4/ipv4.go:840-849</code>), gvisor-tap-vsock v0.8.9 never sets it, and a frame probe to <code>127.0.0.1</code> reached nothing.</li>
+      <li>Do not re-raise the qemu <code>Validate</code> panic on a nil config. <code>CreateConfiguredDriver</code> dereferences <code>inst.Config</code> (<a href="https://github.com/lima-vm/lima/blob/46771eb073d74fc53a5f7160aee6eb623c27c9bf/pkg/driverutil/instance.go#L22"><code>pkg/driverutil/instance.go:22</code></a>) before any driver method runs, and on macOS the merge-base panics on a nil config too, in <code>validateArch</code>.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5-5"><span class="pill pill-claude">Claude Opus 5.5</span> <a href="#claude-opus-5-5" class="pilcrow">&#182;</a></h3>
+    <p>Claude was the only agent to rate the krunkit gap Important. It asked what a deleted refusal does, not where the refusal is. It alone found the untested <code>natTable</code> call site, and both mutation probes held up when rerun. It alone found S1, by reading where <code>setupEnv</code> gets its proxies, and the downgrade concern, and it found both halves of S2. Its suggestion to spell the five refusals one way was dropped as style, since three of those files would need a new import for no change in behavior. The orchestrator did not arm Claude&#39;s liveness monitor; the agent finished without needing it.</p>
+    <h3 id="codex-gpt-6-astra"><span class="pill pill-codex">Codex GPT 6 Astra</span> <a href="#codex-gpt-6-astra" class="pilcrow">&#182;</a></h3>
+    <p>Codex re-verified every round-1 item in a table that names the test pinning each fix. It also found the placement half of S2, with a probe that called <code>Configure</code> before <code>Validate</code>. It rated the krunkit test optional because &quot;a reverted refusal would fail deterministically with an error naming the setting&quot;. That holds for a misplaced refusal but not a deleted one, since krunkit&#39;s netstack ignores the option. It marked <code>gvproxy.go</code> reviewed with no issues, and it recorded its revert outcomes as reasoned, not run. The first launch failed with &quot;Selected model is at capacity&quot;, and the one retry succeeded.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Gemini Pro&#39;s I1, a guest root routing <code>127.0.0.1</code> to the gateway, is a false positive. gvisor drops those packets, as Claude and Codex both cited from source, and the frame probe confirms it. Its I2, a qemu <code>Validate</code> panic on a nil config, was dropped because no caller can pass one. It added a nil-config test to <code>qemu_test.go</code> in its own worktree; its other file verdicts stand against a clean checkout. It raised the krunkit and <code>setupEnv</code> test gaps, both as Suggestions.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Flash raised the same nil-config panic with a regression label that holds only off macOS; on macOS the merge-base also panics, in <code>validateArch</code>. Its S3 repeats the <code>127.0.0.1</code> claim as defense in depth. Its proposed krunkit test asserts that <code>validateConfig</code> succeeds, which fails on any machine without the krunkit binary. The two Gemini models agree on the nil-config panic and the <code>127.0.0.1</code> path, which counts as one opinion, not two.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5.5</span></th><th><span class="pill pill-codex">Codex GPT 6 Astra</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>7m 19s</td><td>7m 38s</td><td>10m 29s</td><td>8m 55s</td></tr>
+        <tr><td>Findings</td><td>1I 2S</td><td>1I 2S</td><td>1I 1S</td><td>1I 1S</td></tr>
+        <tr><td>Tool calls</td><td>35 (Bash 31, Read 4)</td><td>15 (shell 13, stdin 2)</td><td>27 (run<em>shell</em>command 27)</td><td>78 (run<em>shell</em>command 27, grep<em>search 22, read</em>file 17)</td></tr>
+        <tr><td>Design observations</td><td>4</td><td>3</td><td>2</td><td>2</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+        <tr><td>Unique insights</td><td>4</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>20</td><td>20</td><td>20</td><td>20</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>1I 2S</strong></td><td><strong>1I 2S</strong></td><td><strong>1I 1S</strong></td><td><strong>1I 1S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>1</td><td>0</td><td>2</td><td>2</td></tr>
+      </tbody>
+    </table>
+    <p>Claude supplied the most value. It alone saw the <code>natTable</code> half of I1, rated I1 Important, and found S1. Codex supplied the most careful accounting of the round-1 fixes. Both Gemini models found the krunkit gap but filed false or unreachable findings as Important.</p>
+    <p><strong>Reconciliation.</strong> Codex GPT 6 Astra P1 S1 (krunkit half): suggestion → important I1; its vz half became S2. Gemini 3.1 Pro P1 S1: suggestion → important I1. Gemini 3.5 Flash P1 S1: suggestion → important I1. Gemini 3.1 Pro P1 I1 and Gemini 3.5 Flash P1 S3 (<code>127.0.0.1</code> path): dropped as false positives. Gemini 3.1 Pro P1 I2 and Gemini 3.5 Flash P1 I1 (qemu nil config): dropped as unreachable. Claude Opus 5.5 P1 S2 (one spelling of the refusals): dropped as style.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>When rating a missing test for a guard, rate the guard&#39;s deletion as well as its relocation. A refusal whose deletion leaves an option silently ignored needs a test, even when moving it to the wrong place would fail loudly with an error naming the cause.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>[repo] ADD: vz and krunkit each start their own in-process gvisor-tap-vsock netstack, each from its own <code>startUsernet</code> with its own <code>GVisorNetstackOpts</code> literal. An option wired into one does not reach the other, so a driver that refuses a vz-only network option depends on that refusal alone. Check both call sites when a change touches <code>GVisorNetstackOpts</code>.</li>
+      <li>[repo] ADD: gvisor, as gvisor-tap-vsock v0.8.9 configures it, drops packets from the guest with a <code>127/8</code> source or destination (<code>AllowExternalLoopbackTraffic</code> is unset) and does not register an IPv6 protocol. A guest cannot reach host loopback by addressing <code>127.0.0.1</code> directly, whatever routes it adds; the paths to host loopback are the NAT table&#39;s entries and UDP to <code>0.0.0.0</code>, which macOS treats as a dial to its own loopback.</li>
+      <li>[repo] ADD: <code>driverutil.CreateConfiguredDriver</code> dereferences <code>inst.Config</code> before any driver method runs, so a driver&#39;s <code>Configure</code> and <code>Validate</code> always see a non-nil config in production. Rate a nil-config crash inside a driver method as latent, not as a regression.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+!function(e){var n=/[*&][^\s[\]{},]+/,r=/!(?:<[\w\-%#;/?:@&=+$,.!~*'()[\]]+>|(?:[a-zA-Z\d-]*!)?[\w\-%#;/?:@&=+$.~*'()]+)?/,t="(?:"+r.source+"(?:[ \t]+"+n.source+")?|"+n.source+"(?:[ \t]+"+r.source+")?)",a="(?:[^\\s\\x00-\\x08\\x0e-\\x1f!\"#%&'*,\\-:>?@[\\]`{|}\\x7f-\\x84\\x86-\\x9f\\ud800-\\udfff\\ufffe\\uffff]|[?:-]<PLAIN>)(?:[ \t]*(?:(?![#:])<PLAIN>|:<PLAIN>))*".replace(/<PLAIN>/g,(function(){return"[^\\s\\x00-\\x08\\x0e-\\x1f,[\\]{}\\x7f-\\x84\\x86-\\x9f\\ud800-\\udfff\\ufffe\\uffff]"})),d="\"(?:[^\"\\\\\r\n]|\\\\.)*\"|'(?:[^'\\\\\r\n]|\\\\.)*'";function o(e,n){n=(n||"").replace(/m/g,"")+"m";var r="([:\\-,[{]\\s*(?:\\s<<prop>>[ \t]+)?)(?:<<value>>)(?=[ \t]*(?:$|,|\\]|\\}|(?:[\r\n]\\s*)?#))".replace(/<<prop>>/g,(function(){return t})).replace(/<<value>>/g,(function(){return e}));return RegExp(r,n)}e.languages.yaml={scalar:{pattern:RegExp("([\\-:]\\s*(?:\\s<<prop>>[ \t]+)?[|>])[ \t]*(?:((?:\r?\n|\r)[ \t]+)\\S[^\r\n]*(?:\\2[^\r\n]+)*)".replace(/<<prop>>/g,(function(){return t}))),lookbehind:!0,alias:"string"},comment:/#.*/,key:{pattern:RegExp("((?:^|[:\\-,[{\r\n?])[ \t]*(?:<<prop>>[ \t]+)?)<<key>>(?=\\s*:\\s)".replace(/<<prop>>/g,(function(){return t})).replace(/<<key>>/g,(function(){return"(?:"+a+"|"+d+")"}))),lookbehind:!0,greedy:!0,alias:"atrule"},directive:{pattern:/(^[ \t]*)%.+/m,lookbehind:!0,alias:"important"},datetime:{pattern:o("\\d{4}-\\d\\d?-\\d\\d?(?:[tT]|[ \t]+)\\d\\d?:\\d{2}:\\d{2}(?:\\.\\d*)?(?:[ \t]*(?:Z|[-+]\\d\\d?(?::\\d{2})?))?|\\d{4}-\\d{2}-\\d{2}|\\d\\d?:\\d{2}(?::\\d{2}(?:\\.\\d*)?)?"),lookbehind:!0,alias:"number"},boolean:{pattern:o("false|true","i"),lookbehind:!0,alias:"important"},null:{pattern:o("null|~","i"),lookbehind:!0,alias:"important"},string:{pattern:o(d),lookbehind:!0,greedy:!0},number:{pattern:o("[+-]?(?:0x[\\da-f]+|0o[0-7]+|(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:e[+-]?\\d+)?|\\.inf|\\.nan)","i"),lookbehind:!0},tag:r,important:n,punctuation:/---|[:[\]{}\-,|>?]|\.\.\./},e.languages.yml=e.languages.yaml}(Prism);
+!function(n){function e(n){return n=n.replace(/<inner>/g,(function(){return"(?:\\\\.|[^\\\\\n\r]|(?:\n|\r\n?)(?![\r\n]))"})),RegExp("((?:^|[^\\\\])(?:\\\\{2})*)(?:"+n+")")}var t="(?:\\\\.|``(?:[^`\r\n]|`(?!`))+``|`[^`\r\n]+`|[^\\\\|\r\n`])+",a="\\|?__(?:\\|__)+\\|?(?:(?:\n|\r\n?)|(?![^]))".replace(/__/g,(function(){return t})),i="\\|?[ \t]*:?-{3,}:?[ \t]*(?:\\|[ \t]*:?-{3,}:?[ \t]*)+\\|?(?:\n|\r\n?)";n.languages.markdown=n.languages.extend("markup",{}),n.languages.insertBefore("markdown","prolog",{"front-matter-block":{pattern:/(^(?:\s*[\r\n])?)---(?!.)[\s\S]*?[\r\n]---(?!.)/,lookbehind:!0,greedy:!0,inside:{punctuation:/^---|---$/,"front-matter":{pattern:/\S+(?:\s+\S+)*/,alias:["yaml","language-yaml"],inside:n.languages.yaml}}},blockquote:{pattern:/^>(?:[\t ]*>)*/m,alias:"punctuation"},table:{pattern:RegExp("^"+a+i+"(?:"+a+")*","m"),inside:{"table-data-rows":{pattern:RegExp("^("+a+i+")(?:"+a+")*$"),lookbehind:!0,inside:{"table-data":{pattern:RegExp(t),inside:n.languages.markdown},punctuation:/\|/}},"table-line":{pattern:RegExp("^("+a+")"+i+"$"),lookbehind:!0,inside:{punctuation:/\||:?-{3,}:?/}},"table-header-row":{pattern:RegExp("^"+a+"$"),inside:{"table-header":{pattern:RegExp(t),alias:"important",inside:n.languages.markdown},punctuation:/\|/}}}},code:[{pattern:/((?:^|\n)[ \t]*\n|(?:^|\r\n?)[ \t]*\r\n?)(?: {4}|\t).+(?:(?:\n|\r\n?)(?: {4}|\t).+)*/,lookbehind:!0,alias:"keyword"},{pattern:/^```[\s\S]*?^```$/m,greedy:!0,inside:{"code-block":{pattern:/^(```.*(?:\n|\r\n?))[\s\S]+?(?=(?:\n|\r\n?)^```$)/m,lookbehind:!0},"code-language":{pattern:/^(```).+/,lookbehind:!0},punctuation:/```/}}],title:[{pattern:/\S.*(?:\n|\r\n?)(?:==+|--+)(?=[ \t]*$)/m,alias:"important",inside:{punctuation:/==+$|--+$/}},{pattern:/(^\s*)#.+/m,lookbehind:!0,alias:"important",inside:{punctuation:/^#+|#+$/}}],hr:{pattern:/(^\s*)([*-])(?:[\t ]*\2){2,}(?=\s*$)/m,lookbehind:!0,alias:"punctuation"},list:{pattern:/(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,lookbehind:!0,alias:"punctuation"},"url-reference":{pattern:/!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/,inside:{variable:{pattern:/^(!?\[)[^\]]+/,lookbehind:!0},string:/(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,punctuation:/^[\[\]!:]|[<>]/},alias:"url"},bold:{pattern:e("\\b__(?:(?!_)<inner>|_(?:(?!_)<inner>)+_)+__\\b|\\*\\*(?:(?!\\*)<inner>|\\*(?:(?!\\*)<inner>)+\\*)+\\*\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^..)[\s\S]+(?=..$)/,lookbehind:!0,inside:{}},punctuation:/\*\*|__/}},italic:{pattern:e("\\b_(?:(?!_)<inner>|__(?:(?!_)<inner>)+__)+_\\b|\\*(?:(?!\\*)<inner>|\\*\\*(?:(?!\\*)<inner>)+\\*\\*)+\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^.)[\s\S]+(?=.$)/,lookbehind:!0,inside:{}},punctuation:/[*_]/}},strike:{pattern:e("(~~?)(?:(?!~)<inner>)+\\2"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^~~?)[\s\S]+(?=\1$)/,lookbehind:!0,inside:{}},punctuation:/~~?/}},"code-snippet":{pattern:/(^|[^\\`])(?:``[^`\r\n]+(?:`[^`\r\n]+)*``(?!`)|`[^`\r\n]+`(?!`))/,lookbehind:!0,greedy:!0,alias:["code","keyword"]},url:{pattern:e('!?\\[(?:(?!\\])<inner>)+\\](?:\\([^\\s)]+(?:[\t ]+"(?:\\\\.|[^"\\\\])*")?\\)|[ \t]?\\[(?:(?!\\])<inner>)+\\])'),lookbehind:!0,greedy:!0,inside:{operator:/^!/,content:{pattern:/(^\[)[^\]]+(?=\])/,lookbehind:!0,inside:{}},variable:{pattern:/(^\][ \t]?\[)[^\]]+(?=\]$)/,lookbehind:!0},url:{pattern:/(^\]\()[^\s)]+/,lookbehind:!0},string:{pattern:/(^[ \t]+)"(?:\\.|[^"\\])*"(?=\)$)/,lookbehind:!0}}}}),["url","bold","italic","strike"].forEach((function(e){["url","bold","italic","strike","code-snippet"].forEach((function(t){e!==t&&(n.languages.markdown[e].inside.content.inside[t]=n.languages.markdown[t])}))})),n.hooks.add("after-tokenize",(function(n){"markdown"!==n.language&&"md"!==n.language||function n(e){if(e&&"string"!=typeof e)for(var t=0,a=e.length;t<a;t++){var i=e[t];if("code"===i.type){var r=i.content[1],o=i.content[3];if(r&&o&&"code-language"===r.type&&"code-block"===o.type&&"string"==typeof r.content){var l=r.content.replace(/\b#/g,"sharp").replace(/\b\+\+/g,"pp"),s="language-"+(l=(/[a-z][\w-]*/i.exec(l)||[""])[0].toLowerCase());o.alias?"string"==typeof o.alias?o.alias=[o.alias,s]:o.alias.push(s):o.alias=[s]}}else n(i.content)}}(n.tokens)})),n.hooks.add("wrap",(function(e){if("code-block"===e.type){for(var t="",a=0,i=e.classes.length;a<i;a++){var s=e.classes[a],d=/language-(.+)/.exec(s);if(d){t=d[1];break}}var p=n.languages[t];if(p)e.content=n.highlight(e.content.replace(r,"").replace(/&(\w{1,8}|#x?[\da-f]{1,8});/gi,(function(n,e){var t;return"#"===(e=e.toLowerCase())[0]?(t="x"===e[1]?parseInt(e.slice(2),16):Number(e.slice(1)),l(t)):o[e]||n})),p,t);else if(t&&"none"!==t&&n.plugins.autoloader){var u="md-"+(new Date).valueOf()+"-"+Math.floor(1e16*Math.random());e.attributes.id=u,n.plugins.autoloader.loadLanguages(t,(function(){var e=document.getElementById(u);e&&(e.innerHTML=n.highlight(e.textContent,n.languages[t],t))}))}}}));var r=RegExp(n.languages.markup.tag.pattern.source,"gi"),o={amp:"&",lt:"<",gt:">",quot:'"'},l=String.fromCodePoint||String.fromCharCode;n.languages.md=n.languages.markdown}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
