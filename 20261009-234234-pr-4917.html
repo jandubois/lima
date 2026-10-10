@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20261009-234234-pr-4917</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+.pass-tag, .title-note { font-weight: 400; color: #6b7280; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20261009-234234-pr-4917</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-10-09 23:42</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>2</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/peschmae">@peschmae</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/4917" class="gh-ref" data-title="shell: Add sync-exclude flag and .limasyncignore file" data-state="open" data-type="pr">#4917</a> — shell: Add sync-exclude flag and .limasyncignore file</td></tr>
+      <tr><td>Branch</td><td><code>feat/sync-exclude-flags</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/d1c05c26"><code>d1c05c26</code></a> shell: Add sync-exclude flag and .limasyncignore file</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79"><code>d1c05c26e563fd9e1d86ca4acc631f97eddbfe79</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5.5</span> (effort: high), <span class="pill pill-codex">Codex GPT 6 Astra</span> (effort: high), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; the dry run behind the sync-back prompt reads exclude patterns against a different directory than the sync itself, and one class of pattern makes the prompt delete the guest&#39;s work unsynced</td></tr>
+      <tr><td>Wall-clock time</td><td><code>27 min 14 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR adds a repeatable <code>--sync-exclude</code> flag and a top-level <code>.limasyncignore</code> file to <code>limactl shell --sync</code>. The maintainer&#39;s amendment fixes all three round-1 Important findings. One new defect needs fixing before merge. The dry run behind the sync-back prompt starts its transfer one directory above the synced one, so anchored patterns report phantom changes, and a pattern matching the synced directory&#39;s name makes the prompt delete the guest&#39;s work without syncing it back.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="C1">
+        <span class="finding-num">C1.</span> The sync-back prompt&#39;s dry run starts one directory above the synced one <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#C1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/cmd/limactl/shell.go#L589-L599">cmd/limactl/shell.go</a></div>
+      <pre data-start="589" data-line="594"><code class="language-go">
+	if !tty {
+		return rsyncBack()
+	}
+
+	rawOutput, stats, err := getRsyncStats(ctx, remoteSource, filepath.Dir(hostCurrentDir), excludeArgs)
+	if err != nil {
+		logrus.WithError(err).Warn(&quot;failed to get rsync stats&quot;)
+	}
+	if stats != nil &amp;&amp; stats.String() == &quot;&quot; {
+		logrus.Info(&quot;No changes detected&quot;)</code></pre>
+    <p>Every other rsync call in <code>--sync</code>, <code>rsyncBack</code> included (lines 567-570), passes the directory with a trailing slash, so the transfer starts inside it. The stats dry run copies the directory itself into its parent instead. rsync matches excludes against paths from where the transfer starts, so one pattern means two different things.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/cmd/limactl/shell.go#L562-L575">cmd/limactl/shell.go</a></div>
+      <pre data-start="562" data-line="567-570"><code class="language-go">	clean := filepath.Clean(hostCurrentDir)
+	dirForCleanup := shellescape.Quote(filepath.Join(*inst.Config.User.Home, clean))
+	cleanupGuestWorkdir := false
+
+	rsyncBack := func() error {
+		paths := []string{
+			remoteContents,
+			hostCurrentDir,
+		}
+
+		if err := rsyncDirectory(ctx, cmd, rsync, paths); err != nil {
+			return fmt.Errorf(&quot;failed to sync back the changes from guest instance to host: %w&quot;, err)
+		}
+		logrus.Info(&quot;Successfully synced back the changes to host.&quot;)</code></pre>
+    <p>An anchored pattern such as <code>/.env</code>, the usual <code>.gitignore</code> idiom, then shows a deletion that the sync-back never makes. A pattern matching the synced directory&#39;s own name (<code>app</code> while syncing <code>.../app</code>) excludes the whole dry run. The stats come back empty, the prompt prints &quot;No changes detected&quot; (line 599), and the cleanup deletes the guest workdir without syncing anything back. The PR introduced both by first passing excludes to this call. GNU rsync 3.4.1 behaves like the openrsync that the probe ran on.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/cmd/limactl/shell.go#L594-L604">cmd/limactl/shell.go</a></div>
+      <pre data-start="594" data-line="599"><code class="language-go">	rawOutput, stats, err := getRsyncStats(ctx, remoteSource, filepath.Dir(hostCurrentDir), excludeArgs)
+	if err != nil {
+		logrus.WithError(err).Warn(&quot;failed to get rsync stats&quot;)
+	}
+	if stats != nil &amp;&amp; stats.String() == &quot;&quot; {
+		logrus.Info(&quot;No changes detected&quot;)
+		cleanupGuestWorkdir = true
+		return nil
+	}
+	statsMsg := &quot;&quot;
+	if stats != nil {</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as cmd/limactl/stats_probe_test.go; run: go test ./cmd/limactl -run TestStatsProbe -v
+// Needs rsync on PATH. Local directories stand in for the guest copy and the host directory.
+package main
+
+import (
+	&quot;os&quot;
+	&quot;path/filepath&quot;
+	&quot;testing&quot;
+)
+
+func TestStatsProbe(t *testing.T) {
+	write := func(p, s string) {
+		if err := os.WriteFile(p, []byte(s), 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+	for _, exclude := range []string{&quot;foo.txt&quot;, &quot;/foo.txt&quot;, &quot;proj&quot;} {
+		base := t.TempDir()
+		host := filepath.Join(base, &quot;host&quot;, &quot;proj&quot;)
+		guest := filepath.Join(base, &quot;guest&quot;, &quot;proj&quot;)
+		for _, d := range []string{host, guest} {
+			if err := os.MkdirAll(d, 0o755); err != nil {
+				t.Fatal(err)
+			}
+		}
+		write(filepath.Join(host, &quot;foo.txt&quot;), &quot;host foo\n&quot;)
+		write(filepath.Join(host, &quot;bar.txt&quot;), &quot;host bar\n&quot;)
+		write(filepath.Join(guest, &quot;bar.txt&quot;), &quot;modified bar\n&quot;) // the guest has no foo.txt
+		excludeArgs := buildSyncExcludeArgs([]string{exclude}, host, host)
+
+		// The arguments askUserForRsyncBack passes at shell.go:594.
+		_, prompt, err := getRsyncStats(t.Context(), guest, filepath.Dir(host), excludeArgs)
+		if err != nil {
+			t.Fatal(err)
+		}
+		// The paths rsyncBack copies at shell.go:567-570.
+		_, actual, err := getRsyncStats(t.Context(), guest+&quot;/&quot;, host, excludeArgs)
+		if err != nil {
+			t.Fatal(err)
+		}
+		t.Logf(&quot;--sync-exclude=%-8s prompt: %-48q sync-back: %q&quot;, exclude, prompt.String(), actual.String())
+		if prompt.Deleted != actual.Deleted || (prompt.String() == &quot;&quot;) != (actual.String() == &quot;&quot;) {
+			t.Errorf(&quot;--sync-exclude=%s: the prompt&#39;s dry run disagrees with the sync-back it describes&quot;, exclude)
+		}
+	}
+}</code></pre>
+      <pre><code class="language-text">$ go test ./cmd/limactl -run TestStatsProbe -v
+# github.com/lima-vm/lima/v2/cmd/limactl.test
+ld: warning: ignoring duplicate libraries: &#39;-lobjc&#39;
+=== RUN   TestStatsProbe
+    stats_probe_test.go:41: --sync-exclude=foo.txt  prompt: &quot;added: 0, deleted: 0, modified: 1, metadata: 0&quot; sync-back: &quot;added: 0, deleted: 0, modified: 1, metadata: 0&quot;
+    stats_probe_test.go:41: --sync-exclude=/foo.txt prompt: &quot;added: 0, deleted: 1, modified: 1, metadata: 0&quot; sync-back: &quot;added: 0, deleted: 0, modified: 1, metadata: 0&quot;
+    stats_probe_test.go:43: --sync-exclude=/foo.txt: the prompt&#39;s dry run disagrees with the sync-back it describes
+    stats_probe_test.go:41: --sync-exclude=proj     prompt: &quot;&quot;                                               sync-back: &quot;added: 0, deleted: 1, modified: 1, metadata: 0&quot;
+    stats_probe_test.go:43: --sync-exclude=proj: the prompt&#39;s dry run disagrees with the sync-back it describes
+--- FAIL: TestStatsProbe (0.05s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/cmd/limactl	0.626s
+FAIL</code></pre>
+      </details>
+    <p>Fix: make <code>getRsyncStats</code> copy the source&#39;s contents the way <code>rsyncBack</code> does.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/cmd/limactl/shell.go b/cmd/limactl/shell.go
+index d980620b..4fae0f39 100644
+--- a/cmd/limactl/shell.go
++++ b/cmd/limactl/shell.go
+@@ -591,7 +591,7 @@ func askUserForRsyncBack(ctx context.Context, cmd *cobra.Command, inst *limatype
+ 		return rsyncBack()
+ 	}
+ 
+-	rawOutput, stats, err := getRsyncStats(ctx, remoteSource, filepath.Dir(hostCurrentDir), excludeArgs)
++	rawOutput, stats, err := getRsyncStats(ctx, remoteSource, hostCurrentDir, excludeArgs)
+ 	if err != nil {
+ 		logrus.WithError(err).Warn(&quot;failed to get rsync stats&quot;)
+ 	}
+@@ -899,8 +899,10 @@ func (s *rsyncStats) String() string {
+ 	return fmt.Sprintf(&quot;added: %d, deleted: %d, modified: %d, metadata: %d&quot;, s.Added, s.Deleted, s.Modified, s.Metadata)
+ }
+ 
++// getRsyncStats dry-runs copying the contents of source into destination, the
++// way rsyncBack does, so rsync applies the exclude patterns at the same directory.
+ func getRsyncStats(ctx context.Context, source, destination string, excludeArgs []string) (string, *rsyncStats, error) {
+-	paths := []string{source, destination}
++	paths := []string{source + &quot;/&quot;, destination}
+ 	rsync, err := copytool.New(ctx, string(copytool.BackendRsync), paths, &amp;copytool.Options{
+ 		Verbose: true,
+ 		AdditionalArgs: append([]string{
+diff --git a/cmd/limactl/shell_test.go b/cmd/limactl/shell_test.go
+index c0c9bb12..c6688cc6 100644
+--- a/cmd/limactl/shell_test.go
++++ b/cmd/limactl/shell_test.go
+@@ -5,6 +5,7 @@ package main
+ 
+ import (
+ 	&quot;os&quot;
++	&quot;os/exec&quot;
+ 	&quot;path/filepath&quot;
+ 	&quot;testing&quot;
+ 
+@@ -180,6 +181,41 @@ cL+++++++++ new-symlink -&gt; target
+ 	}
+ }
+ 
++// TestGetRsyncStatsMatchesSyncBack checks that the dry run behind the sync-back
++// prompt counts what the sync-back copies, for patterns that rsync anchors at the
++// top of the transfer.
++func TestGetRsyncStatsMatchesSyncBack(t *testing.T) {
++	if _, err := exec.LookPath(&quot;rsync&quot;); err != nil {
++		t.Skip(&quot;rsync not found:&quot;, err)
++	}
++	// The guest copy changed bar.txt and lacks foo.txt.
++	tests := []struct {
++		exclude  string
++		expected rsyncStats
++	}{
++		{&quot;foo.txt&quot;, rsyncStats{Modified: 1}},
++		{&quot;/foo.txt&quot;, rsyncStats{Modified: 1}},
++		{&quot;proj&quot;, rsyncStats{Deleted: 1, Modified: 1}},
++	}
++	for _, tt := range tests {
++		t.Run(tt.exclude, func(t *testing.T) {
++			base := t.TempDir()
++			host := filepath.Join(base, &quot;host&quot;, &quot;proj&quot;)
++			guest := filepath.Join(base, &quot;guest&quot;, &quot;proj&quot;)
++			assert.NilError(t, os.MkdirAll(host, 0o755))
++			assert.NilError(t, os.MkdirAll(guest, 0o755))
++			assert.NilError(t, os.WriteFile(filepath.Join(host, &quot;foo.txt&quot;), []byte(&quot;host foo\n&quot;), 0o644))
++			assert.NilError(t, os.WriteFile(filepath.Join(host, &quot;bar.txt&quot;), []byte(&quot;host bar\n&quot;), 0o644))
++			assert.NilError(t, os.WriteFile(filepath.Join(guest, &quot;bar.txt&quot;), []byte(&quot;modified bar\n&quot;), 0o644))
++
++			_, got, err := getRsyncStats(t.Context(), guest, host, buildSyncExcludeArgs([]string{tt.exclude}, host, host))
++			assert.NilError(t, err)
++			got.Metadata = 0 // the directory timestamps depend on when the test wrote them
++			assert.DeepEqual(t, *got, tt.expected)
++		})
++	}
++}
++
+ func TestValidateSyncFlagValue(t *testing.T) {
+ 	flags := newShellCommand().Flags()
+ 	for _, val := range []string{&quot;--sync-exclude=.git&quot;, &quot;--sync-exclude&quot;, &quot;--workdir&quot;} {</code></pre>
+      </details>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file="hack/bats/tests/shell-sync.bats">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> No test checks that excluded files stay out of the guest <span class="pill pill-codex">Codex GPT 6 Astra</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/hack/bats/tests/shell-sync.bats#L222-L232">hack/bats/tests/shell-sync.bats</a></div>
+      <pre data-start="222" data-line="227"><code class="language-bash">    cd &quot;$TEST_SYNC_DIR&quot;
+
+    echo &quot;host foo&quot; &gt; foo.txt
+    echo &quot;host bar&quot; &gt; bar.txt
+
+    run -0 bash -c &quot;limactl shell --tty=false --sync . --sync-exclude=foo.txt &#39;$INSTANCE&#39; -- ./modify.sh&quot;
+
+    run cat &quot;$TEST_SYNC_DIR/foo.txt&quot;
+    assert_output &quot;host foo&quot;
+
+    run cat &quot;$TEST_SYNC_DIR/bar.txt&quot;</code></pre>
+    <p>The three new tests check only the host after the round trip. The guest runs <code>modify.sh</code>, which overwrites <code>foo.txt</code> whether or not the push excluded it (lines 19-20), so a push that copied the excluded file into the guest still passes every assertion. Keeping files out of the guest is what the docs sell the feature for (&quot;credentials, or a <code>.git</code> directory&quot;). Today the push and the sync-back share one copy tool, so only a push-only regression escapes. <code>copytool</code> makes that regression easy to write. <code>Command</code> replaces the stored <code>Options</code> whole when the caller passes its own, <code>AdditionalArgs</code> included (<a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/pkg/copytool/rsync.go#L134-L137"><code>pkg/copytool/rsync.go:134-137</code></a>).</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/pkg/copytool/rsync.go#L129-L142">pkg/copytool/rsync.go</a></div>
+      <pre data-start="129" data-line="134-137"><code class="language-go">		if cp.Path, err = t.pathForRsync(ctx, cp.Path); err != nil {
+			return nil, err
+		}
+	}
+
+	effectiveOpts := t.Options
+	if opts != nil {
+		effectiveOpts = opts
+	}
+
+	rsyncFlags := []string{&quot;-a&quot;}
+
+	if effectiveOpts.Verbose {
+		rsyncFlags = append(rsyncFlags, &quot;-v&quot;, &quot;--progress&quot;)</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/hack/bats/tests/shell-sync.bats#L14-L25">hack/bats/tests/shell-sync.bats</a></div>
+      <pre data-start="14" data-line="19-20"><code class="language-bash">
+    # Create a simple script that makes changes to these files
+    cat &gt; &quot;$TEST_SYNC_DIR/modify.sh&quot; &lt;&lt; &#39;EOF&#39;
+#!/bin/sh
+set -eu
+echo &quot;modified foo&quot; &gt; foo.txt
+echo &quot;modified bar&quot; &gt; bar.txt
+EOF
+    chmod +x &quot;$TEST_SYNC_DIR/modify.sh&quot;
+}
+
+teardown() {</code></pre>
+    <p>Unproven: only a BATS run executes these tests, and BATS boots a VM, which this review does not start. The trace above comes from reading the test file.</p>
+    <p>Fix: assert inside the guest that each excluded file is absent before <code>modify.sh</code> runs. Not run here, for the same reason.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/hack/bats/tests/shell-sync.bats b/hack/bats/tests/shell-sync.bats
+index f5175b91..7da5cc25 100644
+--- a/hack/bats/tests/shell-sync.bats
++++ b/hack/bats/tests/shell-sync.bats
+@@ -224,7 +224,7 @@ EOF
+     echo &quot;host foo&quot; &gt; foo.txt
+     echo &quot;host bar&quot; &gt; bar.txt
+ 
+-    run -0 bash -c &quot;limactl shell --tty=false --sync . --sync-exclude=foo.txt &#39;$INSTANCE&#39; -- ./modify.sh&quot;
++    run -0 bash -c &quot;limactl shell --tty=false --sync . --sync-exclude=foo.txt &#39;$INSTANCE&#39; -- sh -c &#39;test ! -e foo.txt &amp;&amp; ./modify.sh&#39;&quot;
+ 
+     run cat &quot;$TEST_SYNC_DIR/foo.txt&quot;
+     assert_output &quot;host foo&quot;
+@@ -239,7 +239,7 @@ EOF
+     echo &quot;host foo&quot; &gt; foo.txt
+     echo &quot;host bar&quot; &gt; bar.txt
+ 
+-    run -0 bash -c &quot;limactl shell --tty=false --sync . --sync-exclude=foo.txt --sync-exclude=bar.txt &#39;$INSTANCE&#39; -- ./modify.sh&quot;
++    run -0 bash -c &quot;limactl shell --tty=false --sync . --sync-exclude=foo.txt --sync-exclude=bar.txt &#39;$INSTANCE&#39; -- sh -c &#39;test ! -e foo.txt &amp;&amp; test ! -e bar.txt &amp;&amp; ./modify.sh&#39;&quot;
+ 
+     run cat &quot;$TEST_SYNC_DIR/foo.txt&quot;
+     assert_output &quot;host foo&quot;
+@@ -257,7 +257,7 @@ EOF
+ foo.txt
+ EOF
+ 
+-    run -0 bash -c &quot;limactl shell --tty=false --sync . &#39;$INSTANCE&#39; -- ./modify.sh&quot;
++    run -0 bash -c &quot;limactl shell --tty=false --sync . &#39;$INSTANCE&#39; -- sh -c &#39;test ! -e foo.txt &amp;&amp; ./modify.sh&#39;&quot;
+ 
+     run cat &quot;$TEST_SYNC_DIR/foo.txt&quot;
+     assert_output &quot;host foo&quot;</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> No test reaches the diff view&#39;s filtered host copy <span class="pill pill-claude">Claude Opus 5.5</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/cmd/limactl/shell.go#L626-L644">cmd/limactl/shell.go</a></div>
+      <pre data-start="626" data-line="631-639"><code class="language-go">	hostTmpDest := filepath.Join(baseDir, &quot;guest&quot;, filepath.Base(hostCurrentDir))
+	err = os.MkdirAll(hostTmpDest, 0o755)
+	if err != nil {
+		return fmt.Errorf(&quot;failed to create temporary directory: %w; preserving guest synced workdir at %s&quot;, err, destRsyncDir)
+	}
+	// The guest copy lacks the excluded files, so diff it against a host copy
+	// filtered the same way, or excluded host files would show as deletions.
+	diffSource := hostCurrentDir
+	if len(excludeArgs) &gt; 0 {
+		diffSource = filepath.Join(baseDir, &quot;host&quot;, filepath.Base(hostCurrentDir))
+		if err := os.MkdirAll(diffSource, 0o755); err != nil {
+			return fmt.Errorf(&quot;failed to create temporary directory: %w; preserving guest synced workdir at %s&quot;, err, destRsyncDir)
+		}
+	}
+
+	rsyncToTempDir := false
+
+	for {
+		ans, err := uiutil.Select(message, options)</code></pre>
+    <p>This block is the round-1 I2 fix. Every <code>--sync</code> test in <code>shell-sync.bats</code> passes <code>--tty=false</code> or <code>--yes</code>, so <code>askUserForRsyncBack</code> returns at line 591 before the prompt, and no unit test calls it. Disabling the block leaves the unit suite green, and the one BATS call without either flag does not use <code>--sync</code>. A regression would bring back the round-1 bug, listing excluded host files as deletions on the screen that the user decides from.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/cmd/limactl/shell.go#L586-L596">cmd/limactl/shell.go</a></div>
+      <pre data-start="586" data-line="591"><code class="language-go">			logrus.WithError(err).Warn(&quot;Failed to clean up guest synced workdir&quot;)
+		}
+	}()
+
+	if !tty {
+		return rsyncBack()
+	}
+
+	rawOutput, stats, err := getRsyncStats(ctx, remoteSource, filepath.Dir(hostCurrentDir), excludeArgs)
+	if err != nil {
+		logrus.WithError(err).Warn(&quot;failed to get rsync stats&quot;)</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-sh"># Save as probe-view-unpinned.sh; run from the repo root: sh probe-view-unpinned.sh
+# Disables the filtered host copy behind &quot;View the changed contents&quot;, runs the
+# unit tests, restores the file, then lists every BATS call that can reach the TUI.
+sed -i.bak &#39;s/^	if len(excludeArgs) &gt; 0 {$/	if false \&amp;\&amp; len(excludeArgs) &gt; 0 {/&#39; cmd/limactl/shell.go
+git diff --stat
+go test -count=1 ./cmd/limactl/ 2&gt;&amp;1 | grep -v &#39;ld: warning\|^# github&#39;
+mv cmd/limactl/shell.go.bak cmd/limactl/shell.go
+grep -n &#39;limactl shell&#39; hack/bats/tests/shell-sync.bats | grep -v -e &#39;--tty=false&#39; -e &#39;--yes&#39;</code></pre>
+      <pre><code class="language-text">$ sh probe-view-unpinned.sh
+ cmd/limactl/shell.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ok  	github.com/lima-vm/lima/v2/cmd/limactl	0.574s
+218:    run -0 bash -c &quot;limactl shell &#39;$INSTANCE&#39; test -d ${guest_pwd%/*}&quot;</code></pre>
+      </details>
+    <p>Fix: move the host copy into a helper that a unit test can call with local directories. The patch applies on top of C1&#39;s. With it, the equivalent mutation (<code>if true || len(excludeArgs) == 0</code> in <code>hostTreeForDiff</code>) fails <code>TestHostTreeForDiff</code>.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/cmd/limactl/shell.go b/cmd/limactl/shell.go
+index 4fae0f39..a6d813e4 100644
+--- a/cmd/limactl/shell.go
++++ b/cmd/limactl/shell.go
+@@ -628,16 +628,8 @@ func askUserForRsyncBack(ctx context.Context, cmd *cobra.Command, inst *limatype
+ 	if err != nil {
+ 		return fmt.Errorf(&quot;failed to create temporary directory: %w; preserving guest synced workdir at %s&quot;, err, destRsyncDir)
+ 	}
+-	// The guest copy lacks the excluded files, so diff it against a host copy
+-	// filtered the same way, or excluded host files would show as deletions.
++
+ 	diffSource := hostCurrentDir
+-	if len(excludeArgs) &gt; 0 {
+-		diffSource = filepath.Join(baseDir, &quot;host&quot;, filepath.Base(hostCurrentDir))
+-		if err := os.MkdirAll(diffSource, 0o755); err != nil {
+-			return fmt.Errorf(&quot;failed to create temporary directory: %w; preserving guest synced workdir at %s&quot;, err, destRsyncDir)
+-		}
+-	}
+-
+ 	rsyncToTempDir := false
+ 
+ 	for {
+@@ -658,7 +650,6 @@ func askUserForRsyncBack(ctx context.Context, cmd *cobra.Command, inst *limatype
+ 			if _, err := exec.LookPath(&quot;diff&quot;); err != nil {
+ 				logrus.WithError(err).Warn(&quot;`diff` not found; showing rsync dry-run output only&quot;)
+ 			} else {
+-				diffCmd = exec.CommandContext(ctx, &quot;diff&quot;, &quot;-ruN&quot;, &quot;--color=always&quot;, diffSource, hostTmpDest)
+ 				if !rsyncToTempDir {
+ 					paths := []string{
+ 						remoteContents,
+@@ -668,13 +659,12 @@ func askUserForRsyncBack(ctx context.Context, cmd *cobra.Command, inst *limatype
+ 					if err := rsyncDirectory(ctx, cmd, rsync, paths); err != nil {
+ 						return fmt.Errorf(&quot;failed to sync back the changes from guest instance to host temporary directory: %w&quot;, err)
+ 					}
+-					if diffSource != hostCurrentDir {
+-						if err := rsyncDirectory(ctx, cmd, rsync, []string{hostCurrentDir + &quot;/&quot;, diffSource}); err != nil {
+-							return fmt.Errorf(&quot;failed to copy the host directory to a temporary directory: %w&quot;, err)
+-						}
++					if diffSource, err = hostTreeForDiff(ctx, cmd, rsync, hostCurrentDir, baseDir, excludeArgs); err != nil {
++						return fmt.Errorf(&quot;%w; preserving guest synced workdir at %s&quot;, err, destRsyncDir)
+ 					}
+ 					rsyncToTempDir = true
+ 				}
++				diffCmd = exec.CommandContext(ctx, &quot;diff&quot;, &quot;-ruN&quot;, &quot;--color=always&quot;, diffSource, hostTmpDest)
+ 			}
+ 
+ 			pagerArgs := pagerCommand()
+@@ -735,6 +725,24 @@ func askUserForRsyncBack(ctx context.Context, cmd *cobra.Command, inst *limatype
+ 	}
+ }
+ 
++// hostTreeForDiff returns the host tree that the &quot;View&quot; diff compares with the
++// guest copy. The guest copy lacks the excluded files, so with excludes this is a
++// copy of hostCurrentDir taken by the same rsync tool; otherwise excluded host
++// files would show as deletions.
++func hostTreeForDiff(ctx context.Context, cmd *cobra.Command, rsync copytool.CopyTool, hostCurrentDir, baseDir string, excludeArgs []string) (string, error) {
++	if len(excludeArgs) == 0 {
++		return hostCurrentDir, nil
++	}
++	dir := filepath.Join(baseDir, &quot;host&quot;, filepath.Base(hostCurrentDir))
++	if err := os.MkdirAll(dir, 0o755); err != nil {
++		return &quot;&quot;, fmt.Errorf(&quot;failed to create temporary directory: %w&quot;, err)
++	}
++	if err := rsyncDirectory(ctx, cmd, rsync, []string{hostCurrentDir + &quot;/&quot;, dir}); err != nil {
++		return &quot;&quot;, fmt.Errorf(&quot;failed to copy the host directory to a temporary directory: %w&quot;, err)
++	}
++	return dir, nil
++}
++
+ // pagerCommand returns the pager command and arguments to use for viewing colored diff output.
+ func pagerCommand() []string {
+ 	pager := strings.TrimSpace(os.Getenv(&quot;PAGER&quot;))
+diff --git a/cmd/limactl/shell_test.go b/cmd/limactl/shell_test.go
+index c6688cc6..7718fb7f 100644
+--- a/cmd/limactl/shell_test.go
++++ b/cmd/limactl/shell_test.go
+@@ -4,12 +4,17 @@
+ package main
+ 
+ import (
++	&quot;errors&quot;
++	&quot;io/fs&quot;
+ 	&quot;os&quot;
+ 	&quot;os/exec&quot;
+ 	&quot;path/filepath&quot;
+ 	&quot;testing&quot;
+ 
++	&quot;github.com/spf13/cobra&quot;
+ 	&quot;gotest.tools/v3/assert&quot;
++
++	&quot;github.com/lima-vm/lima/v2/pkg/copytool&quot;
+ )
+ 
+ // TestPathDepth covers both host path forms, because `limactl shell --sync`
+@@ -216,6 +221,35 @@ func TestGetRsyncStatsMatchesSyncBack(t *testing.T) {
+ 	}
+ }
+ 
++// TestHostTreeForDiff checks that the &quot;View&quot; diff compares the guest copy with a
++// host tree that lacks the excluded files too.
++func TestHostTreeForDiff(t *testing.T) {
++	if _, err := exec.LookPath(&quot;rsync&quot;); err != nil {
++		t.Skip(&quot;rsync not found:&quot;, err)
++	}
++	host := filepath.Join(t.TempDir(), &quot;proj&quot;)
++	assert.NilError(t, os.MkdirAll(host, 0o755))
++	assert.NilError(t, os.WriteFile(filepath.Join(host, &quot;foo.txt&quot;), []byte(&quot;host foo\n&quot;), 0o644))
++	assert.NilError(t, os.WriteFile(filepath.Join(host, &quot;bar.txt&quot;), []byte(&quot;host bar\n&quot;), 0o644))
++
++	excludeArgs := buildSyncExcludeArgs([]string{&quot;foo.txt&quot;}, host, host)
++	rsync, err := copytool.New(t.Context(), string(copytool.BackendRsync), []string{host + &quot;/&quot;, t.TempDir()}, &amp;copytool.Options{
++		AdditionalArgs: append([]string{&quot;--delete&quot;}, excludeArgs...),
++	})
++	assert.NilError(t, err)
++
++	got, err := hostTreeForDiff(t.Context(), &amp;cobra.Command{}, rsync, host, t.TempDir(), excludeArgs)
++	assert.NilError(t, err)
++	_, err = os.Stat(filepath.Join(got, &quot;foo.txt&quot;))
++	assert.Assert(t, errors.Is(err, fs.ErrNotExist), &quot;excluded file in the diffed host tree: %v&quot;, err)
++	_, err = os.Stat(filepath.Join(got, &quot;bar.txt&quot;))
++	assert.NilError(t, err)
++
++	got, err = hostTreeForDiff(t.Context(), &amp;cobra.Command{}, rsync, host, t.TempDir(), nil)
++	assert.NilError(t, err)
++	assert.Equal(t, got, host)
++}
++
+ func TestValidateSyncFlagValue(t *testing.T) {
+ 	flags := newShellCommand().Flags()
+ 	for _, val := range []string{&quot;--sync-exclude=.git&quot;, &quot;--sync-exclude&quot;, &quot;--workdir&quot;} {</code></pre>
+      </details>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> The instance-not-found hint fires on a correct <code>--sync DIR</code> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/cmd/limactl/shell.go#L126-L138">cmd/limactl/shell.go</a></div>
+      <pre data-start="126" data-line="131-133"><code class="language-go">	}
+
+	inst, err := store.Inspect(ctx, instName)
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			if syncDirVal, _ := flags.GetString(&quot;sync&quot;); syncDirVal != &quot;&quot; {
+				return fmt.Errorf(&quot;instance %#q does not exist; note that `--sync` takes a directory and consumed %#q (usage: `--sync DIR INSTANCE`)&quot;, instName, syncDirVal)
+			}
+			return fmt.Errorf(&quot;instance %#q does not exist, run `limactl create %s` to create a new instance&quot;, instName, instName)
+		}
+		return err
+	}
+	if len(inst.Errors) &gt; 0 {</code></pre>
+    <p><code>limactl shell --sync . typo</code> reports that <code>--sync</code> consumed <code>.</code>, which is what the user meant, and drops the <code>limactl create typo</code> advice. Claude ran the built binary against an empty <code>LIMA_HOME</code>, Flash ran <code>go run</code> against a scratch one, and both got that message.</p>
+    <p>Fix: add the note only when the consumed value is not a host directory, so <code>--sync default ls</code> still gets it. <code>isHostDir</code> would be a small <code>os.Stat</code> wrapper; checking <code>store.Inspect(syncDirVal)</code> also works but inspects a whole instance.</p>
+      <pre><code class="language-go">		if syncDirVal, _ := flags.GetString(&quot;sync&quot;); syncDirVal != &quot;&quot; &amp;&amp; !isHostDir(syncDirVal) {</code></pre>
+    </div>
+    <div class="card card-suggestion" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> Flag-only checks run after a stopped instance has started <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/cmd/limactl/shell.go#L213-L225">cmd/limactl/shell.go</a></div>
+      <pre data-start="213" data-line="218-220"><code class="language-go">	syncDirVal, err := flags.GetString(&quot;sync&quot;)
+	if err != nil {
+		return fmt.Errorf(&quot;failed to get sync flag: %w&quot;, err)
+	}
+	syncHostWorkdir := syncDirVal != &quot;&quot;
+	if err := validateSyncFlagValue(flags, syncDirVal); err != nil {
+		return err
+	}
+	if syncHostWorkdir &amp;&amp; len(inst.Config.Mounts) &gt; 0 {
+		return errors.New(&quot;cannot use `--sync` when the instance has host mounts configured, start the instance with `--mount-none` to disable mounts&quot;)
+	}
+	// A wsl2 guest already reaches the host directory through the /mnt automount,
+	// so `--sync` cannot isolate it from host files the way it does elsewhere.</code></pre>
+    <p>Neither <code>validateSyncFlagValue</code> nor the <code>--sync-exclude</code>-without-<code>--sync</code> check (line 234) reads the instance, yet both run after <code>--start</code> boots it (lines 144-180). <code>limactl shell --start --sync --sync-exclude=x stopped</code> starts the VM, then rejects its own arguments.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/cmd/limactl/shell.go#L139-L185">cmd/limactl/shell.go</a></div>
+      <pre data-start="139" data-line="144-180"><code class="language-go">		logrus.WithError(errors.Join(inst.Errors...)).Errorf(&quot;Instance %#q has configuration errors&quot;, instName)
+	}
+	if inst.Config == nil {
+		return fmt.Errorf(&quot;instance %#q has no configuration&quot;, instName)
+	}
+	if inst.Status == limatype.StatusStopped {
+		startNow, err := flags.GetBool(&quot;start&quot;)
+		if err != nil {
+			return err
+		}
+
+		if tty &amp;&amp; !flags.Changed(&quot;start&quot;) {
+			startNow, err = askWhetherToStart(cmd)
+			if err != nil {
+				return err
+			}
+		}
+
+		if !startNow {
+			return fmt.Errorf(&quot;instance %#q is stopped, run `limactl start %s` to start the instance&quot;, instName, instName)
+		}
+
+		// Network reconciliation will be performed by the process launched by the autostart manager
+		if registered, err := autostart.IsRegistered(ctx, inst); err != nil &amp;&amp; !errors.Is(err, autostart.ErrNotSupported) {
+			return fmt.Errorf(&quot;failed to check if the autostart entry for instance %#q is registered: %w&quot;, inst.Name, err)
+		} else if !registered {
+			err = reconcile.Reconcile(ctx, inst.Name)
+			if err != nil {
+				return err
+			}
+		}
+
+		err = instance.Start(instance.WithLaunchingShell(ctx), inst, false, false)
+		if err != nil {
+			return err
+		}
+
+		inst, err = store.Inspect(ctx, instName)
+		if err != nil {
+			return err
+		}
+	}
+
+	restart, err := cmd.Flags().GetBool(&quot;reconnect&quot;)
+	if err != nil {
+		return err
+	}</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/cmd/limactl/shell.go#L229-L239">cmd/limactl/shell.go</a></div>
+      <pre data-start="229" data-line="234"><code class="language-go">
+	syncExcludes, err := flags.GetStringArray(&quot;sync-exclude&quot;)
+	if err != nil {
+		return fmt.Errorf(&quot;failed to get sync-exclude flag: %w&quot;, err)
+	}
+	if len(syncExcludes) &gt; 0 &amp;&amp; !syncHostWorkdir {
+		return errors.New(&quot;cannot use `--sync-exclude` without `--sync`&quot;)
+	}
+
+	// When workDir is explicitly set, the shell MUST have workDir as the cwd, or exit with an error.
+	//</code></pre>
+    <p>Fix: run both checks before <code>store.Inspect</code> at line 128. That also gives <code>--sync --sync-exclude=git typo</code> the validator&#39;s precise error in place of S1&#39;s hint.</p>
+    </div>
+    <div class="card card-suggestion" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> An unreadable <code>.limasyncignore</code> is skipped silently <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="title-note">(round 1 S2 unaddressed; raised in round 1 by Claude Opus 4.7)</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/cmd/limactl/shell.go#L986-L996">cmd/limactl/shell.go</a></div>
+      <pre data-start="986" data-line="991"><code class="language-go">func buildSyncExcludeArgs(excludes []string, nativeDir, rsyncDir string) []string {
+	var args []string
+	for _, pattern := range excludes {
+		args = append(args, &quot;--exclude&quot;, pattern)
+	}
+	if _, err := os.Stat(filepath.Join(nativeDir, &quot;.limasyncignore&quot;)); err == nil {
+		args = append(args, &quot;--exclude-from&quot;, rsyncDir+&quot;/.limasyncignore&quot;)
+	}
+	return args
+}
+</code></pre>
+    <p>Any <code>os.Stat</code> error counts as &quot;no file&quot;, so the excludes fail open and the files that the user listed sync into the guest. The fix that the reviewers proposed, ignoring only <code>fs.ErrNotExist</code>, still misses the likeliest case. A dangling symlink, such as one pointing at a moved shared ignore file, also reports <code>ErrNotExist</code>. A probe showed <code>buildSyncExcludeArgs</code> returning no arguments for a dangling and for a self-referencing symlink, while <code>os.Lstat</code> succeeded on both.</p>
+    <p>Fix: decide presence with <code>os.Lstat</code>. rsync then fails to open a file it cannot read and stops before copying anything (GNU rsync 3.4.1 exits 11, openrsync exits 1). A directory named <code>.limasyncignore</code> fails the same way.</p>
+    </div>
+    <div class="card card-suggestion" data-file="website/content/en/docs/examples/ai.md">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> The docs describe the excludes inaccurately <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="title-note">(round 1 S4 unaddressed; raised in round 1 by Claude Opus 4.7)</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/website/content/en/docs/examples/ai.md#L188-L199">website/content/en/docs/examples/ai.md</a></div>
+      <pre data-start="188" data-line="193-194"><code class="language-markdown">### Excluding files or directories from syncing
+
+ | ⚡ Requirement | Lima &gt;= 2.3 |
+ |----------------|-------------|
+
+In addition to the `--sync` flag, a `--sync-exclude` flag is available, which allows you to configure directories that will not be synced to the VM. This is useful to exclude large generated directories (like `node_modules`, or `vendor`),
+or more sensitive files (like credentials, or a `.git` directory). This flag can be repeated to exclude multiple directories.
+
+The flag is passed to **rsync** as `--exclude` and must conform to its conventions.
+
+```bash
+limactl shell --sync . --sync-exclude .git default</code></pre>
+    <p>The section says the flag excludes &quot;directories&quot;, yet it takes rsync patterns, and the page&#39;s own example lists <code>*.o</code>. It also omits four facts a user needs to predict the result.</p>
+    <ul>
+      <li>The flag and the file combine; line 202 calls the file an alternative.</li>
+      <li>The file must sit at the top of the synced host directory, which line 202 calls &quot;the target directory&quot;.</li>
+      <li>A leading <code>/</code> anchors a pattern to that directory.</li>
+      <li>Excluded host files survive the sync-back, because rsync&#39;s <code>--delete</code> spares them.</li>
+    </ul>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/website/content/en/docs/examples/ai.md#L197-L207">website/content/en/docs/examples/ai.md</a></div>
+      <pre data-start="197" data-line="202"><code class="language-markdown">
+```bash
+limactl shell --sync . --sync-exclude .git default
+```
+
+Alternatively a `.limasyncignore` file can be created in the target directory, which contains a list of excludes.
+
+```
+node_modules
+.git
+vendor</code></pre>
+    <p>Fix: rewrite the section around those points.</p>
+    </div>
+    <div class="card card-suggestion" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> No test for <code>--sync-exclude</code> without <code>--sync</code> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="title-note">(round 1 S1 unaddressed; raised in round 1 by Claude Opus 4.7)</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/cmd/limactl/shell.go#L229-L241">cmd/limactl/shell.go</a></div>
+      <pre data-start="229" data-line="234-236"><code class="language-go">
+	syncExcludes, err := flags.GetStringArray(&quot;sync-exclude&quot;)
+	if err != nil {
+		return fmt.Errorf(&quot;failed to get sync-exclude flag: %w&quot;, err)
+	}
+	if len(syncExcludes) &gt; 0 &amp;&amp; !syncHostWorkdir {
+		return errors.New(&quot;cannot use `--sync-exclude` without `--sync`&quot;)
+	}
+
+	// When workDir is explicitly set, the shell MUST have workDir as the cwd, or exit with an error.
+	//
+	// changeDirCmd := &quot;cd workDir || exit 1&quot;                  if workDir != &quot;&quot;
+	//              := &quot;cd hostCurrentDir || cd hostHomeDir&quot;   if workDir == &quot;&quot;</code></pre>
+    <p>The rejection fails loudly and names the cause, so the test is optional under the Testing rubric.</p>
+    <p>Fix: a BATS case such as <code>run -1 limactl shell --sync-exclude=x &quot;$INSTANCE&quot; true</code> with <code>assert_output --partial</code>, or a unit test once S2 moves the check ahead of <code>store.Inspect</code>.</p>
+    </div>
+    <div class="card card-suggestion" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> Mid-session edits to <code>.limasyncignore</code> change or break the sync-back <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="title-note">(round 1 S3 unaddressed; raised in round 1 by Gemini 3.1 Pro)</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/cmd/limactl/shell.go#L462-L472">cmd/limactl/shell.go</a></div>
+      <pre data-start="462" data-line="467"><code class="language-go">		// the paths reach rsync as they are; `-a` already implies `-r`.
+		paths := []string{
+			hostCurrentDir + &quot;/&quot;,
+			fmt.Sprintf(&quot;%s:%s/&quot;, inst.Name, destRsyncDir),
+		}
+		excludeArgs = buildSyncExcludeArgs(syncExcludes, hostCurrentDirNative, hostCurrentDir)
+		rsync, err = copytool.New(ctx, string(copytool.BackendRsync), paths, &amp;copytool.Options{
+			Verbose: false,
+			AdditionalArgs: append([]string{
+				&quot;--delete&quot;,
+			}, excludeArgs...),</code></pre>
+    <p>The code checks for the file once, but rsync rereads it on every call. Deleting it during the session makes <code>getRsyncStats</code> and <code>rsyncBack</code> fail, and editing it changes the sync-back without changing what was pushed. Round 1 also described data loss on deletion, which no longer happens. rsync exits before copying, and <code>cleanupGuestWorkdir</code> is set only after a successful sync-back, a dry run that finds no changes, or an explicit &quot;No&quot; (lines 576, 600, 653), so the guest copy stays. The sync-back error does not say where that copy is, though.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/d1c05c26e563fd9e1d86ca4acc631f97eddbfe79/cmd/limactl/shell.go#L571-L581">cmd/limactl/shell.go</a></div>
+      <pre data-start="571" data-line="576"><code class="language-go">
+		if err := rsyncDirectory(ctx, cmd, rsync, paths); err != nil {
+			return fmt.Errorf(&quot;failed to sync back the changes from guest instance to host: %w&quot;, err)
+		}
+		logrus.Info(&quot;Successfully synced back the changes to host.&quot;)
+		cleanupGuestWorkdir = true
+		return nil
+	}
+
+	defer func() {
+		if !cleanupGuestWorkdir {</code></pre>
+    <p>Fix: copy the file to a temporary path when the session starts and pass that path, and name the preserved guest directory in the sync-back error.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em><code>.limasyncignore</code> round-trips through the guest it restricts<em></em> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span>. Nothing excludes the file itself, so the guest gets a copy and <code>rsyncBack</code> writes the guest&#39;s edits back to the host, without a prompt under <code>--yes</code> (line 591). The current session stays protected, but a guest that deletes or trims the file receives the excluded files next session. Adding <code>--exclude /.limasyncignore</code> whenever the file exists (safe once C1 is fixed) keeps the guest from seeing it. The author&#39;s <code>--sync-exclude-from FILE</code> proposal, reading a file outside the synced tree, does the same.</li>
+      <li><strong>&quot;View the changed contents&quot; copies the whole host tree when excludes are set</strong> (in-scope) <span class="pill pill-gemini">Gemini 3.5 Flash</span>. The copy skips excluded paths, usually the large ones such as <code>node_modules</code>, but a large tree with narrow excludes costs time and temporary space before the diff appears.</li>
+      <li><strong>A per-directory merge filter would hand the filtering to the guest</strong> (future) <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span>. Round 1 suggested <code>--filter &#39;:- .limasyncignore&#39;</code>. On the sync-back the guest is the sender, so its copy of the file would decide what comes back; a single file read on the host avoids that.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>The ignore-file lookup probes the native path and names the converted one</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span>. It mirrors the <code>hostCurrentDirNative</code>/<code>hostCurrentDir</code> split at lines 243-256, so a Cygwin or MSYS rsync gets the same path form as its source argument.</li>
+      <li><em></em><code>validateSyncFlagValue</code> checks the command&#39;s real flag set<em></em> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span>. At runtime that includes inherited flags (the built binary rejects <code>--sync -y</code>), and a directory named <code>--data</code> still works.</li>
+      <li><strong>Both trees in the diff view go through the same rsync tool</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span>. Excluded files drop out of both sides; I2 is about keeping it that way.</li>
+      <li><em></em><code>StringArray</code> keeps each pattern intact<em></em> (in-scope) <span class="pill pill-codex">Codex GPT 6 Astra</span>. Repeated <code>--sync-exclude</code> values are never split on commas.</li>
+    </ul>
+    <p>Round 1 credited &quot;the same exclude args throughout the pipeline&quot;. All five rsync calls do pass the same exclude arguments, but C1 shows the stats call reading them from a different starting directory, so that credit holds for the arguments only.</p>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>I ran <code>go test ./cmd/limactl/</code> in the lead worktree at the review SHA, and it passed. CI is green on the head commit, and its BATS job (113274472707) ran the three new tests as 164-166 and passed them.</p>
+    <p>What pins each round-1 fix:</p>
+    <ul>
+      <li><strong>R1-I1, native lookup.</strong> <code>TestBuildSyncExcludeArgs</code> fails when the helper probes <code>rsyncDir</code> instead (Claude&#39;s <code>-overlay</code> mutation). The call site at line 467 stays unpinned, because both paths are equal outside Windows and no Windows test drives <code>shellAction</code>.</li>
+      <li><strong>R1-I2, filtered diff.</strong> Unpinned; see I2.</li>
+      <li><strong>R1-I3, flag validator.</strong> <code>TestValidateSyncFlagValue</code> fails when the old <code>--</code> prefix check returns (Claude&#39;s mutation).</li>
+      <li><strong>R1-S5, fixture mutation.</strong> Fixed; nothing to pin.</li>
+    </ul>
+    <p>The C1 and I2 patches add <code>TestGetRsyncStatsMatchesSyncBack</code> and <code>TestHostTreeForDiff</code>. The first fails against the reviewed code for all three patterns, the <code>foo.txt</code> control included, because the patch changes what <code>getRsyncStats</code> receives; C1&#39;s probe shows the defect itself. Both run real rsync on local directories and skip when it is missing; neither has run on Windows. The <code>rm -f .limasyncignore</code> at the end of the third BATS test is redundant, since <code>teardown</code> removes the whole directory.</p>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>See S4. The &quot;Lima &gt;= 2.3&quot; badge holds if the PR merges before 2.3.0: v2.3.0-beta.1 was tagged on master on 2026-10-03, no <code>release/2.3</code> branch exists, and 2.3.0 has not shipped.</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>One squashed commit with both sign-offs. The maintainer&#39;s amendment kept the author&#39;s message, so the body omits the three behaviors the amendment added: the flag-name check on <code>--sync</code>, the filtered diff view, and the new instance-not-found hint. It also has grammar slips (&quot;allows to specify&quot;, &quot;which also considered&quot;). Update the body before merge.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><em></em><code>excludeArgs</code> threaded as a positional parameter<em></em> (round 1 S6). Both callers forward it, and C1&#39;s fix still needs it in <code>getRsyncStats</code>. A style point; not re-raised.</li>
+      <li><strong>Windows &quot;rsync missing&quot; report.</strong> Line 267 checks <code>exec.LookPath</code> and names the cause.</li>
+      <li><strong>Windows &quot;path concatenation / positional parsing&quot; reports.</strong> Obsolete. <a href="https://github.com/lima-vm/lima/commit/174f386b"><code>174f386b</code></a> measures the native path with an explicit platform (line 273), <code>--sync</code> now refuses the wsl2 driver that the tester used (line 226), and <code>validateSyncFlagValue</code> rejects <code>--sync --sync-exclude=...</code>.</li>
+      <li><em></em><code>.limasyncignore</code> as an implicit file<em></em>, versus <code>--sync-exclude-from</code> or an env-var block. An open maintainer design question with no recorded decision; see Unresolved Feedback.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>@unsuman asked whether Lima should have a <code>.limasyncignore</code> file at all (<a href="https://github.com/lima-vm/lima/pull/4917#discussion_r3174868896">r3174868896</a>), and the author offered <code>--sync-exclude-from</code> instead (<a href="https://github.com/lima-vm/lima/pull/4917#discussion_r3174888608">r3174888608</a>). No decision followed. The round-trip concern under Design Observations is a reason to prefer a file outside the synced tree.</li>
+      <li>@joe-p proposed an <code>--rsync-arg</code> passthrough in <a href="https://github.com/lima-vm/lima/issues/4887" class="gh-ref" data-title="shell --sync: Allow excluding files/folders from rsync" data-state="open" data-type="issue">#4887</a> as an alternative to this PR. Nobody has replied.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5-5"><span class="pill pill-claude">Claude Opus 5.5</span> <a href="#claude-opus-5-5" class="pilcrow">&#182;</a></h3>
+    <p>Claude found C1&#39;s anchored-pattern case and checked its fix with openrsync, but missed the directory-name variant that empties the stats, so it rated the finding Important. It alone raised the untested diff view as a finding (I2), the validation that runs after auto-start (S2), the <code>.limasyncignore</code> round trip, and @joe-p&#39;s competing proposal. Its mutations through <code>go test -overlay</code> and its built-binary runs against a scratch <code>LIMA_HOME</code> all appear in its session log. It rated the guest-absence test optional while citing the rubric&#39;s credential-leak condition on the same line, and its S3 fix misses dangling symlinks.</p>
+    <h3 id="codex-gpt-6-astra"><span class="pill pill-codex">Codex GPT 6 Astra</span> <a href="#codex-gpt-6-astra" class="pilcrow">&#182;</a></h3>
+    <p>Codex was the only agent to find the directory-name variant and the silent deletion behind it, and it rated C1 Critical, which this report keeps. It also raised I1 as a finding, and its five-row table of rsync calls answered the round&#39;s parity question most directly. Its I1 evidence was a local simulation, not a BATS run, and it labelled its reversion predictions as reasoning rather than runs.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Gemini 3.1 Pro returned a short review that missed C1 and never gave the parity verdict that the prompt asked for. Its one Important re-raised round 1&#39;s mid-session deletion, which no longer loses the guest&#39;s work, so it became S6. Its Acknowledged Limitations entry says Windows lacks an rsync preflight and then cites that preflight in the next sentence. It skipped <code>git blame</code>, as Gemini does under its daily quota.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Flash found C1&#39;s anchored case with a runnable probe and rated the instance-not-found hint Important, which this report lowers to S1. It marked <code>shell-sync.bats</code> &quot;Reviewed, no issues&quot; while its own Testing section listed the missing guest-absence check, a coverage miss against I1. Its patch for S3 skips a <code>.limasyncignore</code> directory without a warning, which fails open. The two Gemini models share a family and agreed only on the round-1 re-raises (S3, S4, S5), so that agreement counts as one opinion.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5.5</span></th><th><span class="pill pill-codex">Codex GPT 6 Astra</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>7m 07s</td><td>7m 18s</td><td>7m 25s</td><td>8m 53s</td></tr>
+        <tr><td>Findings</td><td>1C 1I 4S</td><td>1C 1I 2S</td><td>4S</td><td>1C 4S</td></tr>
+        <tr><td>Tool calls</td><td>29 (Bash 26, Read 3)</td><td>12 (shell 10, stdin 2)</td><td>32 (run<em>shell</em>command 32)</td><td>57 (read<em>file 22, run</em>shell<em>command 21, grep</em>search 8)</td></tr>
+        <tr><td>Design observations</td><td>5</td><td>4</td><td>2</td><td>3</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>4</td><td>2</td><td>1</td><td>1</td></tr>
+        <tr><td>Files reviewed</td><td>4</td><td>4</td><td>4</td><td>4</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>1C 1I 4S</strong></td><td><strong>1C 1I 2S</strong></td><td><strong>4S</strong></td><td><strong>1C 4S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+        <tr><td>Dropped</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Reconciliation</strong></p>
+    <ul>
+      <li>Claude I1 (anchored excludes in the stats dry run): merged into C1, important → critical.</li>
+      <li>Gemini 3.5 Flash I2 (anchored excludes in the stats dry run): merged into C1, important → critical.</li>
+      <li>Gemini 3.5 Flash I1 (instance-not-found hint): important → suggestion S1.</li>
+      <li>Gemini 3.1 Pro I1 (<code>.limasyncignore</code> changes mid-session): important → suggestion S6.</li>
+      <li>Claude S5 (<code>excludeArgs</code> threading): moved to Acknowledged Limitations as round 1 S6, a style point.</li>
+      <li>Gemini 3.5 Flash S4 (commit message): moved to Commit Structure.</li>
+    </ul>
+    <p>Codex gave the most value: it alone found the path that deletes the guest&#39;s work. Claude gave the broadest review and the strongest evidence for its fix verdicts. Flash added a working probe for C1, and Gemini 3.1 Pro added little beyond round 1.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>When the probe that decides a finding ran on a different implementation of an external tool than the one most users run (Apple&#39;s openrsync versus GNU rsync, BSD versus GNU utilities), re-run it on that implementation before recording the severity. Implementations of one tool differ in filter, option and exit-code semantics, and such a difference would reverse the finding.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em>[repo] UPDATE &quot;Rsync invocations in <code>limactl shell --sync</code>&quot;<em></em>: the shell runs rsync from five call sites, not four. The &quot;View the changed contents&quot; branch also copies the host directory into a temporary tree when excludes are set. Matching options across those calls is not enough. rsync matches exclude and filter patterns against paths from the directory where the transfer starts, which the trailing slash on the source decides. A source without the slash starts the transfer in its parent, so an anchored pattern (<code>/name</code>) stops matching and an unanchored pattern equal to the directory&#39;s own name excludes everything. Flag any call that passes the shared filters with a different source or destination form.</li>
+      <li><strong>[repo]</strong> <code>copytool.CopyTool.Command(ctx, paths, opts)</code> replaces the tool&#39;s stored <code>Options</code> whole when <code>opts</code> is non-nil, <code>AdditionalArgs</code> included. A per-call override on a tool built with <code>--delete</code> or exclude arguments silently drops them for that call; flag one.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){var t="\\b(?:BASH|BASHOPTS|BASH_ALIASES|BASH_ARGC|BASH_ARGV|BASH_CMDS|BASH_COMPLETION_COMPAT_DIR|BASH_LINENO|BASH_REMATCH|BASH_SOURCE|BASH_VERSINFO|BASH_VERSION|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|EUID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_ADDRESS|LC_ALL|LC_IDENTIFICATION|LC_MEASUREMENT|LC_MONETARY|LC_NAME|LC_NUMERIC|LC_PAPER|LC_TELEPHONE|LC_TIME|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS1|PS2|PS3|PS4|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UID|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_CONFIG_DIRS|XDG_CURRENT_DESKTOP|XDG_DATA_DIRS|XDG_GREETER_DATA_DIR|XDG_MENU_PREFIX|XDG_RUNTIME_DIR|XDG_SEAT|XDG_SEAT_PATH|XDG_SESSION_DESKTOP|XDG_SESSION_ID|XDG_SESSION_PATH|XDG_SESSION_TYPE|XDG_VTNR|XMODIFIERS)\\b",a={pattern:/(^(["']?)\w+\2)[ \t]+\S.*/,lookbehind:!0,alias:"punctuation",inside:null},n={bash:a,environment:{pattern:RegExp("\\$"+t),alias:"constant"},variable:[{pattern:/\$?\(\([\s\S]+?\)\)/,greedy:!0,inside:{variable:[{pattern:/(^\$\(\([\s\S]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,operator:/--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,greedy:!0,inside:{variable:/^\$\(|^`|\)$|`$/}},{pattern:/\$\{[^}]+\}/,greedy:!0,inside:{operator:/:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,punctuation:/[\[\]]/,environment:{pattern:RegExp("(\\{)"+t),lookbehind:!0,alias:"constant"}}},/\$(?:\w+|[#?*!@$])/],entity:/\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/};e.languages.bash={shebang:{pattern:/^#!\s*\/.*/,alias:"important"},comment:{pattern:/(^|[^"{\\$])#.*/,lookbehind:!0},"function-name":[{pattern:/(\bfunction\s+)[\w-]+(?=(?:\s*\(?:\s*\))?\s*\{)/,lookbehind:!0,alias:"function"},{pattern:/\b[\w-]+(?=\s*\(\s*\)\s*\{)/,alias:"function"}],"for-or-select":{pattern:/(\b(?:for|select)\s+)\w+(?=\s+in\s)/,alias:"variable",lookbehind:!0},"assign-left":{pattern:/(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,inside:{environment:{pattern:RegExp("(^|[\\s;|&]|[<>]\\()"+t),lookbehind:!0,alias:"constant"}},alias:"variable",lookbehind:!0},parameter:{pattern:/(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,alias:"variable",lookbehind:!0},string:[{pattern:/((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?(?:\r?\n|\r)\2/,lookbehind:!0,greedy:!0,inside:n},{pattern:/((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?(?:\r?\n|\r)\3/,lookbehind:!0,greedy:!0,inside:{bash:a}},{pattern:/(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,lookbehind:!0,greedy:!0,inside:n},{pattern:/(^|[^$\\])'[^']*'/,lookbehind:!0,greedy:!0},{pattern:/\$'(?:[^'\\]|\\[\s\S])*'/,greedy:!0,inside:{entity:n.entity}}],environment:{pattern:RegExp("\\$?"+t),alias:"constant"},variable:n.variable,function:{pattern:/(^|[\s;|&]|[<>]\()(?:add|apropos|apt|apt-cache|apt-get|aptitude|aspell|automysqlbackup|awk|basename|bash|bc|bconsole|bg|bzip2|cal|cargo|cat|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clear|cmp|column|comm|composer|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|debootstrap|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|docker|docker-compose|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|git|gparted|grep|groupadd|groupdel|groupmod|groups|grub-mkconfig|gzip|halt|head|hg|history|host|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|ip|java|jobs|join|kill|killall|less|link|ln|locate|logname|logrotate|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|make|man|mc|mdadm|mkconfig|mkdir|mke2fs|mkfifo|mkfs|mkisofs|mknod|mkswap|mmv|more|most|mount|mtools|mtr|mutt|mv|nano|nc|netstat|nice|nl|node|nohup|notify-send|npm|nslookup|op|open|parted|passwd|paste|pathchk|ping|pkill|pnpm|podman|podman-compose|popd|pr|printcap|printenv|ps|pushd|pv|quota|quotacheck|quotactl|ram|rar|rcp|reboot|remsync|rename|renice|rev|rm|rmdir|rpm|rsync|scp|screen|sdiff|sed|sendmail|seq|service|sftp|sh|shellcheck|shuf|shutdown|sleep|slocate|sort|split|ssh|stat|strace|su|sudo|sum|suspend|swapon|sync|sysctl|tac|tail|tar|tee|time|timeout|top|touch|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|update-grub|uptime|useradd|userdel|usermod|users|uudecode|uuencode|v|vcpkg|vdir|vi|vim|virsh|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yarn|yes|zenity|zip|zsh|zypper)(?=$|[)\s;|&])/,lookbehind:!0},keyword:{pattern:/(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)(?=$|[)\s;|&])/,lookbehind:!0},builtin:{pattern:/(^|[\s;|&]|[<>]\()(?:\.|:|alias|bind|break|builtin|caller|cd|command|continue|declare|echo|enable|eval|exec|exit|export|getopts|hash|help|let|local|logout|mapfile|printf|pwd|read|readarray|readonly|return|set|shift|shopt|source|test|times|trap|type|typeset|ulimit|umask|unalias|unset)(?=$|[)\s;|&])/,lookbehind:!0,alias:"class-name"},boolean:{pattern:/(^|[\s;|&]|[<>]\()(?:false|true)(?=$|[)\s;|&])/,lookbehind:!0},"file-descriptor":{pattern:/\B&\d\b/,alias:"important"},operator:{pattern:/\d?<>|>\||\+=|=[=~]?|!=?|<<[<-]?|[&\d]?>>|\d[<>]&?|[<>][&=]?|&[>&]?|\|[&|]?/,inside:{"file-descriptor":{pattern:/^\d/,alias:"important"}}},punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,number:{pattern:/(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,lookbehind:!0}},a.inside=e.languages.bash;for(var s=["comment","function-name","for-or-select","assign-left","parameter","string","environment","function","keyword","builtin","boolean","file-descriptor","operator","punctuation","number"],o=n.variable[1].inside,i=0;i<s.length;i++)o[s[i]]=e.languages.bash[s[i]];e.languages.sh=e.languages.bash,e.languages.shell=e.languages.bash}(Prism);
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+!function(n){function e(n){return n=n.replace(/<inner>/g,(function(){return"(?:\\\\.|[^\\\\\n\r]|(?:\n|\r\n?)(?![\r\n]))"})),RegExp("((?:^|[^\\\\])(?:\\\\{2})*)(?:"+n+")")}var t="(?:\\\\.|``(?:[^`\r\n]|`(?!`))+``|`[^`\r\n]+`|[^\\\\|\r\n`])+",a="\\|?__(?:\\|__)+\\|?(?:(?:\n|\r\n?)|(?![^]))".replace(/__/g,(function(){return t})),i="\\|?[ \t]*:?-{3,}:?[ \t]*(?:\\|[ \t]*:?-{3,}:?[ \t]*)+\\|?(?:\n|\r\n?)";n.languages.markdown=n.languages.extend("markup",{}),n.languages.insertBefore("markdown","prolog",{"front-matter-block":{pattern:/(^(?:\s*[\r\n])?)---(?!.)[\s\S]*?[\r\n]---(?!.)/,lookbehind:!0,greedy:!0,inside:{punctuation:/^---|---$/,"front-matter":{pattern:/\S+(?:\s+\S+)*/,alias:["yaml","language-yaml"],inside:n.languages.yaml}}},blockquote:{pattern:/^>(?:[\t ]*>)*/m,alias:"punctuation"},table:{pattern:RegExp("^"+a+i+"(?:"+a+")*","m"),inside:{"table-data-rows":{pattern:RegExp("^("+a+i+")(?:"+a+")*$"),lookbehind:!0,inside:{"table-data":{pattern:RegExp(t),inside:n.languages.markdown},punctuation:/\|/}},"table-line":{pattern:RegExp("^("+a+")"+i+"$"),lookbehind:!0,inside:{punctuation:/\||:?-{3,}:?/}},"table-header-row":{pattern:RegExp("^"+a+"$"),inside:{"table-header":{pattern:RegExp(t),alias:"important",inside:n.languages.markdown},punctuation:/\|/}}}},code:[{pattern:/((?:^|\n)[ \t]*\n|(?:^|\r\n?)[ \t]*\r\n?)(?: {4}|\t).+(?:(?:\n|\r\n?)(?: {4}|\t).+)*/,lookbehind:!0,alias:"keyword"},{pattern:/^```[\s\S]*?^```$/m,greedy:!0,inside:{"code-block":{pattern:/^(```.*(?:\n|\r\n?))[\s\S]+?(?=(?:\n|\r\n?)^```$)/m,lookbehind:!0},"code-language":{pattern:/^(```).+/,lookbehind:!0},punctuation:/```/}}],title:[{pattern:/\S.*(?:\n|\r\n?)(?:==+|--+)(?=[ \t]*$)/m,alias:"important",inside:{punctuation:/==+$|--+$/}},{pattern:/(^\s*)#.+/m,lookbehind:!0,alias:"important",inside:{punctuation:/^#+|#+$/}}],hr:{pattern:/(^\s*)([*-])(?:[\t ]*\2){2,}(?=\s*$)/m,lookbehind:!0,alias:"punctuation"},list:{pattern:/(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,lookbehind:!0,alias:"punctuation"},"url-reference":{pattern:/!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/,inside:{variable:{pattern:/^(!?\[)[^\]]+/,lookbehind:!0},string:/(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,punctuation:/^[\[\]!:]|[<>]/},alias:"url"},bold:{pattern:e("\\b__(?:(?!_)<inner>|_(?:(?!_)<inner>)+_)+__\\b|\\*\\*(?:(?!\\*)<inner>|\\*(?:(?!\\*)<inner>)+\\*)+\\*\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^..)[\s\S]+(?=..$)/,lookbehind:!0,inside:{}},punctuation:/\*\*|__/}},italic:{pattern:e("\\b_(?:(?!_)<inner>|__(?:(?!_)<inner>)+__)+_\\b|\\*(?:(?!\\*)<inner>|\\*\\*(?:(?!\\*)<inner>)+\\*\\*)+\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^.)[\s\S]+(?=.$)/,lookbehind:!0,inside:{}},punctuation:/[*_]/}},strike:{pattern:e("(~~?)(?:(?!~)<inner>)+\\2"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^~~?)[\s\S]+(?=\1$)/,lookbehind:!0,inside:{}},punctuation:/~~?/}},"code-snippet":{pattern:/(^|[^\\`])(?:``[^`\r\n]+(?:`[^`\r\n]+)*``(?!`)|`[^`\r\n]+`(?!`))/,lookbehind:!0,greedy:!0,alias:["code","keyword"]},url:{pattern:e('!?\\[(?:(?!\\])<inner>)+\\](?:\\([^\\s)]+(?:[\t ]+"(?:\\\\.|[^"\\\\])*")?\\)|[ \t]?\\[(?:(?!\\])<inner>)+\\])'),lookbehind:!0,greedy:!0,inside:{operator:/^!/,content:{pattern:/(^\[)[^\]]+(?=\])/,lookbehind:!0,inside:{}},variable:{pattern:/(^\][ \t]?\[)[^\]]+(?=\]$)/,lookbehind:!0},url:{pattern:/(^\]\()[^\s)]+/,lookbehind:!0},string:{pattern:/(^[ \t]+)"(?:\\.|[^"\\])*"(?=\)$)/,lookbehind:!0}}}}),["url","bold","italic","strike"].forEach((function(e){["url","bold","italic","strike","code-snippet"].forEach((function(t){e!==t&&(n.languages.markdown[e].inside.content.inside[t]=n.languages.markdown[t])}))})),n.hooks.add("after-tokenize",(function(n){"markdown"!==n.language&&"md"!==n.language||function n(e){if(e&&"string"!=typeof e)for(var t=0,a=e.length;t<a;t++){var i=e[t];if("code"===i.type){var r=i.content[1],o=i.content[3];if(r&&o&&"code-language"===r.type&&"code-block"===o.type&&"string"==typeof r.content){var l=r.content.replace(/\b#/g,"sharp").replace(/\b\+\+/g,"pp"),s="language-"+(l=(/[a-z][\w-]*/i.exec(l)||[""])[0].toLowerCase());o.alias?"string"==typeof o.alias?o.alias=[o.alias,s]:o.alias.push(s):o.alias=[s]}}else n(i.content)}}(n.tokens)})),n.hooks.add("wrap",(function(e){if("code-block"===e.type){for(var t="",a=0,i=e.classes.length;a<i;a++){var s=e.classes[a],d=/language-(.+)/.exec(s);if(d){t=d[1];break}}var p=n.languages[t];if(p)e.content=n.highlight(e.content.replace(r,"").replace(/&(\w{1,8}|#x?[\da-f]{1,8});/gi,(function(n,e){var t;return"#"===(e=e.toLowerCase())[0]?(t="x"===e[1]?parseInt(e.slice(2),16):Number(e.slice(1)),l(t)):o[e]||n})),p,t);else if(t&&"none"!==t&&n.plugins.autoloader){var u="md-"+(new Date).valueOf()+"-"+Math.floor(1e16*Math.random());e.attributes.id=u,n.plugins.autoloader.loadLanguages(t,(function(){var e=document.getElementById(u);e&&(e.innerHTML=n.highlight(e.textContent,n.languages[t],t))}))}}}));var r=RegExp(n.languages.markup.tag.pattern.source,"gi"),o={amp:"&",lt:"<",gt:">",quot:'"'},l=String.fromCodePoint||String.fromCharCode;n.languages.md=n.languages.markdown}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
