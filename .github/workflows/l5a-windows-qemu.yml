@@ -1,0 +1,54 @@
+# Throwaway: runs the windows-qemu job of test.yml three times on a fork branch.
+name: l5a-windows-qemu
+
+on:
+  push:
+    branches:
+    - 'l5a-win-*'
+env:
+  LIMACTL_CREATE_ARGS: ""
+  GOTOOLCHAIN: local
+
+permissions:
+  contents: read
+
+jobs:
+  windows-qemu:
+    name: "Windows tests (QEMU) run ${{ matrix.run }}"
+    runs-on: windows-2025
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        run: [1, 2, 3]
+    steps:
+    - name: Set gitconfig
+      run: |
+        git config --global core.autocrlf false
+        git config --global core.eol lf
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      with:
+        # Submodules are required by the BATS port-forwarding test
+        submodules: true
+        persist-credentials: false
+    - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e  # v7.0.0
+      with:
+        go-version: stable
+        cache: false
+    - uses: $/.github/actions/windows_qemu_install
+    - uses: $/.github/actions/windows_msys2_prep
+    - name: Make
+      run: make
+    - name: Integration tests (QEMU, Windows host)
+      run: |
+        $env:PATH = "$pwd\_output\bin;" + 'C:\Program Files\QEMU;' + $env:PATH
+        $env:MSYS2_ENV_CONV_EXCL = 'HOME_HOST;HOME_GUEST'
+        $env:HOME_HOST = $(cygpath.exe "$env:USERPROFILE")
+        $env:HOME_GUEST = "$env:HOME_HOST"
+        $env:LIMACTL_CREATE_ARGS = '--vm-type=qemu'
+        bash.exe -c "./hack/test-templates.sh templates/default.yaml"
+    - name: Run BATS port-forwarding test (QEMU, Windows host)
+      run: |
+        $env:PATH = "$pwd\_output\bin;" + 'C:\Program Files\QEMU;' + $env:PATH
+        $env:LIMACTL_CREATE_ARGS = '--vm-type=qemu'
+        bash.exe -c "./hack/bats/lib/bats-core/bin/bats --timing ./hack/bats/tests/port-forwarding.bats"
