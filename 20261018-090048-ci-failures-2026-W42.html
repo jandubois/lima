@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CI Failures: 2026-W42</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+.pass-tag, .title-note { font-weight: 400; color: #6b7280; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>CI Failures: 2026-W42</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-10-18 09:00</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Period</td><td>2026-W42 (Sat 2026-10-10 – Fri 2026-10-16)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">248 failed jobs</span> &mdash; 33 on <code>master</code>, 70 known flakes, 29 proven</td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="at-a-glance">At a glance <a href="#at-a-glance" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <table>
+      <thead><tr><th></th><th>this period</th><th>prev week</th><th>Δ</th><th>4-week avg</th></tr></thead>
+      <tbody>
+        <tr><td>failed jobs</td><td>248</td><td>48</td><td>▲ +200</td><td>66.8</td></tr>
+        <tr><td>on <code>master</code></td><td>33</td><td>4</td><td>▲ +29</td><td>9.2</td></tr>
+        <tr><td>known flakes</td><td>70</td><td>22</td><td>▲ +48</td><td>26.0</td></tr>
+        <tr><td>proven flakes (re-run went green)</td><td>29</td><td>8</td><td>▲ +21</td><td>10.0</td></tr>
+        <tr><td>unrecognized</td><td>176</td><td>26</td><td>▲ +150</td><td>40.8</td></tr>
+        <tr><td>awaiting analysis (<code>master</code>)</td><td>0</td><td>0</td><td>—</td><td>0.0</td></tr>
+        <tr><td>jobs run (outside the quarantine)</td><td>3443</td><td>3381</td><td>▲ +62</td><td>2260.2</td></tr>
+        <tr><td>failure rate</td><td>7.2%</td><td>1.5%</td><td>▲ +5.7pp</td><td>3.0%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <hr>
+    <h2 id="assessment">Assessment <a href="#assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Two PR branches account for 172 of the 248 failed jobs, so the jump to 7.2% from 1.5% says little about <code>master</code>. <code>fix/strict-type-definitions</code> failed 125 jobs, 119 of them on its own compile and lint errors, and the gvisor-tap-vsock 0.9.0 Dependabot PR (<a href="https://github.com/lima-vm/lima/issues/5616" class="gh-ref" data-title="build(deps): bump github.com/containers/gvisor-tap-vsock from 0.8.9 to 0.9.0" data-state="merged" data-type="pr">#5616</a>) failed 47, 28 of them on compile errors, before it merged with the code changes on 10-15. On <code>master</code>, 20 of the 33 failures were codeload.github.com answering 404 for action archives between 05:13 and 05:15Z on 10-15, and all 15 Dependabot jobs it hit in those minutes passed on re-run. Of the rest, <code>hostagent-event-partial-line</code> (4 jobs, 1 on <code>master</code>) is a lima bug, and it will keep failing an occasional <code>limactl start</code> until <code>events.Watch</code> waits for complete lines in the hostagent&#39;s event log. <code>go-module-proxy-fetch-failed</code> rose to 10 from 4, but five of those were <code>fix/strict-type-definitions</code> runs between 12:56 and 13:14 on 10-14, so I don&#39;t read it as a trend. BATS fails on every run now, because ftp-archive.freebsd.org still timed out at 08:52Z on 10-18 and both FreeBSD 15 image locations point there; the <code>infra</code> row on <code>master</code> is a 10-18 re-run that hit it, and the template needs another mirror unless the host comes back.</p>
+    </div>
+    <hr>
+    <h2 id="known-flakes">Known flakes <a href="#known-flakes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <table>
+      <thead><tr><th>flake</th><th>jobs</th><th><code>master</code></th><th>prev wk</th><th>Δ</th><th>4-wk avg</th><th>fix</th><th>what it is</th></tr></thead>
+      <tbody>
+        <tr><td><code>actions-codeload-archive-404</code></td><td>35</td><td>20</td><td>0</td><td>▲ +35</td><td>0.0</td><td>—</td><td>codeload.github.com answered 404 for an action archive during Set up job, and the runner gave up after one attempt, before any of the repo&#39;s code ran. When later runs pass with the same pin, the failure was on GitHub&#39;s side; a deleted pin fails every run.</td></tr>
+        <tr><td><code>go-module-proxy-fetch-failed</code></td><td>10</td><td>2</td><td>4</td><td>▲ +6</td><td>1.8</td><td>—</td><td>A Go module zip could not be fetched from the module proxy or its CDN, and the toolchain printed the failure against the import site, so it reads as a compile error. Transient; re-run.</td></tr>
+        <tr><td><code>lychee-remote-5xx</code></td><td>7</td><td>2</td><td>0</td><td>▲ +7</td><td>4.0</td><td>—</td><td>a link target answered lychee with a 5xx server error, a failure on the remote site that needs no repo change; a 404 is excluded because that is a broken link to fix</td></tr>
+        <tr><td><code>instance-start-timeout</code></td><td>5</td><td>0</td><td>2</td><td>▲ +3</td><td>1.5</td><td>—</td><td>limactl start timed out waiting for the instance to reach running; the test reports it as Failed to start &lt;instance&gt;, and the instance name varies by template</td></tr>
+        <tr><td><code>hostagent-event-partial-line</code></td><td>4</td><td>1</td><td>0</td><td>▲ +4</td><td>0.0</td><td>—</td><td>limactl start read half a line of the hostagent&#39;s event log and aborted on the JSON decode error; a lima bug in events.Watch, not a flake</td></tr>
+        <tr><td><code>buildkit-unit-start-failed-on-boot</code></td><td>2</td><td>1</td><td>0</td><td>▲ +2</td><td>0.2</td><td>—</td><td>buildkit.service failed to start during boot while its sibling units came up, so boot.sh exited 1 and the instance never started. Cause unknown; Windows jobs upload no guest log.</td></tr>
+        <tr><td><code>msys2-pacman-db-sync-failed</code></td><td>2</td><td>2</td><td>0</td><td>▲ +2</td><td>0.0</td><td>—</td><td>MSYS2 pacman could not get a database or a package from any mirror, so the Windows test dependencies were never installed and the job stopped before the tests ran</td></tr>
+        <tr><td><code>winget-source-data-missing</code></td><td>2</td><td>0</td><td>0</td><td>▲ +2</td><td>0.0</td><td>—</td><td>winget could not update its own package source, found no packages in any working source, and exited 1 before QEMU was installed, so the Windows QEMU tests never ran. Re-run; a retry around the step would cover it.</td></tr>
+        <tr><td><code>lychee-link-unreachable</code></td><td>1</td><td>0</td><td>2</td><td>▼ -1</td><td>1.8</td><td>—</td><td>lychee could not reach a link target (connection refused/reset, TLS handshake, or timeout), usually lima-vm.io itself; a 404 is excluded because that is a broken link to fix</td></tr>
+        <tr><td><code>windows-guestagent-connect-timeout</code></td><td>1</td><td>0</td><td>1</td><td>—</td><td>0.2</td><td>—</td><td>the hostagent&#39;s fixed 60s wait for the guest agent expired although the guest agent was running, so limactl start exited degraded and the test reported Failed to start</td></tr>
+        <tr><td><code>winget-installer-download-failed</code></td><td>1</td><td>1</td><td>0</td><td>▲ +1</td><td>0.0</td><td>—</td><td>winget found QEMU but could not download its installer from qemu.weilnetz.de, so the Windows QEMU tests never ran</td></tr>
+      </tbody>
+    </table>
+    <p>Silent this period (fired in the previous 4 weeks): <code>dependabot-adm-zip-blocked-by-hugo-extended</code>, <code>fedora-rawhide-url-helper-http-error</code>, <code>github-artifact-upload-unreachable</code>, <code>govulncheck-stdlib-awaiting-go-patch</code>, <code>hdiutil-detach-resource-busy</code>, <code>lychee-deepwiki-bot-challenge</code>, <code>lychee-slack-ua-blocked</code>, <code>net-user-v2-logind-hang</code>, <code>port-forwarding-bats-event-stream-stopped</code>, <code>requirement-script-bad-fd</code>, <code>runner-dns-resolve-failed</code>, <code>windows-go-build-temp-write-failed</code>, <code>windows-runner-perl-missing</code>, <code>wsl2-guestagent-vmid-lookup-failed</code>, <code>wsl2-stop-distro-relaunched</code>, <code>wsl2-systemd-binfmt-failed</code>, <code>zypper-repo-metadata-stale</code>. For the rest, either the fix landed or the matcher rotted — check which.</p>
+    </div>
+    <hr>
+    <h2 id="proven-flakes-29">Proven flakes (29) <a href="#proven-flakes-29" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>These failed, and the identical job then passed on a re-run of the same commit. The code did not change, so the failure was never the developer&#39;s diff.</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>branch</th><th>job name</th><th>what failed</th><th>matcher</th><th>went green after</th></tr></thead>
+      <tbody>
+        <tr><td>Sat 10 19:32</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38080190562/job/114295328721">114295328721</a></td><td><code>docs-antigravity-cli</code></td><td><code>Quick lints</code></td><td>a link target answered lychee with a 5xx server error, a failure on t…</td><td><code>lychee-remote-5xx</code></td><td>41.9h</td></tr>
+        <tr><td>Sat 10 19:32</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38080190562/job/114345148128">114345148128</a></td><td><code>docs-antigravity-cli</code></td><td><code>Quick lints</code></td><td>a link target answered lychee with a 5xx server error, a failure on t…</td><td><code>lychee-remote-5xx</code></td><td>37.4h</td></tr>
+        <tr><td>Sat 10 19:32</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38080190562/job/114813008268">114813008268</a></td><td><code>docs-antigravity-cli</code></td><td><code>Quick lints</code></td><td>a link target answered lychee with a 5xx server error, a failure on t…</td><td><code>lychee-remote-5xx</code></td><td>0.9h</td></tr>
+        <tr><td>Sun 11 08:18</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38124328645/job/114425412151">114425412151</a></td><td><code>oss-scanner</code></td><td><code>Quick lints</code></td><td>a link target answered lychee with a 5xx server error, a failure on t…</td><td><code>lychee-remote-5xx</code></td><td>0.3h</td></tr>
+        <tr><td>Mon 12 13:06</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38253328880/job/114824907238">114824907238</a></td><td><code>net/pr4-linux-enable-networks</code></td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/net-user-v2.yaml)</code></td><td>limactl start read half a line of the hostagent&#39;s event log and abort…</td><td><code>hostagent-event-partial-line</code></td><td>0.4h</td></tr>
+        <tr><td>Wed 14 14:33</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38581634330/job/115912754908">115912754908</a></td><td><code>master</code></td><td><code>Integration tests (QEMU, Linux host) (opensuse.yaml)</code></td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td><td><code>go-module-proxy-fetch-failed</code></td><td>84.7h</td></tr>
+        <tr><td>Wed 14 19:44</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38626232208/job/116065978474">116065978474</a></td><td><code>vz-configure-driver-error-hang</code></td><td><code>Integration tests (QEMU, Linux host) (fedora.yaml)</code></td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td><td><code>go-module-proxy-fetch-failed</code></td><td>0.5h</td></tr>
+        <tr><td>Wed 14 21:02</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38637104213/job/116102935796">116102935796</a></td><td><code>limactl_menu_fix</code></td><td><code>Quick lints</code></td><td>a link target answered lychee with a 5xx server error, a failure on t…</td><td><code>lychee-remote-5xx</code></td><td>4.8h</td></tr>
+        <tr><td>Wed 14 23:32</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38654757375/job/116161760595">116161760595</a></td><td><code>master</code></td><td><code>VMNet tests (QEMU)</code></td><td><em>no log</em></td><td><em>no log</em></td><td>74.9h</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783359/job/116260168358">116260168358</a></td><td><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code></td><td><code>Artifacts Darwin</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td><td>1.3h</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260169564">116260169564</a></td><td><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code></td><td><code>Windows tests (WSL2)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td><td>1.3h</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260169819">116260169819</a></td><td><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code></td><td><code>Lint Go (macos-26)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td><td>1.3h</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260169835">116260169835</a></td><td><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code></td><td><code>Integration tests (BATS)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td><td>1.3h</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260169927">116260169927</a></td><td><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code></td><td><code>Upgrade tests (QEMU, macOS host) (v0.15.1)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td><td>1.3h</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260169934">116260169934</a></td><td><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code></td><td><code>Integration tests (QEMU, Linux host) (alpine.yaml)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td><td>1.3h</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260169949">116260169949</a></td><td><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code></td><td><code>VMNet tests (QEMU)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td><td>1.3h</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260170047">116260170047</a></td><td><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code></td><td><code>Windows tests (QEMU, plain Windows host)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td><td>1.3h</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260170100">116260170100</a></td><td><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code></td><td><code>Integration tests (vz) (default.yaml)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td><td>1.3h</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260170103">116260170103</a></td><td><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code></td><td><code>gomodjail, dynamic mode (experimental; failures shall not block merging PRs)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td><td>1.3h</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260170110">116260170110</a></td><td><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code></td><td><code>Colima tests (QEMU, Linux host)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td><td>1.3h</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260170212">116260170212</a></td><td><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code></td><td><code>Integration tests (QEMU, macOS host)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td><td>1.3h</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783359/job/116260597973">116260597973</a></td><td><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code></td><td><code>Artifacts Darwin</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td><td>1.3h</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783359/job/116261534553">116261534553</a></td><td><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code></td><td><code>Artifacts Darwin</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td><td>1.2h</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783359/job/116263724871">116263724871</a></td><td><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code></td><td><code>Artifacts Darwin</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td><td>1.1h</td></tr>
+        <tr><td>Thu 15 11:48</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38729916700/job/116404870385">116404870385</a></td><td><code>fix/strict-type-definitions</code></td><td><code>Windows tests (WSL2)</code></td><td>buildkit.service failed to start during boot while its sibling units …</td><td><code>buildkit-unit-start-failed-on-boot</code></td><td>5.9h</td></tr>
+        <tr><td>Thu 15 16:41</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38771080507/job/116546741829">116546741829</a></td><td><code>master</code></td><td><code>Quick lints</code></td><td>a link target answered lychee with a 5xx server error, a failure on t…</td><td><code>lychee-remote-5xx</code></td><td>58.6h</td></tr>
+        <tr><td>Thu 15 20:07</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38799426146/job/116644259320">116644259320</a></td><td><code>master</code></td><td><code>Windows tests (WSL2)</code></td><td>MSYS2 pacman could not get a database or a package from any mirror, s…</td><td><code>msys2-pacman-db-sync-failed</code></td><td>55.1h</td></tr>
+        <tr><td>Fri 16 08:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38870898972/job/116874469958">116874469958</a></td><td><code>master</code></td><td><code>Windows tests (WSL2)</code></td><td>buildkit.service failed to start during boot while its sibling units …</td><td><code>buildkit-unit-start-failed-on-boot</code></td><td>1.0h</td></tr>
+        <tr><td>Fri 16 12:36</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38901711215/job/116975291037">116975291037</a></td><td><code>fix/krunkit-vsock</code></td><td><code>Quick lints</code></td><td>lychee could not reach a link target (connection refused/reset, TLS h…</td><td><code>lychee-link-unreachable</code></td><td>5.8h</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <hr>
+    <h2 id="trend">Trend <a href="#trend" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <table>
+      <thead><tr><th>flake</th><th>2026-W37</th><th>2026-W38</th><th>2026-W39</th><th>2026-W40</th><th>2026-W41</th><th>2026-W42</th></tr></thead>
+      <tbody>
+        <tr><td><code>actions-codeload-archive-404</code></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>35</td></tr>
+        <tr><td><code>lychee-remote-5xx</code></td><td>1</td><td>·</td><td>5</td><td>11</td><td>·</td><td>7</td></tr>
+        <tr><td><code>instance-start-timeout</code></td><td>9</td><td>3</td><td>1</td><td>·</td><td>2</td><td>5</td></tr>
+        <tr><td><code>wsl2-systemd-binfmt-failed</code></td><td>·</td><td>·</td><td>·</td><td>20</td><td>·</td><td>·</td></tr>
+        <tr><td><code>go-module-proxy-fetch-failed</code></td><td>2</td><td>2</td><td>·</td><td>1</td><td>4</td><td>10</td></tr>
+        <tr><td><code>net-user-v2-logind-hang</code></td><td>4</td><td>3</td><td>1</td><td>2</td><td>4</td><td>·</td></tr>
+        <tr><td><code>lychee-deepwiki-bot-challenge</code></td><td>·</td><td>·</td><td>1</td><td>7</td><td>·</td><td>·</td></tr>
+        <tr><td><code>lychee-link-unreachable</code></td><td>·</td><td>·</td><td>3</td><td>2</td><td>2</td><td>1</td></tr>
+        <tr><td><code>port-forwarding-bats-event-stream-stopped</code></td><td>·</td><td>·</td><td>·</td><td>1</td><td>5</td><td>·</td></tr>
+        <tr><td><code>hdiutil-detach-resource-busy</code></td><td>2</td><td>2</td><td>·</td><td>1</td><td>·</td><td>·</td></tr>
+        <tr><td><code>requirement-script-hang</code></td><td>5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>hostagent-event-partial-line</code></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>4</td></tr>
+        <tr><td><code>requirement-script-bad-fd</code></td><td>3</td><td>1</td><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>buildkit-unit-start-failed-on-boot</code></td><td>·</td><td>1</td><td>·</td><td>·</td><td>·</td><td>2</td></tr>
+        <tr><td><code>dependabot-adm-zip-blocked-by-hugo-extended</code></td><td>·</td><td>·</td><td>·</td><td>3</td><td>·</td><td>·</td></tr>
+        <tr><td><code>runner-dns-resolve-failed</code></td><td>·</td><td>1</td><td>1</td><td>1</td><td>·</td><td>·</td></tr>
+        <tr><td><code>winget-source-data-missing</code></td><td>1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>2</td></tr>
+        <tr><td><code>zypper-repo-metadata-stale</code></td><td>1</td><td>2</td><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>github-template-fetch-transient</code></td><td>2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>msys2-pacman-db-sync-failed</code></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>2</td></tr>
+        <tr><td><code>windows-guestagent-connect-timeout</code></td><td>·</td><td>·</td><td>·</td><td>·</td><td>1</td><td>1</td></tr>
+        <tr><td><code>wsl2-guestagent-vmid-lookup-failed</code></td><td>·</td><td>·</td><td>1</td><td>1</td><td>·</td><td>·</td></tr>
+        <tr><td><code>wsl2-stop-distro-relaunched</code></td><td>·</td><td>·</td><td>·</td><td>1</td><td>1</td><td>·</td></tr>
+        <tr><td><code>fedora-rawhide-url-helper-http-error</code></td><td>·</td><td>·</td><td>·</td><td>1</td><td>·</td><td>·</td></tr>
+        <tr><td><code>github-artifact-upload-unreachable</code></td><td>·</td><td>·</td><td>1</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>govulncheck-stdlib-awaiting-go-patch</code></td><td>·</td><td>·</td><td>·</td><td>·</td><td>1</td><td>·</td></tr>
+        <tr><td><code>lychee-slack-ua-blocked</code></td><td>·</td><td>·</td><td>·</td><td>·</td><td>1</td><td>·</td></tr>
+        <tr><td><code>windows-go-build-temp-write-failed</code></td><td>·</td><td>1</td><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>windows-runner-perl-missing</code></td><td>·</td><td>·</td><td>·</td><td>·</td><td>1</td><td>·</td></tr>
+        <tr><td><code>winget-installer-download-failed</code></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>1</td></tr>
+        <tr><td><em>unrecognized</em></td><td>24</td><td>90</td><td>35</td><td>12</td><td>26</td><td>176</td></tr>
+        <tr><td><em>no log</em></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>2</td></tr>
+        <tr><td><strong>total failed</strong></td><td>54</td><td>106</td><td>49</td><td>64</td><td>48</td><td>248</td></tr>
+      </tbody>
+    </table>
+    <p>Every column is a complete week, Saturday to Friday, numbered by the ISO week of its Monday. A partial week reads artificially low, so the report excludes the week in progress.</p>
+    </div>
+    <hr>
+    <h2 id="failures-on-master-33">Failures on `master` (33) <a href="#failures-on-master-33" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Mon 12 12:34</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38249830355/job/114812944707">114812944707</a></td><td>Scorecard supply-chain security</td><td><code>Scorecard analysis</code></td><td><code>step :: Run analysis</code></td><td><code>one-off</code> — GitHub GraphQL 504 (Unicorn page) to scorecard-action v2.4.…</td></tr>
+        <tr><td>Wed 14 14:18</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38579413944/job/115905011872">115905011872</a></td><td>test</td><td><code>Integration tests (BATS)</code></td><td><code>step :: Cache image used by templates/default.yaml</code></td><td><code>one-off</code> — setup<em>cache</em>for_template pre-flight: all six cloud-images.u…</td></tr>
+        <tr><td>Wed 14 14:18</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38579413944/job/115905012122">115905012122</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/test-misc.yaml)</code></td><td>limactl start read half a line of the hostagent&#39;s event log and abort…</td><td><code>hostagent-event-partial-line</code></td></tr>
+        <tr><td>Wed 14 14:18</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38579413944/job/117574084104">117574084104</a></td><td>test</td><td><code>Integration tests (BATS)</code></td><td><code>step :: Cache image used by templates/freebsd.yaml</code></td><td><code>infra</code> — confirm re-run (10-18 03:40Z): ftp-archive.freebsd.org gave…</td></tr>
+        <tr><td>Wed 14 14:33</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38581634330/job/115912754784">115912754784</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td>winget found QEMU but could not download its installer from qemu.weil…</td><td><code>winget-installer-download-failed</code></td></tr>
+        <tr><td>Wed 14 14:33</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38581634330/job/115912754908">115912754908</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (opensuse.yaml)</code></td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td><td><code>go-module-proxy-fetch-failed</code> ✓</td></tr>
+        <tr><td>Wed 14 23:32</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38654757375/job/116161760595">116161760595</a></td><td>test</td><td><code>VMNet tests (QEMU)</code></td><td><em>no log</em></td><td><em>no log</em> ✓</td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685598099/job/116259586117">116259586117</a></td><td>Release</td><td><code>Artifacts Darwin</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685598083/job/116259586349">116259586349</a></td><td>lint-quick</td><td><code>Quick lints</code></td><td>a link target answered lychee with a 5xx server error, a failure on t…</td><td><code>lychee-remote-5xx</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685598078/job/116259586762">116259586762</a></td><td>test</td><td><code>Smoke tests (QEMU, old Linux host)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685598078/job/116259586813">116259586813</a></td><td>test</td><td><code>Lint Go (macos-26)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685598078/job/116259586866">116259586866</a></td><td>test</td><td><code>gomodjail, dynamic mode (experimental; failures shall not block merging PRs)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685598078/job/116259586906">116259586906</a></td><td>test</td><td><code>Integration tests (QEMU, macOS host)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685598078/job/116259586987">116259586987</a></td><td>test</td><td><code>Cross-compile (NetBSD, DragonFlyBSD)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685598078/job/116259587043">116259587043</a></td><td>test</td><td><code>VMNet tests (QEMU)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685598078/job/116259587066">116259587066</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685598078/job/116259587080">116259587080</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (docker.yaml)</code></td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td><td><code>go-module-proxy-fetch-failed</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685598078/job/116259587117">116259587117</a></td><td>test</td><td><code>Upgrade tests (QEMU, macOS host) (v0.15.1)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685598078/job/116259587146">116259587146</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (fedora.yaml)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685636283/job/116259705972">116259705972</a></td><td>Release</td><td><code>Artifacts Darwin</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685636239/job/116259706183">116259706183</a></td><td>test</td><td><code>VMNet tests (QEMU)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685636239/job/116259706195">116259706195</a></td><td>test</td><td><code>Integration tests (QEMU, macOS host)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685636239/job/116259706197">116259706197</a></td><td>test</td><td><code>Upgrade tests (QEMU, macOS host) (v0.15.1)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685636239/job/116259706216">116259706216</a></td><td>test</td><td><code>Colima tests (QEMU, Linux host)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685636239/job/116259706220">116259706220</a></td><td>test</td><td><code>Lints</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685636239/job/116259706244">116259706244</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685636239/job/116259706247">116259706247</a></td><td>test</td><td><code>Integration tests (BATS)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685636239/job/116259706260">116259706260</a></td><td>test</td><td><code>gomodjail, dynamic mode (experimental; failures shall not block merging PRs)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 05:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685636239/job/116259706416">116259706416</a></td><td>test</td><td><code>Lint Go (macos-26)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code></td></tr>
+        <tr><td>Thu 15 16:41</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38771080507/job/116546741829">116546741829</a></td><td>lint-quick</td><td><code>Quick lints</code></td><td>a link target answered lychee with a 5xx server error, a failure on t…</td><td><code>lychee-remote-5xx</code> ✓</td></tr>
+        <tr><td>Thu 15 20:07</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38799426146/job/116644259320">116644259320</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td>MSYS2 pacman could not get a database or a package from any mirror, s…</td><td><code>msys2-pacman-db-sync-failed</code> ✓</td></tr>
+        <tr><td>Thu 15 20:07</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38799426146/job/116644259930">116644259930</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td>MSYS2 pacman could not get a database or a package from any mirror, s…</td><td><code>msys2-pacman-db-sync-failed</code></td></tr>
+        <tr><td>Fri 16 08:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38870898972/job/116874469958">116874469958</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td>buildkit.service failed to start during boot while its sibling units …</td><td><code>buildkit-unit-start-failed-on-boot</code> ✓</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <hr>
+    <h2 id="by-workflow">By workflow <a href="#by-workflow" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <table>
+      <thead><tr><th>workflow</th><th>jobs</th><th>known flake</th><th>unrecognized</th><th>on <code>master</code></th></tr></thead>
+      <tbody>
+        <tr><td>test</td><td>214</td><td>56</td><td>156</td><td>28</td></tr>
+        <tr><td>Release</td><td>21</td><td>6</td><td>15</td><td>2</td></tr>
+        <tr><td>lint-quick</td><td>10</td><td>8</td><td>2</td><td>2</td></tr>
+        <tr><td>spell</td><td>2</td><td>0</td><td>2</td><td>0</td></tr>
+        <tr><td>Scorecard supply-chain security</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <hr>
+    <h2 id="pr-branch-failures-215-jobs-across-15-branches">PR-branch failures (215 jobs across 15 branches) <a href="#pr-branch-failures-215-jobs-across-15-branches" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>A failure here is usually the branch&#39;s own work in progress, not CI health. Counted, not analyzed — except where a known flake fired.</p>
+    <table>
+      <thead><tr><th>branch</th><th>jobs</th><th>known flake</th><th>unrecognized</th><th>most common failure</th></tr></thead>
+      <tbody>
+        <tr><td><code>fix/strict-type-definitions</code></td><td>125</td><td>6</td><td>119</td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td></tr>
+        <tr><td><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code></td><td>47</td><td>19</td><td>28</td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td></tr>
+        <tr><td><code>static_build</code></td><td>8</td><td>1</td><td>7</td><td><code>step :: Install musl cross compilers</code></td></tr>
+        <tr><td><code>net/pr4-linux-enable-networks</code></td><td>7</td><td>1</td><td>5</td><td><code>each guest gets an address on its network :: assert_output</code></td></tr>
+        <tr><td><code>oss-scanner</code></td><td>5</td><td>3</td><td>2</td><td><code>step :: Run file and directory name linter</code></td></tr>
+        <tr><td><code>haiderjalal-patch-1</code></td><td>4</td><td>0</td><td>4</td><td><code>go test :: TestFmtInstEscapesLockedMarker</code></td></tr>
+        <tr><td><code>disk_dir2</code></td><td>3</td><td>2</td><td>1</td><td><code>job error :: cmd/limactl/disk.go:169:1: File is not properly formatted (gci)</code></td></tr>
+        <tr><td><code>docs-antigravity-cli</code></td><td>3</td><td>3</td><td>0</td><td>a link target answered lychee with a 5xx server error, a failure on t…</td></tr>
+        <tr><td><code>fix/krunkit-vsock</code></td><td>3</td><td>1</td><td>2</td><td><code>job error :: pkg/driver/krunkit/krunkit_driver_darwin_arm64_test.go:55:14: os.Mkdir</code></td></tr>
+        <tr><td><code>limactl_menu_fix</code></td><td>3</td><td>2</td><td>1</td><td><code>job error :: cmd/limactl-menu/main.go:144:1: File is not properly formatted (gofump</code></td></tr>
+        <tr><td><code>fix/5624-locked-to-protected</code></td><td>2</td><td>1</td><td>1</td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td></tr>
+        <tr><td><code>fix/issue-5606</code></td><td>2</td><td>1</td><td>1</td><td><code>job error :: ./pkg/plugins/plugins.go:33: discoverIn ==&gt; discovering, discover in</code></td></tr>
+        <tr><td><code>fix-5595</code></td><td>1</td><td>0</td><td>1</td><td><code>job error :: ./cmd/limactl-menu/create.go:162: onOther ==&gt; another</code></td></tr>
+        <tr><td><code>usernet-fqdn-dns-zones</code></td><td>1</td><td>0</td><td>1</td><td><code>VZ block device roundtrip via CLI flag and /dev/diskN :: run_roundtrip_test disk cli</code></td></tr>
+        <tr><td><code>vz-configure-driver-error-hang</code></td><td>1</td><td>1</td><td>0</td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td></tr>
+      </tbody>
+    </table>
+    <details>
+    <summary>Every PR-branch failure, by branch</summary>
+    <p><em></em><code>fix/strict-type-definitions</code><em></em> (125)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864744587">115864744587</a></td><td>test</td><td><code>Unit tests (stable)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864744866">115864744866</a></td><td>test</td><td><code>Windows tests (QEMU, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864744918">115864744918</a></td><td>test</td><td><code>Integration tests (BATS)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864744936">115864744936</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864744964">115864744964</a></td><td>test</td><td><code>Cross-compile (NetBSD, DragonFlyBSD)</code></td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td><td><code>go-module-proxy-fetch-failed</code></td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864744975">115864744975</a></td><td>test</td><td><code>VMNet tests (QEMU)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864744982">115864744982</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (debian.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864744996">115864744996</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745006">115864745006</a></td><td>test</td><td><code>gomodjail, dynamic mode (experimental; failures shall not block merging PRs)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745061">115864745061</a></td><td>test</td><td><code>Windows tests (WSL2, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745065">115864745065</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/net-user-v2.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745073">115864745073</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (fedora.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745089">115864745089</a></td><td>test</td><td><code>Unit tests (oldstable)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745095">115864745095</a></td><td>test</td><td><code>Upgrade tests (QEMU, macOS host) (v0.15.1)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745109">115864745109</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (archlinux.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745110">115864745110</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745133">115864745133</a></td><td>test</td><td><code>Vulncheck</code></td><td><code>job error :: /home/runner/work/lima/lima/pkg/portfwd/forward.go:105:23: invalid ope</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745134">115864745134</a></td><td>test</td><td><code>Colima tests (QEMU, Linux host)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745141">115864745141</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (docker.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745148">115864745148</a></td><td>test</td><td><code>Lints</code></td><td><code>job error :: /home/runner/work/lima/lima/pkg/portfwd/forward.go:105:23: invalid ope</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745153">115864745153</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (alpine.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767519/job/115864745154">115864745154</a></td><td>Release</td><td><code>Artifacts Darwin</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745157">115864745157</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/test-misc.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745169">115864745169</a></td><td>test</td><td><code>Integration tests (QEMU, macOS host)</code></td><td><code>job error :: cmd/limactl-menu/main.go:135:4: cannot use in.Status (variable of stri</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745191">115864745191</a></td><td>test</td><td><code>Smoke tests (QEMU, old Linux host)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745253">115864745253</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (opensuse.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745274">115864745274</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/alpine-iso-9p-writable.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:56</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567767385/job/115864745294">115864745294</a></td><td>test</td><td><code>Lint Go (ubuntu-24.04)</code></td><td><code>job error :: cmd/limactl-menu/main.go:135:4: cannot use in.Status (variable of stri</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567798894/job/115864851875">115864851875</a></td><td>Release</td><td><code>Artifacts Darwin</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854068">115864854068</a></td><td>test</td><td><code>Unit tests (stable)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854326">115864854326</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854353">115864854353</a></td><td>test</td><td><code>Cross-compile (NetBSD, DragonFlyBSD)</code></td><td><code>job error :: cmd/limactl-menu/main.go:135:4: cannot use in.Status (variable of stri</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854425">115864854425</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td><td><code>go-module-proxy-fetch-failed</code></td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854440">115864854440</a></td><td>test</td><td><code>Colima tests (QEMU, Linux host)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854460">115864854460</a></td><td>test</td><td><code>Windows tests (WSL2, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854562">115864854562</a></td><td>test</td><td><code>Lints</code></td><td><code>job error :: /home/runner/work/lima/lima/pkg/portfwd/forward.go:105:23: invalid ope</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854572">115864854572</a></td><td>test</td><td><code>Lint Go (ubuntu-24.04)</code></td><td><code>job error :: cmd/limactl-menu/main.go:135:4: cannot use in.Status (variable of stri</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854628">115864854628</a></td><td>test</td><td><code>Vulncheck</code></td><td><code>job error :: /home/runner/work/lima/lima/pkg/portfwd/forward.go:105:23: invalid ope</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854676">115864854676</a></td><td>test</td><td><code>Unit tests (oldstable)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854682">115864854682</a></td><td>test</td><td><code>Integration tests (QEMU, macOS host)</code></td><td><code>job error :: cmd/limactl-menu/main.go:135:4: cannot use in.Status (variable of stri</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854717">115864854717</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/net-user-v2.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854742">115864854742</a></td><td>test</td><td><code>VMNet tests (QEMU)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854792">115864854792</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (archlinux.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854818">115864854818</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/alpine-iso-9p-writable.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854821">115864854821</a></td><td>test</td><td><code>Upgrade tests (QEMU, macOS host) (v0.15.1)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854823">115864854823</a></td><td>test</td><td><code>Integration tests (BATS)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854831">115864854831</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/test-misc.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854855">115864854855</a></td><td>test</td><td><code>gomodjail, dynamic mode (experimental; failures shall not block merging PRs)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854874">115864854874</a></td><td>test</td><td><code>Windows tests (QEMU, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854878">115864854878</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864854972">115864854972</a></td><td>test</td><td><code>Smoke tests (QEMU, old Linux host)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864855005">115864855005</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (fedora.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864855091">115864855091</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (opensuse.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864855092">115864855092</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (alpine.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864855128">115864855128</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (debian.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38567799287/job/115864855245">115864855245</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (docker.yaml)</code></td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100485/job/115865884345">115865884345</a></td><td>Release</td><td><code>Artifacts Darwin</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865887564">115865887564</a></td><td>test</td><td><code>Lints</code></td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td><td><code>go-module-proxy-fetch-failed</code></td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865887707">115865887707</a></td><td>test</td><td><code>Integration tests (QEMU, macOS host)</code></td><td><code>job error :: pkg/portfwd/forward_test.go:39:90: cannot use limatype.ProtoTCP (const</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865887903">115865887903</a></td><td>test</td><td><code>Upgrade tests (QEMU, macOS host) (v0.15.1)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865887923">115865887923</a></td><td>test</td><td><code>Integration tests (BATS)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865887942">115865887942</a></td><td>test</td><td><code>Vulncheck</code></td><td><code>job error :: /home/runner/work/lima/lima/pkg/hostagent/mount.go:78:78: cannot use *</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865887953">115865887953</a></td><td>test</td><td><code>Unit tests (stable)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865887970">115865887970</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (debian.yaml)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865887982">115865887982</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (alpine.yaml)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888042">115865888042</a></td><td>test</td><td><code>Colima tests (QEMU, Linux host)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888054">115865888054</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (archlinux.yaml)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888062">115865888062</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (fedora.yaml)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888075">115865888075</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888143">115865888143</a></td><td>test</td><td><code>Unit tests (oldstable)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888150">115865888150</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/test-misc.yaml)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888158">115865888158</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888163">115865888163</a></td><td>test</td><td><code>gomodjail, dynamic mode (experimental; failures shall not block merging PRs)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888186">115865888186</a></td><td>test</td><td><code>Cross-compile (NetBSD, DragonFlyBSD)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888237">115865888237</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (opensuse.yaml)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888274">115865888274</a></td><td>test</td><td><code>Lint Go (ubuntu-24.04)</code></td><td><code>job error :: pkg/portfwd/forward_test.go:39:90: cannot use limatype.ProtoTCP (const</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888285">115865888285</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888332">115865888332</a></td><td>test</td><td><code>Windows tests (QEMU, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888338">115865888338</a></td><td>test</td><td><code>Windows tests (WSL2, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888341">115865888341</a></td><td>test</td><td><code>VMNet tests (QEMU)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888360">115865888360</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/net-user-v2.yaml)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888398">115865888398</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/alpine-iso-9p-writable.yaml)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888487">115865888487</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (docker.yaml)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568100627/job/115865888534">115865888534</a></td><td>test</td><td><code>Smoke tests (QEMU, old Linux host)</code></td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568371825/job/115866774891">115866774891</a></td><td>test</td><td><code>Windows tests (WSL2, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568371825/job/115866774893">115866774893</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568371825/job/115866775028">115866775028</a></td><td>test</td><td><code>Integration tests (QEMU, macOS host)</code></td><td><code>job error :: pkg/portfwd/forward_test.go:39:90: cannot use limatype.ProtoTCP (const</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568371825/job/115866775032">115866775032</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568371825/job/115866775085">115866775085</a></td><td>test</td><td><code>Unit tests (stable)</code></td><td><code>job error :: pkg/portfwd/forward_test.go:39:90: cannot use limatype.ProtoTCP (const</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568371825/job/115866775182">115866775182</a></td><td>test</td><td><code>Lint Go (ubuntu-24.04)</code></td><td><code>job error :: pkg/portfwd/forward_test.go:39:90: cannot use limatype.ProtoTCP (const</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568371825/job/115866775222">115866775222</a></td><td>test</td><td><code>Windows tests (QEMU, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568371825/job/115866775305">115866775305</a></td><td>test</td><td><code>Unit tests (oldstable)</code></td><td><code>job error :: pkg/portfwd/forward_test.go:39:90: cannot use limatype.ProtoTCP (const</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568371963/job/115870202383">115870202383</a></td><td>Release</td><td><code>release</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:03</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568659975/job/115867761264">115867761264</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:03</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568659975/job/115867761356">115867761356</a></td><td>test</td><td><code>Windows tests (WSL2, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:03</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568659975/job/115867761520">115867761520</a></td><td>test</td><td><code>Lint Go (ubuntu-24.04)</code></td><td><code>job error :: pkg/guestagent/sockets/sockets_linux.go:90:1: File is not properly for</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:03</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568659975/job/115867761594">115867761594</a></td><td>test</td><td><code>Windows tests (QEMU, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:03</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568659975/job/115867761638">115867761638</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td><td><code>go-module-proxy-fetch-failed</code></td></tr>
+        <tr><td>Wed 14 13:03</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38568659990/job/115872324164">115872324164</a></td><td>Release</td><td><code>release</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:08</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38569301305/job/115869966945">115869966945</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:08</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38569301305/job/115869967330">115869967330</a></td><td>test</td><td><code>Windows tests (WSL2, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:08</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38569301305/job/115869967343">115869967343</a></td><td>test</td><td><code>Windows tests (QEMU, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:08</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38569301305/job/115869967658">115869967658</a></td><td>test</td><td><code>Lint Go (ubuntu-24.04)</code></td><td><code>job error :: pkg/registry/registry_test.go:58:1: File is not properly formatted (gc</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:08</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38569301305/job/115869967918">115869967918</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:08</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38569301302/job/115874321167">115874321167</a></td><td>Release</td><td><code>release</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:12</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38569849231/job/115871864525">115871864525</a></td><td>test</td><td><code>Lint Go (ubuntu-24.04)</code></td><td><code>job error :: pkg/registry/registry_test.go:55:1: File is not properly formatted (gc</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:12</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38569849231/job/115871864541">115871864541</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:12</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38569849231/job/115871864626">115871864626</a></td><td>test</td><td><code>Windows tests (WSL2, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:12</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38569849231/job/115871864681">115871864681</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:12</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38569849231/job/115871864924">115871864924</a></td><td>test</td><td><code>Windows tests (QEMU, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:12</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38569849484/job/115877789733">115877789733</a></td><td>Release</td><td><code>release</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:14</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38570093565/job/115872712240">115872712240</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:14</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38570093565/job/115872712662">115872712662</a></td><td>test</td><td><code>Windows tests (WSL2, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:14</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38570093565/job/115872712879">115872712879</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:14</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38570093565/job/115872713026">115872713026</a></td><td>test</td><td><code>Lint Go (ubuntu-24.04)</code></td><td><code>job error :: pkg/registry/registry_test.go:55:1: File is not properly formatted (gc</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:14</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38570093565/job/115872713454">115872713454</a></td><td>test</td><td><code>Windows tests (QEMU, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:14</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38570093565/job/115872714004">115872714004</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (opensuse.yaml)</code></td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td><td><code>go-module-proxy-fetch-failed</code></td></tr>
+        <tr><td>Wed 14 13:14</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38570093595/job/115879418384">115879418384</a></td><td>Release</td><td><code>release</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:23</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38571433981/job/115883394246">115883394246</a></td><td>Release</td><td><code>release</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:23</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38571434449/job/115877360766">115877360766</a></td><td>test</td><td><code>Windows tests (QEMU, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:23</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38571434449/job/115877360808">115877360808</a></td><td>test</td><td><code>Lint Go (ubuntu-24.04)</code></td><td><code>job error :: pkg/registry/registry_test.go:54:1: File is not properly formatted (go</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:23</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38571434449/job/115877360865">115877360865</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:23</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38571434449/job/115877360915">115877360915</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 13:23</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38571434449/job/115877361245">115877361245</a></td><td>test</td><td><code>Windows tests (WSL2, plain Windows host)</code></td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td><td>unrecognized</td></tr>
+        <tr><td>Thu 15 11:48</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38729916700/job/116404870385">116404870385</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td>buildkit.service failed to start during boot while its sibling units …</td><td><code>buildkit-unit-start-failed-on-boot</code> ✓</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>dependabot/go_modules/github.com/containers/gvisor-tap-vsock-0.9.0</code><em></em> (47)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676164/job/115857602540">115857602540</a></td><td>Release</td><td><code>Artifacts Darwin</code></td><td><code>job error :: pkg/networks/usernet/gvproxy.go:246:4: m.HandleFunc undefined (type ht</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604040">115857604040</a></td><td>test</td><td><code>Lints</code></td><td><code>job error :: /home/runner/work/lima/lima/pkg/networks/usernet/gvproxy.go:246:4: m.H</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604279">115857604279</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td><code>job error :: pkg/networks/usernet/gvproxy.go:246:4: m.HandleFunc undefined (type ht</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604341">115857604341</a></td><td>test</td><td><code>Windows tests (WSL2, plain Windows host)</code></td><td><code>job error :: pkg/networks/usernet/gvproxy.go:246:4: m.HandleFunc undefined (type ht</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604343">115857604343</a></td><td>test</td><td><code>Vulncheck</code></td><td><code>job error :: /home/runner/work/lima/lima/pkg/networks/usernet/gvproxy.go:246:4: m.H</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604386">115857604386</a></td><td>test</td><td><code>Unit tests (stable)</code></td><td><code>job error :: pkg/networks/usernet/gvproxy.go:246:4: m.HandleFunc undefined (type ht</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604527">115857604527</a></td><td>test</td><td><code>Smoke tests (QEMU, old Linux host)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604531">115857604531</a></td><td>test</td><td><code>Integration tests (BATS)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604614">115857604614</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td><code>job error :: pkg/networks/usernet/gvproxy.go:246:4: m.HandleFunc undefined (type ht</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604667">115857604667</a></td><td>test</td><td><code>Lint Go (ubuntu-24.04)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604692">115857604692</a></td><td>test</td><td><code>VMNet tests (QEMU)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604703">115857604703</a></td><td>test</td><td><code>Cross-compile (NetBSD, DragonFlyBSD)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604738">115857604738</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/alpine-iso-9p-writable.yaml)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604759">115857604759</a></td><td>test</td><td><code>Windows tests (QEMU, plain Windows host)</code></td><td><code>job error :: pkg/networks/usernet/gvproxy.go:246:4: m.HandleFunc undefined (type ht</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604767">115857604767</a></td><td>test</td><td><code>Integration tests (QEMU, macOS host)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604790">115857604790</a></td><td>test</td><td><code>Unit tests (oldstable)</code></td><td><code>job error :: pkg/networks/usernet/gvproxy.go:246:4: m.HandleFunc undefined (type ht</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604839">115857604839</a></td><td>test</td><td><code>Upgrade tests (QEMU, macOS host) (v0.15.1)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857604966">115857604966</a></td><td>test</td><td><code>Colima tests (QEMU, Linux host)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857605031">115857605031</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857605064">115857605064</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (opensuse.yaml)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857605074">115857605074</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (docker.yaml)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857605109">115857605109</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (fedora.yaml)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857605123">115857605123</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/net-user-v2.yaml)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857605127">115857605127</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/test-misc.yaml)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857605128">115857605128</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (alpine.yaml)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857605160">115857605160</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (debian.yaml)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857605222">115857605222</a></td><td>test</td><td><code>gomodjail, dynamic mode (experimental; failures shall not block merging PRs)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 12:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38565676488/job/115857605321">115857605321</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (archlinux.yaml)</code></td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 15:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38587377760/job/115932856905">115932856905</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>limactl start timed out waiting for the instance to reach running; th…</td><td><code>instance-start-timeout</code></td></tr>
+        <tr><td>Wed 14 15:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38587377760/job/115932856958">115932856958</a></td><td>test</td><td><code>gomodjail, dynamic mode (experimental; failures shall not block merging PRs)</code></td><td>limactl start timed out waiting for the instance to reach running; th…</td><td><code>instance-start-timeout</code></td></tr>
+        <tr><td>Wed 14 15:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38587377760/job/115975724110">115975724110</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>limactl start timed out waiting for the instance to reach running; th…</td><td><code>instance-start-timeout</code></td></tr>
+        <tr><td>Wed 14 15:13</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38587377760/job/115975724572">115975724572</a></td><td>test</td><td><code>gomodjail, dynamic mode (experimental; failures shall not block merging PRs)</code></td><td>limactl start timed out waiting for the instance to reach running; th…</td><td><code>instance-start-timeout</code></td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783359/job/116260168358">116260168358</a></td><td>Release</td><td><code>Artifacts Darwin</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code> ✓</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260169564">116260169564</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code> ✓</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260169819">116260169819</a></td><td>test</td><td><code>Lint Go (macos-26)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code> ✓</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260169835">116260169835</a></td><td>test</td><td><code>Integration tests (BATS)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code> ✓</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260169927">116260169927</a></td><td>test</td><td><code>Upgrade tests (QEMU, macOS host) (v0.15.1)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code> ✓</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260169934">116260169934</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (alpine.yaml)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code> ✓</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260169949">116260169949</a></td><td>test</td><td><code>VMNet tests (QEMU)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code> ✓</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260170047">116260170047</a></td><td>test</td><td><code>Windows tests (QEMU, plain Windows host)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code> ✓</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260170100">116260170100</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code> ✓</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260170103">116260170103</a></td><td>test</td><td><code>gomodjail, dynamic mode (experimental; failures shall not block merging PRs)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code> ✓</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260170110">116260170110</a></td><td>test</td><td><code>Colima tests (QEMU, Linux host)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code> ✓</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783668/job/116260170212">116260170212</a></td><td>test</td><td><code>Integration tests (QEMU, macOS host)</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code> ✓</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783359/job/116260597973">116260597973</a></td><td>Release</td><td><code>Artifacts Darwin</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code> ✓</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783359/job/116261534553">116261534553</a></td><td>Release</td><td><code>Artifacts Darwin</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code> ✓</td></tr>
+        <tr><td>Thu 15 05:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38685783359/job/116263724871">116263724871</a></td><td>Release</td><td><code>Artifacts Darwin</code></td><td>codeload.github.com answered 404 for an action archive during Set up …</td><td><code>actions-codeload-archive-404</code> ✓</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>static_build</code><em></em> (8)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Fri 16 08:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38872440277/job/116879471443">116879471443</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td>the hostagent&#39;s fixed 60s wait for the guest agent expired although t…</td><td><code>windows-guestagent-connect-timeout</code></td></tr>
+        <tr><td>Fri 16 08:18</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38872850712/job/116884402163">116884402163</a></td><td>Release</td><td><code>release</code></td><td><code>step :: Install musl cross compilers</code></td><td>unrecognized</td></tr>
+        <tr><td>Fri 16 08:46</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38875936627/job/116890880790">116890880790</a></td><td>test</td><td><code>Lints</code></td><td><code>step :: Run zizmor</code></td><td>unrecognized</td></tr>
+        <tr><td>Fri 16 08:46</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38875936598/job/116894623435">116894623435</a></td><td>Release</td><td><code>release</code></td><td><code>step :: Install musl cross compilers</code></td><td>unrecognized</td></tr>
+        <tr><td>Fri 16 09:02</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38877763661/job/116896837881">116896837881</a></td><td>test</td><td><code>Lints</code></td><td><code>step :: Run zizmor</code></td><td>unrecognized</td></tr>
+        <tr><td>Fri 16 09:02</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38877763776/job/116900189805">116900189805</a></td><td>Release</td><td><code>release</code></td><td><code>step :: Install musl cross compilers</code></td><td>unrecognized</td></tr>
+        <tr><td>Fri 16 09:50</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38883223580/job/116918396987">116918396987</a></td><td>Release</td><td><code>release</code></td><td><code>step :: Compile binaries (Linux)</code></td><td>unrecognized</td></tr>
+        <tr><td>Fri 16 10:04</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38884740497/job/116923649251">116923649251</a></td><td>Release</td><td><code>release</code></td><td><code>step :: Compile binaries (Linux)</code></td><td>unrecognized</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>net/pr4-linux-enable-networks</code><em></em> (7)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Mon 12 13:06</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38253328880/job/114824907238">114824907238</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/net-user-v2.yaml)</code></td><td>limactl start read half a line of the hostagent&#39;s event log and abort…</td><td><code>hostagent-event-partial-line</code> ✓</td></tr>
+        <tr><td>Fri 16 13:34</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38908867159/job/116999313797">116999313797</a></td><td>test</td><td><code>VMNet tests (QEMU, ubuntu-24.04)</code></td><td><code>each guest gets an address on its network :: assert_output</code></td><td>unrecognized</td></tr>
+        <tr><td>Fri 16 13:34</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38908867159/job/116999313931">116999313931</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><code>each guest gets an address on its network :: assert_output</code></td><td>unrecognized</td></tr>
+        <tr><td>Fri 16 13:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38909653583/job/117001969368">117001969368</a></td><td>test</td><td><code>VMNet tests (QEMU, ubuntu-24.04)</code></td><td><code>each guest gets an address on its network :: assert_output</code></td><td>unrecognized</td></tr>
+        <tr><td>Fri 16 13:40</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38909653583/job/117001969513">117001969513</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><code>each guest gets an address on its network :: assert_output</code></td><td>unrecognized</td></tr>
+        <tr><td>Fri 16 13:44</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38910171801/job/117003708740">117003708740</a></td><td>test</td><td><code>VMNet tests (QEMU, ubuntu-24.04)</code></td><td><code>each guest gets an address on its network :: assert_output</code></td><td>unrecognized</td></tr>
+        <tr><td>Fri 16 13:44</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38910171801/job/117003708765">117003708765</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>oss-scanner</code><em></em> (5)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Sun 11 05:41</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38115600947/job/114399761439">114399761439</a></td><td>lint-quick</td><td><code>Quick lints</code></td><td><code>step :: Run file and directory name linter</code></td><td>unrecognized</td></tr>
+        <tr><td>Sun 11 05:41</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38115601005/job/114399761882">114399761882</a></td><td>test</td><td><code>Cross-compile (NetBSD, DragonFlyBSD)</code></td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td><td><code>go-module-proxy-fetch-failed</code></td></tr>
+        <tr><td>Sun 11 07:58</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38123206426/job/114422042391">114422042391</a></td><td>lint-quick</td><td><code>Quick lints</code></td><td><code>step :: Run file and directory name linter</code></td><td>unrecognized</td></tr>
+        <tr><td>Sun 11 07:58</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38123206442/job/114422043030">114422043030</a></td><td>test</td><td><code>Windows tests (QEMU, plain Windows host)</code></td><td>winget could not update its own package source, found no packages in …</td><td><code>winget-source-data-missing</code></td></tr>
+        <tr><td>Sun 11 08:18</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38124328645/job/114425412151">114425412151</a></td><td>lint-quick</td><td><code>Quick lints</code></td><td>a link target answered lychee with a 5xx server error, a failure on t…</td><td><code>lychee-remote-5xx</code> ✓</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>haiderjalal-patch-1</code><em></em> (4)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Thu 15 10:12</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38718662896/job/116367497432">116367497432</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td><code>go test :: TestFmtInstEscapesLockedMarker</code></td><td>unrecognized</td></tr>
+        <tr><td>Thu 15 10:12</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38718662896/job/116367497643">116367497643</a></td><td>test</td><td><code>Unit tests (oldstable)</code></td><td><code>go test :: TestFmtInstEscapesLockedMarker</code></td><td>unrecognized</td></tr>
+        <tr><td>Thu 15 10:12</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38718662896/job/116367497691">116367497691</a></td><td>test</td><td><code>Unit tests (stable)</code></td><td><code>go test :: TestFmtInstEscapesLockedMarker</code></td><td>unrecognized</td></tr>
+        <tr><td>Thu 15 10:12</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38718662896/job/116367497814">116367497814</a></td><td>test</td><td><code>Integration tests (QEMU, macOS host)</code></td><td><code>go test :: TestFmtInstEscapesLockedMarker</code></td><td>unrecognized</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>disk_dir2</code><em></em> (3)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Fri 16 12:28</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38900792445/job/116972253388">116972253388</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td>winget could not update its own package source, found no packages in …</td><td><code>winget-source-data-missing</code></td></tr>
+        <tr><td>Fri 16 14:12</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38913959709/job/117016538143">117016538143</a></td><td>test</td><td><code>Lint Go (ubuntu-24.04)</code></td><td><code>job error :: cmd/limactl/disk.go:169:1: File is not properly formatted (gci)</code></td><td>unrecognized</td></tr>
+        <tr><td>Fri 16 14:18</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38914682278/job/117019004519">117019004519</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/net-user-v2.yaml)</code></td><td>limactl start read half a line of the hostagent&#39;s event log and abort…</td><td><code>hostagent-event-partial-line</code></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>docs-antigravity-cli</code><em></em> (3)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Sat 10 19:32</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38080190562/job/114295328721">114295328721</a></td><td>lint-quick</td><td><code>Quick lints</code></td><td>a link target answered lychee with a 5xx server error, a failure on t…</td><td><code>lychee-remote-5xx</code> ✓</td></tr>
+        <tr><td>Sat 10 19:32</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38080190562/job/114345148128">114345148128</a></td><td>lint-quick</td><td><code>Quick lints</code></td><td>a link target answered lychee with a 5xx server error, a failure on t…</td><td><code>lychee-remote-5xx</code> ✓</td></tr>
+        <tr><td>Sat 10 19:32</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38080190562/job/114813008268">114813008268</a></td><td>lint-quick</td><td><code>Quick lints</code></td><td>a link target answered lychee with a 5xx server error, a failure on t…</td><td><code>lychee-remote-5xx</code> ✓</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>fix/krunkit-vsock</code><em></em> (3)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Mon 12 12:47</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38251293607/job/114817985364">114817985364</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td><code>setup_file failed :: failed to inspect instance &#39;bats-port-forwarding&#39;: open C:\\msys64\\ho</code></td><td>unrecognized</td></tr>
+        <tr><td>Mon 12 12:47</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38251293607/job/114817985612">114817985612</a></td><td>test</td><td><code>Lint Go (macos-26)</code></td><td><code>job error :: pkg/driver/krunkit/krunkit_driver_darwin_arm64_test.go:55:14: os.Mkdir</code></td><td>unrecognized</td></tr>
+        <tr><td>Fri 16 12:36</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38901711215/job/116975291037">116975291037</a></td><td>lint-quick</td><td><code>Quick lints</code></td><td>lychee could not reach a link target (connection refused/reset, TLS h…</td><td><code>lychee-link-unreachable</code> ✓</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>limactl_menu_fix</code><em></em> (3)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Wed 14 20:49</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38635296736/job/116096779701">116096779701</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>limactl start timed out waiting for the instance to reach running; th…</td><td><code>instance-start-timeout</code></td></tr>
+        <tr><td>Wed 14 20:49</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38635296736/job/116096779748">116096779748</a></td><td>test</td><td><code>Lint Go (ubuntu-24.04)</code></td><td><code>job error :: cmd/limactl-menu/main.go:144:1: File is not properly formatted (gofump</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 14 21:02</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38637104213/job/116102935796">116102935796</a></td><td>lint-quick</td><td><code>Quick lints</code></td><td>a link target answered lychee with a 5xx server error, a failure on t…</td><td><code>lychee-remote-5xx</code> ✓</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>fix/5624-locked-to-protected</code><em></em> (2)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Thu 15 10:42</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38722199495/job/116379233996">116379233996</a></td><td>test</td><td><code>Lint Go (ubuntu-24.04)</code></td><td><code>job error :: cmd/limactl-menu/main.go:186:1: File is not properly formatted (gci)</code></td><td>unrecognized</td></tr>
+        <tr><td>Thu 15 14:26</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38751467510/job/116478671225">116478671225</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (opensuse.yaml)</code></td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td><td><code>go-module-proxy-fetch-failed</code></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>fix/issue-5606</code><em></em> (2)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Tue 13 19:44</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38457207396/job/115502906078">115502906078</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/test-misc.yaml)</code></td><td>limactl start read half a line of the hostagent&#39;s event log and abort…</td><td><code>hostagent-event-partial-line</code></td></tr>
+        <tr><td>Thu 15 17:50</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38780598933/job/116579492120">116579492120</a></td><td>spell</td><td><code>Spell check</code></td><td><code>job error :: ./pkg/plugins/plugins.go:33: discoverIn ==&gt; discovering, discover in</code></td><td>unrecognized</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>fix-5595</code><em></em> (1)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Fri 16 18:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38944100939/job/117118737000">117118737000</a></td><td>spell</td><td><code>Spell check</code></td><td><code>job error :: ./cmd/limactl-menu/create.go:162: onOther ==&gt; another</code></td><td>unrecognized</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>usernet-fqdn-dns-zones</code><em></em> (1)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Wed 14 18:25</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38615029438/job/116027804869">116027804869</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td><code>VZ block device roundtrip via CLI flag and /dev/diskN :: run_roundtrip_test disk cli</code></td><td>unrecognized</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>vz-configure-driver-error-hang</code><em></em> (1)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Wed 14 19:44</td><td><a href="https://github.com/lima-vm/lima/actions/runs/38626232208/job/116065978474">116065978474</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (fedora.yaml)</code></td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td><td><code>go-module-proxy-fetch-failed</code> ✓</td></tr>
+      </tbody>
+    </table>
+    </details>
+    </div>
+    <hr>
+    <h2 id="unrecognized-failure-surfaces">Unrecognized failure surfaces <a href="#unrecognized-failure-surfaces" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Grouped by failing test <strong>and</strong> failing command. A surface spanning several unrelated branches is a candidate flake worth a matcher; one confined to a single branch is that branch&#39;s own breakage.</p>
+    <table>
+      <thead><tr><th>jobs</th><th>branches</th><th>failing test :: failing command</th></tr></thead>
+      <tbody>
+        <tr><td>40</td><td>1</td><td><code>job error :: pkg/driver/wsl2/vm_windows.go:292:9: cannot use instState (variable of</code></td></tr>
+        <tr><td>38</td><td>1</td><td><code>job error :: pkg/portfwd/forward.go:105:23: invalid operation: guest.Protocol != li</code></td></tr>
+        <tr><td>20</td><td>1</td><td><code>job error :: pkg/hostagent/mount.go:78:78: cannot use *m.SSHFS.SFTPDriver (variable</code></td></tr>
+        <tr><td>19</td><td>1</td><td><code>job error :: pkg/portfwd/client.go:29:44: cannot use func() (net.Conn, error) {…}</code></td></tr>
+        <tr><td>7</td><td>1</td><td><code>job error :: pkg/networks/usernet/gvproxy.go:246:4: m.HandleFunc undefined (type ht</code></td></tr>
+        <tr><td>6</td><td>1</td><td><code>job error :: pkg/portfwd/forward_test.go:39:90: cannot use limatype.ProtoTCP (const</code></td></tr>
+        <tr><td>5</td><td>1</td><td><code>each guest gets an address on its network :: assert_output</code></td></tr>
+        <tr><td>5</td><td>1</td><td><code>job error :: cmd/limactl-menu/main.go:135:4: cannot use in.Status (variable of stri</code></td></tr>
+        <tr><td>4</td><td>1</td><td><code>go test :: TestFmtInstEscapesLockedMarker</code></td></tr>
+        <tr><td>4</td><td>1</td><td><code>job error :: /home/runner/work/lima/lima/pkg/portfwd/forward.go:105:23: invalid ope</code></td></tr>
+        <tr><td>3</td><td>1</td><td><code>step :: Install musl cross compilers</code></td></tr>
+        <tr><td>2</td><td>1</td><td><code>job error :: pkg/registry/registry_test.go:55:1: File is not properly formatted (gc</code></td></tr>
+        <tr><td>2</td><td>1</td><td><code>job error :: /home/runner/work/lima/lima/pkg/networks/usernet/gvproxy.go:246:4: m.H</code></td></tr>
+        <tr><td>2</td><td>1</td><td><code>step :: Run file and directory name linter</code></td></tr>
+        <tr><td>2</td><td>1</td><td><code>step :: Compile binaries (Linux)</code></td></tr>
+        <tr><td>2</td><td>1</td><td><code>step :: Run zizmor</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>step :: Run analysis</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>step :: Cache image used by templates/freebsd.yaml</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>job error :: pkg/registry/registry_test.go:58:1: File is not properly formatted (gc</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>job error :: ./cmd/limactl-menu/create.go:162: onOther ==&gt; another</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>job error :: cmd/limactl-menu/main.go:186:1: File is not properly formatted (gci)</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>step :: Cache image used by templates/default.yaml</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>VZ block device roundtrip via CLI flag and /dev/diskN :: run_roundtrip_test disk cli</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>job error :: cmd/limactl-menu/main.go:144:1: File is not properly formatted (gofump</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>job error :: ./pkg/plugins/plugins.go:33: discoverIn ==&gt; discovering, discover in</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>job error :: cmd/limactl/disk.go:169:1: File is not properly formatted (gci)</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>job error :: pkg/registry/registry_test.go:54:1: File is not properly formatted (go</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>job error :: /home/runner/work/lima/lima/pkg/hostagent/mount.go:78:78: cannot use *</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>setup_file failed :: failed to inspect instance &#39;bats-port-forwarding&#39;: open C:\\msys64\\ho</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>job error :: pkg/driver/krunkit/krunkit_driver_darwin_arm64_test.go:55:14: os.Mkdir</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>job error :: pkg/guestagent/sockets/sockets_linux.go:90:1: File is not properly for</code></td></tr>
+      </tbody>
+    </table>
+    <details>
+    <summary>How this report is built</summary>
+    <p><code>ci-sweep weekly --week 2026-W42</code> over <code>sweep.db</code>, one row per <strong>failed job</strong> — a run can fail on one matrix leg out of many, so the job is the unit.</p>
+    <ul>
+      <li><strong>Known flake</strong> — a job whose log matched a <code>matchers.yaml</code> pattern. Pattern matching only, no LLM.</li>
+      <li><strong>One flake per job</strong> — when several matchers fire, the job counts under the one whose surface appears <strong>earliest</strong> in the log, because the first failure is the root and what follows is fallout: a suite killed at its wall-clock cap logs a failed wait on the way out. The others are recorded but not counted, and only a true tie is left uncounted.</li>
+      <li><strong>Proven flake</strong> — the identical job passed on a re-run of the same commit, so the code cannot be at fault.</li>
+      <li><strong>Unrecognized</strong> — no matcher fired. On <code>master</code> it earns analysis; on a PR branch it earns only a count, because PR failures are dev breakage, not CI health.</li>
+      <li><strong>No log</strong> — the log expired or was never uploaded, so the sweep could not classify the failure. A data gap, not a clean bill.</li>
+      <li><strong>What failed</strong> — for a known flake, the matcher&#39;s summary; otherwise the failing test and command, or the job error for a failure that never reached its tests. <code>--fetch</code> names the rest, at one download each.</li>
+      <li>Counts cover only jobs the sweep recorded. A period never swept reads as zero failures.</li>
+    </ul>
+    </details>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
