@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20261018-190248-pr-5639</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+.pass-tag, .title-note { font-weight: 400; color: #6b7280; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20261018-190248-pr-5639</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-10-18 19:02</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>2 (of pr-5639)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/jandubois">@jandubois</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5639" class="gh-ref" data-title="hostagent: supervise the ssh ControlMaster and restore its forwards" data-state="open" data-type="pr">#5639</a> — hostagent: supervise the ssh ControlMaster and restore its forwards</td></tr>
+      <tr><td>Branch</td><td><code>ssh-master-supervisor</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/28dccfbd"><code>28dccfbd</code></a> hostagent: lower ssh&#39;s soft fd limit to 1024 on macOS (<a href="https://github.com/lima-vm/lima/issues/5631" class="gh-ref" data-title="hostagent: lower ssh&#39;s soft fd limit to 1024 on macOS" data-state="open" data-type="pr">#5631</a>, the base of this stacked PR)<br><a href="https://github.com/lima-vm/lima/commit/ebcada44"><code>ebcada44</code></a> hostagent: supervise the ssh ControlMaster and restore its forwards</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/ebcada4412b5d8e49a2174e43a7e7dee7df13c34"><code>ebcada4412b5d8e49a2174e43a7e7dee7df13c34</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5.5</span> (effort: high), <span class="pill pill-codex">Codex GPT 6 Astra</span> (effort: high), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; an <code>ssh</code> wrapper on PATH that does not <code>exec</code> hangs shutdown; no test pins four round-1 fixes; a <code>--reconnect</code> comment is now wrong</td></tr>
+      <tr><td>Wall-clock time</td><td><code>1 h 57 min 13 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Round 2 reviews the commit as amended after round 1. The round-1 fixes work as written, and every CI job passed, test-misc included. There is one new defect. When <code>ssh</code> on PATH is a wrapper script that runs the real ssh as a child, the master never becomes ready and <code>terminate</code> never returns, so <code>limactl stop</code> times out. Four round-1 fixes can be reverted without failing a test, and a <code>--reconnect</code> comment still says the shell establishes the master.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file="pkg/hostagent/sshmaster.go">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> An <code>ssh</code> wrapper on PATH that does not <code>exec</code> leaves the master never ready and <code>terminate</code> blocked forever <span class="pill pill-claude">Claude Opus 5.5</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/pkg/hostagent/sshmaster.go#L231-L245">pkg/hostagent/sshmaster.go</a></div>
+      <pre data-start="231" data-line="236-240"><code class="language-go">					logrus.Warnf(&quot;The SSH ControlMaster did not become ready within %v; killing it&quot;, sshMasterReadyTimeout)
+					_ = cmd.Process.Kill()
+				}
+				continue
+			}
+			if pid != cmd.Process.Pid {
+				// Our ssh found the socket taken and runs as a plain connection.
+				logrus.Warnf(&quot;The SSH control socket is held by a master (pid %d) that the host agent did not start; replacing it&quot;, pid)
+				_ = cmd.Process.Kill()
+				continue
+			}
+			m.markReady(ctx)
+			ticker.Stop()
+		}
+	}</code></pre>
+    <p>The master is the first <code>ssh</code> on PATH, since sshocker&#39;s <code>SSHConfig.Binary()</code> returns the bare name. For a wrapper script that runs the real ssh as a child, <code>ssh -O check</code> reports the child&#39;s pid, so this check kills only the wrapper, twice a second. The orphaned ssh holds the stderr pipe open, so <code>cmd.Wait</code> (line 212) and <code>markReady</code> never run. No forward is replayed, and the essential requirement fails after 10 minutes.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/pkg/hostagent/sshmaster.go#L207-L217">pkg/hostagent/sshmaster.go</a></div>
+      <pre data-start="207" data-line="212"><code class="language-go">	}()
+	exited := make(chan error, 1)
+	go func() {
+		// Wait must not run before the stderr pipe has been read to EOF.
+		&lt;-stderrDone
+		exited &lt;- cmd.Wait()
+	}()
+
+	ticker := time.NewTicker(sshMasterPollInterval)
+	defer ticker.Stop()
+	for {</code></pre>
+    <p><code>terminate</code>&#39;s fallback kill (line 372) also reaches only the wrapper, so <code>&lt;-m.done</code> (line 375) blocks forever. <code>close()</code> never reaches <code>driver.Stop</code>, and <code>limactl stop</code> gives up after 3 min 10 s with the VM still running. At the merge-base, ControlPersist detached the master with <code>daemon(1, 1)</code> (<code>ssh.c:1889</code>), out of the wrapper&#39;s way.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/pkg/hostagent/sshmaster.go#L367-L378">pkg/hostagent/sshmaster.go</a></div>
+      <pre data-start="367" data-line="372-375"><code class="language-go">	case &lt;-m.done:
+	case &lt;-time.After(sshMasterExitTimeout):
+		logrus.Warn(&quot;SSH master did not exit; killing it&quot;)
+		m.mu.Lock()
+		if m.cmd != nil {
+			_ = m.cmd.Process.Kill()
+		}
+		m.mu.Unlock()
+		&lt;-m.done
+	}
+	return nil
+}</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as pkg/hostagent/sshmaster_wrapper_probe_test.go; run:
+// go test ./pkg/hostagent/ -run TestSSHMasterWrapper -count=1 -v 2&gt;&amp;1 | grep -v &#39;replacing it&#39;
+package hostagent
+
+import (
+	&quot;os&quot;
+	&quot;path/filepath&quot;
+	&quot;strconv&quot;
+	&quot;strings&quot;
+	&quot;syscall&quot;
+	&quot;testing&quot;
+	&quot;time&quot;
+
+	&quot;github.com/lima-vm/sshocker/pkg/ssh&quot;
+	&quot;gotest.tools/v3/assert&quot;
+)
+
+// testSSHMasterWrapper puts an ssh on PATH that runs the fake ssh as a child,
+// with `exec` or without it, then starts and terminates the master.
+func testSSHMasterWrapper(t *testing.T, wrapper string) {
+	dir := fakeSSHOnPath(t)
+	realSSH := filepath.Join(dir, &quot;real-ssh&quot;)
+	assert.NilError(t, os.Rename(filepath.Join(dir, &quot;ssh&quot;), realSSH))
+	assert.NilError(t, os.WriteFile(filepath.Join(dir, &quot;ssh&quot;), []byte(&quot;#!/bin/sh\n&quot;+wrapper+&quot; \&quot;&quot;+realSSH+&quot;\&quot; \&quot;$@\&quot;\n&quot;), 0o755))
+	t.Cleanup(func() { // the master that the wrapper leaves behind, if any
+		b, _ := os.ReadFile(filepath.Join(dir, &quot;master.pid&quot;))
+		if pid, err := strconv.Atoi(strings.TrimSpace(string(b))); err == nil {
+			_ = syscall.Kill(pid, syscall.SIGKILL)
+		}
+	})
+	m := newSSHMaster(&amp;ssh.SSHConfig{}, dir, localSSHAddress)
+	assert.Check(t, m.start(t.Context()))
+	done := make(chan struct{})
+	begin := time.Now()
+	go func() { _ = m.terminate(); close(done) }()
+	select {
+	case &lt;-done:
+		t.Logf(&quot;terminate returned after %v&quot;, time.Since(begin))
+	case &lt;-time.After(15 * time.Second):
+		t.Fatal(&quot;terminate did not return 15s after the 10s kill timeout started&quot;)
+	}
+}
+
+func TestSSHMasterWrapperExec(t *testing.T)   { testSSHMasterWrapper(t, &quot;exec&quot;) }
+func TestSSHMasterWrapperNoExec(t *testing.T) { testSSHMasterWrapper(t, &quot;&quot;) }</code></pre>
+      <pre><code class="language-text">$ go test ./pkg/hostagent/ -run TestSSHMasterWrapper -count=1 -v 2&gt;&amp;1 | grep -v &#39;replacing it&#39;
+=== RUN   TestSSHMasterWrapperExec
+time=&quot;2026-10-18T19:49:39-07:00&quot; level=info msg=&quot;SSH ControlMaster is ready (generation 1)&quot;
+    sshmaster_wrapper_probe_test.go:38: terminate returned after 947.666µs
+--- PASS: TestSSHMasterWrapperExec (0.74s)
+=== RUN   TestSSHMasterWrapperNoExec
+    sshmaster_wrapper_probe_test.go:32: assertion failed: error is not nil: the SSH ControlMaster is not ready yet
+time=&quot;2026-10-18T19:50:00-07:00&quot; level=warning msg=&quot;SSH master did not exit; killing it&quot;
+    sshmaster_wrapper_probe_test.go:40: terminate did not return 15s after the 10s kill timeout started
+--- FAIL: TestSSHMasterWrapperNoExec (25.27s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/hostagent	26.546s
+FAIL
+$ git apply I1.patch   # the Fix patch below
+$ go test ./pkg/hostagent/ -run TestSSHMasterWrapper -count=1 -v 2&gt;&amp;1 | grep -v &#39;replacing it&#39;
+=== RUN   TestSSHMasterWrapperExec
+time=&quot;2026-10-18T19:50:07-07:00&quot; level=info msg=&quot;SSH ControlMaster is ready (generation 1)&quot;
+    sshmaster_wrapper_probe_test.go:38: terminate returned after 743.291µs
+--- PASS: TestSSHMasterWrapperExec (0.74s)
+=== RUN   TestSSHMasterWrapperNoExec
+time=&quot;2026-10-18T19:50:08-07:00&quot; level=info msg=&quot;SSH ControlMaster is ready (generation 1)&quot;
+    sshmaster_wrapper_probe_test.go:38: terminate returned after 761.666µs
+--- PASS: TestSSHMasterWrapperNoExec (0.80s)
+PASS
+ok  	github.com/lima-vm/lima/v2/pkg/hostagent	2.080s</code></pre>
+      </details>
+    <p>Fix: start the master in a process group of its own, accept a master whose pid is in that group, and send every signal to the group.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/hostagent/sshmaster.go b/pkg/hostagent/sshmaster.go
+index d8f14ce8..a5ca5f30 100644
+--- a/pkg/hostagent/sshmaster.go
++++ b/pkg/hostagent/sshmaster.go
+@@ -8,7 +8,6 @@ import (
+ 	&quot;context&quot;
+ 	&quot;errors&quot;
+ 	&quot;fmt&quot;
+-	&quot;os&quot;
+ 	&quot;os/exec&quot;
+ 	&quot;regexp&quot;
+ 	&quot;slices&quot;
+@@ -170,6 +169,7 @@ func (m *sshMaster) runOnce(ctx context.Context) error {
+ 	}
+ 	address, port := m.sshAddressPort()
+ 	cmd := sshCommand(ctx, m.sshConfig.Binary(), sshMasterArgs(m.sshConfig.Args(), address, port)...)
++	setOwnProcessGroup(cmd)
+ 	logrus.Debugf(&quot;starting the SSH ControlMaster: %s %v&quot;, cmd.Path, cmd.Args)
+ 	// Start under m.mu, so that terminate either sees m.cmd and ends it, or
+ 	// has already stopped the loop and no master starts.
+@@ -229,14 +229,16 @@ func (m *sshMaster) runOnce(ctx context.Context) error {
+ 				// logged in and has since exited.
+ 				if time.Since(startedAt) &gt;= sshMasterReadyTimeout {
+ 					logrus.Warnf(&quot;The SSH ControlMaster did not become ready within %v; killing it&quot;, sshMasterReadyTimeout)
+-					_ = cmd.Process.Kill()
++					_ = signalProcessGroup(cmd, syscall.SIGKILL)
+ 				}
+ 				continue
+ 			}
+-			if pid != cmd.Process.Pid {
++			// Our ssh leads the process group of cmd, or joins it when a wrapper
++			// script on PATH runs it as a child.
++			if !inProcessGroup(cmd, pid) {
+ 				// Our ssh found the socket taken and runs as a plain connection.
+ 				logrus.Warnf(&quot;The SSH control socket is held by a master (pid %d) that the host agent did not start; replacing it&quot;, pid)
+-				_ = cmd.Process.Kill()
++				_ = signalProcessGroup(cmd, syscall.SIGKILL)
+ 				continue
+ 			}
+ 			m.markReady(ctx)
+@@ -359,7 +361,7 @@ func (m *sshMaster) terminate() error {
+ 		logrus.Debugf(&quot;shutting down the SSH master&quot;)
+ 		// SIGTERM ends ssh&#39;s client loop the way `ssh -O exit` does, and it
+ 		// reaches our master even before the master serves the control socket.
+-		if err := cmd.Process.Signal(syscall.SIGTERM); err != nil &amp;&amp; !errors.Is(err, os.ErrProcessDone) {
++		if err := signalProcessGroup(cmd, syscall.SIGTERM); err != nil {
+ 			logrus.WithError(err).Warn(&quot;failed to signal SSH master&quot;)
+ 		}
+ 	}
+@@ -369,7 +371,7 @@ func (m *sshMaster) terminate() error {
+ 		logrus.Warn(&quot;SSH master did not exit; killing it&quot;)
+ 		m.mu.Lock()
+ 		if m.cmd != nil {
+-			_ = m.cmd.Process.Kill()
++			_ = signalProcessGroup(m.cmd, syscall.SIGKILL)
+ 		}
+ 		m.mu.Unlock()
+ 		&lt;-m.done
+diff --git a/pkg/hostagent/sshmaster_test.go b/pkg/hostagent/sshmaster_test.go
+index a73c8230..cf5e857b 100644
+--- a/pkg/hostagent/sshmaster_test.go
++++ b/pkg/hostagent/sshmaster_test.go
+@@ -167,6 +167,28 @@ func TestSSHMasterKillsPlainConnection(t *testing.T) {
+ 	assert.Assert(t, processRunning(foreign.Process.Pid))
+ }
+ 
++func TestSSHMasterRunsUnderWrapper(t *testing.T) {
++	dir := fakeSSHOnPath(t)
++	// An ssh on PATH that runs the real ssh as a child instead of exec-ing it.
++	realSSH := filepath.Join(dir, &quot;real-ssh&quot;)
++	assert.NilError(t, os.Rename(filepath.Join(dir, &quot;ssh&quot;), realSSH))
++	assert.NilError(t, os.WriteFile(filepath.Join(dir, &quot;ssh&quot;), []byte(&quot;#!/bin/sh\n\&quot;&quot;+realSSH+&quot;\&quot; \&quot;$@\&quot;\n&quot;), 0o755))
++
++	m := newSSHMaster(&amp;ssh.SSHConfig{}, dir, localSSHAddress)
++	assert.NilError(t, m.start(t.Context()))
++	b, err := os.ReadFile(filepath.Join(dir, &quot;master.pid&quot;))
++	assert.NilError(t, err)
++	master, err := strconv.Atoi(strings.TrimSpace(string(b)))
++	assert.NilError(t, err)
++	assert.NilError(t, m.terminate())
++	poll.WaitOn(t, func(poll.LogT) poll.Result {
++		if processRunning(master) {
++			return poll.Continue(&quot;master %d is still running&quot;, master)
++		}
++		return poll.Success()
++	}, poll.WithDelay(10*time.Millisecond), poll.WithTimeout(2*time.Second))
++}
++
+ func processRunning(pid int) bool {
+ 	p, err := os.FindProcess(pid)
+ 	return err == nil &amp;&amp; p.Signal(syscall.Signal(0)) == nil
+diff --git a/pkg/hostagent/sshmaster_unix.go b/pkg/hostagent/sshmaster_unix.go
+new file mode 100644
+index 00000000..82f66214
+--- /dev/null
++++ b/pkg/hostagent/sshmaster_unix.go
+@@ -0,0 +1,33 @@
++//go:build !windows
++
++// SPDX-FileCopyrightText: Copyright The Lima Authors
++// SPDX-License-Identifier: Apache-2.0
++
++package hostagent
++
++import (
++	&quot;errors&quot;
++	&quot;os/exec&quot;
++	&quot;syscall&quot;
++)
++
++// setOwnProcessGroup makes cmd lead a process group of its own, so that the
++// supervisor&#39;s signals also reach an ssh that a wrapper script on PATH runs as
++// its child, and a Ctrl-C under `limactl start --foreground` does not.
++func setOwnProcessGroup(cmd *exec.Cmd) {
++	cmd.SysProcAttr = &amp;syscall.SysProcAttr{Setpgid: true}
++}
++
++// signalProcessGroup sends sig to the process group that cmd leads.
++func signalProcessGroup(cmd *exec.Cmd, sig syscall.Signal) error {
++	if err := syscall.Kill(-cmd.Process.Pid, sig); err != nil &amp;&amp; !errors.Is(err, syscall.ESRCH) {
++		return err
++	}
++	return nil
++}
++
++// inProcessGroup reports whether pid belongs to the process group that cmd leads.
++func inProcessGroup(cmd *exec.Cmd, pid int) bool {
++	pgid, err := syscall.Getpgid(pid)
++	return err == nil &amp;&amp; pgid == cmd.Process.Pid
++}
+diff --git a/pkg/hostagent/sshmaster_windows.go b/pkg/hostagent/sshmaster_windows.go
+new file mode 100644
+index 00000000..a13af26c
+--- /dev/null
++++ b/pkg/hostagent/sshmaster_windows.go
+@@ -0,0 +1,22 @@
++// SPDX-FileCopyrightText: Copyright The Lima Authors
++// SPDX-License-Identifier: Apache-2.0
++
++package hostagent
++
++import (
++	&quot;os/exec&quot;
++	&quot;syscall&quot;
++)
++
++// The host agent does not supervise the master on Windows hosts; these only
++// keep sshmaster.go building there.
++
++func setOwnProcessGroup(*exec.Cmd) {}
++
++func signalProcessGroup(cmd *exec.Cmd, _ syscall.Signal) error {
++	return cmd.Process.Kill()
++}
++
++func inProcessGroup(cmd *exec.Cmd, pid int) bool {
++	return pid == cmd.Process.Pid
++}</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/hostagent/sshmaster.go">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> No test pins four round-1 fixes, and one of them now keeps every forward from being replayed twice a second <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-claude">Claude Opus 5.5</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/pkg/hostagent/sshmaster.go#L237-L248">pkg/hostagent/sshmaster.go</a></div>
+      <pre data-start="237" data-line="242-243"><code class="language-go">				// Our ssh found the socket taken and runs as a plain connection.
+				logrus.Warnf(&quot;The SSH control socket is held by a master (pid %d) that the host agent did not start; replacing it&quot;, pid)
+				_ = cmd.Process.Kill()
+				continue
+			}
+			m.markReady(ctx)
+			ticker.Stop()
+		}
+	}
+}
+
+func (m *sshMaster) isReady() bool {</code></pre>
+    <p>S10&#39;s fix dropped the <code>isReady()</code> guard on each tick and stopped the ticker instead, so correctness now depends on this line. Without it, every 500 ms tick calls <code>markReady</code>, which starts a new generation and replays every forward. The suite stays green with it deleted.</p>
+    <p>Three more fixes can go the same way. If every <code>start</code> call waits, a master that never gets ready stretches startup to 200 retries of 13 s, about 43 minutes. If <code>control</code> loses its timeout, <code>exitForeignMaster</code> waits on a hung foreign master with no limit. If the 60 s readiness kill goes (S4), a master hung in authentication polls forever. Each fails by hanging or flapping with timing, so the tests are required.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-mutations.sh; run from the repo root: bash probe-mutations.sh
+# Reverts four round-1 fixes in sshmaster.go one at a time, runs the package
+# tests, and restores the file.
+f=pkg/hostagent/sshmaster.go
+mutate() {
+	echo &quot;== $1&quot;
+	cp &quot;$f&quot; &quot;$f.orig&quot;
+	perl -0pi -e &quot;$2&quot; &quot;$f&quot;
+	cmp -s &quot;$f&quot; &quot;$f.orig&quot; &amp;&amp; echo &quot;mutation did not apply&quot;
+	go test ./pkg/hostagent/ -count=1 2&gt;&amp;1 | grep -E &#39;^(ok|--- FAIL|FAIL)&#39;
+	mv &quot;$f.orig&quot; &quot;$f&quot;
+}
+mutate &#39;S10: markReady without ticker.Stop&#39; &#39;s/\t\t\tticker\.Stop\(\)\n//&#39;
+mutate &#39;I1: every start call waits&#39; &#39;s/\tif launch \{\n\t\t\/\/ Wait/\tif true {\n\t\t\/\/ Wait/&#39;
+mutate &#39;S2: control without its timeout&#39; &#39;s/\tctx, cancel := context\.WithTimeout\(ctx, sshMasterControlTimeout\)\n\tdefer cancel\(\)\n//&#39;
+mutate &#39;S4: no kill at the readiness deadline&#39; &#39;s/\t\t\t\t\t_ = cmd\.Process\.Kill\(\)\n(\t\t\t\t\}\n\t\t\t\tcontinue)/$1/&#39;</code></pre>
+      <pre><code class="language-text">$ bash probe-mutations.sh
+== S10: markReady without ticker.Stop
+ok  	github.com/lima-vm/lima/v2/pkg/hostagent	3.456s
+== I1: every start call waits
+ok  	github.com/lima-vm/lima/v2/pkg/hostagent	3.367s
+== S2: control without its timeout
+ok  	github.com/lima-vm/lima/v2/pkg/hostagent	3.376s
+== S4: no kill at the readiness deadline
+ok  	github.com/lima-vm/lima/v2/pkg/hostagent	3.397s
+$ git apply I2.patch &amp;&amp; bash probe-mutations.sh
+== S10: markReady without ticker.Stop
+--- FAIL: TestSSHMasterReadyOnce (2.33s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/hostagent	7.838s
+FAIL
+== I1: every start call waits
+--- FAIL: TestSSHMasterLaterStartReturnsAtOnce (10.05s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/hostagent	17.750s
+FAIL
+== S2: control without its timeout
+--- FAIL: TestSSHMasterControlTimesOut (5.19s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/hostagent	12.648s
+FAIL
+== S4: no kill at the readiness deadline
+--- FAIL: TestSSHMasterRestartsUnreadyMaster (5.16s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/hostagent	11.143s
+FAIL</code></pre>
+      </details>
+    <p>Fix: add the four tests below. The patch turns <code>sshMasterReadyTimeout</code> and <code>sshMasterControlTimeout</code> into variables so that two of the tests can shorten them. It applies before or after I1&#39;s patch.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/hostagent/sshmaster.go b/pkg/hostagent/sshmaster.go
+index d8f14ce8..d0dcabc2 100644
+--- a/pkg/hostagent/sshmaster.go
++++ b/pkg/hostagent/sshmaster.go
+@@ -24,13 +24,17 @@ import (
+ )
+ 
+ const (
+-	sshMasterMinBackoff     = 1 * time.Second
+-	sshMasterMaxBackoff     = 30 * time.Second
+-	sshMasterStableAfter    = 60 * time.Second
+-	sshMasterPollInterval   = 500 * time.Millisecond
+-	sshMasterStartWait      = 10 * time.Second
++	sshMasterMinBackoff   = 1 * time.Second
++	sshMasterMaxBackoff   = 30 * time.Second
++	sshMasterStableAfter  = 60 * time.Second
++	sshMasterPollInterval = 500 * time.Millisecond
++	sshMasterStartWait    = 10 * time.Second
++	sshMasterExitTimeout  = 10 * time.Second
++)
++
++// Variables, so that tests can shorten them.
++var (
+ 	sshMasterReadyTimeout   = 60 * time.Second
+-	sshMasterExitTimeout    = 10 * time.Second
+ 	sshMasterControlTimeout = 10 * time.Second
+ )
+ 
+diff --git a/pkg/hostagent/sshmaster_test.go b/pkg/hostagent/sshmaster_test.go
+index a73c8230..5f931dc5 100644
+--- a/pkg/hostagent/sshmaster_test.go
++++ b/pkg/hostagent/sshmaster_test.go
+@@ -4,6 +4,7 @@
+ package hostagent
+ 
+ import (
++	&quot;context&quot;
+ 	&quot;net&quot;
+ 	&quot;os&quot;
+ 	&quot;os/exec&quot;
+@@ -56,8 +57,10 @@ func localSSHAddress() (sshAddress string, sshPort int) { return &quot;127.0.0.1&quot;, 0
+ // plain connection, as ssh does when the control socket is taken. -O check
+ // reports the master that holds the socket, and -O exit ends it. With -N it
+ // fails at once while a file named fail exists, appending its pid to failed.pid,
+-// and as a plain connection it records its pid in plain.pid. The helper runs the
+-// fake once, so that a slow first exec happens before a test times anything.
++// and as a plain connection it records its pid in plain.pid. -O check fails
++// while a file named unready exists, and every -O request hangs while a file
++// named stall exists. The helper runs the fake once, so that a slow first exec
++// happens before a test times anything.
+ func fakeSSHOnPath(t *testing.T) string {
+ 	t.Helper()
+ 	if runtime.GOOS == &quot;windows&quot; {
+@@ -72,7 +75,10 @@ cd &quot;$FAKE_SSH_DIR&quot; || exit 255
+ holder=master.pid
+ [ -s foreign.pid ] &amp;&amp; holder=foreign.pid
+ case &quot; $* &quot; in
+-*&quot; -O check &quot;*) [ -s $holder ] || exit 255; echo &quot;Master running (pid=$(cat $holder))&quot; ;;
++*&quot; -O &quot;*) [ -e stall ] &amp;&amp; exec sleep 600 ;;
++esac
++case &quot; $* &quot; in
++*&quot; -O check &quot;*) [ -e unready ] &amp;&amp; exit 255; [ -s $holder ] || exit 255; echo &quot;Master running (pid=$(cat $holder))&quot; ;;
+ *&quot; -O exit &quot;*) kill &quot;$(cat $holder)&quot;; rm -f $holder ;;
+ *&quot; -N &quot;*)
+ 	[ -e fail ] &amp;&amp; { echo $$ &gt;&gt;failed.pid; exit 255; }
+@@ -171,3 +177,60 @@ func processRunning(pid int) bool {
+ 	p, err := os.FindProcess(pid)
+ 	return err == nil &amp;&amp; p.Signal(syscall.Signal(0)) == nil
+ }
++
++func TestSSHMasterReadyOnce(t *testing.T) {
++	m := newSSHMaster(&amp;ssh.SSHConfig{}, fakeSSHOnPath(t), localSSHAddress)
++	defer func() { assert.NilError(t, m.terminate()) }()
++	assert.NilError(t, m.start(t.Context()))
++	// Each later readiness check would start a new generation and replay
++	// every forward.
++	time.Sleep(3 * sshMasterPollInterval)
++	assert.Equal(t, m.generation(), uint64(1))
++}
++
++func TestSSHMasterLaterStartReturnsAtOnce(t *testing.T) {
++	m := newSSHMaster(&amp;ssh.SSHConfig{}, &quot;&quot;, localSSHAddress)
++	m.started = true // as if an earlier start had launched a master that is not ready
++	begin := time.Now()
++	assert.ErrorContains(t, m.start(t.Context()), &quot;not ready&quot;)
++	assert.Assert(t, time.Since(begin) &lt; sshMasterPollInterval)
++}
++
++func TestSSHMasterControlTimesOut(t *testing.T) {
++	dir := fakeSSHOnPath(t)
++	assert.NilError(t, os.WriteFile(filepath.Join(dir, &quot;stall&quot;), nil, 0o644))
++	defer func(d time.Duration) { sshMasterControlTimeout = d }(sshMasterControlTimeout)
++	sshMasterControlTimeout = 100 * time.Millisecond
++	m := newSSHMaster(&amp;ssh.SSHConfig{}, dir, localSSHAddress)
++	ctx, cancel := context.WithTimeout(t.Context(), 5*time.Second)
++	defer cancel()
++	begin := time.Now()
++	_, err := m.control(ctx, &quot;check&quot;)
++	assert.Assert(t, err != nil)
++	assert.Assert(t, time.Since(begin) &lt; time.Second)
++}
++
++func TestSSHMasterRestartsUnreadyMaster(t *testing.T) {
++	dir := fakeSSHOnPath(t)
++	assert.NilError(t, os.WriteFile(filepath.Join(dir, &quot;unready&quot;), nil, 0o644))
++	defer func(d time.Duration) { sshMasterReadyTimeout = d }(sshMasterReadyTimeout)
++	sshMasterReadyTimeout = 200 * time.Millisecond
++	m := newSSHMaster(&amp;ssh.SSHConfig{}, dir, localSSHAddress)
++	defer func() { assert.NilError(t, m.terminate()) }()
++	go func() { _ = m.start(t.Context()) }()
++	var first string
++	poll.WaitOn(t, func(poll.LogT) poll.Result {
++		b, _ := os.ReadFile(filepath.Join(dir, &quot;master.pid&quot;))
++		pid := strings.TrimSpace(string(b))
++		switch {
++		case pid == &quot;&quot;:
++			return poll.Continue(&quot;no master yet&quot;)
++		case first == &quot;&quot;:
++			first = pid
++			return poll.Continue(&quot;master %s started&quot;, pid)
++		case pid == first:
++			return poll.Continue(&quot;master %s not restarted yet&quot;, pid)
++		}
++		return poll.Success()
++	}, poll.WithDelay(10*time.Millisecond), poll.WithTimeout(5*time.Second))
++}</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> The <code>--reconnect</code> comment says the shell continues so that a fresh master can be established <span class="pill pill-claude">Claude Opus 5.5</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/cmd/limactl/shell.go#L190-L201">cmd/limactl/shell.go</a></div>
+      <pre data-start="190" data-line="195-196"><code class="language-go">		if err := ssh.ExitMaster(inst.Hostname, inst.SSHLocalPort, sshConfig); err != nil {
+			// `ssh -O exit` fails when the control socket file exists but the
+			// master process is already dead (unclean hostagent exit: kill -9,
+			// OOM, host crash). That stale state is exactly what --reconnect is
+			// meant to recover from, so only surface the error when a master is
+			// still alive; otherwise drop the stale socket and continue so a
+			// fresh master can be established.
+			removed, rmErr := sshutil.RemoveStaleControlMaster(ctx, inst.Dir)
+			if rmErr != nil {
+				return rmErr
+			}
+			if !removed {</code></pre>
+    <p>On hosts other than Windows this shell&#39;s ssh now runs with <code>ControlMaster=no</code> (<code>controlOpts</code>, <a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/pkg/sshutil/sshutil.go#L634-L639"><code>sshutil.go:634-639</code></a>), and on Windows <a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/cmd/limactl/shell.go#L401-L412"><code>shell.go:401-412</code></a> strips the control options, so the shell never becomes a master on any host. In the case that the comment names, a host agent killed with -9, nothing starts a new master until the next <code>limactl start</code>. The removal still matters, because a client with <code>ControlMaster=no</code> reports a stale socket (S2).</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/pkg/sshutil/sshutil.go#L629-L644">pkg/sshutil/sshutil.go</a></div>
+      <pre data-start="629" data-line="634-639"><code class="language-go">// controlOpts returns the multiplexing options for a host running goos.
+// On hosts other than Windows the host agent owns the ControlMaster, so a client
+// with these options multiplexes over it when it is up, and connects directly
+// otherwise, without ever becoming a master itself. On Windows hosts the host agent does
+// not supervise a master, so clients there create one on demand.
+func controlOpts(goos, controlPath string) []string {
+	if goos == &quot;windows&quot; {
+		return []string{&quot;ControlMaster=auto&quot;, controlPath, &quot;ControlPersist=yes&quot;}
+	}
+	return []string{&quot;ControlMaster=no&quot;, controlPath}
+}
+
+// SSHOptsWithoutMultiplexing returns CommonOpts plus an explicit User, adding
+// neither multiplexing nor forwarding options. Use it for invocations that
+// cannot share a control socket: native Windows OpenSSH has no multiplexing,
+// and Cygwin ssh&#39;s is unreliable. It builds no control path, so the caller also</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/cmd/limactl/shell.go#L396-L417">cmd/limactl/shell.go</a></div>
+      <pre data-start="396" data-line="401-412"><code class="language-go">		*inst.Config.SSH.ForwardX11,
+		*inst.Config.SSH.ForwardX11Trusted)
+	if err != nil {
+		return err
+	}
+	if runtime.GOOS == &quot;windows&quot; {
+		// Remove ControlMaster, ControlPath, and ControlPersist options,
+		// because Cygwin-based SSH clients do not support multiplexing when executing commands.
+		// References:
+		//   https://inbox.sourceware.org/cygwin/c98988a5-7e65-4282-b2a1-bb8e350d5fab@acm.org/T/
+		//   https://stackoverflow.com/questions/20959792/is-ssh-controlmaster-with-cygwin-on-windows-actually-possible
+		// By removing these options:
+		//   - Avoids execution failures when the control master is not yet available.
+		//   - Prevents error messages such as:
+		//     &gt; mux_client_request_session: read from master failed: Connection reset by peer
+		//     &gt; ControlSocket ....sock already exists, disabling multiplexing
+		sshOpts = sshutil.SSHOptsRemovingControlPath(sshOpts)
+	}
+	sshArgs := append([]string{}, sshExe.Args...)
+	sshArgs = append(sshArgs, sshutil.SSHArgsFromOpts(sshOpts)...)
+
+	var (</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-shell-master.sh; run: bash probe-shell-master.sh
+# Needs key-based `ssh localhost`. Runs `true` with the control options that
+# `limactl shell` had at the merge-base (auto, persist) and has with this PR on
+# hosts other than Windows (no), then reports whether a master holds the socket.
+d=$(mktemp -d /tmp/shm.XXXX)
+for opts in &quot;ControlMaster=auto -o ControlPersist=yes&quot; &quot;ControlMaster=no&quot;; do
+	ssh -o BatchMode=yes -o ControlPath=&quot;$d/s&quot; -o $opts localhost true
+	if ssh -o ControlPath=&quot;$d/s&quot; -O check localhost 2&gt;/dev/null; then
+		echo &quot;$opts: a master is left serving the socket&quot;
+		ssh -o ControlPath=&quot;$d/s&quot; -O exit localhost 2&gt;/dev/null
+	else
+		echo &quot;$opts: no master&quot;
+	fi
+done
+rm -rf &quot;$d&quot;</code></pre>
+      <pre><code class="language-text">$ bash probe-shell-master.sh
+ControlMaster=auto -o ControlPersist=yes: a master is left serving the socket
+ControlMaster=no: no master</code></pre>
+      </details>
+    <p>Fix: drop the clause.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/cmd/limactl/shell.go b/cmd/limactl/shell.go
+index 6e8b5d09..9d68d31d 100644
+--- a/cmd/limactl/shell.go
++++ b/cmd/limactl/shell.go
+@@ -192,8 +192,7 @@ func shellAction(cmd *cobra.Command, args []string) error {
+ 			// master process is already dead (unclean hostagent exit: kill -9,
+ 			// OOM, host crash). That stale state is exactly what --reconnect is
+ 			// meant to recover from, so only surface the error when a master is
+-			// still alive; otherwise drop the stale socket and continue so a
+-			// fresh master can be established.
++			// still alive; otherwise drop the stale socket and continue.
+ 			removed, rmErr := sshutil.RemoveStaleControlMaster(ctx, inst.Dir)
+ 			if rmErr != nil {
+ 				return rmErr</code></pre>
+      </details>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="pkg/hostagent/sshmaster.go">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> Under <code>limactl start --foreground</code>, Ctrl-C reaches the master too <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/pkg/hostagent/sshmaster.go#L167-L177">pkg/hostagent/sshmaster.go</a></div>
+      <pre data-start="167" data-line="172"><code class="language-go">	m.exitForeignMaster(ctx)
+	if _, err := sshutil.RemoveStaleControlMaster(ctx, m.instDir); err != nil {
+		return fmt.Errorf(&quot;failed to remove the stale control socket: %w&quot;, err)
+	}
+	address, port := m.sshAddressPort()
+	cmd := sshCommand(ctx, m.sshConfig.Binary(), sshMasterArgs(m.sshConfig.Args(), address, port)...)
+	logrus.Debugf(&quot;starting the SSH ControlMaster: %s %v&quot;, cmd.Path, cmd.Args)
+	// Start under m.mu, so that terminate either sees m.cmd and ends it, or
+	// has already stopped the loop and no master starts.
+	m.mu.Lock()
+	if m.stopped {</code></pre>
+    <p>The foreground host agent replaces <code>limactl</code> in the terminal&#39;s process group (<a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/pkg/instance/start_unix.go#L47"><code>start_unix.go:47</code></a>), and the master inherits that group. <code>client_loop</code> quits on SIGINT (<code>clientloop.c:1519-1520</code>), so the master exits along with the host agent. The cleanup that cancels the guestSocket forwards (<a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/pkg/hostagent/hostagent.go#L812-L814"><code>hostagent.go:812-814</code></a>) then fails against a dead master, and <code>close()</code> logs &quot;an error during shutting down the host agent&quot;. At the merge-base, the master had left the group through <code>daemon(1, 1)</code>. This is traced from the code; nobody ran it.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/pkg/instance/start_unix.go#L42-L48">pkg/instance/start_unix.go</a></div>
+      <pre data-start="42" data-line="47"><code class="language-go">		}
+		if err := osutil.Dup2(int(haStderrW.Fd()), syscall.Stderr); err != nil {
+			return err
+		}
+	}
+	return syscall.Exec(limactl, haCmd.Args, haCmd.Environ())
+}</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/pkg/hostagent/hostagent.go#L807-L819">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="807" data-line="812-814"><code class="language-go">	}
+
+	localUnix := filepath.Join(a.instDir, filenames.GuestAgentSock)
+	remoteUnix := &quot;/run/lima-guestagent.sock&quot;
+
+	a.cleanUp(func() error {
+		logrus.Debugf(&quot;Stop forwarding unix sockets&quot;)
+		errs := []error{a.cancelGuestSockets(ctx)}
+		if a.driver.ForwardGuestAgent(ctx) {
+			if err := a.cancelGuestAgentSockForward(ctx, localUnix, remoteUnix); err != nil {
+				errs = append(errs, err)
+			}
+		}</code></pre>
+    <p>Fix: I1&#39;s patch starts the master in its own process group, which keeps the terminal&#39;s SIGINT away from it.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/hostagent/sshmaster.go">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> After the master is killed, every Lima client reports the stale control socket until the restart <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/pkg/hostagent/sshmaster.go#L143-L160">pkg/hostagent/sshmaster.go</a></div>
+      <pre data-start="143" data-line="148-155"><code class="language-go">		}
+		logrus.WithError(err).Warn(&quot;SSH ControlMaster exited&quot;)
+		if time.Since(startedAt) &gt;= sshMasterStableAfter {
+			backoff = sshMasterMinBackoff
+		}
+		logrus.Infof(&quot;Restarting the SSH ControlMaster in %v&quot;, backoff)
+		select {
+		case &lt;-ctx.Done():
+			return
+		case &lt;-m.stopCh:
+			return
+		case &lt;-time.After(backoff):
+		}
+		backoff = min(2*backoff, sshMasterMaxBackoff)
+	}
+}
+
+func (m *sshMaster) isStopped(ctx context.Context) bool {</code></pre>
+    <p>ssh unlinks the control socket on its orderly exits (<code>clientloop.c:2877</code>), so a stale socket remains only after SIGKILL or a crash. A client with <code>ControlMaster=no</code> then prints <code>Control socket connect(…): Connection refused</code> and connects directly (<code>mux.c:2413-2421</code>), where one with <code>auto</code> unlinked it without a word. <code>runOnce</code> removes the socket only after the 1 to 30 s backoff (line 168), so every <code>limactl shell</code> and <code>ssh -F ssh.config</code> call in that window prints the line.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/pkg/hostagent/sshmaster.go#L163-L173">pkg/hostagent/sshmaster.go</a></div>
+      <pre data-start="163" data-line="168"><code class="language-go">
+// runOnce starts one master, waits until it serves the control socket, and
+// returns when it exits.
+func (m *sshMaster) runOnce(ctx context.Context) error {
+	m.exitForeignMaster(ctx)
+	if _, err := sshutil.RemoveStaleControlMaster(ctx, m.instDir); err != nil {
+		return fmt.Errorf(&quot;failed to remove the stale control socket: %w&quot;, err)
+	}
+	address, port := m.sshAddressPort()
+	cmd := sshCommand(ctx, m.sshConfig.Binary(), sshMasterArgs(m.sshConfig.Args(), address, port)...)
+	logrus.Debugf(&quot;starting the SSH ControlMaster: %s %v&quot;, cmd.Path, cmd.Args)</code></pre>
+    <p>Fix: call <code>sshutil.RemoveStaleControlMaster</code> as soon as <code>runOnce</code> returns, before the backoff.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>(in-scope) Whether the commit splits.</strong> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> See Commit Structure. A split is possible, but the first PR would still hold about 950 of the 1151 added lines.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>(in-scope)</strong> Starting the master under <code>m.mu</code> after the <code>stopped</code> check (<a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/pkg/hostagent/sshmaster.go#L174-L191"><code>sshmaster.go:174-191</code></a>) closes the window in which <code>terminate</code> could miss a master that was just starting. <span class="pill pill-claude">Claude Opus 5.5</span></li>
+      <li><strong>(in-scope)</strong> SIGTERM ends the master through <code>client_loop</code>, which frees every channel (<code>clientloop.c:1677</code>) before it exits, so the open mux sessions get their blocking stdio back, as they did with <code>-O exit</code>.</li>
+      <li><strong>(in-scope)</strong> All four strengths from round 1 still hold after the delta: generation-stamped intents, <code>ControlMaster=no</code> for every Lima client, cancel before replay with the pseudoloopback listener kept, and <code>close()</code> stopping restarts before the cleanups. <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>Required:</strong> I2. Check 3 decides it. Each reverted fix gives a hang or a flap that depends on timing. I1&#39;s patch adds <code>TestSSHMasterRunsUnderWrapper</code>, which fails on the reviewed code after 10 s.</li>
+      <li><strong>Already pinned:</strong> C1 by <code>TestSSHMasterArgs</code>; the first <code>start</code> waiting by <code>TestSSHMasterStartWaitsUntilReady</code> and <code>TestSSHMasterReplacesForeignMaster</code>; I2&#39;s three paths by their tests, each of which fails when its code is deleted.</li>
+      <li><strong>Optional, left out by the drop rule:</strong> a test that <code>terminate</code> sends SIGTERM rather than SIGKILL, which would leave open sessions&#39; stdio non-blocking, and one for the start-under-lock race. Both need fault injection beyond I2&#39;s fake modes: a fake that records the signal it gets, and a hook in the window before <code>cmd.Start</code>. S5&#39;s address read matters only for an external driver on a host other than Windows.</li>
+      <li><strong>Run for this review:</strong> <code>go test ./... -count=1</code> passed (51 packages). With both patches applied, <code>go test -race ./pkg/hostagent/</code> passed, <code>golangci-lint run ./pkg/hostagent/</code> reported 0 issues, and <code>go vet</code> passed for <code>GOOS=windows</code> and <code>GOOS=linux</code>.</li>
+      <li><em></em>CI on <a href="https://github.com/lima-vm/lima/commit/ebcada44"><code>ebcada44</code></a>:<em></em> every job passed, test-misc and BATS included. In test-misc the master requirement took under a second, and the online-snapshot step took 9 min 51 s. That is the wait for the hung connection to close, which C1&#39;s fix accepted; round 1 measured it at about 9.6 minutes on the merge-base.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><code>ssh.md</code> matches the code. I3 covers the stale comment in <code>shell.go</code>. The two PR-body changes from round 1 are still outstanding (see Unresolved Feedback).</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The author asked whether the commit splits. <code>ControlMaster=no</code> has to land with the supervisor. Without the supervisor nothing starts a master, so every <code>ssh -O forward</code> fails, and a supervisor without it would <code>-O exit</code> any client that became a master while it restarted (<code>exitForeignMaster</code>). The TCP-intent replay can come out as a second PR, since it only hooks into the supervisor&#39;s generation. That is about 100 lines across <code>port.go</code>, <code>port_darwin.go</code>, <code>port_others.go</code> and <code>port_windows.go</code>, plus about 100 test lines in <code>forward_replay_test.go</code>, which I estimated from the test functions&#39; ranges. The first PR would then restore only the guestSocket forwards, as MartyPine&#39;s commit did, and keep about 950 of the 1151 added lines, mostly <code>sshmaster.go</code> and its tests.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="declined-in-prior-rounds">Declined in prior rounds <a href="#declined-in-prior-rounds" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em>The master&#39;s INFO-level stderr reaches <code>ha.stderr.log</code><em></em> — declined Round 1: two level-based fixes failed verification, because the host agent logs at Debug or Trace (<a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/cmd/limactl/hostagent.go#L203-L206"><code>cmd/limactl/hostagent.go:203-206</code></a>) and <code>sshlogdie</code> logs at INFO whatever level it is given (<code>log.c:445</code>). Do not re-suggest a log-level change.</li>
+      <li><strong>A failed replay counts as done</strong> — commented Round 1: the generation comments say the stamp is <code>generation()</code> read before the last attempt, which may have failed.</li>
+      <li><strong>The docs leave out the mounts that a restart drops</strong> — declined Round 1 in favour of a PR-body sentence, which is still missing (see Unresolved Feedback).</li>
+      <li><strong>The darwin pseudoloopback replay branch has no test</strong> — declined Round 1 as an optional test for a rare configuration.</li>
+      <li><strong>What the recovery adds beyond <a href="https://github.com/lima-vm/lima/issues/5631" class="gh-ref" data-title="hostagent: lower ssh&#39;s soft fd limit to 1024 on macOS" data-state="open" data-type="pr">#5631</a></strong> — Round 1: the supervisor goes ahead. Nothing in the delta changes that judgment.</li>
+      <li><strong>The BATS job&#39;s watcher race</strong> and <strong>ga.sock&#39;s 10 s reconnect</strong> — Round 1: tracked separately.</li>
+    </ul>
+    <h3 id="other">Other <a href="#other" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>Forwards that Lima did not create are lost when the master restarts, as <a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/website/content/en/docs/usage/ssh.md#L22"><code>ssh.md:22</code></a> says.</li>
+      <li>Windows hosts keep <code>ControlMaster=auto</code> and no supervisor (<a href="https://github.com/lima-vm/lima/blob/ebcada4412b5d8e49a2174e43a7e7dee7df13c34/pkg/sshutil/sshutil.go#L635-L637"><code>sshutil.go:635-637</code></a>).</li>
+      <li>A hung master lasts until its connection closes, as at the merge-base. Do not re-suggest ServerAlive options: on a keepalive timeout ssh exits through <code>cleanup_exit</code> without freeing its channels (<code>clientloop.c:495-497</code>), which leaves every open mux session&#39;s stdio non-blocking.</li>
+      <li>Do not re-suggest that the commit message record the loss of keepalive-based hang detection: the merge-base master did not set ServerAlive options either.</li>
+      <li>Do not re-suggest a cancel before <code>OnEvent</code>&#39;s forward on guest-agent reconnect, a cancel before <code>forwardGuestSockets</code>&#39; first forward, or <code>skip</code> for a missing host <code>socat</code>; round 1 records why.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>Round 1&#39;s S8 was to become a PR-body sentence saying that reverse-sshfs mounts drop on a master restart until <a href="https://github.com/lima-vm/lima/issues/5635" class="gh-ref" data-title="hostagent: run reverse-sshfs mounts without the ControlMaster" data-state="open" data-type="pr">#5635</a> merges, posted with the next push. <a href="https://github.com/lima-vm/lima/commit/ebcada44"><code>ebcada44</code></a> is pushed, and the body still lacks it.</li>
+      <li>Round 1&#39;s documentation gap: the Testing paragraph names the vz BATS run only. CI on <a href="https://github.com/lima-vm/lima/commit/ebcada44"><code>ebcada44</code></a> has now passed on Linux QEMU too, test-misc and BATS included.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5-5"><span class="pill pill-claude">Claude Opus 5.5</span> <a href="#claude-opus-5-5" class="pilcrow">&#182;</a></h3>
+    <p>Claude found I1 and proved it with a fake-ssh probe on the existing harness, and it saw that correctness now depends on S10&#39;s <code>ticker.Stop</code>. I3, S1 and S2 came from it too. It rated the <code>shell.go</code> comment a suggestion, but the code contradicts the comment, which makes it Important. Its fix for I1 decoupled <code>Wait</code> from stderr and signalled the process group. Signalling alone still leaves a wrapper&#39;s master never ready. Its design concern named the pid comparison as the cause, but its fix left that comparison alone, so the report&#39;s patch also replaces it with a process-group check. It killed only the orphan that its own probe left behind.</p>
+    <h3 id="codex-gpt-6-astra"><span class="pill pill-codex">Codex GPT 6 Astra</span> <a href="#codex-gpt-6-astra" class="pilcrow">&#182;</a></h3>
+    <p>Codex mutated every round-1 fix and backed its test-gap finding with five probes that really ran: its <code>probe.log</code> shows the 10.0 s control deadline and the 61 s restart. Its control-timeout, repeated-start and unready-master probes are the basis for I2&#39;s tests. It missed I1. Its note that the commit message omits the lost keepalive does not hold, since the merge-base master had none. Its split proposal is the one Commit Structure adopts.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Gemini Pro did not report a finding. It credited the delta with removing <code>stopCh</code> and <code>ctx.Done</code> cases from <code>runOnce</code>, but round 1&#39;s <code>runOnce</code> had neither. It said a synthetic test confirmed <code>terminate</code>&#39;s timeout and kill, yet its only test terminated a master that never started. Its Testing Assessment did list four unpinned fixes. It left an untracked <code>test.go</code> in its worktree root.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Flash did not report a finding. It listed six unpinned fixes, but called S10&#39;s <code>ticker.Stop</code> a resource cleanup, where I2 shows that correctness depends on it. It ran its revert experiments in a clone inside <code>.scratch</code>. Its split answer said the supervisor cannot land without the replay, but without the replay the forwards just die as they do at the merge-base, which makes a smaller PR, not a broken one. Both Gemini models returned a clean verdict and marked <code>sshmaster.go</code> clean, so count that as one opinion.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5.5</span></th><th><span class="pill pill-codex">Codex GPT 6 Astra</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>24m 42s</td><td>10m 01s</td><td>11m 10s</td><td>11m 10s</td></tr>
+        <tr><td>Findings</td><td>3I 2S</td><td>1I</td><td>none</td><td>none</td></tr>
+        <tr><td>Tool calls</td><td>76 (Bash 76)</td><td>23 (shell 20, stdin 3)</td><td>46 (run<em>shell</em>command 46)</td><td>96 (grep<em>search 36, run</em>shell<em>command 29, read</em>file 27)</td></tr>
+        <tr><td>Design observations</td><td>3</td><td>4</td><td>2</td><td>5</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>4</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>21</td><td>21</td><td>21</td><td>17</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>3I 2S</strong></td><td><strong>1I</strong></td><td><strong>none</strong></td><td><strong>none</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p>Claude gave the most. It found the round&#39;s only new defect, with a working reproducer, and made the observation behind I2. Codex&#39;s mutation sweep was the widest and supplied most of I2&#39;s tests. Neither Gemini found a defect.</p>
+    <p><strong>Reconciliation:</strong> Claude S3 (<code>shell.go</code> comment): suggestion → important I3, since the code contradicts the comment. Claude I2 (<code>ticker.Stop</code> untested) and Codex I1 (lifecycle tests missing) were merged into I2.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>When code starts a program by its bare name from PATH and then identifies, signals or waits on it by pid, picture a wrapper script that runs the real program as a child. The pid that the program reports then differs, a kill reaches only the wrapper, and a pipe that the child inherited keeps <code>Wait</code> from returning.</li>
+      <li>When a fix removes a guard because another change made it unreachable, correctness now depends on that other change; ask for the test that fails when it is deleted.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>The host agent runs every ssh that it starts (the master, <code>-O</code> requests, requirement scripts, forwards) by the bare name <code>ssh</code> through PATH, because sshocker&#39;s <code>SSHConfig.Binary()</code> returns <code>&quot;ssh&quot;</code>. The <code>SSH</code> environment variable reaches only limactl&#39;s own commands. Judge any claim about which ssh the host agent runs from that.</li>
+      <li>Correct the pending entry on <code>O_NONBLOCK</code>: SIGTERM clears the flag as <code>-O exit</code> does, because <code>client_loop</code> frees every channel before it exits. A keepalive timeout or SIGKILL leaves it set.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){var t="\\b(?:BASH|BASHOPTS|BASH_ALIASES|BASH_ARGC|BASH_ARGV|BASH_CMDS|BASH_COMPLETION_COMPAT_DIR|BASH_LINENO|BASH_REMATCH|BASH_SOURCE|BASH_VERSINFO|BASH_VERSION|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|EUID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_ADDRESS|LC_ALL|LC_IDENTIFICATION|LC_MEASUREMENT|LC_MONETARY|LC_NAME|LC_NUMERIC|LC_PAPER|LC_TELEPHONE|LC_TIME|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS1|PS2|PS3|PS4|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UID|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_CONFIG_DIRS|XDG_CURRENT_DESKTOP|XDG_DATA_DIRS|XDG_GREETER_DATA_DIR|XDG_MENU_PREFIX|XDG_RUNTIME_DIR|XDG_SEAT|XDG_SEAT_PATH|XDG_SESSION_DESKTOP|XDG_SESSION_ID|XDG_SESSION_PATH|XDG_SESSION_TYPE|XDG_VTNR|XMODIFIERS)\\b",a={pattern:/(^(["']?)\w+\2)[ \t]+\S.*/,lookbehind:!0,alias:"punctuation",inside:null},n={bash:a,environment:{pattern:RegExp("\\$"+t),alias:"constant"},variable:[{pattern:/\$?\(\([\s\S]+?\)\)/,greedy:!0,inside:{variable:[{pattern:/(^\$\(\([\s\S]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,operator:/--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,greedy:!0,inside:{variable:/^\$\(|^`|\)$|`$/}},{pattern:/\$\{[^}]+\}/,greedy:!0,inside:{operator:/:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,punctuation:/[\[\]]/,environment:{pattern:RegExp("(\\{)"+t),lookbehind:!0,alias:"constant"}}},/\$(?:\w+|[#?*!@$])/],entity:/\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/};e.languages.bash={shebang:{pattern:/^#!\s*\/.*/,alias:"important"},comment:{pattern:/(^|[^"{\\$])#.*/,lookbehind:!0},"function-name":[{pattern:/(\bfunction\s+)[\w-]+(?=(?:\s*\(?:\s*\))?\s*\{)/,lookbehind:!0,alias:"function"},{pattern:/\b[\w-]+(?=\s*\(\s*\)\s*\{)/,alias:"function"}],"for-or-select":{pattern:/(\b(?:for|select)\s+)\w+(?=\s+in\s)/,alias:"variable",lookbehind:!0},"assign-left":{pattern:/(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,inside:{environment:{pattern:RegExp("(^|[\\s;|&]|[<>]\\()"+t),lookbehind:!0,alias:"constant"}},alias:"variable",lookbehind:!0},parameter:{pattern:/(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,alias:"variable",lookbehind:!0},string:[{pattern:/((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?(?:\r?\n|\r)\2/,lookbehind:!0,greedy:!0,inside:n},{pattern:/((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?(?:\r?\n|\r)\3/,lookbehind:!0,greedy:!0,inside:{bash:a}},{pattern:/(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,lookbehind:!0,greedy:!0,inside:n},{pattern:/(^|[^$\\])'[^']*'/,lookbehind:!0,greedy:!0},{pattern:/\$'(?:[^'\\]|\\[\s\S])*'/,greedy:!0,inside:{entity:n.entity}}],environment:{pattern:RegExp("\\$?"+t),alias:"constant"},variable:n.variable,function:{pattern:/(^|[\s;|&]|[<>]\()(?:add|apropos|apt|apt-cache|apt-get|aptitude|aspell|automysqlbackup|awk|basename|bash|bc|bconsole|bg|bzip2|cal|cargo|cat|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clear|cmp|column|comm|composer|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|debootstrap|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|docker|docker-compose|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|git|gparted|grep|groupadd|groupdel|groupmod|groups|grub-mkconfig|gzip|halt|head|hg|history|host|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|ip|java|jobs|join|kill|killall|less|link|ln|locate|logname|logrotate|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|make|man|mc|mdadm|mkconfig|mkdir|mke2fs|mkfifo|mkfs|mkisofs|mknod|mkswap|mmv|more|most|mount|mtools|mtr|mutt|mv|nano|nc|netstat|nice|nl|node|nohup|notify-send|npm|nslookup|op|open|parted|passwd|paste|pathchk|ping|pkill|pnpm|podman|podman-compose|popd|pr|printcap|printenv|ps|pushd|pv|quota|quotacheck|quotactl|ram|rar|rcp|reboot|remsync|rename|renice|rev|rm|rmdir|rpm|rsync|scp|screen|sdiff|sed|sendmail|seq|service|sftp|sh|shellcheck|shuf|shutdown|sleep|slocate|sort|split|ssh|stat|strace|su|sudo|sum|suspend|swapon|sync|sysctl|tac|tail|tar|tee|time|timeout|top|touch|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|update-grub|uptime|useradd|userdel|usermod|users|uudecode|uuencode|v|vcpkg|vdir|vi|vim|virsh|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yarn|yes|zenity|zip|zsh|zypper)(?=$|[)\s;|&])/,lookbehind:!0},keyword:{pattern:/(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)(?=$|[)\s;|&])/,lookbehind:!0},builtin:{pattern:/(^|[\s;|&]|[<>]\()(?:\.|:|alias|bind|break|builtin|caller|cd|command|continue|declare|echo|enable|eval|exec|exit|export|getopts|hash|help|let|local|logout|mapfile|printf|pwd|read|readarray|readonly|return|set|shift|shopt|source|test|times|trap|type|typeset|ulimit|umask|unalias|unset)(?=$|[)\s;|&])/,lookbehind:!0,alias:"class-name"},boolean:{pattern:/(^|[\s;|&]|[<>]\()(?:false|true)(?=$|[)\s;|&])/,lookbehind:!0},"file-descriptor":{pattern:/\B&\d\b/,alias:"important"},operator:{pattern:/\d?<>|>\||\+=|=[=~]?|!=?|<<[<-]?|[&\d]?>>|\d[<>]&?|[<>][&=]?|&[>&]?|\|[&|]?/,inside:{"file-descriptor":{pattern:/^\d/,alias:"important"}}},punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,number:{pattern:/(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,lookbehind:!0}},a.inside=e.languages.bash;for(var s=["comment","function-name","for-or-select","assign-left","parameter","string","environment","function","keyword","builtin","boolean","file-descriptor","operator","punctuation","number"],o=n.variable[1].inside,i=0;i<s.length;i++)o[s[i]]=e.languages.bash[s[i]];e.languages.sh=e.languages.bash,e.languages.shell=e.languages.bash}(Prism);
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
