@@ -243,6 +243,12 @@ details.fold .code-file-header { margin-top: 0; border-radius: 0; }
     <p>The hostagent now supervises the ssh ControlMaster, restarts it, and replays the guestSocket, static and SSH-forwarder TCP forwards, while Lima clients move to <code>ControlMaster=no</code>. The design holds, but the master&#39;s new keepalive options turn CI&#39;s test-misc job red. A keepalive timeout ends ssh without closing its channels, so every open mux session&#39;s stdio stays non-blocking, and Ansible then refuses to run. Every start also waits an extra 3 s, and no test reaches the foreign-master takeover.</p>
     </div>
     <hr>
+    <h2 id="after-this-review">After This Review <a href="#after-this-review" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The findings were addressed in <a href="https://github.com/lima-vm/lima/commit/ebcada44"><code>ebcada44</code></a>, amended into the PR commit, so the code they cite has changed since the review ran. Each finding ends with its outcome.</p>
+    </div>
+    <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-critical" data-file="pkg/hostagent/sshmaster.go">
@@ -386,6 +392,7 @@ index 317843f5..25541b49 100644
 +	assert.DeepEqual(t, sshMasterArgs(nil, &quot;127.0.0.1&quot;, 0)[4:], []string{&quot;-N&quot;, &quot;127.0.0.1&quot;})
  }</code></pre>
       </details>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/ebcada44"><code>ebcada44</code></a>: the master sets no ServerAlive options, and a comment at its arguments says why.</p>
     </div>
     <hr>
     <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
@@ -613,6 +620,7 @@ index 25541b49..d18dcbb0 100644
 +	assert.NilError(t, m.start(t.Context()))
 +}</code></pre>
       </details>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/ebcada44"><code>ebcada44</code></a>. Only the first <code>start</code> call waits, up to 10 s; waiting on every retry stretched a never-ready startup to about 44 minutes.</p>
     </div>
     <div class="card card-important" data-file="pkg/hostagent/sshmaster.go">
       <div class="finding-title" id="I2">
@@ -719,6 +727,7 @@ index d18dcbb0..a3c72ce7 100644
 +	assert.ErrorContains(t, foreign.Wait(), &quot;terminated&quot;)
 +}</code></pre>
       </details>
+    <p><strong>Outcome:</strong> tests written in <a href="https://github.com/lima-vm/lima/commit/ebcada44"><code>ebcada44</code></a> for the foreign-master takeover, the pid-mismatch kill and a stop during backoff; each fails when its code is deleted.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
@@ -744,6 +753,7 @@ index d18dcbb0..a3c72ce7 100644
 		&lt;-stderrDone</code></pre>
     <p>The client options do not set <code>LogLevel</code>, so the master logs at INFO, and OpenSSH reports each forwarded connection that the guest refuses with <code>channel %d: open failed</code> (<code>channels.c:3721</code>). A docker CLI retrying against a stopped dockerd adds a line per attempt. At the merge-base, the ControlPersist master detached with its stderr on <code>/dev/null</code> (<code>ssh.c:1887</code>).</p>
     <p>Fix: log these lines at Debug, and attach the last few to the <code>SSH ControlMaster exited</code> warning, where the exit reason matters.</p>
+    <p><strong>Outcome:</strong> declined for this PR after two fixes failed verification: Debug still reaches <code>ha.stderr.log</code>, which the hostagent writes at Debug, and <code>LogLevel=ERROR</code> drops the exit reasons that OpenSSH&#39;s <code>logdie</code> logs at INFO. A repeat-collapsing design is tracked in pending-work; do not re-suggest a log-level change.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/hostagent/sshmaster.go">
       <div class="finding-title" id="S2">
@@ -772,6 +782,7 @@ index d18dcbb0..a3c72ce7 100644
     <p>The <code>-O exit</code> request runs on <code>context.Background()</code> before the 10 s timer starts, so a master whose mux listener never answers blocks <code>close()</code> before it reaches <code>cancelHA</code>. The merge-base&#39;s <code>ssh.ExitMaster</code> was just as unbounded.</p>
     <p>The opposite case wastes the timer. A <code>terminate</code> that runs before <code>runOnce</code> stores <code>cmd</code> skips the request, and <code>runOnce</code> then starts a master anyway, so shutdown waits the full 10 s and logs &quot;SSH master did not exit; killing it&quot;. A fake-ssh test that called <code>terminate</code> right after the first <code>start</code> took 10.0 s.</p>
     <p>Fix: bound the request with <code>context.WithTimeout(…, sshMasterExitTimeout)</code>, and have <code>runOnce</code> check <code>stopped</code> under <code>m.mu</code> before <code>cmd.Start</code>.</p>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/ebcada44"><code>ebcada44</code></a>. <code>terminate</code> sends SIGTERM, which clears the mux sessions&#39; <code>O_NONBLOCK</code> as <code>-O exit</code> does (measured), the master starts under <code>m.mu</code> after a <code>stopped</code> check, and <code>control</code> bounds each <code>ssh -O</code> request to 10 s. Two <code>-O exit</code>-based designs failed verification first.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/hostagent/port.go">
       <div class="finding-title" id="S3">
@@ -807,6 +818,7 @@ func (pf *portForwarder) emitEvent(ev *events.PortForwardEvent) {
 // cancelGuestSockets cancels the guestSocket forwards.
 func (a *HostAgent) cancelGuestSockets(ctx context.Context) error {</code></pre>
     <p>Fix: stamp the generation only on success, and retry the failed forwards while the generation is current.</p>
+    <p><strong>Outcome:</strong> commented: the five generation definitions say the stamp is <code>generation()</code> read before the last attempt, which may have failed. No retry loop.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/hostagent/sshmaster.go">
       <div class="finding-title" id="S4">
@@ -833,6 +845,7 @@ func (a *HostAgent) cancelGuestSockets(ctx context.Context) error {</code></pre>
 				continue</code></pre>
     <p>When our ssh finds <code>ssh.sock</code> taken, it runs as a plain connection (<code>mux.c:1382-1387</code>). If the holder exits afterwards, it unlinks the socket (<code>ssh.c:1843-1844</code>), every <code>-O check</code> fails, and the loop polls with neither an exit nor a restart. <code>exitForeignMaster</code> narrows this to a race in which the foreign master outlives our ssh&#39;s authentication. A connection that hangs during authentication ends the same way.</p>
     <p>Fix: give readiness a deadline after which <code>runOnce</code> kills <code>cmd</code> and returns, so the loop restarts.</p>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/ebcada44"><code>ebcada44</code></a> with a 60 s readiness deadline that kills and restarts the master.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/hostagent/hostagent.go">
       <div class="finding-title" id="S5">
@@ -866,6 +879,7 @@ func (a *HostAgent) cancelGuestSockets(ctx context.Context) error {</code></pre>
 		vncdisplay, vncoptions, _ := strings.Cut(*a.instConfig.Video.VNC.Display, &quot;,&quot;)
 		vnchost, vncnum, err := net.SplitHostPort(vncdisplay)</code></pre>
     <p>Fix: pass <code>a.sshAddressPort</code> to <code>newSSHMaster</code>, and call it in <code>runOnce</code> and <code>control</code>.</p>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/ebcada44"><code>ebcada44</code></a>: the master reads <code>a.sshAddressPort</code>.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/hostagent/port_darwin.go">
       <div class="finding-title" id="S6">
@@ -899,6 +913,7 @@ func usesPseudoLoopback(local string) bool {
 	}
 	localPort, err := strconv.Atoi(localPortStr)</code></pre>
     <p>Fix: have <code>forwardTCP</code> call <code>usesPseudoLoopback(local)</code> after its <code>/</code> branch.</p>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/ebcada44"><code>ebcada44</code></a>: <code>forwardTCP</code> calls <code>usesPseudoLoopback</code>.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/usage/ssh.md">
       <div class="finding-title" id="S7">
@@ -959,6 +974,7 @@ func (a *HostAgent) sshMasterRequirement(ctx context.Context) requirement {
 	req := requirement{
 		description: &quot;Persistent SSH ControlMaster&quot;,</code></pre>
     <p>Fix: write &quot;hosts other than Windows&quot; in all four places.</p>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/ebcada44"><code>ebcada44</code></a> at all four sites.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/usage/ssh.md">
       <div class="finding-title" id="S8">
@@ -988,6 +1004,7 @@ func (a *HostAgent) sshMasterRequirement(ctx context.Context) requirement {
 	if err := rsf.Start(); err != nil {
 		logrus.WithError(err).Warnf(&quot;failed to mount reverse sshfs for %#q on %#q, retrying with `-o nonempty`&quot;, resolvedLocation, *m.MountPoint)</code></pre>
     <p>Fix: add one sentence on reverse-sshfs mounts, or say in the PR body that <a href="https://github.com/lima-vm/lima/issues/5635" class="gh-ref" data-title="hostagent: run reverse-sshfs mounts without the ControlMaster" data-state="open" data-type="pr">#5635</a> covers them.</p>
+    <p><strong>Outcome:</strong> goes in the PR body, drafted to post with the next push.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/hostagent/port_darwin.go">
       <div class="finding-title" id="S9">
@@ -995,6 +1012,7 @@ func (a *HostAgent) sshMasterRequirement(ctx context.Context) requirement {
       </div>
     <p><code>forward_replay_test.go</code> uses ports of 1024 and above only, so the branch that re-forwards a live forwarder&#39;s Unix socket never runs. The test is optional, because the branch needs the SSH forwarder and a privileged port on macOS.</p>
     <p>Fix: put a fake <code>pseudoLoopbackForwarder</code> in the map under the stubbed <code>forwardSSH</code>, and assert the cancel and forward calls on its <code>unixAddr</code>.</p>
+    <p><strong>Outcome:</strong> declined: an optional test for a rare configuration.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/hostagent/sshmaster.go">
       <div class="finding-title" id="S10">
@@ -1014,6 +1032,7 @@ func (a *HostAgent) sshMasterRequirement(ctx context.Context) requirement {
 			if err == nil {</code></pre>
     <p>The 500 ms ticker wakes the goroutine for the master&#39;s whole lifetime, only to find <code>isReady()</code> true.</p>
     <p>Fix: stop the ticker after <code>markReady</code>; the <code>exited</code> case still ends the loop.</p>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/ebcada44"><code>ebcada44</code></a>.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
@@ -1021,9 +1040,9 @@ func (a *HostAgent) sshMasterRequirement(ctx context.Context) requirement {
     <div class="card card-design">
     <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
     <ul>
-      <li><strong>(in-scope) What the recovery adds beyond <a href="https://github.com/lima-vm/lima/issues/5631" class="gh-ref" data-title="hostagent: lower ssh&#39;s soft fd limit to 1024 on macOS" data-state="open" data-type="pr">#5631</a>.</strong> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="https://github.com/lima-vm/lima/issues/5631" class="gh-ref" data-title="hostagent: lower ssh&#39;s soft fd limit to 1024 on macOS" data-state="open" data-type="pr">#5631</a> removes the one measured cause of master deaths on macOS. This PR recovers from the deaths that remain on every host but Windows: Lima&#39;s own <code>limactl shell --reconnect</code>, which runs <code>ssh -O exit</code> and strands every forward, and any other master exit. It restores guestSocket forwards (docker.sock), static TCP forwards, and every dynamic TCP forward under <code>LIMA_SSH_PORT_FORWARDER=true</code>; under the default gRPC forwarder on QEMU the ga.sock reconnect loop already restored dynamic ports. The <code>ControlMaster=no</code> change also completes <a href="https://github.com/lima-vm/lima/issues/5631" class="gh-ref" data-title="hostagent: lower ssh&#39;s soft fd limit to 1024 on macOS" data-state="open" data-type="pr">#5631</a>, since only the hostagent starts a master now and the fd limit reaches every one. The smaller alternatives each cover less. Changing <code>--reconnect</code> alone fixes only Lima&#39;s own trigger, and routing guestSocket forwards over gRPC (one reviewer&#39;s preference) takes docker.sock off the master on vz only. I think the supervisor justifies its 341 lines; the TCP-intent bookkeeping, about 100 lines, serves only static forwards and the non-default SSH forwarder. C1&#39;s fix gives up the 60 s hang detection, so a hung master again lasts until its connection closes.</li>
-      <li><strong>(future) The BATS job&#39;s failure is an older race in the events watcher.</strong> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <code>limactl start</code> in the <code>mcp</code> file died on &quot;failed to unmarshal … as events.Event: unexpected end of JSON input&quot;. <code>events.Watch</code> tails <code>ha.stdout.log</code> without nxadm/tail&#39;s <code>CompleteLines</code> (<a href="https://github.com/lima-vm/lima/blob/fafeac35ab0a193a366f6ec0a76a235db6784920/pkg/hostagent/events/watcher.go#L19-L25"><code>watcher.go:19-25</code></a>, identical at the merge-base), and v1.4.11 hands a partial line to the reader at EOF while following (<code>tail.go:336-338</code>). The truncated event came from the gRPC forwarder, which this PR does not touch. On macOS, 4.2 million concurrent events did not produce a partial read, so I expect the race on Linux runners only; that part is reasoning, not a reproduction. Set <code>CompleteLines: true</code> in a separate PR.</li>
-      <li><strong>(future) ga.sock waits for the 10 s reconnect loop.</strong> <span class="pill pill-claude">Claude Opus 5.5</span> On QEMU every gRPC-forwarded port stays down about 10 s after a restart while guestSocket forwards return in about 1 s. Calling <code>forwardGuestAgentSock</code> from <code>replayForwards</code> when <code>ForwardGuestAgent</code> is true would bring them back together.</li>
+      <li><strong>(in-scope) What the recovery adds beyond <a href="https://github.com/lima-vm/lima/issues/5631" class="gh-ref" data-title="hostagent: lower ssh&#39;s soft fd limit to 1024 on macOS" data-state="open" data-type="pr">#5631</a>.</strong> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="https://github.com/lima-vm/lima/issues/5631" class="gh-ref" data-title="hostagent: lower ssh&#39;s soft fd limit to 1024 on macOS" data-state="open" data-type="pr">#5631</a> removes the one measured cause of master deaths on macOS. This PR recovers from the deaths that remain on every host but Windows: Lima&#39;s own <code>limactl shell --reconnect</code>, which runs <code>ssh -O exit</code> and strands every forward, and any other master exit. It restores guestSocket forwards (docker.sock), static TCP forwards, and every dynamic TCP forward under <code>LIMA_SSH_PORT_FORWARDER=true</code>; under the default gRPC forwarder on QEMU the ga.sock reconnect loop already restored dynamic ports. The <code>ControlMaster=no</code> change also completes <a href="https://github.com/lima-vm/lima/issues/5631" class="gh-ref" data-title="hostagent: lower ssh&#39;s soft fd limit to 1024 on macOS" data-state="open" data-type="pr">#5631</a>, since only the hostagent starts a master now and the fd limit reaches every one. The smaller alternatives each cover less. Changing <code>--reconnect</code> alone fixes only Lima&#39;s own trigger, and routing guestSocket forwards over gRPC (one reviewer&#39;s preference) takes docker.sock off the master on vz only. I think the supervisor justifies its 341 lines; the TCP-intent bookkeeping, about 100 lines, serves only static forwards and the non-default SSH forwarder. C1&#39;s fix gives up the 60 s hang detection, so a hung master again lasts until its connection closes. <strong>Outcome:</strong> L5 goes ahead.</li>
+      <li><strong>(future) The BATS job&#39;s failure is an older race in the events watcher.</strong> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <code>limactl start</code> in the <code>mcp</code> file died on &quot;failed to unmarshal … as events.Event: unexpected end of JSON input&quot;. <code>events.Watch</code> tails <code>ha.stdout.log</code> without nxadm/tail&#39;s <code>CompleteLines</code> (<a href="https://github.com/lima-vm/lima/blob/fafeac35ab0a193a366f6ec0a76a235db6784920/pkg/hostagent/events/watcher.go#L19-L25"><code>watcher.go:19-25</code></a>, identical at the merge-base), and v1.4.11 hands a partial line to the reader at EOF while following (<code>tail.go:336-338</code>). The truncated event came from the gRPC forwarder, which this PR does not touch. On macOS, 4.2 million concurrent events did not produce a partial read, so I expect the race on Linux runners only; that part is reasoning, not a reproduction. Set <code>CompleteLines: true</code> in a separate PR. <strong>Outcome:</strong> declined here; tracked in pending-work.</li>
+      <li><strong>(future) ga.sock waits for the 10 s reconnect loop.</strong> <span class="pill pill-claude">Claude Opus 5.5</span> On QEMU every gRPC-forwarded port stays down about 10 s after a restart while guestSocket forwards return in about 1 s. Calling <code>forwardGuestAgentSock</code> from <code>replayForwards</code> when <code>ForwardGuestAgent</code> is true would bring them back together. <strong>Outcome:</strong> declined here; tracked in pending-work.</li>
     </ul>
     <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
     <ul>
@@ -1050,6 +1069,7 @@ func (a *HostAgent) sshMasterRequirement(ctx context.Context) requirement {
 
     <div class="card card-neutral">
     <p>S7 and S8 cover the new <code>ssh.md</code> section. The <code>internals.md</code> line and the <code>writeSSHConfigFile</code> header now say Lima uses <code>ssh.config</code>, which <code>limactl shell --reconnect</code> and the vz driver do. The PR description&#39;s Testing paragraph names the vz BATS run only; the C1 failure showed on Linux QEMU.</p>
+    <p><strong>Outcome:</strong> the Testing paragraph gets the Linux QEMU jobs once CI has run on the pushed commit.</p>
     </div>
     <hr>
     <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
