@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20261021-004500-pr-5653</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+.pass-tag, .title-note { font-weight: 400; color: #6b7280; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20261021-004500-pr-5653</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-10-21 00:45</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>2 (of target)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/KayleMaster">@KayleMaster</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5653" class="gh-ref" data-title="portfwd: support Unix socket forwarding over gRPC" data-state="open" data-type="pr">#5653</a> — portfwd: support Unix socket forwarding over gRPC</td></tr>
+      <tr><td>Branch</td><td><code>feat/grpc-unix-socket-forwarding</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/473f466d"><code>473f466d</code></a> portfwd: support Unix socket forwarding over gRPC</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/473f466dabdd88ecdf04ce49f06056e33995de5b"><code>473f466dabdd88ecdf04ce49f06056e33995de5b</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5.5</span> (effort: high), <span class="pill pill-codex">Codex GPT 6 Astra</span> (effort: high), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; two of this round&#39;s changes break cases that worked at round 1, and round 1&#39;s template comment and routing test are still open</td></tr>
+      <tr><td>Wall-clock time</td><td><code>8 h 50 min 22 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>This round makes the host socket owner-only, adds the pseudoloopback <code>continue</code>, and aborts both directions on a copy error. The owner-only socket fixes round 1&#39;s umask exposure, but two of the changes break cases that worked at round 1. The abort cuts off a response when the host writes after the guest has closed, and the staging path rejects host sockets near the length limit. Round 1&#39;s template comment and routing test are still open.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file="pkg/portfwd/listener.go">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> Aborting on a failed send cuts off the guest&#39;s response <span class="pill pill-claude">Claude Opus 5.5</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwd/listener.go#L190-L203">pkg/portfwd/listener.go</a></div>
+      <pre data-start="190" data-line="195-198"><code class="language-go">	}
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		if _, err := io.Copy(dst, conn); err != nil {
+			abort()
+			return
+		}
+		closeWriteIfPossible(dst)
+	}()
+	go func() {
+		defer wg.Done()
+		if _, err := io.Copy(conn, dst); err != nil {</code></pre>
+    <p>When the guest service closes, <code>GRPCServerRW.CloseWrite</code> ends the tunnel (<a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwdserver/server.go#L130"><code>pkg/portfwdserver/server.go:130</code></a>), while part of the response can still be waiting in the host&#39;s gRPC receive buffer. A host write after that point makes <code>stream.Send</code> return <code>io.EOF</code>, and <code>abort()</code> closes the host connection and cancels the stream before the other goroutine delivers the rest. An HTTP server that answers before reading the whole upload can trigger this, and so can <code>docker exec -i</code> when the process exits while stdin is still streaming. Round 1 half-closed here and delivered every byte, and the TCP path&#39;s <code>tcpproxy</code> also only calls <code>CloseSend</code> in this direction. With the abort removed, every case gets the whole response in 3 of 3 runs.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwdserver/server.go#L125-L135">pkg/portfwdserver/server.go</a></div>
+      <pre data-start="125" data-line="130"><code class="language-go">
+// CloseWrite is called once the guest service closes its side. The tunnel
+// protocol cannot signal a half-close towards the host, so this ends the whole
+// tunnel; the host then sees the stream end and shuts down the write side of
+// its own connection.
+func (g *GRPCServerRW) CloseWrite() error {
+	logrus.Debugf(&quot;closing write GRPCServerRW for id: %s&quot;, g.id)
+	g.closeOnce.Do(func() { close(g.closeCh) })
+	return nil
+}
+</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as pkg/portfwd/late_write_probe_test.go; run: go test -count=1 -run TestProbeLateHostWrite -v ./pkg/portfwd/
+package portfwd
+
+import (
+	&quot;bytes&quot;
+	&quot;io&quot;
+	&quot;net&quot;
+	&quot;path/filepath&quot;
+	&quot;testing&quot;
+	&quot;time&quot;
+
+	guestagentclient &quot;github.com/lima-vm/lima/v2/pkg/guestagent/api/client&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/portfwdserver&quot;
+)
+
+// The guest service reads one request byte, writes its whole response and
+// closes, like a process that exits while the client still sends input. The
+// host client writes again after the guest has closed, then reads everything.
+func TestProbeLateHostWrite(t *testing.T) {
+	for _, size := range []int{4 &lt;&lt; 10, 40 &lt;&lt; 10} {
+		for _, lateWrite := range []bool{false, true} {
+			dir := shortUnixTempDir(t)
+			guestSocket := filepath.Join(dir, &quot;guest.sock&quot;)
+			hostSocket := filepath.Join(dir, &quot;host.sock&quot;)
+			ln, err := net.Listen(&quot;unix&quot;, guestSocket)
+			if err != nil {
+				t.Fatal(err)
+			}
+			go func() {
+				for {
+					c, err := ln.Accept()
+					if err != nil {
+						return
+					}
+					go func() {
+						defer c.Close()
+						_, _ = io.ReadFull(c, make([]byte, 1))
+						_, _ = c.Write(bytes.Repeat([]byte(&quot;r&quot;), size))
+					}()
+				}
+			}()
+			client := newTestGuestAgentClient(t, &amp;tunnelGuestService{tunnel: portfwdserver.NewTunnelServer()})
+			getClient := func() *guestagentclient.GuestAgentClient { return client }
+			fw := NewPortForwarder(nil, false, false, nil)
+			fw.ForwardStatic(t.Context(), DialContextToGRPCTunnel(getClient), &quot;unix&quot;, hostSocket, guestSocket)
+
+			conn := dialWithRetry(t, hostSocket)
+			_, _ = conn.Write([]byte(&quot;q&quot;))
+			// Let the guest write its response and close, which ends the tunnel stream.
+			time.Sleep(300 * time.Millisecond)
+			if lateWrite {
+				for range 5 {
+					_, _ = conn.Write([]byte(&quot;more input&quot;))
+					time.Sleep(10 * time.Millisecond)
+				}
+			}
+			n, err := io.Copy(io.Discard, conn)
+			t.Logf(&quot;response %6d bytes, host writes after guest close %-5v: received %6d (err %v)&quot;, size, lateWrite, n, err)
+			if int(n) != size {
+				t.Errorf(&quot;response %d bytes, late write %v: lost %d bytes&quot;, size, lateWrite, size-int(n))
+			}
+			conn.Close()
+			fw.Close()
+			client.Close()
+			ln.Close()
+		}
+	}
+}</code></pre>
+      <pre><code class="language-text">$ go test -count=1 -run TestProbeLateHostWrite -v ./pkg/portfwd/
+=== RUN   TestProbeLateHostWrite
+    late_write_probe_test.go:58: response   4096 bytes, host writes after guest close false: received   4096 (err &lt;nil&gt;)
+    late_write_probe_test.go:58: response   4096 bytes, host writes after guest close true : received   4096 (err &lt;nil&gt;)
+    late_write_probe_test.go:58: response  40960 bytes, host writes after guest close false: received  40960 (err &lt;nil&gt;)
+    late_write_probe_test.go:58: response  40960 bytes, host writes after guest close true : received   8192 (err &lt;nil&gt;)
+    late_write_probe_test.go:60: response 40960 bytes, late write true: lost 32768 bytes
+--- FAIL: TestProbeLateHostWrite (1.42s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/portfwd	1.943s
+FAIL</code></pre>
+      </details>
+    <p>Fix: abort only when the copy to the host fails, and let a failed send half-close as on EOF. With the patch, the probe receives every byte, and <code>TestHandleUnixConnectionReturnsOnTunnelFailure</code> still passes.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/portfwd/listener.go b/pkg/portfwd/listener.go
+index cfccf22c..7779b3eb 100644
+--- a/pkg/portfwd/listener.go
++++ b/pkg/portfwd/listener.go
+@@ -176,9 +176,10 @@ func handleUnixConnection(ctx context.Context, dialContext func(ctx context.Cont
+ 	}
+ 	defer dst.Close()
+ 
+-	// On a copy error, tear down both directions so neither goroutine stays blocked.
+-	// The tunnel is cancelled with CloseRead rather than Close, because Close calls
+-	// gRPC CloseSend, which must not run concurrently with the writer goroutine.
++	// When the copy to the host fails, tear down both directions so that an idle
++	// host client cannot keep the other copy blocked. The tunnel is cancelled with
++	// CloseRead rather than Close, because Close calls gRPC CloseSend, which must
++	// not run concurrently with the writer goroutine.
+ 	var abortOnce sync.Once
+ 	abort := func() {
+ 		abortOnce.Do(func() {
+@@ -192,10 +193,9 @@ func handleUnixConnection(ctx context.Context, dialContext func(ctx context.Cont
+ 	wg.Add(2)
+ 	go func() {
+ 		defer wg.Done()
+-		if _, err := io.Copy(dst, conn); err != nil {
+-			abort()
+-			return
+-		}
++		// A failed send can mean only that the guest has closed while its response
++		// is still on its way to the host, so half-close as on EOF.
++		_, _ = io.Copy(dst, conn)
+ 		closeWriteIfPossible(dst)
+ 	}()
+ 	go func() {
+diff --git a/pkg/portfwd/unix_test.go b/pkg/portfwd/unix_test.go
+index 8ec757f0..d45076a9 100644
+--- a/pkg/portfwd/unix_test.go
++++ b/pkg/portfwd/unix_test.go
+@@ -4,6 +4,7 @@
+ package portfwd
+ 
+ import (
++	&quot;bytes&quot;
+ 	&quot;io&quot;
+ 	&quot;net&quot;
+ 	&quot;os&quot;
+@@ -226,3 +227,51 @@ func TestHandleUnixConnectionReturnsOnTunnelFailure(t *testing.T) {
+ 	}
+ 	assert.Assert(t, returned, &quot;handleUnixConnection did not return after the tunnel failed&quot;)
+ }
++
++func TestHandleUnixConnectionDeliversResponseAfterGuestCloses(t *testing.T) {
++	dir := shortUnixTempDir(t)
++	guestSocket := filepath.Join(dir, &quot;guest.sock&quot;)
++	response := bytes.Repeat([]byte(&quot;r&quot;), 8&lt;&lt;10)
++
++	// The guest service answers one request and closes, like a process that
++	// exits while its client is still sending input.
++	var listenConfig net.ListenConfig
++	ln, err := listenConfig.Listen(t.Context(), &quot;unix&quot;, guestSocket)
++	assert.NilError(t, err)
++	defer ln.Close()
++	guestClosed := make(chan struct{})
++	go func() {
++		conn, err := ln.Accept()
++		if err != nil {
++			return
++		}
++		_, _ = io.ReadFull(conn, make([]byte, 1))
++		_, _ = conn.Write(response)
++		conn.Close()
++		close(guestClosed)
++	}()
++
++	client := newTestGuestAgentClient(t, &amp;tunnelGuestService{tunnel: portfwdserver.NewTunnelServer()})
++	defer client.Close()
++	getClient := func() *guestagentclient.GuestAgentClient { return client }
++
++	hostConn, proxyConn := net.Pipe()
++	defer hostConn.Close()
++	assert.NilError(t, hostConn.SetReadDeadline(time.Now().Add(5*time.Second)))
++	go handleUnixConnection(t.Context(), DialContextToGRPCTunnel(getClient), proxyConn, guestSocket)
++
++	_, err = hostConn.Write([]byte(&quot;q&quot;))
++	assert.NilError(t, err)
++	&lt;-guestClosed
++	// Once the end of the tunnel stream reaches the host, the proxy fails to
++	// send this input, while the response is still waiting to be read.
++	time.Sleep(200 * time.Millisecond)
++	_, err = hostConn.Write([]byte(&quot;more input&quot;))
++	assert.NilError(t, err)
++	// Read only after the proxy has handled the failed send.
++	time.Sleep(100 * time.Millisecond)
++
++	got := make([]byte, len(response))
++	n, err := io.ReadFull(hostConn, got)
++	assert.NilError(t, err, &quot;received %d of %d response bytes&quot;, n, len(response))
++}</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/portfwd/listener.go">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> The staging path is longer than the host socket, so a host socket near the length limit no longer binds <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwd/listener.go#L263-L279">pkg/portfwd/listener.go</a></div>
+      <pre data-start="263" data-line="268-274"><code class="language-go">func listenUnixOwnerOnly(ctx context.Context, hostSocket string) (net.Listener, error) {
+	var lc net.ListenConfig
+	if runtime.GOOS == &quot;windows&quot; {
+		return lc.Listen(ctx, &quot;unix&quot;, hostSocket)
+	}
+	tmpDir, err := os.MkdirTemp(filepath.Dir(hostSocket), &quot;.l&quot;)
+	if err != nil {
+		return nil, err
+	}
+	defer os.RemoveAll(tmpDir)
+	tmpSocket := filepath.Join(tmpDir, &quot;s&quot;)
+	lis, err := lc.Listen(ctx, &quot;unix&quot;, tmpSocket)
+	if err != nil {
+		return nil, err
+	}
+	unixLis := lis.(*net.UnixListener)
+	// The socket is unlinked by ownerOnlyUnixListener.Close at its final path instead.</code></pre>
+    <p><code>os.MkdirTemp</code> appends up to ten digits, so the staging path <code>&lt;dir&gt;/.l&lt;digits&gt;/s</code> is up to 15 bytes longer than the directory, while the host socket adds only <code>1 + len(basename)</code>. <a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/limayaml/validate.go#L406"><code>pkg/limayaml/validate.go:406</code></a> accepts any <code>hostSocket</code> shorter than <code>osutil.UnixPathMax</code> (104 on macOS). So a <code>docker.sock</code> path of 102 or 103 bytes now fails with <code>bind: invalid argument</code>, and one of 101 bytes fails whenever the suffix has ten digits. Both callers reach this helper, <code>forwardUnix</code> and <code>forwardTCP</code> for a TCP guest port forwarded to a <code>hostSocket</code>, and both listened on the final path at the merge-base. Sockets under the instance directory stay short enough (<a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/instance/create.go#L39-L40"><code>pkg/instance/create.go:39-40</code></a>).</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/limayaml/validate.go#L401-L411">pkg/limayaml/validate.go</a></div>
+      <pre data-start="401" data-line="406"><code class="language-go">			}
+		} else if rule.GuestPortRange[1]-rule.GuestPortRange[0] != rule.HostPortRange[1]-rule.HostPortRange[0] {
+			errs = errors.Join(errs, fmt.Errorf(&quot;field `%s.hostPortRange` must specify the same number of ports as field `%s.guestPortRange`&quot;, field, field))
+		}
+
+		if len(rule.HostSocket) &gt;= osutil.UnixPathMax {
+			errs = errors.Join(errs, fmt.Errorf(&quot;field `%s.hostSocket` must be less than UNIX_PATH_MAX=%d characters, but is %d&quot;,
+				field, osutil.UnixPathMax, len(rule.HostSocket)))
+		}
+		switch rule.Proto {
+		case limatype.ProtoTCP, limatype.ProtoUDP, limatype.ProtoAny:</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/instance/create.go#L34-L45">pkg/instance/create.go</a></div>
+      <pre data-start="34" data-line="39-40"><code class="language-go">	if err != nil {
+		return nil, err
+	}
+
+	// the full path of the socket name must be less than UNIX_PATH_MAX chars.
+	maxSockName := filepath.Join(instDir, filenames.LongestSock)
+	if len(maxSockName) &gt;= osutil.UnixPathMax {
+		return nil, fmt.Errorf(&quot;instance name %#q too long: %#q must be less than UNIX_PATH_MAX=%d characters, but is %d&quot;,
+			instName, maxSockName, osutil.UnixPathMax, len(maxSockName))
+	}
+	if _, err := os.Stat(instDir); !errors.Is(err, os.ErrNotExist) {
+		return nil, fmt.Errorf(&quot;instance %#q already exists (%#q)&quot;, instName, instDir)</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as pkg/portfwd/pathlen_probe_test.go; run: go test -count=1 -run TestProbeHostSocketPathLength -v ./pkg/portfwd/
+package portfwd
+
+import (
+	&quot;net&quot;
+	&quot;os&quot;
+	&quot;path/filepath&quot;
+	&quot;strings&quot;
+	&quot;testing&quot;
+)
+
+// Bind host sockets of the lengths validate.go accepts near the limit (&lt; 104
+// on macOS), with a plain listener and with listenUnixOwnerOnly.
+func TestProbeHostSocketPathLength(t *testing.T) {
+	base, err := os.MkdirTemp(&quot;&quot;, &quot;l&quot;)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.RemoveAll(base)
+	for _, total := range []int{99, 100, 101, 102, 103} {
+		dir := filepath.Join(base, strings.Repeat(&quot;d&quot;, total-len(base)-len(&quot;//docker.sock&quot;)))
+		if err := os.MkdirAll(dir, 0o755); err != nil {
+			t.Fatal(err)
+		}
+		hostSocket := filepath.Join(dir, &quot;docker.sock&quot;)
+		var lc net.ListenConfig
+		plain, plainErr := lc.Listen(t.Context(), &quot;unix&quot;, hostSocket)
+		if plainErr == nil {
+			plain.Close()
+		}
+		owner, ownerErr := listenUnixOwnerOnly(t.Context(), hostSocket)
+		if ownerErr == nil {
+			owner.Close()
+		}
+		t.Logf(&quot;hostSocket %d bytes: plain listen err=%v, listenUnixOwnerOnly err=%v&quot;, len(hostSocket), plainErr, ownerErr)
+	}
+}</code></pre>
+      <pre><code class="language-text">$ go test -count=1 -run TestProbeHostSocketPathLength -v ./pkg/portfwd/
+=== RUN   TestProbeHostSocketPathLength
+    pathlen_probe_test.go:35: hostSocket 99 bytes: plain listen err=&lt;nil&gt;, listenUnixOwnerOnly err=&lt;nil&gt;
+    pathlen_probe_test.go:35: hostSocket 100 bytes: plain listen err=&lt;nil&gt;, listenUnixOwnerOnly err=&lt;nil&gt;
+    pathlen_probe_test.go:35: hostSocket 101 bytes: plain listen err=&lt;nil&gt;, listenUnixOwnerOnly err=&lt;nil&gt;
+    pathlen_probe_test.go:35: hostSocket 102 bytes: plain listen err=&lt;nil&gt;, listenUnixOwnerOnly err=listen unix $TMPDIR/l1154458197/ddddddddddddddddddddddddddddd/.l302297028/s: bind: invalid argument
+    pathlen_probe_test.go:35: hostSocket 103 bytes: plain listen err=&lt;nil&gt;, listenUnixOwnerOnly err=listen unix $TMPDIR/l1154458197/dddddddddddddddddddddddddddddd/.l1111172959/s: bind: invalid argument
+--- PASS: TestProbeHostSocketPathLength (0.01s)
+PASS
+ok  	github.com/lima-vm/lima/v2/pkg/portfwd	0.394s</code></pre>
+      </details>
+    <p>Fix: when the staging path would reach the limit, bind the host socket in place and chmod it to 0600 at once. That leaves a window between bind and chmod for these paths only; under the default umask 022 no other user can connect during it.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/portfwd/listener.go b/pkg/portfwd/listener.go
+index cfccf22c..302fa82d 100644
+--- a/pkg/portfwd/listener.go
++++ b/pkg/portfwd/listener.go
+@@ -271,6 +271,19 @@ func listenUnixOwnerOnly(ctx context.Context, hostSocket string) (net.Listener,
+ 	}
+ 	defer os.RemoveAll(tmpDir)
+ 	tmpSocket := filepath.Join(tmpDir, &quot;s&quot;)
++	if len(tmpSocket) &gt;= osutil.UnixPathMax {
++		// The staging path is longer than hostSocket, so bind a host socket near
++		// the length limit in place and restrict it right away.
++		lis, err := lc.Listen(ctx, &quot;unix&quot;, hostSocket)
++		if err != nil {
++			return nil, err
++		}
++		if err := os.Chmod(hostSocket, 0o600); err != nil {
++			_ = lis.Close()
++			return nil, err
++		}
++		return lis, nil
++	}
+ 	lis, err := lc.Listen(ctx, &quot;unix&quot;, tmpSocket)
+ 	if err != nil {
+ 		return nil, err
+diff --git a/pkg/portfwd/unix_perm_test.go b/pkg/portfwd/unix_perm_test.go
+index 3decfd0c..5caabe4d 100644
+--- a/pkg/portfwd/unix_perm_test.go
++++ b/pkg/portfwd/unix_perm_test.go
+@@ -8,12 +8,14 @@ package portfwd
+ import (
+ 	&quot;os&quot;
+ 	&quot;path/filepath&quot;
++	&quot;strings&quot;
+ 	&quot;syscall&quot;
+ 	&quot;testing&quot;
+ 
+ 	&quot;gotest.tools/v3/assert&quot;
+ 
+ 	guestagentclient &quot;github.com/lima-vm/lima/v2/pkg/guestagent/api/client&quot;
++	&quot;github.com/lima-vm/lima/v2/pkg/osutil&quot;
+ 	&quot;github.com/lima-vm/lima/v2/pkg/portfwdserver&quot;
+ )
+ 
+@@ -49,3 +51,24 @@ func TestForwardUnixSocketIsOwnerOnly(t *testing.T) {
+ 		assert.Assert(t, !e.IsDir(), &quot;unexpected leftover directory %s&quot;, e.Name())
+ 	}
+ }
++
++func TestListenUnixOwnerOnlyAcceptsLongestHostSocket(t *testing.T) {
++	oldUmask := syscall.Umask(0o002)
++	t.Cleanup(func() { syscall.Umask(oldUmask) })
++
++	// validate.go accepts a hostSocket shorter than osutil.UnixPathMax.
++	const name = &quot;docker.sock&quot;
++	base := shortUnixTempDir(t)
++	dir := filepath.Join(base, strings.Repeat(&quot;d&quot;, osutil.UnixPathMax-1-len(base)-len(&quot;//&quot;)-len(name)))
++	assert.NilError(t, os.Mkdir(dir, 0o755))
++	hostSocket := filepath.Join(dir, name)
++	assert.Equal(t, len(hostSocket), osutil.UnixPathMax-1)
++
++	lis, err := listenUnixOwnerOnly(t.Context(), hostSocket)
++	assert.NilError(t, err)
++	defer lis.Close()
++
++	fi, err := os.Lstat(hostSocket)
++	assert.NilError(t, err)
++	assert.Equal(t, fi.Mode().Perm(), os.FileMode(0o600))
++}</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="templates/default.yaml">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> The template says the lima user needs access to the guest socket; the guest agent dials it as root <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="title-note">(raised in round 1 by Claude Opus 5.5)</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/templates/default.yaml#L574-L584">templates/default.yaml</a></div>
+      <pre data-start="574" data-line="579"><code class="language-yaml"># # &quot;guestSocket&quot; can include these template variables: {{.Home}}, {{.Name}}, {{.Hostname}}, {{.UID}}, {{.User}}, and {{.Param.Key}}.
+# # &quot;hostSocket&quot; can include {{.Home}}, {{.Dir}}, {{.Name}}, {{.UID}}, {{.User}}, and {{.Param.Key}}.
+# # &quot;reverse&quot; can only be used for unix sockets right now, not for tcp sockets.
+# # Put sockets into &quot;{{.Dir}}/sock&quot; to avoid collision with Lima internal sockets!
+# # Sockets can also be forwarded to ports and vice versa, but not to/from a range of ports.
+# # Forwarding requires the lima user to have rw access to the &quot;guestsocket&quot;,
+# # and the local user rwx access to the directory of the &quot;hostsocket&quot;.
+#
+# # Lima internally appends this fallback rule at the end:
+# - guestIP: &quot;127.0.0.1&quot;
+#   proto: &quot;any&quot;</code></pre>
+    <p>Under the default forwarder, <code>TunnelServer.Start</code> dials the guest end of a non-reverse <code>guestSocket</code> rule inside the guest agent (<a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwdserver/server.go#L39"><code>pkg/portfwdserver/server.go:39</code></a>), and the guest agent refuses to run as anyone but root (<a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/cmd/lima-guestagent/daemon_linux.go#L94"><code>cmd/lima-guestagent/daemon_linux.go:94</code></a>). A reader who follows the comment grants the lima user access that it does not need, and a template that relies on a socket&#39;s permissions to keep it away from the host loses that protection. The sentence still holds for reverse rules and under <code>LIMA_SSH_PORT_FORWARDER=true</code>. The probe shows that the guest end of a tunneled connection sees the identity of the process that runs <code>TunnelServer</code>, which holds for every non-reverse rule under the default forwarder. This round did not touch the template.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwdserver/server.go#L34-L44">pkg/portfwdserver/server.go</a></div>
+      <pre data-start="34" data-line="39"><code class="language-go">		return err
+	}
+
+	// We simply forward data form GRPC stream to net.Conn for both tcp and udp. So simple proxy is sufficient
+	var dialer net.Dialer
+	conn, err := dialer.DialContext(ctx, in.Protocol, in.GuestAddr)
+	if err != nil {
+		return err
+	}
+	// The tunnel is unusable once this function returns, so close the dialed
+	// connection here as well. This both releases the FD even if the proxy</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/cmd/lima-guestagent/daemon_linux.go#L89-L99">cmd/lima-guestagent/daemon_linux.go</a></div>
+      <pre data-start="89" data-line="94"><code class="language-go">	}
+	if tick == 0 {
+		return errors.New(&quot;tick must be specified&quot;)
+	}
+	if os.Geteuid() != 0 {
+		return errors.New(&quot;must run as the root user&quot;)
+	}
+
+	logrus.Infof(&quot;event tick: %v&quot;, tick)
+	simpleTicker := ticker.NewSimpleTicker(time.NewTicker(tick))
+	tickerInst := simpleTicker</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as pkg/portfwd/peer_probe_test.go (macOS host); run: go test -count=1 -run TestProbeTunnelPeerUID -v ./pkg/portfwd/
+package portfwd
+
+import (
+	&quot;io&quot;
+	&quot;net&quot;
+	&quot;os&quot;
+	&quot;path/filepath&quot;
+	&quot;testing&quot;
+
+	&quot;golang.org/x/sys/unix&quot;
+
+	guestagentclient &quot;github.com/lima-vm/lima/v2/pkg/guestagent/api/client&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/portfwdserver&quot;
+)
+
+func TestProbeTunnelPeerUID(t *testing.T) {
+	dir := shortUnixTempDir(t)
+	guestSocket := filepath.Join(dir, &quot;guest.sock&quot;)
+	hostSocket := filepath.Join(dir, &quot;host.sock&quot;)
+	ln, err := net.Listen(&quot;unix&quot;, guestSocket)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer ln.Close()
+	peer := make(chan uint32, 1)
+	go func() {
+		c, err := ln.Accept()
+		if err != nil {
+			return
+		}
+		defer c.Close()
+		raw, _ := c.(*net.UnixConn).SyscallConn()
+		_ = raw.Control(func(fd uintptr) {
+			if cred, err := unix.GetsockoptXucred(int(fd), unix.SOL_LOCAL, unix.LOCAL_PEERCRED); err == nil {
+				peer &lt;- cred.Uid
+			}
+		})
+		_, _ = c.Write([]byte(&quot;x&quot;))
+	}()
+
+	client := newTestGuestAgentClient(t, &amp;tunnelGuestService{tunnel: portfwdserver.NewTunnelServer()})
+	defer client.Close()
+	getClient := func() *guestagentclient.GuestAgentClient { return client }
+	fw := NewPortForwarder(nil, false, false, nil)
+	defer fw.Close()
+	fw.ForwardStatic(t.Context(), DialContextToGRPCTunnel(getClient), &quot;unix&quot;, hostSocket, guestSocket)
+
+	conn := dialWithRetry(t, hostSocket)
+	defer conn.Close()
+	if _, err := io.ReadFull(conn, make([]byte, 1)); err != nil {
+		t.Fatal(err)
+	}
+	t.Logf(&quot;guest socket peer uid %d = euid %d of the process running TunnelServer&quot;, &lt;-peer, os.Geteuid())
+}</code></pre>
+      <pre><code class="language-text">$ go test -count=1 -run TestProbeTunnelPeerUID -v ./pkg/portfwd/
+=== RUN   TestProbeTunnelPeerUID
+    peer_probe_test.go:54: guest socket peer uid 501 = euid 501 of the process running TunnelServer
+--- PASS: TestProbeTunnelPeerUID (0.03s)
+PASS
+ok  	github.com/lima-vm/lima/v2/pkg/portfwd	0.529s</code></pre>
+      </details>
+    <p>Fix: limit the sentence to the cases where it still holds. Round 1&#39;s patch still applies at this SHA.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/templates/default.yaml b/templates/default.yaml
+index d94cd1d4..af9e456e 100644
+--- a/templates/default.yaml
++++ b/templates/default.yaml
+@@ -576,8 +576,9 @@ networks:
+ # # &quot;reverse&quot; can only be used for unix sockets right now, not for tcp sockets.
+ # # Put sockets into &quot;{{.Dir}}/sock&quot; to avoid collision with Lima internal sockets!
+ # # Sockets can also be forwarded to ports and vice versa, but not to/from a range of ports.
+-# # Forwarding requires the lima user to have rw access to the &quot;guestsocket&quot;,
+-# # and the local user rwx access to the directory of the &quot;hostsocket&quot;.
++# # A reverse rule, or any rule under LIMA_SSH_PORT_FORWARDER=true, requires the lima user to have rw access
++# # to the &quot;guestsocket&quot;; otherwise the guest agent connects to it as root.
++# # Forwarding requires the local user to have rwx access to the directory of the &quot;hostsocket&quot;.
+ #
+ # # Lima internally appends this fallback rule at the end:
+ # - guestIP: &quot;127.0.0.1&quot;</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/hostagent/hostagent.go">
+      <div class="finding-title" id="I4">
+        <span class="finding-num">I4.</span> No test pins which forwarder a <code>guestSocket</code> rule uses <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="title-note">(raised in round 1 by Codex GPT 6 Astra and Claude Opus 5.5)</span><a href="#I4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/hostagent/hostagent.go#L787-L797">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="787" data-line="792"><code class="language-go">		sshAddress, sshPort := a.sshAddressPort()
+		dialContext := portfwd.DialContextToGRPCTunnel(a.getClient)
+		for _, rule := range a.instConfig.PortForwards {
+			if rule.GuestSocket != &quot;&quot; {
+				local := hostAddress(rule, &amp;guestagentapi.IPPort{})
+				if useSSHFwd || rule.Reverse {
+					_ = forwardSSH(ctx, a.sshConfig, sshAddress, sshPort, local, rule.GuestSocket, verbForward, rule.Reverse)
+				} else {
+					a.grpcPortForwarder.ForwardStatic(ctx, dialContext, &quot;unix&quot;, local, rule.GuestSocket)
+				}
+			}</code></pre>
+    <p>This condition is the fix for <a href="https://github.com/lima-vm/lima/issues/5420" class="gh-ref" data-title="guestSocket forwards die with the SSH ControlMaster and are never re-created (silent on vz)" data-state="open" data-type="issue">#5420</a>, and no test reaches it. The tests in <code>pkg/portfwd/unix_test.go</code> call <code>ForwardStatic</code> or <code>forwardUnix</code> directly, and no CI job dials a forwarded <code>guestSocket</code>. Replacing the condition with <code>true</code> still leaves <code>pkg/hostagent</code> and <code>pkg/portfwd</code> green at this SHA, and puts docker.sock back on the ControlMaster with no visible error. With the patch below, the same mutation fails with <code>assertion failed: 2 (int) != 1 (int): only the reverse rule may use SSH</code>. The mirror condition in the cleanup at line 809 is still untested.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/hostagent/hostagent.go#L804-L814">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="804" data-line="809"><code class="language-go">	a.cleanUp(func() error {
+		logrus.Debugf(&quot;Stop forwarding unix sockets&quot;)
+		var errs []error
+		sshAddress, sshPort := a.sshAddressPort()
+		for _, rule := range a.instConfig.PortForwards {
+			if rule.GuestSocket != &quot;&quot; &amp;&amp; (useSSHFwd || rule.Reverse) {
+				local := hostAddress(rule, &amp;guestagentapi.IPPort{})
+				if err := forwardSSH(ctx, a.sshConfig, sshAddress, sshPort, local, rule.GuestSocket, verbCancel, rule.Reverse); err != nil {
+					errs = append(errs, err)
+				}
+			}</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-routing.sh; run from the lima checkout: bash probe-routing.sh
+set -eu
+sed -i.bak &#39;s/if useSSHFwd || rule.Reverse {/if true {/&#39; pkg/hostagent/hostagent.go
+grep -c &#39;if true {&#39; pkg/hostagent/hostagent.go
+go test -count=1 ./pkg/hostagent/ ./pkg/portfwd/ || true
+mv pkg/hostagent/hostagent.go.bak pkg/hostagent/hostagent.go</code></pre>
+      <pre><code class="language-text">$ bash probe-routing.sh
+1
+ok  	github.com/lima-vm/lima/v2/pkg/hostagent	0.656s
+ok  	github.com/lima-vm/lima/v2/pkg/portfwd	1.173s</code></pre>
+      </details>
+    <p>Fix: move the loop into <code>forwardGuestSockets</code> and test it with the existing <code>stubForwardSSH</code>. Round 1&#39;s patch still applies at this SHA.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/hostagent/guest_sock_forward_test.go b/pkg/hostagent/guest_sock_forward_test.go
+new file mode 100644
+index 00000000..97f28f70
+--- /dev/null
++++ b/pkg/hostagent/guest_sock_forward_test.go
+@@ -0,0 +1,66 @@
++// SPDX-FileCopyrightText: Copyright The Lima Authors
++// SPDX-License-Identifier: Apache-2.0
++
++package hostagent
++
++import (
++	&quot;os&quot;
++	&quot;path/filepath&quot;
++	&quot;testing&quot;
++	&quot;time&quot;
++
++	&quot;gotest.tools/v3/assert&quot;
++
++	&quot;github.com/lima-vm/lima/v2/pkg/limatype&quot;
++	&quot;github.com/lima-vm/lima/v2/pkg/portfwd&quot;
++)
++
++// A guestSocket forward on the SSH ControlMaster dies with the master, so only
++// reverse rules, or all rules under LIMA_SSH_PORT_FORWARDER=true, may use it.
++func TestForwardGuestSockets(t *testing.T) {
++	newHostAgent := func(t *testing.T) (a *HostAgent, grpcSocket, reverseSocket string) {
++		//nolint:usetesting // t.TempDir() may return a path too long for a Unix socket.
++		dir, err := os.MkdirTemp(&quot;&quot;, &quot;lima&quot;)
++		assert.NilError(t, err)
++		t.Cleanup(func() { _ = os.RemoveAll(dir) })
++		grpcSocket = filepath.Join(dir, &quot;grpc.sock&quot;)
++		reverseSocket = filepath.Join(dir, &quot;reverse.sock&quot;)
++		a = &amp;HostAgent{
++			instConfig: &amp;limatype.LimaYAML{PortForwards: []limatype.PortForward{
++				{GuestSocket: &quot;/run/grpc.sock&quot;, HostSocket: grpcSocket},
++				{GuestSocket: &quot;/run/reverse.sock&quot;, HostSocket: reverseSocket, Reverse: true},
++			}},
++			grpcPortForwarder: portfwd.NewPortForwarder(nil, false, false, nil),
++		}
++		t.Cleanup(func() { _ = a.grpcPortForwarder.Close() })
++		return a, grpcSocket, reverseSocket
++	}
++
++	t.Run(&quot;gRPC forwarder&quot;, func(t *testing.T) {
++		calls, restore := stubForwardSSH(t, nil)
++		defer restore()
++		a, grpcSocket, reverseSocket := newHostAgent(t)
++		a.forwardGuestSockets(t.Context(), false)
++
++		got := calls()
++		assert.Equal(t, len(got), 1, &quot;only the reverse rule may use SSH&quot;)
++		assert.Equal(t, got[0].local, reverseSocket)
++		deadline := time.Now().Add(5 * time.Second)
++		for _, err := os.Stat(grpcSocket); err != nil; _, err = os.Stat(grpcSocket) {
++			assert.Assert(t, time.Now().Before(deadline), &quot;gRPC forwarder did not create %s: %v&quot;, grpcSocket, err)
++			time.Sleep(20 * time.Millisecond)
++		}
++	})
++
++	t.Run(&quot;SSH forwarder&quot;, func(t *testing.T) {
++		calls, restore := stubForwardSSH(t, nil)
++		defer restore()
++		a, grpcSocket, reverseSocket := newHostAgent(t)
++		a.forwardGuestSockets(t.Context(), true)
++
++		got := calls()
++		assert.Equal(t, len(got), 2)
++		assert.Equal(t, got[0].local, grpcSocket)
++		assert.Equal(t, got[1].local, reverseSocket)
++	})
++}
+diff --git a/pkg/hostagent/hostagent.go b/pkg/hostagent/hostagent.go
+index e3217739..1eb24bb2 100644
+--- a/pkg/hostagent/hostagent.go
++++ b/pkg/hostagent/hostagent.go
+@@ -784,18 +784,7 @@ func (a *HostAgent) watchGuestAgentEvents(ctx context.Context) {
+ 	useSSHFwd := useSSHPortForwarder()
+ 	if !a.driver.Info(ctx).Features.SkipSocketForwarding {
+ 		logrus.Debugf(&quot;Forwarding unix sockets&quot;)
+-		sshAddress, sshPort := a.sshAddressPort()
+-		dialContext := portfwd.DialContextToGRPCTunnel(a.getClient)
+-		for _, rule := range a.instConfig.PortForwards {
+-			if rule.GuestSocket != &quot;&quot; {
+-				local := hostAddress(rule, &amp;guestagentapi.IPPort{})
+-				if useSSHFwd || rule.Reverse {
+-					_ = forwardSSH(ctx, a.sshConfig, sshAddress, sshPort, local, rule.GuestSocket, verbForward, rule.Reverse)
+-				} else {
+-					a.grpcPortForwarder.ForwardStatic(ctx, dialContext, &quot;unix&quot;, local, rule.GuestSocket)
+-				}
+-			}
+-		}
++		a.forwardGuestSockets(ctx, useSSHFwd)
+ 	}
+ 
+ 	localUnix := filepath.Join(a.instDir, filenames.GuestAgentSock)
+@@ -886,6 +875,21 @@ func (a *HostAgent) watchGuestAgentEvents(ctx context.Context) {
+ 	}
+ }
+ 
++func (a *HostAgent) forwardGuestSockets(ctx context.Context, useSSHFwd bool) {
++	sshAddress, sshPort := a.sshAddressPort()
++	dialContext := portfwd.DialContextToGRPCTunnel(a.getClient)
++	for _, rule := range a.instConfig.PortForwards {
++		if rule.GuestSocket != &quot;&quot; {
++			local := hostAddress(rule, &amp;guestagentapi.IPPort{})
++			if useSSHFwd || rule.Reverse {
++				_ = forwardSSH(ctx, a.sshConfig, sshAddress, sshPort, local, rule.GuestSocket, verbForward, rule.Reverse)
++			} else {
++				a.grpcPortForwarder.ForwardStatic(ctx, dialContext, &quot;unix&quot;, local, rule.GuestSocket)
++			}
++		}
++	}
++}
++
+ func (a *HostAgent) addStaticPortForwardsFromList(ctx context.Context, staticPortForwards []limatype.PortForward) {
+ 	sshAddress, sshPort := a.sshAddressPort()
+ 	for _, rule := range staticPortForwards {</code></pre>
+      </details>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="pkg/portfwd/listener.go">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> <code>forwardUnix</code> repeats <code>forwardTCP</code>&#39;s accept loop, and no test covers the pseudoloopback <code>continue</code> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="title-note">(round 1 S1, partly addressed)</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwd/listener.go#L155-L168">pkg/portfwd/listener.go</a></div>
+      <pre data-start="155" data-line="160-163"><code class="language-go">		if err != nil {
+			if errors.Is(err, net.ErrClosed) {
+				return
+			}
+			logrus.Errorf(&quot;failed to accept unix connection: %v&quot;, err)
+			if strings.Contains(err.Error(), &quot;pseudoloopback&quot;) {
+				// don&#39;t stop forwarding because the forwarder has rejected a non-local address
+				continue
+			}
+			return
+		}
+		go handleUnixConnection(ctx, dialContext, conn, guestAddress)
+	}
+}</code></pre>
+    <p>This round copied the check from <code>forwardTCP</code> (line 125), so the two loops now differ only in the key, the log noun and the handler. Both still return on any other <code>Accept</code> error, such as <code>EMFILE</code>, which removes the forward until a restart. The check is reachable. A <code>guestSocket</code> rule without a <code>hostSocket</code> maps to <code>HostIP:HostPort</code> (<a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/hostagent/port.go#L69-L80"><code>pkg/hostagent/port.go:69-80</code></a>), and on macOS a loopback port below 1024 gets a <code>pseudoLoopbackListener</code>. No test covers it here or in <code>forwardTCP</code>. Listening on <code>127.0.0.1:0</code> takes that branch, but a rejection needs a client on a non-loopback address, and no template forwards a guest socket to a privileged loopback port.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/hostagent/port.go#L64-L85">pkg/hostagent/port.go</a></div>
+      <pre data-start="64" data-line="69-80"><code class="language-go">	if pf.onEvent != nil {
+		pf.onEvent(ev)
+	}
+}
+
+func hostAddress(rule limatype.PortForward, guest *api.IPPort) string {
+	if rule.HostSocket != &quot;&quot; {
+		return rule.HostSocket
+	}
+	host := &amp;api.IPPort{Ip: rule.HostIP.String()}
+	if guest.Port == 0 {
+		// guest is a socket
+		host.Port = int32(rule.HostPort)
+	} else {
+		host.Port = guest.Port + int32(rule.HostPortRange[0]-rule.GuestPortRange[0])
+	}
+	return host.HostString()
+}
+
+func (pf *portForwarder) forwardingAddresses(guest *api.IPPort) (hostAddr, guestAddr string) {
+	guestIP := net.ParseIP(guest.Ip)
+	for _, rule := range pf.rules {</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwd/listener.go#L120-L130">pkg/portfwd/listener.go</a></div>
+      <pre data-start="120" data-line="125"><code class="language-go">		if err != nil {
+			if errors.Is(err, net.ErrClosed) {
+				return
+			}
+			logrus.Errorf(&quot;failed to accept TCP connection: %v&quot;, err)
+			if strings.Contains(err.Error(), &quot;pseudoloopback&quot;) {
+				// don&#39;t stop forwarding because the forwarder has rejected a non-local address
+				continue
+			}
+			return
+		}</code></pre>
+    <p>Fix: write one accept loop that takes the protocol and the connection handler, and give it one test of a rejected connection followed by a loopback one.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/portfwd/listener.go">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> <code>Remove</code> still lists <code>&quot;tcp6&quot;</code> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="title-note">(round 1 S2, unaddressed)</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwd/listener.go#L76-L86">pkg/portfwd/listener.go</a></div>
+      <pre data-start="76" data-line="81"><code class="language-go">
+func (p *ClosableListeners) Remove(_ context.Context, protocol, hostAddress, guestAddress string) {
+	logrus.Debugf(&quot;removing listener for hostAddress: %s, guestAddress: %s&quot;, hostAddress, guestAddress)
+	key := key(protocol, hostAddress, guestAddress)
+	switch protocol {
+	case &quot;tcp&quot;, &quot;tcp6&quot;, &quot;unix&quot;:
+		p.listenersRW.Lock()
+		defer p.listenersRW.Unlock()
+		listener, ok := p.listeners[key]
+		if ok {
+			listener.Close()</code></pre>
+    <p><a href="https://github.com/lima-vm/lima/commit/9de843d3"><code>9de843d3</code></a> deleted <code>&quot;tcp6&quot;</code> on master, and no listener is keyed <code>tcp6-…</code>.</p>
+    <p>Fix: <code>case &quot;tcp&quot;, &quot;unix&quot;:</code>.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/portfwd/unix_perm_test.go">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> Two tests log an error on every run, and the dedup tests hang or pass when dedup breaks <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="title-note">(round 1 S3, unaddressed)</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwd/unix_perm_test.go#L33-L44">pkg/portfwd/unix_perm_test.go</a></div>
+      <pre data-start="33" data-line="38-39"><code class="language-go">
+	fw := NewPortForwarder(nil, false, false, nil)
+	defer fw.Close()
+	fw.ForwardStatic(t.Context(), DialContextToGRPCTunnel(getClient), &quot;unix&quot;, hostSocket, guestSocket)
+
+	conn := dialWithRetry(t, hostSocket)
+	conn.Close()
+
+	fi, err := os.Lstat(hostSocket)
+	assert.NilError(t, err)
+	assert.Equal(t, fi.Mode().Perm(), os.FileMode(0o600))
+</code></pre>
+    <p>The new <code>TestForwardUnixSocketIsOwnerOnly</code> logged <code>level=error msg=&quot;could not dial guest unix socket …&quot;</code> in 6 of 6 runs, as <code>TestForwardUnixClosedOnForwarderClose</code> does, because each test closes the client while the accepted connection is still dialing the guest. In round 1, with the dedup check removed, <code>TestForwardUnixDoesNotReplaceExistingHostSocket</code> blocked in the synchronous <code>forwardUnix</code> call at <a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwd/unix_test.go#L155"><code>unix_test.go:155</code></a> until the package timed out, and <code>TestForwardUnixIsIdempotent</code> still passed; neither test has changed since. <code>key()</code> (line 243) drops the guest address for <code>&quot;unix&quot;</code> without saying why.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwd/unix_test.go#L150-L160">pkg/portfwd/unix_test.go</a></div>
+      <pre data-start="150" data-line="155"><code class="language-go">
+	conn := dialWithRetry(t, hostSocket)
+	conn.Close()
+
+	// a conflicting target must not unlink the listener
+	fw.closableListeners.forwardUnix(t.Context(), dialContext, hostSocket, filepath.Join(dir, &quot;other.sock&quot;))
+
+	conn = dialWithRetry(t, hostSocket)
+	defer conn.Close()
+
+	payload := []byte(&quot;original target&quot;)</code></pre>
+    <p>Fix: exchange a byte before closing, call <code>ForwardStatic</code> at line 155 and assert one listener, and comment <code>key()</code>.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/portfwd/listener.go">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> A Unix listen failure is logged twice, and the gRPC socket forward is never logged at Info <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="title-note">(round 1 S4, unaddressed)</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwd/listener.go#L141-L151">pkg/portfwd/listener.go</a></div>
+      <pre data-start="141" data-line="146"><code class="language-go">		p.listenersRW.Unlock()
+		return
+	}
+	unixLis, err := Listen(ctx, p.listenConfig, hostAddress)
+	if err != nil {
+		logListenError(err, &quot;unix&quot;, hostAddress)
+		p.listenersRW.Unlock()
+		return
+	}
+	defer p.Remove(ctx, &quot;unix&quot;, hostAddress, guestAddress)
+	p.listeners[key] = unixLis</code></pre>
+    <p><code>Listen</code> already logs the failure (<a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwd/listener_darwin.go#L24"><code>listener_darwin.go:24</code></a>, <a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwd/listener_others.go#L22"><code>listener_others.go:22</code></a>). The SSH path logs each socket forward at Info (<a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/hostagent/hostagent.go#L1133"><code>pkg/hostagent/hostagent.go:1133</code></a>), while the gRPC path logs only the Debug line <code>Forwarding unix sockets</code> (line 786), so <code>ha.stderr.log</code> does not show whether docker.sock was forwarded, or by which forwarder.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwd/listener_darwin.go#L19-L29">pkg/portfwd/listener_darwin.go</a></div>
+      <pre data-start="19" data-line="24"><code class="language-go">		if err := prepareUnixSocket(hostAddress); err != nil {
+			return nil, err
+		}
+		unixLis, err := listenUnixOwnerOnly(ctx, hostAddress)
+		if err != nil {
+			logListenError(err, &quot;unix&quot;, hostAddress)
+			return nil, err
+		}
+		return unixLis, nil
+	}
+	localIPStr, localPortStr, _ := net.SplitHostPort(hostAddress)</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwd/listener_others.go#L17-L27">pkg/portfwd/listener_others.go</a></div>
+      <pre data-start="17" data-line="22"><code class="language-go">		if err := prepareUnixSocket(hostAddress); err != nil {
+			return nil, err
+		}
+		unixLis, err := listenUnixOwnerOnly(ctx, hostAddress)
+		if err != nil {
+			logListenError(err, &quot;unix&quot;, hostAddress)
+			return nil, err
+		}
+		return unixLis, nil
+	}
+	return listenConfig.Listen(ctx, &quot;tcp&quot;, hostAddress)</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/hostagent/hostagent.go#L1128-L1138">pkg/hostagent/hostagent.go</a></div>
+      <pre data-start="1128" data-line="1133"><code class="language-go">				logrus.Infof(&quot;Forwarding %#q (host) to %#q (guest)&quot;, local, remote)
+				if err := executeSSH(ctx, sshConfig, sshAddress, sshPort, &quot;rm&quot;, &quot;-f&quot;, remote); err != nil {
+					logrus.WithError(err).Warnf(&quot;Failed to clean up %#q (guest) before setting up forwarding&quot;, remote)
+				}
+			} else {
+				logrus.Infof(&quot;Forwarding %#q (guest) to %#q (host)&quot;, remote, local)
+				if err := osutil.RemoveStaleSocket(local); err != nil {
+					logrus.WithError(err).Warnf(&quot;Failed to clean up %#q (host) before setting up forwarding&quot;, local)
+				}
+			}
+			if err := os.MkdirAll(filepath.Dir(local), 0o750); err != nil {</code></pre>
+    <p>Fix: drop line 146, and log the forward at Info in the hostagent&#39;s gRPC branch.</p>
+    </div>
+    <div class="card card-suggestion" data-file="website/content/en/docs/config/environment-variables.md">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> The docs still describe the forwarder choice in terms of ports <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="title-note">(round 1 S5, unaddressed)</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/website/content/en/docs/config/environment-variables.md#L122-L132">website/content/en/docs/config/environment-variables.md</a></div>
+      <pre data-start="122" data-line="127"><code class="language-markdown">- **Note**: This variable is effective only if the VM is VZ based and systemd is v256 or later (e.g. Ubuntu 24.10+).
+- **Deprecated**: This variable is deprecated in favor of the YAML field `.ssh.overVsock` (since v2.0.2).
+
+### `LIMA_SSH_PORT_FORWARDER`
+
+- **Description**: Specifies to use the SSH port forwarder (slow) instead of gRPC (fast, previously unstable)
+- **Default**: `false` (since v1.1.0)
+- **Usage**:
+  ```sh
+  export LIMA_SSH_PORT_FORWARDER=false
+  ```</code></pre>
+    <p>The variable now also decides how non-reverse <code>guestSocket</code> rules are forwarded. The &quot;Using GRPC&quot; section of <code>website/content/en/docs/config/port.md</code> (line 59) lists TCP and UDP only, and neither page says that reverse sockets stay on SSH.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/website/content/en/docs/config/environment-variables.md#L54-L64">website/content/en/docs/config/environment-variables.md</a></div>
+      <pre data-start="54" data-line="59"><code class="language-markdown">- **Usage**:
+  ```sh
+  export LIMA_WORKDIR=/home/user/project
+  lima
+  ```
+
+### `LIMA_SHELLENV_ALLOW`
+
+- **Description**: Specifies a comma-separated list of environment variable patterns to exempt from the block list when propagating environment variables to the Lima instance with `--preserve-env`. Variables matching the allow list pass through even if they also match the block list. Variables that match neither list pass through as well. This feature only applies to Lima v2.0.0 or later.
+- **Default**: unset (when using `--preserve-env`, all variables are propagated except those matching the block list patterns)
+- **Usage**:</code></pre>
+    <p>Fix: add a sentence to each page.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/portfwd/listener.go">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> The wrapped listener removes the socket path on every <code>Close</code> and reports the staging path from <code>Addr</code> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwd/listener.go#L292-L304">pkg/portfwd/listener.go</a></div>
+      <pre data-start="292" data-line="297-299"><code class="language-go">type ownerOnlyUnixListener struct {
+	*net.UnixListener
+	path string
+}
+
+func (l *ownerOnlyUnixListener) Close() error {
+	err := l.UnixListener.Close()
+	if rmErr := osutil.RemoveStaleSocket(l.path); rmErr != nil {
+		logrus.WithError(rmErr).Debugf(&quot;failed to remove unix socket %s&quot;, l.path)
+	}
+	return err
+}
+</code></pre>
+    <p><code>net.UnixListener</code> unlinks its path once, however often <code>Close</code> runs. The wrapper removes whatever socket is at <code>l.path</code> on every call, so a second <code>Close</code> after a replacement listener has bound the path deletes the replacement. <code>Addr</code> still reports the deleted <code>.l…/s</code> path. No caller does either today. <code>ClosableListeners</code> deletes the map entry when it closes a listener, and no non-test code in <code>pkg/portfwd</code> or <code>pkg/hostagent</code> calls <code>Addr</code>.</p>
+    <p>Fix: guard the removal with <code>sync.Once</code>, and return <code>l.path</code> from <code>Addr</code>.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Socket routing follows the TCP forwarder choice</strong> (in-scope), raised in round 1. With <code>LIMA_SSH_PORT_FORWARDER=true</code> every <code>guestSocket</code> stays on the ControlMaster, and colima sets that variable unless its <code>portForwarder</code> is <code>grpc</code>, so colima users keep docker.sock on the master by default. The maintainers should decide whether the socket transport follows the TCP forwarder.</li>
+      <li><strong>On QEMU, docker.sock still drops with the master, but now comes back</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span>. On macOS and Linux hosts, QEMU leaves <code>virtioPort</code> empty (<a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/driver/qemu/qemu_driver.go#L70-L74"><code>pkg/driver/qemu/qemu_driver.go:70-74</code></a>), so the gRPC tunnel runs over the SSH-forwarded <code>ga.sock</code>. A master death still breaks docker.sock there, but the socket returns once the guest agent reconnect loop re-forwards <code>ga.sock</code>, which an SSH-forwarded socket never did. The PR description&#39;s &quot;decouples non-reverse Unix socket forwarding from the SSH ControlMaster&quot; holds on vz, not on QEMU.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Each dial looks up the current client</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span>. <code>DialContextToGRPCTunnel(a.getClient)</code> keeps the socket listeners working across guest agent reconnects.</li>
+      <li><strong>The staging directory gives 0600 without touching the umask</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span>. No other user can reach the socket between bind and chmod, and <code>prepareUnixSocket</code> refuses to replace a non-socket, so the rename cannot clobber a regular file. I2&#39;s fallback gives up the first property only for paths near the length limit.</li>
+      <li><strong>A failed copy to the host now frees an idle connection</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span>. This is the case Copilot described, and I1&#39;s patch keeps it.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>I1&#39;s and I4&#39;s tests are required. I1 loses data depending on timing, and an I4 regression stays silent until a master death. I2&#39;s test comes with its fix; by the rubric it is optional, because that failure repeats on every start and logs a warning. The pseudoloopback test in S1 and the S3 cleanups are optional.</p>
+    <p>Which test pins each of this round&#39;s changes:</p>
+    <ul>
+      <li>Owner-only socket: <code>TestForwardUnixSocketIsOwnerOnly</code> fails with <code>-rwxrwxr-x != -rw-------</code> when <code>Listen</code> binds the host socket directly.</li>
+      <li>Pseudoloopback <code>continue</code>: no test (S1).</li>
+      <li>Abort on a copy error: <code>TestHandleUnixConnectionReturnsOnTunnelFailure</code> times out after 5 s with the abort removed.</li>
+    </ul>
+    <p>Runs on the review host (macOS arm64, Go 1.27.2), from the lead worktree at the review SHA:</p>
+    <ul>
+      <li><code>go test -race -count=1 ./pkg/portfwd/ ./pkg/portfwdserver/ ./pkg/hostagent/</code> passes.</li>
+      <li>The I1 probe loses 32768 of 40960 bytes in 3 of 3 runs, and receives every byte in 3 of 3 runs with the abort removed and in 10 of 10 with I1&#39;s patch. Claude&#39;s 4 MiB probe, in which the host writes without pause, truncated the response in each of 3 invocations of 10 iterations at HEAD, and passed all 3 invocations with the patch.</li>
+      <li>I1&#39;s new test fails in 10 of 10 runs on the reviewed code and passes in 10 of 10 with the patch, and the full package passes under <code>-race</code> with it. I2&#39;s new test fails in 3 of 3 runs on the reviewed code and passes with its patch.</li>
+      <li>The I4 mutation leaves both packages green, and with I4&#39;s patch it fails <code>TestForwardGuestSockets</code>.</li>
+      <li>With all four patches applied in order, <code>go test -race</code> over <code>pkg/portfwd</code>, <code>pkg/portfwdserver</code>, <code>pkg/hostagent</code> and <code>pkg/limayaml</code> passes, <code>golangci-lint run</code> reports 0 issues, and <code>go vet</code> passes for both packages under <code>GOOS=linux</code> and <code>GOOS=windows</code>.</li>
+    </ul>
+    <p>CI on <a href="https://github.com/lima-vm/lima/commit/473f466d"><code>473f466d</code></a> reported 34 successful checks and 3 neutral ones, and none failed. The unit tests run on ubuntu-24.04, so the rename-based listener has been dialed on Linux as well. No CI job connects to a forwarded <code>guestSocket</code>, and the author tested before the rebase.</p>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>I3 is a template comment that the code contradicts. S5 covers the two doc pages that still describe the forwarder choice in terms of ports.</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR is one signed-off commit, and <a href="https://github.com/lima-vm/lima/issues/5420" class="gh-ref" data-title="guestSocket forwards die with the SSH ControlMaster and are never re-created (silent on vz)" data-state="open" data-type="issue">#5420</a> exists with a maintainer&#39;s request for this PR. The commit message is the subject plus <code>Refs <a href="https://github.com/lima-vm/lima/issues/5420" class="gh-ref" data-title="guestSocket forwards die with the SSH ControlMaster and are never re-created (silent on vz)" data-state="open" data-type="issue">#5420</a></code>, and the PR body still reports testing from before the rebase. Neither mentions two changes that a release note needs. A host socket forwarded through gRPC is now 0600 whatever the umask, and the guest side of a non-reverse rule is now dialed as root. The PR body says the change applies &quot;when <code>LIMA_SSH_PORT_FORWARDER=false</code>&quot;, but it also applies when the variable is unset.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><code>GRPCServerRW.CloseWrite</code> cannot pass a guest half-close to the host, so it ends the whole tunnel (<a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwdserver/server.go#L126-L134"><code>pkg/portfwdserver/server.go:126-134</code></a>). Unix forwards inherit this from the TCP path, and it is what ends the stream in I1.</li>
+      <li>A connection whose guest end never answers and never closes keeps its tunnel and both copy goroutines until it does. <code>tcpproxy.DialProxy.HandleConn</code> waits for both directions the same way, so the TCP path behaves identically. Do not re-suggest tcpproxy as a fix for it. With I1&#39;s patch, a failed host read half-closes as at round 1, so this entry describes the patched code too.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>[Copilot&#39;s comment on <a href="https://github.com/lima-vm/lima/blob/473f466dabdd88ecdf04ce49f06056e33995de5b/pkg/portfwd/listener.go#L208"><code>listener.go:208</code></a>](https://github.com/lima-vm/lima/pull/5653#discussion_r4332189700), answered &quot;Fixed&quot;. The abort frees the idle connection Copilot described, but applying it to the copy toward the guest as well introduced I1.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5-5"><span class="pill pill-claude">Claude Opus 5.5</span> <a href="#claude-opus-5-5" class="pilcrow">&#182;</a></h3>
+    <p>Claude alone found I1, and its own differential (18 of 30 runs truncated at HEAD, 0 of 30 at round 1) agrees with my reruns of its 4 MiB probe. The fix it proposed for I1 is the one that the patch implements, and its fallback for I2 is I2&#39;s patch. It backed I2 with a probe that fails at HEAD and passes against the merge-base listener, and it confirmed that round 1&#39;s I2 and I3 still apply. Its verdicts on the four changes each named the evidence, including revert runs for both new tests. It scoped the abort&#39;s strength to the direction where it holds.</p>
+    <h3 id="codex-gpt-6-astra"><span class="pill pill-codex">Codex GPT 6 Astra</span> <a href="#codex-gpt-6-astra" class="pilcrow">&#182;</a></h3>
+    <p>Codex raised I2 with the widest case, a 96-byte path with a one-byte basename, but did not offer a patch. It alone probed the wrapper&#39;s repeated <code>Close</code>, which became part of S6. It missed I1. Its half-close and host-copy-error probes passed, and it credited the abort as a strength. I downgraded its I4, a missing pseudoloopback test, into S1, because the trigger needs a guest socket forwarded to a privileged loopback port on macOS, which no template uses.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Gemini Pro missed both new Importants and called the abort &quot;robust&quot; in both directions. Its I1, the dedup test that hangs when dedup breaks, is round 1&#39;s S3 and stays a Suggestion, because the hang ends in a loud package timeout. It called the pseudoloopback check dead code, but a <code>guestSocket</code> rule without a <code>hostSocket</code> listens on a TCP address, so the check is reachable; I dropped that finding. It rated the false template comment a Suggestion. To test its dedup claim it patched the tracked <code>listener.go</code>, restored it with <code>git checkout</code>, and left <code>listener.go.orig</code> behind, against the prompt&#39;s rule. The file was clean again when it wrote its review, so its findings describe the reviewed code.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Flash raised I2 with a probe and found that <code>Addr</code> reports the staging path, part of S6. Its fix for I2, a plain listen with no chmod near the limit, would bring back round 1&#39;s umask exposure for those paths, so the patch chmods instead. It missed I1 and credited the abort as a strength. Both Gemini models raised the logging, docs and <code>tcp6</code> suggestions, which counts as one opinion.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5.5</span></th><th><span class="pill pill-codex">Codex GPT 6 Astra</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>9m 50s</td><td>10m 47s</td><td>11m 44s</td><td>7m 55s</td></tr>
+        <tr><td>Findings</td><td>4I 5S</td><td>3I 6S</td><td>1I 4S</td><td>3I 6S</td></tr>
+        <tr><td>Tool calls</td><td>40 (Bash 33, Read 7)</td><td>14 (shell 10, stdin 4)</td><td>21 (run<em>shell</em>command 21)</td><td>47 (run<em>shell</em>command 18, grep<em>search 13, read</em>file 11)</td></tr>
+        <tr><td>Design observations</td><td>4</td><td>4</td><td>2</td><td>4</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>Files reviewed</td><td>7</td><td>7</td><td>7</td><td>7</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>4I 5S</strong></td><td><strong>3I 6S</strong></td><td><strong>1I 4S</strong></td><td><strong>3I 6S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p>Claude gave the most value this round, with the only data-loss finding and probes behind two Importants. Codex and Flash raised I2 independently of Claude. Gemini Pro&#39;s only Important fell to a Suggestion, and it rated the template comment that became I3 a Suggestion. The wall-clock time includes an overnight wait for an answer during consolidation; the four agents had finished 11 min 47 s after the start.</p>
+    <p><strong>Reconciliation.</strong> Gemini 3.1 Pro pass 1, dedup test hang: important → suggestion S3. Gemini 3.1 Pro pass 1, template comment: suggestion → important I3. Gemini 3.1 Pro pass 1, pseudoloopback check is dead code: suggestion, dropped as a false positive. Codex GPT 6 Astra pass 1, missing pseudoloopback test: important → suggestion S1.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>When a change adds teardown on error to a bidirectional copy, list the errors that each direction reports during a normal end, such as a write that fails because the peer has already finished, and check that the teardown does not fire on them. Reviewers probe the failure that the change names and miss the normal end that looks like one.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>[repo] A gRPC tunnel in <code>pkg/portfwd</code> ends as soon as the guest service closes (<code>GRPCServerRW.CloseWrite</code>), while part of the response can still be in the host&#39;s receive buffer, so a host-side <code>Send</code> then returns <code>io.EOF</code>. A change that treats an error in the host-to-guest copy as fatal for the whole connection discards that response; the TCP path&#39;s <code>tcpproxy</code> only half-closes in that direction.</li>
+      <li>[repo] <code>limayaml.Validate</code> accepts a <code>hostSocket</code> up to <code>osutil.UnixPathMax - 1</code> bytes, and <code>instance/create.go</code> keeps only the sockets under the instance directory shorter than that. A listener that binds at a path derived from the configured one (a staging directory, a suffix) must handle a configured path near that limit.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){var t="\\b(?:BASH|BASHOPTS|BASH_ALIASES|BASH_ARGC|BASH_ARGV|BASH_CMDS|BASH_COMPLETION_COMPAT_DIR|BASH_LINENO|BASH_REMATCH|BASH_SOURCE|BASH_VERSINFO|BASH_VERSION|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|EUID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_ADDRESS|LC_ALL|LC_IDENTIFICATION|LC_MEASUREMENT|LC_MONETARY|LC_NAME|LC_NUMERIC|LC_PAPER|LC_TELEPHONE|LC_TIME|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS1|PS2|PS3|PS4|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UID|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_CONFIG_DIRS|XDG_CURRENT_DESKTOP|XDG_DATA_DIRS|XDG_GREETER_DATA_DIR|XDG_MENU_PREFIX|XDG_RUNTIME_DIR|XDG_SEAT|XDG_SEAT_PATH|XDG_SESSION_DESKTOP|XDG_SESSION_ID|XDG_SESSION_PATH|XDG_SESSION_TYPE|XDG_VTNR|XMODIFIERS)\\b",a={pattern:/(^(["']?)\w+\2)[ \t]+\S.*/,lookbehind:!0,alias:"punctuation",inside:null},n={bash:a,environment:{pattern:RegExp("\\$"+t),alias:"constant"},variable:[{pattern:/\$?\(\([\s\S]+?\)\)/,greedy:!0,inside:{variable:[{pattern:/(^\$\(\([\s\S]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,operator:/--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,greedy:!0,inside:{variable:/^\$\(|^`|\)$|`$/}},{pattern:/\$\{[^}]+\}/,greedy:!0,inside:{operator:/:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,punctuation:/[\[\]]/,environment:{pattern:RegExp("(\\{)"+t),lookbehind:!0,alias:"constant"}}},/\$(?:\w+|[#?*!@$])/],entity:/\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/};e.languages.bash={shebang:{pattern:/^#!\s*\/.*/,alias:"important"},comment:{pattern:/(^|[^"{\\$])#.*/,lookbehind:!0},"function-name":[{pattern:/(\bfunction\s+)[\w-]+(?=(?:\s*\(?:\s*\))?\s*\{)/,lookbehind:!0,alias:"function"},{pattern:/\b[\w-]+(?=\s*\(\s*\)\s*\{)/,alias:"function"}],"for-or-select":{pattern:/(\b(?:for|select)\s+)\w+(?=\s+in\s)/,alias:"variable",lookbehind:!0},"assign-left":{pattern:/(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,inside:{environment:{pattern:RegExp("(^|[\\s;|&]|[<>]\\()"+t),lookbehind:!0,alias:"constant"}},alias:"variable",lookbehind:!0},parameter:{pattern:/(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,alias:"variable",lookbehind:!0},string:[{pattern:/((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?(?:\r?\n|\r)\2/,lookbehind:!0,greedy:!0,inside:n},{pattern:/((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?(?:\r?\n|\r)\3/,lookbehind:!0,greedy:!0,inside:{bash:a}},{pattern:/(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,lookbehind:!0,greedy:!0,inside:n},{pattern:/(^|[^$\\])'[^']*'/,lookbehind:!0,greedy:!0},{pattern:/\$'(?:[^'\\]|\\[\s\S])*'/,greedy:!0,inside:{entity:n.entity}}],environment:{pattern:RegExp("\\$?"+t),alias:"constant"},variable:n.variable,function:{pattern:/(^|[\s;|&]|[<>]\()(?:add|apropos|apt|apt-cache|apt-get|aptitude|aspell|automysqlbackup|awk|basename|bash|bc|bconsole|bg|bzip2|cal|cargo|cat|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clear|cmp|column|comm|composer|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|debootstrap|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|docker|docker-compose|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|git|gparted|grep|groupadd|groupdel|groupmod|groups|grub-mkconfig|gzip|halt|head|hg|history|host|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|ip|java|jobs|join|kill|killall|less|link|ln|locate|logname|logrotate|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|make|man|mc|mdadm|mkconfig|mkdir|mke2fs|mkfifo|mkfs|mkisofs|mknod|mkswap|mmv|more|most|mount|mtools|mtr|mutt|mv|nano|nc|netstat|nice|nl|node|nohup|notify-send|npm|nslookup|op|open|parted|passwd|paste|pathchk|ping|pkill|pnpm|podman|podman-compose|popd|pr|printcap|printenv|ps|pushd|pv|quota|quotacheck|quotactl|ram|rar|rcp|reboot|remsync|rename|renice|rev|rm|rmdir|rpm|rsync|scp|screen|sdiff|sed|sendmail|seq|service|sftp|sh|shellcheck|shuf|shutdown|sleep|slocate|sort|split|ssh|stat|strace|su|sudo|sum|suspend|swapon|sync|sysctl|tac|tail|tar|tee|time|timeout|top|touch|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|update-grub|uptime|useradd|userdel|usermod|users|uudecode|uuencode|v|vcpkg|vdir|vi|vim|virsh|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yarn|yes|zenity|zip|zsh|zypper)(?=$|[)\s;|&])/,lookbehind:!0},keyword:{pattern:/(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)(?=$|[)\s;|&])/,lookbehind:!0},builtin:{pattern:/(^|[\s;|&]|[<>]\()(?:\.|:|alias|bind|break|builtin|caller|cd|command|continue|declare|echo|enable|eval|exec|exit|export|getopts|hash|help|let|local|logout|mapfile|printf|pwd|read|readarray|readonly|return|set|shift|shopt|source|test|times|trap|type|typeset|ulimit|umask|unalias|unset)(?=$|[)\s;|&])/,lookbehind:!0,alias:"class-name"},boolean:{pattern:/(^|[\s;|&]|[<>]\()(?:false|true)(?=$|[)\s;|&])/,lookbehind:!0},"file-descriptor":{pattern:/\B&\d\b/,alias:"important"},operator:{pattern:/\d?<>|>\||\+=|=[=~]?|!=?|<<[<-]?|[&\d]?>>|\d[<>]&?|[<>][&=]?|&[>&]?|\|[&|]?/,inside:{"file-descriptor":{pattern:/^\d/,alias:"important"}}},punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,number:{pattern:/(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,lookbehind:!0}},a.inside=e.languages.bash;for(var s=["comment","function-name","for-or-select","assign-left","parameter","string","environment","function","keyword","builtin","boolean","file-descriptor","operator","punctuation","number"],o=n.variable[1].inside,i=0;i<s.length;i++)o[s[i]]=e.languages.bash[s[i]];e.languages.sh=e.languages.bash,e.languages.shell=e.languages.bash}(Prism);
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+!function(e){var n=/[*&][^\s[\]{},]+/,r=/!(?:<[\w\-%#;/?:@&=+$,.!~*'()[\]]+>|(?:[a-zA-Z\d-]*!)?[\w\-%#;/?:@&=+$.~*'()]+)?/,t="(?:"+r.source+"(?:[ \t]+"+n.source+")?|"+n.source+"(?:[ \t]+"+r.source+")?)",a="(?:[^\\s\\x00-\\x08\\x0e-\\x1f!\"#%&'*,\\-:>?@[\\]`{|}\\x7f-\\x84\\x86-\\x9f\\ud800-\\udfff\\ufffe\\uffff]|[?:-]<PLAIN>)(?:[ \t]*(?:(?![#:])<PLAIN>|:<PLAIN>))*".replace(/<PLAIN>/g,(function(){return"[^\\s\\x00-\\x08\\x0e-\\x1f,[\\]{}\\x7f-\\x84\\x86-\\x9f\\ud800-\\udfff\\ufffe\\uffff]"})),d="\"(?:[^\"\\\\\r\n]|\\\\.)*\"|'(?:[^'\\\\\r\n]|\\\\.)*'";function o(e,n){n=(n||"").replace(/m/g,"")+"m";var r="([:\\-,[{]\\s*(?:\\s<<prop>>[ \t]+)?)(?:<<value>>)(?=[ \t]*(?:$|,|\\]|\\}|(?:[\r\n]\\s*)?#))".replace(/<<prop>>/g,(function(){return t})).replace(/<<value>>/g,(function(){return e}));return RegExp(r,n)}e.languages.yaml={scalar:{pattern:RegExp("([\\-:]\\s*(?:\\s<<prop>>[ \t]+)?[|>])[ \t]*(?:((?:\r?\n|\r)[ \t]+)\\S[^\r\n]*(?:\\2[^\r\n]+)*)".replace(/<<prop>>/g,(function(){return t}))),lookbehind:!0,alias:"string"},comment:/#.*/,key:{pattern:RegExp("((?:^|[:\\-,[{\r\n?])[ \t]*(?:<<prop>>[ \t]+)?)<<key>>(?=\\s*:\\s)".replace(/<<prop>>/g,(function(){return t})).replace(/<<key>>/g,(function(){return"(?:"+a+"|"+d+")"}))),lookbehind:!0,greedy:!0,alias:"atrule"},directive:{pattern:/(^[ \t]*)%.+/m,lookbehind:!0,alias:"important"},datetime:{pattern:o("\\d{4}-\\d\\d?-\\d\\d?(?:[tT]|[ \t]+)\\d\\d?:\\d{2}:\\d{2}(?:\\.\\d*)?(?:[ \t]*(?:Z|[-+]\\d\\d?(?::\\d{2})?))?|\\d{4}-\\d{2}-\\d{2}|\\d\\d?:\\d{2}(?::\\d{2}(?:\\.\\d*)?)?"),lookbehind:!0,alias:"number"},boolean:{pattern:o("false|true","i"),lookbehind:!0,alias:"important"},null:{pattern:o("null|~","i"),lookbehind:!0,alias:"important"},string:{pattern:o(d),lookbehind:!0,greedy:!0},number:{pattern:o("[+-]?(?:0x[\\da-f]+|0o[0-7]+|(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:e[+-]?\\d+)?|\\.inf|\\.nan)","i"),lookbehind:!0},tag:r,important:n,punctuation:/---|[:[\]{}\-,|>?]|\.\.\./},e.languages.yml=e.languages.yaml}(Prism);
+!function(n){function e(n){return n=n.replace(/<inner>/g,(function(){return"(?:\\\\.|[^\\\\\n\r]|(?:\n|\r\n?)(?![\r\n]))"})),RegExp("((?:^|[^\\\\])(?:\\\\{2})*)(?:"+n+")")}var t="(?:\\\\.|``(?:[^`\r\n]|`(?!`))+``|`[^`\r\n]+`|[^\\\\|\r\n`])+",a="\\|?__(?:\\|__)+\\|?(?:(?:\n|\r\n?)|(?![^]))".replace(/__/g,(function(){return t})),i="\\|?[ \t]*:?-{3,}:?[ \t]*(?:\\|[ \t]*:?-{3,}:?[ \t]*)+\\|?(?:\n|\r\n?)";n.languages.markdown=n.languages.extend("markup",{}),n.languages.insertBefore("markdown","prolog",{"front-matter-block":{pattern:/(^(?:\s*[\r\n])?)---(?!.)[\s\S]*?[\r\n]---(?!.)/,lookbehind:!0,greedy:!0,inside:{punctuation:/^---|---$/,"front-matter":{pattern:/\S+(?:\s+\S+)*/,alias:["yaml","language-yaml"],inside:n.languages.yaml}}},blockquote:{pattern:/^>(?:[\t ]*>)*/m,alias:"punctuation"},table:{pattern:RegExp("^"+a+i+"(?:"+a+")*","m"),inside:{"table-data-rows":{pattern:RegExp("^("+a+i+")(?:"+a+")*$"),lookbehind:!0,inside:{"table-data":{pattern:RegExp(t),inside:n.languages.markdown},punctuation:/\|/}},"table-line":{pattern:RegExp("^("+a+")"+i+"$"),lookbehind:!0,inside:{punctuation:/\||:?-{3,}:?/}},"table-header-row":{pattern:RegExp("^"+a+"$"),inside:{"table-header":{pattern:RegExp(t),alias:"important",inside:n.languages.markdown},punctuation:/\|/}}}},code:[{pattern:/((?:^|\n)[ \t]*\n|(?:^|\r\n?)[ \t]*\r\n?)(?: {4}|\t).+(?:(?:\n|\r\n?)(?: {4}|\t).+)*/,lookbehind:!0,alias:"keyword"},{pattern:/^```[\s\S]*?^```$/m,greedy:!0,inside:{"code-block":{pattern:/^(```.*(?:\n|\r\n?))[\s\S]+?(?=(?:\n|\r\n?)^```$)/m,lookbehind:!0},"code-language":{pattern:/^(```).+/,lookbehind:!0},punctuation:/```/}}],title:[{pattern:/\S.*(?:\n|\r\n?)(?:==+|--+)(?=[ \t]*$)/m,alias:"important",inside:{punctuation:/==+$|--+$/}},{pattern:/(^\s*)#.+/m,lookbehind:!0,alias:"important",inside:{punctuation:/^#+|#+$/}}],hr:{pattern:/(^\s*)([*-])(?:[\t ]*\2){2,}(?=\s*$)/m,lookbehind:!0,alias:"punctuation"},list:{pattern:/(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,lookbehind:!0,alias:"punctuation"},"url-reference":{pattern:/!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/,inside:{variable:{pattern:/^(!?\[)[^\]]+/,lookbehind:!0},string:/(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,punctuation:/^[\[\]!:]|[<>]/},alias:"url"},bold:{pattern:e("\\b__(?:(?!_)<inner>|_(?:(?!_)<inner>)+_)+__\\b|\\*\\*(?:(?!\\*)<inner>|\\*(?:(?!\\*)<inner>)+\\*)+\\*\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^..)[\s\S]+(?=..$)/,lookbehind:!0,inside:{}},punctuation:/\*\*|__/}},italic:{pattern:e("\\b_(?:(?!_)<inner>|__(?:(?!_)<inner>)+__)+_\\b|\\*(?:(?!\\*)<inner>|\\*\\*(?:(?!\\*)<inner>)+\\*\\*)+\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^.)[\s\S]+(?=.$)/,lookbehind:!0,inside:{}},punctuation:/[*_]/}},strike:{pattern:e("(~~?)(?:(?!~)<inner>)+\\2"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^~~?)[\s\S]+(?=\1$)/,lookbehind:!0,inside:{}},punctuation:/~~?/}},"code-snippet":{pattern:/(^|[^\\`])(?:``[^`\r\n]+(?:`[^`\r\n]+)*``(?!`)|`[^`\r\n]+`(?!`))/,lookbehind:!0,greedy:!0,alias:["code","keyword"]},url:{pattern:e('!?\\[(?:(?!\\])<inner>)+\\](?:\\([^\\s)]+(?:[\t ]+"(?:\\\\.|[^"\\\\])*")?\\)|[ \t]?\\[(?:(?!\\])<inner>)+\\])'),lookbehind:!0,greedy:!0,inside:{operator:/^!/,content:{pattern:/(^\[)[^\]]+(?=\])/,lookbehind:!0,inside:{}},variable:{pattern:/(^\][ \t]?\[)[^\]]+(?=\]$)/,lookbehind:!0},url:{pattern:/(^\]\()[^\s)]+/,lookbehind:!0},string:{pattern:/(^[ \t]+)"(?:\\.|[^"\\])*"(?=\)$)/,lookbehind:!0}}}}),["url","bold","italic","strike"].forEach((function(e){["url","bold","italic","strike","code-snippet"].forEach((function(t){e!==t&&(n.languages.markdown[e].inside.content.inside[t]=n.languages.markdown[t])}))})),n.hooks.add("after-tokenize",(function(n){"markdown"!==n.language&&"md"!==n.language||function n(e){if(e&&"string"!=typeof e)for(var t=0,a=e.length;t<a;t++){var i=e[t];if("code"===i.type){var r=i.content[1],o=i.content[3];if(r&&o&&"code-language"===r.type&&"code-block"===o.type&&"string"==typeof r.content){var l=r.content.replace(/\b#/g,"sharp").replace(/\b\+\+/g,"pp"),s="language-"+(l=(/[a-z][\w-]*/i.exec(l)||[""])[0].toLowerCase());o.alias?"string"==typeof o.alias?o.alias=[o.alias,s]:o.alias.push(s):o.alias=[s]}}else n(i.content)}}(n.tokens)})),n.hooks.add("wrap",(function(e){if("code-block"===e.type){for(var t="",a=0,i=e.classes.length;a<i;a++){var s=e.classes[a],d=/language-(.+)/.exec(s);if(d){t=d[1];break}}var p=n.languages[t];if(p)e.content=n.highlight(e.content.replace(r,"").replace(/&(\w{1,8}|#x?[\da-f]{1,8});/gi,(function(n,e){var t;return"#"===(e=e.toLowerCase())[0]?(t="x"===e[1]?parseInt(e.slice(2),16):Number(e.slice(1)),l(t)):o[e]||n})),p,t);else if(t&&"none"!==t&&n.plugins.autoloader){var u="md-"+(new Date).valueOf()+"-"+Math.floor(1e16*Math.random());e.attributes.id=u,n.plugins.autoloader.loadLanguages(t,(function(){var e=document.getElementById(u);e&&(e.innerHTML=n.highlight(e.textContent,n.languages[t],t))}))}}}));var r=RegExp(n.languages.markup.tag.pattern.source,"gi"),o={amp:"&",lt:"<",gt:">",quot:'"'},l=String.fromCodePoint||String.fromCharCode;n.languages.md=n.languages.markdown}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
