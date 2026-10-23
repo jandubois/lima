@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20261023-130431-pr-5669</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+.pass-tag, .title-note { font-weight: 400; color: #6b7280; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20261023-130431-pr-5669</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-10-23 13:04</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1 (of pr-5669)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/unsuman">@unsuman</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5669" class="gh-ref" data-title="sudoers: pin every helper in `lima/privileged` to its sha256 digest" data-state="open" data-type="pr">#5669</a> — sudoers: pin every helper in <code>lima/privileged</code> to its sha256 digest</td></tr>
+      <tr><td>Branch</td><td><code>blockdevice-sudoers-digest</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/37c9abfd"><code>37c9abfd</code></a> sudoers: pin every helper in lima/privileged to its sha256 digest</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/37c9abfd9d057c676233de7839af9db451ed7d68"><code>37c9abfd9d057c676233de7839af9db451ed7d68</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5.5</span> (effort: high), <span class="pill pill-codex">Codex GPT 6 Astra</span> (effort: high), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; two comments promise more than the code does, and nothing tests that <code>VerifyFragment</code> accepts a <code>--digest=false</code> file</td></tr>
+      <tr><td>Wall-clock time</td><td><code>27 min 10 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR moves sudoers digest pinning into <code>sudoers.NOPASSWD</code>, so every helper under <code>lima/privileged</code> is pinned, the macOS block-device helper included, and it adds <code>--digest=false</code> to opt out. The approach is sound and the unit suite passes. The headline finding is I1. The rewritten comment promises a race-free check, but macOS lacks <code>fexecve(2)</code>, so sudo there hashes and runs the helper by path. Another comment is now stale, and no test reaches the opt-out in <code>VerifyFragment</code>.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file="pkg/sudoers/digest.go">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> The digest comment promises a race-free check that macOS cannot give <span class="pill pill-claude">Claude Opus 5.5</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/pkg/sudoers/digest.go#L23-L35">pkg/sudoers/digest.go</a></div>
+      <pre data-start="23" data-line="28-30"><code class="language-go">
+// pinPrivilegedHelpers prefixes every command that runs a privileged helper
+// (see isPrivilegedHelper) with the sudoers `Digest_Spec` of that helper.
+// sudo (&gt;= 1.8.7) hashes the file immediately before executing it and refuses
+// to run it when the digest no longer matches, so an attacker who manages to
+// replace a helper cannot get the replacement executed as root. Unlike the
+// install-path ownership checks, this one runs inside sudo and is therefore
+// free of a time-of-check/time-of-use race.
+//
+// Pinning is decided by the install location rather than by the caller, so a
+// new helper is pinned as soon as it is installed next to the existing ones.
+// The consequence is that the sudoers file has to be regenerated whenever a
+// pinned helper is reinstalled.</code></pre>
+    <p>At the merge-base this comment sat on <code>Pin</code>, which only <code>lima-privileged-net</code> used, and that helper runs only on Linux. The PR moves the claim to <code>pinPrivilegedHelpers</code>, which now also pins <code>lima-privileged-block-device</code>, a macOS-only helper. sudo&#39;s default <code>fdexec=digest_only</code> runs a digest-checked command through <code>fexecve(2)</code>, so it executes the file it hashed, and the sudoers manual (sudo.ws) says the setting &quot;has no effect&quot; without <code>fexecve</code>. It adds: &quot;A similar race condition exists on systems that lack the fexecve(2) system call when the directory in which the command is located is writable by the user.&quot; The macOS SDK does not declare <code>fexecve</code>, while the <code>execve</code> control compiles.</p>
+    <p>The sentence in <a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/website/content/en/docs/config/disk.md#L139-L140"><code>website/content/en/docs/config/disk.md:139-140</code></a>, &quot;sudo refuses to run a modified helper&quot;, still holds for a helper changed before sudo runs, so it can stay.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/website/content/en/docs/config/disk.md#L134-L145">website/content/en/docs/config/disk.md</a></div>
+      <pre data-start="134" data-line="139-140"><code class="language-markdown">as root.
+The helper only accepts real macOS disk device nodes such as `/dev/disk4` and `/dev/rdisk4s1`.
+Use builtin VZ through the installed `limactl` executable; external VZ drivers and
+renamed executables are not supported for block-device attachment.
+
+Each generated entry is pinned to the `sha256:` digest of the installed helper, so sudo refuses
+to run a modified helper. Regenerate the file after upgrading or reinstalling Lima.
+To skip the digest, for example when Lima is upgraded often, pass `--digest=false` to
+`limactl sudoers`. The file then survives upgrades, but sudo runs whatever binary is installed
+at the helper path, so only use it when that path is root-owned and not user-writable.
+Include every current-user `--block-device` grant you want to keep when regenerating this file.
+If network validation fails, the generated file omits network grants; installing it over</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-fexecve.sh; run on macOS with Xcode command-line tools: bash probe-fexecve.sh
+cd &quot;$(mktemp -d)&quot; || exit 1
+printf &#39;#include &lt;unistd.h&gt;\nint main(void){char *a[]={0};return fexecve(3,a,a);}\n&#39; &gt;fx.c
+printf &#39;#include &lt;unistd.h&gt;\nint main(void){char *a[]={0};return execve(&quot;/x&quot;,a,a);}\n&#39; &gt;ex.c
+cc -Werror=implicit-function-declaration -o fx fx.c 2&gt;&amp;1 | grep error; echo &quot;fexecve: cc rc=${PIPESTATUS[0]}&quot;
+cc -Werror=implicit-function-declaration -o ex ex.c; echo &quot;execve (control): cc rc=$?&quot;</code></pre>
+      <pre><code class="language-text">$ bash probe-fexecve.sh
+fx.c:2:37: error: call to undeclared function &#39;fexecve&#39;; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+1 error generated.
+fexecve: cc rc=1
+execve (control): cc rc=0</code></pre>
+      </details>
+    <p>Fix: limit the race-free claim to hosts where sudo has <code>fexecve</code>, and say what remains on macOS.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/sudoers/digest.go b/pkg/sudoers/digest.go
+index f4628982..74dedac3 100644
+--- a/pkg/sudoers/digest.go
++++ b/pkg/sudoers/digest.go
+@@ -26,8 +26,10 @@ func isPrivilegedHelper(exe string) bool {
+ // sudo (&gt;= 1.8.7) hashes the file immediately before executing it and refuses
+ // to run it when the digest no longer matches, so an attacker who manages to
+ // replace a helper cannot get the replacement executed as root. Unlike the
+-// install-path ownership checks, this one runs inside sudo and is therefore
+-// free of a time-of-check/time-of-use race.
++// install-path ownership checks, this one runs inside sudo, and where sudo
++// executes the file it hashed (fexecve(2), as on Linux) it is free of a
++// time-of-check/time-of-use race. macOS lacks fexecve, so there a user who can
++// write the helper&#39;s directory can still swap the file between hash and exec.
+ //
+ // Pinning is decided by the install location rather than by the caller, so a
+ // new helper is pinned as soon as it is installed next to the existing ones.</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/sudoers/verify.go">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> <code>VerifyFragment</code>&#39;s comment still says the fragment must be present verbatim <span class="pill pill-claude">Claude Opus 5.5</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/pkg/sudoers/verify.go#L56-L67">pkg/sudoers/verify.go</a></div>
+      <pre data-start="56" data-line="61-62"><code class="language-go">	}
+	if !ok {
+		return nil
+	}
+	// The file may carry grants from other Lima features, or from other users.
+	// Only this fragment has to be present verbatim.
+	if !ContainsFragment(content, fragment) {
+		return fmt.Errorf(&quot;sudoers file %#q is out of sync and must be regenerated (Hint: %s)&quot;, file, hint)
+	}
+	return nil
+}
+</code></pre>
+    <p>Line 62 now calls <code>ContainsFragment</code>, which also accepts <code>Unpin(fragment)</code>, so a file without the digests passes. The comment predates the PR (it came with f3d2492a), and the change to line 62 made it false. The probe asserts what the comment claims. Its stale-digest control is rejected, as the comment predicts, and the unpinned file is accepted, which the comment rules out.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as pkg/sudoers/verbatim_probe_test.go; run: go test ./pkg/sudoers -run TestProbeVerbatim -v
+package sudoers
+
+import (
+	&quot;strings&quot;
+	&quot;testing&quot;
+
+	&quot;gotest.tools/v3/assert&quot;
+)
+
+func TestProbeVerbatim(t *testing.T) {
+	pinned := &quot;%everyone ALL=(root:root) NOPASSWD:NOSETENV: &quot; + emptyFileDigest + &quot; /usr/local/libexec/lima/privileged/lima-privileged-net start\n&quot;
+	unpinned := Unpin(pinned)
+	// Control: a stale digest is not the fragment and is rejected.
+	stale := strings.ReplaceAll(pinned, emptyFileDigest, &quot;sha256:&quot;+strings.Repeat(&quot;0&quot;, 64))
+	assert.ErrorContains(t, VerifyFragment(t.Context(), writeSudoersFile(t, stale), pinned, &quot;hint&quot;), &quot;out of sync&quot;)
+	// verify.go:61 says only a verbatim fragment passes.
+	assert.Assert(t, !ContainsActiveFragment(unpinned, pinned), &quot;the unpinned file does not hold the fragment verbatim&quot;)
+	assert.Assert(t, VerifyFragment(t.Context(), writeSudoersFile(t, unpinned), pinned, &quot;hint&quot;) != nil, &quot;VerifyFragment accepted a file without the verbatim fragment&quot;)
+}</code></pre>
+      <pre><code class="language-text">$ go test ./pkg/sudoers -run TestProbeVerbatim -v
+=== RUN   TestProbeVerbatim
+    verbatim_probe_test.go:19: assertion failed: VerifyFragment(t.Context(), writeSudoersFile(t, unpinned), pinned, &quot;hint&quot;) is nil: VerifyFragment accepted a file without the verbatim fragment
+--- FAIL: TestProbeVerbatim (0.00s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/sudoers	0.340s
+FAIL</code></pre>
+      </details>
+    <p>Fix: name the <code>--digest=false</code> form in the comment.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/sudoers/verify.go b/pkg/sudoers/verify.go
+index 927cb094..72484e46 100644
+--- a/pkg/sudoers/verify.go
++++ b/pkg/sudoers/verify.go
+@@ -58,7 +58,7 @@ func VerifyFragment(ctx context.Context, file, fragment, hint string, runAs ...R
+ 		return nil
+ 	}
+ 	// The file may carry grants from other Lima features, or from other users.
+-	// Only this fragment has to be present verbatim.
++	// Only this fragment has to be present, verbatim or in its --digest=false form.
+ 	if !ContainsFragment(content, fragment) {
+ 		return fmt.Errorf(&quot;sudoers file %#q is out of sync and must be regenerated (Hint: %s)&quot;, file, hint)
+ 	}</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/sudoers/verify.go">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> No test reaches <code>VerifyFragment</code>&#39;s acceptance of an unpinned file <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/pkg/sudoers/verify.go#L57-L67">pkg/sudoers/verify.go</a></div>
+      <pre data-start="57" data-line="62"><code class="language-go">	if !ok {
+		return nil
+	}
+	// The file may carry grants from other Lima features, or from other users.
+	// Only this fragment has to be present verbatim.
+	if !ContainsFragment(content, fragment) {
+		return fmt.Errorf(&quot;sudoers file %#q is out of sync and must be regenerated (Hint: %s)&quot;, file, hint)
+	}
+	return nil
+}
+</code></pre>
+    <p><code>TestUnpinAndContainsFragment</code> tests the helper, but no test calls <code>VerifyFragment</code> with an unpinned file, and network start reaches it through <code>VerifySudoAccess</code>. Reverting line 62 to <code>ContainsActiveFragment</code> leaves <code>pkg/sudoers</code>, <code>pkg/networks</code> and <code>cmd/limactl</code> green. A Linux user who chose <code>--digest=false</code> would then get &quot;out of sync and must be regenerated&quot; at every network start, and regenerating with the same flag would not clear it. That misleading, persistent error makes the test required.</p>
+    <p>The two <code>--check</code> sites, <a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/cmd/limactl/sudoers_action.go#L143"><code>cmd/limactl/sudoers_action.go:143</code></a> and <code>:151</code>, are untested too, but a test there needs new infrastructure, as the Testing Assessment explains.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/cmd/limactl/sudoers_action.go#L138-L148">cmd/limactl/sudoers_action.go</a></div>
+      <pre data-start="138" data-line="143"><code class="language-go">	content, err := renderSudoers(nwCfg, blockDevices, includeNetwork)
+	if err != nil {
+		return err
+	}
+	// Files generated with --digest=false are accepted too.
+	if b == content || b == sudoers.Unpin(content) {
+		return nil
+	}
+	if len(blockDevices) == 0 {
+		networkSudoers, err := nwCfg.Sudoers()
+		if err != nil {</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-i3.sh; run from the repo root: bash probe-i3.sh
+# Reverts verify.go:62 to the strict check, runs the affected suites, restores it.
+perl -pi.orig -e &#39;s/!ContainsFragment\(content, fragment\)/!ContainsActiveFragment(content, fragment)/&#39; pkg/sudoers/verify.go
+git diff --stat -- pkg/sudoers/verify.go
+go test -count=1 ./pkg/sudoers ./pkg/networks ./cmd/limactl 2&gt;&amp;1 | grep -v &#39;ld: warning\|^#&#39;
+mv pkg/sudoers/verify.go.orig pkg/sudoers/verify.go</code></pre>
+      <pre><code class="language-text">$ bash probe-i3.sh   # reviewed tree
+ pkg/sudoers/verify.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ok  	github.com/lima-vm/lima/v2/pkg/sudoers	0.309s
+ok  	github.com/lima-vm/lima/v2/pkg/networks	0.465s
+ok  	github.com/lima-vm/lima/v2/cmd/limactl	0.662s
+
+$ git apply i3.patch &amp;&amp; bash probe-i3.sh   # with the new test
+ pkg/sudoers/verify.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+--- FAIL: TestVerifyFragmentAcceptsUnpinnedFragment (0.00s)
+    verify_test.go:55: assertion failed: error is not nil: sudoers file `/var/folders/s2/9q03h0c11_s4fdw169wqz3qc0000gn/T/TestVerifyFragmentAcceptsUnpinnedFragment157968898/001/lima.sudoers` is out of sync and must be regenerated (Hint: hint)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/sudoers	0.314s
+ok  	github.com/lima-vm/lima/v2/pkg/networks	0.465s
+ok  	github.com/lima-vm/lima/v2/cmd/limactl	0.572s
+FAIL</code></pre>
+      </details>
+    <p>Fix: add a <code>VerifyFragment</code> case with an unpinned file and a stale-digest control to <code>pkg/sudoers/verify_test.go</code>. The test passes on the reviewed code and fails under the mutation, as the second run above shows.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/sudoers/verify_test.go b/pkg/sudoers/verify_test.go
+index 419c8bcc..7005b366 100644
+--- a/pkg/sudoers/verify_test.go
++++ b/pkg/sudoers/verify_test.go
+@@ -49,6 +49,16 @@ func TestVerifyFragmentRejectsCommentedFragment(t *testing.T) {
+ 	assert.ErrorContains(t, err, &quot;out of sync&quot;)
+ }
+ 
++func TestVerifyFragmentAcceptsUnpinnedFragment(t *testing.T) {
++	pinned := &quot;%everyone ALL=(root:root) NOPASSWD:NOSETENV: &quot; + emptyFileDigest + &quot; /usr/local/libexec/lima/privileged/lima-privileged-net start\n&quot;
++
++	assert.NilError(t, VerifyFragment(t.Context(), writeSudoersFile(t, Unpin(pinned)), pinned, &quot;hint&quot;))
++
++	stale := strings.ReplaceAll(pinned, emptyFileDigest, &quot;sha256:&quot;+strings.Repeat(&quot;0&quot;, 64))
++	err := VerifyFragment(t.Context(), writeSudoersFile(t, stale), pinned, &quot;hint&quot;)
++	assert.ErrorContains(t, err, &quot;out of sync&quot;)
++}
++
+ func TestVerifyFragmentToleratesUnreadableFile(t *testing.T) {
+ 	if runtime.GOOS == &quot;windows&quot; || os.Getuid() == 0 {
+ 		t.Skip(&quot;the file mode does not keep the caller out&quot;)</code></pre>
+      </details>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="cmd/limactl/sudoers_action.go">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> <code>--digest=false</code> still reads and hashes every helper <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/cmd/limactl/sudoers_action.go#L63-L79">cmd/limactl/sudoers_action.go</a></div>
+      <pre data-start="63" data-line="68-74"><code class="language-go">	case 1:
+		return errors.New(&quot;the file argument can be specified only for --check mode&quot;)
+	default:
+		return fmt.Errorf(&quot;unexpected arguments %v&quot;, args)
+	}
+	content, err := renderSudoers(nwCfg, blockDevices, includeNetwork)
+	if err != nil {
+		return err
+	}
+	if !pinDigest {
+		content = sudoers.Unpin(content)
+	}
+	if !includeNetwork {
+		logrus.Warn(&quot;Generated sudoers file has no network entries; replacing an existing file removes its network grants&quot;)
+	}
+	fmt.Fprint(cmd.OutOrStdout(), content)
+	return nil</code></pre>
+    <p><code>NOPASSWD</code> hashes each helper (<a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/pkg/sudoers/sudoers.go#L47"><code>pkg/sudoers/sudoers.go:47</code></a>) before line 73 strips the digests. So <code>--digest=false</code> fails with &quot;permission denied&quot; on a root-owned helper that the user cannot read. <code>validateSecureHelperFile</code> accepts such a helper, and its unpinned grant rendered at the merge-base. Codex&#39;s probe reproduced this with mode 0111 and passed with 0755. No Lima install produces an unreadable helper (<code>go build</code> writes 0755), and the error names the file, so this stays a suggestion. <code>verifySudoersFile</code> hashes the same way before it compares.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/pkg/sudoers/sudoers.go#L42-L52">pkg/sudoers/sudoers.go</a></div>
+      <pre data-start="42" data-line="47"><code class="language-go">}
+
+// NOPASSWD renders a sudoers entry for one or more commands. Commands that run
+// one of Lima&#39;s privileged helpers are pinned to the helper&#39;s digest.
+func NOPASSWD(subject, runAsUser, runAsGroup string, commands ...string) (string, error) {
+	commands, err := pinPrivilegedHelpers(commands)
+	if err != nil {
+		return &quot;&quot;, err
+	}
+	return render(subject, runAsUser, runAsGroup, commands...), nil
+}</code></pre>
+    <p>Fix: pass the pinning choice into the renderers and skip <code>fileDigest</code> when pinning is off.</p>
+    </div>
+    <div class="card card-suggestion" data-file="cmd/limactl/sudoers_action.go">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> <code>--check</code> accepts either form, ignores <code>--digest</code>, and never says which form matched <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/cmd/limactl/sudoers_action.go#L137-L148">cmd/limactl/sudoers_action.go</a></div>
+      <pre data-start="137" data-line="142-143"><code class="language-go">	}
+	content, err := renderSudoers(nwCfg, blockDevices, includeNetwork)
+	if err != nil {
+		return err
+	}
+	// Files generated with --digest=false are accepted too.
+	if b == content || b == sudoers.Unpin(content) {
+		return nil
+	}
+	if len(blockDevices) == 0 {
+		networkSudoers, err := nwCfg.Sudoers()
+		if err != nil {</code></pre>
+    <p>Accepting an unpinned file is deliberate, as line 142 says, and <code>VerifySudoAccess</code> does the same at network start. But <code>sudoersAction</code> reads <code>--digest</code> and never passes it to <code>verifySudoAccess</code>, so <code>--check --digest=true</code> passes an unpinned file, and neither check tells the user that pinning is off. Making <code>--check</code> strict, as two reviews proposed, would reject a <code>--digest=false</code> file under a plain <code>--check</code>. That breaks the <code>sudo cat … | limactl sudoers --check /dev/stdin</code> advice, which does not pass the flag, and it would disagree with the network-start check.</p>
+    <p>Fix: say in the <code>--digest</code> help that <code>--check</code> accepts either form, and log at info level when only the unpinned form matched.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/sudoers/verify.go">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> The regenerate hints leave out <code>--digest=false</code><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/pkg/sudoers/verify.go#L75-L82">pkg/sudoers/verify.go</a></div>
+      <pre data-start="75" data-line="80-81"><code class="language-go">	install := &quot;sudo install -o root -g wheel -m 0444&quot;
+	if runtime.GOOS != &quot;darwin&quot; {
+		// &quot;wheel&quot; does not exist on every Linux distribution.
+		install = &quot;sudo install -o root -m 0440&quot;
+	}
+	return fmt.Sprintf(&quot;run `%s %s &gt;etc_sudoers.d_lima &amp;&amp; %s etc_sudoers.d_lima %q`; %s&quot;,
+		exe, args, install, file, RegenerateGrantWarning)
+}</code></pre>
+    <p><code>RegenerateHint</code> and the block-device failure hint (<a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/pkg/blockdevice/block_device_darwin.go#L684"><code>pkg/blockdevice/block_device_darwin.go:684</code></a>) both print <code>limactl sudoers</code> without <code>--digest=false</code>. A user who opted out and follows either hint installs a pinned file without noticing. Their next Lima upgrade then breaks the grant they had chosen to keep unpinned.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/pkg/blockdevice/block_device_darwin.go#L679-L689">pkg/blockdevice/block_device_darwin.go</a></div>
+      <pre data-start="679" data-line="684"><code class="language-go">		// After sudo has failed, do not wait for the helper response: the helper
+		// may never connect back. Only close an fd that has already arrived.
+		if receivedFile := drainReceivedFD(fdCh); receivedFile != nil {
+			_ = receivedFile.Close()
+		}
+		return nil, fmt.Errorf(&quot;failed to run %v: stdout=%q, stderr=%q: %w. Hint: run `%s sudoers --block-device=%s` and install the generated file; %s&quot;, cmd.Args, stdout.String(), stderr.String(), err, os.Args[0], devicePath, sudoers.RegenerateGrantWarning)
+	}
+
+	receivedFile, err := waitForReceivedFD(ctx, fdCh)
+	if err != nil {
+		if receivedFile := drainReceivedFD(fdCh); receivedFile != nil {</code></pre>
+    <p>Fix: mention the flag in both hints, for example &quot;add --digest=false if you generated the file that way&quot;.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/sudoers/digest.go">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> <code>pkg/sudoers</code> hashes with go-digest but relies on its callers to link <code>crypto/sha256</code> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+    <p>go-digest panics with &quot;sha256 not available (make sure it is imported)&quot; unless the binary links <code>crypto/sha256</code>. Flash&#39;s standalone program that calls <code>NOPASSWD</code> on a privileged helper panics, and the same program exits 0 with <code>_ &quot;crypto/sha256&quot;</code> added. This is latent and older than the PR. The merge-base <code>Pin</code> had the same imports, and <code>go list -deps</code> shows <code>crypto/sha256</code> in <code>limactl</code> and in the Linux <code>lima-privileged-net</code>. <code>lima-privileged-block-device</code> imports <code>pkg/sudoers</code> without it, but it never renders a grant.</p>
+    <p>Fix: add <code>_ &quot;crypto/sha256&quot;</code> to <code>digest.go</code>, the file that hashes.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/sudoers/digest.go">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> Pinning depends on a directory layout that two other packages build independently <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/pkg/sudoers/digest.go#L16-L26">pkg/sudoers/digest.go</a></div>
+      <pre data-start="16" data-line="21"><code class="language-go">// isPrivilegedHelper reports whether exe is installed in the directory reserved
+// for Lima&#39;s own privileged helpers: `&lt;prefix&gt;/libexec/lima/privileged`, or
+// `&lt;prefix&gt;/lib/lima/privileged` on Homebrew.
+func isPrivilegedHelper(exe string) bool {
+	dir := filepath.Dir(exe)
+	return filepath.Base(dir) == &quot;privileged&quot; &amp;&amp; filepath.Base(filepath.Dir(dir)) == &quot;lima&quot;
+}
+
+// pinPrivilegedHelpers prefixes every command that runs a privileged helper
+// (see isPrivilegedHelper) with the sudoers `Digest_Spec` of that helper.
+// sudo (&gt;= 1.8.7) hashes the file immediately before executing it and refuses</code></pre>
+    <p><a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/pkg/networks/commands.go#L43"><code>pkg/networks/commands.go:43</code></a> (<code>privilegedSubdir</code>) and <a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/pkg/blockdevice/block_device_darwin.go#L247"><code>pkg/blockdevice/block_device_darwin.go:247</code></a> (<code>privilegedHelperPathForExecutable</code>) each spell out <code>privileged</code>. I renamed both. With <code>privilegedSubdir</code> renamed, <code>lima-privileged-net</code> stops being pinned and every test passes. The block-device rename fails only <code>TestPrivilegedHelperPathForExecutable</code>, which asserts the path literal, so whoever renames the directory updates that literal and pinning stops anyway.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/pkg/networks/commands.go#L38-L48">pkg/networks/commands.go</a></div>
+      <pre data-start="38" data-line="43"><code class="language-go">	// hold any uint64, so the uid and the hash both fit at their full width.
+	tapDigits = maxIfNameLen - len(tapPrefix)
+
+	// privilegedSubdir is the libexec/lima subdirectory reserved for the helpers
+	// that run with elevated privileges.
+	privilegedSubdir = &quot;privileged&quot;
+)
+
+// RequiredDaemons returns the privileged helpers needed by the non-usernet
+// networks on this host: socket_vmnet on macOS, lima-privileged-net on Linux.
+// Everything else in this package is generic over the daemon name.</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/pkg/blockdevice/block_device_darwin.go#L242-L252">pkg/blockdevice/block_device_darwin.go</a></div>
+      <pre data-start="242" data-line="247"><code class="language-go">	}
+	return nil
+}
+
+func privilegedHelperPathForExecutable(exe string) string {
+	return filepath.Join(filepath.Dir(filepath.Dir(exe)), &quot;libexec&quot;, &quot;lima&quot;, &quot;privileged&quot;, PrivilegedHelperName)
+}
+
+func validateSudoersUserName(userName string) error {
+	if userName == &quot;&quot; {
+		return errors.New(&quot;sudoers user name must not be empty&quot;)</code></pre>
+    <p>Fix: export the directory name from <code>pkg/sudoers</code> and build both helper paths from it.</p>
+    </div>
+    <div class="card card-suggestion" data-file="website/content/en/docs/config/disk.md">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> <code>--digest=false</code> is documented only on the block-device page <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+    <p>The flag also unpins <code>lima-privileged-net</code>, the Linux network helper, which master has pinned since f3d2492a. No page under <code>website/content/en/docs</code> mentions that helper, so Linux users learn neither that their network grants need regenerating after an upgrade nor that they can opt out.</p>
+    <p>Fix: when the Linux network sudoers setup gets a page, give it the same paragraph, or move the paragraph to a <code>limactl sudoers</code> section that both pages link to.</p>
+    </div>
+    <div class="card card-suggestion" data-file="cmd/limactl/sudoers.go">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> The PR description and the commit message predate the <code>--digest</code> flag <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/cmd/limactl/sudoers.go#L50-L58">cmd/limactl/sudoers.go</a></div>
+      <pre data-start="50" data-line="55-56"><code class="language-go">	cfgFile, _ := networks.ConfigFile()
+	sudoersCommand.Flags().Bool(&quot;check&quot;, false,
+		fmt.Sprintf(&quot;check that the sudoers file is up-to-date with %#q&quot;, cfgFile))
+	sudoersCommand.Flags().StringSlice(&quot;block-device&quot;, nil,
+		&quot;include the macOS VZ host block-device helper for the current user and comma-separated devices&quot;)
+	sudoersCommand.Flags().Bool(&quot;digest&quot;, true,
+		&quot;pin Lima&#39;s privileged helpers to their sha256 digest; with --digest=false the file survives Lima upgrades, but sudo runs whatever binary is installed at the helper path&quot;)
+	return sudoersCommand
+}</code></pre>
+    <p>The force-push after the maintainer&#39;s review added <code>--digest</code>, <code>Unpin</code>, and the unpinned acceptance in both checks. The description still covers only automatic pinning, and the commit body holds only the sign-off. The PR has a single commit, so its message is the only record of the opt-out in <code>git log</code>.</p>
+    <p>Fix: describe the default pinning, the <code>--digest=false</code> opt-out, and that both checks accept either form, in the commit body and in the description.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>The digest is defense in depth, and on macOS it is weaker than the prose says</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span>. <a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/.oss-scanner/threat_model.md#L54-L56"><code>.oss-scanner/threat_model.md:54-56</code></a> already requires that only root may modify a helper or its parent directories, and Lima checks that before each use. If that invariant later breaks, someone who runs the grant through sudo directly bypasses Lima&#39;s checks, and the digest still stops a replaced helper from running as root. On macOS that same broken invariant opens the race in I1. The cost is a regenerated sudoers file after every upgrade unless the user passes <code>--digest=false</code>. Master already chose this trade for <code>lima-privileged-net</code>, and this PR extends it to the other helper in the same directory, so the change is worth its diff.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Pinning follows the install location</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span>. The next helper installed under <code>privileged/</code> is pinned with no per-helper code, and <code>pinPrivilegedHelpers</code> hashes each helper once per <code>NOPASSWD</code> call.</li>
+      <li><strong>The checks unpin the expected text, never the installed file</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span>. A stale digest is still rejected (<a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/pkg/sudoers/digest_test.go#L60-L62"><code>pkg/sudoers/digest_test.go:60-62</code></a>), so the opt-out does not weaken the stale-file check.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>I ran <code>go test ./...</code> in the lead worktree at the review SHA on macOS arm64. It exited 0, with 53 packages passing and 53 without tests. The CI run for the head commit finished with 36 successful checks and 2 neutral Netlify checks.</p>
+    <p>I mutated each new piece of opt-out handling and reran the tests of its package, plus <code>pkg/networks</code> and <code>cmd/limactl</code> for the <code>VerifyFragment</code> mutant. Every mutant passed:</p>
+    <ul>
+      <li><code>verifySudoersFile</code> without <code>|| b == sudoers.Unpin(content)</code></li>
+      <li><code>verifySudoersFile</code> with <code>ContainsActiveFragment</code> in place of <code>ContainsFragment</code></li>
+      <li><code>VerifyFragment</code> with <code>ContainsActiveFragment</code> in place of <code>ContainsFragment</code> (I3)</li>
+      <li><code>sudoersAction</code> ignoring <code>--digest=false</code></li>
+    </ul>
+    <p>I3&#39;s test covers the third. The other three need a pinned grant in <code>cmd/limactl</code>&#39;s darwin-only tests, which only the block-device helper lookup can render, and that lookup requires an executable named <code>limactl</code>. That is new test infrastructure, so they stay optional. S1&#39;s unreadable-helper case is optional too, because the error names the file.</p>
+    <p>No CI job shows that a pinned rule grants the command that Lima runs, because hosted runners have passwordless sudo for everything. The author&#39;s <code>visudo -cf</code> run shows that macOS&#39;s <code>visudo</code> accepts the <code>Digest_Spec</code>, but not that the pinned grant runs the helper.</p>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>I1 and I2 are wrong comments. S6 covers the Linux docs, and S7 the PR description. <code>breaking.md</code> does not need an entry. Pinning is in no tag yet (<code>git tag --contains f3d2492a</code> is empty), and the block-device grants that v2.3.0-beta.1 users generated are unpinned, which both checks accept and sudo still runs.</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR is one signed-off commit by a Committer listed in <code>governance.md</code>, so the issue-first rule does not apply. Its message predates the force-push; see S7.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><em></em>Accepting the unpinned form in <code>--check</code> and at network start is deliberate.<em></em> The comment at <a href="https://github.com/lima-vm/lima/blob/37c9abfd9d057c676233de7839af9db451ed7d68/cmd/limactl/sudoers_action.go#L142"><code>cmd/limactl/sudoers_action.go:142</code></a> says so, and it implements the maintainer&#39;s request for an opt-out. Do not re-suggest making <code>--check</code> enforce one form unless the network-start check and the <code>sudo cat … --check /dev/stdin</code> advice also get a way to pass the user&#39;s choice.</li>
+      <li><em></em><code>Unpin</code>&#39;s regular expression is unanchored, and no input reaches that.<em></em> Every value interpolated into a rendered grant is validated. Helper paths reject whitespace, network names are identifiers, and device paths must be macOS disk nodes. So no input can put <code>sha256:&lt;64 hex&gt; </code> anywhere but a <code>Digest_Spec</code>. Do not re-suggest anchoring it.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5-5"><span class="pill pill-claude">Claude Opus 5.5</span> <a href="#claude-opus-5-5" class="pilcrow">&#182;</a></h3>
+    <p>Claude found I1, the one finding that needed knowledge from outside the repo: sudo&#39;s digest check is race-free only through <code>fexecve</code>. It backed that with a compile probe and the sudoers manual. It also caught the stale &quot;verbatim&quot; comment (I2) and ran the mutations that I3 cites. Its weighing of the digest against the threat model&#39;s root-only invariant became the design concern. It missed the unreadable-helper case, and its claim that a directory rename does not break any test held for only one of the two packages.</p>
+    <h3 id="codex-gpt-6-astra"><span class="pill pill-codex">Codex GPT 6 Astra</span> <a href="#codex-gpt-6-astra" class="pilcrow">&#182;</a></h3>
+    <p>Codex raised the unreadable-helper case (S1) with a working overlay probe and a merge-base control, but rated it Important; it is a suggestion because no Lima install produces an execute-only helper. It missed both stale comments and the test gap, although its coverage table marks <code>digest.go</code> and <code>verify.go</code> as reviewed with no issues. Its sandbox started with an empty module cache, and it downloaded dependencies before its tests could run.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Gemini Pro&#39;s one numbered finding, that <code>--check</code> ignores <code>--digest</code>, describes real behavior but a deliberate choice. Its proposed strict check would break the <code>sudo cat … --check /dev/stdin</code> advice for users who opted out, so it became part of S2. Its shell reproducer built <code>limactl</code> and ran <code>limactl sudoers</code> against a scratch <code>LIMA_HOME</code>. On macOS without socket_vmnet the rendered file does not hold a digest, so its pinned and unpinned files were identical and the run showed nothing about digests. It marked <code>digest.go</code> and <code>verify.go</code> clean.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Flash covered the most ground. It alone raised the go-digest registration (S4), and its probe confirmed the panic, though it called a latent issue that predates the PR a regression. It converged with Gemini Pro on <code>--check</code> and with Codex on the unreadable helper, and it rated all four findings Important. Its S3 asked for the <code>VerifyFragment</code> test that I3 adds. Its suggestion to anchor <code>Unpin</code>&#39;s regular expression was dropped because no input reaches it. Flash and Gemini Pro share a model family, so their agreement on S2 counts as one opinion.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5.5</span></th><th><span class="pill pill-codex">Codex GPT 6 Astra</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>6m 51s</td><td>5m 24s</td><td>6m 15s</td><td>19m 10s</td></tr>
+        <tr><td>Findings</td><td>3I 4S</td><td>2S</td><td>2S</td><td>1I 5S</td></tr>
+        <tr><td>Tool calls</td><td>34 (Bash 24, Read 7, WebFetch 2)</td><td>13 (shell 12, stdin 1)</td><td>14 (run<em>shell</em>command 12, read<em>file 1, update</em>topic 1)</td><td>93 (read<em>file 38, grep</em>search 26, run<em>shell</em>command 26)</td></tr>
+        <tr><td>Design observations</td><td>3</td><td>2</td><td>0</td><td>1</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>3</td><td>0</td><td>0</td><td>1</td></tr>
+        <tr><td>Files reviewed</td><td>12</td><td>12</td><td>12</td><td>12</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>2</td><td>2</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>3I 4S</strong></td><td><strong>2S</strong></td><td><strong>2S</strong></td><td><strong>1I 5S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>1</td><td>1</td><td>4</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p>Claude gave the most value: all three Important findings, two of them its own. Flash came next for S4 and the widest coverage, and Codex&#39;s probe made S1 checkable. Every downgrade in the reconciliation below came from Codex or one of the two Geminis.</p>
+    <p><strong>Reconciliation.</strong> Codex I1 (unreadable helper): important → S1. Flash I2 (same): important → S1. Gemini Pro I1 (<code>--check</code> ignores <code>--digest</code>): important → S2. Flash I3 (same): important → S2. Flash I1 (<code>crypto/sha256</code>): important → S4, relabelled from regression to pre-existing. Flash I4 (stale description): important → S7. Flash S3 (<code>VerifyFragment</code> test): suggestion → I3. Claude S2 merged into S2. Flash S2 (<code>cmd/limactl</code> tests) merged into I3, as the sites it names need new infrastructure. Dropped: Flash S4 (<code>Unpin</code> regular expression).</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>When a change extends a security mechanism to a helper or code path on another operating system, check every guarantee that the mechanism&#39;s comments and docs state against that platform. A guarantee written for the platforms that the mechanism first covered often rests on a system call or kernel feature that the new platform lacks.</li>
+      <li>A reproducer must show that its input reaches the branch under test, for example by printing the intermediate value that the branch reads. On a host where the feature is inactive, the before and after runs produce identical output, and the run proves nothing.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>[repo] sudo&#39;s digest check (<code>Digest_Spec</code>) is free of a time-of-check/time-of-use race only where sudo can <code>fexecve(2)</code> the file it hashed. macOS lacks <code>fexecve</code>, so there a pinned helper is protected from replacement before sudo runs, but a writer of the helper&#39;s directory can still race the check. Flag prose that calls a digest-pinned grant race-free on macOS.</li>
+      <li>[repo] On a macOS host without socket_vmnet, the network sudoers fragment holds only the <code>mkdir</code> grant and no privileged helper, so it does not have a digest. Pinned grants appear in <code>cmd/limactl</code> output only through <code>--block-device</code> on macOS, or through <code>lima-privileged-net</code> on Linux. A probe of digest handling must use one of those, or its pinned and unpinned outputs are identical.</li>
+      <li>[repo] <code>limactl sudoers --check</code> on a file that does not exist falls back to <code>VerifyPasswordLess</code>. That runs <code>sudo -k</code>, which drops the user&#39;s cached sudo credentials, and then <code>sudo --non-interactive</code> probes. Read that path in the code instead of running <code>--check</code> against a missing file.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){var t="\\b(?:BASH|BASHOPTS|BASH_ALIASES|BASH_ARGC|BASH_ARGV|BASH_CMDS|BASH_COMPLETION_COMPAT_DIR|BASH_LINENO|BASH_REMATCH|BASH_SOURCE|BASH_VERSINFO|BASH_VERSION|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|EUID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_ADDRESS|LC_ALL|LC_IDENTIFICATION|LC_MEASUREMENT|LC_MONETARY|LC_NAME|LC_NUMERIC|LC_PAPER|LC_TELEPHONE|LC_TIME|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS1|PS2|PS3|PS4|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UID|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_CONFIG_DIRS|XDG_CURRENT_DESKTOP|XDG_DATA_DIRS|XDG_GREETER_DATA_DIR|XDG_MENU_PREFIX|XDG_RUNTIME_DIR|XDG_SEAT|XDG_SEAT_PATH|XDG_SESSION_DESKTOP|XDG_SESSION_ID|XDG_SESSION_PATH|XDG_SESSION_TYPE|XDG_VTNR|XMODIFIERS)\\b",a={pattern:/(^(["']?)\w+\2)[ \t]+\S.*/,lookbehind:!0,alias:"punctuation",inside:null},n={bash:a,environment:{pattern:RegExp("\\$"+t),alias:"constant"},variable:[{pattern:/\$?\(\([\s\S]+?\)\)/,greedy:!0,inside:{variable:[{pattern:/(^\$\(\([\s\S]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,operator:/--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,greedy:!0,inside:{variable:/^\$\(|^`|\)$|`$/}},{pattern:/\$\{[^}]+\}/,greedy:!0,inside:{operator:/:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,punctuation:/[\[\]]/,environment:{pattern:RegExp("(\\{)"+t),lookbehind:!0,alias:"constant"}}},/\$(?:\w+|[#?*!@$])/],entity:/\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/};e.languages.bash={shebang:{pattern:/^#!\s*\/.*/,alias:"important"},comment:{pattern:/(^|[^"{\\$])#.*/,lookbehind:!0},"function-name":[{pattern:/(\bfunction\s+)[\w-]+(?=(?:\s*\(?:\s*\))?\s*\{)/,lookbehind:!0,alias:"function"},{pattern:/\b[\w-]+(?=\s*\(\s*\)\s*\{)/,alias:"function"}],"for-or-select":{pattern:/(\b(?:for|select)\s+)\w+(?=\s+in\s)/,alias:"variable",lookbehind:!0},"assign-left":{pattern:/(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,inside:{environment:{pattern:RegExp("(^|[\\s;|&]|[<>]\\()"+t),lookbehind:!0,alias:"constant"}},alias:"variable",lookbehind:!0},parameter:{pattern:/(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,alias:"variable",lookbehind:!0},string:[{pattern:/((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?(?:\r?\n|\r)\2/,lookbehind:!0,greedy:!0,inside:n},{pattern:/((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?(?:\r?\n|\r)\3/,lookbehind:!0,greedy:!0,inside:{bash:a}},{pattern:/(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,lookbehind:!0,greedy:!0,inside:n},{pattern:/(^|[^$\\])'[^']*'/,lookbehind:!0,greedy:!0},{pattern:/\$'(?:[^'\\]|\\[\s\S])*'/,greedy:!0,inside:{entity:n.entity}}],environment:{pattern:RegExp("\\$?"+t),alias:"constant"},variable:n.variable,function:{pattern:/(^|[\s;|&]|[<>]\()(?:add|apropos|apt|apt-cache|apt-get|aptitude|aspell|automysqlbackup|awk|basename|bash|bc|bconsole|bg|bzip2|cal|cargo|cat|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clear|cmp|column|comm|composer|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|debootstrap|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|docker|docker-compose|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|git|gparted|grep|groupadd|groupdel|groupmod|groups|grub-mkconfig|gzip|halt|head|hg|history|host|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|ip|java|jobs|join|kill|killall|less|link|ln|locate|logname|logrotate|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|make|man|mc|mdadm|mkconfig|mkdir|mke2fs|mkfifo|mkfs|mkisofs|mknod|mkswap|mmv|more|most|mount|mtools|mtr|mutt|mv|nano|nc|netstat|nice|nl|node|nohup|notify-send|npm|nslookup|op|open|parted|passwd|paste|pathchk|ping|pkill|pnpm|podman|podman-compose|popd|pr|printcap|printenv|ps|pushd|pv|quota|quotacheck|quotactl|ram|rar|rcp|reboot|remsync|rename|renice|rev|rm|rmdir|rpm|rsync|scp|screen|sdiff|sed|sendmail|seq|service|sftp|sh|shellcheck|shuf|shutdown|sleep|slocate|sort|split|ssh|stat|strace|su|sudo|sum|suspend|swapon|sync|sysctl|tac|tail|tar|tee|time|timeout|top|touch|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|update-grub|uptime|useradd|userdel|usermod|users|uudecode|uuencode|v|vcpkg|vdir|vi|vim|virsh|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yarn|yes|zenity|zip|zsh|zypper)(?=$|[)\s;|&])/,lookbehind:!0},keyword:{pattern:/(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)(?=$|[)\s;|&])/,lookbehind:!0},builtin:{pattern:/(^|[\s;|&]|[<>]\()(?:\.|:|alias|bind|break|builtin|caller|cd|command|continue|declare|echo|enable|eval|exec|exit|export|getopts|hash|help|let|local|logout|mapfile|printf|pwd|read|readarray|readonly|return|set|shift|shopt|source|test|times|trap|type|typeset|ulimit|umask|unalias|unset)(?=$|[)\s;|&])/,lookbehind:!0,alias:"class-name"},boolean:{pattern:/(^|[\s;|&]|[<>]\()(?:false|true)(?=$|[)\s;|&])/,lookbehind:!0},"file-descriptor":{pattern:/\B&\d\b/,alias:"important"},operator:{pattern:/\d?<>|>\||\+=|=[=~]?|!=?|<<[<-]?|[&\d]?>>|\d[<>]&?|[<>][&=]?|&[>&]?|\|[&|]?/,inside:{"file-descriptor":{pattern:/^\d/,alias:"important"}}},punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,number:{pattern:/(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,lookbehind:!0}},a.inside=e.languages.bash;for(var s=["comment","function-name","for-or-select","assign-left","parameter","string","environment","function","keyword","builtin","boolean","file-descriptor","operator","punctuation","number"],o=n.variable[1].inside,i=0;i<s.length;i++)o[s[i]]=e.languages.bash[s[i]];e.languages.sh=e.languages.bash,e.languages.shell=e.languages.bash}(Prism);
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+!function(n){function e(n){return n=n.replace(/<inner>/g,(function(){return"(?:\\\\.|[^\\\\\n\r]|(?:\n|\r\n?)(?![\r\n]))"})),RegExp("((?:^|[^\\\\])(?:\\\\{2})*)(?:"+n+")")}var t="(?:\\\\.|``(?:[^`\r\n]|`(?!`))+``|`[^`\r\n]+`|[^\\\\|\r\n`])+",a="\\|?__(?:\\|__)+\\|?(?:(?:\n|\r\n?)|(?![^]))".replace(/__/g,(function(){return t})),i="\\|?[ \t]*:?-{3,}:?[ \t]*(?:\\|[ \t]*:?-{3,}:?[ \t]*)+\\|?(?:\n|\r\n?)";n.languages.markdown=n.languages.extend("markup",{}),n.languages.insertBefore("markdown","prolog",{"front-matter-block":{pattern:/(^(?:\s*[\r\n])?)---(?!.)[\s\S]*?[\r\n]---(?!.)/,lookbehind:!0,greedy:!0,inside:{punctuation:/^---|---$/,"front-matter":{pattern:/\S+(?:\s+\S+)*/,alias:["yaml","language-yaml"],inside:n.languages.yaml}}},blockquote:{pattern:/^>(?:[\t ]*>)*/m,alias:"punctuation"},table:{pattern:RegExp("^"+a+i+"(?:"+a+")*","m"),inside:{"table-data-rows":{pattern:RegExp("^("+a+i+")(?:"+a+")*$"),lookbehind:!0,inside:{"table-data":{pattern:RegExp(t),inside:n.languages.markdown},punctuation:/\|/}},"table-line":{pattern:RegExp("^("+a+")"+i+"$"),lookbehind:!0,inside:{punctuation:/\||:?-{3,}:?/}},"table-header-row":{pattern:RegExp("^"+a+"$"),inside:{"table-header":{pattern:RegExp(t),alias:"important",inside:n.languages.markdown},punctuation:/\|/}}}},code:[{pattern:/((?:^|\n)[ \t]*\n|(?:^|\r\n?)[ \t]*\r\n?)(?: {4}|\t).+(?:(?:\n|\r\n?)(?: {4}|\t).+)*/,lookbehind:!0,alias:"keyword"},{pattern:/^```[\s\S]*?^```$/m,greedy:!0,inside:{"code-block":{pattern:/^(```.*(?:\n|\r\n?))[\s\S]+?(?=(?:\n|\r\n?)^```$)/m,lookbehind:!0},"code-language":{pattern:/^(```).+/,lookbehind:!0},punctuation:/```/}}],title:[{pattern:/\S.*(?:\n|\r\n?)(?:==+|--+)(?=[ \t]*$)/m,alias:"important",inside:{punctuation:/==+$|--+$/}},{pattern:/(^\s*)#.+/m,lookbehind:!0,alias:"important",inside:{punctuation:/^#+|#+$/}}],hr:{pattern:/(^\s*)([*-])(?:[\t ]*\2){2,}(?=\s*$)/m,lookbehind:!0,alias:"punctuation"},list:{pattern:/(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,lookbehind:!0,alias:"punctuation"},"url-reference":{pattern:/!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/,inside:{variable:{pattern:/^(!?\[)[^\]]+/,lookbehind:!0},string:/(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,punctuation:/^[\[\]!:]|[<>]/},alias:"url"},bold:{pattern:e("\\b__(?:(?!_)<inner>|_(?:(?!_)<inner>)+_)+__\\b|\\*\\*(?:(?!\\*)<inner>|\\*(?:(?!\\*)<inner>)+\\*)+\\*\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^..)[\s\S]+(?=..$)/,lookbehind:!0,inside:{}},punctuation:/\*\*|__/}},italic:{pattern:e("\\b_(?:(?!_)<inner>|__(?:(?!_)<inner>)+__)+_\\b|\\*(?:(?!\\*)<inner>|\\*\\*(?:(?!\\*)<inner>)+\\*\\*)+\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^.)[\s\S]+(?=.$)/,lookbehind:!0,inside:{}},punctuation:/[*_]/}},strike:{pattern:e("(~~?)(?:(?!~)<inner>)+\\2"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^~~?)[\s\S]+(?=\1$)/,lookbehind:!0,inside:{}},punctuation:/~~?/}},"code-snippet":{pattern:/(^|[^\\`])(?:``[^`\r\n]+(?:`[^`\r\n]+)*``(?!`)|`[^`\r\n]+`(?!`))/,lookbehind:!0,greedy:!0,alias:["code","keyword"]},url:{pattern:e('!?\\[(?:(?!\\])<inner>)+\\](?:\\([^\\s)]+(?:[\t ]+"(?:\\\\.|[^"\\\\])*")?\\)|[ \t]?\\[(?:(?!\\])<inner>)+\\])'),lookbehind:!0,greedy:!0,inside:{operator:/^!/,content:{pattern:/(^\[)[^\]]+(?=\])/,lookbehind:!0,inside:{}},variable:{pattern:/(^\][ \t]?\[)[^\]]+(?=\]$)/,lookbehind:!0},url:{pattern:/(^\]\()[^\s)]+/,lookbehind:!0},string:{pattern:/(^[ \t]+)"(?:\\.|[^"\\])*"(?=\)$)/,lookbehind:!0}}}}),["url","bold","italic","strike"].forEach((function(e){["url","bold","italic","strike","code-snippet"].forEach((function(t){e!==t&&(n.languages.markdown[e].inside.content.inside[t]=n.languages.markdown[t])}))})),n.hooks.add("after-tokenize",(function(n){"markdown"!==n.language&&"md"!==n.language||function n(e){if(e&&"string"!=typeof e)for(var t=0,a=e.length;t<a;t++){var i=e[t];if("code"===i.type){var r=i.content[1],o=i.content[3];if(r&&o&&"code-language"===r.type&&"code-block"===o.type&&"string"==typeof r.content){var l=r.content.replace(/\b#/g,"sharp").replace(/\b\+\+/g,"pp"),s="language-"+(l=(/[a-z][\w-]*/i.exec(l)||[""])[0].toLowerCase());o.alias?"string"==typeof o.alias?o.alias=[o.alias,s]:o.alias.push(s):o.alias=[s]}}else n(i.content)}}(n.tokens)})),n.hooks.add("wrap",(function(e){if("code-block"===e.type){for(var t="",a=0,i=e.classes.length;a<i;a++){var s=e.classes[a],d=/language-(.+)/.exec(s);if(d){t=d[1];break}}var p=n.languages[t];if(p)e.content=n.highlight(e.content.replace(r,"").replace(/&(\w{1,8}|#x?[\da-f]{1,8});/gi,(function(n,e){var t;return"#"===(e=e.toLowerCase())[0]?(t="x"===e[1]?parseInt(e.slice(2),16):Number(e.slice(1)),l(t)):o[e]||n})),p,t);else if(t&&"none"!==t&&n.plugins.autoloader){var u="md-"+(new Date).valueOf()+"-"+Math.floor(1e16*Math.random());e.attributes.id=u,n.plugins.autoloader.loadLanguages(t,(function(){var e=document.getElementById(u);e&&(e.innerHTML=n.highlight(e.textContent,n.languages[t],t))}))}}}));var r=RegExp(n.languages.markup.tag.pattern.source,"gi"),o={amp:"&",lt:"<",gt:">",quot:'"'},l=String.fromCodePoint||String.fromCharCode;n.languages.md=n.languages.markdown}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
