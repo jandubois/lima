@@ -230,7 +230,7 @@ details.fold .code-file-header { margin-top: 0; border-radius: 0; }
       <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/5acbe9f2"><code>5acbe9f2</code></a> portfwd: support Unix socket forwarding over gRPC</td></tr>
       <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/5acbe9f23aaefe971591cf5e6c0d6f97cb84837e"><code>5acbe9f23aaefe971591cf5e6c0d6f97cb84837e</code></a></td></tr>
       <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5.5</span> (effort: high), <span class="pill pill-codex">Codex GPT 6 Astra</span> (effort: high), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
-      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; round 2&#39;s four Importants are fixed; the new response test fails on Windows CI, and the guard in <a href="https://github.com/lima-vm/lima/commit/d4b60d4c"><code>d4b60d4c</code></a> fixes Linux only</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; round 2&#39;s four Importants are fixed; on a Linux host, piped <code>docker run -i</code> and <code>exec -i</code> often exit 1 through the gRPC forwarder, and the new test fails on Linux and Windows CI; <a href="https://github.com/lima-vm/lima/commit/901cd02e"><code>901cd02e</code></a> applies I1&#39;s fix</td></tr>
       <tr><td>Wall-clock time</td><td><code>19 min 21 s</code></td></tr>
     </table>
 
@@ -240,7 +240,7 @@ details.fold .code-file-header { margin-top: 0; border-radius: 0; }
     <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-neutral">
-    <p>This round fixes round 2&#39;s four Importants. The response now reaches the client after a failed send, near-limit host sockets bind, the template comment matches the code, and a test pins the forwarder choice. The new end-to-end response test is the problem. A client still sending can get a reset instead of EOF on Linux and Windows, and the test failed on both. The guard in <a href="https://github.com/lima-vm/lima/commit/d4b60d4c"><code>d4b60d4c</code></a> fixes Linux only; round 2&#39;s pipe-based test avoids the reset.</p>
+    <p>This round fixes round 2&#39;s four Importants. The response now reaches the client after a failed send, near-limit host sockets bind, the template comment matches the code, and a test pins the forwarder choice. But on a Linux host, piped <code>docker run -i</code> and <code>exec -i</code> often exit 1 through the gRPC forwarder, because the proxy closes the connection with the client&#39;s input unread. Reading that input until the client closes fixes it, as <a href="https://github.com/lima-vm/lima/commit/901cd02e"><code>901cd02e</code></a> now does.</p>
     </div>
     <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
@@ -251,22 +251,30 @@ details.fold .code-file-header { margin-top: 0; border-radius: 0; }
     <hr>
     <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
 
-    <div class="card card-important" data-file="pkg/portfwd/unix_test.go">
+    <div class="card card-important" data-file="pkg/portfwd/listener.go">
       <div class="finding-title" id="I1">
-        <span class="finding-num">I1.</span> The new response test fails on Windows, and the guard in <a href="https://github.com/lima-vm/lima/commit/d4b60d4c"><code>d4b60d4c</code></a> covers Linux only <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I1" class="pilcrow">&#182;</a>
+        <span class="finding-num">I1.</span> On a Linux host, piped <code>docker run -i</code> and <code>exec -i</code> often exit 1 through the gRPC forwarder <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I1" class="pilcrow">&#182;</a>
       </div>
-      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5acbe9f23aaefe971591cf5e6c0d6f97cb84837e/pkg/portfwd/unix_test.go#L270-L278">pkg/portfwd/unix_test.go</a></div>
-      <pre data-start="270" data-line="275-277"><code class="language-go">			}
-		}
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/5acbe9f23aaefe971591cf5e6c0d6f97cb84837e/pkg/portfwd/listener.go#L189-L205">pkg/portfwd/listener.go</a></div>
+      <pre data-start="189" data-line="194-200"><code class="language-go">			}
+		})
+	}
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		// A failed send usually means the guest service has already closed, while its
+		// response may still be in flight, so half-close as on EOF instead of aborting.
+		_, _ = io.Copy(dst, conn)
+		closeWriteIfPossible(dst)
 	}()
-
-	assert.NilError(t, conn.SetReadDeadline(time.Now().Add(10*time.Second)))
-	got, err := io.ReadAll(conn)
-	assert.NilError(t, err)
-	assert.Equal(t, len(got), len(response))
-}</code></pre>
-    <p>The client keeps writing until a send fails. Once the guest service half-closes, the tunnel ends, and the proxy relays the response, then closes <code>conn</code> while the client&#39;s last writes are still unread. Linux and Windows can report that close as a reset; macOS reports EOF. <code>Unit tests (stable)</code> failed on <a href="https://github.com/lima-vm/lima/commit/5acbe9f2"><code>5acbe9f2</code></a>, and <code>Windows tests (WSL2)</code> on a re-push of the same tree.</p>
-    <p><a href="https://github.com/lima-vm/lima/commit/d4b60d4c"><code>d4b60d4c</code></a>, pushed during this review, accepts <code>syscall.ECONNRESET</code>, which on Windows is an invented value, not <code>WSAECONNRESET</code>. <code>Windows tests (WSL2)</code> failed again on it: <code>wsarecv: An existing connection was forcibly closed by the remote host.</code></p>
+	go func() {
+		defer wg.Done()
+		if _, err := io.Copy(conn, dst); err != nil {
+			abort()
+			return</code></pre>
+    <p>When the send to the tunnel fails, this goroutine stops reading the host connection, and <code>handleUnixConnection</code> then closes it while the client&#39;s latest input is still unread. Linux and Windows report that close as a reset, where a direct connection or the merge-base&#39;s SSH forward gives EOF. On a Linux host, piped <code>docker run -i</code> and <code>docker exec -i</code> exited 1 with <code>read: connection reset by peer</code> in 14 of 18 runs when the container&#39;s process finished before stdin did. Directly and over SSH, all 36 runs passed.</p>
+    <p>The new test asserts EOF and failed on Linux and Windows CI.</p>
       <details class="fold">
         <summary>Reproducer</summary>
       <pre><code class="language-go">// Save as pkg/portfwd/reset_probe_test.go. On a Linux host run:
@@ -295,7 +303,7 @@ func TestProbeResetAfterResponse(t *testing.T) {
 	response := bytes.Repeat([]byte(&quot;r&quot;), 1024*1024)
 	for _, forwarded := range []bool{true, false} {
 		for _, keepSending := range []bool{true, false} {
-			for range 3 {
+			for range 5 {
 				dir := shortUnixTempDir(t)
 				guestSocket := filepath.Join(dir, &quot;guest.sock&quot;)
 				hostSocket := filepath.Join(dir, &quot;host.sock&quot;)
@@ -352,26 +360,75 @@ func TestProbeResetAfterResponse(t *testing.T) {
 }</code></pre>
       <pre><code class="language-text">$ GOOS=linux GOARCH=arm64 go test -c -o /tmp/portfwd.test ./pkg/portfwd/ &amp;&amp; limactl copy /tmp/portfwd.test INST:/tmp/ &amp;&amp; limactl shell INST /tmp/portfwd.test -test.run TestProbeResetAfterResponse -test.v
 === RUN   TestProbeResetAfterResponse
-    reset_probe_test.go:71: forwarded=true  keepSending=true : received 1048576 of 1048576 bytes, err=read unix @-&gt;/tmp/lima1391409435/.CUENTT/s: read: connection reset by peer
+    reset_probe_test.go:71: forwarded=true  keepSending=true : received 1048576 of 1048576 bytes, err=read unix @-&gt;/tmp/lima3790925811/.RJY56U/s: read: connection reset by peer
+    reset_probe_test.go:71: forwarded=true  keepSending=true : received 1048576 of 1048576 bytes, err=read unix @-&gt;/tmp/lima3999372064/.NLE4V4/s: read: connection reset by peer
+    reset_probe_test.go:71: forwarded=true  keepSending=true : received 1048576 of 1048576 bytes, err=read unix @-&gt;/tmp/lima1754719357/.MSHN74/s: read: connection reset by peer
+    reset_probe_test.go:71: forwarded=true  keepSending=true : received 1048576 of 1048576 bytes, err=read unix @-&gt;/tmp/lima4254233782/.XPRIBQ/s: read: connection reset by peer
+    reset_probe_test.go:71: forwarded=true  keepSending=true : received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=true  keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=true  keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=true  keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=true  keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=true  keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=false keepSending=true : received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=false keepSending=true : received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=false keepSending=true : received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=false keepSending=true : received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=false keepSending=true : received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=false keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=false keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=false keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=false keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=false keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+--- PASS: TestProbeResetAfterResponse (0.32s)
+PASS
+$ git apply i1-fix.patch &amp;&amp; GOOS=linux GOARCH=arm64 go test -c -o /tmp/portfwd.test ./pkg/portfwd/ &amp;&amp; limactl copy /tmp/portfwd.test INST:/tmp/ &amp;&amp; limactl shell INST /tmp/portfwd.test -test.run TestProbeResetAfterResponse -test.v
+=== RUN   TestProbeResetAfterResponse
     reset_probe_test.go:71: forwarded=true  keepSending=true : received 1048576 of 1048576 bytes, err=&lt;nil&gt;
     reset_probe_test.go:71: forwarded=true  keepSending=true : received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=true  keepSending=true : received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=true  keepSending=true : received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=true  keepSending=true : received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=true  keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=true  keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
     reset_probe_test.go:71: forwarded=true  keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
     reset_probe_test.go:71: forwarded=true  keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
     reset_probe_test.go:71: forwarded=true  keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
     reset_probe_test.go:71: forwarded=false keepSending=true : received 1048576 of 1048576 bytes, err=&lt;nil&gt;
     reset_probe_test.go:71: forwarded=false keepSending=true : received 1048576 of 1048576 bytes, err=&lt;nil&gt;
     reset_probe_test.go:71: forwarded=false keepSending=true : received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=false keepSending=true : received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=false keepSending=true : received 1048576 of 1048576 bytes, err=&lt;nil&gt;
     reset_probe_test.go:71: forwarded=false keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
     reset_probe_test.go:71: forwarded=false keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
     reset_probe_test.go:71: forwarded=false keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
---- PASS: TestProbeResetAfterResponse (0.20s)
+    reset_probe_test.go:71: forwarded=false keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+    reset_probe_test.go:71: forwarded=false keepSending=false: received 1048576 of 1048576 bytes, err=&lt;nil&gt;
+--- PASS: TestProbeResetAfterResponse (0.34s)
 PASS</code></pre>
       </details>
-    <p>Fix: replace the test with round 2&#39;s test of <code>handleUnixConnection</code>, whose host end is a <code>net.Pipe</code>. It passed 20 of 20 runs on macOS and on Linux, and failed 10 of 10 on both with round 2&#39;s abort restored. The patch applies to <a href="https://github.com/lima-vm/lima/commit/d4b60d4c"><code>d4b60d4c</code></a>; Windows has not run it.</p>
+    <p>Fix: after a failed send, keep reading the client&#39;s input until the client closes, and replace the test with round 2&#39;s <code>net.Pipe</code> test plus a write after the failed send. <a href="https://github.com/lima-vm/lima/commit/901cd02e"><code>901cd02e</code></a> applies the drain but keeps the end-to-end test.</p>
       <details class="fold">
         <summary>Patch</summary>
-      <pre><code class="language-diff">diff --git a/pkg/portfwd/unix_test.go b/pkg/portfwd/unix_test.go
-index 862977cc..d45076a9 100644
+      <pre><code class="language-diff">diff --git a/pkg/portfwd/listener.go b/pkg/portfwd/listener.go
+index 00ade813..d870d77d 100644
+--- a/pkg/portfwd/listener.go
++++ b/pkg/portfwd/listener.go
+@@ -195,7 +195,11 @@ func handleUnixConnection(ctx context.Context, dialContext func(ctx context.Cont
+ 		defer wg.Done()
+ 		// A failed send usually means the guest service has already closed, while its
+ 		// response may still be in flight, so half-close as on EOF instead of aborting.
+-		_, _ = io.Copy(dst, conn)
++		if _, err := io.Copy(dst, conn); err != nil {
++			// Keep reading until the client closes, because closing a connection that
++			// still holds unread input resets the client on Linux and Windows.
++			_, _ = io.Copy(io.Discard, conn)
++		}
+ 		closeWriteIfPossible(dst)
+ 	}()
+ 	go func() {
+diff --git a/pkg/portfwd/unix_test.go b/pkg/portfwd/unix_test.go
+index 862977cc..387c459f 100644
 --- a/pkg/portfwd/unix_test.go
 +++ b/pkg/portfwd/unix_test.go
 @@ -5,12 +5,10 @@ package portfwd
@@ -387,7 +444,7 @@ index 862977cc..d45076a9 100644
  	&quot;testing&quot;
  	&quot;time&quot;
  
-@@ -230,54 +228,50 @@ func TestHandleUnixConnectionReturnsOnTunnelFailure(t *testing.T) {
+@@ -230,54 +228,55 @@ func TestHandleUnixConnectionReturnsOnTunnelFailure(t *testing.T) {
  	assert.Assert(t, returned, &quot;handleUnixConnection did not return after the tunnel failed&quot;)
  }
  
@@ -446,6 +503,11 @@ index 862977cc..d45076a9 100644
 +	assert.NilError(t, err)
 +	// Read only after the proxy has handled the failed send.
 +	time.Sleep(100 * time.Millisecond)
++	// The proxy keeps reading after the failed send, so a client that is still
++	// sending is not reset when the proxy closes the connection.
++	assert.NilError(t, hostConn.SetWriteDeadline(time.Now().Add(time.Second)))
++	_, err = hostConn.Write([]byte(&quot;still more input&quot;))
++	assert.NilError(t, err)
  
 -	// keep sending, so that a send fails once the guest has closed and ended the tunnel
 -	go func() {
@@ -505,7 +567,6 @@ func logListenError(err error, proto, hostAddress string) {
     <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
     <ul>
       <li><strong>Socket routing follows the TCP forwarder choice</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span>. With <code>LIMA_SSH_PORT_FORWARDER=true</code>, every <code>guestSocket</code> rule stays on the ControlMaster, and Rancher Desktop and Colima set that variable by default. No maintainer has ruled on this in the PR, so it stays an open question.</li>
-      <li><strong>A client that is still sending when the guest service half-closes can get a reset instead of EOF</strong> (future) <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span>. This is I1&#39;s mechanism outside the test. On Linux, a client that reads to EOF gets the whole response and then an error, where a direct connection sees EOF. Windows reports the reset too, but nobody has checked whether it delivers the whole response first. A tunnel that can pass a half-close through would fix it. Draining the client after a failed send would avoid the reset too, at the cost of a goroutine that waits on the client.</li>
       <li><strong>On QEMU, docker.sock still drops with the ControlMaster, but comes back</strong> (in-scope) <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span>. The gRPC tunnel there runs over the SSH-forwarded <code>ga.sock</code>, as round 2 noted.</li>
     </ul>
     <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
@@ -520,19 +581,21 @@ func logListenError(err error, proto, hostAddress string) {
     <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-neutral">
-    <p>I1&#39;s replacement test is required. Without it the Windows unit-test job stays red, and the current test catches a revert of round 2&#39;s fix only by chance. Subtests for 3- and 4-byte basenames, which sit on either side of the in-place threshold, are optional.</p>
+    <p>I1&#39;s test is required. It fails in 10 of 10 runs on macOS and on Linux without the drain, and it replaces a test that fails the Windows unit-test job. Subtests for 3- and 4-byte basenames, which sit on either side of the in-place threshold, are optional.</p>
     <p>Which test pins each round-2 fix, by mutation in the lead worktree:</p>
     <ul>
-      <li>Response after a failed send (round 2 I1): restoring the abort fails the guarded PR test in 4 of 5 macOS runs and 8 of 10 Linux runs, and fails round 2&#39;s pipe test in 10 of 10 on each.</li>
+      <li>Response after a failed send (round 2 I1): restoring the abort fails the guarded PR test in 4 of 5 macOS runs and 8 of 10 Linux runs, and fails I1&#39;s test in 10 of 10 on each.</li>
       <li>Near-limit host socket (round 2 I2): restoring <code>os.MkdirTemp(dir, &quot;.l&quot;)</code> fails <code>TestListenUnixOwnerOnlyAtPathLimit</code> with <code>bind: invalid argument</code>, and dropping the in-place chmod fails its <code>ds</code> and <code>s</code> subtests with <code>-rwxrwxr-x != -rw-------</code>.</li>
       <li>Template comment (round 2 I3): prose, with no test.</li>
       <li>Forwarder choice (round 2 I4): <code>if true</code> in <code>forwardGuestSockets</code> fails the <code>grpc</code> subtest of <code>TestForwardGuestSockets</code>, and dropping the condition in <code>cancelGuestSocketForwards</code> fails its cancel assertion.</li>
     </ul>
     <p>Runs on the review host (macOS arm64, Go 1.27.3) from the lead worktree, and on Linux (Ubuntu, kernel 7.0.0, arm64) in a running Lima VM from cross-compiled test binaries:</p>
     <ul>
-      <li>I1&#39;s probe: a client still sending through the forwarder got the whole response and then a reset in 6 of 8 Linux runs over two invocations, and the PR&#39;s test failed in 12 of 20. A direct connection, or a client that stopped sending, got EOF in every run.</li>
+      <li>Docker 29.1.3 on Linux, with each forwarder run in-process from a test binary and the paths interleaved: piped <code>docker run -i … head -c 10</code>, the same with <code>exec -i</code>, and <code>yes | docker run -i … sh -c &#39;head -c 1000000 /dev/zero&#39;</code> exited 1 in 14 of 18 runs through the gRPC forwarder at the PR head, always with complete output. They passed 9 of 9 with I1&#39;s patch, and 18 of 18 each directly and over an OpenSSH <code>-L</code> forward. <code>docker load</code> of garbage and a 50 MB <code>docker cp</code> behaved the same on every path. On macOS, the same Docker CLI passed 9 of 9 through the gRPC forwarder, which there relayed to an SSH forward of the VM&#39;s <code>docker.sock</code>, and 9 of 9 over that SSH forward alone.</li>
+      <li>A client that keeps sending to a guest service that half-closes and drains got a reset after the whole response in 27 of 37 Linux runs through the forwarder at the PR head, and in none with I1&#39;s patch (13 runs), over SSH (16) or directly. The PR&#39;s test failed in 12 of 20 Linux runs.</li>
+      <li>At <a href="https://github.com/lima-vm/lima/commit/901cd02e"><code>901cd02e</code></a>, the end-to-end test passed 20 of 20 runs on Linux and on macOS. With the drain removed, it failed 15 of 20 on Linux and 0 of 20 on macOS, while the still-sending probe went from 0 of 5 resets to 4 of 5. In CI on <a href="https://github.com/lima-vm/lima/commit/901cd02e"><code>901cd02e</code></a>, both unit-test jobs passed, and <code>Windows tests (WSL2)</code> was still running. I1&#39;s <code>net.Pipe</code> test fails 10 of 10 without the drain on both platforms, and Windows has not run it.</li>
       <li><code>go test -race</code> over <code>pkg/portfwd</code>, <code>pkg/portfwdserver</code>, <code>pkg/hostagent</code> and <code>pkg/limayaml</code> passes at the review SHA. The <code>pkg/portfwd</code> run still logs two <code>could not dial guest unix socket</code> errors.</li>
-      <li>With I1&#39;s patch on <a href="https://github.com/lima-vm/lima/commit/d4b60d4c"><code>d4b60d4c</code></a>, <code>pkg/portfwd</code> passes under <code>-race</code>, <code>go vet</code> passes for <code>GOOS=linux</code> and <code>GOOS=windows</code>, and <code>golangci-lint</code> reports 0 issues.</li>
+      <li>With I1&#39;s patch on <a href="https://github.com/lima-vm/lima/commit/d4b60d4c"><code>d4b60d4c</code></a>, <code>pkg/portfwd</code> passes under <code>-race</code> on macOS and passes on Linux, <code>go vet</code> passes for <code>GOOS=linux</code> and <code>GOOS=windows</code>, and <code>golangci-lint</code> reports 0 issues.</li>
       <li>CI on <a href="https://github.com/lima-vm/lima/commit/5acbe9f2"><code>5acbe9f2</code></a>: <code>Unit tests (stable)</code> failed on I1, and <code>Artifacts Darwin</code> failed on a <code>proxy.golang.org</code> download error. CI on <a href="https://github.com/lima-vm/lima/commit/5cbdb306"><code>5cbdb306</code></a>, the same tree: <code>Unit tests (oldstable)</code> and <code>Windows tests (WSL2)</code> failed on I1. CI on <a href="https://github.com/lima-vm/lima/commit/d4b60d4c"><code>d4b60d4c</code></a>: both unit-test jobs passed, and <code>Windows tests (WSL2)</code> failed on I1. The integration jobs were still running when this report was written.</li>
     </ul>
     </div>
@@ -546,7 +609,7 @@ func logListenError(err error, proto, hostAddress string) {
     <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-neutral">
-    <p>The PR is one signed-off commit. The author pushed twice during this review: <a href="https://github.com/lima-vm/lima/commit/5cbdb306"><code>5cbdb306</code></a> has the reviewed tree, and <a href="https://github.com/lima-vm/lima/commit/d4b60d4c"><code>d4b60d4c</code></a> adds the guard discussed in I1. The commit says <code>Refs <a href="https://github.com/lima-vm/lima/issues/5420" class="gh-ref" data-title="guestSocket forwards die with the SSH ControlMaster and are never re-created (silent on vz)" data-state="open" data-type="issue">#5420</a></code>, while the PR body says <code>Closes <a href="https://github.com/lima-vm/lima/issues/5420" class="gh-ref" data-title="guestSocket forwards die with the SSH ControlMaster and are never re-created (silent on vz)" data-state="open" data-type="issue">#5420</a></code>. The PR body still reports testing from before the rebase, and says the change applies &quot;when <code>LIMA_SSH_PORT_FORWARDER=false</code>&quot;, though it also applies when the variable is unset.</p>
+    <p>The PR is one signed-off commit. The author pushed three times after the review started. <a href="https://github.com/lima-vm/lima/commit/5cbdb306"><code>5cbdb306</code></a> has the reviewed tree. <a href="https://github.com/lima-vm/lima/commit/d4b60d4c"><code>d4b60d4c</code></a> makes the test accept <code>syscall.ECONNRESET</code>, which hides the reset on Linux and misses Windows&#39; <code>WSAECONNRESET</code>. <a href="https://github.com/lima-vm/lima/commit/901cd02e"><code>901cd02e</code></a> replaces that guard with I1&#39;s drain, closing the tunnel&#39;s write side before draining rather than after. The commit says <code>Refs <a href="https://github.com/lima-vm/lima/issues/5420" class="gh-ref" data-title="guestSocket forwards die with the SSH ControlMaster and are never re-created (silent on vz)" data-state="open" data-type="issue">#5420</a></code>, while the PR body says <code>Closes <a href="https://github.com/lima-vm/lima/issues/5420" class="gh-ref" data-title="guestSocket forwards die with the SSH ControlMaster and are never re-created (silent on vz)" data-state="open" data-type="issue">#5420</a></code>. The PR body still reports testing from before the rebase, and says the change applies &quot;when <code>LIMA_SSH_PORT_FORWARDER=false</code>&quot;, though it also applies when the variable is unset.</p>
     </div>
     <hr>
     <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
@@ -554,8 +617,8 @@ func logListenError(err error, proto, hostAddress string) {
     <div class="card card-neutral">
     <ul>
       <li><strong>The in-place fallback exposes the socket until its chmod</strong> (<a href="https://github.com/lima-vm/lima/blob/5acbe9f23aaefe971591cf5e6c0d6f97cb84837e/pkg/portfwd/listener.go#L274-L281"><code>pkg/portfwd/listener.go:274-281</code></a>). Between bind and chmod the socket has the umask&#39;s mode, and a connection made in that gap stays open after the chmod. Only a <code>hostSocket</code> basename of 1 to 3 bytes at the length limit takes this path. At 103 bytes on macOS, <code>s</code>, <code>ds</code> and <code>abc</code> bind in place, and <code>abcd</code> gets a staging directory. Another user can connect in the gap only when the umask grants group or other write access and the parent directory lets that user through. Round 2 proposed this fallback with that trade-off, and the threat model rates a hardening gap without a demonstrated exploit as low. Do not re-suggest closing it unless such paths become realistic; closing it needs a private staging directory on a shorter path on the same filesystem.</li>
-      <li><strong>A guest half-close ends the whole tunnel</strong> (<a href="https://github.com/lima-vm/lima/blob/5acbe9f23aaefe971591cf5e6c0d6f97cb84837e/pkg/portfwdserver/server.go#L126-L133"><code>pkg/portfwdserver/server.go:126-133</code></a>), as in round 2. I1 and the second design concern are where it shows this round.</li>
-      <li><strong>A connection whose guest end never answers and never closes keeps its tunnel and both copy goroutines</strong>, as in round 2. <code>tcpproxy</code> behaves the same on the TCP path, so do not re-suggest <code>tcpproxy</code> as a fix for it. A failed host read half-closes the tunnel rather than aborting, which round 2 also accepted.</li>
+      <li><strong>A guest half-close ends the whole tunnel</strong> (<a href="https://github.com/lima-vm/lima/blob/5acbe9f23aaefe971591cf5e6c0d6f97cb84837e/pkg/portfwdserver/server.go#L126-L133"><code>pkg/portfwdserver/server.go:126-133</code></a>), as in round 2. A client still sending when the tunnel ends sees I1&#39;s reset, and I1&#39;s patch keeps reading that input, so the client gets EOF.</li>
+      <li><strong>A connection whose guest end never answers and never closes keeps its tunnel and both copy goroutines</strong>, as in round 2. <code>tcpproxy</code> behaves the same on the TCP path, so do not re-suggest <code>tcpproxy</code> as a fix for it. A failed host read half-closes the tunnel rather than aborting, which round 2 also accepted. With I1&#39;s patch, the host-to-guest goroutine also waits for the client to close after a failed send, as it already did while blocked on a read.</li>
       <li>Round 1&#39;s suggestions, unaddressed and undeclined through rounds 1, 2 and 3:</li>
     </ul>
     <ul>
@@ -595,7 +658,7 @@ func logListenError(err error, proto, hostAddress string) {
         <tr><td>Dropped</td><td>1</td><td>1</td><td>1</td><td>2</td></tr>
       </tbody>
     </table>
-    <p>Claude and Codex gave the most value. Claude found the Windows evidence, and Codex&#39;s kernel reasoning matched the measured Linux behavior. All four raised the CI failure. The fixes from Claude, Codex and Gemini Pro accept or skip only <code>syscall.ECONNRESET</code>, which does not match Windows&#39; <code>WSAECONNRESET</code>, and Flash&#39;s has not run on Windows.</p>
+    <p>Claude and Codex gave the most value. Claude found the Windows evidence, and Codex&#39;s kernel reasoning matched the measured Linux behavior. All four raised the CI failure and proposed changing the test. Claude named draining the client as an alternative, but judged the Docker CLI unaffected; on Linux, piped <code>docker run -i</code> exited 1 in 14 of 18 runs through the forwarder.</p>
     <p><strong>Reconciliation.</strong> Codex GPT 6 Astra pass 1, fallback permission window: important → Acknowledged Limitations. Codex GPT 6 Astra pass 1, Linux reset in the response test: suggestion → important I1. Gemini 3.5 Flash pass 1, guest socket to host port: important, dropped as a false positive. Gemini 3.5 Flash pass 1, staging-name entropy: suggestion, dropped. Gemini 3.1 Pro pass 1, pseudoloopback check cannot fire: suggestion, dropped as a false positive refuted in round 2. Claude Opus 5.5 pass 1, the test pins round 2&#39;s fix only by chance: suggestion, merged into I1. Claude Opus 5.5 pass 1, the comment names only a failed send: suggestion, dropped.</p>
     </div>
     <hr>
@@ -605,10 +668,11 @@ func logListenError(err error, proto, hostAddress string) {
     <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
     <ul>
       <li>Before consolidating a PR review, compare the PR&#39;s current head with the reviewed SHA. When the author pushed during the review, diff each new head against the reviewed tree, judge every finding against it, and read CI on each new head, including a re-push of the same tree, whose jobs rerun flaky tests on other runners.</li>
+      <li>When a test fails on some platforms only, decide whether its expectation or the code is wrong by running the code&#39;s real client on a platform where the test fails and comparing it with the path that the change replaced. Relax the assertion only when that client behaves the same both ways.</li>
     </ul>
     <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
     <ul>
-      <li>[repo] A unit test that closes a real host-side Unix socket while its peer still has unread input ends differently per platform. Linux and Windows can report a reset to the peer, while macOS reports EOF. Go&#39;s <code>syscall.ECONNRESET</code> does not match Windows&#39; <code>WSAECONNRESET</code>. Because the WSL2 job runs the unit tests, a test that asserts a clean EOF there, or accepts only <code>syscall.ECONNRESET</code>, passes on macOS and fails on Windows; drive such a test through <code>net.Pipe</code> instead.</li>
+      <li>[repo] When a host-side Unix socket closes while it still holds unread input from the client, Linux and Windows report a reset to the client, and macOS reports EOF. So a forwarder that closes this way looks fine on a macOS host but can make piped <code>docker run -i</code> exit 1 on a Linux host. It must keep reading the client&#39;s input until the client closes. Go&#39;s <code>syscall.ECONNRESET</code> does not match Windows&#39; <code>WSAECONNRESET</code>, so a test that accepts it hides the bug on Linux and still fails the WSL2 unit-test job.</li>
     </ul>
     </div>
   </main>
