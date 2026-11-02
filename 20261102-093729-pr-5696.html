@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20261102-093729-pr-5696</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+.pass-tag, .title-note { font-weight: 400; color: #6b7280; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20261102-093729-pr-5696</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-11-02 09:37</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1 (of target)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/marsluca">@marsluca</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5696" class="gh-ref" data-title="Disable copy-on-write for VM disks on btrfs hosts" data-state="open" data-type="pr">#5696</a> — Disable copy-on-write for VM disks on btrfs hosts</td></tr>
+      <tr><td>Branch</td><td><code>btrfs-nocow</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/28583292"><code>28583292</code></a> Disable copy-on-write for VM disks on btrfs hosts</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/285832921fb854f0c964af3cc7c23c91f212a6a1"><code>285832921fb854f0c964af3cc7c23c91f212a6a1</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5.5</span> (effort: high), <span class="pill pill-codex">Codex GPT 6 Astra</span> (effort: high), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; the three changes that the earlier review asked for are in; the FAQ still has to name the full copies that <code>disk import</code> and local images now make, and <code>MatchCopyOnWrite</code> and its doc comment have to agree</td></tr>
+      <tr><td>Wall-clock time</td><td><code>23 min 33 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>This head meets the three requests of the earlier review. On a btrfs loop mount, clones and renames of instances made by master share every block, <code>LIMA_BTRFS_NOCOW=false</code> keeps copy-on-write, and the FAQ makes the requested corrections. Two gaps remain. <code>limactl disk import</code> and images with a local <code>location</code> now make full copies where master made reflinks, and the FAQ omits them. <code>MatchCopyOnWrite</code> also clears No_COW when its source is off btrfs, contrary to its doc comment.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file="cmd/limactl/disk.go">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> <code>limactl disk import</code> and local images now make full copies <span class="pill pill-claude">Claude Opus 5.5</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/cmd/limactl/disk.go#L478-L492">cmd/limactl/disk.go</a></div>
+      <pre data-start="478" data-line="483-487"><code class="language-go">	}
+
+	if err := os.MkdirAll(diskDir, 0o755); err != nil {
+		return err
+	}
+	if err := fsutil.DisableCopyOnWrite(diskDir); err != nil {
+		logrus.WithError(err).Warnf(&quot;Failed to disable copy-on-write for %#q (non-fatal)&quot;, diskDir)
+	}
+
+	if err := contfs.CopyFile(filepath.Join(diskDir, filenames.DataDisk), fName); err != nil {
+		return nil
+	}
+
+	logrus.Infof(&quot;Imported %s with size %s&quot;, diskName, units.BytesSize(float64(diskSize)))
+</code></pre>
+    <p><code>limactl disk import</code> now copies the user&#39;s file, normally copy-on-write, into a No_COW directory. btrfs can&#39;t reflink between the two modes, so <code>contfs.CopyFile</code> falls back to a full copy where master made a reflink. Images whose <code>location</code> is a local file take the same route, through <code>copyLocal</code> and <code>fs.CopyFile</code> (<a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/pkg/downloader/downloader.go#L685"><code>pkg/downloader/downloader.go:685</code></a>), into the instance directory that <code>create.go</code> flagged. Nothing warns, and the FAQ names this cost only for old cache entries.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/pkg/downloader/downloader.go#L680-L690">pkg/downloader/downloader.go</a></div>
+      <pre data-start="680" data-line="685"><code class="language-go">		if commandByMagic != &quot;&quot; {
+			return decompressLocal(ctx, commandByMagic, dstPath, srcPath, ext, description)
+		}
+	}
+	// TODO: progress bar for copy
+	return fs.CopyFile(dstPath, srcPath)
+}
+
+func decompressor(ext string) string {
+	switch ext {
+	case &quot;.gz&quot;:</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-sh"># Save as probe-import.sh; run on Linux as a non-root user:
+#   sh probe-import.sh &lt;limactl-at-merge-base&gt; &lt;limactl-at-PR&gt; &lt;dir-on-btrfs&gt;
+# Needs btrfs-progs, e2fsprogs (lsattr) and bc.
+# Imports one 300 MiB copy-on-write raw file with each build and reports how much
+# of each imported disk is not shared with the source.
+set -u
+BASE=$1 PR=$2
+export LIMA_HOME=$3/li
+rm -rf &quot;$LIMA_HOME&quot; &quot;$3/src&quot;; mkdir -p &quot;$LIMA_HOME&quot; &quot;$3/src&quot;
+head -c 300M /dev/urandom &gt; &quot;$3/src/disk.raw&quot;; sync
+for b in base pr; do
+  if [ $b = base ]; then L=$BASE; else L=$PR; fi
+  start=$(date +%s.%N)
+  &quot;$L&quot; disk import &quot;d$b&quot; &quot;$3/src/disk.raw&quot; &gt;/dev/null 2&gt;&amp;1 || echo &quot;import with $b failed&quot;
+  end=$(date +%s.%N); sync
+  f=$LIMA_HOME/_disks/d$b/datadisk
+  ex=$(btrfs filesystem du -s --raw &quot;$f&quot; | awk &#39;NR==2{print int($2/1048576)}&#39;)
+  printf &#39;%-5s disk dir=%s datadisk=%s exclusive=%sMiB time=%.2fs\n&#39; $b \
+    &quot;$(lsattr -d &quot;$LIMA_HOME/_disks/d$b&quot; | cut -c16)&quot; &quot;$(lsattr &quot;$f&quot; | cut -c16)&quot; &quot;$ex&quot; \
+    &quot;$(echo &quot;$end - $start&quot; | bc)&quot;
+done</code></pre>
+      <pre><code class="language-text">$ sh probe-import.sh rig/base/bin/limactl rig/pr/bin/limactl /mnt/b
+base  disk dir=- datadisk=- exclusive=0MiB time=0.04s
+pr    disk dir=C datadisk=C exclusive=300MiB time=0.27s</code></pre>
+      <pre><code class="language-go">// Save as pkg/downloader/probe_local_test.go in the reviewed repo, build with
+//   GOOS=linux go test -c -o probe-local.test ./pkg/downloader
+// and run on Linux (needs btrfs-progs) with a fresh directory on btrfs:
+//   PROBE_DIR=/mnt/btrfs/pl ./probe-local.test -test.run TestProbeLocal -test.v
+package downloader
+
+import (
+	&quot;bytes&quot;
+	&quot;context&quot;
+	&quot;crypto/rand&quot;
+	&quot;io&quot;
+	&quot;os&quot;
+	&quot;os/exec&quot;
+	&quot;path/filepath&quot;
+	&quot;testing&quot;
+
+	&quot;github.com/lima-vm/lima/v2/pkg/fsutil&quot;
+)
+
+// TestProbeLocal copies a 300 MiB local image the way an instance with a local
+// `location:` gets its basedisk, into a directory prepared as create.go does,
+// once with the default and once with LIMA_BTRFS_NOCOW=false.
+func TestProbeLocal(t *testing.T) {
+	dir := os.Getenv(&quot;PROBE_DIR&quot;)
+	src := filepath.Join(dir, &quot;image.img&quot;)
+	f, err := os.Create(src)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := io.CopyN(f, rand.Reader, 300&lt;&lt;20); err != nil {
+		t.Fatal(err)
+	}
+	f.Close()
+	for _, nocow := range []string{&quot;&quot;, &quot;false&quot;} {
+		t.Setenv(&quot;LIMA_BTRFS_NOCOW&quot;, nocow)
+		inst := filepath.Join(dir, &quot;inst-nocow=&quot;+nocow)
+		if err := os.Mkdir(inst, 0o700); err != nil {
+			t.Fatal(err)
+		}
+		if err := fsutil.DisableCopyOnWrite(inst); err != nil {
+			t.Fatal(err)
+		}
+		if _, err := Download(context.Background(), filepath.Join(inst, &quot;basedisk&quot;), src); err != nil {
+			t.Fatal(err)
+		}
+		exec.Command(&quot;sync&quot;).Run()
+		du, err := exec.Command(&quot;btrfs&quot;, &quot;filesystem&quot;, &quot;du&quot;, &quot;-s&quot;, filepath.Join(inst, &quot;basedisk&quot;)).Output()
+		if err != nil {
+			t.Fatal(err)
+		}
+		t.Logf(&quot;LIMA_BTRFS_NOCOW=%q: %s&quot;, nocow, bytes.TrimSpace(bytes.SplitN(du, []byte(&quot;\n&quot;), 2)[1]))
+	}
+}</code></pre>
+      <pre><code class="language-text">$ PROBE_DIR=/mnt/b/pl ./probe-local.test -test.run TestProbeLocal -test.v
+=== RUN   TestProbeLocal
+    probe_local_test.go:51: LIMA_BTRFS_NOCOW=&quot;&quot;: 300.00MiB   300.00MiB       0.00B  /mnt/b/pl/inst-nocow=/basedisk
+    probe_local_test.go:51: LIMA_BTRFS_NOCOW=&quot;false&quot;: 300.00MiB       0.00B   300.00MiB  /mnt/b/pl/inst-nocow=false/basedisk
+--- PASS: TestProbeLocal (1.15s)
+PASS</code></pre>
+      </details>
+    <p>The first probe imports one 300 MiB file with a master build and with this PR&#39;s build. The second runs the real <code>Download</code> on a local image, once with the default and once with the opt-out, which matches master. The <code>btrfs filesystem du</code> columns are total, exclusive and shared.</p>
+    <p>Fix: name both paths in the FAQ&#39;s list of costs, as the patch does; for <code>disk import</code>, <code>MatchCopyOnWrite(diskDir, fName)</code> would keep the reflink instead, at the price of fragmentation.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/website/content/en/docs/faq/_index.md b/website/content/en/docs/faq/_index.md
+index ad064211..78ccc864 100644
+--- a/website/content/en/docs/faq/_index.md
++++ b/website/content/en/docs/faq/_index.md
+@@ -200,8 +200,8 @@ Turning copy-on-write off has some costs:
+   With copy-on-write, reading the same block fails with an I/O error.
+ - Clones and btrfs snapshots share their blocks with the original, and the first write to a shared block moves it.
+   So a disk image fragments again after a clone or a snapshot, and regular snapshots bring the fragmentation back.
+-- Images that are already in the download cache are not changed.
+-  Each new instance created from such an image is a full copy until `limactl prune` clears the cache.
++- btrfs can&#39;t share blocks between files with and without copy-on-write, so Lima makes a full copy of a file that still has it.
++  That happens to `limactl disk import`, to images whose `location` is a local file, and to images that were already in the download cache, until `limactl prune` clears the cache.
+ 
+ ### VZ
+ #### &quot;Lima gets stuck at `Installing rosetta...`&quot;</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/fsutil/fsutil_linux.go">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> <code>MatchCopyOnWrite</code> clears No_COW when its source is off btrfs <span class="pill pill-claude">Claude Opus 5.5</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/pkg/fsutil/fsutil_linux.go#L53-L71">pkg/fsutil/fsutil_linux.go</a></div>
+      <pre data-start="53" data-line="58-66"><code class="language-go">		}
+	}
+	return setNoCOW(dir, true)
+}
+
+// MatchCopyOnWrite gives dst the No_COW attribute of src, or takes it away when src has none,
+// if both are on btrfs. btrfs cannot reflink between files with and without the attribute, so the
+// directory for a copy of an instance must follow the original, whatever LIMA_BTRFS_NOCOW says.
+func MatchCopyOnWrite(dst, src string) error {
+	noCOW, err := hasNoCOW(src)
+	if err != nil {
+		return err
+	}
+	return setNoCOW(dst, noCOW)
+}
+
+// onBtrfs reports whether path is on btrfs.
+func onBtrfs(path string) (bool, error) {
+	var sf unix.Statfs_t</code></pre>
+    <p>The doc comment says that the function acts &quot;if both are on btrfs&quot;. But when <code>src</code> is on another filesystem, <code>hasNoCOW</code> returns <code>false, nil</code>, and <code>setNoCOW(dst, false)</code> clears No_COW on a btrfs <code>dst</code>, including one that inherited <code>+C</code> from <code>LIMA_HOME</code>. <code>CloneOrRename</code> gets there when an instance directory is a symlink to another filesystem or a mount point of one. No reflink is possible then, so the clone is a full copy either way, and the new instance ends up copy-on-write although the user never opted out.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as pkg/fsutil/probe_match_test.go in the reviewed repo, build with
+//   GOOS=linux go test -c -o probe-match.test ./pkg/fsutil
+// and run on Linux as a non-root user, with fresh directories on btrfs and on another filesystem:
+//   PROBE_BTRFS=/mnt/btrfs/pm PROBE_OTHER=/tmp/pm ./probe-match.test -test.run TestProbeMatchOffBtrfs -test.v
+package fsutil
+
+import (
+	&quot;os&quot;
+	&quot;path/filepath&quot;
+	&quot;testing&quot;
+)
+
+// TestProbeMatchOffBtrfs: the doc comment says MatchCopyOnWrite acts &quot;if both are on btrfs&quot;.
+func TestProbeMatchOffBtrfs(t *testing.T) {
+	src := filepath.Join(os.Getenv(&quot;PROBE_OTHER&quot;), &quot;src&quot;)
+	if err := os.MkdirAll(src, 0o700); err != nil {
+		t.Fatal(err)
+	}
+	for _, before := range []bool{true, false} {
+		dst, err := os.MkdirTemp(os.Getenv(&quot;PROBE_BTRFS&quot;), &quot;dst&quot;)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := setNoCOW(dst, before); err != nil {
+			t.Fatal(err)
+		}
+		err = MatchCopyOnWrite(dst, src)
+		after, _ := hasNoCOW(dst)
+		t.Logf(&quot;src on another fs: dst No_COW before=%v, MatchCopyOnWrite err=%v, after=%v&quot;, before, err, after)
+	}
+}</code></pre>
+      <pre><code class="language-text">$ PROBE_BTRFS=/mnt/b/pm PROBE_OTHER=/tmp/pm ./probe-match.test -test.run TestProbeMatchOffBtrfs -test.v
+=== RUN   TestProbeMatchOffBtrfs
+    probe_match_test.go:29: src on another fs: dst No_COW before=true, MatchCopyOnWrite err=&lt;nil&gt;, after=false
+    probe_match_test.go:29: src on another fs: dst No_COW before=false, MatchCopyOnWrite err=&lt;nil&gt;, after=false
+--- PASS: TestProbeMatchOffBtrfs (0.00s)
+PASS
+$ PROBE_BTRFS=/mnt/b/pm PROBE_OTHER=/tmp/pm ./probe-match-fixed.test -test.run TestProbeMatchOffBtrfs -test.v
+=== RUN   TestProbeMatchOffBtrfs
+    probe_match_test.go:29: src on another fs: dst No_COW before=true, MatchCopyOnWrite err=&lt;nil&gt;, after=true
+    probe_match_test.go:29: src on another fs: dst No_COW before=false, MatchCopyOnWrite err=&lt;nil&gt;, after=true
+--- PASS: TestProbeMatchOffBtrfs (0.00s)
+PASS
+$ LIMA_BTRFS_NOCOW=false PROBE_BTRFS=/mnt/b/pm PROBE_OTHER=/tmp/pm ./probe-match-fixed.test -test.run TestProbeMatchOffBtrfs -test.v
+=== RUN   TestProbeMatchOffBtrfs
+    probe_match_test.go:29: src on another fs: dst No_COW before=true, MatchCopyOnWrite err=&lt;nil&gt;, after=true
+    probe_match_test.go:29: src on another fs: dst No_COW before=false, MatchCopyOnWrite err=&lt;nil&gt;, after=false
+--- PASS: TestProbeMatchOffBtrfs (0.00s)
+PASS</code></pre>
+      </details>
+    <p>The first run is the reviewed code. The second and third are the same probe built with the patch below applied, with the default and with <code>LIMA_BTRFS_NOCOW=false</code>; the opt-out leaves <code>dst</code> as it was, as <code>DisableCopyOnWrite</code> does.</p>
+    <p>Fix: when <code>src</code> is not on btrfs, give <code>dst</code> the default through <code>DisableCopyOnWrite</code>, as the patch does; rewriting the comment to describe today&#39;s behavior is the alternative.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/fsutil/fsutil_linux.go b/pkg/fsutil/fsutil_linux.go
+index 34bffdd8..e35e40a5 100644
+--- a/pkg/fsutil/fsutil_linux.go
++++ b/pkg/fsutil/fsutil_linux.go
+@@ -59,6 +59,12 @@ func DisableCopyOnWrite(dir string) error {
+ // if both are on btrfs. btrfs cannot reflink between files with and without the attribute, so the
+ // directory for a copy of an instance must follow the original, whatever LIMA_BTRFS_NOCOW says.
+ func MatchCopyOnWrite(dst, src string) error {
++	if ok, err := onBtrfs(src); err != nil {
++		return err
++	} else if !ok {
++		// No reflink is possible from another filesystem, so dst gets the default for a new instance.
++		return DisableCopyOnWrite(dst)
++	}
+ 	noCOW, err := hasNoCOW(src)
+ 	if err != nil {
+ 		return err</code></pre>
+      </details>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="pkg/instance/clone.go">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> Clone takes the mode from the old directory, not from its disk <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/pkg/instance/clone.go#L58-L68">pkg/instance/clone.go</a></div>
+      <pre data-start="58" data-line="63"><code class="language-go">	if err = os.Mkdir(newInstDir, 0o700); err != nil {
+		return nil, err
+	}
+	// The new directory follows the old instance, not the default: btrfs can&#39;t reflink between
+	// files with and without No_COW, and instances made by older versions are copy-on-write.
+	if err := fsutil.MatchCopyOnWrite(newInstDir, oldInst.Dir); err != nil {
+		logrus.WithError(err).Warnf(&quot;Failed to match the copy-on-write setting of %#q to %#q (non-fatal)&quot;, newInstDir, oldInst.Dir)
+	}
+
+	walkDirFn := func(path string, d fs.DirEntry, err error) error {
+		base := filepath.Base(path)</code></pre>
+    <p>Lima never makes a directory and its disk disagree, but a user can, by running <code>chattr +C</code> on an existing instance directory. The disk keeps copy-on-write, because btrfs ignores <code>+C</code> on a file that already has data (<code>chattr</code> exits 0 and <code>lsattr</code> does not show <code>C</code>). Cloning that instance gives the new directory <code>+C</code>, so its disk is a full copy where master shared it (row S4 of the probe output below). That same behavior is the only way to move an old instance to No_COW (<code>chattr +C ~/.lima/old &amp;&amp; limactl clone old new</code>), so I&#39;d keep it. Matching the first disk file instead (<code>filenames.Disk</code>, then the legacy names) keeps the reflink and loses that migration path.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-sh"># Save as probe-clone.sh; run on Linux as a non-root user:
+#   sh probe-clone.sh &lt;limactl-at-merge-base&gt; &lt;limactl-at-PR&gt; &lt;dir-on-btrfs&gt;
+# Needs btrfs-progs and e2fsprogs (lsattr, chattr).
+# Each limactl needs share/lima/templates beside its bin/ (no guest agent needed;
+# create exits on the missing agent after writing the instance directory).
+set -u
+BASE=$1 PR=$2
+export LIMA_HOME=$3/lh
+rm -rf &quot;$LIMA_HOME&quot;; mkdir -p &quot;$LIMA_HOME&quot;
+mk() { # mk &lt;limactl&gt; &lt;name&gt;: create an instance and give it a 300 MiB disk
+  &quot;$1&quot; create --tty=false --name=&quot;$2&quot; --vm-type=qemu --set &#39;.mounts=[]&#39; template:default &gt;/dev/null 2&gt;&amp;1
+  head -c 300M /dev/urandom &gt; &quot;$LIMA_HOME/$2/diffdisk&quot;; sync
+}
+attr() { lsattr -d &quot;$1&quot; | cut -c16; }  # prints C when No_COW is set
+show() { # show &lt;label&gt; &lt;name&gt;: No_COW of dir and disk, and MiB the disk does not share
+  sync
+  ex=$(btrfs filesystem du -s --raw &quot;$LIMA_HOME/$2/diffdisk&quot; | awk &#39;NR==2{print int($2/1048576)}&#39;)
+  printf &#39;%-44s dir=%s disk=%s exclusive=%sMiB\n&#39; &quot;$1&quot; &quot;$(attr &quot;$LIMA_HOME/$2&quot;)&quot; &quot;$(attr &quot;$LIMA_HOME/$2/diffdisk&quot;)&quot; &quot;$ex&quot;
+}
+clone() { &quot;$1&quot; clone --tty=false &quot;$2&quot; &quot;$3&quot; &gt;/dev/null 2&gt;&amp;1 || echo &quot;clone $2 $3 failed&quot;; }
+
+mk &quot;$BASE&quot; old1; clone &quot;$PR&quot; old1 c1
+show &quot;S1 base-made, cloned by PR&quot; c1
+mk &quot;$BASE&quot; old2; &quot;$PR&quot; rename --tty=false old2 r2 &gt;/dev/null 2&gt;&amp;1; clone &quot;$PR&quot; r2 c2
+show &quot;S2 base-made, renamed by PR&quot; r2
+show &quot;S2 ... then cloned by PR&quot; c2
+mk &quot;$PR&quot; new3; clone &quot;$PR&quot; new3 c3
+show &quot;S3 PR-made, cloned by PR&quot; c3
+mk &quot;$BASE&quot; old4; chattr +C &quot;$LIMA_HOME/old4&quot;
+clone &quot;$PR&quot; old4 c4p; clone &quot;$BASE&quot; old4 c4b
+show &quot;S4 base-made, chattr +C dir, cloned by PR&quot; c4p
+show &quot;S4 base-made, chattr +C dir, cloned by base&quot; c4b
+LIMA_BTRFS_NOCOW=false &quot;$PR&quot; create --tty=false --name=o5 --vm-type=qemu --set &#39;.mounts=[]&#39; template:default &gt;/dev/null 2&gt;&amp;1
+printf &#39;%-44s dir=%s\n&#39; &quot;S5 PR-made with LIMA_BTRFS_NOCOW=false&quot; &quot;$(attr &quot;$LIMA_HOME/o5&quot;)&quot;</code></pre>
+      <pre><code class="language-text">$ sh probe-clone.sh rig/base/bin/limactl rig/pr/bin/limactl /mnt/b
+S1 base-made, cloned by PR                   dir=- disk=- exclusive=0MiB
+S2 base-made, renamed by PR                  dir=- disk=- exclusive=0MiB
+S2 ... then cloned by PR                     dir=- disk=- exclusive=0MiB
+S3 PR-made, cloned by PR                     dir=C disk=C exclusive=0MiB
+S4 base-made, chattr +C dir, cloned by PR    dir=C disk=C exclusive=300MiB
+S4 base-made, chattr +C dir, cloned by base  dir=- disk=- exclusive=0MiB
+S5 PR-made with LIMA_BTRFS_NOCOW=false       dir=-</code></pre>
+      </details>
+    <p>Fix: name the old directory as the deciding input in the comment at <a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/pkg/instance/clone.go#L61"><code>clone.go:61</code></a>, and add the migration recipe to the FAQ.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/fsutil/fsutil_linux.go">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> &quot;Do not fragment over time&quot; overstates what No_COW does <span class="pill pill-codex">Codex GPT 6 Astra</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/pkg/fsutil/fsutil_linux.go#L37-L48">pkg/fsutil/fsutil_linux.go</a></div>
+      <pre data-start="37" data-line="42-43"><code class="language-go">
+// fsNoCOWFL is FS_NOCOW_FL from &lt;linux/fs.h&gt;, which golang.org/x/sys/unix does not define.
+const fsNoCOWFL = 0x00800000
+
+// DisableCopyOnWrite sets the No_COW attribute (`chattr +C`) on dir when dir is on btrfs,
+// like libvirt does for new storage pools. Files created in dir afterwards inherit it, so
+// VM disk images there do not fragment over time. Files already in dir are not affected.
+// On other filesystems, and with the environment variable LIMA_BTRFS_NOCOW=false,
+// DisableCopyOnWrite does nothing.
+func DisableCopyOnWrite(dir string) error {
+	if v := os.Getenv(&quot;LIMA_BTRFS_NOCOW&quot;); v != &quot;&quot; {
+		b, err := strconv.ParseBool(v)</code></pre>
+    <p>The doc comment and the FAQ&#39;s opening (<a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/website/content/en/docs/faq/_index.md#L190"><code>website/content/en/docs/faq/_index.md:190</code></a>) promise disk images that &quot;do not fragment over time&quot;, and a few lines later the FAQ says that clones and snapshots bring the fragmentation back. The earlier review&#39;s measurements show that the gain comes from in-place random writes.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/website/content/en/docs/faq/_index.md#L185-L195">website/content/en/docs/faq/_index.md</a></div>
+      <pre data-start="185" data-line="190"><code class="language-markdown">
+&lt;https://bugs.launchpad.net/qemu/+bug/1838390&gt;
+
+#### &quot;Copy-on-write on btrfs hosts&quot;
+On a btrfs host, Lima turns off copy-on-write (like `chattr +C`) for new instance directories,
+`limactl disk` directories and download cache directories, so that VM disk images do not fragment over time.
+libvirt does the same for its storage pools.
+Existing instances are not changed, and `limactl clone` and `limactl rename` keep the setting of the original instance.
+
+To keep copy-on-write, set the environment variable `LIMA_BTRFS_NOCOW=false`.
+See [Environment Variables]({{&lt; ref &quot;/docs/config/environment-variables&quot; &gt;}}).</code></pre>
+    <p>Fix: say that in-place writes no longer fragment the images, in both places.</p>
+    </div>
+    <div class="card card-suggestion" data-file="website/content/en/docs/config/environment-variables.md">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> The opt-out docs don&#39;t say when the variable has to be set <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/website/content/en/docs/config/environment-variables.md#L113-L123">website/content/en/docs/config/environment-variables.md</a></div>
+      <pre data-start="113" data-line="118"><code class="language-text">  ```
+
+### `LIMA_BTRFS_NOCOW`
+
+- **Description**: Specifies to turn off copy-on-write (like `chattr +C`) for new instance directories, `limactl disk` directories and download cache directories on btrfs hosts.
+  Set it to `false` to keep copy-on-write and the btrfs checksums, at the price of disk images that fragment over time.
+  `limactl clone` and `limactl rename` always keep the setting of the original instance.
+  See the [FAQ]({{&lt; ref &quot;/docs/faq&quot; &gt;}}#copy-on-write-on-btrfs-hosts) for the trade-offs.
+- **Default**: `true`
+- **Usage**:
+  ```sh</code></pre>
+    <p>The variable matters in every process that creates one of these directories, which includes the command that creates the instance, <code>limactl disk create</code>, and whichever command first downloads an image into the cache, usually the first <code>limactl start</code>. When it is set in one shell only, a command run from another shell creates No_COW cache entries. A copy-on-write instance made later from such an entry is a full copy until <code>limactl prune</code>, the cost that the FAQ names for old cache entries. The usage example shows <code>limactl start</code> alone.</p>
+    <p>Fix: say to set it for every <code>limactl</code> command, for example in the shell profile, and that setting it later changes nothing already created.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/fsutil/fsutil_linux.go">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> A compression flag makes <code>DisableCopyOnWrite</code> fail with EINVAL <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/pkg/fsutil/fsutil_linux.go#L109-L115">pkg/fsutil/fsutil_linux.go</a></div>
+      <pre data-start="109" data-line="114"><code class="language-go">		newFlags |= fsNoCOWFL
+	}
+	if newFlags == flags {
+		return nil
+	}
+	return unix.IoctlSetPointerInt(int(f.Fd()), unix.FS_IOC_SETFLAGS, int(newFlags))
+}</code></pre>
+    <p>btrfs refuses <code>FS_NOCOW_FL</code> on an inode that has <code>FS_COMPR_FL</code> or <code>FS_NOCOMP_FL</code>, and a directory inherits those from a parent marked with <code>chattr +c</code> or a <code>btrfs property set ... compression</code>. On the test VM, <code>DisableCopyOnWrite</code> on a child of a <code>+c</code> directory returned <code>invalid argument</code> and left No_COW off. Under such a tree, every instance create, disk create and download through the cache logs &quot;Failed to disable copy-on-write&quot;, while the behavior stays master&#39;s.</p>
+    <p>Fix: when the directory has a compression flag, skip it with a debug message, since the user chose compression for that tree.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/fsutil/fsutil_linux_test.go">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> <code>TestDisableCopyOnWrite</code> depends on the caller&#39;s environment <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/pkg/fsutil/fsutil_linux_test.go#L31-L42">pkg/fsutil/fsutil_linux_test.go</a></div>
+      <pre data-start="31" data-line="36-37"><code class="language-go">	return noCOW
+}
+
+// TestDisableCopyOnWrite covers the btrfs case only when TMPDIR is on btrfs.
+func TestDisableCopyOnWrite(t *testing.T) {
+	dir := t.TempDir()
+	assert.NilError(t, DisableCopyOnWrite(dir))
+	skipUnlessBtrfs(t, dir)
+	assert.Assert(t, newFileHasNoCOW(t, dir), &quot;a file created in dir should inherit No_COW&quot;)
+}
+
+// TestDisableCopyOnWriteEnv covers the btrfs case only when TMPDIR is on btrfs.</code></pre>
+    <p>With <code>LIMA_BTRFS_NOCOW=false</code> exported, the test fails on btrfs (<code>fsutil_linux_test.go:39: assertion failed</code>, run on the test VM). And when <code>TMPDIR</code> already has <code>+C</code>, <code>t.TempDir()</code> inherits it, so the test passes even if <code>DisableCopyOnWrite</code> sets nothing. The other two new tests already clear the flag first.</p>
+    <p>Fix: start the test with <code>t.Setenv(&quot;LIMA_BTRFS_NOCOW&quot;, &quot;&quot;)</code> and <code>assert.NilError(t, setNoCOW(dir, false))</code>.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/fsutil/fsutil_linux_test.go">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> The <code>bogus</code> subtest writes a warning into the test output <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/pkg/fsutil/fsutil_linux_test.go#L43-L53">pkg/fsutil/fsutil_linux_test.go</a></div>
+      <pre data-start="43" data-line="48"><code class="language-go">func TestDisableCopyOnWriteEnv(t *testing.T) {
+	for value, noCOW := range map[string]bool{
+		&quot;false&quot;: false,
+		&quot;0&quot;:     false,
+		&quot;true&quot;:  true,
+		&quot;bogus&quot;: true, // an invalid value is ignored
+	} {
+		t.Run(value, func(t *testing.T) {
+			t.Setenv(&quot;LIMA_BTRFS_NOCOW&quot;, value)
+			dir := t.TempDir()
+			assert.NilError(t, setNoCOW(dir, false)) // whatever TMPDIR is</code></pre>
+    <p><code>DisableCopyOnWrite</code> parses the variable before it checks for btrfs, so <code>level=warning msg=&quot;invalid LIMA_BTRFS_NOCOW value </code>bogus<code>&quot;</code> appears in the output of every Linux run, including runs where the subtest then skips.</p>
+    <p>Fix: point logrus at a buffer in that subtest and assert on the message.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/instance/clone.go">
+      <div class="finding-title" id="S7">
+        <span class="finding-num">S7.</span> No test covers the clone fix, and CI can&#39;t run the new tests <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S7" class="pilcrow">&#182;</a>
+      </div>
+    <p>Putting <code>DisableCopyOnWrite</code> back at <a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/pkg/instance/clone.go#L63"><code>clone.go:63</code></a> does not fail any test, even on btrfs. CI runs the unit tests on GitHub&#39;s Ubuntu 24.04 runner and never sets up btrfs, so the three new tests skip there unless its <code>TMPDIR</code> is btrfs. I couldn&#39;t confirm the skips, because the job log prints only package results. A clone test would otherwise be required, because a user sees that regression only as a slow full copy. But such a test runs only on a btrfs <code>TMPDIR</code>, and a CI step that loop-mounts btrfs is new infrastructure, so this stays optional.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/pkg/instance/clone.go#L58-L68">pkg/instance/clone.go</a></div>
+      <pre data-start="58" data-line="63"><code class="language-go">	if err = os.Mkdir(newInstDir, 0o700); err != nil {
+		return nil, err
+	}
+	// The new directory follows the old instance, not the default: btrfs can&#39;t reflink between
+	// files with and without No_COW, and instances made by older versions are copy-on-write.
+	if err := fsutil.MatchCopyOnWrite(newInstDir, oldInst.Dir); err != nil {
+		logrus.WithError(err).Warnf(&quot;Failed to match the copy-on-write setting of %#q to %#q (non-fatal)&quot;, newInstDir, oldInst.Dir)
+	}
+
+	walkDirFn := func(path string, d fs.DirEntry, err error) error {
+		base := filepath.Base(path)</code></pre>
+    <p>Fix: add a <code>pkg/instance</code> test that clones an instance under a <code>LIMA_HOME</code> in <code>TMPDIR</code> and skips unless that is btrfs.</p>
+    </div>
+    <div class="card card-suggestion" data-file="website/content/en/docs/faq/_index.md">
+      <div class="finding-title" id="S8">
+        <span class="finding-num">S8.</span> The FAQ entry is in the QEMU section <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S8" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/website/content/en/docs/faq/_index.md#L183-L193">website/content/en/docs/faq/_index.md</a></div>
+      <pre data-start="183" data-line="188"><code class="language-markdown">This error is known to happen when running an image of RHEL8-compatible distribution such as Rocky Linux 8.x on Intel Mac.
+A workaround is to set environment variable `QEMU_SYSTEM_X86_64=&quot;qemu-system-x86_64 -cpu Haswell-v4&quot;`.
+
+&lt;https://bugs.launchpad.net/qemu/+bug/1838390&gt;
+
+#### &quot;Copy-on-write on btrfs hosts&quot;
+On a btrfs host, Lima turns off copy-on-write (like `chattr +C`) for new instance directories,
+`limactl disk` directories and download cache directories, so that VM disk images do not fragment over time.
+libvirt does the same for its storage pools.
+Existing instances are not changed, and `limactl clone` and `limactl rename` keep the setting of the original instance.
+</code></pre>
+    <p>The entry is about the host filesystem and covers <code>limactl disk</code> and the download cache too, but it is the last entry under <code>### QEMU</code>, after the QEMU crash and speed entries.</p>
+    <p>Fix: move it and its table-of-contents line to <code>### Generic</code> or <code>### Configuration</code>.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>The opt-out has to be in each command&#39;s environment</strong> (future) <span class="pill pill-claude">Claude Opus 5.5</span>: a <code>limactl start</code> from another shell or an autostart unit creates No_COW cache entries, and S3&#39;s full copies follow. A persistent switch would avoid that, either a host-level setting under <code>_config</code>, or flagging only the roots (<code>LIMA_HOME</code>, <code>_disks</code>, the cache) so <code>chattr -C</code> on them opts out. The earlier review asked for an environment variable, so this belongs to a later change.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><em></em><code>setNoCOW</code> changes only the No_COW bit<em></em> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span>: it keeps every other flag and skips the ioctl when nothing changes, so the call on an existing cache entry costs one <code>statfs</code> and one <code>FS_IOC_GETFLAGS</code>.</li>
+      <li><strong>Every call site treats a failure as a warning</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span>: the worst outcome is master&#39;s behavior.</li>
+      <li><strong>Clone and rename follow the old instance</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span>: S1&#39;s probe shows instances made by master cloning and renaming with every block shared, the case that the earlier review measured at 0.93 s and 901 MiB unshared.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>On a 4 GiB btrfs loop mount in an Ubuntu 26.04 VM (kernel 7.0.0-38, arm64), the PR&#39;s three tests pass; with <code>TMPDIR</code> on tmpfs they skip. <code>go test ./pkg/fsutil/... ./pkg/instance/... ./pkg/downloader/...</code> passes on macOS, which covers only the no-op stubs, and <code>GOOS=linux go vet</code> on the four changed packages is clean.</li>
+      <li>S5 and S6 are test hygiene; S7 is the missing coverage, optional because CI would need a btrfs loop mount, which is new infrastructure.</li>
+      <li>Each new test can fail, because it asserts on the flag that a freshly created file inherits, and two of the three clear the directory&#39;s flag first; S5 covers the third.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>The FAQ makes the four corrections that the earlier review asked for. It says what losing checksums means (bad data instead of EIO, and <code>btrfs scrub</code> stays silent), that clones and snapshots fragment an image again, that old cache entries cost a full copy, and how to opt out. <code>limactl prune</code> without flags removes the whole cache (<a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/cmd/limactl/prune.go#L46"><code>cmd/limactl/prune.go:46</code></a>), so the cure it names works.</li>
+      <li>Gaps: the paths in I1, the overstatement in S2, the timing in S3, and the placement in S8.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The one commit is signed off, and its message describes the reviewed tree. The PR description hasn&#39;t changed since the PR opened on 2026-10-28 <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span>. It doesn&#39;t mention <code>LIMA_BTRFS_NOCOW</code>. It says that the clone directory gets <code>C</code>, which now holds only when the original has it. It also says that disk images &quot;don&#39;t fragment over time&quot;, which S2 corrects, and that new instances &quot;still share extents with their source&quot;, which I1&#39;s paths break. Its test line names only <code>TestDisableCopyOnWrite</code>.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><em></em>Subtest order in <code>TestDisableCopyOnWriteEnv</code><em></em>: the map gives a random order, but each subtest sets its own variable and its own directory, so the order changes nothing. Do not re-suggest a slice of structs.</li>
+      <li><em></em>Clones ignore <code>LIMA_BTRFS_NOCOW</code><em></em>: <code>MatchCopyOnWrite</code> follows the source whatever the variable says, and its comment says why. Do not re-suggest applying the opt-out to clones.</li>
+      <li><strong>The opt-out resets nothing</strong>: <code>DisableCopyOnWrite</code> with <code>LIMA_BTRFS_NOCOW=false</code> leaves existing attributes alone, by design; S3 covers the docs.</li>
+      <li><strong>Outside this PR</strong>: <code>diskImportAction</code> returns <code>nil</code> when <code>contfs.CopyFile</code> fails (<a href="https://github.com/lima-vm/lima/blob/285832921fb854f0c964af3cc7c23c91f212a6a1/cmd/limactl/disk.go#L488"><code>cmd/limactl/disk.go:488</code></a>), and the <code>SkipOnClone</code> check in <code>CloneOrRename</code> does not skip a directory&#39;s children. Both predate this PR.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5-5"><span class="pill pill-claude">Claude Opus 5.5</span> <a href="#claude-opus-5-5" class="pilcrow">&#182;</a></h3>
+    <p>Claude found both Important issues alone, by following every copy into the directories that this PR flags instead of stopping at clone, the one path that the earlier review named. It also raised the compression conflict as an unverified recollection of the kernel source, and the test VM confirmed it. It rated the directory-versus-disk clone case as a Suggestion and explained why the current behavior is useful, the migration path that S1 now describes. Its coverage table accounted for every file and named the lines it traced. Its Testing Assessment said that every new test clears the directory&#39;s flag first; <code>TestDisableCopyOnWrite</code> does not, which is S5.</p>
+    <h3 id="codex-gpt-6-astra"><span class="pill pill-codex">Codex GPT 6 Astra</span> <a href="#codex-gpt-6-astra" class="pilcrow">&#182;</a></h3>
+    <p>Codex raised the directory-versus-disk clone case as an Important regression; the report keeps it as S1, since the user&#39;s own <code>chattr +C</code> asked for the mode that the clone now gets. Its fragmentation-wording finding became S2, and its test-isolation finding held up on btrfs. It marked <code>disk.go</code> and <code>downloader.go</code> as reviewed with no issues and missed I1. It declined to offer a patch for S1 because it could not test on btrfs, which was the right call.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Gemini Pro filed one finding, the clone case, from the opposite direction: a user who set <code>+C</code> on populated disk files. btrfs ignores <code>+C</code> on a file with data, as the test VM showed, so that route sets nothing. And by the same rule master&#39;s clone would also copy such a disk in full, since the new directory inherits copy-on-write from <code>LIMA_HOME</code>. The merged S1 keeps the direction that is a regression. Its <code>SkipOnClone</code> concern predates the PR and the repo context already records it. It said the documentation changes &quot;perfectly capture the trade-offs&quot; and marked <code>disk.go</code> and <code>fsutil_linux.go</code> clean, missing both Important issues.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Flash found the compression EINVAL from the kernel source, the only agent to state it as a finding; the test VM confirmed it. Its Important rating was too high, since the behavior stays master&#39;s apart from the warning, and its fix cleared the user&#39;s compression flags to set No_COW, which overrides a setting that the user chose. Its clone patch picks the first disk file, using real <code>filenames</code> identifiers, and is the alternative S1 describes. The map-order suggestion was a false positive. The CLI&#39;s policy refused one of its shell commands, a <code>golangci-lint</code> run. Both Gemini models converged on the clone case, which counts as one opinion.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5.5</span></th><th><span class="pill pill-codex">Codex GPT 6 Astra</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>8m 54s</td><td>8m 03s</td><td>5m 51s</td><td>15m 01s</td></tr>
+        <tr><td>Findings</td><td>2I 5S</td><td>3S</td><td>1S</td><td>5S</td></tr>
+        <tr><td>Tool calls</td><td>27 (Bash 22, Read 5)</td><td>11 (shell 10, stdin 1)</td><td>11 (run<em>shell</em>command 11)</td><td>72 (read<em>file 28, grep</em>search 23, run<em>shell</em>command 13)</td></tr>
+        <tr><td>Design observations</td><td>5</td><td>0</td><td>1</td><td>4</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+        <tr><td>Unique insights</td><td>4</td><td>1</td><td>0</td><td>1</td></tr>
+        <tr><td>Files reviewed</td><td>9</td><td>9</td><td>9</td><td>9</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>1</td><td>2</td><td>1</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>2I 5S</strong></td><td><strong>3S</strong></td><td><strong>1S</strong></td><td><strong>5S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>2</td><td>1</td><td>2</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Reconciliation</strong>: Codex I1 (clone takes the directory&#39;s mode): important → suggestion S1. Codex I2 (fragmentation wording): important → suggestion S2. Gemini Pro I1 (clone with mismatched attributes): important → suggestion S1. Flash I1 (compression EINVAL): important → suggestion S4. Flash I2 (clone inspects the directory): important → suggestion S1. Flash S4 (map iteration order): dropped as a false positive.</p>
+    <p>Claude gave the most value this round, with both Important issues and the reason why S1 is a Suggestion. Codex and Flash each added a finding that no other agent raised (S2 and S8), and Gemini Pro&#39;s one finding merged into S1 in the direction opposite to the one it argued.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>When a change alters state that later operations pick up without a call (an attribute, ACL or mode that new files inherit from their directory, a umask, a process-wide setting), list every operation that creates or copies a file under that state, including ones outside the diff, and check each against the change&#39;s stated goal. Reviewers otherwise check only the paths that the PR or its earlier review names, and the unchanged writers inherit the new behavior unseen.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>[repo] On a btrfs host, a file gets its No<em>COW attribute from its directory when it is created, and btrfs refuses a reflink between a No</em>COW file and a copy-on-write one; <code>continuity</code>&#39;s <code>CopyFile</code> then makes a full copy without an error. <code>chattr +C</code> on a file that already has data exits 0 and sets nothing. So any change to the attributes of instance, <code>_disks</code> or download-cache directories changes the cost of every copy into them. Those copies are <code>limactl clone</code>, <code>limactl disk import</code>, a local image <code>location</code>, and the copy from the cache into an instance.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+!function(n){function e(n){return n=n.replace(/<inner>/g,(function(){return"(?:\\\\.|[^\\\\\n\r]|(?:\n|\r\n?)(?![\r\n]))"})),RegExp("((?:^|[^\\\\])(?:\\\\{2})*)(?:"+n+")")}var t="(?:\\\\.|``(?:[^`\r\n]|`(?!`))+``|`[^`\r\n]+`|[^\\\\|\r\n`])+",a="\\|?__(?:\\|__)+\\|?(?:(?:\n|\r\n?)|(?![^]))".replace(/__/g,(function(){return t})),i="\\|?[ \t]*:?-{3,}:?[ \t]*(?:\\|[ \t]*:?-{3,}:?[ \t]*)+\\|?(?:\n|\r\n?)";n.languages.markdown=n.languages.extend("markup",{}),n.languages.insertBefore("markdown","prolog",{"front-matter-block":{pattern:/(^(?:\s*[\r\n])?)---(?!.)[\s\S]*?[\r\n]---(?!.)/,lookbehind:!0,greedy:!0,inside:{punctuation:/^---|---$/,"front-matter":{pattern:/\S+(?:\s+\S+)*/,alias:["yaml","language-yaml"],inside:n.languages.yaml}}},blockquote:{pattern:/^>(?:[\t ]*>)*/m,alias:"punctuation"},table:{pattern:RegExp("^"+a+i+"(?:"+a+")*","m"),inside:{"table-data-rows":{pattern:RegExp("^("+a+i+")(?:"+a+")*$"),lookbehind:!0,inside:{"table-data":{pattern:RegExp(t),inside:n.languages.markdown},punctuation:/\|/}},"table-line":{pattern:RegExp("^("+a+")"+i+"$"),lookbehind:!0,inside:{punctuation:/\||:?-{3,}:?/}},"table-header-row":{pattern:RegExp("^"+a+"$"),inside:{"table-header":{pattern:RegExp(t),alias:"important",inside:n.languages.markdown},punctuation:/\|/}}}},code:[{pattern:/((?:^|\n)[ \t]*\n|(?:^|\r\n?)[ \t]*\r\n?)(?: {4}|\t).+(?:(?:\n|\r\n?)(?: {4}|\t).+)*/,lookbehind:!0,alias:"keyword"},{pattern:/^```[\s\S]*?^```$/m,greedy:!0,inside:{"code-block":{pattern:/^(```.*(?:\n|\r\n?))[\s\S]+?(?=(?:\n|\r\n?)^```$)/m,lookbehind:!0},"code-language":{pattern:/^(```).+/,lookbehind:!0},punctuation:/```/}}],title:[{pattern:/\S.*(?:\n|\r\n?)(?:==+|--+)(?=[ \t]*$)/m,alias:"important",inside:{punctuation:/==+$|--+$/}},{pattern:/(^\s*)#.+/m,lookbehind:!0,alias:"important",inside:{punctuation:/^#+|#+$/}}],hr:{pattern:/(^\s*)([*-])(?:[\t ]*\2){2,}(?=\s*$)/m,lookbehind:!0,alias:"punctuation"},list:{pattern:/(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,lookbehind:!0,alias:"punctuation"},"url-reference":{pattern:/!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/,inside:{variable:{pattern:/^(!?\[)[^\]]+/,lookbehind:!0},string:/(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,punctuation:/^[\[\]!:]|[<>]/},alias:"url"},bold:{pattern:e("\\b__(?:(?!_)<inner>|_(?:(?!_)<inner>)+_)+__\\b|\\*\\*(?:(?!\\*)<inner>|\\*(?:(?!\\*)<inner>)+\\*)+\\*\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^..)[\s\S]+(?=..$)/,lookbehind:!0,inside:{}},punctuation:/\*\*|__/}},italic:{pattern:e("\\b_(?:(?!_)<inner>|__(?:(?!_)<inner>)+__)+_\\b|\\*(?:(?!\\*)<inner>|\\*\\*(?:(?!\\*)<inner>)+\\*\\*)+\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^.)[\s\S]+(?=.$)/,lookbehind:!0,inside:{}},punctuation:/[*_]/}},strike:{pattern:e("(~~?)(?:(?!~)<inner>)+\\2"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^~~?)[\s\S]+(?=\1$)/,lookbehind:!0,inside:{}},punctuation:/~~?/}},"code-snippet":{pattern:/(^|[^\\`])(?:``[^`\r\n]+(?:`[^`\r\n]+)*``(?!`)|`[^`\r\n]+`(?!`))/,lookbehind:!0,greedy:!0,alias:["code","keyword"]},url:{pattern:e('!?\\[(?:(?!\\])<inner>)+\\](?:\\([^\\s)]+(?:[\t ]+"(?:\\\\.|[^"\\\\])*")?\\)|[ \t]?\\[(?:(?!\\])<inner>)+\\])'),lookbehind:!0,greedy:!0,inside:{operator:/^!/,content:{pattern:/(^\[)[^\]]+(?=\])/,lookbehind:!0,inside:{}},variable:{pattern:/(^\][ \t]?\[)[^\]]+(?=\]$)/,lookbehind:!0},url:{pattern:/(^\]\()[^\s)]+/,lookbehind:!0},string:{pattern:/(^[ \t]+)"(?:\\.|[^"\\])*"(?=\)$)/,lookbehind:!0}}}}),["url","bold","italic","strike"].forEach((function(e){["url","bold","italic","strike","code-snippet"].forEach((function(t){e!==t&&(n.languages.markdown[e].inside.content.inside[t]=n.languages.markdown[t])}))})),n.hooks.add("after-tokenize",(function(n){"markdown"!==n.language&&"md"!==n.language||function n(e){if(e&&"string"!=typeof e)for(var t=0,a=e.length;t<a;t++){var i=e[t];if("code"===i.type){var r=i.content[1],o=i.content[3];if(r&&o&&"code-language"===r.type&&"code-block"===o.type&&"string"==typeof r.content){var l=r.content.replace(/\b#/g,"sharp").replace(/\b\+\+/g,"pp"),s="language-"+(l=(/[a-z][\w-]*/i.exec(l)||[""])[0].toLowerCase());o.alias?"string"==typeof o.alias?o.alias=[o.alias,s]:o.alias.push(s):o.alias=[s]}}else n(i.content)}}(n.tokens)})),n.hooks.add("wrap",(function(e){if("code-block"===e.type){for(var t="",a=0,i=e.classes.length;a<i;a++){var s=e.classes[a],d=/language-(.+)/.exec(s);if(d){t=d[1];break}}var p=n.languages[t];if(p)e.content=n.highlight(e.content.replace(r,"").replace(/&(\w{1,8}|#x?[\da-f]{1,8});/gi,(function(n,e){var t;return"#"===(e=e.toLowerCase())[0]?(t="x"===e[1]?parseInt(e.slice(2),16):Number(e.slice(1)),l(t)):o[e]||n})),p,t);else if(t&&"none"!==t&&n.plugins.autoloader){var u="md-"+(new Date).valueOf()+"-"+Math.floor(1e16*Math.random());e.attributes.id=u,n.plugins.autoloader.loadLanguages(t,(function(){var e=document.getElementById(u);e&&(e.innerHTML=n.highlight(e.textContent,n.languages[t],t))}))}}}));var r=RegExp(n.languages.markup.tag.pattern.source,"gi"),o={amp:"&",lt:"<",gt:">",quot:'"'},l=String.fromCodePoint||String.fromCharCode;n.languages.md=n.languages.markdown}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
