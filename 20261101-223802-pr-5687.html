@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20261101-223802-pr-5687</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+.pass-tag, .title-note { font-weight: 400; color: #6b7280; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20261101-223802-pr-5687</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-11-01 22:38</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1 (of target)</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/AkihiroSuda">@AkihiroSuda</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5687" class="gh-ref" data-title="ssh: verify the guest host key" data-state="open" data-type="pr">#5687</a> — ssh: verify the guest host key</td></tr>
+      <tr><td>Branch</td><td><code>ssh</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/715206e4"><code>715206e4</code></a> Windows: fix Copy-Provision in install_provision.ps1<br><a href="https://github.com/lima-vm/lima/commit/436e470a"><code>436e470a</code></a> CI: add downgrade tests<br><a href="https://github.com/lima-vm/lima/commit/57df3949"><code>57df3949</code></a> ssh: verify the guest host key</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/57df3949fddc8071f7b7d8a1589f433e1d6022fb"><code>57df3949fddc8071f7b7d8a1589f433e1d6022fb</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5.5</span> (effort: high), <span class="pill pill-codex">Codex GPT 6 Astra</span> (effort: high), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; the design is sound, but two guest types regress, and each has a tested patch</td></tr>
+      <tr><td>Wall-clock time</td><td><code>36 min 42 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR pins each guest&#39;s SSH host key and makes <code>ssh</code> verify it. The design holds up: default guests pass CI, and all five Copilot comments are fixed at this head. But a plain-mode <code>alpine-iso</code> instance now fails its second start, and a guest without an ed25519 key never starts. The <code>Copy-Provision</code> fix still stops at the second script, and one comment blames the wrong Lima. Each has a patch below.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file="pkg/hostagent/requirements.go">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> A plain-mode <code>alpine-iso</code> instance cannot start twice <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-claude">Claude Opus 5.5</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/hostagent/requirements.go#L67-L80">pkg/hostagent/requirements.go</a></div>
+      <pre data-start="67" data-line="72-75"><code class="language-go">			Description: desc,
+			Suffix:      suffix,
+		})
+	retryLoop:
+		for j := range retries {
+			err := a.pinSSHHostKey(ctx)
+			if err == nil {
+				err = fn(req)
+			}
+			if err == nil {
+				a.emitRequirementProgress(ctx, &amp;events.RequirementProgress{
+					Step:        stepNum,
+					Total:       total,
+					Description: desc,</code></pre>
+    <p><code>alpine-iso</code> runs from a RAM disk, so <code>/etc/ssh</code> keeps its contents across a reboot only on the data volume. <a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/cidata/cidata.TEMPLATE.d/boot.sh#L73-L77"><code>boot.sh:73-77</code></a> skips <code>boot.Linux/</code> in plain mode, and <code>04-persistent-data-volume.sh</code> is in that directory. alpine-lima&#39;s <code>lima-init.sh</code> ignores <code>write_files</code>, so the new <code>ssh_deletekeys</code> file does not help either. The guest therefore presents a new key on every boot. The merge-base tolerated that. With this PR the second start hits <code>ErrHostKeyMismatch</code> and retries until <code>limactl start</code> gives up, after 10 minutes by default. Removing the file, as the error suggests, only pins the next boot&#39;s key.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/cidata/cidata.TEMPLATE.d/boot.sh#L68-L82">pkg/cidata/cidata.TEMPLATE.d/boot.sh</a></div>
+      <pre data-start="68" data-line="73-77"><code class="language-bash">}
+
+# The boot.essential.${UNAME} scripts are executed in plain mode too.
+run_boot_scripts &quot;${LIMA_CIDATA_MNT}/boot.essential.${UNAME}&quot;
+
+if [ &quot;$LIMA_CIDATA_PLAIN&quot; = &quot;1&quot; ]; then
+	INFO &quot;Plain mode. Skipping to run non-essential boot scripts. Provisioning scripts will be still executed. Guest agent will not be running.&quot;
+else
+	run_boot_scripts &quot;${LIMA_CIDATA_MNT}/boot.${UNAME}&quot;
+fi
+
+# indirect variable lookup, like ${!var} in bash
+deref() {
+	eval echo \$&quot;$1&quot;
+}</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash">#!/usr/bin/env bash
+# Save as probe-alpine-restart.sh; run: bash probe-alpine-restart.sh &lt;path-to-limactl&gt; [--plain]
+# Build the limactl under test with `make minimal templates`. Needs a host that can boot
+# template:alpine-iso. Boots one VM under a throwaway LIMA_HOME, stops it, starts it again,
+# prints the guest&#39;s ed25519 host key fingerprint after each boot, and deletes the VM.
+set -u
+limactl=$1
+shift
+export LIMA_HOME=&quot;$HOME/.lprobe&quot;
+name=probe
+log=$(mktemp)
+
+key() {
+	&quot;$limactl&quot; shell --workdir / &quot;$name&quot; cat /etc/ssh/ssh_host_ed25519_key.pub 2&gt;/dev/null |
+		ssh-keygen -l -f - 2&gt;/dev/null | awk &#39;{print $2}&#39;
+}
+
+&quot;$limactl&quot; start --tty=false --timeout=6m --name=&quot;$name&quot; &quot;$@&quot; template:alpine-iso &gt;/dev/null 2&gt;&amp;1
+echo &quot;boot 1: start rc=$? key=$(key)&quot;
+&quot;$limactl&quot; stop &quot;$name&quot; &gt;/dev/null 2&gt;&amp;1
+&quot;$limactl&quot; start --tty=false --timeout=2m &quot;$name&quot; &gt;&quot;$log&quot; 2&gt;&amp;1
+echo &quot;boot 2: start rc=$? key=$(key)&quot;
+grep -o &#39;host key mismatch: .* does not match&#39; &quot;$log&quot; | head -n 1
+&quot;$limactl&quot; stop --force &quot;$name&quot; &gt;/dev/null 2&gt;&amp;1
+&quot;$limactl&quot; delete --force &quot;$name&quot; &gt;/dev/null 2&gt;&amp;1
+rm -rf &quot;${LIMA_HOME:?}&quot; &quot;${log:?}&quot;</code></pre>
+      <pre><code class="language-text">$ bash probe-alpine-restart.sh _output/bin/limactl --plain
+boot 1: start rc=0 key=SHA256:mImMUe1P0RP1dAgiTDuUKBDodNEYSKFgVtu505HtEEs
+boot 2: start rc=1 key=
+host key mismatch: the SSH host key of the guest (SHA256:HAWpgLVsKER1SVVz6OhL1WF72zoOHX4uU2eqLumtZLc) does not match
+$ bash probe-alpine-restart.sh _output/bin/limactl
+boot 1: start rc=0 key=SHA256:yeZlugXc2rcyAZ6u+T5GpLAOBRMO9Z+mdkZKOX3GIpI
+boot 2: start rc=0 key=SHA256:yeZlugXc2rcyAZ6u+T5GpLAOBRMO9Z+mdkZKOX3GIpI
+$ bash probe-alpine-restart.sh ../merge-base/_output/bin/limactl --plain
+boot 1: start rc=0 key=SHA256:vjgy3ok/R6CbomkKI3pA3OKk+dnrHwlM35i2vlR+8vE
+boot 2: start rc=0 key=SHA256:Lo6z41BUDfxdAtO4xzkLx2kK+qnU0iionXtvvzc7LRQ
+# With the patch below applied and limactl rebuilt:
+$ bash probe-alpine-restart.sh _output/bin/limactl --plain
+boot 1: start rc=0 key=SHA256:FET9pMX3hYzLQ/NU3MmZ3Y9+hukS47rQ+J18i06hVfE
+boot 2: start rc=0 key=SHA256:FET9pMX3hYzLQ/NU3MmZ3Y9+hukS47rQ+J18i06hVfE
+$ bash probe-alpine-restart.sh _output/bin/limactl
+boot 1: start rc=0 key=SHA256:dRUm06C5UJfX49RUlbOrZLrZSuEGzvYtsp4hcg2a4Gc
+boot 2: start rc=0 key=SHA256:dRUm06C5UJfX49RUlbOrZLrZSuEGzvYtsp4hcg2a4Gc</code></pre>
+      </details>
+    <p>Fix: run the script in plain mode too, by moving it to <code>boot.essential.Linux/20-persistent-data-volume.sh</code>, after <code>10-alpine-prep.sh</code>. A plain <code>alpine-iso</code> instance then keeps <code>/etc</code>, <code>/home</code> and the other data directories on its data volume. Tested on vz on aarch64 only. No suite here boots a plain <code>alpine-iso</code>, so the test exists only in the reproducer.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-guest-home.sh b/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-guest-home.sh
+index ad3ff9eb..477dd9ba 100644
+--- a/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-guest-home.sh
++++ b/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/05-guest-home.sh
+@@ -8,7 +8,7 @@ set -eu
+ # The default guest home directory is &quot;/home/${LIMA_CIDATA_USER}.guest&quot; since Lima 2.1.0.
+ # The path was previously &quot;/home/${LIMA_CIDATA_USER}.linux&quot;.
+ #
+-# This must run after 04-persistent-data-volume.sh has mounted /home from the data
++# This must run after 20-persistent-data-volume.sh has mounted /home from the data
+ # volume, and after the WSL2 driver has created the user in 02-no-cloud-init-setup.sh.
+ # Symlinking earlier either targets a home directory that doesn&#39;t exist yet, or creates
+ # the symlink on the ramdisk, where the data volume immediately hides it.
+diff --git a/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/07-etc-environment.sh b/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/07-etc-environment.sh
+index 8b93c090..bcc5c2cf 100644
+--- a/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/07-etc-environment.sh
++++ b/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/07-etc-environment.sh
+@@ -5,7 +5,7 @@
+ 
+ set -eux
+ 
+-# /etc/environment must be written after 04-persistent-data-volume.sh has run to
++# /etc/environment must be written after 20-persistent-data-volume.sh has run to
+ # make sure the changes on a restart are applied to the persisted version.
+ 
+ orig=$(test ! -f /etc/environment || cat /etc/environment)
+diff --git a/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh b/pkg/cidata/cidata.TEMPLATE.d/boot.essential.Linux/20-persistent-data-volume.sh
+similarity index 98%
+rename from pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh
+rename to pkg/cidata/cidata.TEMPLATE.d/boot.essential.Linux/20-persistent-data-volume.sh
+index c8877290..08d66885 100644
+--- a/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/04-persistent-data-volume.sh
++++ b/pkg/cidata/cidata.TEMPLATE.d/boot.essential.Linux/20-persistent-data-volume.sh
+@@ -153,7 +153,7 @@ done
+ /mnt.sh
+ # Reinstall packages from /mnt/data/apk/cache into the RAM disk
+ apk fix --no-network
+-# boot.essential.Linux/10-alpine-prep.sh starts acpid before this script
++# 10-alpine-prep.sh starts acpid before this script
+ # replaces /etc, and acpid looks up its event handlers relative to the
+ # /etc/acpi directory that it started in. On the first boot the move above
+ # deletes that directory, so the guest would ignore the power-button event
+diff --git a/pkg/cidata/cidata.TEMPLATE.d/boot.sh b/pkg/cidata/cidata.TEMPLATE.d/boot.sh
+index b348df73..c0e7205e 100644
+--- a/pkg/cidata/cidata.TEMPLATE.d/boot.sh
++++ b/pkg/cidata/cidata.TEMPLATE.d/boot.sh
+@@ -50,7 +50,7 @@ export PATH
+ 
+ CODE=0
+ 
+-# Don&#39;t make any changes to /etc or /var/lib until boot.Linux/04-persistent-data-volume.sh
++# Don&#39;t make any changes to /etc or /var/lib until boot.essential.Linux/20-persistent-data-volume.sh
+ # has run because it might move the directories to /mnt/data on first boot. In that
+ # case changes made on restart would be lost.
+ </code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/sshutil/hostkey.go">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> A guest without an ed25519 host key can no longer start <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/sshutil/hostkey.go#L139-L149">pkg/sshutil/hostkey.go</a></div>
+      <pre data-start="139" data-line="144"><code class="language-go">		}
+	}
+	errScanned := errors.New(&quot;scanned the host key&quot;)
+	var hostKey ssh.PublicKey
+	config := &amp;ssh.ClientConfig{
+		HostKeyAlgorithms: []string{ssh.KeyAlgoED25519},
+		// Called after verifying the signature made with the host key.
+		HostKeyCallback: func(_ string, _ net.Addr, key ssh.PublicKey) error {
+			hostKey = key
+			return errScanned
+		},</code></pre>
+    <p><code>ScanHostKey</code> offers only <code>ssh-ed25519</code>, and <code>waitForRequirements</code> does not run any requirement until the pin succeeds, so a guest without that key fails its first start. The merge-base connects to such a guest. cloud-init skips ed25519 in FIPS mode (<code>FIPS_UNSUPPORTED_KEY_NAMES</code> in <code>cc_ssh.py</code>), and a guest&#39;s <code>sshd_config</code> can leave it out. No template in the tree does either, so few users will meet this, but no setting turns the check off.</p>
+    <p>See also <a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/sshutil/hostkey.go#L203"><code>pkg/sshutil/hostkey.go:203</code></a>, which restricts <code>ssh</code> the same way.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/sshutil/hostkey.go#L198-L208">pkg/sshutil/hostkey.go</a></div>
+      <pre data-start="198" data-line="203"><code class="language-go">		knownHostsFiles = append([]string{&quot;/dev/null&quot;}, knownHostsFiles...)
+	}
+	opts := []string{
+		&quot;StrictHostKeyChecking=&quot; + strictHostKeyChecking,
+		&quot;UserKnownHostsFile=&quot; + strings.Join(knownHostsFiles, &quot; &quot;),
+		&quot;HostKeyAlgorithms=ssh-ed25519&quot;,
+	}
+	if len(instDirs) == 1 {
+		opts = append(opts, &quot;HostKeyAlias=&quot;+hostname.FromInstName(filepath.Base(instDirs[0])))
+	}
+	return opts, nil</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as pkg/sshutil/zz_hostkey_type_probe_test.go; run from the repo root:
+//   go test ./pkg/sshutil -run TestGuestHostKeyType -count=1 -v
+// Needs OpenSSH&#39;s ssh on PATH. Pins the key of an in-process SSH server that has only that
+// key type, then connects with the real ssh and the options Lima passes.
+
+package sshutil
+
+import (
+	&quot;crypto/rand&quot;
+	&quot;crypto/rsa&quot;
+	&quot;os&quot;
+	&quot;os/exec&quot;
+	&quot;path/filepath&quot;
+	&quot;strconv&quot;
+	&quot;strings&quot;
+	&quot;testing&quot;
+
+	&quot;golang.org/x/crypto/ssh&quot;
+	&quot;gotest.tools/v3/assert&quot;
+)
+
+func TestGuestHostKeyType(t *testing.T) {
+	rsaKey, err := rsa.GenerateKey(rand.Reader, 2048)
+	assert.NilError(t, err)
+	rsaSigner, err := ssh.NewSignerFromKey(rsaKey)
+	assert.NilError(t, err)
+	for _, tc := range []struct {
+		name   string
+		signer ssh.Signer
+	}{{&quot;ed25519&quot;, generateHostKey(t)}, {&quot;rsa&quot;, rsaSigner}} {
+		t.Run(tc.name, func(t *testing.T) {
+			instDir := filepath.Join(t.TempDir(), &quot;foo&quot;)
+			assert.NilError(t, os.Mkdir(instDir, 0o755))
+			address, port := startSSHServer(t, tc.signer)
+			assert.NilError(t, WriteKnownHostsFile(instDir, &quot;foo&quot;, address, port))
+			assert.NilError(t, PinHostKey(t.Context(), instDir, &quot;foo&quot;, address, port))
+
+			opts, err := HostKeyOpts(t.Context(), &quot;ssh&quot;, instDir)
+			assert.NilError(t, err)
+			args := []string{&quot;-F&quot;, &quot;/dev/null&quot;, &quot;-o&quot;, &quot;BatchMode=yes&quot;, &quot;-p&quot;, strconv.Itoa(port)}
+			for _, opt := range opts {
+				args = append(args, &quot;-o&quot;, strings.ReplaceAll(opt, `&quot;`, &quot;&quot;))
+			}
+			out, _ := exec.CommandContext(t.Context(), &quot;ssh&quot;, append(args, address, &quot;true&quot;)...).CombinedOutput()
+			assert.Assert(t, !strings.Contains(string(out), &quot;Host key verification failed&quot;), string(out))
+		})
+	}
+}</code></pre>
+      <pre><code class="language-text">$ go test ./pkg/sshutil -run TestGuestHostKeyType -count=1 -v 2&gt;&amp;1 | grep -E &#39;^ *--- |assertion failed|^(ok|FAIL)&#39;
+    zz_hostkey_type_probe_test.go:36: assertion failed: error is not nil: failed to get the SSH host key of the guest: ssh: handshake failed: ssh: no common algorithm for host key; we offered: [&quot;ssh-ed25519&quot;], peer offered: [&quot;rsa-sha2-256&quot; &quot;rsa-sha2-512&quot; &quot;ssh-rsa&quot;]
+--- FAIL: TestGuestHostKeyType
+    --- PASS: TestGuestHostKeyType/ed25519
+    --- FAIL: TestGuestHostKeyType/rsa
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/sshutil
+FAIL
+# With the patch below applied:
+--- PASS: TestGuestHostKeyType
+    --- PASS: TestGuestHostKeyType/ed25519
+    --- PASS: TestGuestHostKeyType/rsa
+ok  	github.com/lima-vm/lima/v2/pkg/sshutil</code></pre>
+      </details>
+    <p>Fix: offer ed25519 first and then the other key types, and drop <code>HostKeyAlgorithms=ssh-ed25519</code>. OpenSSH 10.3 then picked the pinned type on a server offering both, and still refused a wrong pinned RSA key. A guest pinned on RSA that later gains ed25519 fails with a mismatch, and the documented recovery applies. The patch rewords the three doc lines that say ed25519 and adds <code>TestPinHostKeyWithoutEd25519</code>, which fails against the reviewed code.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/sshutil/hostkey.go b/pkg/sshutil/hostkey.go
+index 1b63b3c6..544e2ebe 100644
+--- a/pkg/sshutil/hostkey.go
++++ b/pkg/sshutil/hostkey.go
+@@ -121,7 +121,7 @@ func PinHostKey(ctx context.Context, instDir, instName, sshAddress string, sshPo
+ 	return nil
+ }
+ 
+-// ScanHostKey returns the ssh-ed25519 host key of the SSH server at address:port, like ssh-keyscan.
++// ScanHostKey returns the host key of the SSH server at address:port, like ssh-keyscan, preferring ssh-ed25519.
+ // The server has proven the possession of the private key when the key is returned.
+ func ScanHostKey(ctx context.Context, address string, port int) (ssh.PublicKey, error) {
+ 	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
+@@ -141,7 +141,12 @@ func ScanHostKey(ctx context.Context, address string, port int) (ssh.PublicKey,
+ 	errScanned := errors.New(&quot;scanned the host key&quot;)
+ 	var hostKey ssh.PublicKey
+ 	config := &amp;ssh.ClientConfig{
+-		HostKeyAlgorithms: []string{ssh.KeyAlgoED25519},
++		// A guest in FIPS mode has no ssh-ed25519 host key.
++		HostKeyAlgorithms: []string{
++			ssh.KeyAlgoED25519,
++			ssh.KeyAlgoECDSA256, ssh.KeyAlgoECDSA384, ssh.KeyAlgoECDSA521,
++			ssh.KeyAlgoRSASHA512, ssh.KeyAlgoRSASHA256,
++		},
+ 		// Called after verifying the signature made with the host key.
+ 		HostKeyCallback: func(_ string, _ net.Addr, key ssh.PublicKey) error {
+ 			hostKey = key
+@@ -200,7 +205,6 @@ func HostKeyOpts(ctx context.Context, toolPath string, instDirs ...string) ([]st
+ 	opts := []string{
+ 		&quot;StrictHostKeyChecking=&quot; + strictHostKeyChecking,
+ 		&quot;UserKnownHostsFile=&quot; + strings.Join(knownHostsFiles, &quot; &quot;),
+-		&quot;HostKeyAlgorithms=ssh-ed25519&quot;,
+ 	}
+ 	if len(instDirs) == 1 {
+ 		opts = append(opts, &quot;HostKeyAlias=&quot;+hostname.FromInstName(filepath.Base(instDirs[0])))
+diff --git a/pkg/sshutil/hostkey_test.go b/pkg/sshutil/hostkey_test.go
+index 061412fc..bf86e701 100644
+--- a/pkg/sshutil/hostkey_test.go
++++ b/pkg/sshutil/hostkey_test.go
+@@ -6,6 +6,7 @@ package sshutil
+ import (
+ 	&quot;crypto/ed25519&quot;
+ 	&quot;crypto/rand&quot;
++	&quot;crypto/rsa&quot;
+ 	&quot;net&quot;
+ 	&quot;os&quot;
+ 	&quot;path/filepath&quot;
+@@ -63,6 +64,19 @@ func TestScanHostKey(t *testing.T) {
+ 	assert.DeepEqual(t, scanned.Marshal(), hostKey.PublicKey().Marshal())
+ }
+ 
++func TestPinHostKeyWithoutEd25519(t *testing.T) {
++	key, err := rsa.GenerateKey(rand.Reader, 2048)
++	assert.NilError(t, err)
++	hostKey, err := ssh.NewSignerFromKey(key)
++	assert.NilError(t, err)
++	address, port := startSSHServer(t, hostKey)
++	instDir := t.TempDir()
++	assert.NilError(t, PinHostKey(t.Context(), instDir, &quot;foo&quot;, address, port))
++	pinned, err := ReadPinnedHostKey(instDir)
++	assert.NilError(t, err)
++	assert.DeepEqual(t, pinned.Marshal(), hostKey.PublicKey().Marshal())
++}
++
+ func TestPinHostKey(t *testing.T) {
+ 	instDir := t.TempDir()
+ 	knownHostsPath := filepath.Join(instDir, filenames.SSHKnownHosts)
+diff --git a/website/content/en/docs/dev/internals.md b/website/content/en/docs/dev/internals.md
+index 35139edc..83d2dad1 100644
+--- a/website/content/en/docs/dev/internals.md
++++ b/website/content/en/docs/dev/internals.md
+@@ -89,7 +89,7 @@ Serial:
+ SSH:
+ - `ssh.sock`: SSH control master socket
+ - `ssh.config`: SSH config file for `ssh -F`. Not consumed by Lima itself.
+-- `ssh.known_hosts`: SSH known hosts file that pins the SSH host key (ed25519) presented by the guest on the first boot,
++- `ssh.known_hosts`: SSH known hosts file that pins the SSH host key (ed25519 when the guest has one) presented by the guest on the first boot,
+   for `lima-&lt;INSTANCE&gt;` and `[&lt;ADDRESS&gt;]:&lt;PORT&gt;`
+ 
+ VNC:
+diff --git a/website/content/en/docs/releases/breaking.md b/website/content/en/docs/releases/breaking.md
+index 79e416e4..4300e289 100644
+--- a/website/content/en/docs/releases/breaking.md
++++ b/website/content/en/docs/releases/breaking.md
+@@ -10,7 +10,7 @@ weight: 20
+ - The `SnapshotManager.ListSnapshots()` method now returns structured snapshot metadata instead of raw text.
+   `ApplySnapshot()` and `DeleteSnapshot()` now identify snapshots by ID instead of tag. External drivers must
+   update their snapshot implementations and regenerate their protobuf bindings.
+-- The SSH host key of the guest is now verified. Lima pins the `ssh-ed25519` host key that the guest presents
++- The SSH host key of the guest is now verified. Lima pins the host key (`ssh-ed25519` when the guest has one) that the guest presents
+   on the first boot in `~/.lima/&lt;instance&gt;/ssh.known_hosts`, and verifies the key on the later boots.
+   The guest must keep its host key across reboots; for cloud-init, Lima writes `ssh_deletekeys: false` into
+   `/etc/cloud/cloud.cfg.d/99_lima_ssh_keep_host_keys.cfg` in the guest.
+diff --git a/website/content/en/docs/usage/ssh.md b/website/content/en/docs/usage/ssh.md
+index acd082a2..500f74ae 100644
+--- a/website/content/en/docs/usage/ssh.md
++++ b/website/content/en/docs/usage/ssh.md
+@@ -46,7 +46,7 @@ See also `.lima/default/ssh.config`.
+ 
+ ## Host key
+ 
+-Lima pins the SSH host key (ed25519) that the guest presents on the first boot after creating the instance,
++Lima pins the SSH host key (ed25519 when the guest has one) that the guest presents on the first boot after creating the instance,
+ in `~/.lima/&lt;instance&gt;/ssh.known_hosts`, and verifies the key on the later boots.
+ The `ssh.config` file refers to this file with `StrictHostKeyChecking=yes`.
+ </code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/cidata/wincidata.TEMPLATE.d/install_provision.ps1">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> <code>Copy-Provision</code> still fails on the second script <span class="pill pill-codex">Codex GPT 6 Astra</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/cidata/wincidata.TEMPLATE.d/install_provision.ps1#L15-L30">pkg/cidata/wincidata.TEMPLATE.d/install_provision.ps1</a></div>
+      <pre data-start="15" data-line="20-25"><code class="language-powershell">        return
+    }
+
+    New-Item -ItemType Directory -Path $Dst -Force | Out-Null
+    foreach ($item in Get-ChildItem -LiteralPath $Src) {
+        $dst = $Dst
+        if ($Extension) {
+            # `.ps1` extension is necessary for script otherwise Powershell returns an error.
+            $dst = Join-Path $Dst (&quot;{0}.ps1&quot; -f $item.BaseName)
+        }
+        Copy-Item -LiteralPath $item.FullName -Destination $dst
+    }
+}
+
+$provisionDir = &quot;C:\ProgramData\Lima\provision&quot;
+New-Item -ItemType Directory -Path $provisionDir -Force | Out-Null</code></pre>
+    <p>PowerShell variable names are case-insensitive, so the local <code>$dst</code> is the <code>$Dst</code> parameter. The first pass through the loop overwrites the parameter with the first script&#39;s path, and the second joins its file name under that file. <code>Copy-Item</code> then fails and <code>$ErrorActionPreference = &quot;Stop&quot;</code> ends the script, the failure that <a href="https://github.com/lima-vm/lima/commit/715206e4"><code>715206e4</code></a> says it fixes. Every <code>-Extension</code> call failed before that commit, so this is a gap in the fix and the <code>[switch]</code> change is still needed.</p>
+    <p><code>appendProvisionEntries</code> (<a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/cidata/cidata.go#L599"><code>pkg/cidata/cidata.go:599</code></a>) writes one file per <code>provision</code> entry, so two entries of one script mode (<code>system</code>, <code>user</code> or <code>dependency</code>) trigger it.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/cidata/cidata.go#L594-L604">pkg/cidata/cidata.go</a></div>
+      <pre data-start="594" data-line="599"><code class="language-go">	}
+
+	return nil
+}
+
+func appendProvisionEntries(layout []iso9660util.Entry, provisions []limatype.Provision) ([]iso9660util.Entry, error) {
+	for i, f := range provisions {
+		switch f.Mode {
+		case limatype.ProvisionModeSystem, limatype.ProvisionModeUser, limatype.ProvisionModeDependency:
+			layout = append(layout, iso9660util.Entry{
+				Path:   fmt.Sprintf(&quot;provision.%s/%08d&quot;, f.Mode, i),</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-powershell"># Save as probe-copy-provision.ps1; run from the repo root: pwsh -NoProfile -File probe-copy-provision.ps1
+# Needs PowerShell 7. Runs the real Copy-Provision from the template against 1 and 2 scripts.
+$source = Get-Content -Raw pkg/cidata/wincidata.TEMPLATE.d/install_provision.ps1
+$reviewed = [regex]::Match($source, &#39;(?ms)^function Copy-Provision \{.*?^\}&#39;).Value
+# .NET String.Replace is case-sensitive, so this renames the local and leaves the $Dst parameter alone.
+$fixed = $reviewed.Replace(&#39;$dst&#39;, &#39;$destination&#39;)
+
+foreach ($arm in @(@(&#39;reviewed&#39;, $reviewed), @(&#39;fixed&#39;, $fixed))) {
+    Invoke-Expression $arm[1]
+    foreach ($count in 1, 2) {
+        $work = Join-Path ([IO.Path]::GetTempPath()) &quot;copy-provision-$($arm[0])-$count-$PID&quot;
+        $src = Join-Path $work &#39;src&#39;
+        $dst = Join-Path $work &#39;dst&#39;
+        New-Item -ItemType Directory -Path $src -Force | Out-Null
+        1..$count | ForEach-Object { Set-Content -Path (Join-Path $src &quot;0000$_&quot;) -Value &quot;script $_&quot; }
+        try {
+            $ErrorActionPreference = &#39;Stop&#39;
+            Copy-Provision -Src $src -Dst $dst -Extension
+            $copied = (Get-ChildItem -LiteralPath $dst -Name) -join &#39;,&#39;
+            &quot;$($arm[0]), $count script(s): ok, dst holds [$copied]&quot;
+        } catch {
+            &quot;$($arm[0]), $count script(s): FAILED: $($_.Exception.Message.Replace($work, &#39;&lt;work&gt;&#39;))&quot;
+        }
+        Remove-Item -LiteralPath $work -Recurse -Force
+    }
+}</code></pre>
+      <pre><code class="language-text">$ pwsh -NoProfile -File probe-copy-provision.ps1
+reviewed, 1 script(s): ok, dst holds [00001.ps1]
+reviewed, 2 script(s): FAILED: Could not find a part of the path &#39;&lt;work&gt;/dst/00001.ps1/00002.ps1&#39;.
+fixed, 1 script(s): ok, dst holds [00001.ps1]
+fixed, 2 script(s): ok, dst holds [00001.ps1,00002.ps1]</code></pre>
+      </details>
+    <p>Fix: rename the local, which the probe&#39;s <code>fixed</code> arm does. The probe ran on PowerShell 7.6.9 on macOS, not in a Windows guest. No suite runs this script, so the test exists only in the reproducer.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/cidata/wincidata.TEMPLATE.d/install_provision.ps1 b/pkg/cidata/wincidata.TEMPLATE.d/install_provision.ps1
+index c1dc6c2b..450f81a0 100644
+--- a/pkg/cidata/wincidata.TEMPLATE.d/install_provision.ps1
++++ b/pkg/cidata/wincidata.TEMPLATE.d/install_provision.ps1
+@@ -17,12 +17,12 @@ function Copy-Provision {
+ 
+     New-Item -ItemType Directory -Path $Dst -Force | Out-Null
+     foreach ($item in Get-ChildItem -LiteralPath $Src) {
+-        $dst = $Dst
++        $destination = $Dst
+         if ($Extension) {
+             # `.ps1` extension is necessary for script otherwise Powershell returns an error.
+-            $dst = Join-Path $Dst (&quot;{0}.ps1&quot; -f $item.BaseName)
++            $destination = Join-Path $Dst (&quot;{0}.ps1&quot; -f $item.BaseName)
+         }
+-        Copy-Item -LiteralPath $item.FullName -Destination $dst
++        Copy-Item -LiteralPath $item.FullName -Destination $destination
+     }
+ }
+ </code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/sshutil/hostkey.go">
+      <div class="finding-title" id="I4">
+        <span class="finding-num">I4.</span> Two comments misstate when an unpinned file matters <span class="pill pill-claude">Claude Opus 5.5</span><a href="#I4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/sshutil/hostkey.go#L85-L96">pkg/sshutil/hostkey.go</a></div>
+      <pre data-start="85" data-line="90-91"><code class="language-go">		return err
+	}
+	return writeKnownHostsFile(instDir, instName, hostKey, sshAddress, sshPort)
+}
+
+// RemoveKnownHostsFileUnlessPinned removes the known_hosts file of the instance when it pins no key,
+// so that an older version of Lima that starts the instance next does not fail to verify the host key.
+func RemoveKnownHostsFileUnlessPinned(instDir string) error {
+	hostKey, err := ReadPinnedHostKey(instDir)
+	if err != nil || hostKey != nil {
+		return err
+	}</code></pre>
+    <p>An older Lima never reads this file, because v2.2.1 hard-codes <code>StrictHostKeyChecking=no</code> and <code>UserKnownHostsFile=/dev/null</code>. The client that fails is this version&#39;s <code>limactl</code>, which refuses an instance whose file is empty, and an older host agent never fills that file.</p>
+    <p><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/sshutil/hostkey.go#L161"><code>pkg/sshutil/hostkey.go:161</code></a> and the head commit&#39;s body make a related error. Both equate a missing file with an instance this version has never started, but <code>Run</code> removes the file after a start that never pinned, as the probe&#39;s second line shows.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/sshutil/hostkey.go#L156-L166">pkg/sshutil/hostkey.go</a></div>
+      <pre data-start="156" data-line="161"><code class="language-go">
+// HostKeyOpts returns ssh option key-value pairs for verifying the SSH host keys of the instances.
+// With a single instance, the key is looked up by the &quot;lima-&lt;INSTANCE&gt;&quot; alias, which does not
+// depend on the SSH address and port. With multiple instances, the key is looked up by the address and port.
+//
+// An instance without the known_hosts file, i.e., an instance that has never been started by this version of Lima,
+// is not verified. When none of the instances has the file, the result disables the host key verification.
+// Otherwise, the keys of the instances without the file are accepted with StrictHostKeyChecking=accept-new,
+// which still refuses a key that does not match the pinned key, and are recorded in /dev/null,
+// as ssh records new keys in the first UserKnownHostsFile.
+//</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as pkg/sshutil/zz_unpinned_file_probe_test.go; run from the repo root:
+//   go test ./pkg/sshutil -run TestUnpinnedInstance -count=1 -v
+//   git show v2.2.1:pkg/sshutil/sshutil.go | grep -n &#39;StrictHostKeyChecking\|UserKnownHostsFile&#39;
+// Needs OpenSSH&#39;s ssh on PATH. Connects this version&#39;s client to an unpinned instance, the state
+// that an older host agent leaves, with the empty file and after the removal.
+
+package sshutil
+
+import (
+	&quot;os&quot;
+	&quot;os/exec&quot;
+	&quot;path/filepath&quot;
+	&quot;strconv&quot;
+	&quot;strings&quot;
+	&quot;testing&quot;
+
+	&quot;gotest.tools/v3/assert&quot;
+)
+
+func TestUnpinnedInstance(t *testing.T) {
+	instDir := filepath.Join(t.TempDir(), &quot;foo&quot;)
+	assert.NilError(t, os.Mkdir(instDir, 0o755))
+	address, port := startSSHServer(t, generateHostKey(t))
+
+	connect := func(name string) {
+		opts, err := HostKeyOpts(t.Context(), &quot;ssh&quot;, instDir)
+		assert.NilError(t, err)
+		args := []string{&quot;-F&quot;, &quot;/dev/null&quot;, &quot;-o&quot;, &quot;BatchMode=yes&quot;, &quot;-p&quot;, strconv.Itoa(port)}
+		for _, opt := range opts {
+			args = append(args, &quot;-o&quot;, strings.ReplaceAll(opt, `&quot;`, &quot;&quot;))
+		}
+		out, _ := exec.CommandContext(t.Context(), &quot;ssh&quot;, append(args, address, &quot;true&quot;)...).CombinedOutput()
+		t.Logf(&quot;%s: %s, refused=%v&quot;, name, opts[0], strings.Contains(string(out), &quot;Host key verification failed&quot;))
+	}
+
+	// The instance was started by this version: the host agent wrote the empty file.
+	assert.NilError(t, WriteKnownHostsFile(instDir, &quot;foo&quot;, address, port))
+	connect(&quot;empty file&quot;)
+	// The host agent exits without having pinned a key.
+	assert.NilError(t, RemoveKnownHostsFileUnlessPinned(instDir))
+	connect(&quot;file removed&quot;)
+}</code></pre>
+      <pre><code class="language-text">$ go test ./pkg/sshutil -run TestUnpinnedInstance -count=1 -v
+    zz_unpinned_file_probe_test.go:33: empty file: StrictHostKeyChecking=yes, refused=true
+    zz_unpinned_file_probe_test.go:33: file removed: StrictHostKeyChecking=no, refused=false
+--- PASS: TestUnpinnedInstance
+PASS
+ok  	github.com/lima-vm/lima/v2/pkg/sshutil
+$ git show v2.2.1:pkg/sshutil/sshutil.go | grep -n &#39;StrictHostKeyChecking\|UserKnownHostsFile&#39;
+452:		&quot;StrictHostKeyChecking=no&quot;,
+453:		&quot;UserKnownHostsFile=/dev/null&quot;,</code></pre>
+      </details>
+    <p>Fix: reword both comments as below, and the commit body&#39;s sentence to match.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/sshutil/hostkey.go b/pkg/sshutil/hostkey.go
+index 1b63b3c6..fd188e4b 100644
+--- a/pkg/sshutil/hostkey.go
++++ b/pkg/sshutil/hostkey.go
+@@ -88,7 +88,8 @@ func RefreshKnownHostsFile(instDir, instName, sshAddress string, sshPort int) er
+ }
+ 
+ // RemoveKnownHostsFileUnlessPinned removes the known_hosts file of the instance when it pins no key,
+-// so that an older version of Lima that starts the instance next does not fail to verify the host key.
++// as an older version of Lima may start the instance next, and its host agent never pins a key,
++// so this version of limactl would then refuse to connect.
+ func RemoveKnownHostsFileUnlessPinned(instDir string) error {
+ 	hostKey, err := ReadPinnedHostKey(instDir)
+ 	if err != nil || hostKey != nil {
+@@ -158,8 +159,9 @@ func ScanHostKey(ctx context.Context, address string, port int) (ssh.PublicKey,
+ // With a single instance, the key is looked up by the &quot;lima-&lt;INSTANCE&gt;&quot; alias, which does not
+ // depend on the SSH address and port. With multiple instances, the key is looked up by the address and port.
+ //
+-// An instance without the known_hosts file, i.e., an instance that has never been started by this version of Lima,
+-// is not verified. When none of the instances has the file, the result disables the host key verification.
++// An instance without the known_hosts file, i.e., an instance that this version of Lima has never started,
++// or whose last start did not pin a key, is not verified.
++// When none of the instances has the file, the result disables the host key verification.
+ // Otherwise, the keys of the instances without the file are accepted with StrictHostKeyChecking=accept-new,
+ // which still refuses a key that does not match the pinned key, and are recorded in /dev/null,
+ // as ssh records new keys in the first UserKnownHostsFile.</code></pre>
+      </details>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="hack/test-upgrade.inc.sh">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> A <code>PREFIX</code> with a space deletes the wrong directory <span class="pill pill-codex">Codex GPT 6 Astra</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/hack/test-upgrade.inc.sh#L34-L51">hack/test-upgrade.inc.sh</a></div>
+      <pre data-start="34" data-line="39-46"><code class="language-bash">	fi
+	curl -fsSL &quot;https://github.com/lima-vm/lima/releases/download/${ver}/lima-${ver:1}-$(uname -s)-$(uname -m).tar.gz&quot; | ${tar} Cxzvm &quot;${PREFIX}&quot;
+}
+
+function uninstall_lima() {
+	files=&quot;${PREFIX}/bin/lima ${PREFIX}/bin/limactl ${PREFIX}/share/lima ${PREFIX}/share/doc/lima ${PREFIX}/libexec/lima&quot;
+	if [ -w &quot;${PREFIX}/bin&quot; ] &amp;&amp; [ -w &quot;${PREFIX}/share&quot; ] &amp;&amp; [ -w &quot;${PREFIX}/libexec&quot; ]; then
+		# shellcheck disable=SC2086
+		rm -rf $files
+	else
+		# shellcheck disable=SC2086
+		sudo rm -rf $files
+	fi
+}
+
+function show_lima_log() {
+	tail -n 100 ~/.lima/&quot;${LIMA_INSTANCE}&quot;/*.log || true
+	mkdir -p failure-logs</code></pre>
+    <p>Line 9 now takes <code>PREFIX</code> from the environment, and the unquoted <code>$files</code> splits a path at its spaces, so a prefix of <code>/tmp/install space</code> deletes <code>/tmp/install</code>. A probe confirmed that. Nothing in the tree sets such a prefix, and only developers and CI run this helper.</p>
+    <p>Fix: build <code>files</code> as a bash array and expand it as <code>&quot;${files[@]}&quot;</code>.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/sshutil/hostkey.go">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> <code>ReadPinnedHostKey</code>&#39;s parse error omits the instance <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/sshutil/hostkey.go#L44-L54">pkg/sshutil/hostkey.go</a></div>
+      <pre data-start="44" data-line="49"><code class="language-go">	_, _, hostKey, _, _, err := ssh.ParseKnownHosts(b)
+	if err != nil {
+		if errors.Is(err, io.EOF) {
+			return nil, nil
+		}
+		return nil, fmt.Errorf(&quot;failed to parse %#q: %w&quot;, filenames.SSHKnownHosts, err)
+	}
+	return hostKey, nil
+}
+
+// WriteKnownHostsFile rewrites the known_hosts file of the instance, so that the pinned SSH host key</code></pre>
+    <p>A multi-instance <code>limactl copy</code> reads several of these files, so this error does not say which one is bad.</p>
+    <p>Fix: format <code>filepath.Join(instDir, filenames.SSHKnownHosts)</code>, as the mismatch error at line 119 does.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/copytool/scp.go">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> <code>scp.go</code>&#39;s comment understates why the refresh exists <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/copytool/scp.go#L132-L142">pkg/copytool/scp.go</a></div>
+      <pre data-start="132" data-line="137"><code class="language-go">		if err != nil {
+			return nil, err
+		}
+		instDirs := make([]string, 0, len(instances))
+		for _, inst := range instances {
+			// The keys are looked up by the address and the port, which an older version of the host agent does not update.
+			if err := sshutil.RefreshKnownHostsFile(inst.Dir, inst.Name, inst.SSHAddress, inst.SSHLocalPort); err != nil {
+				return nil, err
+			}
+			instDirs = append(instDirs, inst.Dir)
+		}</code></pre>
+    <p>On wsl2 the current host agent also writes <code>127.0.0.1</code> (<a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/driver/wsl2/wsl_driver_windows.go#L364"><code>pkg/driver/wsl2/wsl_driver_windows.go:364</code></a>), while <code>inst.SSHAddress</code> is the guest-reported address (line 237). So wsl2 needs the refresh permanently, and a cleanup that follows this comment would break its copies.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/driver/wsl2/wsl_driver_windows.go#L359-L369">pkg/driver/wsl2/wsl_driver_windows.go</a></div>
+      <pre data-start="359" data-line="364"><code class="language-go">	}
+	return info
+}
+
+func (l *LimaWslDriver) SSHAddress(_ context.Context) (string, error) {
+	return &quot;127.0.0.1&quot;, nil
+}
+
+func (l *LimaWslDriver) Create(_ context.Context) error {
+	return nil
+}</code></pre>
+    <p>Fix: add that reason to the comment.</p>
+    </div>
+    <div class="card card-suggestion" data-file="hack/test-upgrade.inc.sh">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> <code>export PREFIX # for make install</code> no longer says why <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/hack/test-upgrade.inc.sh#L5-L15">hack/test-upgrade.inc.sh</a></div>
+      <pre data-start="5" data-line="10"><code class="language-bash">
+# Functions shared by test-upgrade.sh and test-downgrade.sh.
+# Requires common.inc.sh to be sourced, and LIMA_INSTANCE to be set before calling show_lima_log.
+
+PREFIX=&quot;${PREFIX:-/usr/local}&quot;
+export PREFIX # for make install
+function install_lima() {
+	ver=&quot;$1&quot;
+	git checkout &quot;${ver}&quot;
+	make clean
+	make</code></pre>
+    <p><code>make_install</code> now passes <code>PREFIX</code> itself, so the export matters only to the plain <code>make</code> in <code>install_lima</code>.</p>
+    <p>Fix: drop the comment, or say what that <code>make</code> uses it for.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/sshutil/hostkey.go">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> <code>HostKeyOpts</code> repeats <code>identityFileEntry</code>&#39;s quoting <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/sshutil/hostkey.go#L178-L192">pkg/sshutil/hostkey.go</a></div>
+      <pre data-start="178" data-line="183-187"><code class="language-go">		}
+		knownHostsPath, err := PathForTool(ctx, toolPath, knownHostsPath)
+		if err != nil {
+			return nil, err
+		}
+		if runtime.GOOS == &quot;windows&quot; {
+			knownHostsFiles = append(knownHostsFiles, fmt.Sprintf(`&#39;%s&#39;`, knownHostsPath))
+		} else {
+			knownHostsFiles = append(knownHostsFiles, fmt.Sprintf(`&quot;%s&quot;`, knownHostsPath))
+		}
+	}
+	if len(knownHostsFiles) == 0 {
+		return []string{
+			&quot;StrictHostKeyChecking=no&quot;,
+			&quot;UserKnownHostsFile=/dev/null&quot;,</code></pre>
+    <p><code>identityFileEntry</code> at <a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/sshutil/sshutil.go#L507-L516"><code>pkg/sshutil/sshutil.go:507-516</code></a> has the same Windows branch.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/sshutil/sshutil.go#L502-L521">pkg/sshutil/sshutil.go</a></div>
+      <pre data-start="502" data-line="507-516"><code class="language-go">		}
+	}
+	return opts, nil
+}
+
+func identityFileEntry(ctx context.Context, toolPath, privateKeyPath string) (string, error) {
+	if runtime.GOOS == &quot;windows&quot; {
+		privateKeyPath, err := PathForTool(ctx, toolPath, privateKeyPath)
+		if err != nil {
+			return &quot;&quot;, err
+		}
+		return fmt.Sprintf(`IdentityFile=&#39;%s&#39;`, privateKeyPath), nil
+	}
+	return fmt.Sprintf(`IdentityFile=&quot;%s&quot;`, privateKeyPath), nil
+}
+
+// DisableControlMasterOptsFromSSHArgs returns ssh args that disable ControlMaster, ControlPath, and ControlPersist.
+func DisableControlMasterOptsFromSSHArgs(sshArgs []string) []string {
+	argsForOverridingConfigFile := []string{
+		&quot;-o&quot;, &quot;ControlMaster=no&quot;,</code></pre>
+    <p>Fix: extract a helper that returns the quoted path, and use it in both.</p>
+    </div>
+    <div class="card card-suggestion" data-file="hack/bats/extras/freebsd.bats">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> <code>freebsd.bats</code> never restarts the guest <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/hack/bats/extras/freebsd.bats#L11-L21">hack/bats/extras/freebsd.bats</a></div>
+      <pre data-start="11" data-line="16"><code class="language-bash">    # &lt;DEBUG&gt;
+    set -x
+    tail -n 100 &quot;${LIMA_HOME}&quot;/freebsd/*.log
+    limactl shell freebsd -- cat /var/log/messages
+    # &lt;/DEBUG&gt;
+    limactl stop freebsd
+    limactl rm freebsd
+}
+
+@test &#39;Smoke test&#39; {
+    run -0 limactl shell freebsd -- uname</code></pre>
+    <p>Host-key stability is a restart property, but this file stops the guest without starting it again, so no job restarts FreeBSD. Nothing is broken today. <code>template:freebsd</code> kept its key across a stop and start here, in plain mode on aarch64. A regression would fail every second start with a warning that names the cause, which makes this test optional under the review&#39;s rating.</p>
+    <p>Fix: add a <code>@test</code> that stops and starts the guest, then runs <code>limactl shell freebsd true</code>.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>The stated motivation covers one configuration</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span>: the PR comment names a guest user process impersonating <code>sshd</code> after a crash. With the default passwordless sudo that process can read the private key, and the threat model treats guest root as the attacker, so pinning stops it only under <code>user.passwordlessSudo: false</code>. The threat model does list that as a boundary, which is why the verdict is <strong>Merge with fixes</strong>. For that vector alone, <a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/cidata/cidata.TEMPLATE.d/boot.Linux/20-rootless-base.sh#L64"><code>boot.Linux/20-rootless-base.sh:64</code></a> could keep port 22 privileged with <code>ip_unprivileged_port_start=23</code>, one line against this PR&#39;s 742 added lines, tests and CI included, and a new rule for every guest. Pinning may also stop another local user who binds the host&#39;s SSH port, but nobody has claimed or measured that.</li>
+      <li><strong>A guest that breaks the new rule cannot opt out</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span>: I1 and I2 fix the two known cases one at a time. No workflow boots a macOS or Windows guest and this review did not either, so their restart behavior is unmeasured. An <code>ssh</code> config field that skips the pin and takes <code>HostKeyOpts</code>&#39;s unpinned branch would give users a way out of the next case.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>Mixed copies stay verified</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span>: <code>accept-new</code> with <code>/dev/null</code> first works as its comment says. Real <code>ssh</code>, rerun for this report, accepted the legacy host, refused a wrong key for the pinned host, and left the pin file&#39;s key unchanged.</li>
+      <li><strong>The pin does not depend on the port</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span>: <code>HostKeyAlias</code> keeps a single-instance connection working when an older host agent picks a new port.</li>
+      <li><strong>The scan proves possession of the key</strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span>: x/crypto v0.58.0 verifies the signature before it calls <code>HostKeyCallback</code> (<code>ssh/handshake.go:837-841</code>), so the comment on <code>ScanHostKey</code> is accurate.</li>
+      <li><strong>A failed write cannot unpin the instance</strong> (in-scope) <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span>: <code>fsutil.WriteFileAtomic</code> keeps the old file until the new one is complete.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><code>go test ./...</code> ran in the lead worktree at the review SHA: 54 packages passed, 52 do not have tests, and none failed. CI at this head has 37 passes and one failure. That failure, <code>VMNet tests (QEMU, macos-15-large)</code>, is the known runner loss, and the job failed at the merge-base too. <code>Downgrade tests</code> passed on its first attempt.</p>
+    <p>Real VMs ran for this report: <code>alpine-iso</code> on vz on aarch64, plain and non-plain, at the head and the merge-base (I1), and <code>template:freebsd</code> on QEMU on aarch64 in plain mode (S6). macOS and Windows guests did not run.</p>
+    <ul>
+      <li><strong>Added by a patch:</strong> <code>TestPinHostKeyWithoutEd25519</code> (I2).</li>
+      <li><strong>Optional:</strong> a restart of a plain <code>alpine-iso</code>, and S6, both decided by the &quot;How would a user see it?&quot; check. That check lists restart sequences as required because they cannot be reproduced at will, but each of these fails on every second start with a warning that names the pin file. <code>hack/test-templates.sh</code> restarts <code>alpine-iso-9p-writable</code> but never in plain mode, so the first needs a new CI case and its test stays in I1&#39;s reproducer.</li>
+      <li><strong>Optional and dropped:</strong> unit coverage of the <code>scp.go</code> refresh wiring, since it needs on-disk instance fixtures and a failure is loud.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><code>usage/ssh.md</code>, <code>breaking.md</code> and <code>internals.md</code> are accurate for guests with an ed25519 key, and I2&#39;s patch rewords the lines that name that key type. The example at <a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/website/content/en/docs/usage/ssh.md#L37"><code>website/content/en/docs/usage/ssh.md:37</code></a> works as written. The <code>breaking.md</code> entry belongs under <code>## v2.3.0</code> as long as the PR merges before the final tag, since only <code>v2.3.0-rc.0</code> exists.</p>
+    <p>A pre-existing error: <a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/website/content/en/docs/dev/internals.md#L91"><code>website/content/en/docs/dev/internals.md:91</code></a> says Lima does not consume <code>ssh.config</code>, but <a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/cmd/limactl/guest-install.go#L74"><code>cmd/limactl/guest-install.go:74</code></a>, <a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/driver/vz/vz_driver_darwin.go#L526"><code>pkg/driver/vz/vz_driver_darwin.go:526</code></a> and <a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/mcp/toolset/toolset.go#L52"><code>pkg/mcp/toolset/toolset.go:52</code></a> all do.</p>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><a href="https://github.com/lima-vm/lima/commit/715206e4"><code>715206e4</code></a> fixes Windows guest provisioning and has nothing to do with host keys, and neither its body nor the PR body connects them. The project asks for one fix per pull request, so it belongs in its own PR with I3&#39;s rename. The PR body also omits the downgrade CI job. The author is a maintainer, so the missing linked issue is exempt.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>First boot trusts the guest.</strong> The author chose this after moving key generation into the guest, because the ISO is readable by non-root users in some guests.</li>
+      <li><strong>Localhost is verified on purpose.</strong> A PR comment proposed checking only other hosts, and the author declined.</li>
+      <li><strong>A mismatch retries by design.</strong> <a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/hostagent/requirements.go#L173"><code>pkg/hostagent/requirements.go:173</code></a> states why, and the warning prints once, on the first failure.</li>
+      <li><em></em>A non-plain <code>alpine-iso</code> restarts fine.<em></em> Do not re-suggest restarting <code>sshd</code> in the persistence script. A real restart kept its key and took 9 s, and CI&#39;s <code>alpine-iso-9p-writable</code> job did not print a mismatch.</li>
+      <li><em></em><a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/website/content/en/docs/usage/ssh.md#L37"><code>ssh.md:37</code></a> needs no more options.<em></em> Do not re-suggest <code>HostKeyAlgorithms</code> or <code>StrictHostKeyChecking</code> there: real <code>ssh</code> negotiated the pinned type on a server offering both, with either type pinned.</li>
+      <li><em></em><code>/dev/null</code> stays on Windows.<em></em> Do not re-suggest <code>NUL</code>: the merge-base already passed <code>UserKnownHostsFile=/dev/null</code> to every Windows toolchain, and <code>NUL</code> is a Win32 name that MSYS2 and Cygwin ssh may not share. Not measured on a Windows host.</li>
+      <li><em></em><code>BatchMode=yes</code> stays.<em></em> Only a diff in a PR comment removes it. The reviewed tree keeps it.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="unresolved-feedback">Unresolved Feedback <a href="#unresolved-feedback" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Nobody replied to Copilot&#39;s five inline comments, but the head addresses all five, with <code>WriteFileAtomic</code> at <a href="https://github.com/lima-vm/lima/blob/57df3949fddc8071f7b7d8a1589f433e1d6022fb/pkg/sshutil/hostkey.go#L76"><code>pkg/sshutil/hostkey.go:76</code></a>, the <code>accept-new</code> path, <code>install_lima_binary</code> in <code>hack/test-downgrade.sh</code>, the explicit <code>PREFIX</code> in <code>make_install</code>, and <code>RefreshKnownHostsFile</code>.</p>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5-5"><span class="pill pill-claude">Claude Opus 5.5</span> <a href="#claude-opus-5-5" class="pilcrow">&#182;</a></h3>
+    <p>It found the most, with the plain <code>alpine-iso</code> failure by reasoning alone, the ed25519 gap with a working reproducer, and the only finding on the comments. It marked the first as unproven because the prompt forbids VM boots, and a real boot then confirmed it, including its assumption that the ISO bakes in no keys. It rated the FreeBSD test gap Important, but a real FreeBSD restart kept its key, so that became S6. It alone set the PR&#39;s motivation against the threat model. Its one coverage miss was calling the <code>Copy-Provision</code> fix correct while the function still fails on a second script.</p>
+    <h3 id="codex-gpt-6-astra"><span class="pill pill-codex">Codex GPT 6 Astra</span> <a href="#codex-gpt-6-astra" class="pilcrow">&#182;</a></h3>
+    <p>It alone spotted <code>Copy-Provision</code>&#39;s case-insensitive variable, and filed it as a Suggestion because the merge-base&#39;s provisioning was already broken. Running the function raised it to I3. Its extraction of <code>boot.sh</code>&#39;s dispatch block was the best evidence any agent brought for I1. Its prefix finding reproduced as described, though it rated a developer-only helper too high. Its sandbox could not reach a Go module cache, so it could not run Go tests, and it missed the ed25519 regression.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Its only finding was wrong. It reports <code>BatchMode=yes</code> as removed, quoting a diff from a PR comment, and the tree keeps the line. It marked every file behind an Important finding as reviewed with no issues, and its summary calls the implementation &quot;highly robust&quot;. Policy refused 11 of its 71 shell calls. It left an untracked <code>pkg/sshutil/scan_test.go</code> in its worktree and ran it, a test that dials <code>127.0.0.1:22</code> on the review host. Nothing suggests that did any harm, but a scan of a host service falls outside its review.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>It looked at the right code path and drew the wrong conclusion. It claims every <code>alpine-iso</code> reboot stalls, but a real non-plain restart kept its key, and the comment it quotes does not match the file. Its docs finding failed the same way: real <code>ssh</code> picked the pinned type unaided. Its <code>writeSSHConfigFile</code> concern cites a call that exists at neither the head nor the merge-base. Its <code>ReadPinnedHostKey</code> error note was sound, and its FIPS concern matched I2 from a different angle. The two Gemini reviewers share a model family, but they agreed on no finding here.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5.5</span></th><th><span class="pill pill-codex">Codex GPT 6 Astra</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>18m 51s</td><td>10m 33s</td><td>11m 23s</td><td>22m 28s</td></tr>
+        <tr><td>Findings</td><td>3I 4S</td><td>2I 1S</td><td>none</td><td>1I 1S</td></tr>
+        <tr><td>Tool calls</td><td>36 (Bash 25, Read 11)</td><td>24 (shell 24)</td><td>75 (run<em>shell</em>command 71, read<em>file 3, list</em>directory 1)</td><td>154 (grep<em>search 51, read</em>file 49, run<em>shell</em>command 35)</td></tr>
+        <tr><td>Design observations</td><td>6</td><td>3</td><td>3</td><td>4</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>1</td><td>3</td></tr>
+        <tr><td>Unique insights</td><td>5</td><td>2</td><td>0</td><td>1</td></tr>
+        <tr><td>Files reviewed</td><td>19</td><td>19</td><td>19</td><td>19</td></tr>
+        <tr><td>Coverage misses</td><td>1</td><td>0</td><td>3</td><td>1</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>3I 4S</strong></td><td><strong>2I 1S</strong></td><td><strong>none</strong></td><td><strong>1I 1S</strong></td></tr>
+        <tr><td>Downgraded</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p>Claude Opus 5.5 gave the most value, and Codex GPT 6 Astra added two defects nobody else saw. Gemini 3.5 Flash added one Suggestion and one cross-check, and no finding from Gemini 3.1 Pro held up.</p>
+    <p><strong>Reconciliation.</strong> Codex P1 prefix deletion: important → suggestion S1, because nothing sets such a prefix and only developers and CI run the helper. Codex P1 <code>Copy-Provision</code>: suggestion → important I3, after the function failed when run. Claude P1 FreeBSD restart test: important → suggestion S6, after a real FreeBSD restart passed. Flash P1 FIPS design concern: merged into I2. Flash P1 <code>/dev/null</code> on Windows: dropped, see Acknowledged Limitations. Flash P1 unrelated-commit note: moved to Commit Structure.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>A sandboxed CLI can refuse a Go module cache outside its worktree, so an agent there cannot build or test, and it reports that only in its Testing Assessment. For a Go repo, stage the module cache as well as the sources named in the prompt, and give the agents the <code>GOMODCACHE</code> value to use, because a review whose agents can run tests finds defects that a read does not.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><code>boot.Linux/</code> runs only outside plain mode, and alpine-lima&#39;s <code>lima-init.sh</code> handles only the user-data keys that it parses by hand. So on an <code>alpine-iso</code> guest, no cloud-init setting applies, and a change that needs guest state to persist across a restart must check which boot script keeps that state in plain mode.</li>
+      <li><code>hack/test-templates.sh</code> restarts Linux guests in non-plain mode only, <code>freebsd.bats</code> stops without restarting, and no workflow boots a macOS or Windows guest. CI does not cover a restart on those paths, so ask for a probe when a change depends on one.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){var t="\\b(?:BASH|BASHOPTS|BASH_ALIASES|BASH_ARGC|BASH_ARGV|BASH_CMDS|BASH_COMPLETION_COMPAT_DIR|BASH_LINENO|BASH_REMATCH|BASH_SOURCE|BASH_VERSINFO|BASH_VERSION|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|EUID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_ADDRESS|LC_ALL|LC_IDENTIFICATION|LC_MEASUREMENT|LC_MONETARY|LC_NAME|LC_NUMERIC|LC_PAPER|LC_TELEPHONE|LC_TIME|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS1|PS2|PS3|PS4|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UID|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_CONFIG_DIRS|XDG_CURRENT_DESKTOP|XDG_DATA_DIRS|XDG_GREETER_DATA_DIR|XDG_MENU_PREFIX|XDG_RUNTIME_DIR|XDG_SEAT|XDG_SEAT_PATH|XDG_SESSION_DESKTOP|XDG_SESSION_ID|XDG_SESSION_PATH|XDG_SESSION_TYPE|XDG_VTNR|XMODIFIERS)\\b",a={pattern:/(^(["']?)\w+\2)[ \t]+\S.*/,lookbehind:!0,alias:"punctuation",inside:null},n={bash:a,environment:{pattern:RegExp("\\$"+t),alias:"constant"},variable:[{pattern:/\$?\(\([\s\S]+?\)\)/,greedy:!0,inside:{variable:[{pattern:/(^\$\(\([\s\S]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,operator:/--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,greedy:!0,inside:{variable:/^\$\(|^`|\)$|`$/}},{pattern:/\$\{[^}]+\}/,greedy:!0,inside:{operator:/:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,punctuation:/[\[\]]/,environment:{pattern:RegExp("(\\{)"+t),lookbehind:!0,alias:"constant"}}},/\$(?:\w+|[#?*!@$])/],entity:/\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/};e.languages.bash={shebang:{pattern:/^#!\s*\/.*/,alias:"important"},comment:{pattern:/(^|[^"{\\$])#.*/,lookbehind:!0},"function-name":[{pattern:/(\bfunction\s+)[\w-]+(?=(?:\s*\(?:\s*\))?\s*\{)/,lookbehind:!0,alias:"function"},{pattern:/\b[\w-]+(?=\s*\(\s*\)\s*\{)/,alias:"function"}],"for-or-select":{pattern:/(\b(?:for|select)\s+)\w+(?=\s+in\s)/,alias:"variable",lookbehind:!0},"assign-left":{pattern:/(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,inside:{environment:{pattern:RegExp("(^|[\\s;|&]|[<>]\\()"+t),lookbehind:!0,alias:"constant"}},alias:"variable",lookbehind:!0},parameter:{pattern:/(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,alias:"variable",lookbehind:!0},string:[{pattern:/((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?(?:\r?\n|\r)\2/,lookbehind:!0,greedy:!0,inside:n},{pattern:/((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?(?:\r?\n|\r)\3/,lookbehind:!0,greedy:!0,inside:{bash:a}},{pattern:/(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,lookbehind:!0,greedy:!0,inside:n},{pattern:/(^|[^$\\])'[^']*'/,lookbehind:!0,greedy:!0},{pattern:/\$'(?:[^'\\]|\\[\s\S])*'/,greedy:!0,inside:{entity:n.entity}}],environment:{pattern:RegExp("\\$?"+t),alias:"constant"},variable:n.variable,function:{pattern:/(^|[\s;|&]|[<>]\()(?:add|apropos|apt|apt-cache|apt-get|aptitude|aspell|automysqlbackup|awk|basename|bash|bc|bconsole|bg|bzip2|cal|cargo|cat|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clear|cmp|column|comm|composer|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|debootstrap|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|docker|docker-compose|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|git|gparted|grep|groupadd|groupdel|groupmod|groups|grub-mkconfig|gzip|halt|head|hg|history|host|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|ip|java|jobs|join|kill|killall|less|link|ln|locate|logname|logrotate|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|make|man|mc|mdadm|mkconfig|mkdir|mke2fs|mkfifo|mkfs|mkisofs|mknod|mkswap|mmv|more|most|mount|mtools|mtr|mutt|mv|nano|nc|netstat|nice|nl|node|nohup|notify-send|npm|nslookup|op|open|parted|passwd|paste|pathchk|ping|pkill|pnpm|podman|podman-compose|popd|pr|printcap|printenv|ps|pushd|pv|quota|quotacheck|quotactl|ram|rar|rcp|reboot|remsync|rename|renice|rev|rm|rmdir|rpm|rsync|scp|screen|sdiff|sed|sendmail|seq|service|sftp|sh|shellcheck|shuf|shutdown|sleep|slocate|sort|split|ssh|stat|strace|su|sudo|sum|suspend|swapon|sync|sysctl|tac|tail|tar|tee|time|timeout|top|touch|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|update-grub|uptime|useradd|userdel|usermod|users|uudecode|uuencode|v|vcpkg|vdir|vi|vim|virsh|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yarn|yes|zenity|zip|zsh|zypper)(?=$|[)\s;|&])/,lookbehind:!0},keyword:{pattern:/(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)(?=$|[)\s;|&])/,lookbehind:!0},builtin:{pattern:/(^|[\s;|&]|[<>]\()(?:\.|:|alias|bind|break|builtin|caller|cd|command|continue|declare|echo|enable|eval|exec|exit|export|getopts|hash|help|let|local|logout|mapfile|printf|pwd|read|readarray|readonly|return|set|shift|shopt|source|test|times|trap|type|typeset|ulimit|umask|unalias|unset)(?=$|[)\s;|&])/,lookbehind:!0,alias:"class-name"},boolean:{pattern:/(^|[\s;|&]|[<>]\()(?:false|true)(?=$|[)\s;|&])/,lookbehind:!0},"file-descriptor":{pattern:/\B&\d\b/,alias:"important"},operator:{pattern:/\d?<>|>\||\+=|=[=~]?|!=?|<<[<-]?|[&\d]?>>|\d[<>]&?|[<>][&=]?|&[>&]?|\|[&|]?/,inside:{"file-descriptor":{pattern:/^\d/,alias:"important"}}},punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,number:{pattern:/(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,lookbehind:!0}},a.inside=e.languages.bash;for(var s=["comment","function-name","for-or-select","assign-left","parameter","string","environment","function","keyword","builtin","boolean","file-descriptor","operator","punctuation","number"],o=n.variable[1].inside,i=0;i<s.length;i++)o[s[i]]=e.languages.bash[s[i]];e.languages.sh=e.languages.bash,e.languages.shell=e.languages.bash}(Prism);
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+!function(e){var i=e.languages.powershell={comment:[{pattern:/(^|[^`])<#[\s\S]*?#>/,lookbehind:!0},{pattern:/(^|[^`])#.*/,lookbehind:!0}],string:[{pattern:/"(?:`[\s\S]|[^`"])*"/,greedy:!0,inside:null},{pattern:/'(?:[^']|'')*'/,greedy:!0}],namespace:/\[[a-z](?:\[(?:\[[^\]]*\]|[^\[\]])*\]|[^\[\]])*\]/i,boolean:/\$(?:false|true)\b/i,variable:/\$\w+\b/,function:[/\b(?:Add|Approve|Assert|Backup|Block|Checkpoint|Clear|Close|Compare|Complete|Compress|Confirm|Connect|Convert|ConvertFrom|ConvertTo|Copy|Debug|Deny|Disable|Disconnect|Dismount|Edit|Enable|Enter|Exit|Expand|Export|Find|ForEach|Format|Get|Grant|Group|Hide|Import|Initialize|Install|Invoke|Join|Limit|Lock|Measure|Merge|Move|New|Open|Optimize|Out|Ping|Pop|Protect|Publish|Push|Read|Receive|Redo|Register|Remove|Rename|Repair|Request|Reset|Resize|Resolve|Restart|Restore|Resume|Revoke|Save|Search|Select|Send|Set|Show|Skip|Sort|Split|Start|Step|Stop|Submit|Suspend|Switch|Sync|Tee|Test|Trace|Unblock|Undo|Uninstall|Unlock|Unprotect|Unpublish|Unregister|Update|Use|Wait|Watch|Where|Write)-[a-z]+\b/i,/\b(?:ac|cat|chdir|clc|cli|clp|clv|compare|copy|cp|cpi|cpp|cvpa|dbp|del|diff|dir|ebp|echo|epal|epcsv|epsn|erase|fc|fl|ft|fw|gal|gbp|gc|gci|gcs|gdr|gi|gl|gm|gp|gps|group|gsv|gu|gv|gwmi|iex|ii|ipal|ipcsv|ipsn|irm|iwmi|iwr|kill|lp|ls|measure|mi|mount|move|mp|mv|nal|ndr|ni|nv|ogv|popd|ps|pushd|pwd|rbp|rd|rdr|ren|ri|rm|rmdir|rni|rnp|rp|rv|rvpa|rwmi|sal|saps|sasv|sbp|sc|select|set|shcm|si|sl|sleep|sls|sort|sp|spps|spsv|start|sv|swmi|tee|trcm|type|write)\b/i],keyword:/\b(?:Begin|Break|Catch|Class|Continue|Data|Define|Do|DynamicParam|Else|ElseIf|End|Exit|Filter|Finally|For|ForEach|From|Function|If|InlineScript|Parallel|Param|Process|Return|Sequence|Switch|Throw|Trap|Try|Until|Using|Var|While|Workflow)\b/i,operator:{pattern:/(^|\W)(?:!|-(?:b?(?:and|x?or)|as|(?:Not)?(?:Contains|In|Like|Match)|eq|ge|gt|is(?:Not)?|Join|le|lt|ne|not|Replace|sh[lr])\b|-[-=]?|\+[+=]?|[*\/%]=?)/i,lookbehind:!0},punctuation:/[|{}[\];(),.]/};i.string[0].inside={function:{pattern:/(^|[^`])\$\((?:\$\([^\r\n()]*\)|(?!\$\()[^\r\n)])*\)/,lookbehind:!0,inside:i},boolean:i.boolean,variable:i.variable}}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
