@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20261102-222507-pr-5229</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+.pass-tag, .title-note { font-weight: 400; color: #6b7280; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20261102-222507-pr-5229</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-11-02 22:25</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/ekalinin">@ekalinin</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5229" class="gh-ref" data-title="feat(downloader): resume partial downloads via HTTP Range" data-state="open" data-type="pr">#5229</a> — feat(downloader): resume partial downloads via HTTP Range</td></tr>
+      <tr><td>Branch</td><td><code>feat/downloader-resume-partial-downloads</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/335f6139"><code>335f6139</code></a> feat(downloader): resume partial downloads via HTTP Range<br><a href="https://github.com/lima-vm/lima/commit/eebcee35"><code>eebcee35</code></a> fix(downloader): bound 416 restart and require a validator to resume</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11"><code>eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5.5</span> (effort: high), <span class="pill pill-codex">Codex GPT 6 Astra</span> (effort: high), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; a one-condition fix closes a digest bypass; the cache docs, the commit message and the tests need corrections</td></tr>
+      <tr><td>Wall-clock time</td><td><code>19 min 1 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR resumes interrupted cache downloads from a stable <code>data.part</code> with <code>Range</code> and <code>If-Range</code>, and the design holds: the existing lock gives each URL one writer, and resume needs a digest and a cached validator. One branch breaks the digest&#39;s guarantee. A 206 that answers a request without <code>Range</code> appends to the stale partial, but the digest covers only the new bytes, so a hostile server or an on-path attacker gets its bytes cached as verified.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical" data-file="pkg/downloader/downloader.go">
+      <div class="finding-title" id="C1">
+        <span class="finding-num">C1.</span> A 206 to a request without <code>Range</code> bypasses the digest check <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#C1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader.go#L1113-L1125">pkg/downloader/downloader.go</a></div>
+      <pre data-start="1113" data-line="1118-1120"><code class="language-go">	logrus.Debugf(&quot;got HTTP status %q for %#q&quot;, resp.Status, url)
+
+	// Decide whether the server is resuming (206) or sending the whole file.
+	var resuming bool
+	switch {
+	case resp.StatusCode == http.StatusPartialContent:
+		logrus.Debugf(&quot;server returned 206 Partial Content; resuming %#q from offset %d&quot;, url, offset)
+		resuming = true
+	case resp.StatusCode == http.StatusRequestedRangeNotSatisfiable &amp;&amp; offset &gt; 0:
+		resp.Body.Close()
+		return finalizeOrRestartPartial(ctx, t, partial, offset, url, description, expectedDigest)
+	case resp.StatusCode/100 == 2:
+		// 200 OK, or any other 2xx: full body. The server ignored Range, or</code></pre>
+    <p>When <code>resumeOffset</code> declines a leftover partial (no cached validator), the request carries no <code>Range</code> and <code>offset</code> stays 0. A 206 still sets <code>resuming</code>, so <code>openPartialFile</code> appends to the old bytes (line 984), but <code>resumeDigester</code> hashes only the new body (line 1012). The digest matches, and <code>fetch</code> records it (line 423) for <code>getCached</code> to trust on later runs (lines 373-379).</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader.go#L368-L384">pkg/downloader/downloader.go</a></div>
+      <pre data-start="368" data-line="373-379"><code class="language-go">		}
+	}
+
+	ext := path.Ext(remote)
+	logrus.Debugf(&quot;file %#q is cached as %#q&quot;, localPath, shadData)
+	if _, err := os.Stat(shadDigest); err == nil {
+		logrus.Debugf(&quot;Comparing digest %#q with the cached digest file %#q, not computing the actual digest of %#q&quot;,
+			o.expectedDigest, shadDigest, shadData)
+		if err := validateCachedDigest(shadDigest, o.expectedDigest); err != nil {
+			return nil, err
+		}
+		if err := copyLocal(ctx, localPath, shadData, ext, o.decompress, &quot;&quot;, &quot;&quot;); err != nil {
+			return nil, err
+		}
+	} else {
+		if err := copyLocal(ctx, localPath, shadData, ext, o.decompress, o.description, o.expectedDigest); err != nil {
+			return nil, err</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader.go#L418-L428">pkg/downloader/downloader.go</a></div>
+      <pre data-start="418" data-line="423"><code class="language-go">	}
+	if err := downloadHTTP(ctx, target, remote, o.description, o.expectedDigest); err != nil {
+		return nil, err
+	}
+	if shadDigest != &quot;&quot; &amp;&amp; o.expectedDigest != &quot;&quot; {
+		if err := os.WriteFile(shadDigest, []byte(o.expectedDigest.String()), 0o644); err != nil {
+			return nil, err
+		}
+	}
+
+	// If the driver cannot use the format we just downloaded, save a converted</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader.go#L979-L989">pkg/downloader/downloader.go</a></div>
+      <pre data-start="979" data-line="984"><code class="language-go">// openPartialFile opens the partial file for writing, appending when resuming or
+// truncating for a fresh download.
+func openPartialFile(partial string, resuming bool) (*os.File, error) {
+	flag := os.O_CREATE | os.O_WRONLY | os.O_TRUNC
+	if resuming {
+		flag = os.O_CREATE | os.O_WRONLY | os.O_APPEND
+	}
+	return os.OpenFile(partial, flag, 0o644)
+}
+
+// flushPartial flushes and closes the partial file. The explicit close surfaces</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader.go#L1007-L1017">pkg/downloader/downloader.go</a></div>
+      <pre data-start="1007" data-line="1012"><code class="language-go">	algo := expectedDigest.Algorithm()
+	if !algo.Available() {
+		return nil, fmt.Errorf(&quot;unsupported digest algorithm %#q&quot;, algo)
+	}
+	digester := algo.Digester()
+	if offset &gt; 0 {
+		existing, err := os.Open(partial)
+		if err != nil {
+			return nil, err
+		}
+		defer existing.Close()</code></pre>
+    <p>A hostile server needs two responses. It cuts the first short without <code>ETag</code> or <code>Last-Modified</code> and answers the retry with 206. Lima v2.0.0&#39;s and v2.1.0&#39;s default Ubuntu images now redirect to plain <code>http://cloud-images-archive.ubuntu.com</code>, and the <code>freebsd</code> and <code>freebsd-15</code> templates use <code>http://</code>, so an on-path attacker can. The merge-base writes a fresh temp file and passes the same test.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as pkg/downloader/unsolicited206_test.go; run: go test -count=1 -run TestUnsolicited206 -v ./pkg/downloader/
+package downloader
+
+import (
+	&quot;net/http&quot;
+	&quot;net/http/httptest&quot;
+	&quot;os&quot;
+	&quot;path/filepath&quot;
+	&quot;sync/atomic&quot;
+	&quot;testing&quot;
+
+	&quot;github.com/opencontainers/go-digest&quot;
+	&quot;gotest.tools/v3/assert&quot;
+)
+
+func TestUnsolicited206(t *testing.T) {
+	genuine := []byte(&quot;genuine image bytes&quot;)
+	for _, prior := range []string{&quot;interrupted&quot;, &quot;fresh cache&quot;} {
+		t.Run(prior, func(t *testing.T) {
+			var requests atomic.Int32
+			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				t.Logf(&quot;request %d: Range=%q&quot;, requests.Load()+1, r.Header.Get(&quot;Range&quot;))
+				if requests.Add(1) == 1 &amp;&amp; prior == &quot;interrupted&quot; {
+					// Cut short, with no ETag or Last-Modified: leaves data.part
+					// holding attacker bytes that resumeOffset declines to resume.
+					w.Header().Set(&quot;Content-Length&quot;, &quot;1000&quot;)
+					_, _ = w.Write([]byte(&quot;ATTACKER-CHOSEN-BYTES:&quot;))
+					return
+				}
+				// 206 to a request that carried no Range header.
+				w.WriteHeader(http.StatusPartialContent)
+				_, _ = w.Write(genuine)
+			}))
+			t.Cleanup(ts.Close)
+			cacheDir, local := filepath.Join(t.TempDir(), &quot;cache&quot;), filepath.Join(t.TempDir(), &quot;out&quot;)
+			opts := []Opt{WithExpectedDigest(digest.FromBytes(genuine)), WithCacheDir(cacheDir)}
+			if prior == &quot;interrupted&quot; {
+				_, err := Download(t.Context(), local, ts.URL, opts...)
+				t.Logf(&quot;first attempt: %v&quot;, err)
+			}
+			r, err := Download(t.Context(), local, ts.URL, opts...)
+			assert.NilError(t, err)
+			got, err := os.ReadFile(local)
+			assert.NilError(t, err)
+			t.Logf(&quot;ValidatedDigest=%v got=%q&quot;, r.ValidatedDigest, got)
+			assert.Equal(t, string(got), string(genuine))
+		})
+	}
+}</code></pre>
+      <pre><code class="language-text">$ go test -count=1 -run TestUnsolicited206 -v ./pkg/downloader/
+=== RUN   TestUnsolicited206
+=== RUN   TestUnsolicited206/interrupted
+    unsolicited206_test.go:22: request 1: Range=&quot;&quot;
+    unsolicited206_test.go:39: first attempt: unexpected EOF
+time=&quot;2026-11-02T22:42:00-07:00&quot; level=warning msg=&quot;No ETag or Last-Modified cached for `http://127.0.0.1:49551`; cannot safely resume the existing partial download, restarting from scratch&quot;
+    unsolicited206_test.go:22: request 2: Range=&quot;&quot;
+    unsolicited206_test.go:45: ValidatedDigest=true got=&quot;ATTACKER-CHOSEN-BYTES:genuine image bytes&quot;
+    unsolicited206_test.go:46: assertion failed: ATTACKER-CHOSEN-BYTES:genuine image bytes (string) != genuine image bytes (string)
+=== RUN   TestUnsolicited206/fresh_cache
+    unsolicited206_test.go:22: request 1: Range=&quot;&quot;
+    unsolicited206_test.go:45: ValidatedDigest=true got=&quot;genuine image bytes&quot;
+--- FAIL: TestUnsolicited206 (0.04s)
+    --- FAIL: TestUnsolicited206/interrupted (0.03s)
+    --- PASS: TestUnsolicited206/fresh_cache (0.01s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/downloader	0.431s
+FAIL
+
+$ git apply &lt;the patch below&gt;; go test -count=1 -run TestUnsolicited206 ./pkg/downloader/
+ok  	github.com/lima-vm/lima/v2/pkg/downloader	0.311s</code></pre>
+      </details>
+    <p>Fix: accept a 206 only after a <code>Range</code> request; any other 206 takes the full-body branch, which truncates the partial as the merge-base did. The patch includes a regression test.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/downloader/downloader.go b/pkg/downloader/downloader.go
+index 01b04195..366b98ea 100644
+--- a/pkg/downloader/downloader.go
++++ b/pkg/downloader/downloader.go
+@@ -1115,7 +1115,7 @@ func downloadHTTP(ctx context.Context, t httpTarget, url, description string, ex
+ 	// Decide whether the server is resuming (206) or sending the whole file.
+ 	var resuming bool
+ 	switch {
+-	case resp.StatusCode == http.StatusPartialContent:
++	case resp.StatusCode == http.StatusPartialContent &amp;&amp; offset &gt; 0:
+ 		logrus.Debugf(&quot;server returned 206 Partial Content; resuming %#q from offset %d&quot;, url, offset)
+ 		resuming = true
+ 	case resp.StatusCode == http.StatusRequestedRangeNotSatisfiable &amp;&amp; offset &gt; 0:
+diff --git a/pkg/downloader/downloader_test.go b/pkg/downloader/downloader_test.go
+index 7c9a30a7..e4184d8c 100644
+--- a/pkg/downloader/downloader_test.go
++++ b/pkg/downloader/downloader_test.go
+@@ -485,6 +485,35 @@ func TestResumeDownload(t *testing.T) {
+ 		assert.NilError(t, err)
+ 		assert.Assert(t, bytes.Equal(got, content), &quot;recovered file must match the full content&quot;)
+ 	})
++
++	t.Run(&quot;ignores 206 to a request without Range&quot;, func(t *testing.T) {
++		ctx := t.Context()
++		var requests atomic.Int32
++		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
++			if requests.Add(1) == 1 {
++				// Cut short and without a validator, so the leftover partial is
++				// not resumed and the next request carries no Range header.
++				w.Header().Set(&quot;Content-Length&quot;, &quot;5000&quot;)
++				_, _ = w.Write([]byte(&quot;stale-prefix:&quot;))
++				return
++			}
++			w.WriteHeader(http.StatusPartialContent)
++			_, _ = w.Write(content)
++		}))
++		t.Cleanup(ts.Close)
++
++		cacheDir := filepath.Join(t.TempDir(), &quot;cache&quot;)
++		localPath := filepath.Join(t.TempDir(), &quot;out&quot;)
++		_, err := Download(ctx, localPath, ts.URL, WithExpectedDigest(dgst), WithCacheDir(cacheDir))
++		assert.ErrorContains(t, err, &quot;unexpected EOF&quot;)
++
++		r, err := Download(ctx, localPath, ts.URL, WithExpectedDigest(dgst), WithCacheDir(cacheDir))
++		assert.NilError(t, err)
++		assert.Equal(t, StatusDownloaded, r.Status)
++		got, err := os.ReadFile(localPath)
++		assert.NilError(t, err)
++		assert.Assert(t, bytes.Equal(got, content), &quot;the stale partial must not prefix the verified content&quot;)
++	})
+ }
+ 
+ func TestRedownloadRemote(t *testing.T) {</code></pre>
+      </details>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file="website/content/en/docs/dev/internals.md">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> The cache docs say <code>prune --keep-referred</code> keeps the partials of kept entries <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/website/content/en/docs/dev/internals.md#L145-L155">website/content/en/docs/dev/internals.md</a></div>
+      <pre data-start="145" data-line="150"><code class="language-markdown">
+The directory contains the following files:
+
+- `url`: raw url text, without &quot;\n&quot;
+- `data`: data
+- `data.part`: (Optional) a partial download that has not completed yet. It is renamed to `data` once the download finishes and its digest (if any) is verified. When a download is interrupted, this file is kept so the next attempt can resume it with an HTTP `Range` request (guarded by `If-Range`) when an expected digest is configured and an `etag` or `time` validator is cached; otherwise the download restarts from scratch. At most one `data.part` exists per URL. A leftover partial is only removed together with its cache entry: `limactl prune` deletes the entire cache, and when `limactl prune --keep-referred` deletes an unused cache entry, any `data.part` in that entry is removed with it.
+- `time`: value of the `Last-Modified` response header, used to detect changes of digest-less images and as an `If-Range` validator when resuming.
+- `type`: value of the `Content-Type` response header.
+- `etag`: (Optional) value of the `ETag` response header, used as the preferred `If-Range` validator when resuming.
+- `&lt;ALGO&gt;.digest`: digest of the data, in OCI format.
+   e.g., file name `sha256.digest`, with content `sha256:5ba3d476707d510fe3ca3928e9cda5d0b4ce527d42b343404c92d563f82ba967`</code></pre>
+    <p>The last sentence says a partial goes only with its cache entry. But after deleting the unreferred entries, <code>pruneAction</code> calls <code>downloader.RemoveStaleTempFiles</code> (<a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/cmd/limactl/prune.go#L70-L71"><code>cmd/limactl/prune.go:70-71</code></a>).</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/cmd/limactl/prune.go#L65-L76">cmd/limactl/prune.go</a></div>
+      <pre data-start="65" data-line="70-71"><code class="language-go">				return err
+			}
+		}
+	}
+
+	// Sweep leftover partial downloads (data.part / data.tmp.*) from the kept entries.
+	return downloader.RemoveStaleTempFiles(opt)
+}
+
+func knownLocations(ctx context.Context) (map[string]limatype.File, error) {
+	locations := make(map[string]limatype.File)
+</code></pre>
+    <p>That sweep deletes <code>data.part</code> from every entry that prune keeps (<a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader.go#L1270-L1282"><code>pkg/downloader/downloader.go:1270-1282</code></a>). <a href="https://github.com/lima-vm/lima/issues/5234" class="gh-ref" data-title="feat(prune): sweep leftover partial downloads from the cache" data-state="merged" data-type="pr">#5234</a> added it before this PR&#39;s merge-base, and the sentence answers a 2026-07-13 review comment written while <a href="https://github.com/lima-vm/lima/issues/5234" class="gh-ref" data-title="feat(prune): sweep leftover partial downloads from the cache" data-state="merged" data-type="pr">#5234</a> was still open. A reader would expect <code>prune --keep-referred</code> to leave resumable partials in place. The probe runs the real <code>limactl prune --keep-referred</code> against a scratch cache; the unreferred entry is the control.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader.go#L1265-L1287">pkg/downloader/downloader.go</a></div>
+      <pre data-start="1265" data-line="1270-1282"><code class="language-go">	}
+	return nil
+}
+
+func removeStaleTempFilesInDir(dir string) error {
+	return lockutil.WithDirLock(dir, func() error {
+		patterns := []string{
+			filepath.Join(dir, &quot;data.part&quot;),
+			filepath.Join(dir, &quot;data.tmp.*&quot;),
+		}
+		for _, pattern := range patterns {
+			matches, err := filepath.Glob(pattern)
+			if err != nil {
+				return err
+			}
+			for _, m := range matches {
+				logrus.Debugf(&quot;Removing stale partial download %#q&quot;, m)
+				if err := os.Remove(m); err != nil &amp;&amp; !errors.Is(err, os.ErrNotExist) {
+					return err
+				}
+			}
+		}
+		return nil</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-sh"># Save as probe-prune-partial.sh; run from the lima repo root: bash probe-prune-partial.sh
+# Needs go. Builds limactl, redirects HOME, XDG_CACHE_HOME, LIMA_HOME and
+# LIMA_TEMPLATES_PATH to a temp dir, and seeds two cache entries that both hold
+# a data.part: one for the image URL the only template refers to, one for a URL
+# nothing refers to.
+set -eu
+tmp=$(mktemp -d)
+go build -o &quot;$tmp/limactl&quot; ./cmd/limactl
+referred_url=https://example.invalid/referred.img
+mkdir -p &quot;$tmp/templates&quot; &quot;$tmp/lima&quot;
+printf &#39;images:\n- location: &quot;%s&quot;\n  arch: &quot;x86_64&quot;\n- location: &quot;%s&quot;\n  arch: &quot;aarch64&quot;\n&#39; \
+	&quot;$referred_url&quot; &quot;$referred_url&quot; &gt;&quot;$tmp/templates/probe.yaml&quot;
+cache=&quot;$tmp/cache/lima&quot;
+if [ &quot;$(uname)&quot; = Darwin ]; then cache=&quot;$tmp/home/Library/Caches/lima&quot;; fi
+seed() {
+	entry=&quot;$cache/download/by-url-sha256/$(printf %s &quot;$1&quot; | shasum -a 256 | cut -d&#39; &#39; -f1)&quot;
+	mkdir -p &quot;$entry&quot;
+	printf %s &quot;$1&quot; &gt;&quot;$entry/url&quot;
+	echo complete &gt;&quot;$entry/data&quot;
+	echo partial &gt;&quot;$entry/data.part&quot;
+	echo &quot;$entry&quot;
+}
+referred=$(seed &quot;$referred_url&quot;)
+unreferred=$(seed https://example.invalid/unreferred.img)
+HOME=&quot;$tmp/home&quot; XDG_CACHE_HOME=&quot;$tmp/cache&quot; LIMA_HOME=&quot;$tmp/lima&quot; \
+	LIMA_TEMPLATES_PATH=&quot;$tmp/templates&quot; &quot;$tmp/limactl&quot; prune --keep-referred
+echo &quot;referred entry after prune:&quot;
+ls -1 &quot;$referred&quot;
+echo &quot;unreferred entry after prune:&quot;
+ls -1 &quot;$unreferred&quot; 2&gt;&amp;1 || true</code></pre>
+      <pre><code class="language-text">$ bash probe-prune-partial.sh
+# github.com/lima-vm/lima/v2/cmd/limactl
+ld: warning: ignoring duplicate libraries: &#39;-lobjc&#39;
+referred entry after prune:
+data
+url
+unreferred entry after prune:
+ls: /var/folders/s2/9q03h0c11_s4fdw169wqz3qc0000gn/T/tmp.Q1VeXxLTYh/home/Library/Caches/lima/download/by-url-sha256/cf223436c5c1e2aedd6e62c8c0fb615aa09f86e8962f8ee223b2f0a54c25779b: No such file or directory</code></pre>
+      </details>
+    <p>Fix: describe what each prune command removes.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/website/content/en/docs/dev/internals.md b/website/content/en/docs/dev/internals.md
+index a5c37b5b..34e817f0 100644
+--- a/website/content/en/docs/dev/internals.md
++++ b/website/content/en/docs/dev/internals.md
+@@ -147,7 +147,7 @@ The directory contains the following files:
+ 
+ - `url`: raw url text, without &quot;\n&quot;
+ - `data`: data
+-- `data.part`: (Optional) a partial download that has not completed yet. It is renamed to `data` once the download finishes and its digest (if any) is verified. When a download is interrupted, this file is kept so the next attempt can resume it with an HTTP `Range` request (guarded by `If-Range`) when an expected digest is configured and an `etag` or `time` validator is cached; otherwise the download restarts from scratch. At most one `data.part` exists per URL. A leftover partial is only removed together with its cache entry: `limactl prune` deletes the entire cache, and when `limactl prune --keep-referred` deletes an unused cache entry, any `data.part` in that entry is removed with it.
++- `data.part`: (Optional) a partial download that has not completed yet. It is renamed to `data` once the download finishes and its digest (if any) is verified. When a download is interrupted, this file is kept so the next attempt can resume it with an HTTP `Range` request (guarded by `If-Range`) when an expected digest is configured and an `etag` or `time` validator is cached; otherwise the download restarts from scratch. At most one `data.part` exists per URL. `limactl prune` deletes it with the rest of the cache, and `limactl prune --keep-referred` deletes it even from the entries that it keeps.
+ - `time`: value of the `Last-Modified` response header, used to detect changes of digest-less images and as an `If-Range` validator when resuming.
+ - `type`: value of the `Content-Type` response header.
+ - `etag`: (Optional) value of the `ETag` response header, used as the preferred `If-Range` validator when resuming.</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="335f6139">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> The commit message misstates how a 416 is handled <span class="pill pill-claude">Claude Opus 5.5</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <pre><code class="language-text">- 416 Range Not Satisfiable: discard the partial and restart.</code></pre>
+    <p>The same commit&#39;s <code>finalizeOrRestartPartial</code> (line 1076 at the review SHA) renames a partial that already matches the digest into place without another request, and discards it only otherwise. The PR body repeats the bullet, and Lima squashes, so the merged commit would repeat it. Neither commit message says that a resume needs a digest, and that requirement decides whether a resume happens at all. Only <a href="https://github.com/lima-vm/lima/commit/eebcee35"><code>eebcee35</code></a>&#39;s message mentions the other requirement, a cached <code>ETag</code> or <code>Last-Modified</code>. The PR&#39;s own subtests show both 416 branches.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-sh"># Run from the lima repo root at the review SHA
+go test -count=1 -v -run &#39;TestResumeDownload/(finalizes|restarts_on_416)&#39; ./pkg/downloader/</code></pre>
+      <pre><code class="language-text">$ go test -count=1 -v -run &#39;TestResumeDownload/(finalizes|restarts_on_416)&#39; ./pkg/downloader/
+=== RUN   TestResumeDownload
+=== RUN   TestResumeDownload/restarts_on_416_when_partial_exceeds_remote_size
+=== RUN   TestResumeDownload/finalizes_a_complete_partial_on_416_without_re-downloading
+--- PASS: TestResumeDownload (0.04s)
+    --- PASS: TestResumeDownload/restarts_on_416_when_partial_exceeds_remote_size (0.03s)
+    --- PASS: TestResumeDownload/finalizes_a_complete_partial_on_416_without_re-downloading (0.01s)
+PASS
+ok  	github.com/lima-vm/lima/v2/pkg/downloader	0.402s</code></pre>
+      </details>
+    <p>Fix: in the squashed message and the PR body, write &quot;416 Range Not Satisfiable: finalize the partial in place when it matches the digest, otherwise discard it and restart&quot;, and add a sentence saying that a resume needs a digest and a cached <code>ETag</code> or <code>Last-Modified</code>.</p>
+    </div>
+    <div class="card card-important" data-file="pkg/downloader/downloader_test.go">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> No test interrupts a download, so the resume path can break with the suite green <span class="pill pill-claude">Claude Opus 5.5</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader_test.go#L238-L256">pkg/downloader/downloader_test.go</a></div>
+      <pre data-start="238" data-line="243-251"><code class="language-go">	assert.Assert(t, os.IsNotExist(err), &quot;data.tmp.* should have been removed&quot;)
+}
+
+// seedPartial writes a partial download (data.part) and its cached Last-Modified
+// into the cache entry for url, so a subsequent Download attempts to resume it.
+func seedPartial(t *testing.T, cacheDir, url string, partial []byte, lastModified string) {
+	t.Helper()
+	shad := cacheDirectoryPath(cacheDir, url)
+	assert.NilError(t, os.MkdirAll(shad, 0o700))
+	assert.NilError(t, os.WriteFile(filepath.Join(shad, &quot;data.part&quot;), partial, 0o644))
+	if lastModified != &quot;&quot; {
+		assert.NilError(t, os.WriteFile(filepath.Join(shad, &quot;time&quot;), []byte(lastModified), 0o644))
+	}
+}
+
+func TestResumeDownload(t *testing.T) {
+	content := bytes.Repeat([]byte(&quot;lima-resume-test\n&quot;), 100) // 1700 bytes
+	dgst := digest.FromBytes(content)
+	modtime := time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC)</code></pre>
+    <p>Every <code>TestResumeDownload</code> case that starts from a partial builds <code>data.part</code> by hand with <code>seedPartial</code>, which caches only a <code>time</code> validator. So no test checks that a download cut off mid-body leaves a partial that the next attempt resumes, and none uses an <code>ETag</code> as the validator. Making every failure delete the partial, as the uncached path does (lines 1143-1145), switches the feature off and the suite stays green; so does deleting the <code>ETag</code> branch of <code>ifRangeValidator</code>. Users would only see retries download everything again, so nothing would report the regression.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-sh"># Save as probe-mutation.sh; run from the lima repo root: bash probe-mutation.sh
+# Needs go and perl. Makes every failed download delete data.part, as the
+# uncached path does, runs the downloader tests, then restores the file.
+set -u
+f=pkg/downloader/downloader.go
+cp &quot;$f&quot; &quot;$f.orig&quot;
+perl -0pi -e &#39;s/\tif !t\.resume \{\n\t\tdefer os\.RemoveAll\(partial\)\n\t\}/\tdefer os.RemoveAll(partial)/&#39; &quot;$f&quot;
+git diff --stat -- &quot;$f&quot;
+go test -count=1 ./pkg/downloader/
+mv &quot;$f.orig&quot; &quot;$f&quot;</code></pre>
+      <pre><code class="language-text">$ bash probe-mutation.sh
+ pkg/downloader/downloader.go | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+ok  	github.com/lima-vm/lima/v2/pkg/downloader	0.724s
+
+$ git apply &lt;the patch below&gt;; bash probe-mutation.sh | grep -E &#39;changed|assertion|^\s*--- FAIL|^ok|^FAIL&#39;
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+--- FAIL: TestResumeDownload (0.08s)
+    --- FAIL: TestResumeDownload/resumes_an_interrupted_download_by_its_ETag (0.01s)
+        downloader_test.go:314: assertion failed:  (string) != bytes=400- (string)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/pkg/downloader	0.659s
+FAIL</code></pre>
+      </details>
+    <p>Fix: add a subtest that drops the connection mid-body, serves only an <code>ETag</code>, and checks the retry&#39;s <code>Range</code> and <code>If-Range</code>. It passes on the reviewed code, fails under both mutations, and applies cleanly after the C1 patch.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/downloader/downloader_test.go b/pkg/downloader/downloader_test.go
+index 7c9a30a7..05da17dc 100644
+--- a/pkg/downloader/downloader_test.go
++++ b/pkg/downloader/downloader_test.go
+@@ -284,6 +284,40 @@ func TestResumeDownload(t *testing.T) {
+ 		assert.Assert(t, bytes.Equal(got, content), &quot;resumed file must match the full content&quot;)
+ 	})
+ 
++	t.Run(&quot;resumes an interrupted download by its ETag&quot;, func(t *testing.T) {
++		ctx := t.Context()
++		const etag = `&quot;v1&quot;`
++		var requests atomic.Int32
++		var gotRange, gotIfRange atomic.Value
++		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
++			w.Header().Set(&quot;ETag&quot;, etag)
++			if requests.Add(1) == 1 {
++				_, _ = w.Write(content[:prefix])
++				w.(http.Flusher).Flush()
++				panic(http.ErrAbortHandler) // drop the connection mid-body
++			}
++			gotRange.Store(r.Header.Get(&quot;Range&quot;))
++			gotIfRange.Store(r.Header.Get(&quot;If-Range&quot;))
++			// A zero modtime omits Last-Modified, so only the ETag validates.
++			http.ServeContent(w, r, &quot;data&quot;, time.Time{}, bytes.NewReader(content))
++		}))
++		t.Cleanup(ts.Close)
++
++		cacheDir := filepath.Join(t.TempDir(), &quot;cache&quot;)
++		localPath := filepath.Join(t.TempDir(), &quot;out&quot;)
++		_, err := Download(ctx, localPath, ts.URL, WithExpectedDigest(dgst), WithCacheDir(cacheDir))
++		assert.ErrorContains(t, err, &quot;unexpected EOF&quot;)
++
++		r, err := Download(ctx, localPath, ts.URL, WithExpectedDigest(dgst), WithCacheDir(cacheDir))
++		assert.NilError(t, err)
++		assert.Equal(t, StatusDownloaded, r.Status)
++		assert.Equal(t, gotRange.Load(), &quot;bytes=400-&quot;)
++		assert.Equal(t, gotIfRange.Load(), etag)
++		got, err := os.ReadFile(localPath)
++		assert.NilError(t, err)
++		assert.Assert(t, bytes.Equal(got, content), &quot;resumed file must match the full content&quot;)
++	})
++
+ 	t.Run(&quot;falls back to full download when Range is ignored&quot;, func(t *testing.T) {
+ 		ctx := t.Context()
+ 		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {</code></pre>
+      </details>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="pkg/downloader/downloader.go">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> Response metadata is written at the wrong moment for both 200 and 206 <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader.go#L1129-L1143">pkg/downloader/downloader.go</a></div>
+      <pre data-start="1129" data-line="1134-1138"><code class="language-go">		offset = 0
+	default:
+		return httpclientutil.Successful(resp)
+	}
+
+	if err := writeResponseMetadata(t, resp); err != nil {
+		return err
+	}
+
+	fileWriter, err := openPartialFile(partial, resuming)
+	if err != nil {
+		return err
+	}
+	defer fileWriter.Close()
+	if !t.resume {</code></pre>
+    <p>RFC 9110 §15.3.7 lets a server that matched <code>If-Range</code> leave <code>Last-Modified</code> and <code>Content-Type</code> out of the 206, and <code>writeResponseMetadata</code> then empties <code>time</code> and <code>type</code>. If that resumed transfer is cut off as well, <code>resumeOffset</code> finds no validator and the next attempt starts from zero. The five hosts I probed (Ubuntu, Debian, Fedora, openSUSE and GitHub releases) all repeat <code>Last-Modified</code> in a 206, so this needs a stricter server.</p>
+    <p>On a 200, the new validator is written before <code>O_TRUNC</code> empties the old bytes, so a kill between the two calls pairs old bytes with a new validator. The digest catches that, but the retry then fails with a digest error, as S3 describes, and only the run after it succeeds.</p>
+    <p>Fix: skip <code>writeResponseMetadata</code> on a 206, since the matched <code>If-Range</code> already vouches for the cached files, and call it after <code>openPartialFile</code> on a 200.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/downloader/downloader.go">
+      <div class="finding-title" id="S2">
+        <span class="finding-num">S2.</span> A weak <code>ETag</code> goes out as <code>If-Range</code>, which never matches <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader.go#L905-L920">pkg/downloader/downloader.go</a></div>
+      <pre data-start="905" data-line="910-915"><code class="language-go">}
+
+// ifRangeValidator returns the validator (ETag preferred, else Last-Modified)
+// cached on disk. It is sent as If-Range so the server only serves a partial
+// response when the resource is unchanged.
+func ifRangeValidator(etagPath, timePath string) string {
+	if etag := readFile(etagPath); etag != &quot;&quot; {
+		return etag
+	}
+	return readFile(timePath)
+}
+
+// resumeOffset returns the number of bytes of a previous partial download that
+// can be resumed. It is 0 unless the target is resumable, a non-empty partial
+// file exists, a digest is configured to verify the final result, and a cached
+// validator (ETag or Last-Modified) is available for If-Range.</code></pre>
+    <p>RFC 9110 §13.1.5 forbids a weak entity tag in <code>If-Range</code>, and servers compare strongly, so a <code>W/&quot;...&quot;</code> tag always draws a 200 and a full download, even when the cached <code>Last-Modified</code> would have allowed a resume. The cost is a full download, which is the merge-base&#39;s behavior, and none of the image hosts I probed sends a weak tag.</p>
+    <p>Fix: skip an <code>ETag</code> that starts with <code>W/</code> and fall back to <code>time</code>.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/downloader/downloader.go">
+      <div class="finding-title" id="S3">
+        <span class="finding-num">S3.</span> A failed resume ends the command with a digest error <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader.go#L1031-L1044">pkg/downloader/downloader.go</a></div>
+      <pre data-start="1031" data-line="1036-1039"><code class="language-go">	}
+	actualDigest := digester.Digest()
+	if actualDigest == expectedDigest {
+		return nil
+	}
+	if resume {
+		_ = os.Remove(partial)
+	}
+	return fmt.Errorf(&quot;expected digest %#q, got %#q&quot;, expectedDigest, actualDigest)
+}
+
+// startProgressBar creates and starts a progress bar for the download. total
+// always reflects the full size (existing offset + remaining) even when resuming,
+// and the bar starts pre-filled to offset. When HideProgress is set the bar is</code></pre>
+    <p>When a resumed transfer stitches the wrong bytes together, the digest check deletes the partial and fails the command, and the user has to run it again; the merge-base would have downloaded the whole file and succeeded. That happens when a server honors <code>Range</code> but ignores <code>If-Range</code>. GitHub&#39;s release-asset host answered a bogus <code>If-Range</code> with 206 in my probe, so the first download after a release asset is replaced and the template is updated to its new digest fails. The 206 branch also never compares the <code>Content-Range</code> start with <code>offset</code>.</p>
+    <p>Fix: when the digest fails after a resume (<code>offset &gt; 0</code>), discard the partial and restart once from scratch, as <code>finalizeOrRestartPartial</code> already does for a 416. Rejecting a 206 whose <code>Content-Range</code> start differs from <code>offset</code> would catch the same case before the transfer.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/downloader/downloader.go">
+      <div class="finding-title" id="S4">
+        <span class="finding-num">S4.</span> <code>newDownloadRequest</code> re-checks a validator that <code>resumeOffset</code> already required <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader.go#L947-L961">pkg/downloader/downloader.go</a></div>
+      <pre data-start="947" data-line="952-956"><code class="language-go">func newDownloadRequest(ctx context.Context, url string, offset int64, t httpTarget) (*http.Request, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, http.NoBody)
+	if err != nil {
+		return nil, err
+	}
+	if offset &gt; 0 {
+		req.Header.Set(&quot;Range&quot;, fmt.Sprintf(&quot;bytes=%d-&quot;, offset))
+		if ir := ifRangeValidator(t.etagPath, t.timePath); ir != &quot;&quot; {
+			req.Header.Set(&quot;If-Range&quot;, ir)
+		}
+	}
+	return req, nil
+}
+
+// writeResponseMetadata persists the Last-Modified, Content-Type and ETag</code></pre>
+    <p><code>resumeOffset</code> returns a nonzero offset only when <code>ifRangeValidator</code> found a value (line 936), and the lock keeps the files unchanged, so the <code>ir != &quot;&quot;</code> test cannot fail. It suggests that a <code>Range</code> can go out without <code>If-Range</code>, which the author&#39;s own reply rules out.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader.go#L931-L941">pkg/downloader/downloader.go</a></div>
+      <pre data-start="931" data-line="936"><code class="language-go">		// verified, so restart from scratch instead of trusting possibly corrupt
+		// bytes.
+		logrus.Warnf(&quot;No digest configured for %#q; cannot verify the existing partial download, restarting from scratch&quot;, url)
+		return 0
+	}
+	if ifRangeValidator(t.etagPath, t.timePath) == &quot;&quot; {
+		// Without If-Range the server cannot tell whether the resource changed
+		// and would append its bytes to a possibly stale partial.
+		logrus.Warnf(&quot;No ETag or Last-Modified cached for %#q; cannot safely resume the existing partial download, restarting from scratch&quot;, url)
+		return 0
+	}</code></pre>
+    <p>Fix: have <code>resumeOffset</code> return the validator with the offset and pass it to <code>newDownloadRequest</code>.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/downloader/downloader.go">
+      <div class="finding-title" id="S5">
+        <span class="finding-num">S5.</span> On Windows the uncached path leaves its temp file after a failed transfer <span class="pill pill-gemini">Gemini 3.1 Pro</span><a href="#S5" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader.go#L1137-L1150">pkg/downloader/downloader.go</a></div>
+      <pre data-start="1137" data-line="1142-1145"><code class="language-go">
+	fileWriter, err := openPartialFile(partial, resuming)
+	if err != nil {
+		return err
+	}
+	defer fileWriter.Close()
+	if !t.resume {
+		defer os.RemoveAll(partial)
+	}
+
+	digester, err := resumeDigester(expectedDigest, partial, offset)
+	if err != nil {
+		return err
+	}</code></pre>
+    <p>Deferred calls run last in, first out, so <code>os.RemoveAll</code> runs while the file is still open, and Go opens files on Windows without <code>FILE_SHARE_DELETE</code>, so the removal fails after an <code>io.Copy</code> error. The merge-base has the same order, so this is a gap, not a regression; no reviewer ran it on Windows. The PR already fixes the digest-mismatch case, because <code>flushPartial</code> now closes the file first.</p>
+    <p>Fix: register the removal before the close, in a separate change.</p>
+    </div>
+    <div class="card card-suggestion" data-file="pkg/downloader/downloader.go">
+      <div class="finding-title" id="S6">
+        <span class="finding-num">S6.</span> The <code>etagPath</code> comment names a variable that does not exist <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S6" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader.go#L898-L908">pkg/downloader/downloader.go</a></div>
+      <pre data-start="898" data-line="903"><code class="language-go">// metadata. The metadata paths are optional (empty disables writing them).
+type httpTarget struct {
+	localPath string // final destination (e.g. shadData, or the user&#39;s file)
+	timePath  string // &quot;&quot; or shadTime (Last-Modified)
+	typePath  string // &quot;&quot; or shadType (Content-Type)
+	etagPath  string // &quot;&quot; or shadETag (ETag)
+	resume    bool   // use a stable .part file and attempt an HTTP Range resume
+}
+
+// ifRangeValidator returns the validator (ETag preferred, else Last-Modified)
+// cached on disk. It is sent as If-Range so the server only serves a partial</code></pre>
+    <p><code>fetch</code> builds the path inline as <code>filepath.Join(shad, &quot;etag&quot;)</code> (line 416), so there is no <code>shadETag</code> beside <code>shadTime</code> and <code>shadType</code>.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader.go#L411-L421">pkg/downloader/downloader.go</a></div>
+      <pre data-start="411" data-line="416"><code class="language-go">	}
+	target := httpTarget{
+		localPath: shadData,
+		timePath:  shadTime,
+		typePath:  shadType,
+		etagPath:  filepath.Join(shad, &quot;etag&quot;),
+		resume:    true,
+	}
+	if err := downloadHTTP(ctx, target, remote, o.description, o.expectedDigest); err != nil {
+		return nil, err
+	}</code></pre>
+    <p>Fix: declare <code>shadETag</code> in <code>fetch</code> next to <code>shadTime</code> and <code>shadType</code>, or reword the comment.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>(future) <em></em><code>time</code> has two jobs, and one of them already misfires.<em></em> <span class="pill pill-claude">Claude Opus 5.5</span> For a cache entry without a digest, <code>time</code> tells <code>getCached</code> whether <code>data</code> is stale; this PR also makes it the <code>If-Range</code> validator for <code>data.part</code>, so it has to be written before the body. That order predates the PR and serves a stale image: when the re-download of a changed image without a digest is cut off, <code>time</code> already holds the new date, and the next run returns the old <code>data</code> as <code>used-cache</code>. I reproduced it at both the merge-base and the review SHA. Keeping the partial&#39;s validators in their own files (<code>data.part.etag</code>, <code>data.part.time</code>) and writing <code>time</code>, <code>etag</code> and <code>type</code> only after the rename would separate the two jobs and fix that bug. It belongs in its own issue.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>(in-scope) The stable <code>data.part</code> relies on the existing per-URL <code>lockutil.WithDirLock</code>, so one process writes each partial while different URLs still download in parallel. <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
+      <li>(in-scope) Whenever a <code>Range</code> was sent, <code>resumeDigester</code> hashes the bytes already on disk first, so the digest covers exactly the final file and a wrong <code>Content-Range</code> fails loudly. <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span> <span class="pill pill-claude">Claude Opus 5.5</span></li>
+      <li>(in-scope) The 416 path finalizes a complete partial without another request and restarts at most once, and only after a <code>Range</code> was actually sent. <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span></li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>I ran <code>go test -count=1 ./pkg/downloader/</code> in the lead worktree at the review SHA, and again with the C1, I1 and I3 patches applied in that order; both passed.</li>
+      <li>Required and written: C1&#39;s regression test and I3&#39;s interruption test, each in its patch. C1&#39;s test fails on the reviewed code and passes with the fix; I3&#39;s test passes on the reviewed code and fails under both mutations.</li>
+      <li>Optional: a weak-<code>ETag</code> case (S2), a 206 without <code>Last-Modified</code> (S1), and a restart after a failed resume (S3). Each falls back to the merge-base behavior or fails with a clear error.</li>
+      <li>The nine existing subtests cover a 206 resume, an ignored <code>Range</code>, an <code>If-Range</code> mismatch, both 416 branches, a 416 without <code>Range</code>, no digest, no validator, and the discard after a digest mismatch.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>I1: the removal sentence in <a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/website/content/en/docs/dev/internals.md#L150"><code>internals.md:150</code></a> contradicts <code>limactl prune --keep-referred</code>.</li>
+      <li>The new <code>time</code>, <code>type</code> and <code>etag</code> entries match the code. <code>fetch</code> always writes <code>etag</code>, empty when the response has none, and &quot;(Optional)&quot; covers entries that older Lima versions wrote.</li>
+      <li>S6: one field comment names a variable that does not exist.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="commit-structure">Commit Structure <a href="#commit-structure" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><a href="https://github.com/lima-vm/lima/commit/eebcee35"><code>eebcee35</code></a> is a review fixup that the author kept separate for review. Lima squashes, and the squashed message needs I2&#39;s correction.</li>
+      <li><code>Refs <a href="https://github.com/lima-vm/lima/issues/5171" class="gh-ref" data-title="`limactl (create|start)` should support resuming partial downloads" data-state="open" data-type="issue">#5171</a></code>: <a href="https://github.com/lima-vm/lima/issues/5234" class="gh-ref" data-title="feat(prune): sweep leftover partial downloads from the cache" data-state="merged" data-type="pr">#5234</a> landed the issue&#39;s cleanup half, and this PR delivers the resume half. If the maintainers agree that the per-URL lock answers the issue&#39;s concern about concurrent sessions, <code>Fixes <a href="https://github.com/lima-vm/lima/issues/5171" class="gh-ref" data-title="`limactl (create|start)` should support resuming partial downloads" data-state="open" data-type="issue">#5171</a></code> would close it on merge.</li>
+      <li>AkihiroSuda asked for a rebase. <code>git merge-tree</code> against <code>upstream/master</code> reports no conflict today, and <code>pkg/downloader</code> differs from master only by a lint rewrite in <code>decompressLocal</code>.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>Resume needs a digest</strong> (comment at <a href="https://github.com/lima-vm/lima/blob/eebcee35e5bd6cc6dc68d8675fd248c7b00b2f11/pkg/downloader/downloader.go#L930-L932"><code>pkg/downloader/downloader.go:930-932</code></a>): downloads without one restart from scratch. Do not re-suggest resuming them.</li>
+      <li><strong>Resume needs a cached validator</strong> (the author&#39;s reply to unsuman&#39;s comment on <code>newDownloadRequest</code>): without one, <code>resumeOffset</code> returns 0, so <code>offset &gt; 0</code> still means that a <code>Range</code> was sent. C1&#39;s fix relies on that invariant in the 206 branch and does not dispute the limitation.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5-5"><span class="pill pill-claude">Claude Opus 5.5</span> <a href="#claude-opus-5-5" class="pilcrow">&#182;</a></h3>
+    <p>Claude gave the broadest review. It found the doc error, the commit-message misstatement (I2), the test gap (I3) with a working interruption test, and the stale-<code>data</code> bug that predates the PR, which I reproduced at both SHAs. It saw the 206-without-<code>Range</code> append but only for downloads without a digest, and filed it as a Suggestion. It missed that the digester skips the stale prefix when a digest is configured, which is what makes C1 a bypass. It rated I3 optional; the silent-deletion rule in the Testing rubric makes it required.</p>
+    <h3 id="codex-gpt-6-astra"><span class="pill pill-codex">Codex GPT 6 Astra</span> <a href="#codex-gpt-6-astra" class="pilcrow">&#182;</a></h3>
+    <p>Codex alone saw that the stale prefix escapes the digest, with a probe it ran against both the reviewed tree and a merge-base overlay. That finding is C1. I raised it from Important to Critical once the plain-HTTP redirects showed that an on-path attacker can trigger it. Its doc finding and both suggestions held up. It marked the test file &quot;no issues&quot; and missed the interruption gap (I3).</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Gemini Pro filed one finding, the Windows defer order. The bug is real but predates the PR and reaches only the uncached path, so it became S5. It called <code>internals.md</code> accurate and the tests complete, missing I1 and I3, and saw nothing wrong in the 206 branch. Its only probes were small Go programs about Windows file sharing, and one left a <code>test.part</code> file in its worktree root.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Flash found the doc error and, independently, the 206 branch, the weak <code>ETag</code> and the metadata blanking. It rated the last two Important, though each falls back to the merge-base behavior (S2, S1). Its 206 reproducer served no stale partial, so it showed the truncated-body acceptance that the merge-base already had, not the new append; the mechanism it described is right. It also caught the <code>shadETag</code> comment (S6). The two Gemini models share a family but shared no finding here.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5.5</span></th><th><span class="pill pill-codex">Codex GPT 6 Astra</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>6m 58s</td><td>5m 51s</td><td>8m 26s</td><td>10m 46s</td></tr>
+        <tr><td>Findings</td><td>1C 3I 4S</td><td>1C 1I 2S</td><td>1S</td><td>1C 1I 4S</td></tr>
+        <tr><td>Tool calls</td><td>27 (Bash 22, Read 5)</td><td>10 (shell 10)</td><td>24 (run<em>shell</em>command 24)</td><td>53 (run<em>shell</em>command 17, read<em>file 12, write</em>file 11)</td></tr>
+        <tr><td>Design observations</td><td>5</td><td>3</td><td>2</td><td>4</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>4</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>Files reviewed</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>1</td><td>2</td><td>1</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>1C 3I 4S</strong></td><td><strong>1C 1I 2S</strong></td><td><strong>1S</strong></td><td><strong>1C 1I 4S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>1</td><td>2</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p>Codex gave the most value: C1 is the finding that changes the verdict, and only Codex reached it. Claude covered the most ground and supplied the test that I3&#39;s patch builds on. Flash overlapped with both at inflated severities, and Gemini Pro added one pre-existing Windows gap.</p>
+    <p><strong>Reconciliation.</strong> Codex P1 unsolicited 206: important → critical C1. Claude P1 S1 (206 without <code>Range</code>, <code>Content-Range</code>): suggestion → merged into critical C1 (the 206 part) and S3 (the <code>Content-Range</code> part). Claude P1 S5 test gap: suggestion → important I3. Claude P1 commit-structure note → important I2. Gemini 3.5 Flash P1 I1 metadata: important → suggestion S1; I2 weak <code>ETag</code>: important → suggestion S2; I3 206 at offset 0: important → merged into critical C1. Gemini 3.1 Pro P1 I1 Windows defer order: important → suggestion S5.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="citation-lint">Citation lint <a href="#citation-lint" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>I2 cites commit <a href="https://github.com/lima-vm/lima/commit/335f6139"><code>335f6139</code></a>, which has no file to cite, so the citation lint reports one unresolved reference. That is deliberate.</li>
+    </ul>
+    <h3 id="skill-improvements">Skill improvements <a href="#skill-improvements" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>When a finding needs a peer to break the protocol (a 206 nobody asked for, a malformed header, an out-of-range length), rate it by what a hostile peer gains whenever the threat model treats that peer as untrusted, such as a download server, a mirror, a guest or the network. &quot;No honest server does this&quot; lowers the likelihood only for honest peers, and an integrity check that a hostile peer can step around is the bug that the check exists to stop.</li>
+    </ul>
+    <h3 id="repo-context-updates">Repo context updates <a href="#repo-context-updates" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>[repo] Several bundled image URLs reach plain HTTP or third-party hosts. Archived Ubuntu releases redirect to <code>http://cloud-images-archive.ubuntu.com</code>, which covers the default templates of Lima v2.0.0 and v2.1.0 and, I expect, of each later release once its pinned image ages out; the <code>freebsd</code> and <code>freebsd-15</code> templates use <code>http://</code> directly; Fedora, openSUSE and Debian URLs redirect to third-party mirrors. The template digest is the only integrity check on these downloads, so any downloader path that lets bytes reach the cache without being hashed is open to an on-path attacker or a hostile mirror.</li>
+      <li>[repo] GitHub release assets ignore <code>If-Range</code> and answer a <code>Range</code> with 206 even when <code>If-Range</code> does not match, while Ubuntu, Debian, Fedora and openSUSE honor it. A resume path that relies on <code>If-Range</code> to detect a changed file gets no such protection from GitHub-hosted downloads.</li>
+      <li>[repo] To run <code>limactl prune --keep-referred</code> or any template walk against a scratch <code>LIMA_TEMPLATES_PATH</code>, use a directory without <code>experimental/fedora-rawhide.yaml</code>: its <code>fedora-rawhide:</code> base needs the <code>limactl-url-fedora-rawhide</code> plugin from <code>libexec/lima</code>, and a bare <code>go build</code> of <code>limactl</code> without it fails the whole walk.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+!function(n){function e(n){return n=n.replace(/<inner>/g,(function(){return"(?:\\\\.|[^\\\\\n\r]|(?:\n|\r\n?)(?![\r\n]))"})),RegExp("((?:^|[^\\\\])(?:\\\\{2})*)(?:"+n+")")}var t="(?:\\\\.|``(?:[^`\r\n]|`(?!`))+``|`[^`\r\n]+`|[^\\\\|\r\n`])+",a="\\|?__(?:\\|__)+\\|?(?:(?:\n|\r\n?)|(?![^]))".replace(/__/g,(function(){return t})),i="\\|?[ \t]*:?-{3,}:?[ \t]*(?:\\|[ \t]*:?-{3,}:?[ \t]*)+\\|?(?:\n|\r\n?)";n.languages.markdown=n.languages.extend("markup",{}),n.languages.insertBefore("markdown","prolog",{"front-matter-block":{pattern:/(^(?:\s*[\r\n])?)---(?!.)[\s\S]*?[\r\n]---(?!.)/,lookbehind:!0,greedy:!0,inside:{punctuation:/^---|---$/,"front-matter":{pattern:/\S+(?:\s+\S+)*/,alias:["yaml","language-yaml"],inside:n.languages.yaml}}},blockquote:{pattern:/^>(?:[\t ]*>)*/m,alias:"punctuation"},table:{pattern:RegExp("^"+a+i+"(?:"+a+")*","m"),inside:{"table-data-rows":{pattern:RegExp("^("+a+i+")(?:"+a+")*$"),lookbehind:!0,inside:{"table-data":{pattern:RegExp(t),inside:n.languages.markdown},punctuation:/\|/}},"table-line":{pattern:RegExp("^("+a+")"+i+"$"),lookbehind:!0,inside:{punctuation:/\||:?-{3,}:?/}},"table-header-row":{pattern:RegExp("^"+a+"$"),inside:{"table-header":{pattern:RegExp(t),alias:"important",inside:n.languages.markdown},punctuation:/\|/}}}},code:[{pattern:/((?:^|\n)[ \t]*\n|(?:^|\r\n?)[ \t]*\r\n?)(?: {4}|\t).+(?:(?:\n|\r\n?)(?: {4}|\t).+)*/,lookbehind:!0,alias:"keyword"},{pattern:/^```[\s\S]*?^```$/m,greedy:!0,inside:{"code-block":{pattern:/^(```.*(?:\n|\r\n?))[\s\S]+?(?=(?:\n|\r\n?)^```$)/m,lookbehind:!0},"code-language":{pattern:/^(```).+/,lookbehind:!0},punctuation:/```/}}],title:[{pattern:/\S.*(?:\n|\r\n?)(?:==+|--+)(?=[ \t]*$)/m,alias:"important",inside:{punctuation:/==+$|--+$/}},{pattern:/(^\s*)#.+/m,lookbehind:!0,alias:"important",inside:{punctuation:/^#+|#+$/}}],hr:{pattern:/(^\s*)([*-])(?:[\t ]*\2){2,}(?=\s*$)/m,lookbehind:!0,alias:"punctuation"},list:{pattern:/(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,lookbehind:!0,alias:"punctuation"},"url-reference":{pattern:/!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/,inside:{variable:{pattern:/^(!?\[)[^\]]+/,lookbehind:!0},string:/(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,punctuation:/^[\[\]!:]|[<>]/},alias:"url"},bold:{pattern:e("\\b__(?:(?!_)<inner>|_(?:(?!_)<inner>)+_)+__\\b|\\*\\*(?:(?!\\*)<inner>|\\*(?:(?!\\*)<inner>)+\\*)+\\*\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^..)[\s\S]+(?=..$)/,lookbehind:!0,inside:{}},punctuation:/\*\*|__/}},italic:{pattern:e("\\b_(?:(?!_)<inner>|__(?:(?!_)<inner>)+__)+_\\b|\\*(?:(?!\\*)<inner>|\\*\\*(?:(?!\\*)<inner>)+\\*\\*)+\\*"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^.)[\s\S]+(?=.$)/,lookbehind:!0,inside:{}},punctuation:/[*_]/}},strike:{pattern:e("(~~?)(?:(?!~)<inner>)+\\2"),lookbehind:!0,greedy:!0,inside:{content:{pattern:/(^~~?)[\s\S]+(?=\1$)/,lookbehind:!0,inside:{}},punctuation:/~~?/}},"code-snippet":{pattern:/(^|[^\\`])(?:``[^`\r\n]+(?:`[^`\r\n]+)*``(?!`)|`[^`\r\n]+`(?!`))/,lookbehind:!0,greedy:!0,alias:["code","keyword"]},url:{pattern:e('!?\\[(?:(?!\\])<inner>)+\\](?:\\([^\\s)]+(?:[\t ]+"(?:\\\\.|[^"\\\\])*")?\\)|[ \t]?\\[(?:(?!\\])<inner>)+\\])'),lookbehind:!0,greedy:!0,inside:{operator:/^!/,content:{pattern:/(^\[)[^\]]+(?=\])/,lookbehind:!0,inside:{}},variable:{pattern:/(^\][ \t]?\[)[^\]]+(?=\]$)/,lookbehind:!0},url:{pattern:/(^\]\()[^\s)]+/,lookbehind:!0},string:{pattern:/(^[ \t]+)"(?:\\.|[^"\\])*"(?=\)$)/,lookbehind:!0}}}}),["url","bold","italic","strike"].forEach((function(e){["url","bold","italic","strike","code-snippet"].forEach((function(t){e!==t&&(n.languages.markdown[e].inside.content.inside[t]=n.languages.markdown[t])}))})),n.hooks.add("after-tokenize",(function(n){"markdown"!==n.language&&"md"!==n.language||function n(e){if(e&&"string"!=typeof e)for(var t=0,a=e.length;t<a;t++){var i=e[t];if("code"===i.type){var r=i.content[1],o=i.content[3];if(r&&o&&"code-language"===r.type&&"code-block"===o.type&&"string"==typeof r.content){var l=r.content.replace(/\b#/g,"sharp").replace(/\b\+\+/g,"pp"),s="language-"+(l=(/[a-z][\w-]*/i.exec(l)||[""])[0].toLowerCase());o.alias?"string"==typeof o.alias?o.alias=[o.alias,s]:o.alias.push(s):o.alias=[s]}}else n(i.content)}}(n.tokens)})),n.hooks.add("wrap",(function(e){if("code-block"===e.type){for(var t="",a=0,i=e.classes.length;a<i;a++){var s=e.classes[a],d=/language-(.+)/.exec(s);if(d){t=d[1];break}}var p=n.languages[t];if(p)e.content=n.highlight(e.content.replace(r,"").replace(/&(\w{1,8}|#x?[\da-f]{1,8});/gi,(function(n,e){var t;return"#"===(e=e.toLowerCase())[0]?(t="x"===e[1]?parseInt(e.slice(2),16):Number(e.slice(1)),l(t)):o[e]||n})),p,t);else if(t&&"none"!==t&&n.plugins.autoloader){var u="md-"+(new Date).valueOf()+"-"+Math.floor(1e16*Math.random());e.attributes.id=u,n.plugins.autoloader.loadLanguages(t,(function(){var e=document.getElementById(u);e&&(e.innerHTML=n.highlight(e.textContent,n.languages[t],t))}))}}}));var r=RegExp(n.languages.markup.tag.pattern.source,"gi"),o={amp:"&",lt:"<",gt:">",quot:'"'},l=String.fromCodePoint||String.fromCharCode;n.languages.md=n.languages.markdown}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
