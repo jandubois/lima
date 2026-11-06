@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20261105-214937-pr-5752</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+.pass-tag, .title-note { font-weight: 400; color: #6b7280; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20261105-214937-pr-5752</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-11-05 21:49</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/unsuman">@unsuman</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5752" class="gh-ref" data-title="fix(shell-sync): apply the reviewed copy instead of re-reading the guest" data-state="open" data-type="pr">#5752</a> — fix(shell-sync): apply the reviewed copy instead of re-reading the guest</td></tr>
+      <tr><td>Branch</td><td><code>harden-shell-sync</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/8d43d0ec"><code>8d43d0ec</code></a> fix(shell-sync): apply the reviewed copy instead of re-reading the guest</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/8d43d0ecf45bde6a1d5a4e4dbf2fc9ae15e39be0"><code>8d43d0ecf45bde6a1d5a4e4dbf2fc9ae15e39be0</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5.5</span> (effort: high), <span class="pill pill-codex">Codex GPT 6 Astra</span> (effort: high), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; the snapshot closes the race, but where it lives and how it is filled cause four regressions</td></tr>
+      <tr><td>Wall-clock time</td><td><code>57 min 56 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR copies the guest&#39;s synced directory into a host snapshot before the prompt, so the statistics, the diff and &quot;Yes&quot; all read what the user reviewed. That closes the race. But the copy now runs on every tty session, and it causes four regressions. Each session sends the whole tree over SSH (I1), a read-only guest directory leaves the copy behind (I2), a TMPDIR inside the project makes &quot;Yes&quot; fail halfway (I3), and a case-sensitive project loses files (I4).</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> Every tty session copies the whole guest tree before the prompt <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/8d43d0ecf45bde6a1d5a4e4dbf2fc9ae15e39be0/cmd/limactl/shell.go#L611-L625">cmd/limactl/shell.go</a></div>
+      <pre data-start="611" data-line="616-620"><code class="language-go">	}()
+	hostTmpDest := filepath.Join(baseDir, &quot;guest&quot;, filepath.Base(hostCurrentDir))
+	if err := os.MkdirAll(hostTmpDest, 0o755); err != nil {
+		return fmt.Errorf(&quot;failed to create temporary directory: %w; preserving guest synced workdir at %s&quot;, err, destRsyncDir)
+	}
+	// The guest is read only once: a guest process could change the directory
+	// between the review and &quot;Yes&quot;, so both use this snapshot.
+	if err := rsyncDirectory(ctx, cmd, rsync, []string{remoteContents, hostTmpDest}); err != nil {
+		return fmt.Errorf(&quot;failed to sync back the changes from guest instance to host temporary directory: %w; preserving guest synced workdir at %s&quot;, err, destRsyncDir)
+	}
+	snapshotContents := hostTmpDest + &quot;/&quot;
+
+	rawOutput, stats, err := getRsyncStats(ctx, []string{snapshotContents, hostCurrentDir}, excludeArgs)
+	if err != nil {
+		logrus.WithError(err).Warn(&quot;failed to get rsync stats&quot;)</code></pre>
+    <p>At the merge-base the prompt followed a dry run that sent only the file list, and &quot;Yes&quot; sent only the changed files. Now every tty session first copies the whole guest tree into an empty directory, even a session that ends in &quot;No changes detected&quot;. The probe edits one file in a lima checkout&#39;s <code>website/</code> directory with <code>node_modules</code> installed. There the PR head receives 200.8 MB over SSH where the merge-base received 1.3 MB, and it writes as much again to temp disk. A tree larger than a tmpfs <code>/tmp</code> now fails before the prompt.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-snapshot-cost.sh; run: bash probe-snapshot-cost.sh &lt;project-dir&gt;
+# Replays the rsync calls of one tty session in which the guest edited one file:
+# the merge-base&#39;s, the PR head&#39;s, and the PR head&#39;s with --copy-dest. A fake ssh
+# runs the &quot;guest&quot; side locally, so rsync still speaks its remote protocol and
+# reports the bytes that would cross the SSH connection.
+set -eu
+src=$1
+work=$(mktemp -d)
+trap &#39;rm -rf &quot;$work&quot;&#39; EXIT
+printf &#39;#!/bin/sh\nshift\nexec sh -c &quot;$*&quot;\n&#39; &gt; &quot;$work/fakessh&quot;
+chmod +x &quot;$work/fakessh&quot;
+rsync -a &quot;$src/&quot; &quot;$work/host/&quot;
+rsync -a &quot;$src/&quot; &quot;$work/guest/&quot;
+echo &quot;# edited in the guest&quot; &gt;&gt; &quot;$work/guest/$(cd &quot;$work/guest&quot; &amp;&amp; find . -type f -print -quit)&quot;
+# &quot;sent X bytes  received Y bytes&quot;: the local side receives what the guest sends.
+over_ssh() { &quot;$@&quot; 2&gt;&amp;1 | awk &#39;/^sent .* received / {print $5 &quot; bytes received over ssh&quot;}&#39;; }
+# pull DEST [OPTION...] copies the guest directory&#39;s contents into DEST.
+pull() { dst=$1; shift; rsync -av --delete -e &quot;$work/fakessh&quot; &quot;$@&quot; -- &quot;guest:$work/guest/&quot; &quot;$dst&quot;; }
+
+echo &quot;tree: $(du -sk &quot;$src&quot; | cut -f1) KiB&quot;
+echo &quot;--- merge-base: dry run against the guest, then Yes&quot;
+over_ssh pull &quot;$work/host/&quot; --dry-run --itemize-changes | sed &#39;s/^/stats dry run: /&#39;
+cp -R &quot;$work/host&quot; &quot;$work/host-yes&quot;
+over_ssh pull &quot;$work/host-yes/&quot; | sed &#39;s/^/Yes: /&#39;
+echo &quot;--- PR head: snapshot into an empty directory before the prompt&quot;
+mkdir &quot;$work/snap&quot;
+over_ssh pull &quot;$work/snap/&quot; | sed &#39;s/^/snapshot: /&#39;
+echo &quot;snapshot disk use: $(du -sk &quot;$work/snap&quot; | cut -f1) KiB&quot;
+echo &quot;--- PR head with --copy-dest=&lt;host directory&gt;&quot;
+mkdir &quot;$work/snap-basis&quot;
+over_ssh pull &quot;$work/snap-basis/&quot; --copy-dest=&quot;$work/host&quot; | sed &#39;s/^/snapshot: /&#39;
+echo &quot;files where the two snapshots differ: $(rsync -anc --delete --itemize-changes &quot;$work/snap/&quot; &quot;$work/snap-basis/&quot; | grep -c . || true)&quot;</code></pre>
+      <pre><code class="language-text">$ bash probe-snapshot-cost.sh website
+tree: 203568 KiB
+--- merge-base: dry run against the guest, then Yes
+stats dry run: 252010 bytes received over ssh
+Yes: 1094138 bytes received over ssh
+--- PR head: snapshot into an empty directory before the prompt
+snapshot: 200769729 bytes received over ssh
+snapshot disk use: 203568 KiB
+--- PR head with --copy-dest=&lt;host directory&gt;
+snapshot: 304143 bytes received over ssh
+files where the two snapshots differ: 0</code></pre>
+      </details>
+    <p>Fix: give the snapshot the host directory as rsync&#39;s <code>--copy-dest</code> basis, so unchanged files come from the host and only the changes cross SSH. Options passed to <code>Command</code> replace the tool&#39;s own, so the patch moves those into <code>syncArgs</code> and passes them again.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/cmd/limactl/shell.go b/cmd/limactl/shell.go
+index 87b70940..02a3e0c8 100644
+--- a/cmd/limactl/shell.go
++++ b/cmd/limactl/shell.go
+@@ -480,14 +480,14 @@ func shellAction(cmd *cobra.Command, args []string) error {
+ 		}
+ 		rsync, err = copytool.New(ctx, string(copytool.BackendRsync), paths, &amp;copytool.Options{
+ 			Verbose:        false,
+-			AdditionalArgs: slices.Concat([]string{&quot;--delete&quot;}, syncIgnoreFileGuard, excludeArgs),
++			AdditionalArgs: syncArgs(excludeArgs),
+ 		})
+ 		if err != nil {
+ 			return err
+ 		}
+ 		logrus.Debugf(&quot;using copy tool %#q&quot;, rsync.Name())
+ 
+-		if err := rsyncDirectory(ctx, cmd, rsync, paths); err != nil {
++		if err := rsyncDirectory(ctx, cmd, rsync, paths, nil); err != nil {
+ 			return fmt.Errorf(&quot;failed to rsync to the guest %w&quot;, err)
+ 		}
+ 		logrus.Infof(&quot;Successfully synced host current directory to guest(%s) instance.&quot;, destRsyncDir)
+@@ -578,7 +578,7 @@ func askUserForRsyncBack(ctx context.Context, cmd *cobra.Command, inst *limatype
+ 	cleanupGuestWorkdir := false
+ 
+ 	rsyncBack := func(source string) error {
+-		if err := rsyncDirectory(ctx, cmd, rsync, []string{source, hostCurrentDir}); err != nil {
++		if err := rsyncDirectory(ctx, cmd, rsync, []string{source, hostCurrentDir}, nil); err != nil {
+ 			return fmt.Errorf(&quot;failed to sync back the changes from guest instance to host: %w&quot;, err)
+ 		}
+ 		logrus.Info(&quot;Successfully synced back the changes to host.&quot;)
+@@ -615,7 +615,10 @@ func askUserForRsyncBack(ctx context.Context, cmd *cobra.Command, inst *limatype
+ 	}
+ 	// The guest is read only once: a guest process could change the directory
+ 	// between the review and &quot;Yes&quot;, so both use this snapshot.
+-	if err := rsyncDirectory(ctx, cmd, rsync, []string{remoteContents, hostTmpDest}); err != nil {
++	// --copy-dest takes the files that the guest left unchanged from the host
++	// directory, so only the changes cross the SSH connection.
++	snapshotOpts := &amp;copytool.Options{AdditionalArgs: append(syncArgs(excludeArgs), &quot;--copy-dest=&quot;+hostCurrentDir)}
++	if err := rsyncDirectory(ctx, cmd, rsync, []string{remoteContents, hostTmpDest}, snapshotOpts); err != nil {
+ 		return fmt.Errorf(&quot;failed to sync back the changes from guest instance to host temporary directory: %w; preserving guest synced workdir at %s&quot;, err, destRsyncDir)
+ 	}
+ 	snapshotContents := hostTmpDest + &quot;/&quot;
+@@ -741,7 +744,7 @@ func hostTreeForDiff(ctx context.Context, cmd *cobra.Command, rsync copytool.Cop
+ 	if err := os.MkdirAll(dir, 0o755); err != nil {
+ 		return &quot;&quot;, fmt.Errorf(&quot;failed to create temporary directory: %w&quot;, err)
+ 	}
+-	if err := rsyncDirectory(ctx, cmd, rsync, []string{hostCurrentDir + &quot;/&quot;, dir}); err != nil {
++	if err := rsyncDirectory(ctx, cmd, rsync, []string{hostCurrentDir + &quot;/&quot;, dir}, nil); err != nil {
+ 		return &quot;&quot;, fmt.Errorf(&quot;failed to copy the host directory to a temporary directory: %w&quot;, err)
+ 	}
+ 	return dir, nil
+@@ -867,8 +870,9 @@ func rsyncVersion(ctx context.Context) (*semver.Version, error) {
+ 
+ // Syncs a directory from host to guest and vice-versa. It creates a directory in the guest&#39;s home directory and copies the contents of the host&#39;s
+ // current working directory into it. The guest directory paths should be prefixed with `&lt;InstanceName&gt;:` followed by the path.
+-func rsyncDirectory(ctx context.Context, cmd *cobra.Command, rsync copytool.CopyTool, paths []string) error {
+-	rsyncCmd, err := rsync.Command(ctx, paths, nil)
++// A non-nil opts replaces the options of the tool.
++func rsyncDirectory(ctx context.Context, cmd *cobra.Command, rsync copytool.CopyTool, paths []string, opts *copytool.Options) error {
++	rsyncCmd, err := rsync.Command(ctx, paths, opts)
+ 	if err != nil {
+ 		return err
+ 	}
+@@ -1003,6 +1007,11 @@ func parseRsyncStats(output string) *rsyncStats {
+ // before the user&#39;s filters, because rsync applies the first rule that matches.
+ var syncIgnoreFileGuard = []string{&quot;--exclude&quot;, &quot;/.[Ll][Ii][Mm][Aa]*[Yy][Nn][Cc][Ii][Gg][Nn][Oo][Rr][Ee]&quot;}
+ 
++// syncArgs returns the rsync options of the tool that `limactl shell --sync` builds.
++func syncArgs(excludeArgs []string) []string {
++	return slices.Concat([]string{&quot;--delete&quot;}, syncIgnoreFileGuard, excludeArgs)
++}
++
+ // buildSyncExcludeArgs converts --sync-exclude flag values and an optional
+ // .limasyncignore file into rsync --exclude / --exclude-from arguments.
+ // nativeDir is probed on the host; rsyncDir is the same directory in the form
+diff --git a/cmd/limactl/shell_test.go b/cmd/limactl/shell_test.go
+index 96f44dae..c18a30f4 100644
+--- a/cmd/limactl/shell_test.go
++++ b/cmd/limactl/shell_test.go
+@@ -12,6 +12,7 @@ import (
+ 	&quot;path&quot;
+ 	&quot;path/filepath&quot;
+ 	&quot;runtime&quot;
++	&quot;slices&quot;
+ 	&quot;strings&quot;
+ 	&quot;testing&quot;
+ 
+@@ -496,3 +497,49 @@ func TestAskUserForRsyncBackAppliesReviewedContents(t *testing.T) {
+ 	_, err = os.Stat(filepath.Join(hostDir, &quot;keep.txt&quot;))
+ 	assert.NilError(t, err)
+ }
++
++// optionsRecordingTool is a localRsyncTool that records the options of each
++// call by its source path.
++type optionsRecordingTool struct {
++	localRsyncTool
++	opts map[string]*copytool.Options
++}
++
++func (r *optionsRecordingTool) Command(ctx context.Context, paths []string, opts *copytool.Options) (*exec.Cmd, error) {
++	r.opts[paths[0]] = opts
++	return r.localRsyncTool.Command(ctx, paths, opts)
++}
++
++// TestAskUserForRsyncBackSnapshotUsesHostAsBasis checks that the snapshot takes
++// the files that the guest left unchanged from the host, and that it keeps the
++// options of the `--sync` tool.
++func TestAskUserForRsyncBackSnapshotUsesHostAsBasis(t *testing.T) {
++	if runtime.GOOS == &quot;windows&quot; {
++		t.Skip(&quot;localRsyncTool passes native paths to rsync&quot;)
++	}
++	if _, err := exec.LookPath(&quot;rsync&quot;); err != nil {
++		t.Skip(&quot;rsync not found:&quot;, err)
++	}
++	hostDir := filepath.Join(t.TempDir(), &quot;project&quot;)
++	guestDir := filepath.Join(t.TempDir(), &quot;project&quot;)
++	assert.NilError(t, os.Mkdir(hostDir, 0o755))
++	assert.NilError(t, os.Mkdir(guestDir, 0o755))
++	assert.NilError(t, os.WriteFile(filepath.Join(guestDir, &quot;new.txt&quot;), []byte(&quot;new\n&quot;), 0o644))
++
++	selectPrompt = func(string, []string) (int, error) { return 1, nil } // No
++	t.Cleanup(func() { selectPrompt = uiutil.Select })
++
++	inst := &amp;limatype.Instance{
++		Name:   &quot;inst&quot;,
++		Config: &amp;limatype.LimaYAML{User: limatype.User{Home: new(&quot;/home/user.linux&quot;)}},
++	}
++	sshCmd := exec.CommandContext(t.Context(), &quot;true&quot;)
++	tool := &amp;optionsRecordingTool{opts: map[string]*copytool.Options{}}
++	assert.NilError(t, askUserForRsyncBack(t.Context(), &amp;cobra.Command{}, inst, sshCmd, hostDir, guestDir, tool, true, []string{&quot;--exclude&quot;, &quot;secret&quot;}))
++
++	snapshot := tool.opts[&quot;inst:&quot;+guestDir+&quot;/&quot;]
++	assert.Assert(t, snapshot != nil, &quot;the snapshot must pass its own options: %v&quot;, tool.opts)
++	for _, arg := range []string{&quot;--copy-dest=&quot; + hostDir, &quot;--delete&quot;, &quot;secret&quot;} {
++		assert.Assert(t, slices.Contains(snapshot.AdditionalArgs, arg), &quot;%q missing from %v&quot;, arg, snapshot.AdditionalArgs)
++	}
++}</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> A read-only directory in the guest tree leaves the snapshot behind <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/8d43d0ecf45bde6a1d5a4e4dbf2fc9ae15e39be0/cmd/limactl/shell.go#L602-L616">cmd/limactl/shell.go</a></div>
+      <pre data-start="602" data-line="607-611"><code class="language-go">
+	baseDir, err := os.MkdirTemp(&quot;&quot;, &quot;lima-guest-synced-*&quot;)
+	if err != nil {
+		return fmt.Errorf(&quot;failed to create temporary directory: %w; preserving guest synced workdir at %s&quot;, err, destRsyncDir)
+	}
+	defer func() {
+		if err := os.RemoveAll(baseDir); err != nil {
+			logrus.WithError(err).Warnf(&quot;Failed to clean up temporary directory %s&quot;, baseDir)
+		}
+	}()
+	hostTmpDest := filepath.Join(baseDir, &quot;guest&quot;, filepath.Base(hostCurrentDir))
+	if err := os.MkdirAll(hostTmpDest, 0o755); err != nil {
+		return fmt.Errorf(&quot;failed to create temporary directory: %w; preserving guest synced workdir at %s&quot;, err, destRsyncDir)
+	}
+	// The guest is read only once: a guest process could change the directory</code></pre>
+    <p><code>-a</code> gives the snapshot the guest&#39;s directory modes. When the guest tree holds a read-only directory, such as a Go module cache, <code>os.RemoveAll</code> cannot unlink its entries. Every session then warns and leaves a copy of the guest tree in TMPDIR, including content that the user rejected. At the merge-base only &quot;View&quot; made that copy. The probe&#39;s writable directory is the control.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as cmd/limactl/probe_readonly_test.go; run: go test ./cmd/limactl/ -run TestProbeReadOnlyDir -v
+// Reuses localRsyncTool from shell_test.go; needs rsync on PATH.
+package main
+
+import (
+	&quot;os&quot;
+	&quot;os/exec&quot;
+	&quot;path/filepath&quot;
+	&quot;testing&quot;
+
+	&quot;github.com/spf13/cobra&quot;
+	&quot;gotest.tools/v3/assert&quot;
+
+	&quot;github.com/lima-vm/lima/v2/pkg/limatype&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/uiutil&quot;
+)
+
+func TestProbeReadOnlyDir(t *testing.T) {
+	for _, mode := range []os.FileMode{0o755, 0o555} {
+		t.Run(mode.String(), func(t *testing.T) {
+			hostDir := filepath.Join(t.TempDir(), &quot;project&quot;)
+			guestDir := filepath.Join(t.TempDir(), &quot;project&quot;)
+			tmp := t.TempDir()
+			t.Setenv(&quot;TMPDIR&quot;, tmp)
+			assert.NilError(t, os.Mkdir(hostDir, 0o755))
+			assert.NilError(t, os.MkdirAll(filepath.Join(guestDir, &quot;sub&quot;), 0o755))
+			assert.NilError(t, os.WriteFile(filepath.Join(guestDir, &quot;sub&quot;, &quot;f&quot;), []byte(&quot;f\n&quot;), 0o644))
+			assert.NilError(t, os.Chmod(filepath.Join(guestDir, &quot;sub&quot;), mode))
+			t.Cleanup(func() {
+				for _, root := range []string{tmp, guestDir} {
+					_ = filepath.WalkDir(root, func(p string, d os.DirEntry, _ error) error {
+						if d != nil &amp;&amp; d.IsDir() {
+							_ = os.Chmod(p, 0o755)
+						}
+						return nil
+					})
+				}
+			})
+			selectPrompt = func(string, []string) (int, error) { return 1, nil } // No
+			t.Cleanup(func() { selectPrompt = uiutil.Select })
+			inst := &amp;limatype.Instance{Name: &quot;inst&quot;, Config: &amp;limatype.LimaYAML{User: limatype.User{Home: new(&quot;/home/user.linux&quot;)}}}
+			assert.NilError(t, askUserForRsyncBack(t.Context(), &amp;cobra.Command{}, inst, exec.CommandContext(t.Context(), &quot;true&quot;), hostDir, guestDir, localRsyncTool{}, true, nil))
+			left, err := os.ReadDir(tmp)
+			assert.NilError(t, err)
+			assert.Equal(t, len(left), 0, &quot;snapshot left in TMPDIR&quot;)
+		})
+	}
+}</code></pre>
+      <pre><code class="language-text">$ go test ./cmd/limactl/ -run TestProbeReadOnlyDir -v
+# github.com/lima-vm/lima/v2/cmd/limactl.test
+ld: warning: ignoring duplicate libraries: &#39;-lobjc&#39;
+=== RUN   TestProbeReadOnlyDir
+=== RUN   TestProbeReadOnlyDir/-rwxr-xr-x
+time=&quot;2026-11-05T22:50:56-07:00&quot; level=info msg=&quot;Skipping syncing back the changes to host.&quot;
+=== RUN   TestProbeReadOnlyDir/-r-xr-xr-x
+time=&quot;2026-11-05T22:50:56-07:00&quot; level=info msg=&quot;Skipping syncing back the changes to host.&quot;
+time=&quot;2026-11-05T22:50:56-07:00&quot; level=warning msg=&quot;Failed to clean up temporary directory /var/folders/s2/9q03h0c11_s4fdw169wqz3qc0000gn/T/TestProbeReadOnlyDir-r-xr-xr-x2847036101/003/lima-guest-synced-4022972525&quot; error=&quot;unlinkat /var/folders/s2/9q03h0c11_s4fdw169wqz3qc0000gn/T/TestProbeReadOnlyDir-r-xr-xr-x2847036101/003/lima-guest-synced-4022972525/guest/project/sub/f: permission denied&quot;
+    probe_readonly_test.go:45: assertion failed: 1 (int) != 0 (int): snapshot left in TMPDIR
+--- FAIL: TestProbeReadOnlyDir (0.05s)
+    --- PASS: TestProbeReadOnlyDir/-rwxr-xr-x (0.02s)
+    --- FAIL: TestProbeReadOnlyDir/-r-xr-xr-x (0.02s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/cmd/limactl	0.665s
+FAIL</code></pre>
+      </details>
+    <p>Fix: when <code>RemoveAll</code> fails, make the snapshot&#39;s directories writable and retry. The patch applies after I1&#39;s. Ship it with I3&#39;s patch. That patch moves the snapshot beside the project, so without this fix a leak would leave the copy next to the user&#39;s files.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/cmd/limactl/shell.go b/cmd/limactl/shell.go
+index 02a3e0c8..bdf338e6 100644
+--- a/cmd/limactl/shell.go
++++ b/cmd/limactl/shell.go
+@@ -605,6 +605,16 @@ func askUserForRsyncBack(ctx context.Context, cmd *cobra.Command, inst *limatype
+ 		return fmt.Errorf(&quot;failed to create temporary directory: %w; preserving guest synced workdir at %s&quot;, err, destRsyncDir)
+ 	}
+ 	defer func() {
++		// -a gives the snapshot the guest&#39;s directory modes, and RemoveAll cannot
++		// empty a read-only directory.
++		if os.RemoveAll(baseDir) != nil {
++			_ = filepath.WalkDir(baseDir, func(p string, d os.DirEntry, err error) error {
++				if err == nil &amp;&amp; d.IsDir() {
++					_ = os.Chmod(p, 0o700)
++				}
++				return nil
++			})
++		}
+ 		if err := os.RemoveAll(baseDir); err != nil {
+ 			logrus.WithError(err).Warnf(&quot;Failed to clean up temporary directory %s&quot;, baseDir)
+ 		}
+diff --git a/cmd/limactl/shell_test.go b/cmd/limactl/shell_test.go
+index c18a30f4..9c5ac92e 100644
+--- a/cmd/limactl/shell_test.go
++++ b/cmd/limactl/shell_test.go
+@@ -543,3 +543,45 @@ func TestAskUserForRsyncBackSnapshotUsesHostAsBasis(t *testing.T) {
+ 		assert.Assert(t, slices.Contains(snapshot.AdditionalArgs, arg), &quot;%q missing from %v&quot;, arg, snapshot.AdditionalArgs)
+ 	}
+ }
++
++// TestAskUserForRsyncBackRemovesReadOnlySnapshot checks that cleanup removes the
++// snapshot when the guest made one of its directories read-only, a mode that -a
++// copies into the snapshot.
++func TestAskUserForRsyncBackRemovesReadOnlySnapshot(t *testing.T) {
++	if runtime.GOOS == &quot;windows&quot; {
++		t.Skip(&quot;localRsyncTool passes native paths to rsync&quot;)
++	}
++	if _, err := exec.LookPath(&quot;rsync&quot;); err != nil {
++		t.Skip(&quot;rsync not found:&quot;, err)
++	}
++	hostParent := t.TempDir()
++	hostDir := filepath.Join(hostParent, &quot;project&quot;)
++	guestDir := filepath.Join(t.TempDir(), &quot;project&quot;)
++	tmpDir := t.TempDir()
++	t.Setenv(&quot;TMPDIR&quot;, tmpDir)
++	assert.NilError(t, os.Mkdir(hostDir, 0o755))
++	assert.NilError(t, os.MkdirAll(filepath.Join(guestDir, &quot;ro&quot;), 0o755))
++	assert.NilError(t, os.WriteFile(filepath.Join(guestDir, &quot;ro&quot;, &quot;f&quot;), []byte(&quot;f\n&quot;), 0o644))
++	assert.NilError(t, os.Chmod(filepath.Join(guestDir, &quot;ro&quot;), 0o555))
++	t.Cleanup(func() { _ = os.Chmod(filepath.Join(guestDir, &quot;ro&quot;), 0o755) })
++
++	selectPrompt = func(string, []string) (int, error) { return 1, nil } // No
++	t.Cleanup(func() { selectPrompt = uiutil.Select })
++
++	inst := &amp;limatype.Instance{
++		Name:   &quot;inst&quot;,
++		Config: &amp;limatype.LimaYAML{User: limatype.User{Home: new(&quot;/home/user.linux&quot;)}},
++	}
++	sshCmd := exec.CommandContext(t.Context(), &quot;true&quot;)
++	assert.NilError(t, askUserForRsyncBack(t.Context(), &amp;cobra.Command{}, inst, sshCmd, hostDir, guestDir, localRsyncTool{}, true, nil))
++
++	for dir, want := range map[string][]string{hostParent: {&quot;project&quot;}, tmpDir: nil} {
++		entries, err := os.ReadDir(dir)
++		assert.NilError(t, err)
++		var got []string
++		for _, e := range entries {
++			got = append(got, e.Name())
++		}
++		assert.DeepEqual(t, got, want)
++	}
++}</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="I3">
+        <span class="finding-num">I3.</span> A TMPDIR inside the synced directory makes &quot;Yes&quot; delete its own source <span class="pill pill-codex">Codex GPT 6 Astra</span><a href="#I3" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/8d43d0ecf45bde6a1d5a4e4dbf2fc9ae15e39be0/cmd/limactl/shell.go#L650-L661">cmd/limactl/shell.go</a></div>
+      <pre data-start="650" data-line="655-656"><code class="language-go">		if err != nil {
+			return fmt.Errorf(&quot;failed to open TUI: %w; preserving guest synced workdir at %s&quot;, err, destRsyncDir)
+		}
+
+		switch ans {
+		case 0: // Yes
+			return rsyncBack(snapshotContents)
+		case 1: // No
+			cleanupGuestWorkdir = true
+			logrus.Info(&quot;Skipping syncing back the changes to host.&quot;)
+			return nil
+		case 2: // View the changed contents</code></pre>
+    <p><code>os.MkdirTemp</code> at line 603 follows TMPDIR, which can point inside the synced directory. The snapshot is then inside the destination of &quot;Yes&quot;, whose <code>--delete</code> removes the snapshot while rsync still reads from it. rsync exits 23 with the change partly applied, and the prompt counts the snapshot&#39;s own files as deletions (<code>deleted: 6</code>). At the merge-base &quot;Yes&quot; read from the guest and succeeded in the same setup.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/8d43d0ecf45bde6a1d5a4e4dbf2fc9ae15e39be0/cmd/limactl/shell.go#L598-L608">cmd/limactl/shell.go</a></div>
+      <pre data-start="598" data-line="603"><code class="language-go">
+	if !tty {
+		return rsyncBack(remoteContents)
+	}
+
+	baseDir, err := os.MkdirTemp(&quot;&quot;, &quot;lima-guest-synced-*&quot;)
+	if err != nil {
+		return fmt.Errorf(&quot;failed to create temporary directory: %w; preserving guest synced workdir at %s&quot;, err, destRsyncDir)
+	}
+	defer func() {
+		if err := os.RemoveAll(baseDir); err != nil {</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as cmd/limactl/probe_nested_tmp_test.go; run: go test ./cmd/limactl/ -run TestProbeNestedTempDir -v
+// Reuses localRsyncTool from shell_test.go; needs rsync on PATH.
+package main
+
+import (
+	&quot;os&quot;
+	&quot;os/exec&quot;
+	&quot;path/filepath&quot;
+	&quot;testing&quot;
+
+	&quot;github.com/spf13/cobra&quot;
+	&quot;gotest.tools/v3/assert&quot;
+
+	&quot;github.com/lima-vm/lima/v2/pkg/limatype&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/uiutil&quot;
+)
+
+func TestProbeNestedTempDir(t *testing.T) {
+	for _, inside := range []bool{false, true} {
+		t.Run(map[bool]string{false: &quot;TMPDIR outside&quot;, true: &quot;TMPDIR inside&quot;}[inside], func(t *testing.T) {
+			hostDir := filepath.Join(t.TempDir(), &quot;project&quot;)
+			guestDir := filepath.Join(t.TempDir(), &quot;project&quot;)
+			// The initial host-to-guest sync copied the host&#39;s tmp directory too.
+			assert.NilError(t, os.MkdirAll(filepath.Join(hostDir, &quot;tmp&quot;), 0o755))
+			assert.NilError(t, os.MkdirAll(filepath.Join(guestDir, &quot;tmp&quot;), 0o755))
+			tmp := t.TempDir()
+			if inside {
+				tmp = filepath.Join(hostDir, &quot;tmp&quot;)
+			}
+			t.Setenv(&quot;TMPDIR&quot;, tmp)
+			assert.NilError(t, os.WriteFile(filepath.Join(hostDir, &quot;edit.txt&quot;), []byte(&quot;original\n&quot;), 0o644))
+			assert.NilError(t, os.WriteFile(filepath.Join(guestDir, &quot;edit.txt&quot;), []byte(&quot;reviewed longer contents\n&quot;), 0o644))
+			assert.NilError(t, os.WriteFile(filepath.Join(guestDir, &quot;new.txt&quot;), []byte(&quot;reviewed addition\n&quot;), 0o644))
+			var prompt string
+			selectPrompt = func(message string, _ []string) (int, error) { prompt = message; return 0, nil } // Yes
+			t.Cleanup(func() { selectPrompt = uiutil.Select })
+			inst := &amp;limatype.Instance{Name: &quot;inst&quot;, Config: &amp;limatype.LimaYAML{User: limatype.User{Home: new(&quot;/home/user.linux&quot;)}}}
+			err := askUserForRsyncBack(t.Context(), &amp;cobra.Command{}, inst, exec.CommandContext(t.Context(), &quot;true&quot;), hostDir, guestDir, localRsyncTool{}, true, nil)
+			t.Logf(&quot;prompt: %q&quot;, prompt)
+			assert.NilError(t, err)
+			got, err := os.ReadFile(filepath.Join(hostDir, &quot;edit.txt&quot;))
+			assert.NilError(t, err)
+			assert.Equal(t, string(got), &quot;reviewed longer contents\n&quot;)
+		})
+	}
+}</code></pre>
+      <pre><code class="language-text">$ go test ./cmd/limactl/ -run TestProbeNestedTempDir -v
+# github.com/lima-vm/lima/v2/cmd/limactl.test
+ld: warning: ignoring duplicate libraries: &#39;-lobjc&#39;
+=== RUN   TestProbeNestedTempDir
+=== RUN   TestProbeNestedTempDir/TMPDIR_outside
+time=&quot;2026-11-05T22:50:58-07:00&quot; level=info msg=&quot;Successfully synced back the changes to host.&quot;
+    probe_nested_tmp_test.go:39: prompt: &quot;⚠️ Accept the changes? (added: 1, deleted: 0, modified: 1, metadata: 0)&quot;
+=== RUN   TestProbeNestedTempDir/TMPDIR_inside
+rsync(5896): error: /var/folders/s2/9q03h0c11_s4fdw169wqz3qc0000gn/T/TestProbeNestedTempDirTMPDIR_inside3757087575/001/project/tmp/lima-guest-synced-4206907502/guest/project/edit.txt: open (2) in /private/var/folders/s2/9q03h0c11_s4fdw169wqz3qc0000gn/T/review-lead-2947255098/cmd/limactl: No such file or directory
+rsync(5896): error: /var/folders/s2/9q03h0c11_s4fdw169wqz3qc0000gn/T/TestProbeNestedTempDirTMPDIR_inside3757087575/001/project/tmp/lima-guest-synced-4206907502/guest/project/new.txt: open (2) in /private/var/folders/s2/9q03h0c11_s4fdw169wqz3qc0000gn/T/review-lead-2947255098/cmd/limactl: No such file or directory
+    probe_nested_tmp_test.go:39: prompt: &quot;⚠️ Accept the changes? (added: 1, deleted: 6, modified: 1, metadata: 0)&quot;
+    probe_nested_tmp_test.go:40: assertion failed: error is not nil: failed to sync back the changes from guest instance to host: exit status 23
+--- FAIL: TestProbeNestedTempDir (0.06s)
+    --- PASS: TestProbeNestedTempDir/TMPDIR_outside (0.03s)
+    --- FAIL: TestProbeNestedTempDir/TMPDIR_inside (0.03s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/cmd/limactl	0.589s
+FAIL</code></pre>
+      </details>
+    <p>Fix: create the snapshot beside the synced directory, and fall back to TMPDIR when that fails. On Windows <code>hostCurrentDir</code> is in cygpath form, so the patch passes the native path in. It applies after I1&#39;s and I2&#39;s patches and fixes I4 too. The copy then shows up wherever the parent directory is watched, such as a cloud-synced folder. Refusing a nested TMPDIR is the narrower alternative, but it leaves I4 open.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/cmd/limactl/shell.go b/cmd/limactl/shell.go
+index bdf338e6..30635679 100644
+--- a/cmd/limactl/shell.go
++++ b/cmd/limactl/shell.go
+@@ -534,7 +534,7 @@ func shellAction(cmd *cobra.Command, args []string) error {
+ 		if err != nil {
+ 			return err
+ 		}
+-		return askUserForRsyncBack(ctx, cmd, inst, sshExecForRsync, hostCurrentDir, destRsyncDir, rsync, tty, excludeArgs)
++		return askUserForRsyncBack(ctx, cmd, inst, sshExecForRsync, hostCurrentDirNative, hostCurrentDir, destRsyncDir, rsync, tty, excludeArgs)
+ 	}
+ 	return nil
+ }
+@@ -569,7 +569,7 @@ func windowsQuoteShell(shell string) string {
+ // selectPrompt is uiutil.Select, replaced in tests.
+ var selectPrompt = uiutil.Select
+ 
+-func askUserForRsyncBack(ctx context.Context, cmd *cobra.Command, inst *limatype.Instance, sshCmd *exec.Cmd, hostCurrentDir, destRsyncDir string, rsync copytool.CopyTool, tty bool, excludeArgs []string) error {
++func askUserForRsyncBack(ctx context.Context, cmd *cobra.Command, inst *limatype.Instance, sshCmd *exec.Cmd, hostCurrentDirNative, hostCurrentDir, destRsyncDir string, rsync copytool.CopyTool, tty bool, excludeArgs []string) error {
+ 	remoteSource := fmt.Sprintf(&quot;%s:%s&quot;, inst.Name, destRsyncDir)
+ 	// See the comment on the trailing slash where the rsync tool is created.
+ 	remoteContents := remoteSource + &quot;/&quot;
+@@ -600,7 +600,13 @@ func askUserForRsyncBack(ctx context.Context, cmd *cobra.Command, inst *limatype
+ 		return rsyncBack(remoteContents)
+ 	}
+ 
+-	baseDir, err := os.MkdirTemp(&quot;&quot;, &quot;lima-guest-synced-*&quot;)
++	// The snapshot goes beside the synced directory. There it has the directory&#39;s
++	// case sensitivity, and the --delete of &quot;Yes&quot; cannot remove it, as it can when
++	// TMPDIR is inside the directory.
++	baseDir, err := os.MkdirTemp(filepath.Dir(hostCurrentDirNative), &quot;.lima-guest-synced-*&quot;)
++	if err != nil {
++		baseDir, err = os.MkdirTemp(&quot;&quot;, &quot;lima-guest-synced-*&quot;)
++	}
+ 	if err != nil {
+ 		return fmt.Errorf(&quot;failed to create temporary directory: %w; preserving guest synced workdir at %s&quot;, err, destRsyncDir)
+ 	}
+diff --git a/cmd/limactl/shell_test.go b/cmd/limactl/shell_test.go
+index 9c5ac92e..fc7a62b9 100644
+--- a/cmd/limactl/shell_test.go
++++ b/cmd/limactl/shell_test.go
+@@ -486,7 +486,7 @@ func TestAskUserForRsyncBackAppliesReviewedContents(t *testing.T) {
+ 	}
+ 	// Stands in for ssh, which only removes the guest workdir afterwards.
+ 	sshCmd := exec.CommandContext(t.Context(), &quot;true&quot;)
+-	assert.NilError(t, askUserForRsyncBack(t.Context(), &amp;cobra.Command{}, inst, sshCmd, hostDir, guestDir, localRsyncTool{}, true, nil))
++	assert.NilError(t, askUserForRsyncBack(t.Context(), &amp;cobra.Command{}, inst, sshCmd, hostDir, hostDir, guestDir, localRsyncTool{}, true, nil))
+ 
+ 	assert.Assert(t, strings.Contains(prompt, &quot;modified: 1&quot;), prompt)
+ 	got, err := os.ReadFile(filepath.Join(hostDir, &quot;build.sh&quot;))
+@@ -535,7 +535,7 @@ func TestAskUserForRsyncBackSnapshotUsesHostAsBasis(t *testing.T) {
+ 	}
+ 	sshCmd := exec.CommandContext(t.Context(), &quot;true&quot;)
+ 	tool := &amp;optionsRecordingTool{opts: map[string]*copytool.Options{}}
+-	assert.NilError(t, askUserForRsyncBack(t.Context(), &amp;cobra.Command{}, inst, sshCmd, hostDir, guestDir, tool, true, []string{&quot;--exclude&quot;, &quot;secret&quot;}))
++	assert.NilError(t, askUserForRsyncBack(t.Context(), &amp;cobra.Command{}, inst, sshCmd, hostDir, hostDir, guestDir, tool, true, []string{&quot;--exclude&quot;, &quot;secret&quot;}))
+ 
+ 	snapshot := tool.opts[&quot;inst:&quot;+guestDir+&quot;/&quot;]
+ 	assert.Assert(t, snapshot != nil, &quot;the snapshot must pass its own options: %v&quot;, tool.opts)
+@@ -573,7 +573,7 @@ func TestAskUserForRsyncBackRemovesReadOnlySnapshot(t *testing.T) {
+ 		Config: &amp;limatype.LimaYAML{User: limatype.User{Home: new(&quot;/home/user.linux&quot;)}},
+ 	}
+ 	sshCmd := exec.CommandContext(t.Context(), &quot;true&quot;)
+-	assert.NilError(t, askUserForRsyncBack(t.Context(), &amp;cobra.Command{}, inst, sshCmd, hostDir, guestDir, localRsyncTool{}, true, nil))
++	assert.NilError(t, askUserForRsyncBack(t.Context(), &amp;cobra.Command{}, inst, sshCmd, hostDir, hostDir, guestDir, localRsyncTool{}, true, nil))
+ 
+ 	for dir, want := range map[string][]string{hostParent: {&quot;project&quot;}, tmpDir: nil} {
+ 		entries, err := os.ReadDir(dir)
+@@ -585,3 +585,42 @@ func TestAskUserForRsyncBackRemovesReadOnlySnapshot(t *testing.T) {
+ 		assert.DeepEqual(t, got, want)
+ 	}
+ }
++
++// TestAskUserForRsyncBackTempDirInsideSyncedDir checks that &quot;Yes&quot; applies the
++// snapshot when TMPDIR is inside the synced directory, where the --delete of &quot;Yes&quot;
++// would remove the snapshot while rsync reads it.
++func TestAskUserForRsyncBackTempDirInsideSyncedDir(t *testing.T) {
++	if runtime.GOOS == &quot;windows&quot; {
++		t.Skip(&quot;localRsyncTool passes native paths to rsync&quot;)
++	}
++	if _, err := exec.LookPath(&quot;rsync&quot;); err != nil {
++		t.Skip(&quot;rsync not found:&quot;, err)
++	}
++	hostDir := filepath.Join(t.TempDir(), &quot;project&quot;)
++	guestDir := filepath.Join(t.TempDir(), &quot;project&quot;)
++	// The initial sync copied the host&#39;s tmp directory into the guest.
++	assert.NilError(t, os.MkdirAll(filepath.Join(hostDir, &quot;tmp&quot;), 0o755))
++	assert.NilError(t, os.MkdirAll(filepath.Join(guestDir, &quot;tmp&quot;), 0o755))
++	t.Setenv(&quot;TMPDIR&quot;, filepath.Join(hostDir, &quot;tmp&quot;))
++	assert.NilError(t, os.WriteFile(filepath.Join(hostDir, &quot;edit.txt&quot;), []byte(&quot;original\n&quot;), 0o644))
++	assert.NilError(t, os.WriteFile(filepath.Join(guestDir, &quot;edit.txt&quot;), []byte(&quot;reviewed contents\n&quot;), 0o644))
++
++	var prompt string
++	selectPrompt = func(message string, _ []string) (int, error) {
++		prompt = message
++		return 0, nil // Yes
++	}
++	t.Cleanup(func() { selectPrompt = uiutil.Select })
++
++	inst := &amp;limatype.Instance{
++		Name:   &quot;inst&quot;,
++		Config: &amp;limatype.LimaYAML{User: limatype.User{Home: new(&quot;/home/user.linux&quot;)}},
++	}
++	sshCmd := exec.CommandContext(t.Context(), &quot;true&quot;)
++	assert.NilError(t, askUserForRsyncBack(t.Context(), &amp;cobra.Command{}, inst, sshCmd, hostDir, hostDir, guestDir, localRsyncTool{}, true, nil))
++
++	assert.Assert(t, strings.Contains(prompt, &quot;deleted: 0&quot;), prompt)
++	got, err := os.ReadFile(filepath.Join(hostDir, &quot;edit.txt&quot;))
++	assert.NilError(t, err)
++	assert.Equal(t, string(got), &quot;reviewed contents\n&quot;)
++}</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="cmd/limactl/shell.go">
+      <div class="finding-title" id="I4">
+        <span class="finding-num">I4.</span> On a case-sensitive project volume, &quot;Yes&quot; deletes one of two names that differ only in case <span class="pill pill-claude">Claude Opus 5.5</span><a href="#I4" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/8d43d0ecf45bde6a1d5a4e4dbf2fc9ae15e39be0/cmd/limactl/shell.go#L598-L611">cmd/limactl/shell.go</a></div>
+      <pre data-start="598" data-line="603-606"><code class="language-go">
+	if !tty {
+		return rsyncBack(remoteContents)
+	}
+
+	baseDir, err := os.MkdirTemp(&quot;&quot;, &quot;lima-guest-synced-*&quot;)
+	if err != nil {
+		return fmt.Errorf(&quot;failed to create temporary directory: %w; preserving guest synced workdir at %s&quot;, err, destRsyncDir)
+	}
+	defer func() {
+		if err := os.RemoveAll(baseDir); err != nil {
+			logrus.WithError(err).Warnf(&quot;Failed to clean up temporary directory %s&quot;, baseDir)
+		}
+	}()</code></pre>
+    <p>On macOS the default TMPDIR is on a case-insensitive APFS volume. When the project is on a case-sensitive volume and holds <code>xt_CONNMARK.h</code> beside <code>xt_connmark.h</code>, the snapshot merges the pair into one file. The prompt then reports a deletion that the guest never made, and &quot;Yes&quot; removes <code>xt_connmark.h</code> from the host. At the merge-base &quot;Yes&quot; wrote straight into the project and kept both. The probe&#39;s control puts TMPDIR on the project&#39;s volume.</p>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as cmd/limactl/probe_case_test.go; run on macOS:
+//   hdiutil create -size 20m -fs &#39;Case-sensitive APFS&#39; -volname lima-cs-probe /tmp/cs.dmg
+//   hdiutil attach -nobrowse /tmp/cs.dmg
+//   PROBE_CS_DIR=/Volumes/lima-cs-probe go test ./cmd/limactl/ -run TestProbeCaseSensitiveProject -v
+//   hdiutil detach /Volumes/lima-cs-probe
+// Reuses localRsyncTool from shell_test.go; the default TMPDIR is case-insensitive APFS.
+package main
+
+import (
+	&quot;os&quot;
+	&quot;os/exec&quot;
+	&quot;path/filepath&quot;
+	&quot;testing&quot;
+
+	&quot;github.com/spf13/cobra&quot;
+	&quot;gotest.tools/v3/assert&quot;
+
+	&quot;github.com/lima-vm/lima/v2/pkg/limatype&quot;
+	&quot;github.com/lima-vm/lima/v2/pkg/uiutil&quot;
+)
+
+func TestProbeCaseSensitiveProject(t *testing.T) {
+	cs := os.Getenv(&quot;PROBE_CS_DIR&quot;)
+	if cs == &quot;&quot; {
+		t.Skip(&quot;PROBE_CS_DIR not set&quot;)
+	}
+	for _, tmpOnProjectVolume := range []bool{true, false} {
+		t.Run(map[bool]string{true: &quot;TMPDIR case-sensitive&quot;, false: &quot;TMPDIR case-insensitive&quot;}[tmpOnProjectVolume], func(t *testing.T) {
+			root, err := os.MkdirTemp(cs, &quot;probe-&quot;)
+			assert.NilError(t, err)
+			t.Cleanup(func() { _ = os.RemoveAll(root) })
+			if tmpOnProjectVolume {
+				assert.NilError(t, os.Mkdir(filepath.Join(root, &quot;tmp&quot;), 0o755))
+				t.Setenv(&quot;TMPDIR&quot;, filepath.Join(root, &quot;tmp&quot;))
+			}
+			hostDir := filepath.Join(root, &quot;host&quot;, &quot;project&quot;)
+			guestDir := filepath.Join(root, &quot;guest&quot;, &quot;project&quot;)
+			for _, d := range []string{hostDir, guestDir} {
+				assert.NilError(t, os.MkdirAll(d, 0o755))
+				assert.NilError(t, os.WriteFile(filepath.Join(d, &quot;xt_CONNMARK.h&quot;), []byte(&quot;upper\n&quot;), 0o644))
+				assert.NilError(t, os.WriteFile(filepath.Join(d, &quot;xt_connmark.h&quot;), []byte(&quot;lower\n&quot;), 0o644))
+			}
+			// The guest changes an unrelated file, so the session has something to accept.
+			assert.NilError(t, os.WriteFile(filepath.Join(guestDir, &quot;README&quot;), []byte(&quot;guest edit\n&quot;), 0o644))
+			var prompt string
+			selectPrompt = func(message string, _ []string) (int, error) { prompt = message; return 0, nil } // Yes
+			t.Cleanup(func() { selectPrompt = uiutil.Select })
+			inst := &amp;limatype.Instance{Name: &quot;inst&quot;, Config: &amp;limatype.LimaYAML{User: limatype.User{Home: new(&quot;/home/user.linux&quot;)}}}
+			assert.NilError(t, askUserForRsyncBack(t.Context(), &amp;cobra.Command{}, inst, exec.CommandContext(t.Context(), &quot;true&quot;), hostDir, guestDir, localRsyncTool{}, true, nil))
+			t.Logf(&quot;prompt: %q&quot;, prompt)
+			for _, name := range []string{&quot;xt_CONNMARK.h&quot;, &quot;xt_connmark.h&quot;} {
+				_, err := os.Stat(filepath.Join(hostDir, name))
+				assert.NilError(t, err, &quot;the guest never touched %s&quot;, name)
+			}
+		})
+	}
+}</code></pre>
+      <pre><code class="language-text">$ PROBE_CS_DIR=/Volumes/lima-cs-probe go test ./cmd/limactl/ -run TestProbeCaseSensitiveProject -v
+# github.com/lima-vm/lima/v2/cmd/limactl.test
+ld: warning: ignoring duplicate libraries: &#39;-lobjc&#39;
+=== RUN   TestProbeCaseSensitiveProject
+=== RUN   TestProbeCaseSensitiveProject/TMPDIR_case-sensitive
+time=&quot;2026-11-05T22:56:22-07:00&quot; level=info msg=&quot;Successfully synced back the changes to host.&quot;
+    probe_case_test.go:50: prompt: &quot;⚠️ Accept the changes? (added: 1, deleted: 0, modified: 0, metadata: 0)&quot;
+=== RUN   TestProbeCaseSensitiveProject/TMPDIR_case-insensitive
+time=&quot;2026-11-05T22:56:22-07:00&quot; level=info msg=&quot;Successfully synced back the changes to host.&quot;
+    probe_case_test.go:50: prompt: &quot;⚠️ Accept the changes? (added: 1, deleted: 1, modified: 0, metadata: 0)&quot;
+    probe_case_test.go:53: assertion failed: error is not nil: stat /Volumes/lima-cs-probe/probe-1192678016/host/project/xt_connmark.h: no such file or directory: the guest never touched xt_connmark.h
+--- FAIL: TestProbeCaseSensitiveProject (0.06s)
+    --- PASS: TestProbeCaseSensitiveProject/TMPDIR_case-sensitive (0.03s)
+    --- FAIL: TestProbeCaseSensitiveProject/TMPDIR_case-insensitive (0.03s)
+FAIL
+FAIL	github.com/lima-vm/lima/v2/cmd/limactl	0.745s
+FAIL</code></pre>
+      </details>
+    <p>Fix: I3&#39;s patch. Adapted to the native-path argument that the patch adds, this probe passes against the patch. The test exists only in the reproducer, because no suite in the repo has a case-sensitive volume.</p>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="cmd/limactl/shell_test.go">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> Against the merge-base, the new test stops at the statistics before it checks the race <span class="pill pill-claude">Claude Opus 5.5</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/8d43d0ecf45bde6a1d5a4e4dbf2fc9ae15e39be0/cmd/limactl/shell_test.go#L485-L495">cmd/limactl/shell_test.go</a></div>
+      <pre data-start="485" data-line="490"><code class="language-go">	}
+	// Stands in for ssh, which only removes the guest workdir afterwards.
+	sshCmd := exec.CommandContext(t.Context(), &quot;true&quot;)
+	assert.NilError(t, askUserForRsyncBack(t.Context(), &amp;cobra.Command{}, inst, sshCmd, hostDir, guestDir, localRsyncTool{}, true, nil))
+
+	assert.Assert(t, strings.Contains(prompt, &quot;modified: 1&quot;), prompt)
+	got, err := os.ReadFile(filepath.Join(hostDir, &quot;build.sh&quot;))
+	assert.NilError(t, err)
+	assert.Equal(t, string(got), reviewed)
+	_, err = os.Stat(filepath.Join(hostDir, &quot;.git&quot;))
+	assert.Assert(t, errors.Is(err, fs.ErrNotExist), &quot;unreviewed file reached the host: %v&quot;, err)</code></pre>
+    <p>Against the merge-base <code>shell.go</code>, changed only to call <code>selectPrompt</code>, the test stops at this line. The merge-base <code>getRsyncStats</code> cannot resolve the fake instance <code>inst</code>, so the prompt does not show statistics. The content assertions that pin the race never run, and with this line removed they fail on <code>echo unreviewed</code>. So as the test stands, a regression fails on the statistics and hides the unreviewed content that the test exists to catch.</p>
+    <p>Fix: move this assertion after the content assertions, or make it <code>assert.Check</code>.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>One choice decides I1 through I4</strong> (in-scope). The snapshot belongs on the host, because the guest could rewrite a copy kept on its side. Where the snapshot lives and how it is filled decide all four findings, so treat the fix as one change. Apply the patches in the order I1, I2, I3. <span class="pill pill-claude">Claude Opus 5.5</span></li>
+      <li><strong>A hostile guest can still fill the host&#39;s disk before the user answers</strong> (future). <code>--copy-dest</code> cuts what an ordinary session sends, but a guest that adds a huge file still gets it written to the host before &quot;No&quot; is possible. The threat model rates a guest making <code>limactl</code> use unbounded disk as Medium. A size limit checked against a dry run before the snapshot would bound it. <span class="pill pill-claude">Claude Opus 5.5</span></li>
+      <li><strong>A session with no changes still copies the tree locally</strong> (future). With <code>--copy-dest</code> it sends only the file list over SSH, but it still writes a full local copy. A dry run against the guest before the snapshot can skip the copy when nothing changed, and since nothing is applied then, the race does not matter. <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li>Statistics, &quot;View&quot; and &quot;Yes&quot; read one tree, so the diff shows what &quot;Yes&quot; applies. <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
+      <li>The statistics run is now a local dry run, which drops a <code>store.Inspect</code> and the SSH round trip that checks the guest for rsync. <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span></li>
+      <li>A failed snapshot keeps the guest workdir, so the user loses nothing. <span class="pill pill-codex">Codex GPT 6 Astra</span></li>
+      <li>The new test changes the guest from inside the prompt and checks a modified, a new and a deleted file. <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span></li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li>I ran <code>go test ./...</code> at the reviewed head, and all 54 packages with tests pass. With I1&#39;s, I2&#39;s and I3&#39;s patches applied, <code>go test ./cmd/limactl/ ./pkg/copytool/</code> and <code>golangci-lint run ./cmd/limactl/</code> pass.</li>
+      <li>The new test fails against the merge-base and passes at the head; I ran both. S1 covers the order of its assertions.</li>
+      <li>No BATS test reaches the tty path. Every <code>limactl shell --sync</code> in <code>hack/bats/tests/shell-sync.bats</code> passes <code>--yes</code> or <code>--tty=false</code>, so the PR body&#39;s &quot;Through BATS tests&quot; covers only the non-tty path, which the PR leaves unchanged.</li>
+      <li>The new test skips Windows. The Windows-specific step, converting a native path that ends in <code>/</code>, is covered by <code>TestRsyncCommandPaths/non-recursive</code>, which passed on this head&#39;s <code>Windows tests (WSL2)</code> job.</li>
+      <li>I1, I2 and I3 each need a test, and each patch adds one that fails before its fix. I4&#39;s test needs a case-sensitive volume, so it exists only in the reproducer.</li>
+      <li>Optional, dropped: a test of &quot;View&quot; with exclusions. <code>TestHostTreeForDiff</code> covers the helper, and the PR changes only how <code>diffSource</code> is cached.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><code>website/content/en/docs/examples/ai.md</code> describes the prompt&#39;s three choices, and the descriptions still hold. The comment at <a href="https://github.com/lima-vm/lima/blob/8d43d0ecf45bde6a1d5a4e4dbf2fc9ae15e39be0/cmd/limactl/shell.go#L616-L617"><code>cmd/limactl/shell.go:616-617</code></a> is accurate.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><code>--link-dest</code> in place of <code>--copy-dest</code> for the snapshot: macOS&#39;s openrsync 2.6.9 hard-linked a file whose mode the guest had changed, so the snapshot showed the host file&#39;s mode. Do not re-suggest it without a check of modes.</li>
+      <li>The Windows skip in <code>TestAskUserForRsyncBackAppliesReviewedContents</code>: <code>TestRsyncCommandPaths/non-recursive</code> covers the conversion that it would test on Windows CI. Do not re-suggest converting paths in the test double.</li>
+      <li>Outside the PR: on a Windows host, <code>dirForCleanup</code> is built with <code>filepath.Clean</code> and <code>filepath.Join</code>, so the guest&#39;s <code>rm -rf</code> receives backslashes and never removes the workdir. The PR does not touch those lines. <span class="pill pill-gemini">Gemini 3.1 Pro</span></li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5-5"><span class="pill pill-claude">Claude Opus 5.5</span> <a href="#claude-opus-5-5" class="pilcrow">&#182;</a></h3>
+    <p>It raised three of the four Important findings and the only Suggestion. I4 was its alone. It reasoned from APFS case folding to a deleted host file and tested the folding on the temp volume, though not end to end, which consolidation did with a case-sensitive disk image. Its fix for I1 proposed <code>--link-dest</code> and checked only that an unchanged file shared the host&#39;s inode. On openrsync that option also links a file whose mode the guest changed, so the report uses <code>--copy-dest</code>. It ran the new test against the merge-base, which is where S1 came from.</p>
+    <h3 id="codex-gpt-6-astra"><span class="pill pill-codex">Codex GPT 6 Astra</span> <a href="#codex-gpt-6-astra" class="pilcrow">&#182;</a></h3>
+    <p>It found I3, which no other agent considered, because none asked where TMPDIR can point. Its Python probe had a control arm that staged outside the host directory, which made the regression claim easy to check. It measured the full-copy cost of I1 but filed it as a future design concern, below what a regression on every tty session warrants. It declined to write a patch because Windows needs the native path passed through, and the report&#39;s patch passes it. Its sandbox could not resolve Go modules, so it ran no Go test and said so.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>It found nothing to report and called the implementation &quot;robust&quot;, so it missed all four regressions, two of them in the snapshot code that it praised. Its session shows reads and one Windows <code>filepath.IsAbs</code> probe, and it never ran the snapshot. Its one contribution is outside the PR. The Windows cleanup bug under Acknowledged Limitations holds and predates the change.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>It found I1 and proposed a different remedy, a dry run against the guest before the snapshot, which the report keeps as a design observation for sessions with no changes. It saw the read-only leak but filed it as a Suggestion. It rated the new test&#39;s Windows skip an Important regression, but <code>TestRsyncCommandPaths/non-recursive</code> already covers that conversion on the WSL2 job, so the report drops it. It wrote that it executed all unit tests in <code>cmd/limactl</code>, but its session ran only the new test. The two Gemini models disagreed this round, so their verdicts count as two opinions.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5.5</span></th><th><span class="pill pill-codex">Codex GPT 6 Astra</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>7m 03s</td><td>5m 17s</td><td>8m 59s</td><td>8m 36s</td></tr>
+        <tr><td>Findings</td><td>3I 1S</td><td>2I</td><td>none</td><td>2I</td></tr>
+        <tr><td>Tool calls</td><td>29 (Bash 23, Read 6)</td><td>11 (shell 11)</td><td>42 (run<em>shell</em>command 42)</td><td>42 (run<em>shell</em>command 17, grep<em>search 12, read</em>file 11)</td></tr>
+        <tr><td>Design observations</td><td>4</td><td>3</td><td>2</td><td>2</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Unique insights</td><td>2</td><td>1</td><td>0</td><td>1</td></tr>
+        <tr><td>Files reviewed</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>3I 1S</strong></td><td><strong>2I</strong></td><td><strong>none</strong></td><td><strong>2I</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td><td>3</td></tr>
+      </tbody>
+    </table>
+    <p>Reconciliation: Codex pass 1, full-copy cost: design observation → important I1. Gemini 3.5 Flash pass 1, read-only cleanup: suggestion S2 → important I2. Gemini 3.5 Flash pass 1, Windows test skip: important I2 → dropped, because <code>TestRsyncCommandPaths/non-recursive</code> covers the path conversion on the <code>Windows tests (WSL2)</code> job. Gemini 3.5 Flash pass 1, S1 (tests for &quot;No&quot; and &quot;View&quot;) and S3 (a redundant check in code that the PR does not touch) were dropped.</p>
+    <p>Claude and Codex gave the most value. Between them they found all four Important findings, and each found one that no other agent did. Flash added the best remedy for sessions with no changes, and Gemini 3.1 Pro added nothing in scope.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><strong>Skill improvements</strong></p>
+    <ul>
+      <li>When a change stages data in an intermediate location before applying it to a destination (a temporary directory, a cache, a snapshot), check that location against the destination. Ask whether it can sit inside the destination, where the apply step&#39;s cleanup or <code>--delete</code> reaches it; whether it shares the destination&#39;s filesystem semantics, such as case sensitivity, links and permissions; and whether cleanup can remove everything that the copy preserved, read-only modes included. A staging copy takes the properties of the filesystem that it is written to, which need not match the source&#39;s or the destination&#39;s.</li>
+      <li>When a change moves work from an optional path onto the default one, such as a copy that ran only on request and now runs every time, measure its cost on a realistic input, including the runs where the work turns out unnecessary.</li>
+    </ul>
+    <p><strong>Repo context updates</strong></p>
+    <ul>
+      <li>[repo] macOS&#39;s <code>/usr/bin/rsync</code> is openrsync, whose <code>--link-dest</code> hard-links a basis file even when its mode differs from the sender&#39;s, so a copy built with it can show the host file&#39;s mode instead of the guest&#39;s. Flag <code>--link-dest</code> on any copy that must match the guest; <code>--copy-dest</code> saves the same transfer without links.</li>
+      <li>[repo] On a macOS host <code>os.TempDir()</code> is on the boot volume, which is case-insensitive APFS by default even when the synced project is on a case-sensitive volume. A host-side copy of guest data under TMPDIR merges names that differ only in case, so flag one that is later applied to the project with <code>--delete</code>.</li>
+      <li>[repo] Every <code>limactl shell --sync</code> call in the BATS suite passes <code>--yes</code> or <code>--tty=false</code>, so no BATS test reaches the interactive sync-back (the statistics, the prompt, &quot;View&quot; and &quot;Yes&quot;). Only unit tests cover a change there, so ask for one that drives the prompt.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){var t="\\b(?:BASH|BASHOPTS|BASH_ALIASES|BASH_ARGC|BASH_ARGV|BASH_CMDS|BASH_COMPLETION_COMPAT_DIR|BASH_LINENO|BASH_REMATCH|BASH_SOURCE|BASH_VERSINFO|BASH_VERSION|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|EUID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_ADDRESS|LC_ALL|LC_IDENTIFICATION|LC_MEASUREMENT|LC_MONETARY|LC_NAME|LC_NUMERIC|LC_PAPER|LC_TELEPHONE|LC_TIME|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS1|PS2|PS3|PS4|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UID|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_CONFIG_DIRS|XDG_CURRENT_DESKTOP|XDG_DATA_DIRS|XDG_GREETER_DATA_DIR|XDG_MENU_PREFIX|XDG_RUNTIME_DIR|XDG_SEAT|XDG_SEAT_PATH|XDG_SESSION_DESKTOP|XDG_SESSION_ID|XDG_SESSION_PATH|XDG_SESSION_TYPE|XDG_VTNR|XMODIFIERS)\\b",a={pattern:/(^(["']?)\w+\2)[ \t]+\S.*/,lookbehind:!0,alias:"punctuation",inside:null},n={bash:a,environment:{pattern:RegExp("\\$"+t),alias:"constant"},variable:[{pattern:/\$?\(\([\s\S]+?\)\)/,greedy:!0,inside:{variable:[{pattern:/(^\$\(\([\s\S]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,operator:/--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,greedy:!0,inside:{variable:/^\$\(|^`|\)$|`$/}},{pattern:/\$\{[^}]+\}/,greedy:!0,inside:{operator:/:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,punctuation:/[\[\]]/,environment:{pattern:RegExp("(\\{)"+t),lookbehind:!0,alias:"constant"}}},/\$(?:\w+|[#?*!@$])/],entity:/\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/};e.languages.bash={shebang:{pattern:/^#!\s*\/.*/,alias:"important"},comment:{pattern:/(^|[^"{\\$])#.*/,lookbehind:!0},"function-name":[{pattern:/(\bfunction\s+)[\w-]+(?=(?:\s*\(?:\s*\))?\s*\{)/,lookbehind:!0,alias:"function"},{pattern:/\b[\w-]+(?=\s*\(\s*\)\s*\{)/,alias:"function"}],"for-or-select":{pattern:/(\b(?:for|select)\s+)\w+(?=\s+in\s)/,alias:"variable",lookbehind:!0},"assign-left":{pattern:/(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,inside:{environment:{pattern:RegExp("(^|[\\s;|&]|[<>]\\()"+t),lookbehind:!0,alias:"constant"}},alias:"variable",lookbehind:!0},parameter:{pattern:/(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,alias:"variable",lookbehind:!0},string:[{pattern:/((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?(?:\r?\n|\r)\2/,lookbehind:!0,greedy:!0,inside:n},{pattern:/((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?(?:\r?\n|\r)\3/,lookbehind:!0,greedy:!0,inside:{bash:a}},{pattern:/(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,lookbehind:!0,greedy:!0,inside:n},{pattern:/(^|[^$\\])'[^']*'/,lookbehind:!0,greedy:!0},{pattern:/\$'(?:[^'\\]|\\[\s\S])*'/,greedy:!0,inside:{entity:n.entity}}],environment:{pattern:RegExp("\\$?"+t),alias:"constant"},variable:n.variable,function:{pattern:/(^|[\s;|&]|[<>]\()(?:add|apropos|apt|apt-cache|apt-get|aptitude|aspell|automysqlbackup|awk|basename|bash|bc|bconsole|bg|bzip2|cal|cargo|cat|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clear|cmp|column|comm|composer|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|debootstrap|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|docker|docker-compose|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|git|gparted|grep|groupadd|groupdel|groupmod|groups|grub-mkconfig|gzip|halt|head|hg|history|host|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|ip|java|jobs|join|kill|killall|less|link|ln|locate|logname|logrotate|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|make|man|mc|mdadm|mkconfig|mkdir|mke2fs|mkfifo|mkfs|mkisofs|mknod|mkswap|mmv|more|most|mount|mtools|mtr|mutt|mv|nano|nc|netstat|nice|nl|node|nohup|notify-send|npm|nslookup|op|open|parted|passwd|paste|pathchk|ping|pkill|pnpm|podman|podman-compose|popd|pr|printcap|printenv|ps|pushd|pv|quota|quotacheck|quotactl|ram|rar|rcp|reboot|remsync|rename|renice|rev|rm|rmdir|rpm|rsync|scp|screen|sdiff|sed|sendmail|seq|service|sftp|sh|shellcheck|shuf|shutdown|sleep|slocate|sort|split|ssh|stat|strace|su|sudo|sum|suspend|swapon|sync|sysctl|tac|tail|tar|tee|time|timeout|top|touch|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|update-grub|uptime|useradd|userdel|usermod|users|uudecode|uuencode|v|vcpkg|vdir|vi|vim|virsh|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yarn|yes|zenity|zip|zsh|zypper)(?=$|[)\s;|&])/,lookbehind:!0},keyword:{pattern:/(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)(?=$|[)\s;|&])/,lookbehind:!0},builtin:{pattern:/(^|[\s;|&]|[<>]\()(?:\.|:|alias|bind|break|builtin|caller|cd|command|continue|declare|echo|enable|eval|exec|exit|export|getopts|hash|help|let|local|logout|mapfile|printf|pwd|read|readarray|readonly|return|set|shift|shopt|source|test|times|trap|type|typeset|ulimit|umask|unalias|unset)(?=$|[)\s;|&])/,lookbehind:!0,alias:"class-name"},boolean:{pattern:/(^|[\s;|&]|[<>]\()(?:false|true)(?=$|[)\s;|&])/,lookbehind:!0},"file-descriptor":{pattern:/\B&\d\b/,alias:"important"},operator:{pattern:/\d?<>|>\||\+=|=[=~]?|!=?|<<[<-]?|[&\d]?>>|\d[<>]&?|[<>][&=]?|&[>&]?|\|[&|]?/,inside:{"file-descriptor":{pattern:/^\d/,alias:"important"}}},punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,number:{pattern:/(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,lookbehind:!0}},a.inside=e.languages.bash;for(var s=["comment","function-name","for-or-select","assign-left","parameter","string","environment","function","keyword","builtin","boolean","file-descriptor","operator","punctuation","number"],o=n.variable[1].inside,i=0;i<s.length;i++)o[s[i]]=e.languages.bash[s[i]];e.languages.sh=e.languages.bash,e.languages.shell=e.languages.bash}(Prism);
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
