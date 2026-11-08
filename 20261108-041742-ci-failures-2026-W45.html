@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CI Failures: 2026-W45</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+.pass-tag, .title-note { font-weight: 400; color: #6b7280; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>CI Failures: 2026-W45</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-11-08 04:17</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Period</td><td>2026-W45 (Sat 2026-10-31 – Fri 2026-11-06)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">106 failed jobs</span> &mdash; 24 on <code>master</code>, 30 known flakes, 23 proven</td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="at-a-glance">At a glance <a href="#at-a-glance" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <table>
+      <thead><tr><th></th><th>this period</th><th>prev week</th><th>Δ</th><th>4-week avg</th></tr></thead>
+      <tbody>
+        <tr><td>failed jobs</td><td>106</td><td>80</td><td>▲ +26</td><td>120.2</td></tr>
+        <tr><td>on <code>master</code></td><td>24</td><td>10</td><td>▲ +14</td><td>14.0</td></tr>
+        <tr><td>known flakes</td><td>30</td><td>35</td><td>▼ -5</td><td>40.0</td></tr>
+        <tr><td>proven flakes (re-run went green)</td><td>23</td><td>21</td><td>▲ +2</td><td>20.5</td></tr>
+        <tr><td>unrecognized</td><td>24</td><td>23</td><td>▲ +1</td><td>73.5</td></tr>
+        <tr><td>awaiting analysis (<code>master</code>)</td><td>0</td><td>0</td><td>—</td><td>0.0</td></tr>
+        <tr><td>jobs run (outside the quarantine)</td><td>3559</td><td>3317</td><td>▲ +242</td><td>3312.5</td></tr>
+        <tr><td>failure rate</td><td>3.1%</td><td>2.3%</td><td>▲ +0.7pp</td><td>3.6%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <hr>
+    <h2 id="assessment">Assessment <a href="#assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The failure rate rose to 3.1% from 2.3%, and failures on <code>master</code> to 24 from 10, but 7 of the 24 came from the VMNet regression that <a href="https://github.com/lima-vm/lima/issues/5486" class="gh-ref" data-title="networks: enable `lima:shared`, `lima:host` and `lima:bridged` on Linux" data-state="merged" data-type="pr">#5486</a> brought in W44, and that regression has stopped. The macOS VMNet job lost its runner on 7 <code>master</code> runs before <a href="https://github.com/lima-vm/lima/issues/5729" class="gh-ref" data-title="CI(vmnet): run the host-network guest under TCG on macOS" data-state="merged" data-type="pr">#5729</a> (11-04 12:57Z) ran the host-network guest under TCG, and it has passed 18 of 18 <code>master</code> runs since. The flake to root-cause is still <code>vz-exfat-mount-after-mkfs</code>, which failed 14 of 97 vz <code>default.yaml</code> jobs this week (7 on <code>master</code>) against 11 of 98 in W44, so it has held at the rate it reached after the Ubuntu 26.10 update (<a href="https://github.com/lima-vm/lima/issues/5657" class="gh-ref" data-title="templates: update Ubuntu to 26.10" data-state="merged" data-type="pr">#5657</a>) instead of fading. Nothing in the logs says why the guest&#39;s first mount fails, and <code>bats::on_failure</code> in <code>hack/bats/extras/vz-block-device.bats</code> still doesn&#39;t capture the guest&#39;s <code>dmesg</code> or <code>blkid</code>, so adding that is the next step. The jobs that failed without a log rose to 52 from 22, and 27 of them came from the <code>vmnet-runner-loss</code>, <code>vmnet-two-vms</code> and <code>vmnet-vz-repeat</code> experiment workflows; all 8 on <code>master</code> lost their runner. The one regression candidate is the hdiutil eject failure that <a href="https://github.com/lima-vm/lima/issues/5354" class="gh-ref" data-title="apfs: force the hdiutil detaches in TestChownIntegration" data-state="merged" data-type="pr">#5354</a>&#39;s <code>-force</code> never fixed, because it covers only the unmount; it failed 2 PR jobs this week, and <code>TestChownIntegration</code> still detaches without a retry.</p>
+    </div>
+    <hr>
+    <h2 id="known-flakes">Known flakes <a href="#known-flakes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <table>
+      <thead><tr><th>flake</th><th>jobs</th><th><code>master</code></th><th>prev wk</th><th>Δ</th><th>4-wk avg</th><th>fix</th><th>what it is</th></tr></thead>
+      <tbody>
+        <tr><td><code>vz-exfat-mount-after-mkfs</code></td><td>14</td><td>7</td><td>11</td><td>▲ +3</td><td>3.2</td><td>—</td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a VZ block device on Ubuntu 26.10. The cause is unknown: the failure dump captures no guest dmesg.</td></tr>
+        <tr><td><code>hostagent-event-partial-line</code></td><td>3</td><td>2</td><td>3</td><td>—</td><td>3.5</td><td>—</td><td>limactl start read half a line of the hostagent&#39;s event log and aborted on the JSON decode error; a lima bug in events.Watch, not a flake</td></tr>
+        <tr><td><code>dependabot-adm-zip-blocked-by-hugo-extended</code></td><td>2</td><td>2</td><td>1</td><td>▲ +1</td><td>0.2</td><td>—</td><td>Dependabot cannot update adm-zip in /website past 0.5.18 because hugo-extended requires ^0.5.17 and every fix is in 0.6.1; a standing break until lima overrides the version or dismisses the alerts</td></tr>
+        <tr><td><code>go-module-proxy-fetch-failed</code></td><td>2</td><td>0</td><td>2</td><td>—</td><td>6.2</td><td>—</td><td>A Go module zip could not be fetched from the module proxy or its CDN, and the toolchain printed the failure against the import site, so it reads as a compile error. Transient; re-run.</td></tr>
+        <tr><td><code>hdiutil-detach-resource-busy</code></td><td>2</td><td>0</td><td>0</td><td>▲ +2</td><td>0.2</td><td>PR <a href="https://github.com/lima-vm/lima/issues/5354" class="gh-ref" data-title="apfs: force the hdiutil detaches in TestChownIntegration" data-state="merged" data-type="pr">#5354</a></td><td>TestChownIntegration&#39;s hdiutil detach returns Resource busy on the device eject; <a href="https://github.com/lima-vm/lima/issues/5354" class="gh-ref" data-title="apfs: force the hdiutil detaches in TestChownIntegration" data-state="merged" data-type="pr">#5354</a>&#39;s -force covers the unmount only</td></tr>
+        <tr><td><code>runner-dns-resolve-failed</code></td><td>2</td><td>0</td><td>0</td><td>▲ +2</td><td>0.0</td><td>—</td><td>the runner could not resolve a GitHub or distro host, so a host-side curl or git fetch failed before the test ran. DNS on the runner, nothing to fix in lima.</td></tr>
+        <tr><td><code>windows-guestagent-connect-timeout</code></td><td>2</td><td>1</td><td>4</td><td>▼ -2</td><td>1.8</td><td>—</td><td>the hostagent&#39;s fixed one-minute wait for the guest agent expired with no reply and no connection error, so limactl start exited degraded</td></tr>
+        <tr><td><code>instance-start-timeout</code></td><td>1</td><td>1</td><td>5</td><td>▼ -4</td><td>3.8</td><td>—</td><td>limactl start timed out waiting for the instance to reach running; the test reports it as Failed to start &lt;instance&gt;, and the instance name varies by template</td></tr>
+        <tr><td><code>lychee-link-unreachable</code></td><td>1</td><td>0</td><td>2</td><td>▼ -1</td><td>1.2</td><td>—</td><td>lychee could not reach a link target (connection refused/reset, TLS handshake, or timeout), usually lima-vm.io itself; a 404 is excluded because that is a broken link to fix</td></tr>
+        <tr><td><code>winget-source-data-missing</code></td><td>1</td><td>0</td><td>0</td><td>▲ +1</td><td>0.5</td><td>—</td><td>winget could not update its own package source, found no packages in any working source, and exited 1 before QEMU was installed, so the Windows QEMU tests never ran. Re-run; a retry around the step would cover it.</td></tr>
+      </tbody>
+    </table>
+    <p>Silent this period (fired in the previous 4 weeks): <code>actions-codeload-archive-404</code>, <code>buildkit-start-race</code>, <code>buildkit-unit-start-failed-on-boot</code>, <code>govulncheck-stdlib-awaiting-go-patch</code>, <code>image-location-check-server-error</code>, <code>k8s-nodeport-udp-dig-refused</code>, <code>lychee-remote-5xx</code>, <code>lychee-slack-ua-blocked</code>, <code>msys2-pacman-db-sync-failed</code>, <code>net-user-v2-logind-hang</code>, <code>port-forwarding-bats-event-stream-stopped</code>, <code>retry-wall-during-static-forward-tests</code>, <code>scorecard-graphql-server-error</code>, <code>windows-runner-perl-missing</code>, <code>windows-ssh-kex-connection-abort</code>, <code>winget-installer-download-failed</code>, <code>wsl2-guestagent-vmid-lookup-failed</code>, <code>wsl2-stop-distro-relaunched</code>, <code>zypper-repo-metadata-stale</code>. For the rest, either the fix landed or the matcher rotted — check which.</p>
+    </div>
+    <hr>
+    <h2 id="proven-flakes-23">Proven flakes (23) <a href="#proven-flakes-23" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>These failed, and the identical job then passed on a re-run of the same commit. The code did not change, so the failure was never the developer&#39;s diff.</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>branch</th><th>job name</th><th>what failed</th><th>matcher</th><th>went green after</th></tr></thead>
+      <tbody>
+        <tr><td>Sun 01 05:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41278741176/job/124766124685">124766124685</a></td><td><code>vmnet-runner-loss</code></td><td><code>VMNet 7 shared-only</code></td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td><td><code>go-module-proxy-fetch-failed</code></td><td>9.4h</td></tr>
+        <tr><td>Mon 02 02:47</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41379563093/job/125067154048">125067154048</a></td><td><code>fix-5708</code></td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td><td>2.6h</td></tr>
+        <tr><td>Mon 02 02:47</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41379563093/job/125104939012">125104939012</a></td><td><code>fix-5708</code></td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td><td>0.3h</td></tr>
+        <tr><td>Mon 02 09:51</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41424099253/job/125206394799">125206394799</a></td><td><code>ssh</code></td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code></td><td>0.4h</td></tr>
+        <tr><td>Mon 02 10:14</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41427220856/job/125323643585">125323643585</a></td><td><code>ci-vmnet</code></td><td><code>VMNet tests (macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td><td>0.7h</td></tr>
+        <tr><td>Mon 02 19:34</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41511231129/job/125503287165">125503287165</a></td><td><code>fix/windows-joliet-iso-paths</code></td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td><td>32.4h</td></tr>
+        <tr><td>Tue 03 14:58</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41658999921/job/125996932635">125996932635</a></td><td><code>feat/downloader-resume-partial-downloads</code></td><td><code>Integration tests (QEMU, Linux host) (docker.yaml)</code></td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td><td><code>go-module-proxy-fetch-failed</code></td><td>18.8h</td></tr>
+        <tr><td>Tue 03 18:23</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41693412141/job/126117554756">126117554756</a></td><td><code>vmnet-tcg-second-guest</code></td><td><code>Windows tests (WSL2)</code></td><td><code>go test :: TestParamFlagCompletionStalledServer</code></td><td><strong>none — write one</strong></td><td>0.9h</td></tr>
+        <tr><td>Wed 04 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41833753019/job/126587250865">126587250865</a></td><td><code>master</code></td><td><code>Integration tests (BATS)</code></td><td>limactl start read half a line of the hostagent&#39;s event log and abort…</td><td><code>hostagent-event-partial-line</code></td><td>16.4h</td></tr>
+        <tr><td>Wed 04 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41833753019/job/126587251203">126587251203</a></td><td><code>master</code></td><td><code>Windows smoke tests (plain, QEMU)</code></td><td>the hostagent&#39;s fixed one-minute wait for the guest agent expired wit…</td><td><code>windows-guestagent-connect-timeout</code></td><td>79.1h</td></tr>
+        <tr><td>Wed 04 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41833804917/job/126587430691">126587430691</a></td><td><code>master</code></td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/test-misc.yaml)</code></td><td>limactl start read half a line of the hostagent&#39;s event log and abort…</td><td><code>hostagent-event-partial-line</code></td><td>15.8h</td></tr>
+        <tr><td>Wed 04 15:03</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41853769390/job/126656733122">126656733122</a></td><td><code>fix-validate-latest-config-panic</code></td><td><code>Integration tests (QEMU, macOS host)</code></td><td>TestChownIntegration&#39;s hdiutil detach returns Resource busy on the de…</td><td><code>hdiutil-detach-resource-busy</code></td><td>3.3h</td></tr>
+        <tr><td>Thu 05 02:44</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41957196488/job/127014832205">127014832205</a></td><td><code>krunkit-virtiofs</code></td><td><code>Quick lints</code></td><td>lychee could not reach a link target (connection refused/reset, TLS h…</td><td><code>lychee-link-unreachable</code></td><td>1.0h</td></tr>
+        <tr><td>Thu 05 04:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41965227201/job/127040577819">127040577819</a></td><td><code>dev</code></td><td><code>Windows tests (QEMU)</code></td><td>winget could not update its own package source, found no packages in …</td><td><code>winget-source-data-missing</code></td><td>1.9h</td></tr>
+        <tr><td>Thu 05 04:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41965227201/job/127064761335">127064761335</a></td><td><code>dev</code></td><td><code>Windows tests (QEMU)</code></td><td>the hostagent&#39;s fixed one-minute wait for the guest agent expired wit…</td><td><code>windows-guestagent-connect-timeout</code></td><td>0.4h</td></tr>
+        <tr><td>Thu 05 04:33</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41968549773/job/127051150267">127051150267</a></td><td><code>krunkit-virtiofs</code></td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code></td><td>0.5h</td></tr>
+        <tr><td>Thu 05 16:16</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42062608219/job/127368105910">127368105910</a></td><td><code>master</code></td><td><code>VMNet tests (ubuntu-24.04)</code></td><td><code>the shared network reaches the outside world through NAT :: limactl shell</code></td><td><strong>none — write one</strong></td><td>51.8h</td></tr>
+        <tr><td>Thu 05 22:26</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42121512749/job/127574776539">127574776539</a></td><td><code>harden-shell-sync</code></td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code></td><td>5.0h</td></tr>
+        <tr><td>Fri 06 06:41</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42176004601/job/127754492240">127754492240</a></td><td><code>master</code></td><td><code>Windows tests (QEMU)</code></td><td><code>lima test :: Lima forcibly killed process(es) instead of shutting down &quot;default&quot;</code></td><td><strong>none — write one</strong></td><td>37.2h</td></tr>
+        <tr><td>Fri 06 11:24</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42210068220/job/127866210195">127866210195</a></td><td><code>master</code></td><td><code>Windows tests (WSL2)</code></td><td>limactl start timed out waiting for the instance to reach running; th…</td><td><code>instance-start-timeout</code></td><td>32.4h</td></tr>
+        <tr><td>Fri 06 11:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42213781019/job/127878608023">127878608023</a></td><td><code>alpine</code></td><td><code>Integration tests (vz) (default.yaml)</code></td><td>the runner could not resolve a GitHub or distro host, so a host-side …</td><td><code>runner-dns-resolve-failed</code></td><td>1.4h</td></tr>
+        <tr><td>Fri 06 11:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42213781019/job/127895681310">127895681310</a></td><td><code>alpine</code></td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code></td><td>0.0h</td></tr>
+        <tr><td>Fri 06 14:16</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42232475754/job/127941551480">127941551480</a></td><td><code>master</code></td><td><code>Scorecard analysis</code></td><td><code>step :: Run analysis</code></td><td><strong>none — write one</strong></td><td>0.0h</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <hr>
+    <h2 id="trend">Trend <a href="#trend" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <table>
+      <thead><tr><th>flake</th><th>2026-W40</th><th>2026-W41</th><th>2026-W42</th><th>2026-W43</th><th>2026-W44</th><th>2026-W45</th></tr></thead>
+      <tbody>
+        <tr><td><code>actions-codeload-archive-404</code></td><td>·</td><td>·</td><td>35</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>go-module-proxy-fetch-failed</code></td><td>1</td><td>4</td><td>10</td><td>9</td><td>2</td><td>2</td></tr>
+        <tr><td><code>vz-exfat-mount-after-mkfs</code></td><td>·</td><td>·</td><td>·</td><td>2</td><td>11</td><td>14</td></tr>
+        <tr><td><code>wsl2-systemd-binfmt-failed</code></td><td>20</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>lychee-remote-5xx</code></td><td>11</td><td>·</td><td>7</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>hostagent-event-partial-line</code></td><td>·</td><td>·</td><td>4</td><td>7</td><td>3</td><td>3</td></tr>
+        <tr><td><code>instance-start-timeout</code></td><td>·</td><td>2</td><td>5</td><td>3</td><td>5</td><td>1</td></tr>
+        <tr><td><code>windows-guestagent-connect-timeout</code></td><td>·</td><td>1</td><td>2</td><td>·</td><td>4</td><td>2</td></tr>
+        <tr><td><code>lychee-link-unreachable</code></td><td>2</td><td>2</td><td>1</td><td>·</td><td>2</td><td>1</td></tr>
+        <tr><td><code>lychee-deepwiki-bot-challenge</code></td><td>7</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>port-forwarding-bats-event-stream-stopped</code></td><td>1</td><td>5</td><td>·</td><td>·</td><td>1</td><td>·</td></tr>
+        <tr><td><code>dependabot-adm-zip-blocked-by-hugo-extended</code></td><td>3</td><td>·</td><td>·</td><td>·</td><td>1</td><td>2</td></tr>
+        <tr><td><code>net-user-v2-logind-hang</code></td><td>2</td><td>4</td><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>buildkit-start-race</code></td><td>·</td><td>·</td><td>·</td><td>2</td><td>2</td><td>·</td></tr>
+        <tr><td><code>hdiutil-detach-resource-busy</code></td><td>1</td><td>·</td><td>·</td><td>1</td><td>·</td><td>2</td></tr>
+        <tr><td><code>k8s-nodeport-udp-dig-refused</code></td><td>·</td><td>·</td><td>·</td><td>1</td><td>3</td><td>·</td></tr>
+        <tr><td><code>runner-dns-resolve-failed</code></td><td>1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>2</td></tr>
+        <tr><td><code>winget-source-data-missing</code></td><td>·</td><td>·</td><td>2</td><td>·</td><td>·</td><td>1</td></tr>
+        <tr><td><code>buildkit-unit-start-failed-on-boot</code></td><td>·</td><td>·</td><td>2</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>msys2-pacman-db-sync-failed</code></td><td>·</td><td>·</td><td>2</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>retry-wall-during-static-forward-tests</code></td><td>·</td><td>1</td><td>·</td><td>1</td><td>·</td><td>·</td></tr>
+        <tr><td><code>windows-ssh-kex-connection-abort</code></td><td>1</td><td>·</td><td>·</td><td>1</td><td>·</td><td>·</td></tr>
+        <tr><td><code>winget-installer-download-failed</code></td><td>·</td><td>·</td><td>1</td><td>1</td><td>·</td><td>·</td></tr>
+        <tr><td><code>wsl2-guestagent-vmid-lookup-failed</code></td><td>1</td><td>·</td><td>·</td><td>1</td><td>·</td><td>·</td></tr>
+        <tr><td><code>wsl2-stop-distro-relaunched</code></td><td>1</td><td>1</td><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>fedora-rawhide-url-helper-http-error</code></td><td>1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>govulncheck-stdlib-awaiting-go-patch</code></td><td>·</td><td>1</td><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>image-location-check-server-error</code></td><td>·</td><td>·</td><td>·</td><td>·</td><td>1</td><td>·</td></tr>
+        <tr><td><code>lychee-slack-ua-blocked</code></td><td>·</td><td>1</td><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>scorecard-graphql-server-error</code></td><td>·</td><td>·</td><td>1</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>windows-runner-perl-missing</code></td><td>·</td><td>1</td><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><code>zypper-repo-metadata-stale</code></td><td>·</td><td>·</td><td>·</td><td>1</td><td>·</td><td>·</td></tr>
+        <tr><td><em>unrecognized</em></td><td>11</td><td>25</td><td>174</td><td>72</td><td>23</td><td>24</td></tr>
+        <tr><td><em>no log</em></td><td>·</td><td>·</td><td>2</td><td>3</td><td>22</td><td>52</td></tr>
+        <tr><td><strong>total failed</strong></td><td>64</td><td>48</td><td>248</td><td>105</td><td>80</td><td>106</td></tr>
+      </tbody>
+    </table>
+    <p>Every column is a complete week, Saturday to Friday, numbered by the ISO week of its Monday. A partial week reads artificially low, so the report excludes the week in progress.</p>
+    </div>
+    <hr>
+    <h2 id="failures-on-master-24">Failures on `master` (24) <a href="#failures-on-master-24" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Sun 01 18:17</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41335836254/job/124939442513">124939442513</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Mon 02 06:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41403392701/job/125139945007">125139945007</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code></td></tr>
+        <tr><td>Mon 02 06:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41403392701/job/125139945014">125139945014</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Mon 02 17:48</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41494583629/job/125446063840">125446063840</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Wed 04 04:30</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41773651159/job/126388888651">126388888651</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code></td></tr>
+        <tr><td>Wed 04 04:30</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41773651159/job/126388888828">126388888828</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Wed 04 04:31</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41773737245/job/126389162097">126389162097</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Wed 04 04:32</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41773770224/job/126389270793">126389270793</a></td><td>Dependabot Updates</td><td><code>Dependabot</code></td><td>Dependabot cannot update adm-zip in /website past 0.5.18 because hugo…</td><td><code>dependabot-adm-zip-blocked-by-hugo-extended</code></td></tr>
+        <tr><td>Wed 04 04:32</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41773817212/job/126389415209">126389415209</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Wed 04 04:32</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41773851266/job/126389525837">126389525837</a></td><td>Dependabot Updates</td><td><code>Dependabot</code></td><td>Dependabot cannot update adm-zip in /website past 0.5.18 because hugo…</td><td><code>dependabot-adm-zip-blocked-by-hugo-extended</code></td></tr>
+        <tr><td>Wed 04 06:18</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41784636646/job/126423856727">126423856727</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Wed 04 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41833753019/job/126587250865">126587250865</a></td><td>test</td><td><code>Integration tests (BATS)</code></td><td>limactl start read half a line of the hostagent&#39;s event log and abort…</td><td><code>hostagent-event-partial-line</code> ✓</td></tr>
+        <tr><td>Wed 04 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41833753019/job/126587251203">126587251203</a></td><td>test</td><td><code>Windows smoke tests (plain, QEMU)</code></td><td>the hostagent&#39;s fixed one-minute wait for the guest agent expired wit…</td><td><code>windows-guestagent-connect-timeout</code> ✓</td></tr>
+        <tr><td>Wed 04 12:57</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41833804917/job/126587430691">126587430691</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/test-misc.yaml)</code></td><td>limactl start read half a line of the hostagent&#39;s event log and abort…</td><td><code>hostagent-event-partial-line</code> ✓</td></tr>
+        <tr><td>Thu 05 02:07</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41953156469/job/127001619737">127001619737</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code></td></tr>
+        <tr><td>Thu 05 10:48</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42013761741/job/127199009750">127199009750</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code></td></tr>
+        <tr><td>Thu 05 16:16</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42062608219/job/127368105910">127368105910</a></td><td>test</td><td><code>VMNet tests (ubuntu-24.04)</code></td><td><code>the shared network reaches the outside world through NAT :: limactl shell</code></td><td><code>one-off</code> ✓ — Proven flake (green on confirm re-run 2026-11-07). hack/bat…</td></tr>
+        <tr><td>Thu 05 21:30</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42113256195/job/127546088501">127546088501</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code></td></tr>
+        <tr><td>Fri 06 06:41</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42176004601/job/127754492240">127754492240</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td><code>lima test :: Lima forcibly killed process(es) instead of shutting down &quot;default&quot;</code></td><td><code>one-off</code> ✓ — QEMU guest did not power off within the hostagent&#39;s 3m0s af…</td></tr>
+        <tr><td>Fri 06 11:24</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42210068220/job/127866210195">127866210195</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td>limactl start timed out waiting for the instance to reach running; th…</td><td><code>instance-start-timeout</code> ✓</td></tr>
+        <tr><td>Fri 06 11:24</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42210068220/job/127866210220">127866210220</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code></td></tr>
+        <tr><td>Fri 06 11:24</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42210068220/job/127932739321">127932739321</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Fri 06 14:16</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42232475754/job/127941551480">127941551480</a></td><td>Scorecard supply-chain security</td><td><code>Scorecard analysis</code></td><td><code>step :: Run analysis</code></td><td><code>one-off</code> ✓ — Proven flake (green on re-run). Scorecard&#39;s analysis finish…</td></tr>
+        <tr><td>Fri 06 14:16</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42232490623/job/127941602656">127941602656</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <hr>
+    <h2 id="regression-candidates-1">Regression candidates (1) <a href="#regression-candidates-1" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>A known flake fired on a commit that already contains its fix. <strong>Read the log before calling it a regression</strong> — a past &quot;regression&quot; turned out to be a Docker Hub outage cascading into an unrelated matcher.</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>flake</th><th>branch</th><th>job name</th></tr></thead>
+      <tbody>
+        <tr><td>Mon 02 22:48</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41540326265/job/125602538245">125602538245</a></td><td><code>hdiutil-detach-resource-busy</code></td><td><code>dns-port-skips-ssh-port</code></td><td>Integration tests (QEMU, macOS host)</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <hr>
+    <h2 id="by-workflow">By workflow <a href="#by-workflow" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <table>
+      <thead><tr><th>workflow</th><th>jobs</th><th>known flake</th><th>unrecognized</th><th>on <code>master</code></th></tr></thead>
+      <tbody>
+        <tr><td>test</td><td>70</td><td>26</td><td>19</td><td>21</td></tr>
+        <tr><td>vmnet-runner-loss</td><td>20</td><td>1</td><td>1</td><td>0</td></tr>
+        <tr><td>vmnet-two-vms</td><td>5</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>lint-quick</td><td>4</td><td>1</td><td>3</td><td>0</td></tr>
+        <tr><td>vmnet-vz-repeat</td><td>4</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Dependabot Updates</td><td>2</td><td>2</td><td>0</td><td>2</td></tr>
+        <tr><td>Scorecard supply-chain security</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <hr>
+    <h2 id="pr-branch-failures-82-jobs-across-28-branches">PR-branch failures (82 jobs across 28 branches) <a href="#pr-branch-failures-82-jobs-across-28-branches" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>A failure here is usually the branch&#39;s own work in progress, not CI health. Counted, not analyzed — except where a known flake fired.</p>
+    <table>
+      <thead><tr><th>branch</th><th>jobs</th><th>known flake</th><th>unrecognized</th><th>most common failure</th></tr></thead>
+      <tbody>
+        <tr><td><code>vmnet-runner-loss</code></td><td>14</td><td>1</td><td>1</td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td></tr>
+        <tr><td><code>vmnet-runner-loss-small-vms</code></td><td>6</td><td>0</td><td>0</td><td>—</td></tr>
+        <tr><td><code>alpine</code></td><td>5</td><td>2</td><td>3</td><td><code>lima test :: Lima forcibly killed process(es) instead of shutting down &quot;alpine&quot;</code></td></tr>
+        <tr><td><code>ci-vmnet</code></td><td>5</td><td>0</td><td>1</td><td><code>setup_file failed :: failed to inspect instance &#39;bats-net-shared&#39;: open /Users/runner/.lima</code></td></tr>
+        <tr><td><code>fix-3093-2</code></td><td>5</td><td>0</td><td>3</td><td><code>job error :: 32:1 [empty-lines] too many blank lines (1 &gt; 0)</code></td></tr>
+        <tr><td><code>fix-5708</code></td><td>5</td><td>0</td><td>3</td><td><code>lima test :: Lima forcibly killed process(es) instead of shutting down &quot;alpine&quot;</code></td></tr>
+        <tr><td><code>krunkit-virtiofs</code></td><td>5</td><td>2</td><td>3</td><td><code>go test :: TestValidateRelaysWarnings</code></td></tr>
+        <tr><td><code>vmnet-plain</code></td><td>5</td><td>0</td><td>1</td><td><code>step :: Run shfmt</code></td></tr>
+        <tr><td><code>fedora-45</code></td><td>4</td><td>2</td><td>2</td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td></tr>
+        <tr><td><code>vmnet-macos-dual-homed</code></td><td>4</td><td>0</td><td>0</td><td>—</td></tr>
+        <tr><td><code>btrfs-nocow</code></td><td>3</td><td>1</td><td>0</td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td></tr>
+        <tr><td><code>dev</code></td><td>2</td><td>2</td><td>0</td><td>the hostagent&#39;s fixed one-minute wait for the guest agent expired wit…</td></tr>
+        <tr><td><code>feat/downloader-resume-partial-downloads</code></td><td>2</td><td>1</td><td>0</td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td></tr>
+        <tr><td><code>feature/wsl2-mount-semantics</code></td><td>2</td><td>0</td><td>2</td><td><code>step :: Run lima-vm/lima/.github/actions/windows_plain_host@2cb62ce480543d682f</code></td></tr>
+        <tr><td><code>vmnet-plain-small</code></td><td>2</td><td>0</td><td>0</td><td>—</td></tr>
+        <tr><td><code>dependabot/go_modules/github.com/pkg/sftp-1.13.12</code></td><td>1</td><td>0</td><td>0</td><td>—</td></tr>
+        <tr><td><code>dependabot/go_modules/golang-x-70237b7f49</code></td><td>1</td><td>0</td><td>0</td><td>—</td></tr>
+        <tr><td><code>disk-import-copy-error</code></td><td>1</td><td>0</td><td>0</td><td>—</td></tr>
+        <tr><td><code>dns-port-skips-ssh-port</code></td><td>1</td><td>1</td><td>0</td><td>TestChownIntegration&#39;s hdiutil detach returns Resource busy on the de…</td></tr>
+        <tr><td><code>docs/snapshot-usage</code></td><td>1</td><td>0</td><td>1</td><td><code>step :: Run editorconfig-checker</code></td></tr>
+        <tr><td><code>edit-warn-vm-type</code></td><td>1</td><td>1</td><td>0</td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td></tr>
+        <tr><td><code>fix-5572</code></td><td>1</td><td>0</td><td>0</td><td>—</td></tr>
+        <tr><td><code>fix-validate-latest-config-panic</code></td><td>1</td><td>1</td><td>0</td><td>TestChownIntegration&#39;s hdiutil detach returns Resource busy on the de…</td></tr>
+        <tr><td><code>fix/mount-location-precedence</code></td><td>1</td><td>1</td><td>0</td><td>limactl start read half a line of the hostagent&#39;s event log and abort…</td></tr>
+        <tr><td><code>fix/windows-joliet-iso-paths</code></td><td>1</td><td>0</td><td>0</td><td>—</td></tr>
+        <tr><td><code>harden-shell-sync</code></td><td>1</td><td>1</td><td>0</td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td></tr>
+        <tr><td><code>ssh</code></td><td>1</td><td>1</td><td>0</td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td></tr>
+        <tr><td><code>vmnet-tcg-second-guest</code></td><td>1</td><td>0</td><td>1</td><td><code>go test :: TestParamFlagCompletionStalledServer</code></td></tr>
+      </tbody>
+    </table>
+    <details>
+    <summary>Every PR-branch failure, by branch</summary>
+    <p><em></em><code>vmnet-runner-loss</code><em></em> (14)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Sun 01 05:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41278741176/job/124766123480">124766123480</a></td><td>vmnet-runner-loss</td><td><code>VMNet 5 shared-then-host</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 05:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41278741176/job/124766123499">124766123499</a></td><td>vmnet-runner-loss</td><td><code>VMNet 1 two-shared</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 05:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41278741176/job/124766123523">124766123523</a></td><td>vmnet-runner-loss</td><td><code>VMNet 2 host-first</code></td><td><code>each guest gets an address on its network :: run_e</code></td><td>unrecognized</td></tr>
+        <tr><td>Sun 01 05:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41278741176/job/124766123527">124766123527</a></td><td>vmnet-runner-loss</td><td><code>VMNet 3 host-first</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 05:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41278741176/job/124766123605">124766123605</a></td><td>vmnet-runner-loss</td><td><code>VMNet 3 two-shared</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 05:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41278741176/job/124766123620">124766123620</a></td><td>vmnet-runner-loss</td><td><code>VMNet 1 host-first</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 05:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41278741176/job/124766123666">124766123666</a></td><td>vmnet-runner-loss</td><td><code>VMNet 2 two-shared</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 05:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41278741176/job/124766124577">124766124577</a></td><td>vmnet-runner-loss</td><td><code>VMNet 5 two-shared</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 05:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41278741176/job/124766124609">124766124609</a></td><td>vmnet-runner-loss</td><td><code>VMNet 7 shared-then-host</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 05:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41278741176/job/124766124631">124766124631</a></td><td>vmnet-runner-loss</td><td><code>VMNet 6 host-first</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 05:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41278741176/job/124766124670">124766124670</a></td><td>vmnet-runner-loss</td><td><code>VMNet 6 two-shared</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 05:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41278741176/job/124766124685">124766124685</a></td><td>vmnet-runner-loss</td><td><code>VMNet 7 shared-only</code></td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td><td><code>go-module-proxy-fetch-failed</code> ✓</td></tr>
+        <tr><td>Sun 01 05:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41278741176/job/124766124694">124766124694</a></td><td>vmnet-runner-loss</td><td><code>VMNet 7 host-first</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 05:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41278741176/job/124766125505">124766125505</a></td><td>vmnet-runner-loss</td><td><code>VMNet 8 host-first</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>vmnet-runner-loss-small-vms</code><em></em> (6)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Sun 01 18:28</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41336819783/job/124939618407">124939618407</a></td><td>vmnet-runner-loss</td><td><code>VMNet 8 two-user</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 18:28</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41336819783/job/124939618538">124939618538</a></td><td>vmnet-runner-loss</td><td><code>VMNet 2 two-user</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 18:28</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41336819783/job/124939618573">124939618573</a></td><td>vmnet-runner-loss</td><td><code>VMNet 5 two-user</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 18:28</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41336819783/job/124939618601">124939618601</a></td><td>vmnet-runner-loss</td><td><code>VMNet 3 two-user</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 18:28</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41336819783/job/124939618613">124939618613</a></td><td>vmnet-runner-loss</td><td><code>VMNet 7 two-user</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 18:28</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41336819783/job/124939618688">124939618688</a></td><td>vmnet-runner-loss</td><td><code>VMNet 4 two-user</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>alpine</code><em></em> (5)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Thu 05 16:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42069450276/job/127392973865">127392973865</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (alpine.yaml)</code></td><td><code>lima test :: Lima forcibly killed process(es) instead of shutting down &quot;alpine&quot;</code></td><td>unrecognized</td></tr>
+        <tr><td>Thu 05 16:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42069450276/job/127426137264">127426137264</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (alpine.yaml)</code></td><td><code>lima test :: Lima forcibly killed process(es) instead of shutting down &quot;alpine&quot;</code></td><td>unrecognized</td></tr>
+        <tr><td>Thu 05 16:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42069450276/job/127749307643">127749307643</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (alpine.yaml)</code></td><td><code>lima test :: Lima forcibly killed process(es) instead of shutting down &quot;alpine&quot;</code></td><td>unrecognized</td></tr>
+        <tr><td>Fri 06 11:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42213781019/job/127878608023">127878608023</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>the runner could not resolve a GitHub or distro host, so a host-side …</td><td><code>runner-dns-resolve-failed</code> ✓</td></tr>
+        <tr><td>Fri 06 11:55</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42213781019/job/127895681310">127895681310</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code> ✓</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>ci-vmnet</code><em></em> (5)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Mon 02 06:58</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41403281579/job/125139594779">125139594779</a></td><td>test</td><td><code>VMNet tests (macos-15-large)</code></td><td><code>setup_file failed :: failed to inspect instance &#39;bats-net-shared&#39;: open /Users/runner/.lima</code></td><td>unrecognized</td></tr>
+        <tr><td>Mon 02 07:59</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41409841322/job/125160140775">125160140775</a></td><td>test</td><td><code>VMNet tests (macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Mon 02 10:14</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41427220856/job/125323643585">125323643585</a></td><td>test</td><td><code>VMNet tests (macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em> ✓</td></tr>
+        <tr><td>Mon 02 10:14</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41427220856/job/125490780821">125490780821</a></td><td>test</td><td><code>VMNet tests (macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Mon 02 10:14</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41427220856/job/125531950208">125531950208</a></td><td>test</td><td><code>VMNet tests (macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>fix-3093-2</code><em></em> (5)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Sun 01 17:08</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41329952050/job/124917755947">124917755947</a></td><td>lint-quick</td><td><code>Quick lints</code></td><td><code>job error :: 32:1 [empty-lines] too many blank lines (1 &gt; 0)</code></td><td>unrecognized</td></tr>
+        <tr><td>Sun 01 17:08</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41329952178/job/124917757114">124917757114</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 17:16</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41330659337/job/124919856360">124919856360</a></td><td>lint-quick</td><td><code>Quick lints</code></td><td><code>job error :: 32:1 [empty-lines] too many blank lines (1 &gt; 0)</code></td><td>unrecognized</td></tr>
+        <tr><td>Sun 01 17:16</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41330659284/job/124919856914">124919856914</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Sun 01 17:16</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41330659284/job/124919856942">124919856942</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td><code>forward [::]:3032 -&gt; HOST_LAN_IP:2032 :: assert_forwarded :: 3032</code></td><td>unrecognized</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>fix-5708</code><em></em> (5)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Sun 01 18:46</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41338311044/job/124942742616">124942742616</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (alpine.yaml)</code></td><td><code>lima test :: Lima forcibly killed process(es) instead of shutting down &quot;alpine&quot;</code></td><td>unrecognized</td></tr>
+        <tr><td>Sun 01 18:46</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41338311044/job/124970873339">124970873339</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (alpine.yaml)</code></td><td><code>lima test :: Lima forcibly killed process(es) instead of shutting down &quot;alpine&quot;</code></td><td>unrecognized</td></tr>
+        <tr><td>Sun 01 18:46</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41338311044/job/125048593101">125048593101</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (alpine.yaml)</code></td><td><code>lima test :: Lima forcibly killed process(es) instead of shutting down &quot;alpine&quot;</code></td><td>unrecognized</td></tr>
+        <tr><td>Mon 02 02:47</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41379563093/job/125067154048">125067154048</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em> ✓</td></tr>
+        <tr><td>Mon 02 02:47</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41379563093/job/125104939012">125104939012</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em> ✓</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>krunkit-virtiofs</code><em></em> (5)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Thu 05 02:44</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41957196488/job/127014832205">127014832205</a></td><td>lint-quick</td><td><code>Quick lints</code></td><td>lychee could not reach a link target (connection refused/reset, TLS h…</td><td><code>lychee-link-unreachable</code> ✓</td></tr>
+        <tr><td>Thu 05 02:44</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41957196621/job/127014833343">127014833343</a></td><td>test</td><td><code>Integration tests (QEMU, macOS host)</code></td><td><code>go test :: TestValidateRelaysWarnings</code></td><td>unrecognized</td></tr>
+        <tr><td>Thu 05 02:44</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41957196621/job/127041146246">127041146246</a></td><td>test</td><td><code>Integration tests (QEMU, macOS host)</code></td><td><code>go test :: TestValidateRelaysWarnings</code></td><td>unrecognized</td></tr>
+        <tr><td>Thu 05 02:44</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41957196621/job/127051271880">127051271880</a></td><td>test</td><td><code>Integration tests (QEMU, macOS host)</code></td><td><code>go test :: TestValidateRelaysWarnings</code></td><td>unrecognized</td></tr>
+        <tr><td>Thu 05 04:33</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41968549773/job/127051150267">127051150267</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code> ✓</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>vmnet-plain</code><em></em> (5)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Tue 03 10:51</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41622758192/job/125872362809">125872362809</a></td><td>test</td><td><code>Lints</code></td><td><code>step :: Run shfmt</code></td><td>unrecognized</td></tr>
+        <tr><td>Tue 03 10:51</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41622758192/job/125872363036">125872363036</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Tue 03 11:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41624058932/job/125876810332">125876810332</a></td><td>vmnet-two-vms</td><td><code>VMNet 1 vz-plain</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Tue 03 11:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41624058932/job/125876810694">125876810694</a></td><td>vmnet-two-vms</td><td><code>VMNet 7 vz-plain</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Tue 03 11:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41624058932/job/125876810785">125876810785</a></td><td>vmnet-two-vms</td><td><code>VMNet 4 vz-plain</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>fedora-45</code><em></em> (4)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Wed 04 08:35</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41800678572/job/126475371153">126475371153</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (fedora.yaml)</code></td><td><code>lima test :: Failed to start &quot;fedora&quot;</code></td><td>unrecognized</td></tr>
+        <tr><td>Wed 04 09:12</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41805575956/job/126491623638">126491623638</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td>the runner could not resolve a GitHub or distro host, so a host-side …</td><td><code>runner-dns-resolve-failed</code></td></tr>
+        <tr><td>Wed 04 09:12</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41805575956/job/126491623689">126491623689</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code></td></tr>
+        <tr><td>Wed 04 19:50</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41900810430/job/126822391824">126822391824</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td><code>lima test :: &quot;systemctl is-system-running&quot; failed</code></td><td>unrecognized</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>vmnet-macos-dual-homed</code><em></em> (4)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Mon 02 14:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41460141125/job/125326782549">125326782549</a></td><td>vmnet-vz-repeat</td><td><code>VMNet macos-15-large 10</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Mon 02 14:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41460141125/job/125326782824">125326782824</a></td><td>vmnet-vz-repeat</td><td><code>VMNet macos-15-large 2</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Mon 02 14:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41460141125/job/125326782830">125326782830</a></td><td>vmnet-vz-repeat</td><td><code>VMNet macos-15-large 6</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Mon 02 14:15</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41460141125/job/125326783028">125326783028</a></td><td>vmnet-vz-repeat</td><td><code>VMNet macos-15-large 5</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>btrfs-nocow</code><em></em> (3)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Mon 02 09:22</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41420156533/job/125193492627">125193492627</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code></td></tr>
+        <tr><td>Mon 02 09:22</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41420156533/job/125193492850">125193492850</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Tue 03 09:08</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41608595411/job/127711282142">127711282142</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>dev</code><em></em> (2)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Thu 05 04:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41965227201/job/127040577819">127040577819</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td>winget could not update its own package source, found no packages in …</td><td><code>winget-source-data-missing</code> ✓</td></tr>
+        <tr><td>Thu 05 04:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41965227201/job/127064761335">127064761335</a></td><td>test</td><td><code>Windows tests (QEMU)</code></td><td>the hostagent&#39;s fixed one-minute wait for the guest agent expired wit…</td><td><code>windows-guestagent-connect-timeout</code> ✓</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>feat/downloader-resume-partial-downloads</code><em></em> (2)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Mon 02 20:17</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41517842344/job/125525857864">125525857864</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Tue 03 14:58</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41658999921/job/125996932635">125996932635</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (docker.yaml)</code></td><td>A Go module zip could not be fetched from the module proxy or its CDN…</td><td><code>go-module-proxy-fetch-failed</code> ✓</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>feature/wsl2-mount-semantics</code><em></em> (2)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Thu 05 14:43</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42047789510/job/127315390285">127315390285</a></td><td>test</td><td><code>Windows smoke tests (plain, QEMU)</code></td><td><code>step :: Run lima-vm/lima/.github/actions/windows_plain_host@2cb62ce480543d682f</code></td><td>unrecognized</td></tr>
+        <tr><td>Thu 05 14:43</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42047789510/job/127315390597">127315390597</a></td><td>test</td><td><code>Windows smoke tests (plain, WSL2)</code></td><td><code>step :: Run lima-vm/lima/.github/actions/windows_plain_smoke_test@2cb62ce48054</code></td><td>unrecognized</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>vmnet-plain-small</code><em></em> (2)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Tue 03 13:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41640659869/job/125933035059">125933035059</a></td><td>vmnet-two-vms</td><td><code>VMNet 5 vz-plain-small</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+        <tr><td>Tue 03 13:01</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41640659869/job/125933035493">125933035493</a></td><td>vmnet-two-vms</td><td><code>VMNet 2 vz-plain-small</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>dependabot/go_modules/github.com/pkg/sftp-1.13.12</code><em></em> (1)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Mon 02 01:44</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41374026065/job/125050305469">125050305469</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>dependabot/go_modules/golang-x-70237b7f49</code><em></em> (1)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Wed 04 01:43</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41756012875/job/126332173739">126332173739</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>disk-import-copy-error</code><em></em> (1)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Mon 02 17:14</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41489335817/job/125427904201">125427904201</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>dns-port-skips-ssh-port</code><em></em> (1)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Mon 02 22:48</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41540326265/job/125602538245">125602538245</a></td><td>test</td><td><code>Integration tests (QEMU, macOS host)</code></td><td>TestChownIntegration&#39;s hdiutil detach returns Resource busy on the de…</td><td><code>hdiutil-detach-resource-busy</code></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>docs/snapshot-usage</code><em></em> (1)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Thu 05 20:34</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42104708397/job/127516354195">127516354195</a></td><td>lint-quick</td><td><code>Quick lints</code></td><td><code>step :: Run editorconfig-checker</code></td><td>unrecognized</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>edit-warn-vm-type</code><em></em> (1)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Thu 05 16:16</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42062689589/job/127368379619">127368379619</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>fix-5572</code><em></em> (1)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Sun 01 16:20</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41325848280/job/124905491039">124905491039</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>fix-validate-latest-config-panic</code><em></em> (1)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Wed 04 15:03</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41853769390/job/126656733122">126656733122</a></td><td>test</td><td><code>Integration tests (QEMU, macOS host)</code></td><td>TestChownIntegration&#39;s hdiutil detach returns Resource busy on the de…</td><td><code>hdiutil-detach-resource-busy</code> ✓</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>fix/mount-location-precedence</code><em></em> (1)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Fri 06 08:31</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42188259709/job/127793682305">127793682305</a></td><td>test</td><td><code>Integration tests (QEMU, Linux host) (../hack/test-templates/test-misc.yaml)</code></td><td>limactl start read half a line of the hostagent&#39;s event log and abort…</td><td><code>hostagent-event-partial-line</code></td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>fix/windows-joliet-iso-paths</code><em></em> (1)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Mon 02 19:34</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41511231129/job/125503287165">125503287165</a></td><td>test</td><td><code>VMNet tests (QEMU, macos-15-large)</code></td><td><em>no log</em></td><td><em>no log</em> ✓</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>harden-shell-sync</code><em></em> (1)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Thu 05 22:26</td><td><a href="https://github.com/lima-vm/lima/actions/runs/42121512749/job/127574776539">127574776539</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code> ✓</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>ssh</code><em></em> (1)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Mon 02 09:51</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41424099253/job/125206394799">125206394799</a></td><td>test</td><td><code>Integration tests (vz) (default.yaml)</code></td><td>The guest&#39;s first mount fails right after mkfs.exfat succeeds, with a…</td><td><code>vz-exfat-mount-after-mkfs</code> ✓</td></tr>
+      </tbody>
+    </table>
+    <p><em></em><code>vmnet-tcg-second-guest</code><em></em> (1)</p>
+    <table>
+      <thead><tr><th>when</th><th>job</th><th>workflow</th><th>job name</th><th>what failed</th><th>verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Tue 03 18:23</td><td><a href="https://github.com/lima-vm/lima/actions/runs/41693412141/job/126117554756">126117554756</a></td><td>test</td><td><code>Windows tests (WSL2)</code></td><td><code>go test :: TestParamFlagCompletionStalledServer</code></td><td><strong>proven flake — needs matcher</strong></td></tr>
+      </tbody>
+    </table>
+    </details>
+    </div>
+    <hr>
+    <h2 id="unrecognized-failure-surfaces">Unrecognized failure surfaces <a href="#unrecognized-failure-surfaces" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>Grouped by failing test <strong>and</strong> failing command. A surface spanning several unrelated branches is a candidate flake worth a matcher; one confined to a single branch is that branch&#39;s own breakage.</p>
+    <table>
+      <thead><tr><th>jobs</th><th>branches</th><th>failing test :: failing command</th></tr></thead>
+      <tbody>
+        <tr><td>6</td><td>2</td><td><code>lima test :: Lima forcibly killed process(es) instead of shutting down &quot;alpine&quot;</code></td></tr>
+        <tr><td>3</td><td>1</td><td><code>go test :: TestValidateRelaysWarnings</code></td></tr>
+        <tr><td>2</td><td>1</td><td><code>job error :: 32:1 [empty-lines] too many blank lines (1 &gt; 0)</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>setup_file failed :: failed to inspect instance &#39;bats-net-shared&#39;: open /Users/runner/.lima</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>step :: Run shfmt</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>step :: Run editorconfig-checker</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>lima test :: Lima forcibly killed process(es) instead of shutting down &quot;default&quot;</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>forward [::]:3032 -&gt; HOST_LAN_IP:2032 :: assert_forwarded :: 3032</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>the shared network reaches the outside world through NAT :: limactl shell</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>lima test :: Failed to start &quot;fedora&quot;</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>step :: Run lima-vm/lima/.github/actions/windows_plain_smoke_test@2cb62ce48054</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>lima test :: &quot;systemctl is-system-running&quot; failed</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>step :: Run lima-vm/lima/.github/actions/windows_plain_host@2cb62ce480543d682f</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>each guest gets an address on its network :: run_e</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>step :: Run analysis</code></td></tr>
+        <tr><td>1</td><td>1</td><td><code>go test :: TestParamFlagCompletionStalledServer</code></td></tr>
+      </tbody>
+    </table>
+    <details>
+    <summary>How this report is built</summary>
+    <p><code>ci-sweep weekly --week 2026-W45</code> over <code>sweep.db</code>, one row per <strong>failed job</strong> — a run can fail on one matrix leg out of many, so the job is the unit.</p>
+    <ul>
+      <li><strong>Known flake</strong> — a job whose log matched a <code>matchers.yaml</code> pattern. Pattern matching only, no LLM.</li>
+      <li><strong>One flake per job</strong> — when several matchers fire, the job counts under the one whose surface appears <strong>earliest</strong> in the log, because the first failure is the root and what follows is fallout: a suite killed at its wall-clock cap logs a failed wait on the way out. The others are recorded but not counted, and only a true tie is left uncounted.</li>
+      <li><strong>Proven flake</strong> — the identical job passed on a re-run of the same commit, so the code cannot be at fault.</li>
+      <li><strong>Unrecognized</strong> — no matcher fired. On <code>master</code> it earns analysis; on a PR branch it earns only a count, because PR failures are dev breakage, not CI health.</li>
+      <li><strong>No log</strong> — the log expired or was never uploaded, so the sweep could not classify the failure. A data gap, not a clean bill.</li>
+      <li><strong>What failed</strong> — for a known flake, the matcher&#39;s summary; otherwise the failing test and command, or the job error for a failure that never reached its tests. <code>--fetch</code> names the rest, at one download each.</li>
+      <li>Counts cover only jobs the sweep recorded. A period never swept reads as zero failures.</li>
+    </ul>
+    </details>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
