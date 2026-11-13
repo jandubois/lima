@@ -243,6 +243,12 @@ details.fold .code-file-header { margin-top: 0; border-radius: 0; }
     <p>The PR stops the WSL2 host agent from pinning another SSH server&#39;s host key. It pins only a key that <code>wsl.exe</code> finds in the guest&#39;s <code>/etc/ssh</code>. The WSL2 CI job at this head hit the race and recovered. The design is close to minimal, though <code>parseAuthorizedKeys</code> can shrink and three table rows repeat what <code>TestPinHostKey</code> covers. The one Important finding asks for a test that checks that the host agent finds the reader behind <code>ConfiguredDriver</code>.</p>
     </div>
     <hr>
+    <h2 id="code-changed-since-this-review">Code changed since this review <a href="#code-changed-since-this-review" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The findings cite <a href="https://github.com/lima-vm/lima/commit/acbb501c"><code>acbb501c</code></a>. Addressing them amended the PR&#39;s commit into <a href="https://github.com/lima-vm/lima/commit/be94b32a"><code>be94b32a</code></a>, which changes <code>pkg/driver/wsl2/vm_windows.go</code> (the reader now runs <code>grep -h &#39;&#39;</code> instead of <code>cat</code>), <code>pkg/sshutil/hostkey_test.go</code>, <code>website/content/en/docs/usage/ssh.md</code> and <code>website/content/en/docs/config/vmtype/wsl2.md</code>. Some cited lines have moved or changed on the branch.</p>
+    </div>
+    <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-critical">
@@ -379,6 +385,7 @@ index 00000000..e1b04378
 +	assert.ErrorIs(t, a.pinSSHHostKey(t.Context()), sshutil.ErrHostKeyNotGuest)
 +}</code></pre>
       </details>
+    <p><strong>Outcome:</strong> declined. CI&#39;s WSL2 job exercises the wiring whenever the runner&#39;s sshd answers first; no test was added.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
@@ -417,6 +424,7 @@ func parseAuthorizedKeys(b []byte) []ssh.PublicKey {
 		keys = append(keys, key)
 		b = rest
 	}</code></pre>
+    <p><strong>Outcome:</strong> declined. The manual split logs each malformed host key line at Debug, which the library&#39;s own loop cannot.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/sshutil/hostkey_test.go">
       <div class="finding-title" id="S2">
@@ -451,6 +459,7 @@ func parseAuthorizedKeys(b []byte) []ssh.PublicKey {
 				return
 			}</code></pre>
     <p>Fix: drop the three rows and the assertion, and make <code>guestHostKeys</code> a <code>string</code>.</p>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/be94b32a"><code>be94b32a</code></a>: the three rows and the assertion are gone, and <code>guestHostKeys</code> is a <code>string</code>.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/driver/wsl2/vm_windows.go">
       <div class="finding-title" id="S3">
@@ -483,6 +492,7 @@ func readGuestSSHHostKeys(ctx context.Context, distroName string) ([]byte, error
 		return err
 	}</code></pre>
     <p>Fix: name the limit in the comment, and add a sentence to <code>ssh.md</code> saying that on WSL2 Lima pins only a key in <code>/etc/ssh/ssh_host_*_key.pub</code>.</p>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/be94b32a"><code>be94b32a</code></a>. The reader&#39;s doc comment names <code>/etc/ssh/ssh_host_*_key.pub</code>; <code>ssh.md</code>&#39;s &quot;Host key&quot; section has a paragraph scoped to the internal WSL2 driver and to an instance without a pinned key; and the Caveats in <code>wsl2.md</code> state the requirement and link to that section. Verifying the docs showed that <code>cat</code> joined a <code>.pub</code> without a final newline to the next key, so the reader now runs <code>grep -h &#39;&#39;</code>. The Info line at <a href="https://github.com/lima-vm/lima/blob/acbb501c0c228746fb89aadc0a1156ecb881cf6c/pkg/hostagent/requirements.go#L190"><code>requirements.go:190</code></a> was left as it is.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/hostagent/requirements.go">
       <div class="finding-title" id="S4">
@@ -515,6 +525,7 @@ func readGuestSSHHostKeys(ctx context.Context, distroName string) ([]byte, error
 			// until the guest&#39;s SSH server starts listening.
 			logrus.Infof(&quot;Waiting for the guest&#39;s SSH server; another SSH server on the host may be answering first (%v)&quot;, err)
 			a.sshHostKeyNotGuestLogged = true</code></pre>
+    <p><strong>Outcome:</strong> declined. The Debug line is the only per-retry record of the presented key, since the requirement loop does not log retry errors.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
@@ -524,6 +535,7 @@ func readGuestSSHHostKeys(ctx context.Context, distroName string) ([]byte, error
     <ul>
       <li><strong>Instances that Lima 2.3.0 pinned to another server&#39;s key stay broken</strong> (future) <span class="pill pill-claude">Claude Opus 5.5</span>: this PR leaves them as they were at the merge-base. Each fails until the user removes <code>ssh.known_hosts</code>. The mismatch warning names that file when the guest answers first. A release note that points at the file would reach the users who hit <a href="https://github.com/lima-vm/lima/issues/5801" class="gh-ref" data-title="WSL2: the host-key pin can trust the Windows OpenSSH Server on 127.0.0.1:22" data-state="open" data-type="issue">#5801</a> on 2.3.0.</li>
     </ul>
+    <p>  <strong>Outcome:</strong> declined. Behaviour is unchanged from the merge-base, and the mismatch warning already names <code>ssh.known_hosts</code> as the file to remove.</p>
     <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
     <ul>
       <li><strong>The design is close to the smallest that fixes <a href="https://github.com/lima-vm/lima/issues/5801" class="gh-ref" data-title="WSL2: the host-key pin can trust the Windows OpenSSH Server on 127.0.0.1:22" data-state="open" data-type="issue">#5801</a></strong> (in-scope) <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span>. This answers the author&#39;s first question. What each piece is for:</li>
@@ -548,6 +560,7 @@ func readGuestSSHHostKeys(ctx context.Context, distroName string) ([]byte, error
       <li><strong>Required, missing:</strong> I1. The &quot;How would a user see it?&quot; check decides it. Without the unwrap, the fix silently stops working, and the failure that comes back depends on timing.</li>
       <li><strong>Optional, missing:</strong> the reader&#39;s error path (<a href="https://github.com/lima-vm/lima/blob/acbb501c0c228746fb89aadc0a1156ecb881cf6c/pkg/sshutil/hostkey.go#L126-L128"><code>pkg/sshutil/hostkey.go:126-128</code></a>). Deleting the error check leaves the key list empty, so the host agent still refuses the key. Only a deliberate fallback that pins after a failed read would bring <a href="https://github.com/lima-vm/lima/issues/5801" class="gh-ref" data-title="WSL2: the host-key pin can trust the Windows OpenSSH Server on 127.0.0.1:22" data-state="open" data-type="issue">#5801</a> back.</li>
     </ul>
+    <p>  <strong>Outcome:</strong> declined, as an optional test.</p>
     <p>The author&#39;s second question asks whether every test is needed. These verdicts come from six mutations of <code>hostkey.go</code>, each run against the package&#39;s tests.</p>
     <table>
       <thead><tr><th>Test or row</th><th>Verdict</th><th>Evidence</th></tr></thead>
