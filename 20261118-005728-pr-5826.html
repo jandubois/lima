@@ -677,7 +677,7 @@ assert_agent_route_log_count() {
       <li>golangci-lint 2.15.0 on the patched <code>guesttoguest</code> package, for darwin and <code>GOOS=linux</code>: 0 issues.</li>
     </ul>
     <ul>
-      <li><strong>CI at the review SHA:</strong> 33 checks passed. <code>Windows tests (WSL2)</code> failed in <code>TestParamFlagCompletionStalledServer</code>, in <code>cmd/limactl/editflags</code>. The PR does not touch that package. The same job passed at the merge-base, and the same test failed this way once before, on 2026-11-03 on an unrelated branch. <code>Integration tests (vz)</code>, which runs the new BATS step, was still pending when this report was written.</li>
+      <li><strong>CI at the review SHA:</strong> 37 checks passed. <code>Windows tests (WSL2)</code> failed in <code>TestParamFlagCompletionStalledServer</code>, in <code>cmd/limactl/editflags</code>. The PR does not touch that package. The same job passed at the merge-base, and the same test failed this way once before, on 2026-11-03 on an unrelated branch. <code>Integration tests (vz)</code> passed both tests in the new BATS step on macos-15-large. They count the agent&#39;s <code>added guest-to-guest route</code> log lines, which only the new code prints, so the watcher ran on a hosted runner.</li>
     </ul>
     </div>
     <hr>
