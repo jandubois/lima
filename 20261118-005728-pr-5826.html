@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Review: 20261118-005728-pr-5826</title>
+  <style>
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+  </style>
+  <style>
+/* Deep Review — canonical stylesheet
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Edit this file to change the look of all future reviews.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #f8f9fb;
+  margin: 0;
+  padding: 2rem 1rem;
+}
+main { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.6rem; margin-bottom: 0.5rem; color: #111827; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace; font-size: 0.85em; background: #f3f4f6; padding: 0.15em 0.35em; border-radius: 4px; }
+
+/* Code blocks — override Prism defaults */
+pre { margin: 0 !important; border-radius: 0 0 8px 8px !important; }
+pre[class*="language-"] { font-size: 0.78rem; line-height: 1.3; }
+pre code { background: none; padding: 0; }
+
+/* Report metadata table */
+.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.meta-table td { padding: 0.35rem 0.6rem; border: 1px solid #e5e7eb; vertical-align: top; }
+.meta-table td:first-child { font-weight: 600; width: 140px; background: #f9fafb; white-space: nowrap; }
+
+/* Cards — every section and finding lives in a card */
+.card { border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; }
+.card-neutral { background: #f1f3f5; border: 1px solid #d5d9e0; }
+.card-critical { background: #ffeef0; border: 1px solid #f5c6cb; }
+.card-important { background: #fff0e0; border: 1px solid #f5d9a8; }
+.card-suggestion { background: #f0f6ff; border: 1px solid #c7d9f5; }
+.card-design { background: #f0faf4; border: 1px solid #b7e4c7; }
+
+/* Severity section headings — colored to match their cards */
+.section-critical { color: #9b1c1c; }
+.section-important { color: #92400e; }
+.section-suggestion { color: #1e40af; }
+.section-design { color: #065f46; }
+
+/* Agent attribution pills */
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 999px; margin-right: 0.3em; vertical-align: middle; letter-spacing: 0.01em; }
+.pill-claude { background: #e9d5ff; color: #6b21a8; }
+.pill-codex { background: #d1fae5; color: #065f46; }
+.pill-gemini { background: #ffe4e6; color: #9f1239; }
+.pill-qwen { background: #fed7aa; color: #9a3412; }
+.pill-gemma { background: #fef9c3; color: #854d0e; }
+.pill-glm { background: #cffafe; color: #155e75; }
+
+/* Finding titles */
+.finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; line-height: 1.4; }
+.finding-num { font-weight: 800; }
+.pass-tag, .title-note { font-weight: 400; color: #6b7280; }
+
+/* Code file header — dark bar above each source code block.
+ * The filename is a GitHub permalink to the displayed line range.
+ * Text color is light gray (#adbac7) for the bar, green (#7ee787)
+ * for the hyperlink — matching GitHub's dark-mode file header. */
+.code-file-header { background: #2d333b; color: #adbac7; font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace; font-size: 0.75rem; padding: 0.4rem 0.9rem; border-radius: 8px 8px 0 0; margin-top: 0.8rem; }
+.code-file-header a { color: #7ee787; }
+.code-file-header a:hover { text-decoration: underline; }
+
+/* Line numbers (CSS counters) and line highlighting */
+.code-line { display: block; }
+.code-line::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 3em;
+  margin-right: 0.8em;
+  padding-right: 0.5em;
+  text-align: right;
+  color: #636e7b;
+  border-right: 1px solid #3d4556;
+  user-select: none;
+}
+.line-hl { background: rgba(255, 199, 0, 0.18); }
+
+/* Pilcrow anchor links — hidden until parent is hovered */
+.pilcrow { color: #d1d5db; text-decoration: none; font-weight: 400; margin-left: 0.4em; opacity: 0; transition: opacity 0.15s; }
+h2:hover .pilcrow, h3:hover .pilcrow, .finding-title:hover .pilcrow { opacity: 1; }
+.pilcrow:hover { color: #6b7280; text-decoration: none; }
+
+/* Tables written directly in a section body. parseTable classes only the
+ * Retro and Summary tables, so every other one arrives unclassed. */
+table:not([class]) { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+table:not([class]) th, table:not([class]) td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+table:not([class]) th { background: #f3f4f6; font-weight: 600; }
+table:not([class]) tr:nth-child(even) { background: #f9fafb; }
+/* A long path or job name offers no break of its own, so one cell can push
+ * the whole page into a horizontal scroll. Let those tokens wrap. */
+table:not([class]) code { overflow-wrap: anywhere; }
+
+/* Collapsible folds, for the bulk detail a report keeps out of the way */
+details { margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+/* Agent retro summary table */
+.retro-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.9rem; table-layout: fixed; }
+.retro-table th, .retro-table td { padding: 0.45rem 0.7rem; border: 1px solid #e5e7eb; text-align: left; }
+.retro-table th { background: #f3f4f6; font-weight: 600; }
+.retro-table tr:nth-child(even) { background: #f9fafb; }
+
+/* Supply-chain Summary table — first column gets breathing room,
+ * numeric middle columns center, header keeps its label on one line. */
+.summary-table { width: 100%; border-collapse: collapse; margin: 0.4rem 0 0.8rem; font-size: 0.92rem; }
+.summary-table th, .summary-table td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #d5d9e0;
+  vertical-align: top;
+  text-align: left;
+}
+.summary-table th { background: rgba(255, 255, 255, 0.65); font-weight: 600; white-space: nowrap; }
+.summary-table td:first-child { min-width: 11rem; white-space: nowrap; }
+.summary-table th:not(:first-child):not(:last-child),
+.summary-table td:not(:first-child):not(:last-child) { text-align: center; }
+
+/* Lists and paragraphs inside cards */
+.card ul, .card ol { margin: 0.4rem 0; padding-left: 1.5rem; }
+.card li { margin-bottom: 0.3rem; }
+.card p { margin: 0.5rem 0; }
+.card p:first-child { margin-top: 0; }
+
+/* Supply-chain issue rows — used by issueList for bullets that
+ * uniformly start with a `file:line` reference. The location renders
+ * in a dark bar above the description so the eye picks up the path
+ * separately from the prose. */
+.issue-list { margin: 0.6rem 0; }
+.issue-row {
+  margin-bottom: 0.7rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.55);
+}
+.issue-loc {
+  background: #2d333b;
+  color: #adbac7;
+  padding: 0.3rem 0.7rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.issue-loc a { color: #7ee787; text-decoration: none; }
+.issue-loc a:hover { text-decoration: underline; }
+.issue-loc code { background: none; padding: 0; color: inherit; font-size: 1em; }
+.issue-desc { padding: 0.55rem 0.8rem; }
+.issue-desc code { font-size: 0.85em; }
+
+/* Verdict highlight in metadata table */
+.verdict { font-weight: 700; }
+
+/* GitHub reference tooltips — shown on hover for #N links */
+.gh-tooltip {
+  position: absolute;
+  background: #1f2328;
+  color: #e6edf3;
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-width: 380px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.28);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.gh-tooltip-state {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15em 0.5em;
+  border-radius: 999px;
+  margin-right: 0.4em;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.gh-state-open { background: #238636; color: #fff; }
+.gh-state-closed { background: #848d97; color: #fff; }
+.gh-state-merged { background: #8957e5; color: #fff; }
+.gh-tooltip-title { vertical-align: baseline; }
+
+/* Mobile */
+@media (max-width: 640px) {
+  body { padding: 1rem 0.5rem; }
+  .card { padding: 0.9rem 1rem; }
+  pre code { font-size: 0.72rem; }
+}
+
+/* Reproducers and patches, collapsed so a long block keeps the next finding on screen */
+details.fold { margin: 0.8rem 0; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; }
+details.fold > summary { cursor: pointer; padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: #57606a; background: #f6f8fa; user-select: none; }
+details.fold > summary:hover { background: #eef1f4; }
+details.fold[open] > summary { border-bottom: 1px solid #d0d7de; }
+details.fold pre { border-radius: 0 !important; }
+details.fold .code-file-header { margin-top: 0; border-radius: 0; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deep Review: 20261118-005728-pr-5826</h1>
+
+    <table class="meta-table">
+      <tr><td>Date</td><td>2026-11-18 00:57</td></tr>
+      <tr><td>Repo</td><td><a href="https://github.com/lima-vm/lima">lima-vm/lima</a></td></tr>
+      <tr><td>Round</td><td>1</td></tr>
+      <tr><td>Author</td><td><a href="https://github.com/jandubois">@jandubois</a></td></tr>
+      <tr><td>PR</td><td><a href="https://github.com/lima-vm/lima/pull/5826" class="gh-ref" data-title="networks: let vzNAT guests reach each other with guestToGuest" data-state="open" data-type="pr">#5826</a> — networks: let vzNAT guests reach each other with guestToGuest</td></tr>
+      <tr><td>Branch</td><td><code>vznat-guest-to-guest</code></td></tr>
+      <tr><td>Commits</td><td><a href="https://github.com/lima-vm/lima/commit/ecede91c"><code>ecede91c</code></a> networks: let vzNAT guests reach each other with guestToGuest</td></tr>
+      <tr><td>Review SHA</td><td><a href="https://github.com/lima-vm/lima/commit/ecede91c468c22961a70436b42bf2451e0dd69b6"><code>ecede91c468c22961a70436b42bf2451e0dd69b6</code></a></td></tr>
+      <tr><td>Reviewers</td><td><span class="pill pill-claude">Claude Opus 5.5</span> (effort: high), <span class="pill pill-codex">Codex GPT 6 Astra</span> (effort: high), <span class="pill pill-gemini">Gemini 3.1 Pro</span> (effort: default), <span class="pill pill-gemini">Gemini 3.5 Flash</span> (effort: default)</td></tr>
+      <tr><td>Verdict</td><td><span class="verdict">Merge with fixes</span> &mdash; two Important findings, each with a tested patch</td></tr>
+      <tr><td>Wall-clock time</td><td><code>24 min 22 s</code></td></tr>
+    </table>
+
+    <hr>
+
+    <hr>
+    <h2 id="executive-summary">Executive Summary <a href="#executive-summary" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The PR adds <code>networks[].guestToGuest</code>: a Linux guest-agent watcher keeps a route through the vzNAT gateway, so vzNAT guests can reach each other. The wiring through validation, defaults, cidata, both init systems and CI is sound. Two things need fixing. A second address in the vzNAT subnet, or two vzNAT networks with the option, make the watcher rewrite its route without end. And embedding a <code>base:</code> template drops the option.</p>
+    </div>
+    <hr>
+    <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-critical">
+    <p>None.</p>
+    </div>
+    <hr>
+    <h2 id="important-issues" class="section-important">Important Issues <a href="#important-issues" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-important" data-file="pkg/guestagent/guesttoguest/route.go">
+      <div class="finding-title" id="I1">
+        <span class="finding-num">I1.</span> Two wanted routes share one kernel slot, so the watcher rewrites its route without end <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.1 Pro</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ecede91c468c22961a70436b42bf2451e0dd69b6/pkg/guestagent/guesttoguest/route.go#L64-L78">pkg/guestagent/guesttoguest/route.go</a></div>
+      <pre data-start="64" data-line="69-75"><code class="language-go">			Gateway:  gateway,
+			OIF:      index,
+			Priority: 0,
+			PrefSrc:  a.Prefix.Addr(),
+		}
+		// A route to the subnet with another gateway, priority or source
+		// counts as missing. Our own route must therefore parse back equal
+		// to want; otherwise the netlink event that adding it causes would
+		// trigger another write.
+		if !slices.Contains(routes, want) {
+			missing = append(missing, want)
+		}
+	}
+	return missing
+}</code></pre>
+    <p><code>MissingRoutes</code> wants one route per address, and it counts a route as present only when every field matches, <code>PrefSrc</code> and <code>OIF</code> included. But the kernel keeps one IPv4 route per destination, TOS and priority, and the watcher installs with <code>NLM_F_REPLACE</code> (<a href="https://github.com/lima-vm/lima/blob/ecede91c468c22961a70436b42bf2451e0dd69b6/pkg/guestagent/guesttoguest/watch_linux.go#L220"><code>watch_linux.go:220</code></a>). So when two addresses want a route to one subnet, each install overwrites the other, and its netlink event starts the next round. Two inputs do this: a second address in the vzNAT subnet, and two vzNAT networks with <code>guestToGuest</code>, whose NICs both get 192.168.64.0/24 addresses (checked on a booted guest). The watcher then spins and logs <code>added guest-to-guest route</code> on every pass.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ecede91c468c22961a70436b42bf2451e0dd69b6/pkg/guestagent/guesttoguest/watch_linux.go#L215-L225">pkg/guestagent/guesttoguest/watch_linux.go</a></div>
+      <pre data-start="215" data-line="220"><code class="language-go">		return err
+	}
+	_, err = conn.Execute(netlink.Message{
+		Header: netlink.Header{
+			Type:  unix.RTM_NEWROUTE,
+			Flags: netlink.Request | netlink.Acknowledge | netlink.Create | netlink.Replace,
+		},
+		Data: data,
+	})
+	return err
+}</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-go">// Save as pkg/guestagent/guesttoguest/probe_replace_loop_linux_test.go, then build:
+//   GOOS=linux GOARCH=arm64 go test -c -o guesttoguest.test ./pkg/guestagent/guesttoguest/
+// Run as root on a Linux host or guest with iproute2 and util-linux:
+//   sudo PROBE_ADDRS=&quot;10.9.0.2/24&quot; unshare --net ./guesttoguest.test -test.run TestProbeOneInterface -test.v
+//   sudo PROBE_ADDRS=&quot;10.9.0.2/24 10.9.0.3/24&quot; unshare --net ./guesttoguest.test -test.run TestProbeOneInterface -test.v
+//   sudo PROBE_TWO_IFACES=1 unshare --net ./guesttoguest.test -test.run TestProbeTwoInterfaces -test.v
+package guesttoguest
+
+import (
+	&quot;context&quot;
+	&quot;fmt&quot;
+	&quot;io&quot;
+	&quot;os&quot;
+	&quot;os/exec&quot;
+	&quot;strings&quot;
+	&quot;sync/atomic&quot;
+	&quot;testing&quot;
+	&quot;time&quot;
+
+	&quot;github.com/sirupsen/logrus&quot;
+)
+
+type installCounter struct{ n atomic.Int64 }
+
+func (h *installCounter) Levels() []logrus.Level { return logrus.AllLevels }
+
+func (h *installCounter) Fire(e *logrus.Entry) error {
+	if strings.HasPrefix(e.Message, &quot;added guest-to-guest route&quot;) {
+		h.n.Add(1)
+	}
+	return nil
+}
+
+func probeSh(t *testing.T, cmd string) {
+	t.Helper()
+	if out, err := exec.Command(&quot;sh&quot;, &quot;-c&quot;, cmd).CombinedOutput(); err != nil {
+		t.Fatalf(&quot;%s: %v\n%s&quot;, cmd, err, out)
+	}
+}
+
+// runWatcher runs the real watcher for 3 s and reports how often it installed the route.
+func runWatcher(t *testing.T, interfaces []string) {
+	hook := &amp;installCounter{}
+	logrus.AddHook(hook)
+	logrus.SetOutput(io.Discard)
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	if err := Run(ctx, interfaces); err != nil {
+		t.Fatal(err)
+	}
+	out, _ := exec.Command(&quot;ip&quot;, &quot;-4&quot;, &quot;route&quot;, &quot;show&quot;).CombinedOutput()
+	t.Logf(&quot;routes after 3 s:\n%s&quot;, out)
+	t.Logf(&quot;route installs in 3 s: %d&quot;, hook.n.Load())
+}
+
+// One interface; PROBE_ADDRS lists its addresses.
+func TestProbeOneInterface(t *testing.T) {
+	addrs := strings.Fields(os.Getenv(&quot;PROBE_ADDRS&quot;))
+	if len(addrs) == 0 {
+		t.Skip(&quot;set PROBE_ADDRS and run as root under unshare --net&quot;)
+	}
+	probeSh(t, &quot;ip link set lo up &amp;&amp; ip link add g2g0 type dummy &amp;&amp; ip link set g2g0 up&quot;)
+	for _, a := range addrs {
+		probeSh(t, &quot;ip addr add &quot;+a+&quot; dev g2g0 metric 100&quot;)
+	}
+	probeSh(t, &quot;ip route add default via 10.9.0.1 dev g2g0 metric 100&quot;)
+	runWatcher(t, []string{&quot;g2g0&quot;})
+}
+
+// Two interfaces on one subnet, as two vzNAT networks in one guest.
+func TestProbeTwoInterfaces(t *testing.T) {
+	if os.Getenv(&quot;PROBE_TWO_IFACES&quot;) == &quot;&quot; {
+		t.Skip(&quot;set PROBE_TWO_IFACES and run as root under unshare --net&quot;)
+	}
+	probeSh(t, &quot;ip link set lo up&quot;)
+	for i, name := range []string{&quot;g2g0&quot;, &quot;g2g1&quot;} {
+		metric := 100 + i
+		probeSh(t, fmt.Sprintf(&quot;ip link add %s type dummy &amp;&amp; ip link set %s up&quot;, name, name))
+		probeSh(t, fmt.Sprintf(&quot;ip addr add 10.9.0.%d/24 dev %s metric %d&quot;, 2+i, name, metric))
+		probeSh(t, fmt.Sprintf(&quot;ip route add default via 10.9.0.1 dev %s metric %d&quot;, name, metric))
+	}
+	runWatcher(t, []string{&quot;g2g0&quot;, &quot;g2g1&quot;})
+}</code></pre>
+      <pre><code class="language-text"># Built from the reviewed tree (ecede91c):
+$ sudo PROBE_ADDRS=&quot;10.9.0.2/24&quot; unshare --net ./guesttoguest.test -test.run TestProbeOneInterface -test.v
+    probe_replace_loop_linux_test.go:52: routes after 3 s:
+        default via 10.9.0.1 dev g2g0 metric 100 
+        10.9.0.0/24 via 10.9.0.1 dev g2g0 proto static src 10.9.0.2 onlink 
+        10.9.0.0/24 dev g2g0 proto kernel scope link src 10.9.0.2 metric 100 
+    probe_replace_loop_linux_test.go:53: route installs in 3 s: 1
+--- PASS: TestProbeOneInterface (3.02s)
+PASS
+$ sudo PROBE_ADDRS=&quot;10.9.0.2/24 10.9.0.3/24&quot; unshare --net ./guesttoguest.test -test.run TestProbeOneInterface -test.v
+    probe_replace_loop_linux_test.go:52: routes after 3 s:
+        default via 10.9.0.1 dev g2g0 metric 100 
+        10.9.0.0/24 via 10.9.0.1 dev g2g0 proto static src 10.9.0.2 onlink 
+        10.9.0.0/24 dev g2g0 proto kernel scope link src 10.9.0.2 metric 100 
+    probe_replace_loop_linux_test.go:53: route installs in 3 s: 81289
+--- PASS: TestProbeOneInterface (3.01s)
+PASS
+$ sudo PROBE_TWO_IFACES=1 unshare --net ./guesttoguest.test -test.run TestProbeTwoInterfaces -test.v
+    probe_replace_loop_linux_test.go:52: routes after 3 s:
+        default via 10.9.0.1 dev g2g0 metric 100 
+        default via 10.9.0.1 dev g2g1 metric 101 
+        10.9.0.0/24 via 10.9.0.1 dev g2g0 proto static src 10.9.0.2 onlink 
+        10.9.0.0/24 dev g2g0 proto kernel scope link src 10.9.0.2 metric 100 
+        10.9.0.0/24 dev g2g1 proto kernel scope link src 10.9.0.3 metric 101 
+    probe_replace_loop_linux_test.go:53: route installs in 3 s: 56973
+--- PASS: TestProbeTwoInterfaces (3.01s)
+PASS
+# Built with the patch below applied:
+$ sudo PROBE_ADDRS=&quot;10.9.0.2/24&quot; unshare --net ./guesttoguest.test -test.run TestProbeOneInterface -test.v
+    probe_replace_loop_linux_test.go:52: routes after 3 s:
+        default via 10.9.0.1 dev g2g0 metric 100 
+        10.9.0.0/24 via 10.9.0.1 dev g2g0 proto static src 10.9.0.2 onlink 
+        10.9.0.0/24 dev g2g0 proto kernel scope link src 10.9.0.2 metric 100 
+    probe_replace_loop_linux_test.go:53: route installs in 3 s: 1
+--- PASS: TestProbeOneInterface (3.02s)
+PASS
+$ sudo PROBE_ADDRS=&quot;10.9.0.2/24 10.9.0.3/24&quot; unshare --net ./guesttoguest.test -test.run TestProbeOneInterface -test.v
+    probe_replace_loop_linux_test.go:52: routes after 3 s:
+        default via 10.9.0.1 dev g2g0 metric 100 
+        10.9.0.0/24 via 10.9.0.1 dev g2g0 proto static src 10.9.0.2 onlink 
+        10.9.0.0/24 dev g2g0 proto kernel scope link src 10.9.0.2 metric 100 
+    probe_replace_loop_linux_test.go:53: route installs in 3 s: 1
+--- PASS: TestProbeOneInterface (3.02s)
+PASS
+$ sudo PROBE_TWO_IFACES=1 unshare --net ./guesttoguest.test -test.run TestProbeTwoInterfaces -test.v
+    probe_replace_loop_linux_test.go:52: routes after 3 s:
+        default via 10.9.0.1 dev g2g0 metric 100 
+        default via 10.9.0.1 dev g2g1 metric 101 
+        10.9.0.0/24 via 10.9.0.1 dev g2g1 proto static src 10.9.0.3 onlink 
+        10.9.0.0/24 dev g2g0 proto kernel scope link src 10.9.0.2 metric 100 
+        10.9.0.0/24 dev g2g1 proto kernel scope link src 10.9.0.3 metric 101 
+    probe_replace_loop_linux_test.go:53: route installs in 3 s: 2
+--- PASS: TestProbeTwoInterfaces (3.02s)
+PASS</code></pre>
+      </details>
+    <p>Fix: count a subnet as covered by any priority-0 route through the gateway, whatever its source or interface, and want one route per subnet. The shipped case <code>present with a different source</code> asserted the looping behaviour, so the patch changes its expectation and adds two cases.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/guestagent/guesttoguest/route.go b/pkg/guestagent/guesttoguest/route.go
+index 25a95083..e0ade46c 100644
+--- a/pkg/guestagent/guesttoguest/route.go
++++ b/pkg/guestagent/guesttoguest/route.go
+@@ -29,8 +29,8 @@ var defaultDst = netip.PrefixFrom(netip.IPv4Unspecified(), 0)
+ 
+ // MissingRoutes returns the routes to add to the interface with the given
+ // index. Each route sends traffic for one IPv4 subnet of the interface
+-// through the interface&#39;s default gateway. MissingRoutes leaves out a route
+-// that already exists.
++// through the interface&#39;s default gateway. MissingRoutes leaves out a subnet
++// that already has such a route, whatever its source or interface.
+ //
+ // The routes use priority 0, so they win over the kernel&#39;s on-link route to
+ // the same subnet. They also set the interface address as the preferred
+@@ -59,20 +59,22 @@ func MissingRoutes(index int, addrs []Address, routes []Route) []Route {
+ 		if !subnet.Contains(gateway) {
+ 			continue
+ 		}
+-		want := Route{
++		// The kernel keeps one route per destination and priority, and a
++		// replace overwrites the route in that slot. If a second address in
++		// the subnet, or a second interface on it, asked for a route of its
++		// own, the two routes would overwrite each other on every event.
++		if slices.ContainsFunc(routes, func(r Route) bool {
++			return r.Dst == subnet &amp;&amp; r.Gateway == gateway &amp;&amp; r.Priority == 0
++		}) || slices.ContainsFunc(missing, func(r Route) bool { return r.Dst == subnet }) {
++			continue
++		}
++		missing = append(missing, Route{
+ 			Dst:      subnet,
+ 			Gateway:  gateway,
+ 			OIF:      index,
+ 			Priority: 0,
+ 			PrefSrc:  a.Prefix.Addr(),
+-		}
+-		// A route to the subnet with another gateway, priority or source
+-		// counts as missing. Our own route must therefore parse back equal
+-		// to want; otherwise the netlink event that adding it causes would
+-		// trigger another write.
+-		if !slices.Contains(routes, want) {
+-			missing = append(missing, want)
+-		}
++		})
+ 	}
+ 	return missing
+ }
+diff --git a/pkg/guestagent/guesttoguest/route_test.go b/pkg/guestagent/guesttoguest/route_test.go
+index 1bbd7816..74793798 100644
+--- a/pkg/guestagent/guesttoguest/route_test.go
++++ b/pkg/guestagent/guesttoguest/route_test.go
+@@ -65,6 +65,16 @@ func TestMissingRoutes(t *testing.T) {
+ 			name:   &quot;present with a different source&quot;,
+ 			addrs:  []Address{addr},
+ 			routes: []Route{onLink, defaultVia(&quot;192.168.64.1&quot;, lima0, 100), {Dst: subnet, Gateway: gw, OIF: lima0, PrefSrc: netip.MustParseAddr(&quot;192.168.64.7&quot;)}},
++		},
++		{
++			name:   &quot;present on another interface&quot;,
++			addrs:  []Address{addr},
++			routes: []Route{onLink, defaultVia(&quot;192.168.64.1&quot;, lima0, 100), {Dst: subnet, Gateway: gw, OIF: eth0, PrefSrc: netip.MustParseAddr(&quot;192.168.64.7&quot;)}},
++		},
++		{
++			name:   &quot;two addresses in the subnet&quot;,
++			addrs:  []Address{addr, {Index: lima0, Prefix: netip.MustParsePrefix(&quot;192.168.64.7/24&quot;)}},
++			routes: []Route{onLink, defaultVia(&quot;192.168.64.1&quot;, lima0, 100)},
+ 			want:   []Route{want},
+ 		},
+ 		{</code></pre>
+      </details>
+    </div>
+    <div class="card card-important" data-file="pkg/limatmpl/embed.go">
+      <div class="finding-title" id="I2">
+        <span class="finding-num">I2.</span> Embedding a <code>base:</code> template drops <code>guestToGuest</code> <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#I2" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ecede91c468c22961a70436b42bf2451e0dd69b6/pkg/limatmpl/embed.go#L548-L565">pkg/limatmpl/embed.go</a></div>
+      <pre data-start="548" data-line="553-560"><code class="language-go">			}
+			if dest.MACAddress == &quot;&quot; &amp;&amp; nw.MACAddress != &quot;&quot; {
+				tmpl.copyListEntryField(networks, dst, src, &quot;macAddress&quot;)
+				dest.MACAddress = nw.MACAddress
+			}
+			if dest.VZNAT == nil &amp;&amp; nw.VZNAT != nil {
+				tmpl.copyListEntryField(networks, dst, src, &quot;vzNAT&quot;)
+				dest.VZNAT = nw.VZNAT
+			}
+			if dest.Metric == nil &amp;&amp; nw.Metric != nil {
+				tmpl.copyListEntryField(networks, dst, src, &quot;metric&quot;)
+				dest.Metric = nw.Metric
+			}
+			if nw.Interface != &quot;*&quot; {
+				tmpl.copyListEntryComments(networks, dst, src, &quot;&quot;)
+			}
+		}
+		tmpl.Config.Networks = slices.Delete(tmpl.Config.Networks, src, src+1)</code></pre>
+    <p><code>combineNetworks</code> merges a base template&#39;s network entry into the template&#39;s entry with the same interface name (or into every earlier entry, for <code>interface: &quot;*&quot;</code>), and it copies each field by name. The PR taught the matching merge in <a href="https://github.com/lima-vm/lima/blob/ecede91c468c22961a70436b42bf2451e0dd69b6/pkg/limayaml/defaults.go#L689"><code>limayaml/defaults.go:689</code></a> about <code>guestToGuest</code>, but not this one. So when a <code>base:</code> template sets the option, <code>limactl start</code> and <code>limactl create</code>, which both call <code>Embed</code> (<a href="https://github.com/lima-vm/lima/blob/ecede91c468c22961a70436b42bf2451e0dd69b6/cmd/limactl/start.go#L340"><code>cmd/limactl/start.go:340</code></a>), drop it, and the guest stays isolated without an error.</p>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ecede91c468c22961a70436b42bf2451e0dd69b6/pkg/limayaml/defaults.go#L684-L694">pkg/limayaml/defaults.go</a></div>
+      <pre data-start="684" data-line="689"><code class="language-go">				networks[i].MACAddress = nw.MACAddress
+			}
+			if nw.Metric != nil {
+				networks[i].Metric = nw.Metric
+			}
+			if nw.GuestToGuest != nil {
+				networks[i].GuestToGuest = nw.GuestToGuest
+			}
+		} else {
+			// unnamed network definitions are not combined/overwritten
+			if nw.Interface != &quot;&quot; {</code></pre>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ecede91c468c22961a70436b42bf2451e0dd69b6/cmd/limactl/start.go#L335-L345">cmd/limactl/start.go</a></div>
+      <pre data-start="335" data-line="340"><code class="language-go">		} else if err := dirnames.ValidateInstName(tmpl.Name); err != nil {
+			return nil, err
+		}
+	}
+
+	if err := tmpl.Embed(ctx, true, true); err != nil {
+		return nil, err
+	}
+	if err := tmpl.Unmarshal(); err != nil {
+		return nil, err
+	}</code></pre>
+      <details class="fold">
+        <summary>Reproducer</summary>
+      <pre><code class="language-bash"># Save as probe-embed-guest-to-guest.sh; run from the repository root: bash probe-embed-guest-to-guest.sh
+set -eu
+dir=$(mktemp -d)
+go build -o &quot;$dir/limactl&quot; ./cmd/limactl
+printf &#39;networks:\n- interface: lima0\n  vzNAT: true\n  guestToGuest: true\n&#39; &gt;&quot;$dir/base.yaml&quot;
+printf &#39;base: base.yaml\nnetworks:\n- interface: lima0\n&#39; &gt;&quot;$dir/vm.yaml&quot;
+echo &quot;--- vm.yaml with its base embedded:&quot;
+&quot;$dir/limactl&quot; template copy --embed-all &quot;$dir/vm.yaml&quot; -</code></pre>
+      <pre><code class="language-text"># go build&#39;s linker warnings left out of this capture
+$ bash probe-embed-guest-to-guest.sh   # reviewed code
+--- vm.yaml with its base embedded:
+networks:
+- interface: lima0
+  vzNAT: true
+$ bash probe-embed-guest-to-guest.sh   # with the fix
+--- vm.yaml with its base embedded:
+networks:
+- interface: lima0
+  vzNAT: true
+  guestToGuest: true</code></pre>
+      </details>
+    <p>Fix: copy <code>guestToGuest</code> the way <code>metric</code> is copied. The patch adds a <code>TestEmbed</code> case that fails against the reviewed code and passes with the fix.</p>
+      <details class="fold">
+        <summary>Patch</summary>
+      <pre><code class="language-diff">diff --git a/pkg/limatmpl/embed.go b/pkg/limatmpl/embed.go
+index 07144734..a4b710a3 100644
+--- a/pkg/limatmpl/embed.go
++++ b/pkg/limatmpl/embed.go
+@@ -558,6 +558,10 @@ func (tmpl *Template) combineNetworks() {
+ 				tmpl.copyListEntryField(networks, dst, src, &quot;metric&quot;)
+ 				dest.Metric = nw.Metric
+ 			}
++			if dest.GuestToGuest == nil &amp;&amp; nw.GuestToGuest != nil {
++				tmpl.copyListEntryField(networks, dst, src, &quot;guestToGuest&quot;)
++				dest.GuestToGuest = nw.GuestToGuest
++			}
+ 			if nw.Interface != &quot;*&quot; {
+ 				tmpl.copyListEntryComments(networks, dst, src, &quot;&quot;)
+ 			}
+diff --git a/pkg/limatmpl/embed_test.go b/pkg/limatmpl/embed_test.go
+index b3ccb887..eaa65c8f 100644
+--- a/pkg/limatmpl/embed_test.go
++++ b/pkg/limatmpl/embed_test.go
+@@ -348,6 +348,25 @@ networks:
+   metric: 123  # will be set on the first entry
+ # The metric will not be merged with anything
+ - metric: 250
++`,
++	},
++	{
++		&quot;networks merge guestToGuest by interface name&quot;,
++		`
++networks:
++- interface: lima0
++`,
++		`
++networks:
++- interface: lima0
++  vzNAT: true
++  guestToGuest: true
++`,
++		`
++networks:
++- interface: lima0
++  vzNAT: true
++  guestToGuest: true
+ `,
+ 	},
+ 	{</code></pre>
+      </details>
+    </div>
+    <hr>
+    <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-suggestion" data-file="hack/bats/extras/vz-guest-to-guest.bats">
+      <div class="finding-title" id="S1">
+        <span class="finding-num">S1.</span> <code>assert_agent_route_log_count</code> cannot assert a count of zero <span class="pill pill-gemini">Gemini 3.5 Flash</span><a href="#S1" class="pilcrow">&#182;</a>
+      </div>
+      <div class="code-file-header"><a href="https://github.com/lima-vm/lima/blob/ecede91c468c22961a70436b42bf2451e0dd69b6/hack/bats/extras/vz-guest-to-guest.bats#L58-L72">hack/bats/extras/vz-guest-to-guest.bats</a></div>
+      <pre data-start="58" data-line="63-67"><code class="language-bash">    assert_output --regexp &quot;^[0-9./]+ via ${gateway//./\\.} proto static .* onlink&quot;
+}
+
+# The guest agent logs &quot;added guest-to-guest route&quot; only when it adds a
+# missing route, so the count is how often the agent found the route missing.
+assert_agent_route_log_count() {
+    run -0 limactl shell &quot;${NAME}&quot; -- sudo journalctl -u lima-guestagent -b --no-pager --output=cat
+    run -0 grep --count &#39;added guest-to-guest route&#39; &lt;&lt;&lt;&quot;${output}&quot;
+    assert_output &quot;$1&quot;
+}
+
+@test &quot;the guest agent adds the guest-to-guest route at boot&quot; {
+    assert_guest_to_guest_route
+    assert_agent_route_log_count 1
+}</code></pre>
+    <p>When the journal lacks the line, <code>grep --count</code> prints <code>0</code> but exits 1, and <code>run -0</code> then fails before <code>assert_output</code> runs (bats-core <code>test_functions.bash:434-439</code>). The callers pass 1 and 2, so the tests pass today, but a later check that the agent did not re-add the route would always fail.</p>
+    <p>Fix: drop <code>-0</code> from the <code>grep</code> line. A grep error still fails <code>assert_output</code>, because <code>run</code> captures the error text in <code>output</code>.</p>
+    </div>
+    <hr>
+    <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-design">
+    <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><strong>(future) The watcher stops for good after an unexpected receive error.</strong> <code>Run</code> returns on any <code>Receive</code> error other than <code>ENOBUFS</code> (<a href="https://github.com/lima-vm/lima/blob/ecede91c468c22961a70436b42bf2451e0dd69b6/pkg/guestagent/guesttoguest/watch_linux.go#L45-L51"><code>watch_linux.go:45-51</code></a>), and <code>daemon_linux.go</code> logs it once. The agent keeps running, but it never restores the route again. The review did not find a trigger for such an error in mdlayher/netlink v1.11.2. Redialing with a backoff would make the watcher recover. <span class="pill pill-claude">Claude Opus 5.5</span></li>
+      <li><strong>(future) Every netlink event runs two full dumps.</strong> A burst of link, address and route events, such as a container runtime creating bridges, runs <code>reconcile</code> once per event. Coalescing events would cut the dumps. <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
+      <li><em></em>(in-scope) <code>plain: true</code> makes <code>guestToGuest</code> inert without a message.<em></em> Plain mode skips the <code>boot.Linux/</code> scripts, so the guest agent never starts (<a href="https://github.com/lima-vm/lima/blob/ecede91c468c22961a70436b42bf2451e0dd69b6/pkg/cidata/cidata.TEMPLATE.d/boot.sh#L73-L74"><code>pkg/cidata/cidata.TEMPLATE.d/boot.sh:73-74</code></a>), and validation accepts the combination. <code>fixUpForPlainMode</code> already clears mounts, non-static port forwards and containerd without a warning, so clearing the field there, or warning in <code>validateNetwork</code>, would match the rest of plain mode. Found during consolidation.</li>
+    </ul>
+    <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
+    <ul>
+      <li><code>MissingRoutes</code> is a pure function in a file without build tags, so its tests run on every platform, and the netlink code stays in <code>watch_linux.go</code>. <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
+      <li>Events and requests use separate netlink sockets, the event socket is open before the first reconcile, and <code>ENOBUFS</code> triggers a full resync. <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span></li>
+      <li>Setting <code>PrefSrc</code> lets the kernel delete the route together with its address. <span class="pill pill-claude">Claude Opus 5.5</span></li>
+      <li>The watcher talks netlink directly instead of running <code>ip route</code> from the guest agent. <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="testing-assessment">Testing Assessment <a href="#testing-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>I1 and I2 need the tests that their patches add.</strong> A user would see a spinning agent and a flooded journal (I1), or guests that stay isolated without an error (I2), and neither names its cause. The I1 cases fail against the reviewed code and pass with the fix. A partial fix that dedupes addresses within one interface but still requires an exact match fails <code>present with a different source</code> and <code>present on another interface</code>. So the new cases also catch a fix that handles one interface and misses the two-network input.</li>
+      <li><strong>Runs during consolidation, in a clean checkout at the review SHA:</strong></li>
+    </ul>
+    <ul>
+      <li><code>go build ./...</code>, and <code>go test</code> for <code>limayaml</code>, <code>cidata</code>, <code>guesttoguest</code>, <code>vz</code>, <code>qemu</code> and <code>lima-guestagent</code> on darwin: ok. <code>GOOS=linux go vet</code> and <code>go test -c</code> for the Linux-only packages: ok.</li>
+      <li>The I1 reproducer in an Ubuntu guest (kernel 7.0.0-34), built from the reviewed tree and with the patch, as shown above. The <code>guesttoguest</code> Linux unit tests in that guest, with the patch: pass.</li>
+      <li>Each patch&#39;s new tests, alone and in their package&#39;s full run: they fail against the reviewed code and pass with the patch. Both patches applied in sequence to a clean tree, then <code>limatmpl</code>, <code>limayaml</code>, <code>guesttoguest</code> and <code>cidata</code>: ok, with no conflict between the patches.</li>
+      <li>golangci-lint 2.15.0 on the patched <code>guesttoguest</code> package, for darwin and <code>GOOS=linux</code>: 0 issues.</li>
+    </ul>
+    <ul>
+      <li><strong>CI at the review SHA:</strong> 33 checks passed. <code>Windows tests (WSL2)</code> failed in <code>TestParamFlagCompletionStalledServer</code>, in <code>cmd/limactl/editflags</code>. The PR does not touch that package. The same job passed at the merge-base, and the same test failed this way once before, on 2026-11-03 on an unrelated branch. <code>Integration tests (vz)</code>, which runs the new BATS step, was still pending when this report was written.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><code>internals.md</code> and the <code>templates/default.yaml</code> comments match the code. The <code>vznat.md</code> docs for the option wait for <a href="https://github.com/lima-vm/lima/issues/5825" class="gh-ref" data-title="docs: vzNAT guests cannot reach each other directly" data-state="open" data-type="pr">#5825</a> to merge, as the PR body says, and so does the planned <code>user.md</code> change.</p>
+    </div>
+    <hr>
+    <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <ul>
+      <li><strong>One guest in the BATS extra.</strong> GitHub&#39;s macOS runners lose contact when two hardware-accelerated guests run at once, and a QEMU guest cannot join a vzNAT network, so the extra checks the route in one guest. Do not re-suggest a test that starts two vz guests.</li>
+      <li><em></em><code>--guest-to-guest-interfaces</code> and its value as one argument string.<em></em> <code>generateSystemdUnit</code> builds <code>--vsock-port</code>, <code>--virtio-port</code> and <code>--socket-owner</code> the same way, and systemd splits <code>ExecStart</code> on spaces. Do not re-suggest the <code>=</code> form as matching the neighbouring flags.</li>
+    </ul>
+    </div>
+    <hr>
+    <h2 id="agent-performance-retro">Agent Performance Retro <a href="#agent-performance-retro" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <h3 id="claude-opus-5-5"><span class="pill pill-claude">Claude Opus 5.5</span> <a href="#claude-opus-5-5" class="pilcrow">&#182;</a></h3>
+    <p>Claude found both inputs to I1 and named the kernel&#39;s <code>fib_table_insert</code> replace semantics behind them; it offered a validation rejection as one way out of the two-network case. The patch makes that unnecessary. Its reproducer exercised only the pure function, and its report said so. The concern about the watcher stopping for good was its own. Like Codex and Gemini 3.1 Pro, it missed I2, whose file is outside the diff.</p>
+    <h3 id="codex-gpt-6-astra"><span class="pill pill-codex">Codex GPT 6 Astra</span> <a href="#codex-gpt-6-astra" class="pilcrow">&#182;</a></h3>
+    <p>Codex reported I1 with a convergence probe that models the replacement, marked the kernel churn <code>Unproven:</code>, and named the cross-interface collision in its fix line without offering a patch. Like Claude and Flash, it labelled I1 a regression although the code is new. Its answer to the CI question matched the evidence.</p>
+    <h3 id="gemini-3-1-pro"><span class="pill pill-gemini">Gemini 3.1 Pro</span> <a href="#gemini-3-1-pro" class="pilcrow">&#182;</a></h3>
+    <p>Gemini 3.1 Pro found the secondary-address input to I1, but its patch dedupes addresses within one interface, which leaves the two-network loop in place. Its S1 claimed that the <code>=</code> form would match the neighbouring flags, which all use the same space form; it was dropped as a false positive. Its CI answer called the failure a flake that already existed at the merge-base, where the same job passed.</p>
+    <h3 id="gemini-3-5-flash"><span class="pill pill-gemini">Gemini 3.5 Flash</span> <a href="#gemini-3-5-flash" class="pilcrow">&#182;</a></h3>
+    <p>Flash alone found I2, by reading <code>combineNetworks</code> outside the diff, and its probe run did print the field as nil after <code>Embed</code>. But the failing assertion output it quoted never ran: its last run passed and only printed. Its I1 patch keeps an <code>OIF == index</code> check and still loops across two interfaces. Its S2 (a version note on a commented networks example) was dropped, and its S3 filed the CI answer as a finding and placed the earlier failure on master instead of an unrelated branch. It re-ran tests the prompt reported, and policy refused three of its commands. The two Gemini models converged on I1&#39;s secondary-address input and on partial fixes that stop at one interface, which counts as one opinion.</p>
+    <h3 id="summary">Summary <a href="#summary" class="pilcrow">&#182;</a></h3>
+    <table class="retro-table">
+      <thead><tr><th></th><th><span class="pill pill-claude">Claude Opus 5.5</span></th><th><span class="pill pill-codex">Codex GPT 6 Astra</span></th><th><span class="pill pill-gemini">Gemini 3.1 Pro</span></th><th><span class="pill pill-gemini">Gemini 3.5 Flash</span></th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>6m 36s</td><td>4m 27s</td><td>8m 11s</td><td>17m 32s</td></tr>
+        <tr><td>Findings</td><td>1I</td><td>1I</td><td>1I</td><td>2I 1S</td></tr>
+        <tr><td>Tool calls</td><td>31 (Bash 24, Read 7)</td><td>11 (shell 10, stdin 1)</td><td>20 (run<em>shell</em>command 20)</td><td>127 (read<em>file 40, grep</em>search 36, run<em>shell</em>command 30)</td></tr>
+        <tr><td>Design observations</td><td>4</td><td>2</td><td>0</td><td>3</td></tr>
+        <tr><td>False positives</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+        <tr><td>Unique insights</td><td>2</td><td>0</td><td>0</td><td>4</td></tr>
+        <tr><td>Files reviewed</td><td>25</td><td>25</td><td>25</td><td>25</td></tr>
+        <tr><td>Coverage misses</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td><strong>Totals</strong></td><td><strong>1I</strong></td><td><strong>1I</strong></td><td><strong>1I</strong></td><td><strong>2I 1S</strong></td></tr>
+        <tr><td>Downgraded</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Dropped</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p>All four agents found I1, and Claude and Codex also saw its two-network input. Flash added the most beyond that with I2, a coupled site outside the diff that the other three missed.</p>
+    </div>
+    <hr>
+    <h2 id="review-process-notes">Review Process Notes <a href="#review-process-notes" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p><strong>Skill improvements</strong></p>
+    <ul>
+      <li>When a change adds a field to a struct, grep for every site that handles one of the field&#39;s siblings by name (merges, copies, clones, defaults, allow-lists of known fields) and check that each site handles the new field too. The site that drops it is usually outside the diff, where a review driven by the diff never looks.</li>
+    </ul>
+    <p><strong>Repo context updates</strong></p>
+    <ul>
+      <li>[repo] <code>networks[]</code> entries are merged field by field in two places. <code>combineNetworks</code> in <code>pkg/limatmpl/embed.go</code> merges base templates at embed time, and the named-network merge in <code>limayaml.FillDefault</code> merges the defaults and override files. A new <code>networks[]</code> field needs a case in both, and an entry in each driver&#39;s list of known network fields in its <code>validateConfig</code>.</li>
+      <li>[repo] The guest agent does not run in plain mode, because <code>boot.sh</code> skips the <code>boot.&lt;OS&gt;/</code> scripts, so none of the guest agent&#39;s features work under <code>plain: true</code>. <code>fixUpForPlainMode</code> clears mounts, non-static port forwards and containerd without a warning. When a PR adds a guest-agent feature, check how it behaves in plain mode.</li>
+    </ul>
+    </div>
+  </main>
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script>
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/prismjs@1.29.0/prism.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(e){var t=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,n=0,a={},r={manual:e.Prism&&e.Prism.manual,disableWorkerMessageHandler:e.Prism&&e.Prism.disableWorkerMessageHandler,util:{encode:function e(t){return t instanceof s?new s(t.type,e(t.content),t.alias):Array.isArray(t)?t.map(e):t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).slice(8,-1)},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++n}),e.__id},clone:function e(t,n){var a,s;switch(n=n||{},r.util.type(t)){case"Object":if(s=r.util.objId(t),n[s])return n[s];for(var i in a={},n[s]=a,t)t.hasOwnProperty(i)&&(a[i]=e(t[i],n));return a;case"Array":return s=r.util.objId(t),n[s]?n[s]:(a=[],n[s]=a,t.forEach((function(t,r){a[r]=e(t,n)})),a);default:return t}},getLanguage:function(e){for(;e;){var n=t.exec(e.className);if(n)return n[1].toLowerCase();e=e.parentElement}return"none"},setLanguage:function(e,n){e.className=e.className.replace(RegExp(t,"gi"),""),e.classList.add("language-"+n)},currentScript:function(){if("undefined"==typeof document)return null;if("currentScript"in document)return document.currentScript;try{throw new Error}catch(a){var e=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(a.stack)||[])[1];if(e){var t=document.getElementsByTagName("script");for(var n in t)if(t[n].src==e)return t[n]}return null}},isActive:function(e,t,n){for(var a="no-"+t;e;){var r=e.classList;if(r.contains(t))return!0;if(r.contains(a))return!1;e=e.parentElement}return!!n}},languages:{plain:a,plaintext:a,text:a,txt:a,extend:function(e,t){var n=r.util.clone(r.languages[e]);for(var a in t)n[a]=t[a];return n},insertBefore:function(e,t,n,a){var s=(a=a||r.languages)[e],i={};for(var o in s)if(s.hasOwnProperty(o)){if(o==t)for(var l in n)n.hasOwnProperty(l)&&(i[l]=n[l]);n.hasOwnProperty(o)||(i[o]=s[o])}var u=a[e];return a[e]=i,r.languages.DFS(r.languages,(function(t,n){n===u&&t!=e&&(this[t]=i)})),i},DFS:function e(t,n,a,s){s=s||{};var i=r.util.objId;for(var o in t)if(t.hasOwnProperty(o)){n.call(t,o,t[o],a||o);var l=t[o],u=r.util.type(l);"Object"!==u||s[i(l)]?"Array"!==u||s[i(l)]||(s[i(l)]=!0,e(l,n,o,s)):(s[i(l)]=!0,e(l,n,null,s))}}},plugins:{},highlightAll:function(e,t){r.highlightAllUnder(document,e,t)},highlightAllUnder:function(e,t,n){var a={callback:n,container:e,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};r.hooks.run("before-highlightall",a),a.elements=Array.prototype.slice.apply(a.container.querySelectorAll(a.selector)),r.hooks.run("before-all-elements-highlight",a);for(var s,i=0;s=a.elements[i++];)r.highlightElement(s,!0===t,a.callback)},highlightElement:function(t,n,a){var s=r.util.getLanguage(t),i=r.languages[s];r.util.setLanguage(t,s);var o=t.parentElement;o&&"pre"===o.nodeName.toLowerCase()&&r.util.setLanguage(o,s);var l={element:t,language:s,grammar:i,code:t.textContent};function u(e){l.highlightedCode=e,r.hooks.run("before-insert",l),l.element.innerHTML=l.highlightedCode,r.hooks.run("after-highlight",l),r.hooks.run("complete",l),a&&a.call(l.element)}if(r.hooks.run("before-sanity-check",l),(o=l.element.parentElement)&&"pre"===o.nodeName.toLowerCase()&&!o.hasAttribute("tabindex")&&o.setAttribute("tabindex","0"),!l.code)return r.hooks.run("complete",l),void(a&&a.call(l.element));if(r.hooks.run("before-highlight",l),l.grammar)if(n&&e.Worker){var g=new Worker(r.filename);g.onmessage=function(e){u(e.data)},g.postMessage(JSON.stringify({language:l.language,code:l.code,immediateClose:!0}))}else u(r.highlight(l.code,l.grammar,l.language));else u(r.util.encode(l.code))},highlight:function(e,t,n){var a={code:e,grammar:t,language:n};if(r.hooks.run("before-tokenize",a),!a.grammar)throw new Error('The language "'+a.language+'" has no grammar.');return a.tokens=r.tokenize(a.code,a.grammar),r.hooks.run("after-tokenize",a),s.stringify(r.util.encode(a.tokens),a.language)},tokenize:function(e,t){var n=t.rest;if(n){for(var a in n)t[a]=n[a];delete t.rest}var r=new l;return u(r,r.head,e),o(e,r,t,r.head,0),function(e){var t=[],n=e.head.next;for(;n!==e.tail;)t.push(n.value),n=n.next;return t}(r)},hooks:{all:{},add:function(e,t){var n=r.hooks.all;n[e]=n[e]||[],n[e].push(t)},run:function(e,t){var n=r.hooks.all[e];if(n&&n.length)for(var a,s=0;a=n[s++];)a(t)}},Token:s};function s(e,t,n,a){this.type=e,this.content=t,this.alias=n,this.length=0|(a||"").length}function i(e,t,n,a){e.lastIndex=t;var r=e.exec(n);if(r&&a&&r[1]){var s=r[1].length;r.index+=s,r[0]=r[0].slice(s)}return r}function o(e,t,n,a,l,c){for(var d in n)if(n.hasOwnProperty(d)&&n[d]){var p=n[d];p=Array.isArray(p)?p:[p];for(var m=0;m<p.length;++m){if(c&&c.cause==d+","+m)return;var h=p[m],f=h.inside,v=!!h.lookbehind,b=!!h.greedy,y=h.alias;if(b&&!h.pattern.global){var F=h.pattern.toString().match(/[imsuy]*$/)[0];h.pattern=RegExp(h.pattern.source,F+"g")}for(var x=h.pattern||h,k=a.next,w=l;k!==t.tail&&!(c&&w>=c.reach);w+=k.value.length,k=k.next){var A=k.value;if(t.length>e.length)return;if(!(A instanceof s)){var P,$=1;if(b){if(!(P=i(x,w,e,v))||P.index>=e.length)break;var S=P.index,E=P.index+P[0].length,_=w;for(_+=k.value.length;S>=_;)_+=(k=k.next).value.length;if(w=_-=k.value.length,k.value instanceof s)continue;for(var j=k;j!==t.tail&&(_<E||"string"==typeof j.value);j=j.next)$++,_+=j.value.length;$--,A=e.slice(w,_),P.index-=w}else if(!(P=i(x,0,A,v)))continue;S=P.index;var C=P[0],L=A.slice(0,S),z=A.slice(S+C.length),O=w+A.length;c&&O>c.reach&&(c.reach=O);var T=k.prev;if(L&&(T=u(t,T,L),w+=L.length),g(t,T,$),k=u(t,T,new s(d,f?r.tokenize(C,f):C,y,C)),z&&u(t,k,z),$>1){var M={cause:d+","+m,reach:O};o(e,t,n,k.prev,w,M),c&&M.reach>c.reach&&(c.reach=M.reach)}}}}}}function l(){var e={value:null,prev:null,next:null},t={value:null,prev:e,next:null};e.next=t,this.head=e,this.tail=t,this.length=0}function u(e,t,n){var a=t.next,r={value:n,prev:t,next:a};return t.next=r,a.prev=r,e.length++,r}function g(e,t,n){for(var a=t.next,r=0;r<n&&a!==e.tail;r++)a=a.next;t.next=a,a.prev=t,e.length-=r}if(e.Prism=r,s.stringify=function e(t,n){if("string"==typeof t)return t;if(Array.isArray(t)){var a="";return t.forEach((function(t){a+=e(t,n)})),a}var s={type:t.type,content:e(t.content,n),tag:"span",classes:["token",t.type],attributes:{},language:n},i=t.alias;i&&(Array.isArray(i)?Array.prototype.push.apply(s.classes,i):s.classes.push(i)),r.hooks.run("wrap",s);var o="";for(var l in s.attributes)o+=" "+l+'="'+(s.attributes[l]||"").replace(/"/g,"&quot;")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'"'+o+">"+s.content+"</"+s.tag+">"},!e.document)return e.addEventListener?(r.disableWorkerMessageHandler||e.addEventListener("message",(function(t){var n=JSON.parse(t.data),a=n.language,s=n.code,i=n.immediateClose;e.postMessage(r.highlight(s,r.languages[a],a)),i&&e.close()}),!1),r):r;var c=r.util.currentScript();function d(){r.manual||r.highlightAll()}if(c&&(r.filename=c.src,c.hasAttribute("data-manual")&&(r.manual=!0)),!r.manual){var p=document.readyState;"loading"===p||"interactive"===p&&c&&c.defer?document.addEventListener("DOMContentLoaded",d):window.requestAnimationFrame?window.requestAnimationFrame(d):window.setTimeout(d,16)}return r}(_self);
+/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @author Lea Verou <https://lea.verou.me>
+ * @namespace
+ * @public
+ */"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism),Prism.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},Prism.languages.markup.tag.inside["attr-value"].inside.entity=Prism.languages.markup.entity,Prism.languages.markup.doctype.inside["internal-subset"].inside=Prism.languages.markup,Prism.hooks.add("wrap",(function(e){"entity"===e.type&&(e.attributes.title=e.content.replace(/&amp;/,"&"))})),Object.defineProperty(Prism.languages.markup.tag,"addInlined",{value:function(e,t){var n={};n["language-"+t]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:Prism.languages[t]},n.cdata=/^<!\[CDATA\[|\]\]>$/i;var a={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:n}};a["language-"+t]={pattern:/[\s\S]+/,inside:Prism.languages[t]};var r={};r[e]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,(function(){return e})),"i"),lookbehind:!0,greedy:!0,inside:a},Prism.languages.insertBefore("markup","cdata",r)}}),Object.defineProperty(Prism.languages.markup.tag,"addAttribute",{value:function(e,t){Prism.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+e+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[t,"language-"+t],inside:Prism.languages[t]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),Prism.languages.html=Prism.languages.markup,Prism.languages.mathml=Prism.languages.markup,Prism.languages.svg=Prism.languages.markup,Prism.languages.xml=Prism.languages.extend("markup",{}),Prism.languages.ssml=Prism.languages.xml,Prism.languages.atom=Prism.languages.xml,Prism.languages.rss=Prism.languages.xml,function(e){var t=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;e.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+t.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+t.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+t.source+"$"),alias:"url"}}},selector:{pattern:RegExp("(^|[{}\\s])[^{}\\s](?:[^{};\"'\\s]|\\s+(?![\\s{])|"+t.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:t,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},e.languages.css.atrule.inside.rest=e.languages.css;var n=e.languages.markup;n&&(n.tag.addInlined("style","css"),n.tag.addAttribute("style","css"))}(Prism),Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},Prism.languages.javascript=Prism.languages.extend("clike",{"class-name":[Prism.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),Prism.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:Prism.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:Prism.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:Prism.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),Prism.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:Prism.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),Prism.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),Prism.languages.markup&&(Prism.languages.markup.tag.addInlined("script","javascript"),Prism.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),Prism.languages.js=Prism.languages.javascript,function(){if(void 0!==Prism&&"undefined"!=typeof document){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var e={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},t="data-src-status",n="loading",a="loaded",r="pre[data-src]:not(["+t+'="'+a+'"]):not(['+t+'="'+n+'"])';Prism.hooks.add("before-highlightall",(function(e){e.selector+=", "+r})),Prism.hooks.add("before-sanity-check",(function(s){var i=s.element;if(i.matches(r)){s.code="",i.setAttribute(t,n);var o=i.appendChild(document.createElement("CODE"));o.textContent="Loading…";var l=i.getAttribute("data-src"),u=s.language;if("none"===u){var g=(/\.(\w+)$/.exec(l)||[,"none"])[1];u=e[g]||g}Prism.util.setLanguage(o,u),Prism.util.setLanguage(i,u);var c=Prism.plugins.autoloader;c&&c.loadLanguages(u),function(e,t,n){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){4==a.readyState&&(a.status<400&&a.responseText?t(a.responseText):a.status>=400?n("✖ Error "+a.status+" while fetching file: "+a.statusText):n("✖ Error: File does not exist or is empty"))},a.send(null)}(l,(function(e){i.setAttribute(t,a);var n=function(e){var t=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(e||"");if(t){var n=Number(t[1]),a=t[2],r=t[3];return a?r?[n,Number(r)]:[n,void 0]:[n,n]}}(i.getAttribute("data-range"));if(n){var r=e.split(/\r\n?|\n/g),s=n[0],l=null==n[1]?r.length:n[1];s<0&&(s+=r.length),s=Math.max(0,Math.min(s-1,r.length)),l<0&&(l+=r.length),l=Math.max(0,Math.min(l,r.length)),e=r.slice(s,l).join("\n"),i.hasAttribute("data-start")||i.setAttribute("data-start",String(s+1))}o.textContent=e,Prism.highlightElement(o)}),(function(e){i.setAttribute(t,"failed"),o.textContent=e}))}})),Prism.plugins.fileHighlight={highlight:function(e){for(var t,n=(e||document).querySelectorAll(r),a=0;t=n[a++];)Prism.highlightElement(t)}};var s=!1;Prism.fileHighlight=function(){s||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),s=!0),Prism.plugins.fileHighlight.highlight.apply(this,arguments)}}}();
+//# sourceMappingURL=/sm/1f55244a569fc0911044b5e4725a97872b6d85b0662a3429a809bb62f713c381.map
+Prism.languages.go=Prism.languages.extend("clike",{string:{pattern:/(^|[^\\])"(?:\\.|[^"\\\r\n])*"|`[^`]*`/,lookbehind:!0,greedy:!0},keyword:/\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,boolean:/\b(?:_|false|iota|nil|true)\b/,number:[/\b0(?:b[01_]+|o[0-7_]+)i?\b/i,/\b0x(?:[a-f\d_]+(?:\.[a-f\d_]*)?|\.[a-f\d_]+)(?:p[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,/(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?[\d_]+)?i?(?!\w)/i],operator:/[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,builtin:/\b(?:append|bool|byte|cap|close|complex|complex(?:64|128)|copy|delete|error|float(?:32|64)|u?int(?:8|16|32|64)?|imag|len|make|new|panic|print(?:ln)?|real|recover|rune|string|uintptr)\b/}),Prism.languages.insertBefore("go","string",{char:{pattern:/'(?:\\.|[^'\\\r\n]){0,10}'/,greedy:!0}}),delete Prism.languages.go["class-name"];
+!function(e){var t="\\b(?:BASH|BASHOPTS|BASH_ALIASES|BASH_ARGC|BASH_ARGV|BASH_CMDS|BASH_COMPLETION_COMPAT_DIR|BASH_LINENO|BASH_REMATCH|BASH_SOURCE|BASH_VERSINFO|BASH_VERSION|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|EUID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_ADDRESS|LC_ALL|LC_IDENTIFICATION|LC_MEASUREMENT|LC_MONETARY|LC_NAME|LC_NUMERIC|LC_PAPER|LC_TELEPHONE|LC_TIME|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS1|PS2|PS3|PS4|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UID|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_CONFIG_DIRS|XDG_CURRENT_DESKTOP|XDG_DATA_DIRS|XDG_GREETER_DATA_DIR|XDG_MENU_PREFIX|XDG_RUNTIME_DIR|XDG_SEAT|XDG_SEAT_PATH|XDG_SESSION_DESKTOP|XDG_SESSION_ID|XDG_SESSION_PATH|XDG_SESSION_TYPE|XDG_VTNR|XMODIFIERS)\\b",a={pattern:/(^(["']?)\w+\2)[ \t]+\S.*/,lookbehind:!0,alias:"punctuation",inside:null},n={bash:a,environment:{pattern:RegExp("\\$"+t),alias:"constant"},variable:[{pattern:/\$?\(\([\s\S]+?\)\)/,greedy:!0,inside:{variable:[{pattern:/(^\$\(\([\s\S]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,operator:/--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,greedy:!0,inside:{variable:/^\$\(|^`|\)$|`$/}},{pattern:/\$\{[^}]+\}/,greedy:!0,inside:{operator:/:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,punctuation:/[\[\]]/,environment:{pattern:RegExp("(\\{)"+t),lookbehind:!0,alias:"constant"}}},/\$(?:\w+|[#?*!@$])/],entity:/\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/};e.languages.bash={shebang:{pattern:/^#!\s*\/.*/,alias:"important"},comment:{pattern:/(^|[^"{\\$])#.*/,lookbehind:!0},"function-name":[{pattern:/(\bfunction\s+)[\w-]+(?=(?:\s*\(?:\s*\))?\s*\{)/,lookbehind:!0,alias:"function"},{pattern:/\b[\w-]+(?=\s*\(\s*\)\s*\{)/,alias:"function"}],"for-or-select":{pattern:/(\b(?:for|select)\s+)\w+(?=\s+in\s)/,alias:"variable",lookbehind:!0},"assign-left":{pattern:/(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,inside:{environment:{pattern:RegExp("(^|[\\s;|&]|[<>]\\()"+t),lookbehind:!0,alias:"constant"}},alias:"variable",lookbehind:!0},parameter:{pattern:/(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,alias:"variable",lookbehind:!0},string:[{pattern:/((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?(?:\r?\n|\r)\2/,lookbehind:!0,greedy:!0,inside:n},{pattern:/((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?(?:\r?\n|\r)\3/,lookbehind:!0,greedy:!0,inside:{bash:a}},{pattern:/(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,lookbehind:!0,greedy:!0,inside:n},{pattern:/(^|[^$\\])'[^']*'/,lookbehind:!0,greedy:!0},{pattern:/\$'(?:[^'\\]|\\[\s\S])*'/,greedy:!0,inside:{entity:n.entity}}],environment:{pattern:RegExp("\\$?"+t),alias:"constant"},variable:n.variable,function:{pattern:/(^|[\s;|&]|[<>]\()(?:add|apropos|apt|apt-cache|apt-get|aptitude|aspell|automysqlbackup|awk|basename|bash|bc|bconsole|bg|bzip2|cal|cargo|cat|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clear|cmp|column|comm|composer|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|debootstrap|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|docker|docker-compose|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|git|gparted|grep|groupadd|groupdel|groupmod|groups|grub-mkconfig|gzip|halt|head|hg|history|host|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|ip|java|jobs|join|kill|killall|less|link|ln|locate|logname|logrotate|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|make|man|mc|mdadm|mkconfig|mkdir|mke2fs|mkfifo|mkfs|mkisofs|mknod|mkswap|mmv|more|most|mount|mtools|mtr|mutt|mv|nano|nc|netstat|nice|nl|node|nohup|notify-send|npm|nslookup|op|open|parted|passwd|paste|pathchk|ping|pkill|pnpm|podman|podman-compose|popd|pr|printcap|printenv|ps|pushd|pv|quota|quotacheck|quotactl|ram|rar|rcp|reboot|remsync|rename|renice|rev|rm|rmdir|rpm|rsync|scp|screen|sdiff|sed|sendmail|seq|service|sftp|sh|shellcheck|shuf|shutdown|sleep|slocate|sort|split|ssh|stat|strace|su|sudo|sum|suspend|swapon|sync|sysctl|tac|tail|tar|tee|time|timeout|top|touch|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|update-grub|uptime|useradd|userdel|usermod|users|uudecode|uuencode|v|vcpkg|vdir|vi|vim|virsh|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yarn|yes|zenity|zip|zsh|zypper)(?=$|[)\s;|&])/,lookbehind:!0},keyword:{pattern:/(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)(?=$|[)\s;|&])/,lookbehind:!0},builtin:{pattern:/(^|[\s;|&]|[<>]\()(?:\.|:|alias|bind|break|builtin|caller|cd|command|continue|declare|echo|enable|eval|exec|exit|export|getopts|hash|help|let|local|logout|mapfile|printf|pwd|read|readarray|readonly|return|set|shift|shopt|source|test|times|trap|type|typeset|ulimit|umask|unalias|unset)(?=$|[)\s;|&])/,lookbehind:!0,alias:"class-name"},boolean:{pattern:/(^|[\s;|&]|[<>]\()(?:false|true)(?=$|[)\s;|&])/,lookbehind:!0},"file-descriptor":{pattern:/\B&\d\b/,alias:"important"},operator:{pattern:/\d?<>|>\||\+=|=[=~]?|!=?|<<[<-]?|[&\d]?>>|\d[<>]&?|[<>][&=]?|&[>&]?|\|[&|]?/,inside:{"file-descriptor":{pattern:/^\d/,alias:"important"}}},punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,number:{pattern:/(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,lookbehind:!0}},a.inside=e.languages.bash;for(var s=["comment","function-name","for-or-select","assign-left","parameter","string","environment","function","keyword","builtin","boolean","file-descriptor","operator","punctuation","number"],o=n.variable[1].inside,i=0;i<s.length;i++)o[s[i]]=e.languages.bash[s[i]];e.languages.sh=e.languages.bash,e.languages.shell=e.languages.bash}(Prism);
+!function(e){e.languages.diff={coord:[/^(?:\*{3}|-{3}|\+{3}).*$/m,/^@@.*@@$/m,/^\d.*$/m]};var n={"deleted-sign":"-","deleted-arrow":"<","inserted-sign":"+","inserted-arrow":">",unchanged:" ",diff:"!"};Object.keys(n).forEach((function(a){var i=n[a],r=[];/^\w+$/.test(a)||r.push(/\w+/.exec(a)[0]),"diff"===a&&r.push("bold"),e.languages.diff[a]={pattern:RegExp("^(?:["+i+"].*(?:\r\n?|\n|(?![\\s\\S])))+","m"),alias:r,inside:{line:{pattern:/(.)(?=[\s\S]).*(?:\r\n?|\n)?/,lookbehind:!0},prefix:{pattern:/[\s\S]/,alias:/\w+/.exec(a)[0]}}}})),Object.defineProperty(e.languages.diff,"PREFIXES",{value:n})}(Prism);
+  </script>
+  <script>
+/* Deep Review — Prism initialization and line-number wrapping.
+ * Inlined into each generated HTML file by the beautify-review skill.
+ * Runs synchronously at the end of <body> — no event listeners.
+ *
+ * Prerequisite: a preceding <script> must set Prism.manual = true
+ * before the Prism core <script> loads.
+ */
+
+Prism.highlightAll();
+
+document.querySelectorAll('pre[data-start]').forEach(function(pre) {
+  var startLine = parseInt(pre.getAttribute('data-start'), 10) || 1;
+  var hlAttr = pre.getAttribute('data-line') || '';
+
+  /* Parse data-line into a Set of line numbers to highlight.
+   * Accepts comma-separated values: "75,76,77" or ranges: "75-84". */
+  var hlLines = new Set();
+  hlAttr.split(',').forEach(function(part) {
+    part = part.trim();
+    if (!part) return;
+    var m = part.match(/^(\d+)-(\d+)$/);
+    if (m) {
+      for (var i = parseInt(m[1], 10); i <= parseInt(m[2], 10); i++) hlLines.add(i);
+    } else {
+      hlLines.add(parseInt(part, 10));
+    }
+  });
+
+  var code = pre.querySelector('code');
+  if (!code) return;
+
+  var html = code.innerHTML;
+  var lines = html.split('\n');
+  /* Strip a trailing empty line that Prism sometimes leaves. */
+  if (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+
+  var wrapped = lines.map(function(line, idx) {
+    var lineNum = startLine + idx;
+    var cls = 'code-line' + (hlLines.has(lineNum) ? ' line-hl' : '');
+    return '<span class="' + cls + '">' + line + '</span>';
+  });
+
+  /* Join with '' (empty string) — NOT '\n'.
+   * Inside <pre>, newlines are literal whitespace. Since .code-line uses
+   * display: block, joining with '\n' produces double line spacing. */
+  code.innerHTML = wrapped.join('');
+  pre.style.counterReset = 'line ' + (startLine - 1);
+});
+
+/* GitHub reference tooltips — show title and state on hover for #N links.
+ * Links must have class="gh-ref" and data-title set by the generator. */
+document.querySelectorAll('a.gh-ref[data-title]').forEach(function(link) {
+  var tip = null;
+
+  link.addEventListener('mouseenter', function() {
+    if (tip) return;
+    tip = document.createElement('div');
+    tip.className = 'gh-tooltip';
+
+    var state = link.getAttribute('data-state') || '';
+    var type = link.getAttribute('data-type') || 'issue';
+    var label = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+
+    var pill = document.createElement('span');
+    pill.className = 'gh-tooltip-state gh-state-' + state;
+    pill.textContent = label + (type === 'pr' ? ' PR' : '');
+
+    var title = document.createElement('span');
+    title.className = 'gh-tooltip-title';
+    title.textContent = link.getAttribute('data-title');
+
+    tip.appendChild(pill);
+    tip.appendChild(title);
+    document.body.appendChild(tip);
+
+    var rect = link.getBoundingClientRect();
+    var tw = tip.offsetWidth;
+    var th = tip.offsetHeight;
+    var left = rect.left + window.scrollX;
+    var top = rect.top + window.scrollY - th - 8;
+
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 4) left = 4;
+    if (top < window.scrollY + 4) top = rect.bottom + window.scrollY + 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.opacity = '1';
+  });
+
+  link.addEventListener('mouseleave', function() {
+    if (tip) { tip.remove(); tip = null; }
+  });
+});
+
+  </script>
+</body>
+</html>
