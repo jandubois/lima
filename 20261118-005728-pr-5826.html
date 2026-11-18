@@ -624,7 +624,7 @@ index b3ccb887..eaa65c8f 100644
  	},
  	{</code></pre>
       </details>
-    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/3019db3b"><code>3019db3b</code></a> with the patch above; the test case is named &quot;networks merge guestToGuest on shared interface name&quot;, after its neighbours.</p>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/3019db3b"><code>3019db3b</code></a> with the patch above; the test case is named &quot;networks merge guestToGuest on shared interface name&quot;, after its neighbours. Verifying the fix turned up a gap that predates this PR: the other merge, in <code>FillDefault</code>, drops <code>vzNAT</code> for a named interface. That gap is <a href="https://github.com/lima-vm/lima/issues/5828" class="gh-ref" data-title="FillDefault drops vzNAT when merging networks entries by interface name" data-state="open" data-type="issue">#5828</a>.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
