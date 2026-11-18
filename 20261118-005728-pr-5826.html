@@ -243,6 +243,12 @@ details.fold .code-file-header { margin-top: 0; border-radius: 0; }
     <p>The PR adds <code>networks[].guestToGuest</code>: a Linux guest-agent watcher keeps a route through the vzNAT gateway, so vzNAT guests can reach each other. The wiring through validation, defaults, cidata, both init systems and CI is sound. Two things need fixing. A second address in the vzNAT subnet, or two vzNAT networks with the option, make the watcher rewrite its route without end. And embedding a <code>base:</code> template drops the option.</p>
     </div>
     <hr>
+    <h2 id="code-changed-since-this-review">Code changed since this review <a href="#code-changed-since-this-review" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The findings cite <a href="https://github.com/lima-vm/lima/commit/ecede91c"><code>ecede91c</code></a>. Addressing them amended the PR&#39;s commit into <a href="https://github.com/lima-vm/lima/commit/3019db3b"><code>3019db3b</code></a>, which changes <code>pkg/guestagent/guesttoguest/route.go</code> and <code>route_test.go</code>, <code>pkg/limatmpl/embed.go</code> and <code>embed_test.go</code>, <code>pkg/limayaml/defaults.go</code>, <code>hack/bats/extras/vz-guest-to-guest.bats</code> and <code>website/content/en/docs/config/plain.md</code>. Some cited lines have moved or changed on the branch.</p>
+    </div>
+    <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-critical">
@@ -496,6 +502,7 @@ index 1bbd7816..74793798 100644
  		},
  		{</code></pre>
       </details>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/3019db3b"><code>3019db3b</code></a> with the patch above, plus the case &quot;on-link route at priority 0&quot;, which fails when the covered check stops comparing the gateway. The comment in the loop names the netlink replace flag and makes no claim about how many routes the kernel keeps per destination and priority.</p>
     </div>
     <div class="card card-important" data-file="pkg/limatmpl/embed.go">
       <div class="finding-title" id="I2">
@@ -617,6 +624,7 @@ index b3ccb887..eaa65c8f 100644
  	},
  	{</code></pre>
       </details>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/3019db3b"><code>3019db3b</code></a> with the patch above; the test case is named &quot;networks merge guestToGuest on shared interface name&quot;, after its neighbours.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
@@ -643,6 +651,7 @@ assert_agent_route_log_count() {
 }</code></pre>
     <p>When the journal lacks the line, <code>grep --count</code> prints <code>0</code> but exits 1, and <code>run -0</code> then fails before <code>assert_output</code> runs (bats-core <code>test_functions.bash:434-439</code>). The callers pass 1 and 2, so the tests pass today, but a later check that the agent did not re-add the route would always fail.</p>
     <p>Fix: drop <code>-0</code> from the <code>grep</code> line. A grep error still fails <code>assert_output</code>, because <code>run</code> captures the error text in <code>output</code>.</p>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/3019db3b"><code>3019db3b</code></a>, with a comment above the <code>grep</code> that says why the helper ignores its exit status.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
@@ -651,9 +660,16 @@ assert_agent_route_log_count() {
     <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
     <ul>
       <li><strong>(future) The watcher stops for good after an unexpected receive error.</strong> <code>Run</code> returns on any <code>Receive</code> error other than <code>ENOBUFS</code> (<a href="https://github.com/lima-vm/lima/blob/ecede91c468c22961a70436b42bf2451e0dd69b6/pkg/guestagent/guesttoguest/watch_linux.go#L45-L51"><code>watch_linux.go:45-51</code></a>), and <code>daemon_linux.go</code> logs it once. The agent keeps running, but it never restores the route again. The review did not find a trigger for such an error in mdlayher/netlink v1.11.2. Redialing with a backoff would make the watcher recover. <span class="pill pill-claude">Claude Opus 5.5</span></li>
+    </ul>
+    <p>  <strong>Outcome:</strong> declined. mdlayher/netlink v1.11.2 has no known trigger for a receive error other than <code>ENOBUFS</code>; the agent logs the error, and an agent restart reinstalls the route.</p>
+    <ul>
       <li><strong>(future) Every netlink event runs two full dumps.</strong> A burst of link, address and route events, such as a container runtime creating bridges, runs <code>reconcile</code> once per event. Coalescing events would cut the dumps. <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
+    </ul>
+    <p>  <strong>Outcome:</strong> declined. Two dumps of a guest&#39;s few links per event cost little, and coalescing would add a debounce for a cost nobody has measured.</p>
+    <ul>
       <li><em></em>(in-scope) <code>plain: true</code> makes <code>guestToGuest</code> inert without a message.<em></em> Plain mode skips the <code>boot.Linux/</code> scripts, so the guest agent never starts (<a href="https://github.com/lima-vm/lima/blob/ecede91c468c22961a70436b42bf2451e0dd69b6/pkg/cidata/cidata.TEMPLATE.d/boot.sh#L73-L74"><code>pkg/cidata/cidata.TEMPLATE.d/boot.sh:73-74</code></a>), and validation accepts the combination. <code>fixUpForPlainMode</code> already clears mounts, non-static port forwards and containerd without a warning, so clearing the field there, or warning in <code>validateNetwork</code>, would match the rest of plain mode. Found during consolidation.</li>
     </ul>
+    <p>  <strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/3019db3b"><code>3019db3b</code></a>. <code>fixUpForPlainMode</code> sets every network&#39;s <code>guestToGuest</code> to false, and <code>plain.md</code> lists the option under &quot;What is disabled&quot;.</p>
     <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
     <ul>
       <li><code>MissingRoutes</code> is a pure function in a file without build tags, so its tests run on every platform, and the netlink code stays in <code>watch_linux.go</code>. <span class="pill pill-claude">Claude Opus 5.5</span> <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
@@ -668,6 +684,9 @@ assert_agent_route_log_count() {
     <div class="card card-neutral">
     <ul>
       <li><strong>I1 and I2 need the tests that their patches add.</strong> A user would see a spinning agent and a flooded journal (I1), or guests that stay isolated without an error (I2), and neither names its cause. The I1 cases fail against the reviewed code and pass with the fix. A partial fix that dedupes addresses within one interface but still requires an exact match fails <code>present with a different source</code> and <code>present on another interface</code>. So the new cases also catch a fix that handles one interface and misses the two-network input.</li>
+    </ul>
+    <p>  <strong>Outcome:</strong> written in <a href="https://github.com/lima-vm/lima/commit/3019db3b"><code>3019db3b</code></a>, with the I1 and I2 fixes.</p>
+    <ul>
       <li><strong>Runs during consolidation, in a clean checkout at the review SHA:</strong></li>
     </ul>
     <ul>
