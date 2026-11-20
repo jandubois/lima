@@ -243,6 +243,12 @@ details.fold .code-file-header { margin-top: 0; border-radius: 0; }
     <p>The PR replaces four accept loops that retried every failed <code>Accept</code> with <code>acceptloop.Serve</code>, which closes the listener and returns on any error except running out of descriptors. That stops the EBADF log flood, and <code>AcceptQemu</code> no longer gets a nil connection. Two fixes remain. A one-off ENOMEM or ENOBUFS now ends a forwarder for good where the old loops recovered (I1). And the tests still pass when <code>Serve</code> skips its close, its wait, its 1s maximum or its reset (I2).</p>
     </div>
     <hr>
+    <h2 id="code-changed-since-this-review">Code changed since this review <a href="#code-changed-since-this-review" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The findings cite <a href="https://github.com/lima-vm/lima/commit/1d2fe35b"><code>1d2fe35b</code></a>. The address-review run amended the PR&#39;s commit as <a href="https://github.com/lima-vm/lima/commit/7eb366a6"><code>7eb366a6</code></a>, which changes <code>pkg/acceptloop</code> (the errno lists, the <code>Serve</code> doc comment and the tests), so the cited lines no longer match the branch.</p>
+    </div>
+    <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-critical">
@@ -379,6 +385,7 @@ index 02488381..57b8ae8d 100644
 +// buffer space for a new socket.
 +var outOfMemoryErrnos = []syscall.Errno{windows.WSAENOBUFS}</code></pre>
       </details>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/7eb366a6"><code>7eb366a6</code></a>, past the patch: one per-platform <code>outOfResourceErrnos</code> list that also retries Linux&#39;s ENOSPC (epoll <code>max_user_watches</code>), and a table test, <code>acceptloop_others_test.go</code>, that names each Unix errno.</p>
     </div>
     <div class="card card-important" data-file="pkg/acceptloop/acceptloop_test.go">
       <div class="finding-title" id="I2">
@@ -579,6 +586,7 @@ index 36d7f216..80377ff2 100644
  }
  </code></pre>
       </details>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/7eb366a6"><code>7eb366a6</code></a> with this patch; each of the four mutations now fails the tests.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
@@ -619,6 +627,7 @@ func Serve(ctx context.Context, l net.Listener, handle func(net.Conn)) error {</
 	}
 }</code></pre>
     <p>Fix: I1&#39;s patch rewrites the comment to &quot;Serve waits and tries again until Accept succeeds or ctx is done … The wait starts at 5ms, doubles after each failure, and stays at 1s.&quot; Without that patch, use the same two sentences. Say the same in the commit message.</p>
+    <p><strong>Outcome:</strong> fixed in <a href="https://github.com/lima-vm/lima/commit/7eb366a6"><code>7eb366a6</code></a>: the doc comment and the commit message say that <code>Serve</code> keeps trying until <code>Accept</code> succeeds or the context is done.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/acceptloop/acceptloop.go">
       <div class="finding-title" id="S2">
@@ -640,6 +649,7 @@ func Serve(ctx context.Context, l net.Listener, handle func(net.Conn)) error {</
 		delay = 0</code></pre>
     <p><code>TestServeStopsWhenContextIsDone</code> cancels while <code>Serve</code> blocks in <code>Accept</code>. Deleting the <code>ctx.Done()</code> case at line 55 still passes every test, the I2 patch&#39;s tests included. With a real listener, the watcher goroutine closes <code>l</code>, so <code>Accept</code> returns <code>net.ErrClosed</code> after the current wait and a stop takes up to 1s longer. The test is optional, and under <code>synctest</code> it doesn&#39;t need real waits.</p>
     <p>Fix: in a <code>synctest</code> bubble, give <code>Serve</code> out-of-descriptor errors forever, cancel the context once the first wait starts, and assert that <code>Serve</code> returns nil without another <code>Accept</code> call.</p>
+    <p><strong>Outcome:</strong> declined: without the <code>ctx.Done()</code> case a stop still ends at the next <code>Accept</code>, at most 1s later, when the watcher closes the listener.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
@@ -647,8 +657,8 @@ func Serve(ctx context.Context, l net.Listener, handle func(net.Conn)) error {</
     <div class="card card-design">
     <h3 id="concerns">Concerns <a href="#concerns" class="pilcrow">&#182;</a></h3>
     <ul>
-      <li><strong>(future) The usernet daemon keeps running after its QEMU or FD listener stops.</strong> <span class="pill pill-claude">Claude Opus 5.5</span> At the merge-base, a failed QEMU <code>Accept</code> handed a nil conn to <code>AcceptQemu</code>. <code>AcceptQemu</code> passes it to <code>Switch.Accept</code>, which calls <code>conn.RemoteAddr()</code> on it (gvisor-tap-vsock v0.9.0 <code>pkg/tap/switch.go:87</code>), so the daemon crashed. Claude infers that the next <code>usernet.Start</code> then relaunched it, because <a href="https://github.com/lima-vm/lima/blob/1d2fe35b7d9da39273607302676991846539211e/pkg/networks/usernet/recoincile.go#L46"><code>recoincile.go:46</code></a> starts the daemon when <code>ReadPIDFile</code> returns 0 for the dead PID. Now <code>Serve</code> returns and closes the listener, which removes its socket file. The daemon keeps serving the running guests, but a new QEMU guest can&#39;t connect. Running <code>Serve</code> under the daemon&#39;s errgroup would trade the running guests&#39; network for a relaunch. Both outcomes beat the merge-base.</li>
-      <li><strong>(future) Closing the listener after EBADF can close a descriptor that has since been reused.</strong> <span class="pill pill-claude">Claude Opus 5.5</span> EBADF means <code>l</code>&#39;s descriptor number no longer belongs to <code>l</code>, so the deferred <code>l.Close()</code> (<a href="https://github.com/lima-vm/lima/blob/1d2fe35b7d9da39273607302676991846539211e/pkg/acceptloop/acceptloop.go#L32"><code>acceptloop.go:32</code></a>) closes whatever took that number in between, which is the hazard that the commit message blames on Code-Hex/vz. The merge-base closed it only at instance stop, a much wider window, so this PR shrinks the window.</li>
+      <li><strong>(future) The usernet daemon keeps running after its QEMU or FD listener stops.</strong> <span class="pill pill-claude">Claude Opus 5.5</span> At the merge-base, a failed QEMU <code>Accept</code> handed a nil conn to <code>AcceptQemu</code>. <code>AcceptQemu</code> passes it to <code>Switch.Accept</code>, which calls <code>conn.RemoteAddr()</code> on it (gvisor-tap-vsock v0.9.0 <code>pkg/tap/switch.go:87</code>), so the daemon crashed. Claude infers that the next <code>usernet.Start</code> then relaunched it, because <a href="https://github.com/lima-vm/lima/blob/1d2fe35b7d9da39273607302676991846539211e/pkg/networks/usernet/recoincile.go#L46"><code>recoincile.go:46</code></a> starts the daemon when <code>ReadPIDFile</code> returns 0 for the dead PID. Now <code>Serve</code> returns and closes the listener, which removes its socket file. The daemon keeps serving the running guests, but a new QEMU guest can&#39;t connect. Running <code>Serve</code> under the daemon&#39;s errgroup would trade the running guests&#39; network for a relaunch. Both outcomes beat the merge-base. <strong>Outcome:</strong> declined for this PR; tracked as follow-up work.</li>
+      <li><strong>(future) Closing the listener after EBADF can close a descriptor that has since been reused.</strong> <span class="pill pill-claude">Claude Opus 5.5</span> EBADF means <code>l</code>&#39;s descriptor number no longer belongs to <code>l</code>, so the deferred <code>l.Close()</code> (<a href="https://github.com/lima-vm/lima/blob/1d2fe35b7d9da39273607302676991846539211e/pkg/acceptloop/acceptloop.go#L32"><code>acceptloop.go:32</code></a>) closes whatever took that number in between, which is the hazard that the commit message blames on Code-Hex/vz. The merge-base closed it only at instance stop, a much wider window, so this PR shrinks the window. <strong>Outcome:</strong> declined for this PR; tracked with the Code-Hex/vz v4 bump.</li>
     </ul>
     <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
     <ul>
@@ -676,6 +686,7 @@ func Serve(ctx context.Context, l net.Listener, handle func(net.Conn)) error {</
 
     <div class="card card-neutral">
     <p>S1 covers the <code>Serve</code> doc comment and the commit message. I1&#39;s fix changes behavior that the PR body and the commit message describe, so both need to mention memory errors when the patch goes in.</p>
+    <p><strong>Outcome:</strong> the commit message is updated in <a href="https://github.com/lima-vm/lima/commit/7eb366a6"><code>7eb366a6</code></a>; the PR body edit goes up with the next push.</p>
     </div>
     <hr>
     <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
