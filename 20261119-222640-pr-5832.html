@@ -243,6 +243,12 @@ details.fold .code-file-header { margin-top: 0; border-radius: 0; }
     <p>This PR adds <code>networks[].guestToGuest</code>. With it set, a boot script reads the vzNAT subnet and gateway from the guest&#39;s lease and hands a route via the host to systemd-networkd, NetworkManager or Alpine&#39;s dhcpcd. The Go wiring, validation and docs are right. Two things in the script need fixing. It removes networkd drop-ins only when the option is off everywhere, so a rename or partial disable leaves a stale route. And its timeout warning blames DHCP when wicked is the cause.</p>
     </div>
     <hr>
+    <h2 id="code-changed-since-this-review">Code changed since this review <a href="#code-changed-since-this-review" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The fixes were amended into the PR&#39;s second commit, now <a href="https://github.com/lima-vm/lima/commit/22731458"><code>22731458</code></a> (local, not yet pushed). So the line numbers and quoted code in I1, I2 and S1 describe the reviewed <a href="https://github.com/lima-vm/lima/commit/77fb57d5"><code>77fb57d5</code></a>, not the current head.</p>
+    </div>
+    <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-critical">
@@ -452,6 +458,7 @@ index 604e39e6..39d17fa2 100644
  fi
  </code></pre>
       </details>
+    <p><strong>Outcome:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/22731458"><code>22731458</code></a> with the patch above and a reworded comment. On a real Ubuntu guest, inserting a vzNAT network ahead of lima0 removed lima0&#39;s old drop-in and kept lima1&#39;s.</p>
     </div>
     <div class="card card-important" data-file="pkg/cidata/cidata.TEMPLATE.d/boot.essential.Linux/30-guest-to-guest-route.sh">
       <div class="finding-title" id="I2">
@@ -591,6 +598,7 @@ index 604e39e6..6a737cbe 100644
  	fi
  </code></pre>
       </details>
+    <p><strong>Outcome:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/22731458"><code>22731458</code></a> with the patch above; the timeout warning now reads &quot;did not get both an IPv4 address and a default route within 60 seconds&quot;. On a real Leap 15.6 guest the script warned and the next boot script started in the same second, and a Fedora 45 guest still got its route.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
@@ -647,6 +655,7 @@ retry() {
     retry 30 assert_guest_to_guest_route
 }</code></pre>
     <p>Fix: end lines 59 and 60 with <code>|| return</code>, as lines 55 and 57 already do.</p>
+    <p><strong>Outcome:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/22731458"><code>22731458</code></a>; line 54&#39;s <code>run -0 limactl shell</code> got the same <code>|| return</code>.</p>
     </div>
     <div class="card card-suggestion" data-file="website/content/en/docs/config/network/vznat.md">
       <div class="finding-title" id="S2">
@@ -692,6 +701,7 @@ vzNAT assigns a &quot;real&quot; IP address that is reachable from the host.
 
 Compared to [managed networks]({{&lt; ref &quot;/docs/config/network/managed&quot; &gt;}}), the &quot;vzNAT&quot; network has the following pros and cons:</code></pre>
     <p>Fix: add the same note to this section, or a requirement row, naming the release that ships the option.</p>
+    <p><strong>Outcome:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/22731458"><code>22731458</code></a> with &quot;(available since Lima v2.3.1)&quot;.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
@@ -701,6 +711,7 @@ Compared to [managed networks]({{&lt; ref &quot;/docs/config/network/managed&quo
     <ul>
       <li><strong>(in-scope)</strong> Failures show up only in the guest&#39;s boot log. That covers the script&#39;s two warnings (lines 83 and 114) and a <code>set -e</code> exit on <code>networkctl reload</code> or <code>nmcli device reapply</code>. <code>boot.sh</code> turns a failing script into a warning and still writes <code>lima-boot-done</code>, so the host doesn&#39;t tell a user on an unsupported guest that the option did nothing. Every other boot script behaves the same way, and the docs name the unsupported case. <span class="pill pill-claude">Claude Opus 5.5</span></li>
     </ul>
+    <p><strong>Outcome:</strong> Declined. Every boot script reports this way, <code>limactl start --progress</code> shows the warning, and the docs name the unsupported guest.</p>
     <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
     <ul>
       <li>The script hands the route to the guest&#39;s own network service, so the service restores it after a reconfigure, a renewal or a link bounce, without a watcher. <span class="pill pill-codex">Codex GPT 6 Astra</span> <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
@@ -718,6 +729,9 @@ Compared to [managed networks]({{&lt; ref &quot;/docs/config/network/managed&quo
       <li><strong>I1 and I2 need tests.</strong> A user would see guests that reach the wrong network, or a warning that points at DHCP, with no sign of either on the host. There is no test suite in the repo that runs a boot script outside a guest, and a BATS step for I1 would need a guest restart with a changed network list in the vz job. So each probe is the only test of its fix. <span class="pill pill-codex">Codex GPT 6 Astra</span></li>
       <li><strong>Optional:</strong> a third BATS test that restarts the guest with <code>guestToGuest: false</code> and checks that the route and the drop-in are gone. It costs a guest restart in the vz job, and the single-network disable path that it would cover already works. <span class="pill pill-gemini">Gemini 3.5 Flash</span></li>
       <li>The NetworkManager and dhcpcd paths don&#39;t run in any CI job; covering them needs another template in the vz job. <span class="pill pill-claude">Claude Opus 5.5</span></li>
+    </ul>
+    <p><strong>Outcome:</strong> No tests added. The probes stay the only test of I1 and I2. The optional restart test was declined as not worth a guest restart in the vz job, and NetworkManager and dhcpcd coverage as not worth another vz template, since both paths were tested by hand on four templates.</p>
+    <ul>
       <li><strong>Runs during consolidation, in a clean checkout at the review SHA:</strong> <code>go build ./...</code>, and <code>go test</code> for <code>limayaml</code>, <code>cidata</code>, <code>limatmpl</code>, <code>driver/qemu</code>, <code>driver/vz</code> and <code>limatype</code>: ok. <code>shellcheck</code>, <code>shfmt -d</code> and <code>dash -n</code> on the script, alone and with each patch: clean. Both probes against the reviewed and the patched script, as shown above. Both patches applied in sequence to a clean tree, with no conflict. An Alpine run of the I1-patched script (hook directory present, no <code>systemctl</code>) stays silent and writes the hook. Codex&#39;s own I1 probe failed in the lead worktree as its review shows.</li>
       <li><strong>CI at the review SHA:</strong> 38 of 38 checks passed. <code>Integration tests (vz) (default.yaml)</code> on <code>macos-15-large</code> passed both BATS tests, which look for a <code>proto static</code> route at metric 99 that only the new script creates.</li>
     </ul>
