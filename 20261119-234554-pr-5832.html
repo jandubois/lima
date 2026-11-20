@@ -243,6 +243,12 @@ details.fold .code-file-header { margin-top: 0; border-radius: 0; }
     <p>This round reviews the round-1 fixes that were amended into <a href="https://github.com/lima-vm/lima/commit/22731458"><code>22731458</code></a>. Each fix works in every case that the probes tried. The new drop-in cleanup has two narrow gaps. It deletes a listed interface&#39;s drop-in when networkd can&#39;t name that interface&#39;s network file yet, and its <code>networkctl reload</code> aborts the script on a guest whose networkd is inactive. Both need unusual guest states. This round converges: no finding blocks the merge, and the three suggestions are optional.</p>
     </div>
     <hr>
+    <h2 id="code-changed-since-this-review">Code changed since this review <a href="#code-changed-since-this-review" class="pilcrow">&#182;</a></h2>
+
+    <div class="card card-neutral">
+    <p>The fixes were amended into the PR&#39;s second commit, now <a href="https://github.com/lima-vm/lima/commit/073ca948"><code>073ca948</code></a>. So the line numbers and quoted code in S1, S2 and S3 describe the reviewed <a href="https://github.com/lima-vm/lima/commit/22731458"><code>22731458</code></a>, not the current head.</p>
+    </div>
+    <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-critical">
@@ -402,6 +408,7 @@ Second boot, Network File &#39;unknown&#39;, lease 0:
 +		esac
  for f in /etc/systemd/network/*.network.d/&quot;${DROPIN}&quot;; do
 +	[ &quot;${KEEP}&quot; != all ] || break</code></pre>
+    <p><strong>Outcome:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/073ca948"><code>073ca948</code></a>. Both lookups now go through a <code>network_file</code> function (Design Concern #1), and a failed lookup keeps every drop-in on that boot. The S1 probe keeps the drop-in in all six cases and reloads only on the first boot. Accepted limitation, do not re-suggest: while networkd runs but never manages a listed interface, the cleanup is skipped on every boot, so another interface&#39;s stale drop-in stays while that interface is listed. Lima&#39;s network-config matches every network by MAC, so it doesn&#39;t produce that case.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/cidata/cidata.TEMPLATE.d/boot.essential.Linux/30-guest-to-guest-route.sh">
       <div class="finding-title" id="S2">
@@ -481,6 +488,7 @@ LIMA_CIDATA_GUEST_TO_GUEST_ROUTES=&#39;&#39;:
     <p>Fix: reload only when networkd is active. networkd reads the drop-in directory again whenever it starts, so the removal still takes effect.</p>
       <pre><code class="language-diff">-if [ -n &quot;${RELOAD}&quot; ]; then
 +if [ -n &quot;${RELOAD}&quot; ] &amp;&amp; systemctl is-active -q systemd-networkd 2&gt;/dev/null; then</code></pre>
+    <p><strong>Outcome:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/073ca948"><code>073ca948</code></a> with the patch above, plus a comment saying that networkd reads the drop-ins when it starts. The S2 probe&#39;s NetworkManager guest now gets its route and exits 0, with routes listed and without.</p>
     </div>
     <div class="card card-suggestion" data-file="pkg/cidata/cidata.TEMPLATE.d/boot.essential.Linux/30-guest-to-guest-route.sh">
       <div class="finding-title" id="S3">
@@ -505,6 +513,7 @@ LIMA_CIDATA_GUEST_TO_GUEST_ROUTES=&#39;&#39;:
     <p>Fix: send both calls&#39; stderr to <code>/dev/null</code>.</p>
       <pre><code class="language-diff">-	if ! systemctl is-active -q systemd-networkd &amp;&amp; ! systemctl is-active -q NetworkManager; then
 +	if ! systemctl is-active -q systemd-networkd 2&gt;/dev/null &amp;&amp; ! systemctl is-active -q NetworkManager 2&gt;/dev/null; then</code></pre>
+    <p><strong>Outcome:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/073ca948"><code>073ca948</code></a> with the patch above. A stub Alpine guest without <code>systemctl</code> or the dhcpcd hooks directory now prints only the script&#39;s warning.</p>
     </div>
     <hr>
     <h2 id="design-observations" class="section-design">Design Observations <a href="#design-observations" class="pilcrow">&#182;</a></h2>
@@ -514,6 +523,7 @@ LIMA_CIDATA_GUEST_TO_GUEST_ROUTES=&#39;&#39;:
     <ul>
       <li><strong>(future)</strong> Lines 26 and 119 look up the same network file with the same <code>networkctl status | sed</code> pipeline. One helper that also rejects an empty or <code>n/a</code> result would keep the two from drifting; S1&#39;s fix adds that check at line 26 only. <span class="pill pill-claude">Claude Opus 5.5</span></li>
     </ul>
+    <p><strong>Outcome:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/073ca948"><code>073ca948</code></a>. <code>network_file</code> prints the network file, or fails on an empty or <code>n/a</code> result, and both lookups call it. The cleanup&#39;s call hides networkctl&#39;s stderr, and the networkd branch&#39;s call still shows it, as before. <code>shellcheck --enable=all</code> reports SC2310 (info) at both calls because <code>set -e</code> is off inside a function called from a condition. That is intended here, so do not re-suggest restructuring for it; lima&#39;s lint runs default shellcheck, which passes.</p>
     <h3 id="strengths">Strengths <a href="#strengths" class="pilcrow">&#182;</a></h3>
     <ul>
       <li>The cleanup works from what networkd reports on the current boot, so it handles a rename and a partial disable without storing any state of its own. <span class="pill pill-claude">Claude Opus 5.5</span></li>
@@ -540,12 +550,14 @@ LIMA_CIDATA_GUEST_TO_GUEST_ROUTES=&#39;&#39;:
     <ul>
       <li><strong>CI at the review SHA:</strong> 38 of 38 checks passed. <code>Integration tests (vz) (default.yaml)</code> passed both tests in <code>vz-guest-to-guest.bats</code>, which look for a <code>proto static</code> route at metric 99 that only this script creates. A fresh guest doesn&#39;t have a drop-in to remove, so the job doesn&#39;t exercise the cleanup.</li>
     </ul>
+    <p><strong>Outcome:</strong> No tests added, as in round 1. The probes from rounds 1 and 2 stay the only tests of the cleanup; all of them, and two edge-case probes from verification, pass against <a href="https://github.com/lima-vm/lima/commit/073ca948"><code>073ca948</code></a> under dash and <code>bash --posix</code>.</p>
     </div>
     <hr>
     <h2 id="documentation-assessment">Documentation Assessment <a href="#documentation-assessment" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-neutral">
     <p><code>vznat.md</code>, <code>user.md</code>, <code>internals.md</code>, the field comment and <code>templates/default.yaml</code> match the code. The message of <a href="https://github.com/lima-vm/lima/commit/22731458"><code>22731458</code></a> still describes the tree. The PR body&#39;s Testing transcript names the round-1 build, <code>2.3.0-45-g77fb57d5</code>. Its commands and output still hold for <a href="https://github.com/lima-vm/lima/commit/22731458"><code>22731458</code></a>, since this round&#39;s changes leave an ordinary boot of the default template alone. The body doesn&#39;t say that the round-1 fixes were also tested on real guests. Round 1&#39;s report records an Ubuntu guest whose old drop-in the cleanup removed after a network was inserted ahead of lima0, and a Leap 15.6 guest that warned without waiting.</p>
+    <p><strong>Outcome:</strong> Declined. The transcript&#39;s commands and output still hold for the head, and the body&#39;s per-template paragraph covers the hand tests.</p>
     </div>
     <hr>
     <h2 id="acknowledged-limitations">Acknowledged Limitations <a href="#acknowledged-limitations" class="pilcrow">&#182;</a></h2>
