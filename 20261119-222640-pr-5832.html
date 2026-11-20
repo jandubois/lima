@@ -246,7 +246,7 @@ details.fold .code-file-header { margin-top: 0; border-radius: 0; }
     <h2 id="code-changed-since-this-review">Code changed since this review <a href="#code-changed-since-this-review" class="pilcrow">&#182;</a></h2>
 
     <div class="card card-neutral">
-    <p>The fixes were amended into the PR&#39;s second commit, now <a href="https://github.com/lima-vm/lima/commit/22731458"><code>22731458</code></a> (local, not yet pushed). So the line numbers and quoted code in I1, I2 and S1 describe the reviewed <a href="https://github.com/lima-vm/lima/commit/77fb57d5"><code>77fb57d5</code></a>, not the current head.</p>
+    <p>The fixes were amended into the PR&#39;s second commit, now <a href="https://github.com/lima-vm/lima/commit/22731458"><code>22731458</code></a>. So the line numbers and quoted code in I1, I2 and S1 describe the reviewed <a href="https://github.com/lima-vm/lima/commit/77fb57d5"><code>77fb57d5</code></a>, not the current head.</p>
     </div>
     <hr>
     <h2 id="critical-issues" class="section-critical">Critical Issues <a href="#critical-issues" class="pilcrow">&#182;</a></h2>
@@ -598,7 +598,7 @@ index 604e39e6..6a737cbe 100644
  	fi
  </code></pre>
       </details>
-    <p><strong>Outcome:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/22731458"><code>22731458</code></a> with the patch above; the timeout warning now reads &quot;did not get both an IPv4 address and a default route within 60 seconds&quot;. On a real Leap 15.6 guest the script warned and the next boot script started in the same second, and a Fedora 45 guest still got its route.</p>
+    <p><strong>Outcome:</strong> Fixed in <a href="https://github.com/lima-vm/lima/commit/22731458"><code>22731458</code></a> with the patch above; the timeout warning now reads &quot;did not get both an IPv4 address and a default route within 60 seconds&quot;. On a real Leap 15.6 guest the script warned and the next boot script started in the same second, and a Fedora 45 guest still got its route. The PR body no longer says the script waits 60 seconds on Leap 15.6.</p>
     </div>
     <hr>
     <h2 id="suggestions" class="section-suggestion">Suggestions <a href="#suggestions" class="pilcrow">&#182;</a></h2>
