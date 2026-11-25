@@ -14,7 +14,9 @@ shopt -s nullglob
 name=$1
 sampler=$PWD/hack/vmnet-sample.sh
 cd "$HOME" || exit 1
-mkdir -p vmnet-evidence/vm
+mkdir -p vmnet-evidence/vm vmnet-evidence/reports
+# Reports older than this marker come from the runner image, not from this job.
+touch vmnet-evidence/job-start
 nohup "$sampler" vmnet-evidence 5 >vmnet-evidence/sampler.log 2>&1 &
 
 # An earlier run may have left this file, and replacing it needs its sha.
@@ -28,6 +30,13 @@ while :; do
             cp "$log" "vmnet-evidence/vm/${instance}/"
         done
     done
+    # Copy the reports that macOS writes when a guest's XPC process crashes or uses too much
+    # CPU, and the JetsamEvent report that it writes when it kills processes to free memory.
+    # The system directory is mode 0770 for root and _analyticsusers, so the copy needs sudo.
+    sudo find /Library/Logs/DiagnosticReports "$HOME/Library/Logs/DiagnosticReports" -type f \
+        \( -name '*Virtualization*' -o -name 'JetsamEvent*' \) -newer vmnet-evidence/job-start \
+        -exec cp {} vmnet-evidence/reports/ \; 2>/dev/null
+    sudo chown -R "$(id -un)" vmnet-evidence/reports
 
     tar -czf vmnet-evidence.tgz vmnet-evidence
     base64 <vmnet-evidence.tgz >vmnet-evidence.b64

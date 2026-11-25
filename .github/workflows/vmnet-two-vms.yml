@@ -1,12 +1,15 @@
-# DO NOT MERGE. Repeats the macOS leg of the vmnet job in test.yml on macos-15-intel.
-# It starts both instances under vz with --containerd=none, one after the other with no wait,
-# so cidata.iso leaves out the nerdctl archive and the guests skip the containerd install.
-name: vmnet-two-vms
+# DO NOT MERGE. Runs the vz-no-containerd arm of network-shared-host.bats on
+# macos-15-intel. That arm starts two vz guests one after the other. Lima builds
+# against a copy of Code-Hex/vz v3.8.0 in hack/vz-v3.8.0 with one added line, which
+# logs the NSError that VZ passes to virtualMachine:didStopWithError:. So a guest
+# that enters the error state leaves VZ's reason in ha.stderr.log, and
+# hack/vmnet-evidence.sh pushes that log to the vmnet-evidence branch every 30 s.
+name: vz-stop-error
 
 on:
   push:
     branches:
-    - vmnet-no-containerd
+    - vz-stop-error
 
 env:
   LIMACTL_CREATE_ARGS: ""
@@ -16,7 +19,7 @@ permissions:
   contents: write  # hack/vmnet-evidence.sh pushes to the vmnet-evidence branch
 
 concurrency:
-  group: vmnet-no-containerd
+  group: vz-stop-error
   cancel-in-progress: true
 
 jobs:
@@ -28,7 +31,7 @@ jobs:
       fail-fast: false
       max-parallel: 5
       matrix:
-        run: [1, 2, 3, 4, 5, 6, 7, 8]
+        run: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60]
         arm: [vz-no-containerd]
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
@@ -79,22 +82,11 @@ jobs:
     - name: Unit test (pkg/networks)
       # Set -count=1 to disable cache
       run: go test -v -count=1 ./pkg/networks/...
-    - name: Test shared network with templates/default.yaml
-      uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60  # v4.0.0
-      with:
-        timeout_minutes: 30
-        retry_on: error
-        max_attempts: 3
-        command: ./hack/test-templates.sh templates/default.yaml
-    - if: always()
-      uses: $/.github/actions/upload_failure_logs_if_exists
-      with:
-        suffix: ${{ matrix.arm }}-${{ matrix.run }}
     # "bridged" is not tested: it needs a pre-existing bridge on the host.
     - name: "Run BATS shared/host network tests"
       env:
         NETWORK_ARM: ${{ matrix.arm }}
-        JOB_NAME: ${{ matrix.arm }}-${{ matrix.run }}
+        JOB_NAME: vz-stop-error-${{ matrix.run }}
         GH_TOKEN: ${{ github.token }}
       run: |
         nohup ./hack/vmnet-evidence.sh "$JOB_NAME" >"$HOME/vmnet-evidence.log" 2>&1 &
